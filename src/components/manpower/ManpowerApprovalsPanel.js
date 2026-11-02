@@ -226,7 +226,7 @@ export default function ManpowerApprovalsPanel({
               >
                 <Box sx={{
                   p: 2,
-                  bgcolor: hasClash ? 'warning.light' : 'grey.50',
+                  bgcolor: hasClash ? 'warning.light' : 'background.muted',
                   borderBottom: '1px solid',
                   borderColor: hasClash ? 'warning.main' : 'divider',
                 }}>

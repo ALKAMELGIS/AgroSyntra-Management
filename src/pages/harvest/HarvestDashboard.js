@@ -481,7 +481,7 @@ function HarvestDashboard() {
                         <TableCell align="right">{row.yieldTon}</TableCell>
                       </TableRow>
                     ))}
-                    <TableRow sx={{ bgcolor: 'grey.50' }}>
+                    <TableRow sx={{ bgcolor: 'background.muted' }}>
                       <TableCell sx={{ fontWeight: 600 }}>TOTAL</TableCell>
                       <TableCell></TableCell>
                       <TableCell align="right" sx={{ fontWeight: 600 }}>

@@ -207,7 +207,7 @@ function HarvestReports() {
 
         {tab === 1 && (
           <>
-            <Box sx={{ mb: 2, p: 1.5, bgcolor: 'grey.50', borderRadius: 1 }}>
+            <Box sx={{ mb: 2, p: 1.5, bgcolor: 'background.muted', borderRadius: 1 }}>
               <Typography variant="body2" color="text.secondary">
                 Period exports use the same date range as Executive Report ({dateFrom} to {dateTo}).
                 Change dates on the Executive Report tab.
@@ -269,7 +269,7 @@ function HarvestReports() {
               </Grid>
             </Grid>
 
-            <Box sx={{ mt: 4, p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
+            <Box sx={{ mt: 4, p: 2, bgcolor: 'background.muted', borderRadius: 1 }}>
               <Typography variant="body2" color="text.secondary">
                 <strong>Note:</strong> Excel exports include each variety as a separate row.
                 Use &quot;Export Period as Excel&quot; to match the date range on the Executive Report tab.

@@ -325,7 +325,7 @@ function InspectionChangeDiffTable({ changes }) {
     <TableContainer component={Paper} variant="outlined" sx={{ mb: 2 }}>
       <Table size="small">
         <TableHead>
-          <TableRow sx={{ bgcolor: 'grey.50' }}>
+          <TableRow sx={{ bgcolor: 'background.muted' }}>
             <TableCell>Field</TableCell>
             <TableCell align="right">Before</TableCell>
             <TableCell align="right">After</TableCell>
@@ -596,7 +596,7 @@ export default function ChangeRequests() {
         <TableContainer component={Paper} variant="outlined">
           <Table size="small">
             <TableHead>
-              <TableRow sx={{ bgcolor: 'grey.100' }}>
+              <TableRow sx={{ bgcolor: 'background.muted' }}>
                 <TableCell>Submitted</TableCell>
                 {isSeasonsTab ? (
                   <>

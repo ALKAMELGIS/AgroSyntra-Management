@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { CheckCircleOutlined as CheckCircle, CancelOutlined as Cancel } from '@mui/icons-material';
 
 /**
@@ -53,7 +54,7 @@ export default function QuizReviewPanel({ results }) {
               p: 2,
               mb: 2,
               borderColor: isCorrect ? 'success.main' : 'error.main',
-              bgcolor: isCorrect ? 'success.50' : 'error.50',
+              bgcolor: (t) => alpha(isCorrect ? t.palette.success.main : t.palette.error.main, 0.06),
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 1 }}>
@@ -75,7 +76,7 @@ export default function QuizReviewPanel({ results }) {
             </Typography>
 
             {explanation && (
-              <Box sx={{ ml: 3.5, mt: 1.5, p: 1.5, bgcolor: 'info.50', borderRadius: 1, border: '1px solid', borderColor: 'info.200' }}>
+              <Box sx={{ ml: 3.5, mt: 1.5, p: 1.5, bgcolor: (t) => alpha(t.palette.info.main, 0.07), borderRadius: 1, border: '1px solid', borderColor: (t) => alpha(t.palette.info.main, 0.3) }}>
                 <Typography variant="caption" fontWeight={700} color="info.dark" display="block" gutterBottom>
                   Explanation
                 </Typography>

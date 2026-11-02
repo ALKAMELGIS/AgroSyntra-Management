@@ -1,5 +1,4 @@
 // Utility functions for Master Data Management
-import * as XLSX from 'xlsx';
 import {
   fetchCountries,
   fetchSites,
@@ -285,8 +284,11 @@ export const exportToExcel = (data, filename) => {
     console.warn('No data to export');
     return;
   }
-  const ws = XLSX.utils.json_to_sheet(data);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  XLSX.writeFile(wb, `${filename}.xlsx`);
+  // Loaded on demand: xlsx is ~400 KB and only needed when someone exports.
+  return import('xlsx').then((XLSX) => {
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, `${filename}.xlsx`);
+  });
 };

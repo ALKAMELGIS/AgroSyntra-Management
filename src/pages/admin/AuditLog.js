@@ -236,7 +236,7 @@ function AuditLog() {
         <TableContainer>
           <Table size="small">
             <TableHead>
-              <TableRow sx={{ bgcolor: 'grey.100' }}>
+              <TableRow sx={{ bgcolor: 'background.muted' }}>
                 <TableCell>Time</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Action</TableCell>

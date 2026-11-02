@@ -5,6 +5,7 @@
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 let patchApplied = false;
 
@@ -122,3 +123,7 @@ export function SafeFitLatLngBounds({ bounds, options = {} }) {
   }, [bounds, map]);
   return null;
 }
+
+// Map pages are lazy-loaded and all import this module, so patch Leaflet as soon as it is first needed
+// (keeps Leaflet out of the initial bundle).
+initLeafletSafeMode();

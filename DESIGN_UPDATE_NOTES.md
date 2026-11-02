@@ -48,3 +48,10 @@ Fixed through it:
 - Unlabelled inputs (Irrigation year, imagery date, Sentinel overlay switch, entry date-range select).
 
 `playwright.config.ts` honours `PW_CHROMIUM_PATH` to reuse a pre-installed Chromium.
+
+## Round 5 — dark mode everywhere + faster first load
+- Quality gate extended: dark-mode contrast and Arabic/RTL (phone) on **all** screens — **265 Playwright tests, all passing** on the production build.
+- **Initial JavaScript cut from 517 KB to 311 KB (gzip, −40%)**: Leaflet (+CSS) now loads with the map pages, `xlsx` only when someone exports, Sentry only when a DSN is configured.
+- Excel-style entry sheets (Harvest, Irrigation) render as a light "paper" surface in dark mode (`components/SheetSurface.js`) instead of light-on-light text.
+- Replaced non-existent palette shades (`primary.50`, `grey.100`, …) that rendered transparent or stayed light in dark mode (≈25 places); quiz review keeps its correct/incorrect tint.
+- Dashboard tabs, spray-calendar "Clear" chip and shift-schedule day headers fixed for dark mode.

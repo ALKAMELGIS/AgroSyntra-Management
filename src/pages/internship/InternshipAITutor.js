@@ -64,7 +64,7 @@ export default function InternshipAITutor() {
         <Typography variant="h6" fontWeight={600}>AI Tutor</Typography>
       </Box>
 
-      <Paper sx={{ flexGrow: 1, overflow: 'auto', p: 2, mb: 2, bgcolor: 'grey.50' }}>
+      <Paper sx={{ flexGrow: 1, overflow: 'auto', p: 2, mb: 2, bgcolor: 'background.muted' }}>
         {messages.length === 0 && (
           <Box sx={{ textAlign: 'center', mt: 8 }}>
             <SmartToy sx={{ fontSize: 64, color: 'grey.300', mb: 2 }} />
@@ -95,9 +95,9 @@ export default function InternshipAITutor() {
               sx={{
                 p: 2,
                 maxWidth: '75%',
-                bgcolor: msg.role === 'user' ? 'primary.50' : 'white',
+                bgcolor: msg.role === 'user' ? 'action.selected' : 'white',
                 border: '1px solid',
-                borderColor: msg.role === 'user' ? 'primary.100' : 'grey.200',
+                borderColor: msg.role === 'user' ? 'primary.light' : 'divider',
                 borderRadius: 2,
                 whiteSpace: 'pre-wrap',
               }}

@@ -815,7 +815,7 @@ function FertigationEntry() {
 
                     {/* Summary Card - Only show if calculations are available */}
                     {selectedRecipe && dailyWater > 0 && Object.keys(calculatedFertilizers).length > 0 && (
-                      <Box sx={{ mt: 3, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>
+                      <Box sx={{ mt: 3, p: 2, bgcolor: 'background.muted', borderRadius: 1 }}>
                         <Grid container spacing={2}>
                           <Grid size={{ xs: 12, sm: 6 }}>
                             <Typography variant="body2" color="text.secondary">

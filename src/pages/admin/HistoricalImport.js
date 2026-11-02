@@ -454,7 +454,7 @@ export default function HistoricalImport() {
                     </TableHead>
                     <TableBody>
                       {cropPreview.results.slice(0, 50).map((r, i) => (
-                        <TableRow key={i} sx={{ bgcolor: r.source === 'none' ? 'error.50' : 'transparent' }}>
+                        <TableRow key={i} sx={{ bgcolor: r.source === 'none' ? 'action.selected' : 'transparent' }}>
                           <TableCell>{r.row}</TableCell>
                           <TableCell>{r.fieldName}</TableCell>
                           <TableCell>{r.date}</TableCell>

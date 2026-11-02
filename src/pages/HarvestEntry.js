@@ -1,3 +1,4 @@
+import SheetSurface from '../components/SheetSurface';
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -1343,6 +1344,14 @@ function OpenFieldTab({
 }
 
 function HarvestEntry() {
+  return (
+    <SheetSurface>
+      <HarvestEntrySheet />
+    </SheetSurface>
+  );
+}
+
+function HarvestEntrySheet() {
   const readOnly = useReadOnlyMode(PAGE_KEYS.DATA_ENTRY);
   const { activeSiteId } = useActiveSite();
   const { data: masterData } = useMasterData();

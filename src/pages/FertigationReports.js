@@ -409,7 +409,7 @@ function FertigationReports() {
               </Grid>
             </Grid>
 
-            <Box sx={{ mt: 4, p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
+            <Box sx={{ mt: 4, p: 2, bgcolor: 'background.muted', borderRadius: 1 }}>
               <Typography variant="body2" color="text.secondary">
                 <strong>Note:</strong> Excel exports include each fertilizer as a separate row.
                 Farm area and field filters apply to every Excel button; date range applies to Period and All.

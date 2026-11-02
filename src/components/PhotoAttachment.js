@@ -178,7 +178,7 @@ export default function PhotoAttachment({ entity, entityId, attachments = [], on
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    bgcolor: 'grey.100',
+                    bgcolor: 'background.muted',
                   }}
                 >
                   <FileIcon sx={{ fontSize: 48, color: 'text.secondary' }} />

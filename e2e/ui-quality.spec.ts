@@ -135,15 +135,30 @@ test.describe('Arabic / RTL and dark mode', () => {
     });
   }
 
-  for (const route of ['/', '/daily-brief', '/harvest/dashboard', '/login']) {
+  for (const route of [...ROUTES.filter((r) => !NEEDS_REAL_DATA.has(r)), '/login']) {
     test(`${route} has no contrast failures in dark mode`, async ({ page }) => {
+      await page.setViewportSize({ width: 1280, height: 860 });
       await prepare(page, { theme: 'dark', auth: route !== '/login' });
       await page.goto(route);
       await settle(page);
       await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-      const axe = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze();
-      const issues = axe.violations.flatMap((v) => v.nodes.slice(0, 5).map((n) => n.target.join(' ')));
+      const axe = await new AxeBuilder({ page }).withRules(['color-contrast']).exclude('.leaflet-control-container').analyze();
+      const issues = axe.violations.flatMap((v) => v.nodes.slice(0, 6).map((n) => `${n.target.join(' ')} :: ${(n.failureSummary || '').split('\n')[1] || ''}`.slice(0, 220)));
       expect(issues).toEqual([]);
+    });
+  }
+
+  for (const route of ROUTES.filter((r) => !NEEDS_REAL_DATA.has(r))) {
+    test(`${route} renders in Arabic without overflow`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      const errors: string[] = [];
+      page.on('pageerror', (e) => errors.push(e.message));
+      await prepare(page, { lang: 'ar' });
+      await page.goto(route);
+      await settle(page);
+      await expect(page.getByText('Something went wrong')).toHaveCount(0);
+      expect(errors).toEqual([]);
+      expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
     });
   }
 });

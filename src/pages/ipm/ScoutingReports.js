@@ -973,7 +973,7 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
                 sx={{
                   width: 100, height: 100, borderRadius: 1, overflow: 'hidden',
                   cursor: 'pointer', border: '1px solid', borderColor: 'divider',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.100',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.muted',
                 }}
                 onClick={() => onOpenPhoto({ open: true, src: photo.filePath, caption: photo.caption || '' })}
               >

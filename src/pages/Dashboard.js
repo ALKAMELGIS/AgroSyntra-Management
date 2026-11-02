@@ -160,7 +160,7 @@ function Dashboard() {
           borderBottom: 1,
           borderColor: 'divider',
           minHeight: 42,
-          '& .MuiTabs-indicator': { bgcolor: 'table.headerBg' },
+          '& .MuiTabs-indicator': { bgcolor: 'primary.main' },
         }}
       >
         {DASHBOARD_TABS.map((t) => (
@@ -171,7 +171,7 @@ function Dashboard() {
               textTransform: 'none',
               fontWeight: 600,
               minHeight: 42,
-              '&.Mui-selected': { color: 'table.headerBg' },
+              '&.Mui-selected': { color: 'text.primary' },
             }}
           />
         ))}

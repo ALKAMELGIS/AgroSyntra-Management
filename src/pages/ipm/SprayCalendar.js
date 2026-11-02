@@ -113,7 +113,7 @@ export default function SprayCalendar() {
         <Chip size="small" label="Spray Day" sx={{ bgcolor: SPRAY_CALENDAR_COLORS.spray, color: '#fff' }} />
         <Chip size="small" label="PHI Active (No Harvest)" sx={{ bgcolor: SPRAY_CALENDAR_COLORS.phiActive, color: '#fff' }} />
         <Chip size="small" label="PHI Ending Soon" sx={{ bgcolor: SPRAY_CALENDAR_COLORS.phiEnding, color: '#fff' }} />
-        <Chip size="small" label="Clear" sx={{ bgcolor: SPRAY_CALENDAR_COLORS.clear }} />
+        <Chip size="small" label="Clear" sx={{ bgcolor: SPRAY_CALENDAR_COLORS.clear, color: '#14532f' }} />
       </Box>
 
       {/* Month Navigation */}

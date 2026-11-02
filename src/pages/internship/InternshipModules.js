@@ -73,7 +73,7 @@ export default function InternshipModules() {
                   <CardActionArea onClick={() => navigate(`/internship/module/${mod.id}`)} sx={{ height: '100%' }}>
                     <CardContent sx={{ p: 3, display: 'flex', flexDirection: 'column', height: '100%' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                        <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: 'primary.50', color: 'primary.main' }}>
+                        <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: 'action.selected', color: 'primary.main' }}>
                           <IconComp fontSize="large" />
                         </Box>
                         <Chip label={`Module ${mod.sort_order}`} size="small" variant="outlined" />

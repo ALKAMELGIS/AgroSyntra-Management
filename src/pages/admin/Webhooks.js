@@ -115,7 +115,7 @@ export default function Webhooks() {
                 <TableRow key={`${wh.id}-deliveries`}>
                   <TableCell colSpan={5} sx={{ p: 0, border: expandedId === wh.id ? undefined : 'none' }}>
                     <Collapse in={expandedId === wh.id}>
-                      <Box sx={{ p: 2, bgcolor: 'grey.50' }}>
+                      <Box sx={{ p: 2, bgcolor: 'background.muted' }}>
                         <Typography variant="subtitle2" sx={{ mb: 1 }}>Recent Deliveries</Typography>
                         <Table size="small">
                           <TableHead>

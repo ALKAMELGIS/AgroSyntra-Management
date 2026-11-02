@@ -37,9 +37,6 @@ import {
   MANPOWER_COST_VIEW_ROLES,
 } from './utils/roleAccess';
 import './App.css';
-import { initLeafletSafeMode } from './utils/leafletSafe';
-
-initLeafletSafeMode();
 
 // Lazy-loaded page components (code splitting)
 const Home = lazy(() => import('./pages/Home'));

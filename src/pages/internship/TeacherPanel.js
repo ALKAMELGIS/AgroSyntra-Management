@@ -417,7 +417,7 @@ function LessonManager({ moduleId }) {
             <Paper key={i} variant="outlined" sx={{ mb: 2, overflow: 'hidden' }}>
               {/* Lesson header */}
               <Box
-                sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2, cursor: 'pointer', '&:hover': { bgcolor: 'grey.50' } }}
+                sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2, cursor: 'pointer', '&:hover': { bgcolor: 'background.muted' } }}
                 onClick={() => setExpandedIdx(expandedIdx === i ? null : i)}
               >
                 <Chip label={i + 1} size="small" color="primary" />
@@ -501,7 +501,7 @@ function LessonManager({ moduleId }) {
                       <Box sx={{ maxHeight: 200, overflow: 'auto', mb: 2 }}>
                         {(chatHistories[i] || []).map((msg, mi) => (
                           <Box key={mi} sx={{ mb: 1, display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
-                            <Paper sx={{ p: 1, px: 1.5, maxWidth: '80%', bgcolor: msg.role === 'user' ? 'primary.main' : 'grey.100', color: msg.role === 'user' ? 'white' : 'text.primary' }}>
+                            <Paper sx={{ p: 1, px: 1.5, maxWidth: '80%', bgcolor: msg.role === 'user' ? 'primary.main' : 'background.muted', color: msg.role === 'user' ? 'white' : 'text.primary' }}>
                               <Typography variant="body2">{msg.content}</Typography>
                             </Paper>
                           </Box>
@@ -588,7 +588,7 @@ function LessonManager({ moduleId }) {
           <Box sx={{ maxHeight: 150, overflow: 'auto', mb: 1 }}>
             {editAiChat.map((msg, mi) => (
               <Box key={mi} sx={{ mb: 0.5, display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
-                <Paper sx={{ p: 1, px: 1.5, maxWidth: '80%', bgcolor: msg.role === 'user' ? 'primary.main' : 'grey.100', color: msg.role === 'user' ? 'white' : 'text.primary' }}>
+                <Paper sx={{ p: 1, px: 1.5, maxWidth: '80%', bgcolor: msg.role === 'user' ? 'primary.main' : 'background.muted', color: msg.role === 'user' ? 'white' : 'text.primary' }}>
                   <Typography variant="body2">{msg.content}</Typography>
                 </Paper>
               </Box>
@@ -1314,7 +1314,7 @@ function GradeViewer() {
                     </TableRow>
                     {isExpanded && (
                       <TableRow key={`${s.id}-detail`}>
-                        <TableCell colSpan={5} sx={{ bgcolor: 'grey.50', py: 2 }}>
+                        <TableCell colSpan={5} sx={{ bgcolor: 'background.muted', py: 2 }}>
                           <Box sx={{ pl: 2 }}>
                             <Typography variant="subtitle2" gutterBottom>Module Progress</Typography>
                             <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>

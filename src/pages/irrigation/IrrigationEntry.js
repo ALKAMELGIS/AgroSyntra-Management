@@ -1,3 +1,4 @@
+import SheetSurface from '../../components/SheetSurface';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Box, Tabs, Tab, Table, TableHead, TableBody, TableRow, TableCell, TableContainer,
@@ -535,6 +536,14 @@ function PivotIrrigationMonthTab({ sheet, pivotFields, farmName, onRefresh, read
 }
 
 export default function IrrigationEntry() {
+  return (
+    <SheetSurface>
+      <IrrigationEntrySheet />
+    </SheetSurface>
+  );
+}
+
+function IrrigationEntrySheet() {
   const readOnly = useReadOnlyMode(PAGE_KEYS.DATA_ENTRY);
   const { activeSiteId, activeSite } = useActiveSite();
   const notify = useNotification();

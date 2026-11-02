@@ -155,11 +155,11 @@ export default function ShiftSchedule() {
       {/* Week Calendar Header */}
       <Paper sx={{ mb: 2, overflow: 'auto' }} tabIndex={0} aria-label="Shift schedule">
         <Box sx={{ display: 'grid', gridTemplateColumns: '150px repeat(7, 1fr)', minWidth: 900 }}>
-          <Box sx={{ p: 1, borderRight: 1, borderBottom: 1, borderColor: 'divider', bgcolor: 'grey.100' }}>
+          <Box sx={{ p: 1, borderRight: 1, borderBottom: 1, borderColor: 'divider', bgcolor: 'background.muted' }}>
             <Typography variant="subtitle2" fontWeight={600}>Team Member</Typography>
           </Box>
           {weekDays.map((day) => (
-            <Box key={day.toISOString()} sx={{ p: 1, borderRight: 1, borderBottom: 1, borderColor: 'divider', bgcolor: isSameDay(day, new Date()) ? 'primary.50' : 'grey.100', textAlign: 'center' }}>
+            <Box key={day.toISOString()} sx={{ p: 1, borderRight: 1, borderBottom: 1, borderColor: 'divider', bgcolor: isSameDay(day, new Date()) ? 'action.selected' : 'background.muted', textAlign: 'center' }}>
               <Typography variant="caption" color="text.secondary">{format(day, 'EEE')}</Typography>
               <Typography variant="subtitle2" fontWeight={600}>{format(day, 'd')}</Typography>
               {!readOnly && (

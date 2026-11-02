@@ -916,7 +916,7 @@ export default function GISMap() {
                       <WarningIcon fontSize="small" /> Active PHI
                     </Typography>
                     {fieldSummary.activePhi.map((phi, i) => (
-                      <Box key={i} sx={{ mb: 0.5, p: 1, borderRadius: 1, bgcolor: 'warning.50', border: '1px solid', borderColor: 'warning.200' }}>
+                      <Box key={i} sx={{ mb: 0.5, p: 1, borderRadius: 1, bgcolor: 'action.selected', border: '1px solid', borderColor: 'warning.light' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                           <Typography variant="body2" fontWeight={600}>{phi.productName}</Typography>
                           {phi.segment && (
@@ -990,7 +990,7 @@ export default function GISMap() {
                       <BugIcon fontSize="small" /> Recent Scouting
                     </Typography>
                     {fieldSummary.scouting.map((s, i) => (
-                      <Box key={i} sx={{ mb: 1, p: 1, borderRadius: 1, bgcolor: 'grey.50' }}>
+                      <Box key={i} sx={{ mb: 1, p: 1, borderRadius: 1, bgcolor: 'background.muted' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <Typography variant="body2" fontWeight={600}>{s.pestName || s.customPestName || 'Unknown'}</Typography>
                           <Chip
@@ -1017,7 +1017,7 @@ export default function GISMap() {
                       <ShieldIcon fontSize="small" /> Recent Pesticide Applications
                     </Typography>
                     {fieldSummary.pesticides.map((p, i) => (
-                      <Box key={i} sx={{ mb: 1, p: 1, borderRadius: 1, bgcolor: 'grey.50' }}>
+                      <Box key={i} sx={{ mb: 1, p: 1, borderRadius: 1, bgcolor: 'background.muted' }}>
                         <Typography variant="body2" fontWeight={600}>{p.productName}</Typography>
                         <Typography variant="caption" color="text.secondary">
                           {new Date(p.applicationDate).toLocaleDateString()}
@@ -1046,7 +1046,7 @@ export default function GISMap() {
                       <BugIcon fontSize="small" color="success" /> Bio-Control Releases
                     </Typography>
                     {fieldSummary.bioReleases.map((b, i) => (
-                      <Box key={i} sx={{ mb: 0.5, p: 1, borderRadius: 1, bgcolor: 'grey.50' }}>
+                      <Box key={i} sx={{ mb: 0.5, p: 1, borderRadius: 1, bgcolor: 'background.muted' }}>
                         <Typography variant="body2" fontWeight={600}>{b.productName}</Typography>
                         <Typography variant="caption" color="text.secondary">
                           {new Date(b.releaseDate).toLocaleDateString()} | Qty: {b.quantity}

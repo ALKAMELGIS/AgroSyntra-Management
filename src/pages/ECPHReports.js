@@ -409,7 +409,7 @@ function ECPHReports() {
               </Grid>
             </Grid>
 
-            <Box sx={{ mt: 4, p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
+            <Box sx={{ mt: 4, p: 2, bgcolor: 'background.muted', borderRadius: 1 }}>
               <Typography variant="body2" color="text.secondary">
                 <strong>Note:</strong> Excel files split Nethouse, Greenhouse, and Open Field onto
                 separate sheets. Farm area and field filters apply to every Excel button; date
