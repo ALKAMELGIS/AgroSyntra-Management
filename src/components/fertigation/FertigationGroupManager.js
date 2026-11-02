@@ -167,10 +167,10 @@ export default function FertigationGroupManager({
                     />
                     {!readOnly && (
                       <Box sx={{ display: 'flex', gap: 0.5 }}>
-                        <IconButton size="small" onClick={(e) => { e.stopPropagation(); startEdit(group); }}>
+                        <IconButton size="small" onClick={(e) => { e.stopPropagation(); startEdit(group); }} aria-label="Edit">
                           <Edit fontSize="small" />
                         </IconButton>
-                        <IconButton size="small" color="error" onClick={(e) => { e.stopPropagation(); handleDelete(group); }}>
+                        <IconButton size="small" color="error" onClick={(e) => { e.stopPropagation(); handleDelete(group); }} aria-label="Delete">
                           <Delete fontSize="small" />
                         </IconButton>
                       </Box>

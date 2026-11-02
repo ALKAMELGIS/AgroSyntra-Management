@@ -252,8 +252,8 @@ function WeatherMap() {
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <FormControl fullWidth>
-              <InputLabel>Zone</InputLabel>
-              <Select
+              <InputLabel id="weathermap-zone-label-1">Zone</InputLabel>
+              <Select labelId="weathermap-zone-label-1"
                 value={selectedCountry}
                 label="Zone"
                 onChange={(e) => {
@@ -271,8 +271,8 @@ function WeatherMap() {
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <FormControl fullWidth>
-              <InputLabel>Site</InputLabel>
-              <Select
+              <InputLabel id="weathermap-site-label-2">Site</InputLabel>
+              <Select labelId="weathermap-site-label-2"
                 value={selectedSite}
                 label="Site"
                 onChange={(e) => setSelectedSite(e.target.value)}

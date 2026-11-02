@@ -278,15 +278,15 @@ export default function FieldStaffManagement() {
               <TextField label="Employee ID" value={form.employeeId} onChange={(e) => setForm({ ...form, employeeId: e.target.value })} fullWidth />
               <TextField label="PIN" type="password" value={form.pin} onChange={(e) => setForm({ ...form, pin: e.target.value })} fullWidth inputProps={{ maxLength: 8 }} />
               <FormControl fullWidth>
-                <InputLabel>Role</InputLabel>
-                <Select label="Role" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
+                <InputLabel id="fieldstaffmanagement-role-label-1">Role</InputLabel>
+                <Select labelId="fieldstaffmanagement-role-label-1" label="Role" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
                   <MenuItem value="scouter">Scouter (not team leader)</MenuItem>
                   <MenuItem value="operator">Operator (team leader + IPM)</MenuItem>
                 </Select>
               </FormControl>
               <FormControl fullWidth>
-                <InputLabel>Site</InputLabel>
-                <Select label="Site" value={form.siteId} onChange={(e) => setForm({ ...form, siteId: e.target.value })}>
+                <InputLabel id="fieldstaffmanagement-site-label-2">Site</InputLabel>
+                <Select labelId="fieldstaffmanagement-site-label-2" label="Site" value={form.siteId} onChange={(e) => setForm({ ...form, siteId: e.target.value })}>
                   {sites.map((s) => <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>)}
                 </Select>
               </FormControl>
@@ -297,8 +297,8 @@ export default function FieldStaffManagement() {
                 Link a worker already in Manpower Record as a scouter or operator.
               </Typography>
               <FormControl fullWidth>
-                <InputLabel>Filter by site</InputLabel>
-                <Select
+                <InputLabel id="fieldstaffmanagement-filter-by-site-label-3">Filter by site</InputLabel>
+                <Select labelId="fieldstaffmanagement-filter-by-site-label-3"
                   label="Filter by site"
                   value={linkSiteFilter}
                   onChange={(e) => {
@@ -358,8 +358,8 @@ export default function FieldStaffManagement() {
               <Divider />
 
               <FormControl fullWidth>
-                <InputLabel>Role to assign</InputLabel>
-                <Select label="Role to assign" value={linkForm.role} onChange={(e) => setLinkForm({ ...linkForm, role: e.target.value })}>
+                <InputLabel id="fieldstaffmanagement-role-to-assign-label-4">Role to assign</InputLabel>
+                <Select labelId="fieldstaffmanagement-role-to-assign-label-4" label="Role to assign" value={linkForm.role} onChange={(e) => setLinkForm({ ...linkForm, role: e.target.value })}>
                   <MenuItem value="scouter">Scouter</MenuItem>
                   <MenuItem value="operator">Operator</MenuItem>
                 </Select>
@@ -377,8 +377,8 @@ export default function FieldStaffManagement() {
 
               {selectedWorker && !selectedWorker.site_id && (
                 <FormControl fullWidth>
-                  <InputLabel>Site (required)</InputLabel>
-                  <Select
+                  <InputLabel id="fieldstaffmanagement-site-required-label-5">Site (required)</InputLabel>
+                  <Select labelId="fieldstaffmanagement-site-required-label-5"
                     label="Site (required)"
                     value={linkForm.siteId}
                     onChange={(e) => setLinkForm({ ...linkForm, siteId: e.target.value })}

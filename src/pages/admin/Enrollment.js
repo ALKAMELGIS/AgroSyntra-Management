@@ -82,7 +82,7 @@ export default function Enrollment() {
                     <Chip label={u.role === 'intern_student' ? 'Student' : 'Teacher'} color={roleColor(u.role)} size="small" />
                   </TableCell>
                   <TableCell align="right">
-                    <IconButton size="small" onClick={() => handleAssign(u)}>
+                    <IconButton size="small" onClick={() => handleAssign(u)} aria-label="Edit">
                       <Edit fontSize="small" />
                     </IconButton>
                   </TableCell>
@@ -132,8 +132,8 @@ export default function Enrollment() {
                 User: {editUser.name} ({editUser.email})
               </Typography>
               <FormControl fullWidth margin="normal">
-                <InputLabel>New Role</InputLabel>
-                <Select value={newRole} onChange={(e) => setNewRole(e.target.value)} label="New Role">
+                <InputLabel id="enrollment-new-role-label-1">New Role</InputLabel>
+                <Select labelId="enrollment-new-role-label-1" value={newRole} onChange={(e) => setNewRole(e.target.value)} label="New Role">
                   <MenuItem value="intern_student">Intern Student</MenuItem>
                   <MenuItem value="intern_teacher">Intern Teacher</MenuItem>
                   <MenuItem value="worker">Worker (remove intern role)</MenuItem>

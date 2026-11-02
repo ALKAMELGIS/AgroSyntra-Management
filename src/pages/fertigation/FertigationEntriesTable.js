@@ -401,10 +401,10 @@ export default function FertigationEntriesTable({
                         {entry.totalFertilizer != null ? Number(entry.totalFertilizer).toFixed(3) : '-'}
                       </TableCell>
                       <TableCell>
-                        <IconButton size="small" color="primary" onClick={() => { setEditingEntry({ ...entry }); setEditOpen(true); }}>
+                        <IconButton size="small" color="primary" onClick={() => { setEditingEntry({ ...entry }); setEditOpen(true); }} aria-label="Edit">
                           <EditIcon fontSize="small" />
                         </IconButton>
-                        <IconButton size="small" color="error" onClick={() => handleDelete(entry.id)}>
+                        <IconButton size="small" color="error" onClick={() => handleDelete(entry.id)} aria-label="Delete">
                           <DeleteIcon fontSize="small" />
                         </IconButton>
                       </TableCell>

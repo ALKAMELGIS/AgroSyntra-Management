@@ -179,13 +179,13 @@ export default function HarvestDashboard({ fieldId, siteId, dateFrom, dateTo, al
           height={340}
           footer={allTrendData.length > VISIBLE_POINTS ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mt: 1 }}>
-              <IconButton disabled={!canGoLeft} onClick={() => setChartOffset(Math.max(0, effectiveOffset - 7))} size="small">
+              <IconButton disabled={!canGoLeft} onClick={() => setChartOffset(Math.max(0, effectiveOffset - 7))} size="small" aria-label="Previous">
                 <ChevronLeft />
               </IconButton>
               <Typography variant="caption" color="text.secondary">
                 {trendData[0]?.date} — {trendData[trendData.length - 1]?.date}
               </Typography>
-              <IconButton disabled={!canGoRight} onClick={() => setChartOffset(Math.min(allTrendData.length - VISIBLE_POINTS, effectiveOffset + 7))} size="small">
+              <IconButton disabled={!canGoRight} onClick={() => setChartOffset(Math.min(allTrendData.length - VISIBLE_POINTS, effectiveOffset + 7))} size="small" aria-label="Next">
                 <ChevronRight />
               </IconButton>
             </Box>

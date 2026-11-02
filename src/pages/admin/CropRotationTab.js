@@ -626,12 +626,12 @@ export default function CropRotationTab({
                     <TableCell>
                       <Tooltip title="Edit">
                         <span>
-                          <IconButton size="small" disabled={readOnly} onClick={() => openEdit(row)}><Edit fontSize="small" /></IconButton>
+                          <IconButton size="small" disabled={readOnly} onClick={() => openEdit(row)} aria-label="Edit"><Edit fontSize="small" /></IconButton>
                         </span>
                       </Tooltip>
                       <Tooltip title="Delete">
                         <span>
-                          <IconButton size="small" color="error" disabled={readOnly} onClick={() => handleDelete(row.id)}><Delete fontSize="small" /></IconButton>
+                          <IconButton size="small" color="error" disabled={readOnly} onClick={() => handleDelete(row.id)} aria-label="Delete"><Delete fontSize="small" /></IconButton>
                         </span>
                       </Tooltip>
                     </TableCell>
@@ -665,8 +665,8 @@ export default function CropRotationTab({
         <DialogContent dividers>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
             <FormControl size="small" fullWidth>
-              <InputLabel>Field *</InputLabel>
-              <Select
+              <InputLabel id="croprotationtab-field-label-1">Field *</InputLabel>
+              <Select labelId="croprotationtab-field-label-1"
                 value={form.fieldId}
                 label="Field *"
                 onChange={(e) => setForm({ ...form, fieldId: e.target.value })}
@@ -678,8 +678,8 @@ export default function CropRotationTab({
               </Select>
             </FormControl>
             <FormControl size="small" fullWidth>
-              <InputLabel>Crop *</InputLabel>
-              <Select
+              <InputLabel id="croprotationtab-crop-label-2">Crop *</InputLabel>
+              <Select labelId="croprotationtab-crop-label-2"
                 value={form.cropId}
                 label="Crop *"
                 onChange={(e) => setForm({ ...form, cropId: e.target.value, varietyId: '' })}
@@ -692,8 +692,8 @@ export default function CropRotationTab({
             </FormControl>
             {varieties.length > 0 && (
               <FormControl size="small" fullWidth>
-                <InputLabel>Variety</InputLabel>
-                <Select value={form.varietyId} label="Variety"
+                <InputLabel id="croprotationtab-variety-label-3">Variety</InputLabel>
+                <Select labelId="croprotationtab-variety-label-3" value={form.varietyId} label="Variety"
                   onChange={(e) => setForm({ ...form, varietyId: e.target.value })}>
                   <MenuItem value=""><em>None</em></MenuItem>
                   {varieties.map((v) => <MenuItem key={v.id} value={v.id}>{v.name}</MenuItem>)}

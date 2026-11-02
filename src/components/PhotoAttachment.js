@@ -193,7 +193,7 @@ export default function PhotoAttachment({ entity, entityId, attachments = [], on
                       sx={{ color: 'rgba(255,255,255,0.8)' }}
                       size="small"
                       onClick={() => handleDelete(att.id)}
-                    >
+                     aria-label="Delete">
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   )

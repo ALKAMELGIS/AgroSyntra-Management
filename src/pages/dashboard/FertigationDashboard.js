@@ -294,13 +294,13 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
           height={300}
           footer={allTrendData.length > FERT_VISIBLE ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mt: 1 }}>
-              <IconButton disabled={!fertCanGoLeft} onClick={() => setChartOffset(Math.max(0, fertEffectiveOffset - 7))} size="small">
+              <IconButton disabled={!fertCanGoLeft} onClick={() => setChartOffset(Math.max(0, fertEffectiveOffset - 7))} size="small" aria-label="Previous">
                 <ChevronLeft />
               </IconButton>
               <Typography variant="caption" color="text.secondary">
                 {trendData[0]?.date} — {trendData[trendData.length - 1]?.date}
               </Typography>
-              <IconButton disabled={!fertCanGoRight} onClick={() => setChartOffset(Math.min(allTrendData.length - FERT_VISIBLE, fertEffectiveOffset + 7))} size="small">
+              <IconButton disabled={!fertCanGoRight} onClick={() => setChartOffset(Math.min(allTrendData.length - FERT_VISIBLE, fertEffectiveOffset + 7))} size="small" aria-label="Next">
                 <ChevronRight />
               </IconButton>
             </Box>

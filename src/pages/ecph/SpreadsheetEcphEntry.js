@@ -710,7 +710,7 @@ export default function SpreadsheetEcphEntry({ onEntrySaved, readOnly = false })
                             {row.fieldName}
                             <Tooltip title="Add valve row">
                               <span>
-                                <IconButton size="small" onClick={() => addValveRow(row.fieldId, row.fieldName)} sx={{ ml: 'auto' }} disabled={readOnly}>
+                                <IconButton size="small" onClick={() => addValveRow(row.fieldId, row.fieldName)} sx={{ ml: 'auto' }} disabled={readOnly} aria-label="Add">
                                   <AddIcon sx={{ fontSize: 16 }} />
                                 </IconButton>
                               </span>

@@ -526,8 +526,8 @@ function FertigationDashboard() {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Sites</InputLabel>
-                <Select
+                <InputLabel id="fertigationdashboard-sites-label-1">Sites</InputLabel>
+                <Select labelId="fertigationdashboard-sites-label-1"
                   multiple
                   value={filters.sites}
                   onChange={(e) => handleFilterChange('sites', e.target.value)}
@@ -545,8 +545,8 @@ function FertigationDashboard() {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Fields</InputLabel>
-                <Select
+                <InputLabel id="fertigationdashboard-fields-label-2">Fields</InputLabel>
+                <Select labelId="fertigationdashboard-fields-label-2"
                   multiple
                   value={filters.fields}
                   onChange={(e) => handleFilterChange('fields', e.target.value)}
@@ -564,8 +564,8 @@ function FertigationDashboard() {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Recipes</InputLabel>
-                <Select
+                <InputLabel id="fertigationdashboard-recipes-label-3">Recipes</InputLabel>
+                <Select labelId="fertigationdashboard-recipes-label-3"
                   multiple
                   value={filters.recipes}
                   onChange={(e) => handleFilterChange('recipes', e.target.value)}
@@ -583,8 +583,8 @@ function FertigationDashboard() {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Crops</InputLabel>
-                <Select
+                <InputLabel id="fertigationdashboard-crops-label-4">Crops</InputLabel>
+                <Select labelId="fertigationdashboard-crops-label-4"
                   multiple
                   value={filters.crops}
                   onChange={(e) => handleFilterChange('crops', e.target.value)}

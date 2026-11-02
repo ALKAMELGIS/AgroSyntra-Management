@@ -507,7 +507,7 @@ export default function ManpowerActivityReferenceTable({
                             size="small"
                             onClick={() => handleSave(row)}
                             disabled={savingId === row.localId || !row.dirty}
-                          >
+                           aria-label="Save">
                             <Save fontSize="small" />
                           </IconButton>
                         </span>

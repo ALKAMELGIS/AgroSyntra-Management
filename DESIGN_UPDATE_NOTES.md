@@ -31,3 +31,20 @@ All features, routes, roles and data flows are unchanged. Visual / UX changes on
 - **"Continue where you left off"** on Home: the last 6 opened pages for this browser, filtered by the user's current role.
 - **Fixed scroll-region heights**: pages never knew the area-tabs row was visible, so spreadsheets/maps overflowed by 44px. The shell now shares this via `AppChromeContext`; the GIS map fits the screen exactly.
 - Page titles normalized to the theme weights (removed ad-hoc 700/800 weights and oversize h4 overrides in 50 pages).
+
+## Round 4 — automated UI quality gate (Playwright + axe-core)
+New suite `e2e/ui-quality.spec.ts` (`npm run test:ui-quality`, backend mocked):
+50 screens × phone/tablet/desktop + Arabic/RTL + dark-mode contrast + usability flows — **172 tests, all passing on the production build.**
+It fails on uncaught errors, sideways scrolling, serious/critical WCAG 2.2 AA issues, unnamed or too-small shell controls.
+
+Fixed through it:
+- **Search button never opened the command palette** (header and phone bar dispatched the shortcut on `document`, the palette listens on `window`).
+- Notification bell, ~110 icon-only buttons and ~75 dropdowns had no accessible name (screen readers announced "button"/nothing).
+- Scrollable tables were not reachable by keyboard (now focusable regions).
+- Loading spinners/progress bars unnamed; disabled labels/helper text and sidebar section titles below 4.5:1 contrast; `text.disabled` darkened.
+- Spray-calendar status colours (white on light blue/orange) failed contrast → darker equivalents.
+- Pump Room banner reference code was grey-on-green (theme caption colour overrode white).
+- GIS "Layers" button hidden under the zoom control; Remote Sensing map toolbar overlapped on phones; map toggles below 24px.
+- Unlabelled inputs (Irrigation year, imagery date, Sentinel overlay switch, entry date-range select).
+
+`playwright.config.ts` honours `PW_CHROMIUM_PATH` to reuse a pre-installed Chromium.

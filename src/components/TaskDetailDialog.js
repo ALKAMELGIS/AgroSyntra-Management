@@ -129,7 +129,7 @@ export default function TaskDetailDialog({ task, open, onClose, users = [] }) {
                   value={newItem} onChange={(e) => setNewItem(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleAddChecklistItem()}
                 />
-                <IconButton onClick={handleAddChecklistItem} color="primary"><AddIcon /></IconButton>
+                <IconButton onClick={handleAddChecklistItem} color="primary" aria-label="Add"><AddIcon /></IconButton>
               </Box>
             </Grid>
 
@@ -171,7 +171,7 @@ export default function TaskDetailDialog({ task, open, onClose, users = [] }) {
                   value={newComment} onChange={(e) => setNewComment(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleAddComment(); } }}
                 />
-                <IconButton onClick={handleAddComment} color="primary"><SendIcon /></IconButton>
+                <IconButton onClick={handleAddComment} color="primary" aria-label="Send"><SendIcon /></IconButton>
               </Box>
             </Grid>
           </Grid>

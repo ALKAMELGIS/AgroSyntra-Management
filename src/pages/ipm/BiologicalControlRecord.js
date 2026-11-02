@@ -1622,7 +1622,7 @@ export default function BiologicalControlRecord() {
                             </Tooltip>
                             {canEditSetup && (
                             <IconButton size="small" onClick={() => handleRemoveProduct(p.id)}
-                              sx={{ position: 'absolute', top: 0, right: 0, p: 0.2, opacity: 0.4, '&:hover': { opacity: 1, color: 'error.main' } }}>
+                              sx={{ position: 'absolute', top: 0, right: 0, p: 0.2, opacity: 0.4, '&:hover': { opacity: 1, color: 'error.main' } }} aria-label="Delete">
                               <DeleteIcon sx={{ fontSize: 12 }} />
                             </IconButton>
                             )}
@@ -2078,19 +2078,19 @@ export default function BiologicalControlRecord() {
                                     uomId: catalogEditData.uom !== undefined
                                       ? await resolveUomId(catalogEditData.uom)
                                       : p.uom_id,
-                                  })}>
+                                  })} aria-label="Confirm">
                                   <CheckIcon sx={{ fontSize: 18 }} />
                                 </IconButton>
-                                <IconButton size="small" onClick={() => { setCatalogEditId(null); setCatalogEditData({}); }}>
+                                <IconButton size="small" onClick={() => { setCatalogEditId(null); setCatalogEditData({}); }} aria-label="Cancel">
                                   <CancelIcon sx={{ fontSize: 18 }} />
                                 </IconButton>
                               </Box>
                             ) : canEditSetup && (
                               <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'center' }}>
-                                <IconButton size="small" onClick={() => { setCatalogEditId(p.id); setCatalogEditData({}); }}>
+                                <IconButton size="small" onClick={() => { setCatalogEditId(p.id); setCatalogEditData({}); }} aria-label="Edit">
                                   <EditIcon sx={{ fontSize: 16 }} />
                                 </IconButton>
-                                <IconButton size="small" color="error" onClick={() => handleCatalogDelete(p.id, p.item_name)}>
+                                <IconButton size="small" color="error" onClick={() => handleCatalogDelete(p.id, p.item_name)} aria-label="Delete">
                                   <DeleteIcon sx={{ fontSize: 16 }} />
                                 </IconButton>
                               </Box>
@@ -2140,10 +2140,10 @@ export default function BiologicalControlRecord() {
                         </TableCell>
                         <TableCell align="center">
                           <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'center' }}>
-                            <IconButton size="small" color="success" onClick={handleCatalogAdd} disabled={catalogSaving}>
+                            <IconButton size="small" color="success" onClick={handleCatalogAdd} disabled={catalogSaving} aria-label="Confirm">
                               <CheckIcon sx={{ fontSize: 18 }} />
                             </IconButton>
-                            <IconButton size="small" onClick={() => setCatalogNewRow(null)}>
+                            <IconButton size="small" onClick={() => setCatalogNewRow(null)} aria-label="Cancel">
                               <CancelIcon sx={{ fontSize: 18 }} />
                             </IconButton>
                           </Box>
@@ -2280,8 +2280,8 @@ export default function BiologicalControlRecord() {
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Field</InputLabel>
-                <Select value={setupForm.fieldId} label="Field" onChange={e => {
+                <InputLabel id="biologicalcontrolrecord-field-label-1">Field</InputLabel>
+                <Select labelId="biologicalcontrolrecord-field-label-1" value={setupForm.fieldId} label="Field" onChange={e => {
                   const fId = e.target.value;
                   const field = allFields.find(f => f.id === fId);
                   setSetupForm(p => ({ ...p, fieldId: fId, cropId: field?.currentCropId || '' }));

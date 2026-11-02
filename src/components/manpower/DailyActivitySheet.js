@@ -364,7 +364,7 @@ export default function DailyActivitySheet({
                       color="error"
                       onClick={() => removeRow(rowIdx)}
                       disabled={rows.length <= 1}
-                    >
+                     aria-label="Delete">
                       <Delete fontSize="small" />
                     </IconButton>
                   </span>

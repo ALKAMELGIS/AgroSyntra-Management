@@ -143,8 +143,8 @@ export default function AgronomicReference() {
 
       <Box sx={{ mb: 2, display: 'flex', gap: 2, alignItems: 'center' }}>
         <FormControl size="small" sx={{ minWidth: 200 }}>
-          <InputLabel>Filter by Crop</InputLabel>
-          <Select value={filterCrop} onChange={(e) => setFilterCrop(e.target.value)} label="Filter by Crop">
+          <InputLabel id="agronomicreference-filter-by-crop-label-1">Filter by Crop</InputLabel>
+          <Select labelId="agronomicreference-filter-by-crop-label-1" value={filterCrop} onChange={(e) => setFilterCrop(e.target.value)} label="Filter by Crop">
             <MenuItem value="">All Crops</MenuItem>
             {crops.map((c) => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>)}
           </Select>
@@ -223,14 +223,14 @@ export default function AgronomicReference() {
         {dialog && (
           <DialogContent sx={{ pt: '16px !important' }}>
             <FormControl fullWidth sx={{ mb: 2 }}>
-              <InputLabel>Crop</InputLabel>
-              <Select value={dialog.cropId} onChange={(e) => setDialog({ ...dialog, cropId: e.target.value })} label="Crop">
+              <InputLabel id="agronomicreference-crop-label-2">Crop</InputLabel>
+              <Select labelId="agronomicreference-crop-label-2" value={dialog.cropId} onChange={(e) => setDialog({ ...dialog, cropId: e.target.value })} label="Crop">
                 {crops.map((c) => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>)}
               </Select>
             </FormControl>
             <FormControl fullWidth sx={{ mb: 2 }}>
-              <InputLabel>Parameter</InputLabel>
-              <Select value={dialog.parameter} onChange={(e) => setDialog({ ...dialog, parameter: e.target.value })} label="Parameter">
+              <InputLabel id="agronomicreference-parameter-label-3">Parameter</InputLabel>
+              <Select labelId="agronomicreference-parameter-label-3" value={dialog.parameter} onChange={(e) => setDialog({ ...dialog, parameter: e.target.value })} label="Parameter">
                 {parameters.map((p) => (
                   <MenuItem key={p} value={p}>{PARAMETER_LABELS[p]?.label || p}</MenuItem>
                 ))}

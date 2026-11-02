@@ -107,7 +107,7 @@ export default function Webhooks() {
                     <IconButton size="small" onClick={(e) => { e.stopPropagation(); toggleExpand(wh.id); }}>
                       {expandedId === wh.id ? <CollapseIcon /> : <ExpandIcon />}
                     </IconButton>
-                    <IconButton size="small" color="error" onClick={(e) => { e.stopPropagation(); handleDelete(wh.id); }}>
+                    <IconButton size="small" color="error" onClick={(e) => { e.stopPropagation(); handleDelete(wh.id); }} aria-label="Delete">
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </TableCell>

@@ -212,13 +212,13 @@ export default function EcphDashboard({ fieldId, siteId, dateFrom, dateTo, allFi
           height={300}
           footer={allTrendData.length > ECPH_VISIBLE ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mt: 1 }}>
-              <IconButton disabled={!ecphCanGoLeft} onClick={() => setChartOffset(Math.max(0, ecphEffectiveOffset - 7))} size="small">
+              <IconButton disabled={!ecphCanGoLeft} onClick={() => setChartOffset(Math.max(0, ecphEffectiveOffset - 7))} size="small" aria-label="Previous">
                 <ChevronLeft />
               </IconButton>
               <Typography variant="caption" color="text.secondary">
                 {trendData[0]?.date} — {trendData[trendData.length - 1]?.date}
               </Typography>
-              <IconButton disabled={!ecphCanGoRight} onClick={() => setChartOffset(Math.min(allTrendData.length - ECPH_VISIBLE, ecphEffectiveOffset + 7))} size="small">
+              <IconButton disabled={!ecphCanGoRight} onClick={() => setChartOffset(Math.min(allTrendData.length - ECPH_VISIBLE, ecphEffectiveOffset + 7))} size="small" aria-label="Next">
                 <ChevronRight />
               </IconButton>
             </Box>

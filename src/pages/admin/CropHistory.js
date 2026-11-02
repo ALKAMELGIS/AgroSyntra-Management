@@ -1522,8 +1522,8 @@ export default function CropHistory() {
                 All planting records currently assigned to <strong>{reassignDialog.oldName}</strong> in this site will be moved to the selected variety.
               </Typography>
               <FormControl fullWidth size="small">
-                <InputLabel>Target Variety</InputLabel>
-                <Select value={reassignTarget} onChange={(e) => setReassignTarget(e.target.value)} label="Target Variety">
+                <InputLabel id="crophistory-target-variety-label-1">Target Variety</InputLabel>
+                <Select labelId="crophistory-target-variety-label-1" value={reassignTarget} onChange={(e) => setReassignTarget(e.target.value)} label="Target Variety">
                   {(allVarietiesByCrop[reassignDialog.cropId] || [])
                     .filter(v => v.id !== reassignDialog.oldVarietyId)
                     .map(v => <MenuItem key={v.id} value={v.id}>{v.name}</MenuItem>)}
@@ -1552,8 +1552,8 @@ export default function CropHistory() {
                 </Alert>
               )}
               <FormControl size="small" fullWidth>
-                <InputLabel>Field</InputLabel>
-                <Select value={nurseryField} label="Field"
+                <InputLabel id="crophistory-field-label-2">Field</InputLabel>
+                <Select labelId="crophistory-field-label-2" value={nurseryField} label="Field"
                   onChange={(e) => setNurseryField(e.target.value)}>
                   {filteredFields.map((f) => (
                     <MenuItem key={f.id} value={f.id}>

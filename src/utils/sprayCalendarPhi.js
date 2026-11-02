@@ -1,9 +1,9 @@
 /** Shared spray calendar PHI day coloring (staff IPM + team leader views). */
 
 export const SPRAY_CALENDAR_COLORS = {
-  spray: '#2196f3',
-  phiActive: '#f44336',
-  phiEnding: '#ff9800',
+  spray: '#2f6aa8',
+  phiActive: '#c23b2b',
+  phiEnding: '#a35f0c',
   clear: '#e8f5e9',
 };
 

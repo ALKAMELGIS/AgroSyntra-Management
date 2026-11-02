@@ -399,7 +399,7 @@ function SpreadsheetGrid({
                               size="small"
                               disabled={!canApproveOm || !row._serverId}
                               onClick={() => onApproveOm?.(row)}
-                            >
+                             aria-label="Mark as done">
                               <CheckCircleOutline fontSize="small" />
                             </IconButton>
                           </span>
@@ -503,7 +503,7 @@ function SpreadsheetGrid({
                           size="small"
                           disabled={!deletable}
                           onClick={() => onDeleteRows?.([row._key])}
-                        >
+                         aria-label="Delete">
                           <Delete fontSize="small" />
                         </IconButton>
                       </span>

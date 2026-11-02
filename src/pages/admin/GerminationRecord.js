@@ -376,7 +376,7 @@ function SectionTable({ section, records, maxCounting, editingName, tempName, se
               autoFocus
               sx={{ width: 200 }}
             />
-            <IconButton size="small" onClick={() => onRename(section.id)} sx={{ color: 'inherit' }}><SaveIcon fontSize="small" /></IconButton>
+            <IconButton size="small" onClick={() => onRename(section.id)} sx={{ color: 'inherit' }} aria-label="Save"><SaveIcon fontSize="small" /></IconButton>
           </Box>
         ) : (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

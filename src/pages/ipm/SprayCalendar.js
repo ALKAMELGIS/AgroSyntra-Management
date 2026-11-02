@@ -100,8 +100,8 @@ export default function SprayCalendar() {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
         <Typography variant="h4">Spray Calendar</Typography>
         <FormControl size="small" sx={{ minWidth: 200 }}>
-          <InputLabel>Filter by Field</InputLabel>
-          <Select value={filterField} label="Filter by Field" onChange={(e) => setFilterField(e.target.value)}>
+          <InputLabel id="spraycalendar-filter-by-field-label-1">Filter by Field</InputLabel>
+          <Select labelId="spraycalendar-filter-by-field-label-1" value={filterField} label="Filter by Field" onChange={(e) => setFilterField(e.target.value)}>
             <MenuItem value="">All Fields</MenuItem>
             {fields.map((f) => <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>)}
           </Select>
@@ -118,18 +118,18 @@ export default function SprayCalendar() {
 
       {/* Month Navigation */}
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 2 }}>
-        <IconButton onClick={() => navigateMonth(-1)}><ChevronLeft /></IconButton>
+        <IconButton onClick={() => navigateMonth(-1)} aria-label="Previous"><ChevronLeft /></IconButton>
         <Typography variant="h6" sx={{ fontWeight: 600, minWidth: 200, textAlign: 'center' }}>
           {monthName}
         </Typography>
-        <IconButton onClick={() => navigateMonth(1)}><ChevronRight /></IconButton>
+        <IconButton onClick={() => navigateMonth(1)} aria-label="Next"><ChevronRight /></IconButton>
         <Tooltip title="Go to today">
           <IconButton onClick={goToday}><Today /></IconButton>
         </Tooltip>
       </Box>
 
       {/* Calendar Grid */}
-      <Paper sx={{ overflow: 'auto' }}>
+      <Paper sx={{ overflow: 'auto' }} tabIndex={0} aria-label="Spray calendar">
         <Box sx={{ minWidth: daysInMonth * 36 + 160 }}>
           {/* Header row with day numbers */}
           <Box sx={{ display: 'flex', borderBottom: '2px solid', borderColor: 'divider' }}>

@@ -460,7 +460,7 @@ export default function PivotFertigationTab({ readOnly = false }) {
               <IconButton size="small" onClick={() => handleUpdateRow(row)} disabled={savingId === row.id} sx={{ p: '2px' }}>
                 {savingId === row.id ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 16, color: '#165c3a' }} />}
               </IconButton>
-              <IconButton size="small" onClick={() => handleDelete(row.id)} sx={{ p: '2px' }}>
+              <IconButton size="small" onClick={() => handleDelete(row.id)} sx={{ p: '2px' }} aria-label="Delete">
                 <Delete sx={{ fontSize: 16, color: '#c62828' }} />
               </IconButton>
             </>

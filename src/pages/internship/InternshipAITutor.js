@@ -141,7 +141,7 @@ export default function InternshipAITutor() {
           color="primary"
           onClick={handleSend}
           disabled={!input.trim() || sendMutation.isLoading}
-        >
+         aria-label="Send">
           <Send />
         </IconButton>
       </Paper>

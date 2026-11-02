@@ -1494,7 +1494,7 @@ export default function ManpowerRecord() {
                             fullWidth
                             value={act.pivot_column || ''}
                             onChange={(e) => handleActivityPivotColumnChange(act.id, e.target.value)}
-                          >
+                           SelectProps={{ SelectDisplayProps: { 'aria-label': 'Pivot column' } }}>
                             {PIVOT_COLUMN_OPTIONS.map((opt) => (
                               <MenuItem key={opt.value || '__unmapped__'} value={opt.value}>
                                 {opt.label}
@@ -1612,8 +1612,8 @@ export default function ManpowerRecord() {
               onChange={(e) => setHoursEndDate(e.target.value)}
               InputLabelProps={{ shrink: true }} sx={{ width: 150 }} />
             <FormControl size="small" sx={{ minWidth: 160 }}>
-              <InputLabel>Crop</InputLabel>
-              <Select
+              <InputLabel id="manpowerrecord-crop-label-1">Crop</InputLabel>
+              <Select labelId="manpowerrecord-crop-label-1"
                 label="Crop"
                 value={hoursCropFilter}
                 onChange={(e) => setHoursCropFilter(e.target.value)}
@@ -1901,8 +1901,8 @@ export default function ManpowerRecord() {
             <TextField size="small" label="Full Name *" value={workerForm.name}
               onChange={(e) => setWorkerForm({ ...workerForm, name: e.target.value })} />
             <FormControl size="small">
-              <InputLabel>Category</InputLabel>
-              <Select value={workerForm.category} label="Category"
+              <InputLabel id="manpowerrecord-category-label-2">Category</InputLabel>
+              <Select labelId="manpowerrecord-category-label-2" value={workerForm.category} label="Category"
                 onChange={(e) => setWorkerForm({ ...workerForm, category: e.target.value })}>
                 <MenuItem value="Permanent">Permanent</MenuItem>
                 <MenuItem value="Casual">Casual</MenuItem>

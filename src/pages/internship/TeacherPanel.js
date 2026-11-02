@@ -49,8 +49,8 @@ export default function TeacherPanel() {
       </Typography>
 
       <FormControl size="small" sx={{ mb: 3, minWidth: 300 }}>
-        <InputLabel>Select Module</InputLabel>
-        <Select value={selectedModule} onChange={(e) => setSelectedModule(e.target.value)} label="Select Module">
+        <InputLabel id="teacherpanel-select-module-label-1">Select Module</InputLabel>
+        <Select labelId="teacherpanel-select-module-label-1" value={selectedModule} onChange={(e) => setSelectedModule(e.target.value)} label="Select Module">
           {modules.map((m) => <MenuItem key={m.id} value={m.id}>{m.title}</MenuItem>)}
         </Select>
       </FormControl>
@@ -300,8 +300,8 @@ function LessonManager({ moduleId }) {
             <Chip label="Unlimited" size="small" variant="outlined" color="info" />
           )}
           <Button size="small" startIcon={<Quiz />} onClick={() => setBankLessonId(lesson.id)}>Bank</Button>
-          <IconButton size="small" onClick={() => handleEditOpen(lesson)}><Edit fontSize="small" /></IconButton>
-          <IconButton size="small" color="error" onClick={() => deleteMutation.mutate(lesson.id)}><Delete fontSize="small" /></IconButton>
+          <IconButton size="small" onClick={() => handleEditOpen(lesson)} aria-label="Edit"><Edit fontSize="small" /></IconButton>
+          <IconButton size="small" color="error" onClick={() => deleteMutation.mutate(lesson.id)} aria-label="Delete"><Delete fontSize="small" /></IconButton>
         </Paper>
       ))}
 
@@ -693,7 +693,7 @@ function QuestionBankDialog({ lessonId, onClose }) {
       </Backdrop>
       <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         Question Bank ({questions.length} questions)
-        <IconButton onClick={onClose}><Close /></IconButton>
+        <IconButton onClick={onClose} aria-label="Close"><Close /></IconButton>
       </DialogTitle>
       <DialogContent>
         <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
@@ -763,8 +763,8 @@ function QuestionBankDialog({ lessonId, onClose }) {
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                   <Typography fontWeight={500} sx={{ mb: 1 }}>{idx + 1}. {q.question_text}</Typography>
                   <Box sx={{ display: 'flex', gap: 0.5 }}>
-                    <IconButton size="small" onClick={() => handleEditOpen(q)}><Edit fontSize="small" /></IconButton>
-                    <IconButton size="small" color="error" onClick={() => deleteMutation.mutate(q.id)}><Delete fontSize="small" /></IconButton>
+                    <IconButton size="small" onClick={() => handleEditOpen(q)} aria-label="Edit"><Edit fontSize="small" /></IconButton>
+                    <IconButton size="small" color="error" onClick={() => deleteMutation.mutate(q.id)} aria-label="Delete"><Delete fontSize="small" /></IconButton>
                   </Box>
                 </Box>
                 {(q.options || []).map((opt, oi) => (
@@ -917,8 +917,8 @@ function QuizManager({ moduleId }) {
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography fontWeight={500}>{q.title}</Typography>
                 <Box>
-                  <IconButton size="small" onClick={(e) => handleEditQuiz(q, e)}><Edit fontSize="small" /></IconButton>
-                  <IconButton size="small" color="error" onClick={(e) => { e.stopPropagation(); deleteQuizMutation.mutate(q.id); }}>
+                  <IconButton size="small" onClick={(e) => handleEditQuiz(q, e)} aria-label="Edit"><Edit fontSize="small" /></IconButton>
+                  <IconButton size="small" color="error" onClick={(e) => { e.stopPropagation(); deleteQuizMutation.mutate(q.id); }} aria-label="Delete">
                     <Delete fontSize="small" />
                   </IconButton>
                 </Box>
@@ -962,7 +962,7 @@ function QuizManager({ moduleId }) {
                 <Paper key={q.id} variant="outlined" sx={{ p: 2, mb: 1 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="subtitle2">Q{idx + 1}: {q.question_text}</Typography>
-                    <IconButton size="small" color="error" onClick={() => deleteQuestionMutation.mutate(q.id)}>
+                    <IconButton size="small" color="error" onClick={() => deleteQuestionMutation.mutate(q.id)} aria-label="Delete">
                       <Delete fontSize="small" />
                     </IconButton>
                   </Box>
@@ -986,8 +986,8 @@ function QuizManager({ moduleId }) {
         <DialogContent>
           <TextField fullWidth margin="normal" label="Title" value={quizForm.title} onChange={(e) => setQuizForm(p => ({ ...p, title: e.target.value }))} />
           <FormControl fullWidth margin="normal">
-            <InputLabel>Type</InputLabel>
-            <Select value={quizForm.quizType} onChange={(e) => setQuizForm(p => ({ ...p, quizType: e.target.value }))} label="Type">
+            <InputLabel id="teacherpanel-type-label-2">Type</InputLabel>
+            <Select labelId="teacherpanel-type-label-2" value={quizForm.quizType} onChange={(e) => setQuizForm(p => ({ ...p, quizType: e.target.value }))} label="Type">
               <MenuItem value="practice">Practice</MenuItem>
               <MenuItem value="graded">Graded</MenuItem>
             </Select>
@@ -995,8 +995,8 @@ function QuizManager({ moduleId }) {
           <TextField fullWidth margin="normal" label="Time Limit (minutes, optional)" type="number" value={quizForm.timeLimitMinutes} onChange={(e) => setQuizForm(p => ({ ...p, timeLimitMinutes: e.target.value }))} />
           <TextField fullWidth margin="normal" label="Pass Percentage" type="number" value={quizForm.passPercentage} onChange={(e) => setQuizForm(p => ({ ...p, passPercentage: e.target.value }))} />
           <FormControl fullWidth margin="normal">
-            <InputLabel>Linked Lessons (optional)</InputLabel>
-            <Select
+            <InputLabel id="teacherpanel-linked-lessons-optional-label-3">Linked Lessons (optional)</InputLabel>
+            <Select labelId="teacherpanel-linked-lessons-optional-label-3"
               multiple
               value={quizForm.lessonIds}
               onChange={(e) => setQuizForm(p => ({ ...p, lessonIds: e.target.value }))}
@@ -1023,8 +1023,8 @@ function QuizManager({ moduleId }) {
         <DialogTitle>Add Question</DialogTitle>
         <DialogContent>
           <FormControl fullWidth margin="normal">
-            <InputLabel>Type</InputLabel>
-            <Select value={qForm.questionType} onChange={(e) => setQForm(p => ({ ...p, questionType: e.target.value }))} label="Type">
+            <InputLabel id="teacherpanel-type-label-4">Type</InputLabel>
+            <Select labelId="teacherpanel-type-label-4" value={qForm.questionType} onChange={(e) => setQForm(p => ({ ...p, questionType: e.target.value }))} label="Type">
               <MenuItem value="mcq">Multiple Choice</MenuItem>
               <MenuItem value="true_false">True / False</MenuItem>
             </Select>
@@ -1045,8 +1045,8 @@ function QuizManager({ moduleId }) {
           )}
           {qForm.questionType === 'true_false' && (
             <FormControl fullWidth margin="normal">
-              <InputLabel>Correct Answer</InputLabel>
-              <Select value={qForm.correctAnswer} onChange={(e) => setQForm(p => ({ ...p, correctAnswer: e.target.value }))} label="Correct Answer">
+              <InputLabel id="teacherpanel-correct-answer-label-5">Correct Answer</InputLabel>
+              <Select labelId="teacherpanel-correct-answer-label-5" value={qForm.correctAnswer} onChange={(e) => setQForm(p => ({ ...p, correctAnswer: e.target.value }))} label="Correct Answer">
                 <MenuItem value="True">True</MenuItem>
                 <MenuItem value="False">False</MenuItem>
               </Select>
@@ -1078,8 +1078,8 @@ function QuizManager({ moduleId }) {
             </Grid>
             <Grid size={12}>
               <FormControl fullWidth size="small">
-                <InputLabel>Source Lessons (optional)</InputLabel>
-                <Select
+                <InputLabel id="teacherpanel-source-lessons-optional-label-6">Source Lessons (optional)</InputLabel>
+                <Select labelId="teacherpanel-source-lessons-optional-label-6"
                   multiple
                   value={aiLessonIds}
                   onChange={(e) => setAiLessonIds(e.target.value)}
@@ -1206,8 +1206,8 @@ function AIQuestionGenerator({ moduleId }) {
           <Box sx={{ display: 'flex', gap: 2, mb: 2, alignItems: 'center' }}>
             <Typography variant="subtitle1" fontWeight={600}>Generated {generated.length} questions</Typography>
             <FormControl size="small" sx={{ minWidth: 200 }}>
-              <InputLabel>Add to Quiz</InputLabel>
-              <Select value={selectedQuiz} onChange={(e) => setSelectedQuiz(e.target.value)} label="Add to Quiz">
+              <InputLabel id="teacherpanel-add-to-quiz-label-7">Add to Quiz</InputLabel>
+              <Select labelId="teacherpanel-add-to-quiz-label-7" value={selectedQuiz} onChange={(e) => setSelectedQuiz(e.target.value)} label="Add to Quiz">
                 {quizzes.map((q) => <MenuItem key={q.id} value={q.id}>{q.title}</MenuItem>)}
               </Select>
             </FormControl>

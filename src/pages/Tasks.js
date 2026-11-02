@@ -276,7 +276,7 @@ export default function Tasks() {
                             </IconButton>
                           </Tooltip>
                         )}
-                        <IconButton size="small" onClick={() => handleDelete(task.id)} color="error">
+                        <IconButton size="small" onClick={() => handleDelete(task.id)} color="error" aria-label="Delete">
                           <DeleteIcon fontSize="small" />
                         </IconButton>
                       </CardActions>

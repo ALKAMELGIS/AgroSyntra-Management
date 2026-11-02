@@ -142,18 +142,18 @@ export default function ShiftSchedule() {
               <DeleteSelectedButton count={selection.size} onClick={handleBulkDelete} />
             </>
           )}
-          <IconButton onClick={() => setWeekStart(addDays(weekStart, -7))}><PrevIcon /></IconButton>
+          <IconButton onClick={() => setWeekStart(addDays(weekStart, -7))} aria-label="Previous"><PrevIcon /></IconButton>
           <Typography variant="subtitle1" fontWeight={600}>
             {format(weekStart, 'MMM d')} — {format(weekEnd, 'MMM d, yyyy')}
           </Typography>
-          <IconButton onClick={() => setWeekStart(addDays(weekStart, 7))}><NextIcon /></IconButton>
+          <IconButton onClick={() => setWeekStart(addDays(weekStart, 7))} aria-label="Next"><NextIcon /></IconButton>
         </Box>
       </Box>
 
       {readOnly && <ReadOnlyBanner message="View only — shift schedule cannot be modified." />}
 
       {/* Week Calendar Header */}
-      <Paper sx={{ mb: 2, overflow: 'auto' }}>
+      <Paper sx={{ mb: 2, overflow: 'auto' }} tabIndex={0} aria-label="Shift schedule">
         <Box sx={{ display: 'grid', gridTemplateColumns: '150px repeat(7, 1fr)', minWidth: 900 }}>
           <Box sx={{ p: 1, borderRight: 1, borderBottom: 1, borderColor: 'divider', bgcolor: 'grey.100' }}>
             <Typography variant="subtitle2" fontWeight={600}>Team Member</Typography>
@@ -163,7 +163,7 @@ export default function ShiftSchedule() {
               <Typography variant="caption" color="text.secondary">{format(day, 'EEE')}</Typography>
               <Typography variant="subtitle2" fontWeight={600}>{format(day, 'd')}</Typography>
               {!readOnly && (
-              <IconButton size="small" onClick={() => openCreate(day)} sx={{ mt: 0.5 }}>
+              <IconButton size="small" onClick={() => openCreate(day)} sx={{ mt: 0.5 }} aria-label="Add">
                 <AddIcon fontSize="small" />
               </IconButton>
               )}

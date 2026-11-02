@@ -100,29 +100,29 @@ export default function FertigationHarvestCorrelation() {
       <Paper sx={{ p: 2, mb: 3 }}>
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
           <FormControl size="small" sx={{ minWidth: 140 }}>
-            <InputLabel>Zone</InputLabel>
-            <Select value={selectedZone} label="Zone" onChange={(e) => { setSelectedZone(e.target.value); setSelectedSite(''); setSelectedFarmArea(''); setSelectedField(''); }}>
+            <InputLabel id="fertigationharvestcorrelation-zone-label-1">Zone</InputLabel>
+            <Select labelId="fertigationharvestcorrelation-zone-label-1" value={selectedZone} label="Zone" onChange={(e) => { setSelectedZone(e.target.value); setSelectedSite(''); setSelectedFarmArea(''); setSelectedField(''); }}>
               <MenuItem value="">All</MenuItem>
               {zones.map((z) => <MenuItem key={z.id} value={z.id}>{z.name}</MenuItem>)}
             </Select>
           </FormControl>
           <FormControl size="small" sx={{ minWidth: 140 }}>
-            <InputLabel>Site</InputLabel>
-            <Select value={selectedSite} label="Site" onChange={(e) => { setSelectedSite(e.target.value); setSelectedFarmArea(''); setSelectedField(''); }}>
+            <InputLabel id="fertigationharvestcorrelation-site-label-2">Site</InputLabel>
+            <Select labelId="fertigationharvestcorrelation-site-label-2" value={selectedSite} label="Site" onChange={(e) => { setSelectedSite(e.target.value); setSelectedFarmArea(''); setSelectedField(''); }}>
               <MenuItem value="">All</MenuItem>
               {filteredSites.map((s) => <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>)}
             </Select>
           </FormControl>
           <FormControl size="small" sx={{ minWidth: 140 }}>
-            <InputLabel>Farm Area</InputLabel>
-            <Select value={selectedFarmArea} label="Farm Area" onChange={(e) => { setSelectedFarmArea(e.target.value); setSelectedField(''); }}>
+            <InputLabel id="fertigationharvestcorrelation-farm-area-label-3">Farm Area</InputLabel>
+            <Select labelId="fertigationharvestcorrelation-farm-area-label-3" value={selectedFarmArea} label="Farm Area" onChange={(e) => { setSelectedFarmArea(e.target.value); setSelectedField(''); }}>
               <MenuItem value="">All</MenuItem>
               {filteredFarmAreas.map((fa) => <MenuItem key={fa.id} value={fa.id}>{fa.name}</MenuItem>)}
             </Select>
           </FormControl>
           <FormControl size="small" sx={{ minWidth: 160 }}>
-            <InputLabel>Field *</InputLabel>
-            <Select value={selectedField} label="Field *" onChange={(e) => setSelectedField(e.target.value)}>
+            <InputLabel id="fertigationharvestcorrelation-field-label-4">Field *</InputLabel>
+            <Select labelId="fertigationharvestcorrelation-field-label-4" value={selectedField} label="Field *" onChange={(e) => setSelectedField(e.target.value)}>
               <MenuItem value="">Select a field</MenuItem>
               {filteredFields.map((f) => <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>)}
             </Select>

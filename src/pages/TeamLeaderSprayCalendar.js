@@ -121,7 +121,7 @@ export default function TeamLeaderSprayCalendar() {
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <AppBar position="static" color="default" elevation={1}>
         <Toolbar>
-          <IconButton edge="start" href="/manpower-entry"><ArrowBack /></IconButton>
+          <IconButton edge="start" href="/manpower-entry" aria-label="Back"><ArrowBack /></IconButton>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>Spray Calendar (View Only)</Typography>
           <Button color="inherit" startIcon={<Logout />} onClick={() => { workerLogout(); window.location.href = '/login?mode=team-leader'; }}>
             Logout
@@ -142,15 +142,15 @@ export default function TeamLeaderSprayCalendar() {
         </Box>
 
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 2, flexWrap: 'wrap' }}>
-          <IconButton onClick={() => navigateMonth(-1)}><ChevronLeft /></IconButton>
+          <IconButton onClick={() => navigateMonth(-1)} aria-label="Previous"><ChevronLeft /></IconButton>
           <Typography variant="h6" sx={{ minWidth: 180, textAlign: 'center' }}>{monthName}</Typography>
-          <IconButton onClick={() => navigateMonth(1)}><ChevronRight /></IconButton>
+          <IconButton onClick={() => navigateMonth(1)} aria-label="Next"><ChevronRight /></IconButton>
           <Tooltip title="Today">
             <IconButton onClick={() => { setYear(today.getFullYear()); setMonth(today.getMonth()); }}><Today /></IconButton>
           </Tooltip>
           <FormControl size="small" sx={{ minWidth: 180 }}>
-            <InputLabel>Field</InputLabel>
-            <Select label="Field" value={filterField} onChange={(e) => setFilterField(e.target.value)}>
+            <InputLabel id="teamleaderspraycalendar-field-label-1">Field</InputLabel>
+            <Select labelId="teamleaderspraycalendar-field-label-1" label="Field" value={filterField} onChange={(e) => setFilterField(e.target.value)}>
               <MenuItem value="">All fields</MenuItem>
               {fields.map((f) => <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>)}
             </Select>

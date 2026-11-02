@@ -161,16 +161,16 @@ function AIBrainCard() {
 
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
           <FormControl sx={{ minWidth: 180 }}>
-            <InputLabel>Provider</InputLabel>
-            <Select value={provider} label="Provider" onChange={(e) => handleProviderChange(e.target.value)}>
+            <InputLabel id="apikeys-provider-label-1">Provider</InputLabel>
+            <Select labelId="apikeys-provider-label-1" value={provider} label="Provider" onChange={(e) => handleProviderChange(e.target.value)}>
               <MenuItem value="anthropic">Anthropic (Claude)</MenuItem>
               <MenuItem value="openai">OpenAI (GPT)</MenuItem>
             </Select>
           </FormControl>
 
           <FormControl sx={{ minWidth: 240 }}>
-            <InputLabel>Model</InputLabel>
-            <Select value={model} label="Model" onChange={(e) => setModel(e.target.value)}>
+            <InputLabel id="apikeys-model-label-2">Model</InputLabel>
+            <Select labelId="apikeys-model-label-2" value={model} label="Model" onChange={(e) => setModel(e.target.value)}>
               {(AI_MODELS[provider] || []).map((m) => (
                 <MenuItem key={m.value} value={m.value}>{m.label}</MenuItem>
               ))}
@@ -200,7 +200,7 @@ function AIBrainCard() {
             }}
           />
           {hasExistingKey && (
-            <IconButton color="error" onClick={handleDeleteKey} title="Remove saved key">
+            <IconButton color="error" onClick={handleDeleteKey} title="Remove saved key" aria-label="Remove saved key">
               <DeleteIcon />
             </IconButton>
           )}
@@ -364,7 +364,7 @@ function WeatherMapApiKeyCard() {
             }}
           />
           {hasExistingKey && (
-            <IconButton color="error" onClick={handleDeleteKey} title="Remove saved key">
+            <IconButton color="error" onClick={handleDeleteKey} title="Remove saved key" aria-label="Remove saved key">
               <DeleteIcon />
             </IconButton>
           )}
@@ -471,7 +471,7 @@ export default function ApiKeys() {
       </Box>
 
       {newKey && (
-        <Alert severity="success" sx={{ mb: 3 }} action={<IconButton onClick={copyKey}><CopyIcon /></IconButton>}>
+        <Alert severity="success" sx={{ mb: 3 }} action={<IconButton onClick={copyKey} aria-label="Copy"><CopyIcon /></IconButton>}>
           <Typography variant="subtitle2">Your new API key (copy it now — it won't be shown again):</Typography>
           <Typography variant="body2" sx={{ fontFamily: 'monospace', mt: 0.5, wordBreak: 'break-all' }}>{newKey}</Typography>
         </Alert>
@@ -501,7 +501,7 @@ export default function ApiKeys() {
                 </TableCell>
                 <TableCell align="center">
                   {key.is_active && (
-                    <IconButton size="small" color="error" onClick={() => handleRevoke(key.id)}>
+                    <IconButton size="small" color="error" onClick={() => handleRevoke(key.id)} aria-label="Delete">
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   )}

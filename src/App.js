@@ -176,7 +176,7 @@ function SearchBar() {
   const theme = useTheme();
   const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
   const openCommandPalette = () => {
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }));
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true }));
   };
 
   if (isPhone) {

@@ -734,8 +734,8 @@ function EfficiencyDashboard() {
               </Grid>
               <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <FormControl fullWidth size="small">
-                  <InputLabel>Site</InputLabel>
-                  <Select
+                  <InputLabel id="efficiencydashboard-site-label-1">Site</InputLabel>
+                  <Select labelId="efficiencydashboard-site-label-1"
                     value={filters.siteId}
                     label="Site"
                     onChange={(e) => setFilters({ ...filters, siteId: e.target.value })}
@@ -751,8 +751,8 @@ function EfficiencyDashboard() {
               </Grid>
               <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <FormControl fullWidth size="small">
-                  <InputLabel>Crop</InputLabel>
-                  <Select
+                  <InputLabel id="efficiencydashboard-crop-label-2">Crop</InputLabel>
+                  <Select labelId="efficiencydashboard-crop-label-2"
                     value={filters.crop}
                     label="Crop"
                     onChange={(e) => setFilters({ ...filters, crop: e.target.value })}
@@ -768,8 +768,8 @@ function EfficiencyDashboard() {
               </Grid>
               <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <FormControl fullWidth size="small">
-                  <InputLabel>Environment</InputLabel>
-                  <Select
+                  <InputLabel id="efficiencydashboard-environment-label-3">Environment</InputLabel>
+                  <Select labelId="efficiencydashboard-environment-label-3"
                     value={filters.environment}
                     label="Environment"
                     onChange={(e) => setFilters({ ...filters, environment: e.target.value })}

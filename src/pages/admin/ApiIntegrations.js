@@ -502,8 +502,8 @@ export default function ApiIntegrations() {
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="e.g. GH1 Weather Station" />
               <FormControl sx={{ minWidth: 200 }}>
-                <InputLabel>Type</InputLabel>
-                <Select value={form.type} label="Type" onChange={(e) => {
+                <InputLabel id="apiintegrations-type-label-1">Type</InputLabel>
+                <Select labelId="apiintegrations-type-label-1" value={form.type} label="Type" onChange={(e) => {
                   const newType = e.target.value;
                   setForm({ ...form, type: newType, dataMapping: getDefaultMapping(newType) });
                 }}>
@@ -529,8 +529,8 @@ export default function ApiIntegrations() {
             <Typography variant="subtitle2" color="text.secondary">Authentication</Typography>
 
             <FormControl fullWidth>
-              <InputLabel>Auth Type</InputLabel>
-              <Select value={form.authType} label="Auth Type" onChange={(e) => setForm({ ...form, authType: e.target.value, authConfig: {} })}>
+              <InputLabel id="apiintegrations-auth-type-label-2">Auth Type</InputLabel>
+              <Select labelId="apiintegrations-auth-type-label-2" value={form.authType} label="Auth Type" onChange={(e) => setForm({ ...form, authType: e.target.value, authConfig: {} })}>
                 {AUTH_TYPES.map((a) => <MenuItem key={a.value} value={a.value}>{a.label}</MenuItem>)}
               </Select>
             </FormControl>
@@ -669,7 +669,7 @@ export default function ApiIntegrations() {
                             <TableCell>{f.station_id || '—'}</TableCell>
                             <TableCell>{f.is_shared ? 'Yes' : 'No'}</TableCell>
                             <TableCell>
-                              <IconButton size="small" color="error" onClick={() => handleRemoveField(f.field_id)}>
+                              <IconButton size="small" color="error" onClick={() => handleRemoveField(f.field_id)} aria-label="Unlink">
                                 <LinkOff fontSize="small" />
                               </IconButton>
                             </TableCell>
@@ -687,8 +687,8 @@ export default function ApiIntegrations() {
               {/* Bulk select by farm area */}
               {areaOptions.length > 0 && (
                 <FormControl fullWidth size="small">
-                  <InputLabel>Quick select: All fields in area</InputLabel>
-                  <Select
+                  <InputLabel id="apiintegrations-quick-select-all-fields--label-3">Quick select: All fields in area</InputLabel>
+                  <Select labelId="apiintegrations-quick-select-all-fields--label-3"
                     value=""
                     label="Quick select: All fields in area"
                     onChange={(e) => { if (e.target.value) handleBulkSelectArea(e.target.value); }}

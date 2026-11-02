@@ -25,8 +25,8 @@ export default function IrrigationDashboard() {
       <Grid container spacing={2} sx={{ mb: 2 }}>
         <Grid size={{ xs: 12, sm: 4, md: 3 }}>
           <FormControl fullWidth size="small">
-            <InputLabel>Site</InputLabel>
-            <Select value={siteId} label="Site" onChange={(e) => setSiteId(e.target.value)}>
+            <InputLabel id="irrigationdashboard-site-label-1">Site</InputLabel>
+            <Select labelId="irrigationdashboard-site-label-1" value={siteId} label="Site" onChange={(e) => setSiteId(e.target.value)}>
               {(allSites || []).map((s) => (
                 <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>
               ))}

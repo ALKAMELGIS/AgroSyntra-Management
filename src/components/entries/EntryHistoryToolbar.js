@@ -60,6 +60,7 @@ export default function EntryHistoryToolbar({
         size="small"
         value={datePreset}
         onChange={(e) => onDatePresetChange(e.target.value)}
+        SelectProps={{ inputProps: { 'aria-label': 'Date range' }, SelectDisplayProps: { 'aria-label': 'Date range' } }}
         sx={{ minWidth: 130 }}
       >
         {DATE_PRESETS.map((p) => (

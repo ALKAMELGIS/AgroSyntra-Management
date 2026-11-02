@@ -207,7 +207,7 @@ function TemplatePreviewDialog({ template, open, onClose, onOpen, canEdit, onEdi
             )}
           </Box>
         </Box>
-        <IconButton onClick={onClose} size="small"><CloseIcon /></IconButton>
+        <IconButton onClick={onClose} size="small" aria-label="Close"><CloseIcon /></IconButton>
       </DialogTitle>
 
       <DialogContent dividers>
@@ -779,12 +779,12 @@ export default function Templates() {
                 <Chip label="In your library" size="small" color="success" variant="outlined" sx={{ alignSelf: 'center' }} />
               )}
               {showEdit && (
-                <IconButton size="small" onClick={() => navigate(`/templates/${tpl.id}/edit`)}>
+                <IconButton size="small" onClick={() => navigate(`/templates/${tpl.id}/edit`)} aria-label="Edit">
                   <EditIcon fontSize="small" />
                 </IconButton>
               )}
               {showDelete && (
-                <IconButton size="small" color="error" onClick={() => handleDeleteTemplate(tpl)}>
+                <IconButton size="small" color="error" onClick={() => handleDeleteTemplate(tpl)} aria-label="Delete">
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               )}
@@ -1044,7 +1044,7 @@ export default function Templates() {
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton onClick={() => setSelectedCategory(null)}>
+          <IconButton onClick={() => setSelectedCategory(null)} aria-label="Back">
             <BackIcon />
           </IconButton>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>

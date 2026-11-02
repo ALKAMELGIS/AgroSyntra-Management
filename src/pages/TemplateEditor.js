@@ -329,7 +329,7 @@ export default function TemplateEditor() {
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-        <IconButton onClick={() => navigate('/templates')}><BackIcon /></IconButton>
+        <IconButton onClick={() => navigate('/templates')} aria-label="Back"><BackIcon /></IconButton>
         <Typography variant="h4">
           {isEdit ? 'Edit Template' : 'Create Template'}
         </Typography>
@@ -397,7 +397,7 @@ export default function TemplateEditor() {
                   <Typography variant="caption" color="text.secondary">
                     {columns.filter((c) => c.sectionId === sec._id).length} columns
                   </Typography>
-                  <IconButton size="small" color="error" onClick={() => removeSection(sec._id)}>
+                  <IconButton size="small" color="error" onClick={() => removeSection(sec._id)} aria-label="Delete">
                     <DeleteIcon fontSize="small" />
                   </IconButton>
                 </Box>
@@ -485,16 +485,16 @@ export default function TemplateEditor() {
                   </Grid>
                   <Grid size={'auto'}>
                     <Box sx={{ display: 'flex', gap: 0.25 }}>
-                      <IconButton size="small" onClick={() => moveColumn(col._id, -1)} disabled={idx === 0}>
+                      <IconButton size="small" onClick={() => moveColumn(col._id, -1)} disabled={idx === 0} aria-label="Move up">
                         <UpIcon fontSize="small" />
                       </IconButton>
-                      <IconButton size="small" onClick={() => moveColumn(col._id, 1)} disabled={idx === columns.length - 1}>
+                      <IconButton size="small" onClick={() => moveColumn(col._id, 1)} disabled={idx === columns.length - 1} aria-label="Move down">
                         <DownIcon fontSize="small" />
                       </IconButton>
-                      <IconButton size="small" onClick={() => duplicateColumn(col._id)}>
+                      <IconButton size="small" onClick={() => duplicateColumn(col._id)} aria-label="Duplicate">
                         <DuplicateIcon fontSize="small" />
                       </IconButton>
-                      <IconButton size="small" color="error" onClick={() => removeColumn(col._id)}>
+                      <IconButton size="small" color="error" onClick={() => removeColumn(col._id)} aria-label="Delete">
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </Box>

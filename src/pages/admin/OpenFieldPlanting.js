@@ -524,7 +524,7 @@ export default function OpenFieldPlanting({ siteFilter, fields = [], crops = [],
                   </TableCell>
 
                   <TableCell>
-                    <IconButton size="small" color="error" onClick={() => removeRow(i)}>
+                    <IconButton size="small" color="error" onClick={() => removeRow(i)} aria-label="Delete">
                       <Delete sx={{ fontSize: 16 }} />
                     </IconButton>
                   </TableCell>

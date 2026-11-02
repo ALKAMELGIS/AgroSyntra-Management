@@ -255,8 +255,8 @@ export default function HistoricalImport() {
         <CardHeader title="1. Pick what you're importing" />
         <CardContent>
           <FormControl fullWidth size="small">
-            <InputLabel>Target</InputLabel>
-            <Select
+            <InputLabel id="historicalimport-target-label-1">Target</InputLabel>
+            <Select labelId="historicalimport-target-label-1"
               label="Target"
               value={selectedTarget}
               onChange={(e) => { setSelectedTarget(e.target.value); setMapping({}); setResult(null); setCropPreview(null); }}
@@ -368,8 +368,8 @@ export default function HistoricalImport() {
                     )}
                   </Box>
                   <FormControl size="small" sx={{ minWidth: 240 }}>
-                    <InputLabel>{f.required ? 'Column' : 'Column (optional)'}</InputLabel>
-                    <Select
+                    <InputLabel id="historicalimport-f-required-column-column-label-2">{f.required ? 'Column' : 'Column (optional)'}</InputLabel>
+                    <Select labelId="historicalimport-f-required-column-column-label-2"
                       label={f.required ? 'Column' : 'Column (optional)'}
                       value={mapping[f.key] || ''}
                       onChange={(e) => setMapping((prev) => ({ ...prev, [f.key]: e.target.value }))}

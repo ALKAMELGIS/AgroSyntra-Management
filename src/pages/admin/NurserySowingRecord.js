@@ -540,7 +540,7 @@ export default function NurserySowingRecord({
                       </Tooltip>
                     )}
                     {!readOnly && (
-                      <IconButton size="small" onClick={() => removeRow(ri)}><Delete fontSize="small" /></IconButton>
+                      <IconButton size="small" onClick={() => removeRow(ri)} aria-label="Delete"><Delete fontSize="small" /></IconButton>
                     )}
                   </Box>
                 </TableCell>

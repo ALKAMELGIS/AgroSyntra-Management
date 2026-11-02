@@ -621,7 +621,7 @@ export default function GISMap() {
           <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <LayersIcon /> GIS Layers
           </Typography>
-          <IconButton size="small" onClick={() => setDrawerOpen(false)}><CloseIcon /></IconButton>
+          <IconButton size="small" onClick={() => setDrawerOpen(false)} aria-label="Close"><CloseIcon /></IconButton>
         </Box>
         <Divider />
 
@@ -731,8 +731,8 @@ export default function GISMap() {
         {!drawerOpen && (
           <IconButton
             onClick={() => setDrawerOpen(true)}
-            sx={{ position: 'absolute', top: 10, left: 10, zIndex: 1000, bgcolor: 'background.paper', boxShadow: 2 }}
-          >
+            sx={{ position: 'absolute', top: 10, right: 10, zIndex: 1000, bgcolor: 'background.paper', boxShadow: 2, '&:hover': { bgcolor: 'background.paper' } }}
+           aria-label="Layers">
             <LayersIcon />
           </IconButton>
         )}
@@ -830,7 +830,7 @@ export default function GISMap() {
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
               <Typography variant="subtitle2">Feature Info</Typography>
-              <IconButton size="small" onClick={() => setSelectedFeature(null)}><CloseIcon fontSize="small" /></IconButton>
+              <IconButton size="small" onClick={() => setSelectedFeature(null)} aria-label="Close"><CloseIcon fontSize="small" /></IconButton>
             </Box>
             <Divider sx={{ mb: 1 }} />
             {Object.entries(selectedFeature.feature.properties || {}).filter(([k]) => !k.startsWith('_')).map(([key, value]) => (
@@ -879,7 +879,7 @@ export default function GISMap() {
         >
           <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', bgcolor: 'primary.main', color: 'primary.contrastText' }}>
             <Typography variant="h6">Field Summary</Typography>
-            <IconButton size="small" onClick={() => { setFieldInfoOpen(false); setFieldSummary(null); }} sx={{ color: 'inherit' }}>
+            <IconButton size="small" onClick={() => { setFieldInfoOpen(false); setFieldSummary(null); }} sx={{ color: 'inherit' }} aria-label="Close">
               <CloseIcon />
             </IconButton>
           </Box>
@@ -1097,8 +1097,8 @@ export default function GISMap() {
                   Found {discoveredLayers.length} layer(s):
                 </Typography>
                 <FormControl fullWidth size="small" sx={{ mb: 2 }}>
-                  <InputLabel>Select Layer</InputLabel>
-                  <Select
+                  <InputLabel id="gismap-select-layer-label-1">Select Layer</InputLabel>
+                  <Select labelId="gismap-select-layer-label-1"
                     value={arcgisLayerIdx}
                     label="Select Layer"
                     onChange={(e) => {

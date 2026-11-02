@@ -661,7 +661,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
             Ref: EAG/AFO/IWS/RC-105 · Issue 03, Rev00
           </Typography>
         </Box>
-        <IconButton onClick={onClose} size="small"><Close /></IconButton>
+        <IconButton onClick={onClose} size="small" aria-label="Close"><Close /></IconButton>
       </DialogTitle>
       <DialogContent dividers>
         {isEditing && editReport?.status === 'returned' && (
@@ -792,8 +792,8 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
           </Box>
           <Box sx={{ flex: '1 1 200px', minWidth: 200 }}>
             <FormControl fullWidth size="small">
-              <InputLabel>Side</InputLabel>
-              <Select value={side} label="Side" onChange={(e) => setSide(e.target.value)}>
+              <InputLabel id="scoutingreportform-side-label-1">Side</InputLabel>
+              <Select labelId="scoutingreportform-side-label-1" value={side} label="Side" onChange={(e) => setSide(e.target.value)}>
                 <MenuItem value="">—</MenuItem>
                 <MenuItem value="fan">Fan side (F)</MenuItem>
                 <MenuItem value="wet_pad">Wet-Pad side (W)</MenuItem>
@@ -811,8 +811,8 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
           </Box>
           <Box sx={{ flex: '1 1 160px', minWidth: 160 }}>
             <FormControl fullWidth size="small">
-              <InputLabel>Soil Condition</InputLabel>
-              <Select value={soilCondition} label="Soil Condition" onChange={(e) => setSoilCondition(e.target.value)}>
+              <InputLabel id="scoutingreportform-soil-condition-label-2">Soil Condition</InputLabel>
+              <Select labelId="scoutingreportform-soil-condition-label-2" value={soilCondition} label="Soil Condition" onChange={(e) => setSoilCondition(e.target.value)}>
                 <MenuItem value="">—</MenuItem>
                 <MenuItem value="wet">Wet</MenuItem>
                 <MenuItem value="dry">Dry</MenuItem>
@@ -821,8 +821,8 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
           </Box>
           <Box sx={{ flex: '1 1 160px', minWidth: 160 }}>
             <FormControl fullWidth size="small">
-              <InputLabel>Weather</InputLabel>
-              <Select value={weather} label="Weather" onChange={(e) => setWeather(e.target.value)}>
+              <InputLabel id="scoutingreportform-weather-label-3">Weather</InputLabel>
+              <Select labelId="scoutingreportform-weather-label-3" value={weather} label="Weather" onChange={(e) => setWeather(e.target.value)}>
                 <MenuItem value="sunny">Sunny</MenuItem>
                 <MenuItem value="cloudy">Cloudy</MenuItem>
                 <MenuItem value="rainy">Rainy</MenuItem>
@@ -831,8 +831,8 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
           </Box>
           <Box sx={{ flex: '1 1 140px', minWidth: 140 }}>
             <FormControl fullWidth size="small">
-              <InputLabel>Wind</InputLabel>
-              <Select value={wind} label="Wind" onChange={(e) => setWind(e.target.value)}>
+              <InputLabel id="scoutingreportform-wind-label-4">Wind</InputLabel>
+              <Select labelId="scoutingreportform-wind-label-4" value={wind} label="Wind" onChange={(e) => setWind(e.target.value)}>
                 <MenuItem value="none">None</MenuItem>
                 <MenuItem value="light">Light</MenuItem>
                 <MenuItem value="strong">Strong</MenuItem>
@@ -996,8 +996,8 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
           <Box sx={{ flex: '1 1 200px', minWidth: 200 }}>
             <FormControl fullWidth size="small">
-              <InputLabel>Overall Severity</InputLabel>
-              <Select value={severity} label="Overall Severity" onChange={(e) => setSeverity(e.target.value)}>
+              <InputLabel id="scoutingreportform-overall-severity-label-5">Overall Severity</InputLabel>
+              <Select labelId="scoutingreportform-overall-severity-label-5" value={severity} label="Overall Severity" onChange={(e) => setSeverity(e.target.value)}>
                 <MenuItem value="">—</MenuItem>
                 <MenuItem value="none">None</MenuItem>
                 <MenuItem value="low">Low</MenuItem>
@@ -1105,7 +1105,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
                       opacity: 0, transition: 'opacity .15s',
                       '&:hover': { bgcolor: 'rgba(200,0,0,0.75)' },
                     }}
-                  >
+                   aria-label="Delete">
                     <DeleteIcon fontSize="small" />
                   </IconButton>
                 </Box>

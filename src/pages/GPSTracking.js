@@ -271,7 +271,7 @@ export default function GPSTracking() {
                           </Typography>
                         </Box>
                       </Box>
-                      {canWrite && <IconButton size="small" onClick={(e) => { e.stopPropagation(); handleDelete(eq.id); }}>
+                      {canWrite && <IconButton size="small" onClick={(e) => { e.stopPropagation(); handleDelete(eq.id); }} aria-label="Delete">
                         <DeleteIcon fontSize="small" />
                       </IconButton>}
                     </Box>
@@ -299,7 +299,7 @@ export default function GPSTracking() {
             <Alert
               severity="info"
               sx={{ mt: 2 }}
-              action={<IconButton size="small" onClick={copyIngest}><CopyIcon fontSize="small" /></IconButton>}
+              action={<IconButton size="small" onClick={copyIngest} aria-label="Copy"><CopyIcon fontSize="small" /></IconButton>}
             >
               <Typography variant="subtitle2">Send this tractor into the map</Typography>
               <Typography variant="caption" display="block" sx={{ fontFamily: 'monospace', wordBreak: 'break-all' }}>

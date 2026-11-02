@@ -118,7 +118,7 @@ export default function SegmentSelector({
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
           <Typography variant="subtitle2" fontWeight={700}>Select Segments</Typography>
-          <IconButton size="small" onClick={() => setAnchorEl(null)}><CloseIcon sx={{ fontSize: 16 }} /></IconButton>
+          <IconButton size="small" onClick={() => setAnchorEl(null)} aria-label="Close"><CloseIcon sx={{ fontSize: 16 }} /></IconButton>
         </Box>
 
         <Box sx={{ mb: 1 }}>

@@ -311,11 +311,11 @@ export default function PppMsdsTab({ canManage }) {
             renderInput={(params) => <TextField {...params} placeholder="Jump to PDF" />}
           />
           <Box sx={{ flex: 1 }} />
-          <IconButton onClick={() => goRelative(-1)} disabled={navRows.length < 2}><ChevronLeft /></IconButton>
+          <IconButton onClick={() => goRelative(-1)} disabled={navRows.length < 2} aria-label="Previous"><ChevronLeft /></IconButton>
           <Typography variant="body2">
             {readerIndex + 1} / {navRows.length}
           </Typography>
-          <IconButton onClick={() => goRelative(1)} disabled={navRows.length < 2}><ChevronRight /></IconButton>
+          <IconButton onClick={() => goRelative(1)} disabled={navRows.length < 2} aria-label="Next"><ChevronRight /></IconButton>
           <Button startIcon={<Download />} onClick={() => handleDownload(readerRow)}>Download</Button>
         </Box>
         <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 1 }}>

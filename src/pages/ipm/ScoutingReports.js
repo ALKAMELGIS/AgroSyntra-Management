@@ -406,8 +406,8 @@ export default function ScoutingReports() {
           <Grid container spacing={2} alignItems="center">
             <Grid size={{ xs: 12, md: 2.4 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Field</InputLabel>
-                <Select value={filterField} label="Field" onChange={(e) => { setFilterField(e.target.value); setPage(0); }}>
+                <InputLabel id="scoutingreports-field-label-1">Field</InputLabel>
+                <Select labelId="scoutingreports-field-label-1" value={filterField} label="Field" onChange={(e) => { setFilterField(e.target.value); setPage(0); }}>
                   <MenuItem value="">All Fields</MenuItem>
                   {fields.map((f) => <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>)}
                 </Select>
@@ -415,8 +415,8 @@ export default function ScoutingReports() {
             </Grid>
             <Grid size={{ xs: 12, md: 2.4 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Status</InputLabel>
-                <Select value={filterStatus} label="Status" onChange={(e) => { setFilterStatus(e.target.value); setPage(0); }}>
+                <InputLabel id="scoutingreports-status-label-2">Status</InputLabel>
+                <Select labelId="scoutingreports-status-label-2" value={filterStatus} label="Status" onChange={(e) => { setFilterStatus(e.target.value); setPage(0); }}>
                   <MenuItem value="">All Status</MenuItem>
                   <MenuItem value="submitted">Submitted</MenuItem>
                   <MenuItem value="reviewed">Reviewed</MenuItem>
@@ -512,10 +512,10 @@ export default function ScoutingReports() {
                           </Button>
                         )}
                         {canEdit(report) && (
-                          <IconButton size="small" onClick={() => handleEdit(report)}><Edit fontSize="small" /></IconButton>
+                          <IconButton size="small" onClick={() => handleEdit(report)} aria-label="Edit"><Edit fontSize="small" /></IconButton>
                         )}
                         {canDelete(report) && (
-                          <IconButton size="small" color="error" onClick={() => setDeletingId(report.id)}><Delete fontSize="small" /></IconButton>
+                          <IconButton size="small" color="error" onClick={() => setDeletingId(report.id)} aria-label="Delete"><Delete fontSize="small" /></IconButton>
                         )}
                       </Box>
                     )}

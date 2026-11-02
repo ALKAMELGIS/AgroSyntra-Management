@@ -17,7 +17,7 @@
   --brand-ink: #121714;
   --text-primary: #121714;
   --text-secondary: #58625c;
-  --text-disabled: #9aa39d;
+  --text-disabled: #7c867f;
   --bg-page: #f5f6f3;
   --bg-surface: #ffffff;
   --bg-muted: #eff1ed;
@@ -125,6 +125,10 @@ html[lang='ar'] .MuiTypography-root {
 }
 
 /* Leaflet controls follow the surface tokens. */
+.leaflet-control-attribution a {
+  color: #1d5a3c !important;
+  text-decoration: underline;
+}
 .leaflet-container {
   font-family: inherit;
   border-radius: inherit;

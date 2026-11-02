@@ -574,7 +574,7 @@ export default function PivotPppApplicationTab({
               <IconButton size="small" onClick={() => handleUpdateRow(row)} disabled={savingId === row.id} sx={{ p: '2px' }}>
                 {savingId === row.id ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />}
               </IconButton>
-              <IconButton size="small" onClick={() => handleDelete(row.id)} sx={{ p: '2px' }}>
+              <IconButton size="small" onClick={() => handleDelete(row.id)} sx={{ p: '2px' }} aria-label="Delete">
                 <Delete sx={{ fontSize: 14, color: '#C62828' }} />
               </IconButton>
             </Box>

@@ -558,8 +558,8 @@ function RemoteSensing() {
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <FormControl fullWidth>
-              <InputLabel>Layer / Vegetation Index</InputLabel>
-              <Select
+              <InputLabel id="remotesensing-layer-vegetation-index-label-1">Layer / Vegetation Index</InputLabel>
+              <Select labelId="remotesensing-layer-vegetation-index-label-1"
                 value={effectiveSelectedLayer}
                 label="Layer / Vegetation Index"
                 onChange={(e) => setSelectedLayer(e.target.value)}
@@ -802,7 +802,7 @@ function RemoteSensing() {
                     onClick={() => setTimeSeriesIndex((prev) => Math.max(0, prev - 1))}
                     disabled={timeSeriesIndex === 0}
                     title="Previous"
-                  >
+                   aria-label="Skip previous">
                     <SkipPreviousIcon fontSize="small" />
                   </IconButton>
                   <IconButton
@@ -818,7 +818,7 @@ function RemoteSensing() {
                     onClick={() => setTimeSeriesIndex((prev) => Math.min(timeSeriesSteps.length - 1, prev + 1))}
                     disabled={timeSeriesIndex === timeSeriesSteps.length - 1}
                     title="Next"
-                  >
+                   aria-label="Skip next">
                     <SkipNextIcon fontSize="small" />
                   </IconButton>
                   <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
@@ -870,7 +870,7 @@ function RemoteSensing() {
             <Paper elevation={3} sx={{ p: 2, height: '75vh', overflow: 'auto' }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                 <Typography variant="h6">Field Analysis</Typography>
-                <IconButton size="small" onClick={() => setDrawerOpen(false)}>
+                <IconButton size="small" onClick={() => setDrawerOpen(false)} aria-label="Close">
                   <CloseIcon />
                 </IconButton>
               </Box>
@@ -886,6 +886,7 @@ function RemoteSensing() {
                   type="date"
                   fullWidth
                   size="small"
+                  inputProps={{ 'aria-label': 'Imagery date' }}
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
                   InputLabelProps={{
@@ -1138,8 +1139,8 @@ function RemoteSensing() {
                   <Grid container spacing={2}>
                     <Grid size={12}>
                       <FormControl fullWidth error={touched.fieldId && !!errors.fieldId}>
-                        <InputLabel>Field ID *</InputLabel>
-                        <Select
+                        <InputLabel id="remotesensing-field-id-label-2">Field ID *</InputLabel>
+                        <Select labelId="remotesensing-field-id-label-2"
                           name="fieldId"
                           value={values.fieldId}
                           onChange={handleChange}
@@ -1163,8 +1164,8 @@ function RemoteSensing() {
 
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <FormControl fullWidth>
-                        <InputLabel>Field Type</InputLabel>
-                        <Select
+                        <InputLabel id="remotesensing-field-type-label-3">Field Type</InputLabel>
+                        <Select labelId="remotesensing-field-type-label-3"
                           name="fieldType"
                           value={values.fieldType}
                           onChange={handleChange}
@@ -1182,8 +1183,8 @@ function RemoteSensing() {
 
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <FormControl fullWidth>
-                        <InputLabel>Current Crop</InputLabel>
-                        <Select
+                        <InputLabel id="remotesensing-current-crop-label-4">Current Crop</InputLabel>
+                        <Select labelId="remotesensing-current-crop-label-4"
                           name="currentCrop"
                           value={values.currentCrop}
                           onChange={handleChange}

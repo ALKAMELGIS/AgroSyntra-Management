@@ -226,8 +226,8 @@ export default function PhiAuditLog() {
           </Grid>
           <Grid size={{ xs: 6, sm: 3, md: 2 }}>
             <FormControl size="small" fullWidth>
-              <InputLabel>Field</InputLabel>
-              <Select value={filterField} onChange={(e) => setFilterField(e.target.value)} label="Field">
+              <InputLabel id="phiauditlog-field-label-1">Field</InputLabel>
+              <Select labelId="phiauditlog-field-label-1" value={filterField} onChange={(e) => setFilterField(e.target.value)} label="Field">
                 <MenuItem value="">All Fields</MenuItem>
                 {fields.map((f) => (
                   <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>
@@ -237,8 +237,8 @@ export default function PhiAuditLog() {
           </Grid>
           <Grid size={{ xs: 6, sm: 3, md: 2 }}>
             <FormControl size="small" fullWidth>
-              <InputLabel>Status</InputLabel>
-              <Select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} label="Status">
+              <InputLabel id="phiauditlog-status-label-2">Status</InputLabel>
+              <Select labelId="phiauditlog-status-label-2" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} label="Status">
                 <MenuItem value="all">All</MenuItem>
                 <MenuItem value="unreviewed">Unreviewed</MenuItem>
                 <MenuItem value="acknowledged">Acknowledged</MenuItem>
@@ -248,8 +248,8 @@ export default function PhiAuditLog() {
           </Grid>
           <Grid size={{ xs: 6, sm: 3, md: 2 }}>
             <FormControl size="small" fullWidth>
-              <InputLabel>Severity</InputLabel>
-              <Select value={filterSeverity} onChange={(e) => setFilterSeverity(e.target.value)} label="Severity">
+              <InputLabel id="phiauditlog-severity-label-3">Severity</InputLabel>
+              <Select labelId="phiauditlog-severity-label-3" value={filterSeverity} onChange={(e) => setFilterSeverity(e.target.value)} label="Severity">
                 <MenuItem value="all">All</MenuItem>
                 <MenuItem value="high">High</MenuItem>
                 <MenuItem value="medium">Medium</MenuItem>
@@ -362,8 +362,8 @@ export default function PhiAuditLog() {
             </Box>
           )}
           <FormControl fullWidth sx={{ mb: 2 }}>
-            <InputLabel>Decision</InputLabel>
-            <Select value={ackStatus} onChange={(e) => setAckStatus(e.target.value)} label="Decision">
+            <InputLabel id="phiauditlog-decision-label-4">Decision</InputLabel>
+            <Select labelId="phiauditlog-decision-label-4" value={ackStatus} onChange={(e) => setAckStatus(e.target.value)} label="Decision">
               <MenuItem value="acknowledged">Confirm violation</MenuItem>
               <MenuItem value="justified">Dismiss (false alarm)</MenuItem>
             </Select>

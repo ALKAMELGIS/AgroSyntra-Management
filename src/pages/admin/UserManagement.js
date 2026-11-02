@@ -434,7 +434,7 @@ function UserManagement() {
                             size="small"
                             onClick={() => handlePermClick(user)}
                             disabled={user.id === currentUser?.id || !canManageUser(currentUser, user)}
-                          >
+                           aria-label="Permissions">
                             <PermissionsIcon fontSize="small" />
                           </IconButton>
                         </span>
@@ -450,7 +450,7 @@ function UserManagement() {
                             size="small"
                             onClick={() => handleEditClick(user)}
                             disabled={!canManageUser(currentUser, user)}
-                          >
+                           aria-label="Edit">
                             <EditIcon fontSize="small" />
                           </IconButton>
                         </span>
@@ -481,7 +481,7 @@ function UserManagement() {
                               onClick={() => handleDeleteClick(user)}
                               color="error"
                               disabled={!canManageUser(currentUser, user)}
-                            >
+                             aria-label="Delete">
                               <DeleteIcon fontSize="small" />
                             </IconButton>
                           </span>
@@ -680,7 +680,7 @@ function UserManagement() {
               <ListItem key={assignment.siteId}>
                 <ListItemText primary={assignment.siteName} />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" size="small" onClick={() => handleRemoveFromSite(assignment.siteId)}>
+                  <IconButton edge="end" size="small" onClick={() => handleRemoveFromSite(assignment.siteId)} aria-label="Delete">
                     <DeleteIcon fontSize="small" />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -739,7 +739,7 @@ function UserManagement() {
                     secondary={`Granted by ${p.granted_by_name || 'Unknown'}`}
                   />
                   <ListItemSecondaryAction>
-                    <IconButton edge="end" size="small" onClick={() => handleRevokePerm(p.id)}>
+                    <IconButton edge="end" size="small" onClick={() => handleRevokePerm(p.id)} aria-label="Delete">
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </ListItemSecondaryAction>

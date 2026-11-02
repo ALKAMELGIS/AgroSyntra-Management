@@ -239,44 +239,45 @@ export function MapWidgets({
   return (
     <>
       {/* Top-left: search, home, GPS */}
-      <Box sx={{ position: 'absolute', top: 10, left: 50, zIndex: 1000, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-        <Paper component="form" onSubmit={handleSearch} sx={{ display: 'flex', alignItems: 'center', p: 0.25, minWidth: 200 }}>
+      <Box sx={{ position: 'absolute', top: 10, left: 50, right: { xs: 10, sm: 'auto' }, zIndex: 1000, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+        <Paper component="form" onSubmit={handleSearch} sx={{ display: 'flex', alignItems: 'center', p: 0.25, minWidth: { xs: 0, sm: 220 } }}>
           <TextField
             size="small"
             placeholder="Search location..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             variant="standard"
-            InputProps={{ disableUnderline: true, sx: { px: 1 } }}
+            inputProps={{ 'aria-label': 'Search location' }}
+            InputProps={{ disableUnderline: true, sx: { px: 1, minHeight: 32 } }}
             sx={{ flex: 1 }}
           />
           <IconButton type="submit" size="small" title="Search" disabled={searchLoading}>
             {searchLoading ? <CircularProgress size={20} /> : <SearchIcon />}
           </IconButton>
           {onClearSearch && (
-            <IconButton size="small" onClick={() => { setSearchInput(''); onClearSearch(); }} title="Clear search">
+            <IconButton size="small" onClick={() => { setSearchInput(''); onClearSearch(); }} title="Clear search" aria-label="Clear search">
               <CloseIcon sx={{ fontSize: 18 }} />
             </IconButton>
           )}
         </Paper>
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <IconButton size="small" onClick={handleHome} title="Fit to fields" disabled={fields.length === 0} sx={{ bgcolor: 'background.paper' }}>
+          <IconButton size="small" onClick={handleHome} title="Fit to fields" disabled={fields.length === 0} sx={{ bgcolor: 'background.paper' }} aria-label="Fit to fields">
             <HomeIcon />
           </IconButton>
-          <IconButton size="small" onClick={handleGps} title="My location" sx={{ bgcolor: 'background.paper' }}>
+          <IconButton size="small" onClick={handleGps} title="My location" sx={{ bgcolor: 'background.paper' }} aria-label="My location">
             <MyLocationIcon />
           </IconButton>
         </Box>
       </Box>
       {/* Top-right: basemap widget */}
-      <Box sx={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}>
+      <Box sx={{ position: 'absolute', top: { xs: 'auto', sm: 10 }, bottom: { xs: 28, sm: 'auto' }, right: 10, left: { xs: 10, sm: 'auto' }, zIndex: 1000 }}>
         <Paper sx={{ p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap' }}>
           <ToggleButtonGroup
             value={baseMap}
             exclusive
             onChange={(_, v) => v != null && setBaseMap(v)}
             size="small"
-            sx={{ '& .MuiToggleButton-root': { py: 0.25, px: 0.75 } }}
+            sx={{ '& .MuiToggleButton-root': { py: 0.75, px: 1.25, minHeight: 30 } }}
           >
             <ToggleButton value="light" title="Light base map">
               <TerrainIcon sx={{ mr: 0.25 }} fontSize="small" />Light
@@ -291,7 +292,7 @@ export function MapWidgets({
           {sentinelConfigured && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }} title="Sentinel-2 overlay">
               <SatelliteIcon sx={{ fontSize: 18 }} />
-              <Switch size="small" checked={showSentinelOverlay} onChange={(e) => setShowSentinelOverlay(e.target.checked)} />
+              <Switch size="small" checked={showSentinelOverlay} onChange={(e) => setShowSentinelOverlay(e.target.checked)} slotProps={{ input: { 'aria-label': 'Sentinel-2 overlay' } }} />
             </Box>
           )}
         </Paper>

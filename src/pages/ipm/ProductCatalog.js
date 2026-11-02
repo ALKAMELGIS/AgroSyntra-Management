@@ -876,8 +876,8 @@ export default function ProductCatalog() {
                 </Grid>
                 <Grid size={4}>
                   <FormControl fullWidth size="small">
-                    <InputLabel>Formulation Type</InputLabel>
-                    <Select value={pestForm.formulationType} label="Formulation Type"
+                    <InputLabel id="productcatalog-formulation-type-label-1">Formulation Type</InputLabel>
+                    <Select labelId="productcatalog-formulation-type-label-1" value={pestForm.formulationType} label="Formulation Type"
                       onChange={(e) => setPestForm({ ...pestForm, formulationType: e.target.value })}>
                       {FORMULATION_TYPES.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
                     </Select>
@@ -910,8 +910,8 @@ export default function ProductCatalog() {
               </Grid>
               <Grid size={6}>
                 <FormControl fullWidth>
-                  <InputLabel>Agent Type</InputLabel>
-                  <Select value={bioForm.agentType} label="Agent Type"
+                  <InputLabel id="productcatalog-agent-type-label-2">Agent Type</InputLabel>
+                  <Select labelId="productcatalog-agent-type-label-2" value={bioForm.agentType} label="Agent Type"
                     onChange={(e) => setBioForm({ ...bioForm, agentType: e.target.value })}>
                     {AGENT_TYPES.map((t) => <MenuItem key={t} value={t}>{t.replace('_', ' ')}</MenuItem>)}
                   </Select>
@@ -919,8 +919,8 @@ export default function ProductCatalog() {
               </Grid>
               <Grid size={6}>
                 <FormControl fullWidth>
-                  <InputLabel>Form Type</InputLabel>
-                  <Select value={bioForm.formType} label="Form Type"
+                  <InputLabel id="productcatalog-form-type-label-3">Form Type</InputLabel>
+                  <Select labelId="productcatalog-form-type-label-3" value={bioForm.formType} label="Form Type"
                     onChange={(e) => setBioForm({ ...bioForm, formType: e.target.value })}>
                     {BIO_FORM_TYPES.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
                   </Select>

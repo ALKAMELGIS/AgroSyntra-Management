@@ -1673,8 +1673,8 @@ export default function PesticideApplications() {
           <Paper sx={{ p: { xs: 1.5, sm: 2 }, mb: 2, display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
             <FilterList color="action" sx={{ display: { xs: 'none', sm: 'block' } }} />
             <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 200 }, flex: { xs: '1 1 100%', sm: '0 0 auto' } }}>
-              <InputLabel>Field</InputLabel>
-              <Select value={filterField} label="Field" onChange={(e) => setFilterField(e.target.value)}>
+              <InputLabel id="pesticideapplications-field-label-1">Field</InputLabel>
+              <Select labelId="pesticideapplications-field-label-1" value={filterField} label="Field" onChange={(e) => setFilterField(e.target.value)}>
                 <MenuItem value="all">All Records</MenuItem>
                 {fields.map((f) => (
                   <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>
@@ -2083,10 +2083,10 @@ export default function PesticideApplications() {
                             {!canEditCatalog ? null : isEditing ? (
                               <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'center' }}>
                                 <IconButton size="small" color="success" disabled={pestCatalogSaving}
-                                  onClick={() => handlePestPriceSave(p.id)}>
+                                  onClick={() => handlePestPriceSave(p.id)} aria-label="Confirm">
                                   <CheckIcon sx={{ fontSize: 18 }} />
                                 </IconButton>
-                                <IconButton size="small" onClick={() => { setPestCatalogEditId(null); setPestCatalogEditPrice(''); }}>
+                                <IconButton size="small" onClick={() => { setPestCatalogEditId(null); setPestCatalogEditPrice(''); }} aria-label="Cancel">
                                   <CancelIcon sx={{ fontSize: 18 }} />
                                 </IconButton>
                               </Box>
@@ -2278,8 +2278,8 @@ export default function PesticideApplications() {
                 value={costDateEnd} onChange={e => setCostDateEnd(e.target.value)}
                 sx={{ width: 150, '& input': { fontSize: '0.72rem', py: '5px' } }} />
               <FormControl size="small" sx={{ minWidth: 120 }}>
-                <InputLabel sx={{ fontSize: '0.75rem' }}>Type</InputLabel>
-                <Select value={costTypeFilter} label="Type" onChange={e => setCostTypeFilter(e.target.value)}
+                <InputLabel id="pesticideapplications-type-label-2" sx={{ fontSize: '0.75rem' }}>Type</InputLabel>
+                <Select labelId="pesticideapplications-type-label-2" value={costTypeFilter} label="Type" onChange={e => setCostTypeFilter(e.target.value)}
                   sx={{ fontSize: '0.72rem', '& .MuiSelect-select': { py: '5px' } }}>
                   <MenuItem value="all" sx={{ fontSize: '0.75rem' }}>All</MenuItem>
                   <MenuItem value="spray" sx={{ fontSize: '0.75rem' }}>Spray</MenuItem>
@@ -2521,8 +2521,8 @@ export default function PesticideApplications() {
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Field ID *</InputLabel>
-                <Select value={form.fieldId} label="Field ID *" onChange={(e) => handleFieldChange(e.target.value)}>
+                <InputLabel id="pesticideapplications-field-id-label-3">Field ID *</InputLabel>
+                <Select labelId="pesticideapplications-field-id-label-3" value={form.fieldId} label="Field ID *" onChange={(e) => handleFieldChange(e.target.value)}>
                   {fields.map((f) => <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>)}
                 </Select>
               </FormControl>
@@ -2607,8 +2607,8 @@ export default function PesticideApplications() {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Name of PPP *</InputLabel>
-                <Select value={form.productId} label="Name of PPP *" onChange={(e) => handleProductChange(e.target.value)}>
+                <InputLabel id="pesticideapplications-name-of-ppp-label-4">Name of PPP *</InputLabel>
+                <Select labelId="pesticideapplications-name-of-ppp-label-4" value={form.productId} label="Name of PPP *" onChange={(e) => handleProductChange(e.target.value)}>
                   {(pestCatalogItems.length > 0 ? pestCatalogItems : products).map((p) => (
                     <MenuItem key={p.id} value={p.id}>
                       {p.name} {p.phi_days > 0 ? `(PHI: ${p.phi_days}d)` : ''}
@@ -2658,8 +2658,8 @@ export default function PesticideApplications() {
             </Grid>
             <Grid size={{ xs: 6, sm: 4, md: 2 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>UoM</InputLabel>
-                <Select value={form.uom} label="UoM" onChange={(e) => setForm((p) => ({ ...p, uom: e.target.value }))}>
+                <InputLabel id="pesticideapplications-uom-label-5">UoM</InputLabel>
+                <Select labelId="pesticideapplications-uom-label-5" value={form.uom} label="UoM" onChange={(e) => setForm((p) => ({ ...p, uom: e.target.value }))}>
                   {UOM_OPTIONS.map((u) => <MenuItem key={u} value={u}>{u}</MenuItem>)}
                 </Select>
               </FormControl>
@@ -2819,8 +2819,8 @@ export default function PesticideApplications() {
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormControl size="small" fullWidth>
-                <InputLabel>Type</InputLabel>
-                <Select
+                <InputLabel id="pesticideapplications-type-label-6">Type</InputLabel>
+                <Select labelId="pesticideapplications-type-label-6"
                   value={costingExportFilters.type || 'all'}
                   label="Type"
                   onChange={(e) => setCostingExportFilters((prev) => ({ ...prev, type: e.target.value }))}

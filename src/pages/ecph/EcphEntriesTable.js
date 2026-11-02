@@ -679,10 +679,10 @@ export default function EcphEntriesTable({ siteId, masterData, refreshTrigger = 
                         <TableCell>{entry.weatherCondition || entry.weather || '-'}</TableCell>
                         <TableCell>{entry.irrigationStatus || entry.status || '-'}</TableCell>
                         <TableCell align="center">
-                          <IconButton color="primary" size="small" onClick={() => { setEditingEntry({ ...entry, valve1 }); setEditDialogOpen(true); }}>
+                          <IconButton color="primary" size="small" onClick={() => { setEditingEntry({ ...entry, valve1 }); setEditDialogOpen(true); }} aria-label="Edit">
                             <EditIcon fontSize="small" />
                           </IconButton>
-                          <IconButton color="error" size="small" onClick={() => handleDelete(entry.id)}>
+                          <IconButton color="error" size="small" onClick={() => handleDelete(entry.id)} aria-label="Delete">
                             <DeleteIcon fontSize="small" />
                           </IconButton>
                         </TableCell>

@@ -471,7 +471,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
                   fontWeight: 600,
                   textTransform: 'uppercase',
                   letterSpacing: '0.08em',
-                  color: hasActive ? 'text.primary' : 'text.disabled',
+                  color: hasActive ? 'text.primary' : 'text.secondary',
                 }}
               >
                 {section.label}

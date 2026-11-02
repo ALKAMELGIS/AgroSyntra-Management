@@ -572,7 +572,7 @@ function PumpUsageTab({
       <Paper sx={{ mb: 0, borderRadius: '8px 8px 0 0', overflow: 'hidden' }} variant="outlined">
         <Box sx={{ bgcolor: 'table.headerBg', color: 'table.headerText', p: 1.5, textAlign: 'center' }}>
           <Typography variant="subtitle1" fontWeight={700}>{title}</Typography>
-          <Typography variant="caption" sx={{ opacity: 0.85 }}>{docRef}</Typography>
+          <Typography variant="caption" sx={{ color: 'inherit', opacity: 0.9 }}>{docRef}</Typography>
         </Box>
         <Box sx={{ display: 'flex', borderBottom: 1, borderColor: 'table.gridline', bgcolor: 'background.paper', p: 1, gap: 3, flexWrap: 'wrap', justifyContent: 'center' }}>
           <Typography variant="caption"><strong>Facility:</strong> Al Maha GH</Typography>
@@ -799,7 +799,7 @@ function PumpUsageRow({ row, idx, prevRow, pumpCount, onSave, onDelete, canWrite
             color="error"
             onClick={() => onDelete(row.id)}
             sx={{ position: 'absolute', right: -2, top: '50%', transform: 'translateY(-50%)', opacity: 0, transition: 'opacity 0.2s' }}
-          >
+           aria-label="Delete">
             <Delete sx={{ fontSize: 14 }} />
           </IconButton>
         )}

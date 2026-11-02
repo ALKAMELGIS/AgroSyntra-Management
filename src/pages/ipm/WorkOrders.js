@@ -900,7 +900,7 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
             {/* Remove button (create mode only) */}
             {isCreate && form.items.length > 1 && (
               <Box sx={{ position: 'absolute', right: -20, top: 3 }}>
-                <IconButton size="small" onClick={() => removeItem(idx)} sx={{ p: 0 }}><Close sx={{ fontSize: 12, color: '#c00' }} /></IconButton>
+                <IconButton size="small" onClick={() => removeItem(idx)} sx={{ p: 0 }} aria-label="Close"><Close sx={{ fontSize: 12, color: '#c00' }} /></IconButton>
               </Box>
             )}
           </Box>

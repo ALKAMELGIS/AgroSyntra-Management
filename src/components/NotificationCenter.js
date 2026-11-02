@@ -120,7 +120,7 @@ export default function NotificationCenter() {
 
   return (
     <>
-      <IconButton color="inherit" onClick={handleOpen}>
+      <IconButton color="inherit" onClick={handleOpen} aria-label={unreadCount ? `Notifications, ${unreadCount} unread` : "Notifications"}>
         <Badge badgeContent={unreadCount} color="error" max={99}>
           <BellIcon />
         </Badge>

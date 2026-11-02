@@ -447,7 +447,7 @@ function PivotIrrigationMonthTab({ sheet, pivotFields, farmName, onRefresh, read
                     <TableCell sx={irrDCell}>{r.authorizedBy || ''}</TableCell>
                     <TableCell sx={irrDCell} />
                     <TableCell sx={{ ...irrDCell, p: 0 }}>
-                      <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }}>
+                      <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }} aria-label="Delete">
                         <Delete sx={{ fontSize: 14, color: '#C62828' }} />
                       </IconButton>
                     </TableCell>
@@ -499,7 +499,7 @@ function PivotIrrigationMonthTab({ sheet, pivotFields, farmName, onRefresh, read
                     </TableCell>
                     <TableCell sx={irrDCell} />
                     <TableCell sx={{ ...irrDCell, p: 0 }}>
-                      <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }}>
+                      <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }} aria-label="Confirm">
                         <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />
                       </IconButton>
                     </TableCell>
@@ -658,7 +658,7 @@ export default function IrrigationEntry() {
       <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #ddd' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
           <Typography sx={{ fontFamily: FONT, fontWeight: 600, fontSize: '13px' }}>Year</Typography>
-          <TextField size="small" type="number" value={year} onChange={e => {
+          <TextField size="small" type="number" value={year} inputProps={{ 'aria-label': 'Year' }} onChange={e => {
             setYear(parseInt(e.target.value, 10) || year);
             setImportDateRange(null);
           }}

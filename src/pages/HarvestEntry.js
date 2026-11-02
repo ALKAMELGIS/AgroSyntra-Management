@@ -357,7 +357,7 @@ function FieldTab({
                     <TableCell>{r.packhouse || ''}</TableCell>
                     <TableCell>{r.authorizedBy || ''}</TableCell>
                     <TableCell align="center" sx={{ px: 0 }}>
-                      <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }}>
+                      <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }} aria-label="Delete">
                         <Delete sx={{ fontSize: 14, color: '#C62828' }} />
                       </IconButton>
                     </TableCell>
@@ -436,7 +436,7 @@ function FieldTab({
                       <input value={newRow.authorizedBy} onChange={e => setNewRow(p => ({ ...p, authorizedBy: e.target.value }))} style={inputSx} />
                     </TableCell>
                     <TableCell align="center" sx={{ p: 0 }}>
-                      <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }}>
+                      <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }} aria-label="Confirm">
                         <Check sx={{ fontSize: 14, color: HEADER_FILL }} />
                       </IconButton>
                     </TableCell>
@@ -971,7 +971,7 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
                       <TableCell sx={pivotDCell}>{r.batchNumber || ''}</TableCell>
                       <TableCell sx={pivotDCell}>{r.authorizedBy || ''}</TableCell>
                       <TableCell sx={{ ...pivotDCell, px: 0 }}>
-                        <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }}>
+                        <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }} aria-label="Delete">
                           <Delete sx={{ fontSize: 14, color: '#C62828' }} />
                         </IconButton>
                       </TableCell>
@@ -1040,7 +1040,7 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
                       <input value={newRow.authorizedBy} onChange={e => setNewRow(p => ({ ...p, authorizedBy: e.target.value }))} style={inputSx} />
                     </TableCell>
                     <TableCell sx={{ ...pivotDCell, p: 0 }}>
-                      <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }}>
+                      <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }} aria-label="Confirm">
                         <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />
                       </IconButton>
                     </TableCell>
@@ -1259,7 +1259,7 @@ function OpenFieldTab({
                     <TableCell>{r.packhouse || ''}</TableCell>
                     <TableCell>{r.authorizedBy || ''}</TableCell>
                     <TableCell align="center" sx={{ px: 0 }}>
-                      <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }}>
+                      <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }} aria-label="Delete">
                         <Delete sx={{ fontSize: 14, color: '#C62828' }} />
                       </IconButton>
                     </TableCell>
@@ -1320,7 +1320,7 @@ function OpenFieldTab({
                       <input value={newRow.authorizedBy} onChange={e => setNewRow(p => ({ ...p, authorizedBy: e.target.value }))} style={inputSx} />
                     </TableCell>
                     <TableCell align="center" sx={{ p: 0 }}>
-                      <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }}>
+                      <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }} aria-label="Confirm">
                         <Check sx={{ fontSize: 14, color: HEADER_FILL }} />
                       </IconButton>
                     </TableCell>

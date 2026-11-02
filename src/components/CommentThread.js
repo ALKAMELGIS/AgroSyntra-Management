@@ -88,7 +88,7 @@ export default function CommentThread({ entityType, entityId }) {
             />
             {(c.user_id === user?.id || ['ceo', 'farm_manager'].includes(user?.role)) && (
               <ListItemSecondaryAction>
-                <IconButton size="small" onClick={() => handleDelete(c.id)}>
+                <IconButton size="small" onClick={() => handleDelete(c.id)} aria-label="Delete">
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </ListItemSecondaryAction>

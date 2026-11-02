@@ -426,14 +426,14 @@ export default function Inventory() {
             <TextField label="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} fullWidth required />
             <Box sx={{ display: 'flex', gap: 2 }}>
               <FormControl fullWidth>
-                <InputLabel>Category</InputLabel>
-                <Select value={form.category} label="Category" onChange={(e) => setForm({ ...form, category: e.target.value })}>
+                <InputLabel id="inventory-category-label-1">Category</InputLabel>
+                <Select labelId="inventory-category-label-1" value={form.category} label="Category" onChange={(e) => setForm({ ...form, category: e.target.value })}>
                   {CATEGORIES.filter((c) => c.value).map((c) => <MenuItem key={c.value} value={c.value}>{c.label}</MenuItem>)}
                 </Select>
               </FormControl>
               <FormControl fullWidth>
-                <InputLabel>Unit</InputLabel>
-                <Select value={form.unit} label="Unit" onChange={(e) => setForm({ ...form, unit: e.target.value })}>
+                <InputLabel id="inventory-unit-label-2">Unit</InputLabel>
+                <Select labelId="inventory-unit-label-2" value={form.unit} label="Unit" onChange={(e) => setForm({ ...form, unit: e.target.value })}>
                   {UNITS.map((u) => <MenuItem key={u} value={u}>{u}</MenuItem>)}
                 </Select>
               </FormControl>

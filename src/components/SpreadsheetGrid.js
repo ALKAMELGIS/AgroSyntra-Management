@@ -999,7 +999,7 @@ function SpreadsheetGrid({
                           <IconButton size="small"
                             sx={{ p: 0.3, color: groupHasDirty ? headerBg : '#ccc' }}
                             disabled={saving || !groupHasDirty}
-                            onClick={(e) => { e.stopPropagation(); handleSave(realIdx); }}>
+                            onClick={(e) => { e.stopPropagation(); handleSave(realIdx); }} aria-label="Save">
                             <SaveIcon sx={{ fontSize: 15 }} />
                           </IconButton>
                         </span>

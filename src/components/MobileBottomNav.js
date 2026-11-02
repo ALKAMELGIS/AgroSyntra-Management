@@ -30,7 +30,7 @@ export default function MobileBottomNav({ activeNavArea, onOpenMenu }) {
   }, []);
 
   const openSearch = () => {
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }));
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true }));
   };
 
   const items = [

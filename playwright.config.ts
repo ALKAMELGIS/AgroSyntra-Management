@@ -12,6 +12,8 @@ export default defineConfig({
     baseURL: process.env.TEST_URL || 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    // Optional: point at an already-installed Chromium (e.g. CI images) instead of `npx playwright install`.
+    ...(process.env.PW_CHROMIUM_PATH ? { launchOptions: { executablePath: process.env.PW_CHROMIUM_PATH } } : {}),
   },
 
   projects: [
