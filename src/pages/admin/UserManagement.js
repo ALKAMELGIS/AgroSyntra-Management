@@ -432,7 +432,7 @@ function UserManagement() {
                         : 'Never'}
                     </TableCell>
                     <TableCell align="right">
-                      <Tooltip title="Permissions">
+                      <Tooltip title="Permissions" describeChild>
                         <span>
                           {/* Grants only for lower-ranked users, never yourself (enforced by the API). */}
                           <IconButton
@@ -449,7 +449,7 @@ function UserManagement() {
                           <AssignmentIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="Edit">
+                      <Tooltip title="Edit" describeChild>
                         <span>
                           <IconButton
                             size="small"
@@ -461,14 +461,13 @@ function UserManagement() {
                         </span>
                       </Tooltip>
                       {user.id !== currentUser?.id && (
-                        <Tooltip title={user.isActive ? 'Deactivate' : 'Activate'}>
+                        <Tooltip title={user.isActive ? 'Deactivate' : 'Activate'} describeChild>
                           <span>
                             <IconButton
                               size="small"
                               onClick={() => handleToggleActive(user)}
                               color={user.isActive ? 'warning' : 'success'}
-                              disabled={!canManageUser(currentUser, user)}
-                            >
+                              disabled={!canManageUser(currentUser, user)} aria-label={user.isActive ? 'Deactivate' : 'Activate'}>
                             {user.isActive ? (
                               <BlockIcon fontSize="small" />
                             ) : (
@@ -479,14 +478,14 @@ function UserManagement() {
                         </Tooltip>
                       )}
                       {user.id !== currentUser?.id && (
-                        <Tooltip title="Delete account">
+                        <Tooltip title="Delete account" describeChild>
                           <span>
                             <IconButton
                               size="small"
                               onClick={() => handleDeleteClick(user)}
                               color="error"
                               disabled={!canManageUser(currentUser, user)}
-                             aria-label="Delete">
+                             aria-label="Delete account">
                               <DeleteIcon fontSize="small" />
                             </IconButton>
                           </span>

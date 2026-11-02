@@ -624,12 +624,12 @@ export default function CropRotationTab({
                     </TableCell>
                     <TableCell>{row.cycle_count != null && Number(row.cycle_count) > 0 ? row.cycle_count : '—'}</TableCell>
                     <TableCell>
-                      <Tooltip title="Edit">
+                      <Tooltip title="Edit" describeChild>
                         <span>
                           <IconButton size="small" disabled={readOnly} onClick={() => openEdit(row)} aria-label="Edit"><Edit fontSize="small" /></IconButton>
                         </span>
                       </Tooltip>
-                      <Tooltip title="Delete">
+                      <Tooltip title="Delete" describeChild>
                         <span>
                           <IconButton size="small" color="error" disabled={readOnly} onClick={() => handleDelete(row.id)} aria-label="Delete"><Delete fontSize="small" /></IconButton>
                         </span>

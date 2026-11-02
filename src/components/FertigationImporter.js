@@ -612,7 +612,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
                         <TableCell sx={{ ...cellStyle, fontWeight: 600 }}>{r._dailyTotal > 0 ? r._dailyTotal.toFixed(2) : ''}</TableCell>
                         <TableCell sx={cellStyle}>{r._resolvedRecipeName || ''}</TableCell>
                         <TableCell sx={{ ...cellStyle, fontSize: '0.65rem', color: r._status === 'error' ? '#c62828' : '#e65100', maxWidth: 220 }}>
-                          <Tooltip title={notes}><span>{notes.length > 60 ? notes.slice(0, 60) + '...' : notes}</span></Tooltip>
+                          <Tooltip title={notes} describeChild><span>{notes.length > 60 ? notes.slice(0, 60) + '...' : notes}</span></Tooltip>
                         </TableCell>
                       </TableRow>
                     );

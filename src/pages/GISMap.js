@@ -745,8 +745,8 @@ export default function GISMap() {
             sx={{
               position: 'absolute',
               top: 10,
-              left: drawerOpen ? 10 : 60,
-              right: 10,
+              left: 56,
+              right: drawerOpen ? 10 : 64,
               zIndex: 1000,
             }}
             action={

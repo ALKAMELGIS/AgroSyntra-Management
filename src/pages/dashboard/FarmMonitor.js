@@ -96,13 +96,13 @@ export default function FarmMonitor({
       action={(
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
           {onRefreshWeather && (
-            <Tooltip title="Refresh weather from OpenWeatherMap" arrow>
+            <Tooltip title="Refresh weather from OpenWeatherMap" arrow describeChild>
               <span>
                 <IconButton
                   size="small"
                   onClick={onRefreshWeather}
                   disabled={weatherFetching}
-                  aria-label="Refresh weather"
+                  aria-label="Refresh weather from OpenWeatherMap"
                   sx={{ color: 'inherit' }}
                 >
                   {weatherFetching ? (

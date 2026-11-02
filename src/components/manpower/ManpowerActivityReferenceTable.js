@@ -501,7 +501,7 @@ export default function ManpowerActivityReferenceTable({
                   </TableCell>
                   {canEdit && (
                     <TableCell sx={{ whiteSpace: 'nowrap' }}>
-                      <Tooltip title="Save">
+                      <Tooltip title="Save" describeChild>
                         <span>
                           <IconButton
                             size="small"

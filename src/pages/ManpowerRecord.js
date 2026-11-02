@@ -1428,7 +1428,7 @@ export default function ManpowerRecord() {
                             : w.linked_user_role === 'scouter'
                               ? (w.is_team_leader ? 'Scouter + team leader — managed via Field Staff' : 'Scouter — managed via Field Staff')
                               : 'Operator — managed via Field Staff'
-                          }>
+                          } describeChild>
                             <span>{w.is_team_leader ? <Star color="warning" /> : '—'}</span>
                           </Tooltip>
                         )}

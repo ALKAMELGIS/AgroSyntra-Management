@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Fragment } from 'react';
 import {
   Box, Typography, Paper, Button, TextField, Tabs, Tab, Chip,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -293,10 +293,10 @@ export default function Inventory() {
                 const status = stockStatus(Number(item.current_stock), Number(item.min_stock_level));
                 const isExpanded = expandedRow === item.id;
                 return (
-                  <Box component="tbody" key={item.id}>
+                  <Fragment key={item.id}>
                     <TableRow hover sx={{ '& > *': { borderBottom: isExpanded ? 'none' : undefined } }}>
                       <TableCell sx={{ width: 40 }}>
-                        <IconButton size="small" onClick={() => toggleRow(item.id)}>
+                        <IconButton size="small" onClick={() => toggleRow(item.id)} aria-label={isExpanded ? 'Collapse row' : 'Expand row'}>
                           {isExpanded ? <ExpandLess /> : <ExpandMore />}
                         </IconButton>
                       </TableCell>
@@ -388,7 +388,7 @@ export default function Inventory() {
                         </Collapse>
                       </TableCell>
                     </TableRow>
-                  </Box>
+                  </Fragment>
                 );
               })}
 

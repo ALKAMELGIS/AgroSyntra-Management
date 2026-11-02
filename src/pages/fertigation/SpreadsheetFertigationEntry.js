@@ -799,7 +799,7 @@ export default function SpreadsheetFertigationEntry({ onEntrySaved, readOnly = f
                   <TableCell className="col-numeric">Daily Total (m3)</TableCell>
                   {fertilizerNames.map((name) => (
                     <TableCell key={name} className="col-numeric">
-                      <Tooltip title={name}><span>{name.length > 12 ? name.slice(0, 10) + '..' : name}</span></Tooltip>
+                      <Tooltip title={name} describeChild><span>{name.length > 12 ? name.slice(0, 10) + '..' : name}</span></Tooltip>
                     </TableCell>
                   ))}
                   <TableCell className="col-numeric">Total Fert (kg)</TableCell>

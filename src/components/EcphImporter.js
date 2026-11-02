@@ -771,7 +771,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
                           if (col.key === '_notes') {
                             return (
                               <TableCell key={col.key} sx={{ ...cellStyle, fontSize: '0.65rem', color: r._status === 'error' ? '#c62828' : '#e65100', maxWidth: 220 }}>
-                                <Tooltip title={notes}><span>{notes.length > 60 ? notes.slice(0, 60) + '...' : notes}</span></Tooltip>
+                                <Tooltip title={notes} describeChild><span>{notes.length > 60 ? notes.slice(0, 60) + '...' : notes}</span></Tooltip>
                               </TableCell>
                             );
                           }

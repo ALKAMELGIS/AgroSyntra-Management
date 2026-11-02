@@ -994,12 +994,12 @@ function SpreadsheetGrid({
                     textAlign: 'center', padding: '0 1px',
                   }}>
                     <Box sx={{ display: 'flex', gap: 0, justifyContent: 'center' }}>
-                      <Tooltip title={row.groupId ? 'Save group' : 'Save row'}>
+                      <Tooltip title={row.groupId ? 'Save group' : 'Save row'} describeChild>
                         <span>
                           <IconButton size="small"
                             sx={{ p: 0.3, color: groupHasDirty ? 'var(--sheet-accent, #1d5a3c)' : 'var(--sheet-ink-3, #ccc)' }}
                             disabled={saving || !groupHasDirty}
-                            onClick={(e) => { e.stopPropagation(); handleSave(realIdx); }} aria-label="Save">
+                            onClick={(e) => { e.stopPropagation(); handleSave(realIdx); }} aria-label={row.groupId ? 'Save group' : 'Save row'}>
                             <SaveIcon sx={{ fontSize: 15 }} />
                           </IconButton>
                         </span>

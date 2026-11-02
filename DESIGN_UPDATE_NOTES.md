@@ -62,3 +62,11 @@ Fixed through it:
 - Dark map background before tiles load.
 - New gate test: **no light panels in dark mode** on any screen (any light surface over 6% of the screen fails).
 - Quality gate now **313 Playwright tests — all passing** on the production build; 666 unit tests passing.
+
+## Round 7 — checked with real-looking data
+- Gate now also runs every screen **with populated data** (tables, cards, lists) in light and dark → **407 Playwright tests, all passing**; 666 unit tests passing.
+- **Inventory and Scouting Reports tables were broken**: each row was wrapped in a nested `<tbody>` inside the table body, so columns did not line up with the header. Rows now render in place.
+- Row expand/collapse toggles, Users actions (activate/deactivate behind disabled-state tooltips) and visibility toggles now have proper names; tooltips over disabled buttons describe instead of mislabel.
+- Notifications list fixed to valid list markup; timestamps readable on unread rows.
+- Amber status chips (Draft, Warning %) and filled alerts darkened to meet 4.5:1; GIS "fields lost polygon" banner's Review button now visible and the banner no longer covers the zoom control.
+- Executive report ranking badges follow dark mode.

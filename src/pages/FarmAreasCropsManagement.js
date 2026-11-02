@@ -583,7 +583,7 @@ function FarmAreasCropsManagement() {
                           <GutterCell index={index + 1} />
                           <TableCell className="col-frozen-0">
                             {cropId && (
-                              <IconButton size="small" onClick={() => handleToggleCropVarieties(cropId)}>
+                              <IconButton size="small" onClick={() => handleToggleCropVarieties(cropId)} aria-label={isExpanded ? 'Collapse row' : 'Expand row'}>
                                 {isExpanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                               </IconButton>
                             )}

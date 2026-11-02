@@ -1231,14 +1231,13 @@ export default function BumbleBees() {
                       </TableCell>
                       {!readOnly && (
                         <TableCell {...CELL} align="center">
-                          <Tooltip title="Save row">
+                          <Tooltip title="Save row" describeChild>
                             <span>
                               <IconButton
                                 size="small"
                                 color="primary"
                                 disabled={row.saving || !row.fieldId || addedNum > onHand || total < 0}
-                                onClick={() => saveDraftRow(row)}
-                              >
+                                onClick={() => saveDraftRow(row)} aria-label="Save row">
                                 {row.saving ? <CircularProgress size={18} /> : <Check fontSize="small" />}
                               </IconButton>
                             </span>
@@ -1568,7 +1567,7 @@ export default function BumbleBees() {
                         />
                       </TableCell>
                       <TableCell {...CELL} align="center">
-                        <Tooltip title="Save inspection">
+                        <Tooltip title="Save inspection" describeChild>
                           <span>
                             <IconButton
                               size="small"
@@ -1577,8 +1576,7 @@ export default function BumbleBees() {
                                 row.saving || !row.fieldId || deployTotal == null
                                 || total !== deployTotal || total < 1
                               }
-                              onClick={() => saveInspectionDraftRow(row)}
-                            >
+                              onClick={() => saveInspectionDraftRow(row)} aria-label="Save inspection">
                               {row.saving ? <CircularProgress size={18} /> : <Check fontSize="small" />}
                             </IconButton>
                           </span>
@@ -1759,14 +1757,13 @@ export default function BumbleBees() {
                         </TableCell>
                         <TableCell {...CELL}>{o.notes || '—'}</TableCell>
                         <TableCell {...CELL} align="center">
-                          <Tooltip title="Receive delivery">
+                          <Tooltip title="Receive delivery" describeChild>
                             <span>
                               <IconButton
                                 size="small"
                                 color="primary"
                                 disabled={local.saving}
-                                onClick={() => receiveOrder(o)}
-                              >
+                                onClick={() => receiveOrder(o)} aria-label="Receive delivery">
                                 {local.saving ? <CircularProgress size={18} /> : <Check fontSize="small" />}
                               </IconButton>
                             </span>
@@ -1892,14 +1889,13 @@ export default function BumbleBees() {
                     </TableCell>
                     {!readOnly && (
                       <TableCell {...CELL} align="center">
-                        <Tooltip title="Save order">
+                        <Tooltip title="Save order" describeChild>
                           <span>
                             <IconButton
                               size="small"
                               color="primary"
                               disabled={row.saving}
-                              onClick={() => saveOrderDraftRow(row)}
-                            >
+                              onClick={() => saveOrderDraftRow(row)} aria-label="Save order">
                               {row.saving ? <CircularProgress size={18} /> : <Check fontSize="small" />}
                             </IconButton>
                           </span>

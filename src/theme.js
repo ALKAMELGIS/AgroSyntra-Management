@@ -342,6 +342,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
             color: palette.text.secondary,
             padding: '8px 12px',
             '&:hover': { backgroundColor: hoverBg, color: palette.text.primary },
+            '&.MuiButton-colorInherit, &.MuiButton-colorInherit:hover': { color: 'inherit' },
           },
           textPrimary: { color: palette.primary.main, '&:hover': { backgroundColor: alpha(palette.primary.main, 0.07), color: palette.primary.dark } },
           textError: { color: palette.error.main },
@@ -733,6 +734,9 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
           filled: { border: 'none' },
           outlined: { borderColor: palette.border.subtle, backgroundColor: palette.background.paper },
           colorDefault: { backgroundColor: palette.background.muted, color: palette.text.primary },
+          // Amber is the one status hue that fails 4.5:1 at chip size; use its deeper shade.
+          outlinedWarning: { color: isDark ? palette.warning.light : palette.warning.dark, borderColor: alpha(palette.warning.main, 0.5) },
+          filledWarning: { backgroundColor: isDark ? palette.warning.main : palette.warning.dark, color: isDark ? palette.warning.contrastText : '#fff' },
         },
       },
       MuiBadge: {
@@ -751,6 +755,11 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
           standardWarning: { backgroundColor: isDark ? alpha('#e5a24f', 0.1) : '#fdf7ec', borderColor: isDark ? alpha('#e5a24f', 0.28) : '#f0dcb5', color: isDark ? '#f0c88e' : '#7a4808' },
           standardInfo: { backgroundColor: isDark ? alpha('#6aa6e6', 0.1) : '#f2f6fc', borderColor: isDark ? alpha('#6aa6e6', 0.28) : '#cddcf0', color: isDark ? '#a9cbf2' : '#1d4670' },
           filled: { border: 0 },
+          // Filled alerts carry white text; use the deeper shade so it stays ≥ 4.5:1.
+          filledWarning: { backgroundColor: isDark ? '#8a5310' : palette.warning.dark, color: '#fff' },
+          filledSuccess: { backgroundColor: isDark ? '#1f6b45' : palette.success.dark, color: '#fff' },
+          filledError: { backgroundColor: isDark ? '#a8382a' : palette.error.dark, color: '#fff' },
+          filledInfo: { backgroundColor: isDark ? '#2c5f95' : palette.info.dark, color: '#fff' },
         },
       },
       MuiDivider: { styleOverrides: { root: { borderColor: palette.border.subtle } } },

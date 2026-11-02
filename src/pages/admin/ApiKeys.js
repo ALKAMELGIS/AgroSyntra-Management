@@ -192,7 +192,7 @@ function AIBrainCard() {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowKey(!showKey)} edge="end" size="small">
+                  <IconButton onClick={() => setShowKey(!showKey)} edge="end" size="small" aria-label={showKey ? 'Hide' : 'Show'}>
                     {showKey ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
                   </IconButton>
                 </InputAdornment>
@@ -356,7 +356,7 @@ function WeatherMapApiKeyCard() {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowKey(!showKey)} edge="end" size="small">
+                  <IconButton onClick={() => setShowKey(!showKey)} edge="end" size="small" aria-label={showKey ? 'Hide' : 'Show'}>
                     {showKey ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
                   </IconButton>
                 </InputAdornment>

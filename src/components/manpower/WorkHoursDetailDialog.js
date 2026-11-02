@@ -33,7 +33,7 @@ function DrillRow({ row }) {
       <TableRow>
         <TableCell>
           {(row.workers?.length > 0) && (
-            <IconButton size="small" onClick={() => setOpen(!open)}>
+            <IconButton size="small" onClick={() => setOpen(!open)} aria-label={open ? 'Collapse row' : 'Expand row'}>
               {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
             </IconButton>
           )}

@@ -119,9 +119,10 @@ export default function Notifications() {
         ) : (
           <List>
             {notifications.map((n, i) => (
-              <Box key={n.id}>
+              <Box component="li" key={n.id} sx={{ listStyle: 'none' }}>
                 {i > 0 && <Divider />}
                 <ListItem
+                  component="div"
                   sx={{
                     bgcolor: n.is_read ? 'transparent' : 'action.hover',
                     borderRadius: 1,
@@ -150,7 +151,7 @@ export default function Notifications() {
                         <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
                           {n.message}
                         </Typography>
-                        <Typography variant="caption" color="text.disabled">
+                        <Typography variant="caption" color="text.secondary">
                           {n.created_at ? format(new Date(n.created_at), 'MMM d, yyyy HH:mm') : ''}
                         </Typography>
                       </>

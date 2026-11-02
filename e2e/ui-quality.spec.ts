@@ -40,7 +40,20 @@ export const ROUTES = [
   '/manage/seasons', '/inventory', '/admin/users', '/admin/organization', '/admin/crop-history', '/admin/health',
 ];
 
-async function prepare(page: Page, opts: { lang?: 'en' | 'ar'; theme?: 'light' | 'dark'; auth?: boolean } = {}) {
+/** Generic populated rows so tables, cards and charts render with content (shape is deliberately broad). */
+const CROPS = ['Tomato', 'Cucumber', 'Pepper', 'Lettuce', 'Strawberry', 'Eggplant', 'Zucchini', 'Melon'];
+const NAMES = ['North Block A', 'North Block B', 'GH-01', 'GH-02', 'Open Field 3', 'Nursery', 'Pivot 1', 'Pivot 2'];
+const RICH_ROWS = NAMES.map((name, i) => ({
+  id: `r${i + 1}`, name, code: `C-${100 + i}`, title: `Record ${i + 1}`,
+  date: `2026-10-${20 + i}`, created_at: `2026-10-${20 + i}T08:00:00Z`, updated_at: `2026-10-${20 + i}T09:00:00Z`,
+  site_id: 's1', siteId: 's1', site_name: 'Al Maha GH', field_id: `f${i + 1}`, fieldId: `f${i + 1}`, field_name: `GH-0${i + 1}`,
+  crop: CROPS[i], crop_name: CROPS[i], variety: 'Standard', quantity: 120 + i * 13, amount: 40 + i * 3, value: 12 + i,
+  total: 300 + i * 20, status: ['active', 'pending', 'approved', 'active', 'closed', 'active', 'pending', 'active'][i],
+  role: 'worker', email: `user${i}@farm.test`, ec_in: 2.1, ph_in: 6.1, ec_out: 2.6, ph_out: 6.4, drain: 28 + i,
+  temperature: 30 + i, humidity: 50 + i, notes: 'Routine check', unit: 'kg', category: 'Fertilizer', is_active: true, count: i + 2,
+}));
+
+async function prepare(page: Page, opts: { lang?: 'en' | 'ar'; theme?: 'light' | 'dark'; auth?: boolean; rich?: boolean } = {}) {
   await page.addInitScript(([u, lang, theme]) => {
     if (u) {
       localStorage.setItem('almaha_user', JSON.stringify(u));
@@ -50,8 +63,9 @@ async function prepare(page: Page, opts: { lang?: 'en' | 'ar'; theme?: 'light' |
     localStorage.setItem('i18nextLng', lang as string);
     localStorage.setItem('almaha_theme_mode', theme as string);
   }, [opts.auth === false ? null : USER, opts.lang || 'en', opts.theme || 'light'] as const);
+  const data = opts.rich ? RICH_ROWS : [];
   await page.route(/\/api\/v1\//, (route) =>
-    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: [] }) }));
+    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data, pagination: { total: data.length, page: 1, limit: 50 } }) }));
   await page.route(/socket\.io/, (route) => route.abort());
   // Third-party map tiles / weather calls are irrelevant to layout and slow the run down.
   await page.route(/tile\.|arcgisonline|sentinel-hub|openweathermap|googleapis\.com\/maps/, (route) => route.abort());
@@ -189,6 +203,33 @@ test.describe('Arabic / RTL and dark mode', () => {
       expect(errors).toEqual([]);
       expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
     });
+  }
+});
+
+test.describe('populated data', () => {
+  // Pages whose payload shape a generic fixture cannot satisfy.
+  const SKIP = new Set([...NEEDS_REAL_DATA, '/audit/phi-audit-log']);
+  for (const theme of ['light', 'dark'] as const) {
+    for (const route of ROUTES.filter((r) => !SKIP.has(r))) {
+      test(`${route} with data (${theme})`, async ({ page }) => {
+        await page.setViewportSize({ width: 1366, height: 860 });
+        const errors: string[] = [];
+        page.on('pageerror', (e) => errors.push(e.message));
+        await prepare(page, { theme, rich: true });
+        await page.goto(route);
+        await settle(page);
+        expect(errors).toEqual([]);
+        expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
+        const axe = await new AxeBuilder({ page })
+          .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+          .exclude('.leaflet-control-container')
+          .analyze();
+        const blocking = axe.violations
+          .filter((v) => v.impact === 'serious' || v.impact === 'critical')
+          .map((v) => `${v.id} (${v.nodes.length}): ${v.nodes.slice(0, 3).map((n) => `${n.target.join(' ')} ${(n.failureSummary || '').split('\n')[1] || ''}`.slice(0, 200)).join(' | ')}`);
+        expect(blocking).toEqual([]);
+      });
+    }
   }
 });
 

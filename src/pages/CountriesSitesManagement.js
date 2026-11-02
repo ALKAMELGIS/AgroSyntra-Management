@@ -293,7 +293,7 @@ function CountriesSitesManagement() {
                           <IconButton
                             size="small"
                             onClick={() => toggleCountryExpansion(country.id)}
-                          >
+                           aria-label={expandedCountries[country.id] ? 'Collapse row' : 'Expand row'}>
                             {expandedCountries[country.id] ? <ExpandLess /> : <ExpandMore />}
                           </IconButton>
                           {country.name}

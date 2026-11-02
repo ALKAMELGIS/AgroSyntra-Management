@@ -708,9 +708,9 @@ export default function SpreadsheetEcphEntry({ onEntrySaved, readOnly = false })
                         <TableCell rowSpan={span} className="col-frozen-0" {...CELL} sx={{ ...CELL.sx, fontWeight: 600, verticalAlign: 'top' }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                             {row.fieldName}
-                            <Tooltip title="Add valve row">
+                            <Tooltip title="Add valve row" describeChild>
                               <span>
-                                <IconButton size="small" onClick={() => addValveRow(row.fieldId, row.fieldName)} sx={{ ml: 'auto' }} disabled={readOnly} aria-label="Add">
+                                <IconButton size="small" onClick={() => addValveRow(row.fieldId, row.fieldName)} sx={{ ml: 'auto' }} disabled={readOnly} aria-label="Add valve row">
                                   <AddIcon sx={{ fontSize: 16 }} />
                                 </IconButton>
                               </span>

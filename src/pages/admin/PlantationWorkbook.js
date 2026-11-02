@@ -133,7 +133,7 @@ function ClosingStatusCell({ row, isOm, onApprove, onReject }) {
         </Typography>
       </Tooltip>
       {isOm && (
-        <Tooltip title={actionTip}>
+        <Tooltip title={actionTip} describeChild>
           <span>
             <Button
               size="small"
@@ -148,7 +148,7 @@ function ClosingStatusCell({ row, isOm, onApprove, onReject }) {
         </Tooltip>
       )}
       {isOm && !rejected && (
-        <Tooltip title={actionTip}>
+        <Tooltip title={actionTip} describeChild>
           <span>
             <Button
               size="small"
@@ -393,13 +393,13 @@ function SpreadsheetGrid({
                           )}
                         </Box>
                       ) : (
-                        <Tooltip title={canApproveOm ? 'Approve as Operation Manager' : 'Awaiting Operation Manager approval'}>
+                        <Tooltip title={canApproveOm ? 'Approve as Operation Manager' : 'Awaiting Operation Manager approval'} describeChild>
                           <span>
                             <IconButton
                               size="small"
                               disabled={!canApproveOm || !row._serverId}
                               onClick={() => onApproveOm?.(row)}
-                             aria-label="Mark as done">
+                             aria-label={canApproveOm ? 'Approve as Operation Manager' : 'Awaiting Operation Manager approval'}>
                               <CheckCircleOutline fontSize="small" />
                             </IconButton>
                           </span>
@@ -497,13 +497,13 @@ function SpreadsheetGrid({
                       : lockTip(isClosing, closingAccess);
                   }
                   return (
-                    <Tooltip title={tip}>
+                    <Tooltip title={tip} describeChild>
                       <span>
                         <IconButton
                           size="small"
                           disabled={!deletable}
                           onClick={() => onDeleteRows?.([row._key])}
-                         aria-label="Delete">
+                         aria-label={tip}>
                           <Delete fontSize="small" />
                         </IconButton>
                       </span>

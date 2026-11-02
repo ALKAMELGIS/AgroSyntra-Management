@@ -357,14 +357,14 @@ export default function DailyActivitySheet({
                 )}
                 <Box sx={{ flexGrow: 1 }} />
                 <Chip label={`Total: ${totalHrs.toFixed(1)} hrs`} color={totalHrs > 0 ? 'success' : 'default'} size="small" />
-                <Tooltip title="Remove row">
+                <Tooltip title="Remove row" describeChild>
                   <span>
                     <IconButton
                       size="small"
                       color="error"
                       onClick={() => removeRow(rowIdx)}
                       disabled={rows.length <= 1}
-                     aria-label="Delete">
+                     aria-label="Remove row">
                       <Delete fontSize="small" />
                     </IconButton>
                   </span>

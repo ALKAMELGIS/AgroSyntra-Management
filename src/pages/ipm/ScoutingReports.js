@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -577,7 +577,7 @@ export default function ScoutingReports() {
                 const pct = report.infestation_pct != null ? Number(report.infestation_pct) : null;
 
                 return (
-                  <Box component="tbody" key={report.id}>
+                  <Fragment key={report.id}>
                     <TableRow hover sx={{ cursor: 'pointer' }} onClick={() => toggleRow(report.id)}>
                       {canManage && !readOnly && (
                         <RowSelectCell
@@ -588,7 +588,7 @@ export default function ScoutingReports() {
                         />
                       )}
                       <TableCell>
-                        <IconButton size="small">{isExpanded ? <ExpandLess /> : <ExpandMore />}</IconButton>
+                        <IconButton size="small" aria-label={isExpanded ? 'Collapse row' : 'Expand row'}>{isExpanded ? <ExpandLess /> : <ExpandMore />}</IconButton>
                       </TableCell>
                       <TableCell>{new Date(report.report_date).toLocaleDateString()}</TableCell>
                       <TableCell>{report.field_name || '—'}</TableCell>
@@ -682,7 +682,7 @@ export default function ScoutingReports() {
                         </TableCell>
                       </TableRow>
                     )}
-                  </Box>
+                  </Fragment>
                 );
               })
             )}

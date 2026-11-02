@@ -140,7 +140,7 @@ export default function ExecutiveReportPanel({
                           <Chip
                             label={idx + 1}
                             size="small"
-                            sx={{ mr: 1.5, minWidth: 28, height: 24, fontWeight: 700, bgcolor: idx === 0 ? '#16a34a' : '#e2e8f0', color: idx === 0 ? '#fff' : 'text.primary' }}
+                            sx={{ mr: 1.5, minWidth: 28, height: 24, fontWeight: 700, bgcolor: idx === 0 ? 'primary.main' : 'background.muted', color: idx === 0 ? 'primary.contrastText' : 'text.primary' }}
                           />
                           <ListItemText
                             primary={item.label}

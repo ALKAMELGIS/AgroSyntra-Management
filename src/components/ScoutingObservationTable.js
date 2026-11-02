@@ -57,7 +57,7 @@ export default function ScoutingObservationTable({
             <TableCell align="center" sx={{ minWidth: 56 }}>Avg</TableCell>
             {showInfestation && (
               <TableCell align="center" sx={{ minWidth: 72 }}>
-                <Tooltip title="(plant count × sum of segment averages) ÷ sampling units">
+                <Tooltip title="(plant count × sum of segment averages) ÷ sampling units" describeChild>
                   <span>Infestation %</span>
                 </Tooltip>
               </TableCell>

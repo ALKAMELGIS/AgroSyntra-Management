@@ -483,7 +483,7 @@ export default function HistoricalImport() {
       {target && preview && (
         <Paper sx={{ p: 2, mb: 2 }}>
           <Stack direction="row" spacing={2} justifyContent="flex-end" flexWrap="wrap">
-            <Tooltip title="Preview what will happen without writing">
+            <Tooltip title="Preview what will happen without writing" describeChild>
               <span>
                 <Button
                   variant="outlined"
@@ -495,7 +495,7 @@ export default function HistoricalImport() {
                 </Button>
               </span>
             </Tooltip>
-            <Tooltip title="Write to the database">
+            <Tooltip title="Write to the database" describeChild>
               <span>
                 <Button
                   variant="contained"

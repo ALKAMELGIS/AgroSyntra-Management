@@ -733,7 +733,7 @@ function ECPHEntry() {
                             }
                           }}
                           sx={{ color: 'primary.main' }}
-                        >
+                         aria-label={valve2Expanded ? 'Collapse row' : 'Expand row'}>
                           {valve2Expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                         </IconButton>
                       </Box>

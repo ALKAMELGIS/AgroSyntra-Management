@@ -656,7 +656,7 @@ export default function SpreadsheetImporter({
                         <TableCell sx={{ ...cellStyle, textAlign: 'right' }}>{r.unitPrice}</TableCell>
                         <TableCell sx={{ ...cellStyle, textAlign: 'right', fontWeight: 600, color: '#1f7a4d' }}>{r.cost}</TableCell>
                         <TableCell sx={{ ...cellStyle, fontSize: '0.65rem', color: r._status === 'error' ? '#c62828' : '#e65100', maxWidth: 220 }}>
-                          <Tooltip title={notes}><span>{notes.length > 60 ? notes.slice(0, 60) + '...' : notes}</span></Tooltip>
+                          <Tooltip title={notes} describeChild><span>{notes.length > 60 ? notes.slice(0, 60) + '...' : notes}</span></Tooltip>
                         </TableCell>
                       </TableRow>
                     );
