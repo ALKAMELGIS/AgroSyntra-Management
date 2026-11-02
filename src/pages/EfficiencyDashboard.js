@@ -593,7 +593,7 @@ function EfficiencyDashboard() {
           <Divider />
 
           <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               {renderMetricCard(
                 'kg/m³ (WUE)',
                 metric.wue,
@@ -603,13 +603,13 @@ function EfficiencyDashboard() {
                 ' kg/m³'
               )}
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               {renderMetricCard('kg/m²', metric.productionDensity, metric.productionDensityChange, '15', ' kg/m²')}
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               {renderMetricCard('L/m²/day', metric.irrigationIntensity, metric.irrigationIntensityChange, '4-6', ' L/m²/day')}
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               {renderMetricCard(
                 'Drain %',
                 metric.avgDrainPercent || 0,
@@ -627,7 +627,7 @@ function EfficiencyDashboard() {
                 Climate Context
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={6} sm={3}>
+                <Grid size={{ xs: 6, sm: 3 }}>
                   <Typography variant="caption" color="text.secondary">
                     Avg Temp
                   </Typography>
@@ -638,13 +638,13 @@ function EfficiencyDashboard() {
                     )}
                   </Typography>
                 </Grid>
-                <Grid item xs={6} sm={3}>
+                <Grid size={{ xs: 6, sm: 3 }}>
                   <Typography variant="caption" color="text.secondary">
                     Heat Stress Days
                   </Typography>
                   <Typography variant="body2" sx={{ fontWeight: 500 }}>{metric.heatStressDays}</Typography>
                 </Grid>
-                <Grid item xs={6} sm={3}>
+                <Grid size={{ xs: 6, sm: 3 }}>
                   <Typography variant="caption" color="text.secondary">
                     Expected WUE
                   </Typography>
@@ -654,7 +654,7 @@ function EfficiencyDashboard() {
                       : 'N/A'}
                   </Typography>
                 </Grid>
-                <Grid item xs={6} sm={3}>
+                <Grid size={{ xs: 6, sm: 3 }}>
                   <Typography variant="caption" color="text.secondary">
                     Avg RH
                   </Typography>
@@ -692,7 +692,7 @@ function EfficiencyDashboard() {
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
       <Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <Typography variant="h4" sx={{ fontWeight: 600 }}>
             Climate-Contextual Water Use Efficiency
           </Typography>
@@ -710,7 +710,7 @@ function EfficiencyDashboard() {
         <Card variant="outlined" sx={{ mb: 3 }}>
           <CardContent sx={{ py: 2 }}>
             <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <TextField
                   fullWidth
                   size="small"
@@ -721,7 +721,7 @@ function EfficiencyDashboard() {
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <TextField
                   fullWidth
                   size="small"
@@ -732,7 +732,7 @@ function EfficiencyDashboard() {
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} md={2}>
+              <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <FormControl fullWidth size="small">
                   <InputLabel>Site</InputLabel>
                   <Select
@@ -749,7 +749,7 @@ function EfficiencyDashboard() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6} md={2}>
+              <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <FormControl fullWidth size="small">
                   <InputLabel>Crop</InputLabel>
                   <Select
@@ -766,7 +766,7 @@ function EfficiencyDashboard() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6} md={2}>
+              <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <FormControl fullWidth size="small">
                   <InputLabel>Environment</InputLabel>
                   <Select

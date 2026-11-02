@@ -14,7 +14,7 @@ import {
   aggregateForPie, prepareTreemapData, prepareFunnelData,
 } from './chartUtils';
 
-const TOOLTIP_STYLE = { borderRadius: 8, border: '1px solid #e8e5e0', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' };
+import { CHART_TOOLTIP as TOOLTIP_STYLE } from './dashboardChartTheme';
 
 function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChart = 'bar', height = 300 }) {
   const [chartType, setChartType] = useState(defaultChart);
@@ -65,9 +65,9 @@ function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChar
         return (
           <ResponsiveContainer width="100%" height={height}>
             <BarChart data={data} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e8e5e0" vertical={false} />
-              <XAxis dataKey={xKey} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e3e7e2" vertical={false} />
+              <XAxis dataKey={xKey} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#58625c' }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#58625c' }} />
               <RTooltip contentStyle={TOOLTIP_STYLE} />
               <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '0.75rem' }} />
               {dataKeys.map((dk, i) => (
@@ -81,9 +81,9 @@ function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChar
         return (
           <ResponsiveContainer width="100%" height={height}>
             <BarChart data={data} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e8e5e0" vertical={false} />
-              <XAxis dataKey={xKey} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e3e7e2" vertical={false} />
+              <XAxis dataKey={xKey} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#58625c' }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#58625c' }} />
               <RTooltip contentStyle={TOOLTIP_STYLE} />
               <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '0.75rem' }} />
               {dataKeys.map((dk, i) => (
@@ -97,9 +97,9 @@ function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChar
         return (
           <ResponsiveContainer width="100%" height={height}>
             <LineChart data={data} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e8e5e0" />
-              <XAxis dataKey={xKey} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e3e7e2" />
+              <XAxis dataKey={xKey} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#58625c' }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#58625c' }} />
               <RTooltip contentStyle={TOOLTIP_STYLE} />
               <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '0.75rem' }} />
               {dataKeys.map((dk, i) => (
@@ -113,9 +113,9 @@ function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChar
         return (
           <ResponsiveContainer width="100%" height={height}>
             <AreaChart data={data} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e8e5e0" />
-              <XAxis dataKey={xKey} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e3e7e2" />
+              <XAxis dataKey={xKey} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#58625c' }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#58625c' }} />
               <RTooltip contentStyle={TOOLTIP_STYLE} />
               <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '0.75rem' }} />
               {dataKeys.map((dk, i) => (
@@ -163,9 +163,9 @@ function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChar
         return (
           <ResponsiveContainer width="100%" height={height}>
             <RadarChart data={radarData}>
-              <PolarGrid stroke="#e8e5e0" />
-              <PolarAngleAxis dataKey={dataKeys.length >= 2 ? xKey : 'subject'} tick={{ fontSize: 11, fill: '#6b7280' }} />
-              <PolarRadiusAxis tick={{ fontSize: 10, fill: '#6b7280' }} />
+              <PolarGrid stroke="#e3e7e2" />
+              <PolarAngleAxis dataKey={dataKeys.length >= 2 ? xKey : 'subject'} tick={{ fontSize: 11, fill: '#58625c' }} />
+              <PolarRadiusAxis tick={{ fontSize: 10, fill: '#58625c' }} />
               <RTooltip contentStyle={TOOLTIP_STYLE} />
               <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '0.75rem' }} />
               {dataKeys.map((dk, i) => (
@@ -186,9 +186,9 @@ function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChar
         return (
           <ResponsiveContainer width="100%" height={height}>
             <ScatterChart margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e8e5e0" />
-              <XAxis dataKey={dataKeys[0].key} name={dataKeys[0].label} tick={{ fontSize: 12, fill: '#6b7280' }} />
-              <YAxis dataKey={dataKeys[1].key} name={dataKeys[1].label} tick={{ fontSize: 12, fill: '#6b7280' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e3e7e2" />
+              <XAxis dataKey={dataKeys[0].key} name={dataKeys[0].label} tick={{ fontSize: 12, fill: '#58625c' }} />
+              <YAxis dataKey={dataKeys[1].key} name={dataKeys[1].label} tick={{ fontSize: 12, fill: '#58625c' }} />
               <RTooltip contentStyle={TOOLTIP_STYLE} cursor={{ strokeDasharray: '3 3' }} />
               <Scatter name={`${dataKeys[0].label} vs ${dataKeys[1].label}`} data={data} fill={colors[0]} />
             </ScatterChart>
@@ -198,12 +198,12 @@ function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChar
       case 'treemap':
         return (
           <ResponsiveContainer width="100%" height={height}>
-            <Treemap data={treemapData} dataKey="size" nameKey="name" stroke="#fff" fill="#3d7c4f"
+            <Treemap data={treemapData} dataKey="size" nameKey="name" stroke="#fff" fill="#1f7a4d"
               content={({ x, y, width, height: h, name, value }) => {
                 if (width < 40 || h < 30) return null;
                 return (
                   <g>
-                    <rect x={x} y={y} width={width} height={h} rx={4} style={{ fill: treemapData.find((d) => d.name === name)?.fill || '#3d7c4f', stroke: '#fff', strokeWidth: 2 }} />
+                    <rect x={x} y={y} width={width} height={h} rx={4} style={{ fill: treemapData.find((d) => d.name === name)?.fill || '#1f7a4d', stroke: '#fff', strokeWidth: 2 }} />
                     <text x={x + width / 2} y={y + h / 2 - 6} textAnchor="middle" fill="#fff" fontSize={12} fontWeight={600}>{name}</text>
                     <text x={x + width / 2} y={y + h / 2 + 10} textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize={11}>{(value || 0).toLocaleString()}</text>
                   </g>

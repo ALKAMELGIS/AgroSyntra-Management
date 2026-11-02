@@ -1,3 +1,4 @@
+import { CHART_COLORS } from './dashboardChartTheme';
 import {
   BarChartOutlined,
   StackedBarChartOutlined,
@@ -24,10 +25,7 @@ export const CHART_TYPES = [
   { id: 'table', label: 'Table', Icon: TableChartOutlined },
 ];
 
-export const DEFAULT_COLORS = [
-  '#3d7c4f', '#e8913a', '#3b82f6', '#a855f7', '#f43f5e',
-  '#06b6d4', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316',
-];
+export const DEFAULT_COLORS = CHART_COLORS;
 
 export function aggregateForPie(data, dataKeys) {
   return dataKeys.map((dk, i) => {

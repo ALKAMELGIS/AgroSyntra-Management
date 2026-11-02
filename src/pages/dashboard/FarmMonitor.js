@@ -232,7 +232,7 @@ export default function FarmMonitor({
           const selected = (selectedFieldId || fieldSummary?.id) === field.id;
 
           return (
-            <Grid item xs={6} sm={4} md={3} lg={2} key={field.id}>
+            <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={field.id}>
               <Card
                 variant="outlined"
                 sx={{
@@ -446,39 +446,39 @@ export default function FarmMonitor({
             </Typography>
           )}
           <Grid container spacing={3}>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Typography variant="caption" color="text.secondary">EC In</Typography>
               <Typography variant="body1" fontWeight={600}>
                 {fieldSummary.latest_ecph?.ec_in != null ? Number(fieldSummary.latest_ecph.ec_in).toFixed(2) : '-'}
               </Typography>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Typography variant="caption" color="text.secondary">EC Out</Typography>
               <Typography variant="body1" fontWeight={600}>
                 {fieldSummary.latest_ecph?.ec_out != null ? Number(fieldSummary.latest_ecph.ec_out).toFixed(2) : '-'}
               </Typography>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Typography variant="caption" color="text.secondary">pH In</Typography>
               <Typography variant="body1" fontWeight={600}>
                 {fieldSummary.latest_ecph?.ph_in != null ? Number(fieldSummary.latest_ecph.ph_in).toFixed(2) : '-'}
               </Typography>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Typography variant="caption" color="text.secondary">pH Out</Typography>
               <Typography variant="body1" fontWeight={600}>
                 {fieldSummary.latest_ecph?.ph_out != null ? Number(fieldSummary.latest_ecph.ph_out).toFixed(2) : '-'}
               </Typography>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Typography variant="caption" color="text.secondary">Harvest (7d)</Typography>
               <Typography variant="body1" fontWeight={600}>{Number(fieldSummary.harvest_this_week || 0).toFixed(1)} kg</Typography>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Typography variant="caption" color="text.secondary">Water (7d)</Typography>
               <Typography variant="body1" fontWeight={600}>{Number(fieldSummary.water_this_week || 0).toFixed(1)} m3</Typography>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Typography variant="caption" color="text.secondary">Latest Scouting</Typography>
               <Typography variant="body1" fontWeight={600}>
                 {fieldSummary.latest_scouting?.pest
@@ -487,7 +487,7 @@ export default function FarmMonitor({
               </Typography>
             </Grid>
             {fieldSummary.last_bumble_bee_inspection && (
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <Typography variant="caption" color="text.secondary">Latest Bumble Bee Inspection</Typography>
                 <Typography variant="body1" fontWeight={600}>
                   {new Date(String(fieldSummary.last_bumble_bee_inspection.inspection_date).split('T')[0]).toLocaleDateString()}
@@ -504,7 +504,7 @@ export default function FarmMonitor({
                 </Typography>
               </Grid>
             )}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="caption" color="text.secondary">Current Weather</Typography>
               <FieldWeatherStrip
                 weather={weatherByFieldId[fieldSummary.id]}

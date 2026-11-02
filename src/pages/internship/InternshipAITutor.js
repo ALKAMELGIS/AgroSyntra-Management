@@ -112,7 +112,7 @@ export default function InternshipAITutor() {
             <Avatar sx={{ width: 32, height: 32, bgcolor: 'secondary.main' }}>
               <SmartToy fontSize="small" />
             </Avatar>
-            <Paper elevation={0} sx={{ p: 2, bgcolor: 'white', border: '1px solid', borderColor: 'grey.200', borderRadius: 2 }}>
+            <Paper elevation={0} sx={{ p: 2, bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
               <Typography variant="body2" color="text.secondary">Thinking...</Typography>
             </Paper>
           </Box>

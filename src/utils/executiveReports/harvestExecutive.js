@@ -185,7 +185,7 @@ export function buildHarvestExecutiveReport(entries, fieldInfoMap, dateFrom, dat
     {
       title: 'Avg kg / Day',
       value: current.avgKgPerDay != null ? current.avgKgPerDay.toFixed(0) : '—',
-      color: '#6366f1',
+      color: '#2f6aa8',
     },
     {
       title: 'Grade A Share',

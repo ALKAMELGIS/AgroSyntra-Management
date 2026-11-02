@@ -585,7 +585,7 @@ function WeatherLogEntry() {
       {/* Weather Cards Display Section */}
       {selectedSite && fieldsWithCoordinates.length > 0 && (
         <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
             <Typography variant="h5" sx={{ fontWeight: 600 }}>
               Current Weather by Field
             </Typography>
@@ -609,9 +609,9 @@ function WeatherLogEntry() {
               {weatherCards.map((card) => {
                 const soilData = soilReadings.find((s) => s.field_name === card.fieldName) || null;
                 return (
-                  <Grid item xs={12} key={card.fieldName}>
+                  <Grid size={12} key={card.fieldName}>
                     <Grid container spacing={2}>
-                      <Grid item xs={12} sm={6}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <WeatherCard
                           fieldName={card.fieldName}
                           latitude={card.latitude}
@@ -619,7 +619,7 @@ function WeatherLogEntry() {
                           weatherData={card.weatherData}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={6}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <SoilCard
                           fieldName={card.fieldName}
                           soilData={soilData}
@@ -842,7 +842,7 @@ function WeatherLogEntry() {
                 </Alert>
               )}
               <Grid container spacing={3}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     type="date"
@@ -857,7 +857,7 @@ function WeatherLogEntry() {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     select
@@ -876,7 +876,7 @@ function WeatherLogEntry() {
                   </TextField>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     select
@@ -896,14 +896,14 @@ function WeatherLogEntry() {
                   </TextField>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Card variant="outlined">
                     <CardContent>
                       <Typography variant="h6" gutterBottom>
                         Temperature
                       </Typography>
                       <Grid container spacing={2}>
-                        <Grid item xs={6}>
+                        <Grid size={6}>
                           <TextField
                             fullWidth
                             type="number"
@@ -917,7 +917,7 @@ function WeatherLogEntry() {
                             inputProps={{ step: 0.1 }}
                           />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid size={6}>
                           <TextField
                             fullWidth
                             type="number"
@@ -932,7 +932,7 @@ function WeatherLogEntry() {
                           />
                         </Grid>
                         {values.maxTemp && values.minTemp && (
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Typography variant="body2" color="text.secondary">
                               Average Temperature: {((parseFloat(values.maxTemp) + parseFloat(values.minTemp)) / 2).toFixed(1)}°C
                             </Typography>
@@ -943,7 +943,7 @@ function WeatherLogEntry() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     type="number"
@@ -958,7 +958,7 @@ function WeatherLogEntry() {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     type="number"
@@ -973,7 +973,7 @@ function WeatherLogEntry() {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     fullWidth
                     multiline
@@ -988,7 +988,7 @@ function WeatherLogEntry() {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
                     <Button
                       type="submit"

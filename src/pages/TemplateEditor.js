@@ -337,17 +337,17 @@ export default function TemplateEditor() {
 
       <Grid container spacing={3}>
         {/* Left panel: Editor */}
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ xs: 12, lg: 6 }}>
           {/* Meta fields */}
           <Card variant="outlined" sx={{ mb: 3, p: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth label="Template Name" value={name} size="small"
                   onChange={(e) => setName(e.target.value)} required
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth select label="Category" value={category} size="small"
                   onChange={(e) => setCategory(e.target.value)} required
@@ -357,7 +357,7 @@ export default function TemplateEditor() {
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   fullWidth label="Description" value={description} size="small"
                   onChange={(e) => setDescription(e.target.value)} multiline rows={2}
@@ -431,7 +431,7 @@ export default function TemplateEditor() {
                 }}
               >
                 <Grid container spacing={1} alignItems="center">
-                  <Grid item xs={12} sm={3}>
+                  <Grid size={{ xs: 12, sm: 3 }}>
                     <TextField
                       fullWidth label="Label" value={col.label} size="small"
                       onChange={(e) => {
@@ -442,7 +442,7 @@ export default function TemplateEditor() {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={6} sm={2}>
+                  <Grid size={{ xs: 6, sm: 2 }}>
                     <TextField
                       fullWidth select label="Type" value={col.type} size="small"
                       onChange={(e) => updateColumn(col._id, 'type', e.target.value)}
@@ -452,7 +452,7 @@ export default function TemplateEditor() {
                       ))}
                     </TextField>
                   </Grid>
-                  <Grid item xs={6} sm={1}>
+                  <Grid size={{ xs: 6, sm: 1 }}>
                     <TextField
                       fullWidth label="Width" type="number" value={col.width} size="small"
                       onChange={(e) => updateColumn(col._id, 'width', parseInt(e.target.value) || 80)}
@@ -460,7 +460,7 @@ export default function TemplateEditor() {
                     />
                   </Grid>
                   {sections.length > 0 && (
-                    <Grid item xs={6} sm={2}>
+                    <Grid size={{ xs: 6, sm: 2 }}>
                       <TextField
                         fullWidth select label="Section" value={col.sectionId || ''} size="small"
                         onChange={(e) => updateColumn(col._id, 'sectionId', e.target.value || null)}
@@ -472,7 +472,7 @@ export default function TemplateEditor() {
                       </TextField>
                     </Grid>
                   )}
-                  <Grid item xs={6} sm={1}>
+                  <Grid size={{ xs: 6, sm: 1 }}>
                     <FormControlLabel
                       control={
                         <Switch
@@ -483,7 +483,7 @@ export default function TemplateEditor() {
                       label={<Typography variant="caption">Req</Typography>}
                     />
                   </Grid>
-                  <Grid item xs="auto">
+                  <Grid size={'auto'}>
                     <Box sx={{ display: 'flex', gap: 0.25 }}>
                       <IconButton size="small" onClick={() => moveColumn(col._id, -1)} disabled={idx === 0}>
                         <UpIcon fontSize="small" />
@@ -543,7 +543,7 @@ export default function TemplateEditor() {
         </Grid>
 
         {/* Right panel: Live Preview */}
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ xs: 12, lg: 6 }}>
           <Card variant="outlined" sx={{ p: 0, position: 'sticky', top: 80 }}>
             <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', gap: 1 }}>
               <PreviewIcon fontSize="small" />

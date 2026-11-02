@@ -125,7 +125,7 @@ export default function PlatformAdmin() {
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={5}>
+        <Grid size={{ xs: 12, md: 5 }}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>Create Organization</Typography>
             <Box component="form" onSubmit={handleCreate} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -206,7 +206,7 @@ export default function PlatformAdmin() {
           )}
         </Grid>
 
-        <Grid item xs={12} md={7}>
+        <Grid size={{ xs: 12, md: 7 }}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>All Organizations</Typography>
             {orgsLoading ? (

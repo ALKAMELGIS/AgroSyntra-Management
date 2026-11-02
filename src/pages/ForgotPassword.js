@@ -12,6 +12,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 
+import BackgroundMoon from '../components/BackgroundMoon';
 import { API_BASE as API_URL } from '../config/api';
 
 function ForgotPassword() {
@@ -50,7 +51,9 @@ function ForgotPassword() {
     return (
       <Box
         sx={{
-          minHeight: '100vh',
+          minHeight: '100dvh',
+        position: 'relative',
+        '& > :not(.ac-moon)': { position: 'relative', zIndex: 1 },
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -58,6 +61,7 @@ function ForgotPassword() {
           p: 2,
         }}
       >
+      <BackgroundMoon variant="auth" />
         <Card sx={{ maxWidth: 400, width: '100%' }}>
           <CardContent sx={{ p: 4, textAlign: 'center' }}>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: 'success.main' }}>
@@ -78,7 +82,9 @@ function ForgotPassword() {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        minHeight: '100dvh',
+        position: 'relative',
+        '& > :not(.ac-moon)': { position: 'relative', zIndex: 1 },
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -86,6 +92,7 @@ function ForgotPassword() {
         p: 2,
       }}
     >
+      <BackgroundMoon variant="auth" />
       <Card sx={{ maxWidth: 400, width: '100%' }}>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 700, mb: 1 }}>

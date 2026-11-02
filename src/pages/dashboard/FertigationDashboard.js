@@ -253,22 +253,22 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
   return (
     <Box>
       <Grid container spacing={1.5} sx={{ mb: 3 }}>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Total Entries" value={stats.count} color="#333" />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Avg Daily Water" value={stats.avgWater} subtitle="m³" />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Avg Flow Rate" value={stats.avgFlow} color="#3b82f6" />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Total Fertilizer" value={stats.totalFert} subtitle="kg" color="#f59e0b" />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
-          <DashboardStatCard title="Avg Frequency" value={stats.avgFreq} color="#6366f1" />
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
+          <DashboardStatCard title="Avg Frequency" value={stats.avgFreq} color="#2f6aa8" />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Avg Valves" value={stats.avgValves} color="#e65100" />
         </Grid>
       </Grid>
@@ -348,7 +348,7 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
                 <YAxis tick={{ fontSize: 11, fill: CHART_TICK }} />
                 <RTooltip contentStyle={CHART_TOOLTIP} />
                 <Legend />
-                <Area type="monotone" dataKey="cumulative" name="Cumulative (kg)" stroke="#6366f1" fill="#6366f1" fillOpacity={0.15} strokeWidth={2} />
+                <Area type="monotone" dataKey="cumulative" name="Cumulative (kg)" stroke="#2f6aa8" fill="#2f6aa8" fillOpacity={0.15} strokeWidth={2} />
                 <Line type="monotone" dataKey="daily" name="Daily (kg)" stroke="#f59e0b" strokeWidth={1.5} dot={{ r: 2 }} />
               </ComposedChart>
             </ResponsiveContainer>

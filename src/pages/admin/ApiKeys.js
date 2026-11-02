@@ -461,7 +461,7 @@ export default function ApiKeys() {
       )}
 
       {/* API Keys Section */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
         <Typography variant="h4" fontWeight={700} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <KeyIcon fontSize="large" /> API Keys
         </Typography>

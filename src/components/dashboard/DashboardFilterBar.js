@@ -52,7 +52,7 @@ function DashboardFilterBar({
       <Grid container spacing={1.5} alignItems="center">
         {showDateRange && (
           <>
-            <Grid item xs={6} sm={3} md={2}>
+            <Grid size={{ xs: 6, sm: 3, md: 2 }}>
               <TextField
                 fullWidth size="small" type="date" label="From"
                 InputLabelProps={{ shrink: true }}
@@ -60,7 +60,7 @@ function DashboardFilterBar({
                 onChange={(e) => update('dateFrom', e.target.value)}
               />
             </Grid>
-            <Grid item xs={6} sm={3} md={2}>
+            <Grid size={{ xs: 6, sm: 3, md: 2 }}>
               <TextField
                 fullWidth size="small" type="date" label="To"
                 InputLabelProps={{ shrink: true }}
@@ -70,28 +70,28 @@ function DashboardFilterBar({
             </Grid>
           </>
         )}
-        <Grid item xs={6} sm={3} md={showDateRange ? 2 : 3}>
+        <Grid size={{ xs: 6, sm: 3, md: showDateRange ? 2 : 3 }}>
           <TextField fullWidth size="small" select label="Zone" value={filters.zone || ''} InputLabelProps={{ shrink: true }} SelectProps={{ displayEmpty: true }}
             onChange={(e) => update('zone', e.target.value)}>
             <MenuItem value="">All Zones</MenuItem>
             {zones.map((z) => <MenuItem key={z.id} value={z.id}>{z.name}</MenuItem>)}
           </TextField>
         </Grid>
-        <Grid item xs={6} sm={3} md={showDateRange ? 2 : 3}>
+        <Grid size={{ xs: 6, sm: 3, md: showDateRange ? 2 : 3 }}>
           <TextField fullWidth size="small" select label="Site" value={filters.site || ''} InputLabelProps={{ shrink: true }} SelectProps={{ displayEmpty: true }}
             onChange={(e) => update('site', e.target.value)} disabled={filteredSites.length === 0}>
             <MenuItem value="">All Sites</MenuItem>
             {filteredSites.map((s) => <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>)}
           </TextField>
         </Grid>
-        <Grid item xs={6} sm={3} md={showDateRange ? 2 : 3}>
+        <Grid size={{ xs: 6, sm: 3, md: showDateRange ? 2 : 3 }}>
           <TextField fullWidth size="small" select label="Farm Area" value={filters.farmArea || ''} InputLabelProps={{ shrink: true }} SelectProps={{ displayEmpty: true }}
             onChange={(e) => update('farmArea', e.target.value)} disabled={!filters.site}>
             <MenuItem value="">All Areas</MenuItem>
             {filteredFarmAreas.map((fa) => <MenuItem key={fa.id} value={fa.id}>{fa.name}</MenuItem>)}
           </TextField>
         </Grid>
-        <Grid item xs={6} sm={3} md={showDateRange ? 2 : 3}>
+        <Grid size={{ xs: 6, sm: 3, md: showDateRange ? 2 : 3 }}>
           <TextField fullWidth size="small" select label="Field" value={filters.field || ''} InputLabelProps={{ shrink: true }} SelectProps={{ displayEmpty: true }}
             onChange={(e) => update('field', e.target.value)} disabled={!filters.farmArea}>
             <MenuItem value="">All Fields</MenuItem>
@@ -99,7 +99,7 @@ function DashboardFilterBar({
           </TextField>
         </Grid>
         {showCrop && (
-          <Grid item xs={6} sm={3} md={2}>
+          <Grid size={{ xs: 6, sm: 3, md: 2 }}>
             <TextField fullWidth size="small" select label="Crop" value={filters.crop || ''} InputLabelProps={{ shrink: true }} SelectProps={{ displayEmpty: true }}
               onChange={(e) => update('crop', e.target.value)}>
               <MenuItem value="">All Crops</MenuItem>

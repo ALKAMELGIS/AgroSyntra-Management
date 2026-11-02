@@ -1,26 +1,31 @@
 import { Box, Paper, Typography } from '@mui/material';
 
 /**
- * Green spreadsheet-style section banner used on the Analytics Dashboard.
+ * Section card used on dashboards: quiet title row on a hairline divider,
+ * content below. Optional `action` renders at the inline end of the title row.
  */
 export default function DashboardSection({ title, action, children, sx }) {
   return (
-    <Paper variant="outlined" sx={{ mb: 2, overflow: 'hidden', ...sx }}>
+    <Paper variant="outlined" sx={{ mb: { xs: 4, md: 5 }, overflow: 'hidden', boxShadow: 1, ...sx }}>
       {title != null && title !== '' && (
         <Box
           sx={{
-            bgcolor: 'table.headerBg',
-            color: 'table.headerText',
-            px: 2,
-            py: 1,
+            px: { xs: 4, sm: 5 },
+            py: 3.5,
             display: 'flex',
             alignItems: 'center',
-            gap: 1,
+            gap: 2,
             flexWrap: 'wrap',
-            '& .MuiSvgIcon-root': { color: 'inherit' },
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            '& .MuiSvgIcon-root': { color: 'text.secondary' },
           }}
         >
-          <Typography variant="subtitle1" fontWeight={700} sx={{ flexGrow: 1, color: 'inherit' }}>
+          <Box component="span" sx={{ width: 4, height: 16, borderRadius: 2, bgcolor: 'primary.main', flexShrink: 0 }} />
+          <Typography
+            component="h2"
+            sx={{ flexGrow: 1, fontSize: '0.9375rem', fontWeight: 600, letterSpacing: '-0.01em', color: 'text.primary' }}
+          >
             {title}
           </Typography>
           {action}
@@ -33,7 +38,7 @@ export default function DashboardSection({ title, action, children, sx }) {
 
 export function DashboardChartBody({ height, children, footer }) {
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: { xs: 3, sm: 5 } }}>
       <Box sx={{ width: '100%', height }}>
         {children}
       </Box>

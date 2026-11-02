@@ -71,7 +71,7 @@ export default function InternshipModule() {
       {tab === 0 && (
         <Grid container spacing={2}>
           {lessons.length === 0 ? (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Paper sx={{ p: 4, textAlign: 'center' }}>
                 <Typography color="text.secondary">No lessons yet. Teachers can add content.</Typography>
               </Paper>
@@ -80,7 +80,7 @@ export default function InternshipModule() {
             lessons.map((lesson, idx) => {
               const isCompleted = completedLessonIds.has(lesson.id);
               return (
-                <Grid item xs={12} key={lesson.id}>
+                <Grid size={12} key={lesson.id}>
                   <Card sx={{ '&:hover': { boxShadow: 4 }, transition: 'box-shadow 0.2s', borderLeft: isCompleted ? '4px solid' : 'none', borderColor: 'success.main' }}>
                     <CardActionArea onClick={() => navigate(`/internship/lesson/${lesson.id}`)}>
                       <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 2 }}>
@@ -112,14 +112,14 @@ export default function InternshipModule() {
       {tab === 1 && (
         <Grid container spacing={2}>
           {quizzes.length === 0 ? (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Paper sx={{ p: 4, textAlign: 'center' }}>
                 <Typography color="text.secondary">No quizzes available yet.</Typography>
               </Paper>
             </Grid>
           ) : (
             quizzes.map((quiz) => (
-              <Grid item xs={12} sm={6} key={quiz.id}>
+              <Grid size={{ xs: 12, sm: 6 }} key={quiz.id}>
                 <Card sx={{ '&:hover': { boxShadow: 4 }, transition: 'box-shadow 0.2s' }}>
                   <CardActionArea onClick={() => navigate(`/internship/quiz/${quiz.id}`)}>
                     <CardContent>

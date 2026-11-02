@@ -239,7 +239,7 @@ function RecipesManagement() {
   return (
     <Container maxWidth="xl">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <Typography variant="h4">Recipes Management</Typography>
           {canEdit && (
             <Button variant="contained" startIcon={<Add />} onClick={openAdd}>
@@ -328,7 +328,7 @@ function RecipesManagement() {
         <DialogTitle>{editing ? 'Edit Recipe' : 'Add Recipe'}</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 label="Recipe Name"
                 fullWidth
@@ -336,7 +336,7 @@ function RecipesManagement() {
                 onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
               />
             </Grid>
-            <Grid item xs={12} md={8}>
+            <Grid size={{ xs: 12, md: 8 }}>
               <TextField
                 label="Description"
                 fullWidth
@@ -344,7 +344,7 @@ function RecipesManagement() {
                 onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 label="Tank Volume (L)"
                 fullWidth
@@ -353,7 +353,7 @@ function RecipesManagement() {
                 onChange={(e) => setForm((prev) => ({ ...prev, tankVolume: e.target.value }))}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 label="Cycles"
                 fullWidth

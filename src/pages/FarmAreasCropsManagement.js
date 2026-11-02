@@ -277,7 +277,7 @@ function FarmAreasCropsManagement() {
   return (
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <Typography variant="h4">Farm Areas & Crops Management</Typography>
           <Button
             variant="contained"
@@ -290,7 +290,7 @@ function FarmAreasCropsManagement() {
         </Box>
 
         <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               fullWidth
               select
@@ -313,7 +313,7 @@ function FarmAreasCropsManagement() {
               ))}
             </TextField>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               fullWidth
               select
@@ -446,7 +446,7 @@ function FarmAreasCropsManagement() {
               <Form>
                 <DialogContent>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         label="Farm Area Name"
@@ -458,7 +458,7 @@ function FarmAreasCropsManagement() {
                         helperText={touched.name && errors.name}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         type="number"
@@ -472,7 +472,7 @@ function FarmAreasCropsManagement() {
                         inputProps={{ min: 0, step: 0.01 }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         multiline
@@ -484,7 +484,7 @@ function FarmAreasCropsManagement() {
                         onBlur={handleBlur}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Autocomplete
                         multiple
                         options={data.crops || []}
@@ -741,7 +741,7 @@ function FarmAreasCropsManagement() {
               <Form>
                 <DialogContent>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         label="Crop Name"
@@ -753,7 +753,7 @@ function FarmAreasCropsManagement() {
                         helperText={touched.cropName && errors.cropName}
                       />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid size={6}>
                       <TextField
                         fullWidth
                         type="number"
@@ -768,7 +768,7 @@ function FarmAreasCropsManagement() {
                         placeholder="e.g., 24000"
                       />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid size={6}>
                       <TextField
                         fullWidth
                         type="number"
@@ -783,7 +783,7 @@ function FarmAreasCropsManagement() {
                         placeholder="e.g., 30000"
                       />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid size={6}>
                       <TextField
                         fullWidth
                         type="number"

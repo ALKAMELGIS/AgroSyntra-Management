@@ -1,299 +1,228 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/*
+ * Global layer of the AgroCloud design system.
+ *
+ * Component styling lives in src/theme.js. The CSS variables used here are
+ * injected by the theme (MuiCssBaseline → :root) so they follow light / dark
+ * mode automatically. Keep this file for things the theme cannot express:
+ * legacy class hooks, mobile/PWA polish, scrollbars, print, and the ambient
+ * background layer.
+ */
 
 :root {
-  --brand-green: #3d7c4f;
-  --brand-green-dark: #2d6a3f;
-  --brand-green-soft: #f0f9f2;
-  --brand-green-faint: #f0f9f2;
-  --brand-orange: #e8913a;
-  --brand-ink: #1a1a1a;
-  --text-primary: #1a1a1a;
-  --text-secondary: #6b7280;
-  --bg-page: #faf8f5;
+  /* Fallbacks before the theme mounts (light). */
+  --brand-green: #1f7a4d;
+  --brand-green-dark: #165c3a;
+  --brand-green-soft: rgba(31, 122, 77, 0.08);
+  --brand-green-faint: rgba(31, 122, 77, 0.05);
+  --brand-orange: #c4761a;
+  --brand-ink: #121714;
+  --text-primary: #121714;
+  --text-secondary: #58625c;
+  --text-disabled: #9aa39d;
+  --bg-page: #f5f6f3;
   --bg-surface: #ffffff;
-  --bg-muted: #f5f3f0;
-  --border-subtle: #e8e5e0;
-  --border-hover: #d6d3ce;
-  --shadow-soft: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-  --radius-lg: 12px;
-  --radius-md: 8px;
-  --radius-sm: 6px;
+  --bg-muted: #eff1ed;
+  --border-subtle: #e3e7e2;
+  --border-hover: #cfd5cf;
+  --focus-ring: rgba(31, 122, 77, 0.35);
+  --shadow-soft: 0 1px 2px rgba(16, 24, 20, 0.04);
+  --shadow-card: 0 1px 3px rgba(16, 24, 20, 0.05), 0 1px 2px rgba(16, 24, 20, 0.03);
+  --radius-xl: 20px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-/* --- Mobile / PWA polish ------------------------------------------------ */
-
-@media (max-width: 600px) {
-  input[type="text"],
-  input[type="number"],
-  input[type="email"],
-  input[type="password"],
-  input[type="search"],
-  input[type="tel"],
-  input[type="url"],
-  input[type="date"],
-  input[type="time"],
-  input[type="datetime-local"],
-  textarea,
-  select {
-    font-size: 16px !important;
-  }
-}
-
-@supports (padding: env(safe-area-inset-top)) {
-  body {
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-
-.MuiTableContainer-root {
+html,
+body {
   max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   background: var(--bg-page);
   color: var(--text-primary);
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
   min-height: 100vh;
+  min-height: 100dvh;
+  isolation: isolate;
 }
 
-/* AppBar */
-.MuiAppBar-root {
+button,
+[role='button'],
+a,
+label[for],
+select,
+summary {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* Arabic gets its own optimised face and a touch more line-height. */
+html[lang='ar'] body {
+  line-height: 1.7;
+}
+html[lang='ar'] .MuiTypography-root {
+  letter-spacing: 0 !important;
+}
+
+/* --- Focus ------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.MuiButtonBase-root:focus-visible,
+.MuiInputBase-input:focus-visible {
+  outline: none;
+}
+
+/* --- Inputs ----------------------------------------------------------- */
+
+.MuiInputBase-input::placeholder {
+  color: var(--text-disabled);
+  opacity: 1;
+}
+
+/* --- Surfaces (legacy hooks; the theme owns the real styling) ---------- */
+
+.MuiPaper-root.MuiPaper-elevation0.MuiPaper-rounded:not(.MuiAppBar-root):not(.MuiAccordion-root) {
+  border: 1px solid var(--border-subtle);
+}
+
+.MuiTableContainer-root {
+  max-width: 100%;
+}
+
+/* Recharts: keep charts calm and on-brand. */
+.recharts-cartesian-grid line {
+  stroke: var(--border-subtle);
+}
+.recharts-text {
+  fill: var(--text-secondary);
+  font-size: 12px;
+}
+.recharts-default-tooltip {
+  border-radius: 10px !important;
+  border: 1px solid var(--border-subtle) !important;
+  background: var(--bg-surface) !important;
+  box-shadow: var(--shadow-card);
+}
+.recharts-legend-item-text {
+  color: var(--text-secondary) !important;
+  font-size: 12px;
+}
+
+/* Leaflet controls follow the surface tokens. */
+.leaflet-container {
+  font-family: inherit;
+  border-radius: inherit;
+}
+.leaflet-bar a,
+.leaflet-control-layers {
   background: var(--bg-surface) !important;
   color: var(--text-primary) !important;
-  box-shadow: none !important;
-  border-bottom: 1px solid var(--border-subtle) !important;
-}
-.MuiToolbar-root {
-  min-height: 56px;
-}
-.MuiAppBar-root .MuiTypography-root {
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-.MuiAppBar-root .MuiIconButton-root {
-  color: var(--text-secondary);
-}
-.MuiAppBar-root .MuiIconButton-root:hover {
-  color: var(--text-primary);
-  background: var(--bg-muted);
-}
-
-/* Drawer / Sidebar */
-.MuiDrawer-paper {
-  background: var(--bg-surface) !important;
-  border-right: 1px solid var(--border-subtle) !important;
-  box-shadow: none !important;
-}
-.MuiDrawer-paper .MuiList-root {
-  padding-top: 4px;
-}
-
-/* Navigation items */
-.MuiListItemButton-root {
-  border-radius: var(--radius-md) !important;
-  margin: 2px 8px !important;
-  padding: 6px 12px !important;
-  transition: all 120ms ease !important;
-  border: 1px solid transparent !important;
-}
-.MuiListItemButton-root:hover {
-  background: var(--bg-muted) !important;
-}
-.MuiListItemIcon-root {
-  color: var(--text-secondary);
-  min-width: 32px !important;
-}
-.MuiListItemText-primary {
-  font-weight: 500 !important;
-  font-size: 0.8125rem !important;
-}
-
-/* Paper / Cards */
-.MuiPaper-root {
-  border-radius: var(--radius-lg) !important;
-  box-shadow: none !important;
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-surface);
-}
-.MuiPaper-root.MuiPaper-outlined {
-  box-shadow: none;
-}
-.MuiCardContent-root {
-  padding: 20px !important;
-}
-.MuiCardContent-root:last-child {
-  padding-bottom: 20px !important;
-}
-
-/* Buttons -- styling lives in theme.js; CSS only for icon-button radius */
-.MuiIconButton-root {
-  border-radius: var(--radius-md);
-}
-.MuiSvgIcon-root {
-  color: inherit;
-}
-
-/* Inputs */
-.MuiTextField-root .MuiOutlinedInput-root {
-  background: var(--bg-surface);
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
-}
-.MuiOutlinedInput-notchedOutline {
   border-color: var(--border-subtle) !important;
 }
-.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: var(--brand-green) !important;
-  border-width: 1.5px !important;
-  box-shadow: 0 0 0 3px rgba(61, 124, 79, 0.1);
-}
-.MuiInputLabel-root {
-  color: var(--text-secondary) !important;
-  font-size: 0.8125rem !important;
-}
-.MuiSelect-icon {
-  color: var(--text-secondary);
-}
-.MuiMenuItem-root {
-  border-radius: 6px;
-  margin: 2px 6px;
-  font-size: 0.8125rem;
-}
-.MuiMenuItem-root.Mui-selected {
-  background: var(--brand-green-soft) !important;
-  color: var(--brand-green-dark);
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
 }
 
-/* Tables */
-.MuiTableContainer-root {
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-subtle);
-  box-shadow: none;
-}
-.MuiTableCell-head {
-  background: var(--bg-muted) !important;
-  color: var(--text-secondary) !important;
-  font-weight: 600 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: 0.6875rem !important;
-  border-bottom: 1px solid var(--border-subtle) !important;
-  padding: 10px 16px !important;
-}
-.MuiTableCell-body {
-  border-bottom: 1px solid var(--border-subtle) !important;
-  font-size: 0.8125rem !important;
-  padding: 10px 16px !important;
-}
-.MuiTableRow-root:hover {
-  background: var(--bg-page);
+/* --- Page entrance ----------------------------------------------------- */
+
+@keyframes ac-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-/* Cards */
-.MuiCard-root {
-  border-radius: var(--radius-lg) !important;
-  box-shadow: none !important;
-  border: 1px solid var(--border-subtle) !important;
+.page-content > :not(.ac-moon) {
+  animation: ac-page-in 360ms var(--ease-out) both;
 }
 
-/* Chips */
-.MuiChip-root {
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 0.75rem;
-  height: 24px;
+/* --- Mobile / PWA polish ---------------------------------------------- */
+
+@media (max-width: 600px) {
+  /* Prevent iOS zoom-on-focus. */
+  input[type='text'],
+  input[type='number'],
+  input[type='email'],
+  input[type='password'],
+  input[type='search'],
+  input[type='tel'],
+  input[type='url'],
+  input[type='date'],
+  input[type='time'],
+  input[type='datetime-local'],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+  .MuiTabs-scroller {
+    scrollbar-width: none;
+  }
 }
 
-/* Alerts */
-.MuiAlert-root {
-  border-radius: var(--radius-md);
-  font-size: 0.8125rem;
+@supports (padding: env(safe-area-inset-top)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
-/* Typography */
-.MuiTypography-h4 {
-  font-weight: 700 !important;
-  letter-spacing: -0.02em;
-  font-size: 1.25rem !important;
-  line-height: 1.35;
-}
-.MuiTypography-h5 {
-  font-weight: 600 !important;
-  letter-spacing: -0.01em;
-  font-size: 1.1rem !important;
-  line-height: 1.4;
-}
-.MuiTypography-h6 {
-  font-weight: 600 !important;
-  font-size: 0.95rem !important;
-  line-height: 1.45;
-}
-.MuiTypography-body2 {
-  color: var(--text-secondary);
-}
-.MuiTypography-subtitle2 {
-  color: var(--text-secondary);
-  font-weight: 600;
-  font-size: 0.6875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
+/* --- Scrollbars -------------------------------------------------------- */
 
-/* Dividers */
-.MuiDivider-root {
-  border-color: var(--border-subtle);
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-hover) transparent;
 }
-
-/* Tabs */
-.MuiTabs-indicator {
-  background: var(--brand-green) !important;
-  height: 2px !important;
-}
-.MuiTab-root {
-  text-transform: none !important;
-  font-weight: 500 !important;
-  font-size: 0.8125rem !important;
-  color: var(--text-secondary) !important;
-}
-.MuiTab-root.Mui-selected {
-  color: var(--brand-green) !important;
-  font-weight: 600 !important;
-}
-
-/* Dialogs */
-.MuiDialog-paper {
-  border-radius: var(--radius-lg) !important;
-  border: 1px solid var(--border-subtle);
-}
-
-/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d6d3ce;
-  border-radius: 3px;
+  background: var(--border-hover);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a29e;
+  background: var(--text-disabled);
+  border: 3px solid transparent;
+  background-clip: content-box;
 }
 
-/* Page content area */
-.page-content {
-  background: var(--bg-page);
+/* --- Print ------------------------------------------------------------- */
+
+@media print {
+  .ac-moon,
+  .MuiAppBar-root,
+  .MuiDrawer-root {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
 }

@@ -470,7 +470,7 @@ function FieldTypesNamesManagement() {
   return (
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <Typography variant="h4">Field Types & Names Management</Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button
@@ -493,7 +493,7 @@ function FieldTypesNamesManagement() {
         </Box>
 
         <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               select
@@ -522,7 +522,7 @@ function FieldTypesNamesManagement() {
               ))}
             </TextField>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               select
@@ -551,7 +551,7 @@ function FieldTypesNamesManagement() {
               ))}
             </TextField>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               fullWidth
               select
@@ -721,7 +721,7 @@ function FieldTypesNamesManagement() {
                 <Form>
                   <DialogContent>
                     <Grid container spacing={2}>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <TextField
                           fullWidth
                           select
@@ -745,7 +745,7 @@ function FieldTypesNamesManagement() {
                           ))}
                         </TextField>
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <TextField
                           fullWidth
                           label="Field Name"
@@ -758,7 +758,7 @@ function FieldTypesNamesManagement() {
                           placeholder={`e.g., ${fieldTypeInfo.namingPattern}`}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={6}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                           fullWidth
                           select
@@ -785,7 +785,7 @@ function FieldTypesNamesManagement() {
                           })}
                         </TextField>
                       </Grid>
-                      <Grid item xs={12} sm={6}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                           fullWidth
                           select
@@ -803,7 +803,7 @@ function FieldTypesNamesManagement() {
                           ))}
                         </TextField>
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <TextField
                           fullWidth
                           type="number"
@@ -817,7 +817,7 @@ function FieldTypesNamesManagement() {
                           inputProps={{ min: 0, step: 1 }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Divider sx={{ my: 1 }} />
                         <Typography variant="subtitle2" gutterBottom>
                           Field Boundaries (Polygon) - Optional
@@ -874,7 +874,7 @@ function FieldTypesNamesManagement() {
               <Form>
                 <DialogContent>
                   <Grid container spacing={2}>
-                    <Grid item xs={6}>
+                    <Grid size={6}>
                       <TextField
                         fullWidth
                         type="number"
@@ -888,7 +888,7 @@ function FieldTypesNamesManagement() {
                         inputProps={{ min: 1, step: 1 }}
                       />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid size={6}>
                       <TextField
                         fullWidth
                         type="number"
@@ -902,7 +902,7 @@ function FieldTypesNamesManagement() {
                         inputProps={{ min: 1, step: 1 }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         label="Prefix"
@@ -915,7 +915,7 @@ function FieldTypesNamesManagement() {
                         placeholder="e.g., NH-"
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         select
@@ -938,7 +938,7 @@ function FieldTypesNamesManagement() {
                         })}
                       </TextField>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         type="number"
@@ -1052,7 +1052,7 @@ function FieldTypesNamesManagement() {
                 <Form>
                   <DialogContent>
                     <Grid container spacing={2}>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <TextField
                           fullWidth
                           label={t('fieldsAccess.fieldName')}
@@ -1064,7 +1064,7 @@ function FieldTypesNamesManagement() {
                           helperText={touched.name && errors.name}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <TextField
                           fullWidth
                           type="number"
@@ -1078,7 +1078,7 @@ function FieldTypesNamesManagement() {
                           inputProps={{ min: 0, step: 1 }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <TextField
                           fullWidth
                           type="number"
@@ -1092,7 +1092,7 @@ function FieldTypesNamesManagement() {
                           inputProps={{ min: 0, step: 0.01 }}
                         />
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid size={6}>
                         <TextField
                           fullWidth
                           type="number"
@@ -1106,7 +1106,7 @@ function FieldTypesNamesManagement() {
                           inputProps={{ step: 0.0001, min: -90, max: 90 }}
                         />
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid size={6}>
                         <TextField
                           fullWidth
                           type="number"
@@ -1120,7 +1120,7 @@ function FieldTypesNamesManagement() {
                           inputProps={{ step: 0.0001, min: -180, max: 180 }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Divider sx={{ my: 1 }} />
                         <Typography variant="subtitle2" gutterBottom>
                           Field Boundaries (Polygon) - Optional

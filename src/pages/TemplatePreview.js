@@ -42,7 +42,7 @@ import { excelTableSx, GutterCell } from '../components/table/ExcelTable';
 
 const CATEGORY_META = {
   ecph:        { label: 'EC / PH',               icon: <ScienceIcon />,     color: '#1976d2' },
-  fertigation: { label: 'Fertigation',            icon: <WaterDropIcon />,   color: '#2e7d32' },
+  fertigation: { label: 'Fertigation',            icon: <WaterDropIcon />,   color: '#1f7a4d' },
   harvest:     { label: 'Harvest',                icon: <AgricultureIcon />, color: '#ed6c02' },
   planting:    { label: 'Planting & Transplant',   icon: <YardIcon />,       color: '#9c27b0' },
   pest:        { label: 'Pest Applications',       icon: <PestIcon />,       color: '#d32f2f' },

@@ -251,7 +251,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
 
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper' }}>
-      <Box sx={{ px: 5, pt: 5, pb: 4, display: 'flex', alignItems: 'center', gap: 2.5 }}>
+      <Box sx={{ px: 5, height: 60, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 3 }}>
         <input
           ref={logoInputRef}
           type="file"
@@ -281,8 +281,10 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
             sx={{
               width: 34,
               height: 34,
-              borderRadius: 2,
+              borderRadius: 2.5,
               bgcolor: logoUrl && !logoUploading ? 'transparent' : 'primary.main',
+              backgroundImage: logoUrl && !logoUploading ? 'none' : (t) => `linear-gradient(145deg, ${t.palette.primary.light}, ${t.palette.primary.dark})`,
+              boxShadow: (t) => `inset 0 1px 0 rgba(255,255,255,0.18), 0 1px 2px ${t.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(22,92,58,0.25)'}`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -307,19 +309,19 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
           </Box>
         </Tooltip>
         <Box>
-          <Typography sx={{ fontWeight: 700, fontSize: '0.9375rem', color: 'text.primary', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+          <Typography sx={{ fontWeight: 600, fontSize: '0.9375rem', color: 'text.primary', letterSpacing: '-0.015em', lineHeight: 1.2 }}>
             Al Maha Farm
           </Typography>
-          <Typography sx={{ fontSize: '0.6875rem', color: 'text.secondary', lineHeight: 1.3 }}>
-            Farm Management
+          <Typography sx={{ fontSize: '0.71875rem', color: 'text.secondary', lineHeight: 1.35 }}>
+            Elite Agro Cloud
           </Typography>
         </Box>
       </Box>
 
-      <Divider sx={{ mx: 4 }} />
+      <Divider />
 
       {isSuperAdmin && (
-        <Box sx={{ px: 3, pt: 2, pb: 1 }}>
+        <Box sx={{ px: 4, pt: 4, pb: 1 }}>
           <TextField
             select
             size="small"
@@ -328,7 +330,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
             value={actAsOrgId || ''}
             onChange={(e) => setActAsOrg(e.target.value || null)}
             sx={{
-              '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: 'action.hover' },
+              '& .MuiOutlinedInput-root': { borderRadius: 2.5, bgcolor: 'background.muted' },
               '& .MuiSelect-select': { py: 1, fontSize: '0.8125rem', fontWeight: 600 },
             }}
           >
@@ -355,7 +357,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
       )}
 
       {(countries || []).some((c) => c.sites?.length) || !hasSiteAssignment ? (
-        <Box sx={{ px: 3, pt: 2, pb: 1 }}>
+        <Box sx={{ px: 4, pt: 4, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
           <SiteZoneSelect
             countries={countries}
             value={activeSiteId}
@@ -376,7 +378,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
               InputLabelProps={{ shrink: true }}
               sx={{
                 mt: 1.5,
-                '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: 'action.hover' },
+                '& .MuiOutlinedInput-root': { borderRadius: 2.5, bgcolor: 'background.muted' },
                 '& .MuiSelect-select': { py: 1, fontSize: '0.8125rem', fontWeight: 600 },
               }}
             >
@@ -454,22 +456,22 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
         </Box>
       ) : null}
 
-      <Box sx={{ flexGrow: 1, overflow: 'auto', py: 3, px: 2.5 }}>
+      <Box component="nav" aria-label="Main navigation" sx={{ flexGrow: 1, overflow: 'auto', py: 4, px: 3, overscrollBehavior: 'contain' }}>
         {sections.map((section) => {
           const hasActive = sectionHasActive(section.items);
 
           return (
-            <Box key={section.label} sx={{ mb: 1.5 }}>
+            <Box key={section.label} sx={{ mb: 4 }}>
               <Typography
                 sx={{
-                  px: 2.5,
-                  py: 1,
-                  mb: 0.5,
+                  px: 3,
+                  pt: 1,
+                  pb: 1.5,
                   fontSize: '0.6875rem',
                   fontWeight: 600,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.06em',
-                  color: hasActive ? 'primary.main' : 'text.secondary',
+                  letterSpacing: '0.08em',
+                  color: hasActive ? 'text.primary' : 'text.disabled',
                 }}
               >
                 {section.label}
@@ -626,25 +628,46 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
 
 function SidebarItem({ item, active, onNavigate, badgeCount = 0, badgeColor = 'error' }) {
   return (
-    <ListItem disablePadding sx={{ mb: 0.25 }}>
+    <ListItem disablePadding sx={{ mb: 0.5 }}>
       <ListItemButton
         onClick={() => onNavigate(item.path)}
+        selected={active}
+        aria-current={active ? 'page' : undefined}
         sx={{
-          minHeight: 36,
-          borderRadius: 2,
-          mx: 0.5,
-          px: 2.5,
-          py: 1.25,
-          bgcolor: active ? 'rgba(61,124,79,0.1)' : 'transparent',
-          '&:hover': { bgcolor: active ? 'rgba(61,124,79,0.14)' : 'action.hover' },
+          position: 'relative',
+          minHeight: 38,
+          borderRadius: 2.5,
+          px: 3,
+          py: 1.5,
+          gap: 0.5,
+          '&.Mui-selected': {
+            bgcolor: (t) => (t.palette.mode === 'dark' ? 'rgba(76,178,126,0.12)' : 'rgba(31,122,77,0.07)'),
+          },
+          '&.Mui-selected:hover': {
+            bgcolor: (t) => (t.palette.mode === 'dark' ? 'rgba(76,178,126,0.18)' : 'rgba(31,122,77,0.11)'),
+          },
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            left: -12,
+            top: 9,
+            bottom: 9,
+            width: 3,
+            borderRadius: '0 3px 3px 0',
+            bgcolor: 'primary.main',
+            opacity: active ? 1 : 0,
+            transform: active ? 'scaleY(1)' : 'scaleY(0.4)',
+            transition: 'opacity 200ms ease, transform 200ms ease',
+          },
         }}
       >
         <ListItemIcon
           sx={{
             minWidth: 30,
             '& .MuiSvgIcon-root': {
-              fontSize: 18,
+              fontSize: 19,
               color: active ? 'primary.main' : 'text.secondary',
+              transition: 'color 160ms ease',
             },
           }}
         >
@@ -659,10 +682,13 @@ function SidebarItem({ item, active, onNavigate, badgeCount = 0, badgeColor = 'e
         <ListItemText
           primary={item.text}
           primaryTypographyProps={{
-            fontSize: '0.8125rem',
-            fontWeight: active ? 600 : 400,
-            color: active ? 'primary.main' : 'text.secondary',
+            fontSize: '0.875rem',
+            fontWeight: active ? 600 : 450,
+            color: active ? 'text.primary' : 'text.secondary',
+            noWrap: true,
+            letterSpacing: '-0.005em',
           }}
+          sx={{ my: 0 }}
         />
       </ListItemButton>
     </ListItem>

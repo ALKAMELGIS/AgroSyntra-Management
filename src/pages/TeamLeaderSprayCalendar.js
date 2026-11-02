@@ -118,7 +118,7 @@ export default function TeamLeaderSprayCalendar() {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#f5f5f5' }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <AppBar position="static" color="default" elevation={1}>
         <Toolbar>
           <IconButton edge="start" href="/manpower-entry"><ArrowBack /></IconButton>
@@ -251,35 +251,35 @@ export default function TeamLeaderSprayCalendar() {
         <DialogContent>
           {detailDialog.app && (
             <Grid container spacing={2} sx={{ mt: 0 }}>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Product</Typography>
                 <Typography>{detailDialog.app.product_name || '—'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Field</Typography>
                 <Typography>{detailDialog.app.field_name || '—'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Application Date</Typography>
                 <Typography>{formatDisplayDate(detailDialog.app.application_date)}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Start Time</Typography>
                 <Typography>{formatClockTime(detailDialog.app.application_start_time)}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">End Time</Typography>
                 <Typography>{formatClockTime(detailDialog.app.application_end_time)}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">PHI End</Typography>
                 <Typography>{formatPhiEndDateTime(detailDialog.app.phi_end_date, detailDialog.app.application_end_time)}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">PHI Days</Typography>
                 <Typography>{phiDaysLabel(detailDialog.app)}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Dosage</Typography>
                 <Typography>
                   {detailDialog.app.dosage
@@ -287,7 +287,7 @@ export default function TeamLeaderSprayCalendar() {
                     : '—'}
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Method</Typography>
                 <Typography sx={{ textTransform: 'capitalize' }}>{detailDialog.app.application_method || '—'}</Typography>
               </Grid>

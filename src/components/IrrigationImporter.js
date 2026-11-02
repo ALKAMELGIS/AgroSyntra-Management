@@ -17,7 +17,7 @@ import * as XLSX from 'xlsx';
 import { bulkImportIrrigation } from '../utils/backendApi';
 import { parseIrrigationWorkbook } from '../utils/irrigationImportParser';
 
-const HEADER_FILL = '#1B5E20';
+const HEADER_FILL = '#165c3a';
 const hdrStyle = {
   background: HEADER_FILL, color: '#fff', fontWeight: 700,
   fontSize: '0.72rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
@@ -173,7 +173,7 @@ export default function IrrigationImporter({
             </Typography>
             {parseError && <Alert severity="error" sx={{ mb: 2 }}>{parseError}</Alert>}
             <Button variant="contained" component="label" startIcon={<UploadIcon />}
-              sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: '#2E7D32' } }}>
+              sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: '#1f7a4d' } }}>
               Select Excel File
               <input type="file" hidden accept=".xlsx,.xls" ref={fileRef} onChange={handleFileUpload} />
             </Button>
@@ -275,7 +275,7 @@ export default function IrrigationImporter({
                             ) : r._warnings.length > 0 ? (
                               <Typography variant="caption" color="warning.main">{r._warnings.join('; ')}</Typography>
                             ) : (
-                              <OkIcon sx={{ fontSize: 14, color: '#2E7D32' }} />
+                              <OkIcon sx={{ fontSize: 14, color: '#1f7a4d' }} />
                             )}
                           </TableCell>
                         </TableRow>
@@ -331,7 +331,7 @@ export default function IrrigationImporter({
         <Button onClick={handleClose}>{step === 2 ? 'Close' : 'Cancel'}</Button>
         {step === 1 && (
           <Button variant="contained" onClick={handleImport} disabled={importing || totalCounts.importable === 0}
-            sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: '#2E7D32' } }}
+            sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: '#1f7a4d' } }}
             startIcon={importing ? <CircularProgress size={16} color="inherit" /> : null}>
             {importing ? 'Importing…' : `Import ${totalCounts.importable} rows`}
           </Button>

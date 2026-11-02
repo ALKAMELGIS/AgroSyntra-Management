@@ -907,7 +907,7 @@ function QuizManager({ moduleId }) {
       </Box>
 
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           {quizzes.map((q) => (
             <Paper
               key={q.id}
@@ -936,7 +936,7 @@ function QuizManager({ moduleId }) {
           ))}
         </Grid>
 
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           {selectedQuiz && quizDetail ? (
             <Paper sx={{ p: 3 }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, flexWrap: 'wrap', gap: 1 }}>
@@ -1065,18 +1065,18 @@ function QuizManager({ moduleId }) {
         <DialogTitle>AI Generate Questions</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} sx={{ mt: 0 }}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField fullWidth label="Topic" value={aiTopic} onChange={(e) => setAiTopic(e.target.value)} placeholder="e.g., Nutrient management" />
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <TextField fullWidth label="Count" type="number" value={aiCount} onChange={(e) => setAiCount(parseInt(e.target.value) || 5)} inputProps={{ min: 1, max: 20 }} />
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Button variant="contained" fullWidth startIcon={<AutoAwesome />} onClick={() => aiGenerateMutation.mutate()} disabled={!aiTopic || aiGenerateMutation.isLoading} sx={{ height: 56 }}>
                 {aiGenerateMutation.isLoading ? 'Generating...' : 'Generate'}
               </Button>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth size="small">
                 <InputLabel>Source Lessons (optional)</InputLabel>
                 <Select
@@ -1172,16 +1172,16 @@ function AIQuestionGenerator({ moduleId }) {
 
       <Paper sx={{ p: 3, mb: 3 }}>
         <Grid container spacing={2} alignItems="flex-end">
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               fullWidth label="Topic" placeholder="e.g., pH correction methods"
               value={topic} onChange={(e) => setTopic(e.target.value)}
             />
           </Grid>
-          <Grid item xs={6} sm={2}>
+          <Grid size={{ xs: 6, sm: 2 }}>
             <TextField fullWidth label="Count" type="number" value={count} onChange={(e) => setCount(parseInt(e.target.value) || 5)} inputProps={{ min: 1, max: 20 }} />
           </Grid>
-          <Grid item xs={6} sm={4}>
+          <Grid size={{ xs: 6, sm: 4 }}>
             <Button
               variant="contained" fullWidth startIcon={<AutoAwesome />}
               onClick={() => generateMutation.mutate()}

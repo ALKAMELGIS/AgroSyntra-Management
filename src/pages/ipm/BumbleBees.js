@@ -1001,7 +1001,7 @@ export default function BumbleBees() {
 
       <TabPanel value={tab} index={0}>
         <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card variant="outlined">
               <CardContent>
                 <Typography variant="overline" color="text.secondary">Boxes on hand</Typography>
@@ -1009,7 +1009,7 @@ export default function BumbleBees() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card variant="outlined">
               <CardContent>
                 <Typography variant="overline" color="text.secondary">Projected total</Typography>
@@ -1017,7 +1017,7 @@ export default function BumbleBees() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card variant="outlined">
               <CardContent>
                 <Typography variant="overline" color="text.secondary">Avg boxes removed / week</Typography>
@@ -1028,7 +1028,7 @@ export default function BumbleBees() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card variant="outlined">
               <CardContent>
                 <Typography variant="overline" color="text.secondary">Last deploy</Typography>
@@ -1626,11 +1626,11 @@ export default function BumbleBees() {
       <TabPanel value={tab} index={3}>
         <Grid container spacing={2} sx={{ mb: 3 }}>
           {[
-            { label: 'Boxes on hand', value: onHand, color: '#2e7d32', bg: '#e8f5e9' },
+            { label: 'Boxes on hand', value: onHand, color: '#1f7a4d', bg: '#e8f5e9' },
             { label: 'Upcoming (not received)', value: inventory?.pendingIncomingTotal ?? 0, color: '#e65100', bg: '#fff3e0' },
             { label: 'Projected total', value: inventory?.projectedTotal ?? onHand, color: '#1565c0', bg: '#e3f2fd' },
           ].map((kpi) => (
-            <Grid item xs={12} sm={4} key={kpi.label}>
+            <Grid size={{ xs: 12, sm: 4 }} key={kpi.label}>
               <Box sx={{
                 p: 1.5, borderRadius: 1, border: '1px solid #c8c8c8', background: kpi.bg, textAlign: 'center',
               }}>

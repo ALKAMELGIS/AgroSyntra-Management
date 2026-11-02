@@ -1,120 +1,62 @@
-# Al Maha Farm Management System - Design System
+# AgroCloud Design System — "Calm Field"
 
-## Color Palette
+Source of truth: `src/theme.js` (MUI theme + CSS variables injected on `:root`).
+`src/App.css` only holds global hooks (scrollbars, charts, Leaflet, print, mobile polish).
+Guided by UI UX Pro Max (Minimalism & Swiss style, data-dense dashboards, WCAG AA),
+with typography, spacing and page rhythm inspired by OneSoil (not copied).
 
-### Primary Colors (Warm Green - Agriculture Theme)
-- **Primary Main**: `#3d7c4f` (Earthy Green)
-- **Primary Light**: `#5a9e6b` (Soft Green)
-- **Primary Dark**: `#2d6a3f` (Deep Green)
+## Colour tokens
+| Token | Light | Dark | Use |
+|---|---|---|---|
+| primary | `#1f7a4d` | `#4cb27e` | Actions, active nav, focus ring |
+| primary.dark | `#165c3a` | `#2f8f5d` | Hover |
+| secondary | `#0f6f6a` | `#45b3aa` | Secondary series / accents |
+| warning / error / info | `#c4761a` / `#c23b2b` / `#2f6aa8` | `#e5a24f` / `#ef7d6d` / `#6aa6e6` | Status |
+| background.default | `#f5f6f3` | `#0c100e` | Page |
+| background.paper | `#ffffff` | `#141a17` | Cards, menus |
+| background.muted | `#eff1ed` | `#1a211d` | Inputs bands, table heads |
+| text.primary / secondary | `#121714` / `#58625c` | `#e9eee9` / `#9ba79f` | Text (≥4.5:1) |
+| divider | `#e3e7e2` | `#252d28` | Hairlines |
+| table.headerBg | `#1d5a3c` | `#1d5a3c` | Spreadsheet header band (white text) |
 
-### Secondary Colors (Indigo - Accent)
-- **Secondary Main**: `#6366f1` (Indigo 500)
-- **Secondary Light**: `#818cf8` (Indigo 400)
-- **Secondary Dark**: `#4f46e5` (Indigo 600)
+CSS variables: `--brand-green`, `--text-primary`, `--text-secondary`, `--bg-page`, `--bg-surface`,
+`--bg-muted`, `--border-subtle`, `--border-hover`, `--radius-*`, `--shadow-*` — they switch with the theme.
 
-### Semantic Colors
-- **Success**: `#3d7c4f` (Primary green)
-- **Warning**: `#e8913a` (Warm orange)
-- **Error**: `#dc3545` (Red)
-- **Info**: `#3b82f6` (Blue 500)
+Charts: `src/components/dashboard/dashboardChartTheme.js` → `CHART_COLORS` (calm, earthy, ordered for distinguishability).
 
-### Background Colors
-- **Default**: `#faf8f5` (Warm cream)
-- **Paper**: `#ffffff` (White)
-- **Muted**: `#f5f3f0` (Warm light grey)
+## Typography
+Inter (Latin) + IBM Plex Sans Arabic (Arabic), loaded once in `public/index.html`.
+Headings 600 weight with negative tracking; numerals are tabular.
 
-### Text Colors
-- **Primary**: `#1a1a1a` (Near-black, warm)
-- **Secondary**: `#6b7280` (Warm grey)
-- **Disabled**: `#9ca3af` (Light grey)
+| Variant | Desktop | Phone |
+|---|---|---|
+| h1 | 40px | 32px |
+| h2 | 32px | 26px |
+| h3 | 26px | 22px |
+| h4 (page title) | 24px | 20px |
+| h5 | 19px | 17px |
+| h6 | 16px | 16px |
+| body1 / body2 | 15px / 13.5px | — |
+| caption / overline | 12px / 11px uppercase | — |
 
-### Borders
-- **Subtle**: `#e8e5e0` (Warm border)
-- **Hover**: `#d6d3ce` (Slightly darker on hover)
+## Spacing & shape
+Base unit 4px (`theme.spacing(1)`). Page gutter: 12 / 20 / 24 / 28px (phone / tablet / laptop / desktop) — `CONTENT_PADDING` in `src/hooks/useAppLayout.js`; use `contentBleed` for full-bleed children.
+Radius: 6 · 8 · 12 · 16 (cards) · 20 (dialogs) · pill (buttons, chips, search).
 
-### Dark Mode
-Dark mode uses the same warmth shift:
-- **Background**: `#1a1714` / `#262320`
-- **Text**: `#f5f0eb` / `#a8a29e`
-- **Primary**: `#5a9e6b` / `#7dc08d`
-- **Divider**: `#3d3a36`
+## Components
+- **Buttons**: pill shape, min-height 38px (32 small / 46 large), visible focus ring.
+- **Cards / Paper**: 16px radius, hairline border, soft shadow.
+- **Inputs**: 10px radius, emerald focus ring, 16px font on phones (no iOS zoom).
+- **Menus / popovers / dialogs**: hairline border + soft pop shadow; dialogs go near full-width on phones.
+- **Tables**: muted uppercase head, hover rows, horizontal scroll inside the container.
+- **Icons**: Material *Outlined* family everywhere in navigation and hubs.
+- **Layout grid**: MUI v7 `Grid` with `size={{ xs, sm, md }}` (legacy `item xs=` props are not supported in v7).
 
-## Typography Scale
+## Background moon
+`src/components/BackgroundMoon.js` — inline SVG, fixed behind content, partially off-screen at the
+inline-end edge (mirrors in RTL). Light opacity 0.6 of a near-page-tone disc; dark 0.075. No pointer
+events, hidden from screen readers and print, slow 48s drift disabled under `prefers-reduced-motion`.
 
-Font family: `Inter`, system-ui fallbacks
-
-| Variant | Font Size | Font Weight | Line Height | Use Case |
-|---------|-----------|-------------|-------------|----------|
-| h1 | 2.25rem (36px) | 700 | 1.2 | Main page titles |
-| h2 | 1.875rem (30px) | 700 | 1.25 | Section titles |
-| h3 | 1.5rem (24px) | 600 | 1.3 | Subsection titles |
-| h4 | 1.25rem (20px) | 600 | 1.35 | Card titles, page headers |
-| h5 | 1.1rem (17.6px) | 600 | 1.4 | Form section titles |
-| h6 | 0.95rem (15.2px) | 600 | 1.5 | Table headers, small titles |
-| body1 | 0.875rem (14px) | 400 | 1.6 | Body text, paragraphs |
-| body2 | 0.8125rem (13px) | 400 | 1.55 | Secondary text, descriptions |
-| caption | 0.75rem (12px) | 500 | 1.5 | Labels, helper text |
-| button | 0.8125rem (13px) | 500 | 1.75 | Button text (no uppercase) |
-| overline | 0.6875rem (11px) | 600 | 1.5 | Section labels, uppercase |
-
-## Spacing Scale
-
-Base unit: **4px**
-
-| Multiplier | Value | Use Case |
-|------------|-------|----------|
-| 0.5 | 2px | Tight spacing |
-| 1 | 4px | Minimal spacing |
-| 2 | 8px | Small spacing |
-| 3 | 12px | Medium-small spacing |
-| 4 | 16px | Medium spacing |
-| 6 | 24px | Large spacing |
-| 8 | 32px | Extra large spacing |
-| 12 | 48px | Section spacing |
-
-## Component Styling
-
-### Buttons
-- Border radius: 8px
-- Padding: 8px 16px
-- Text transform: none (no uppercase)
-- Font weight: 500
-- Elevation: none (flat)
-- Primary: solid green `#3d7c4f`, hover `#2d6a3f`
-- Outlined: warm border, hover fills `#f5f3f0`
-
-### Cards & Papers
-- Border radius: 12px
-- Border: 1px solid `#e8e5e0`
-- Box shadow: none (flat)
-- Hover: border darkens to `#d6d3ce`
-
-### Text Fields
-- Border radius: 8px
-- Border: 1px solid `#e8e5e0`
-- Focus: green border + soft green ring `0 0 0 3px rgba(61,124,79,0.1)`
-
-### Tables
-- Header background: `#f5f3f0`
-- Header font: 0.6875rem, uppercase, weight 600
-- Cell padding: 10px 16px
-- Row hover: `#faf8f5`
-
-### Sidebar
-- White background, warm border-right
-- Section labels: uppercase overline headings (GENERAL, DATA ENTRY, etc.)
-- Active item: soft green fill `rgba(61,124,79,0.1)` + green text
-- Icons: 18px, secondary grey, green when active
-
-### AppBar / Topbar
-- White background, bottom border
-- Visible search bar (click opens command palette)
-- Right side: notification bell + user avatar with name/role
-- Theme toggle and language switcher inside user dropdown
-
-## Theme File Location
-`src/theme.js` - Contains the complete theme configuration via `createAppTheme(mode, direction)`
-
-## Application
-The theme is applied globally via `AppThemeProvider` in `src/contexts/ThemeContext.js`
-which wraps MUI `ThemeProvider` and supports light/dark/system modes + RTL.
+## RTL note
+Do not put `::placeholder` (or other selectors the stylis prefixer expands) in theme `styleOverrides`;
+it crashes the RTL emotion cache. Put such rules in `App.css`.

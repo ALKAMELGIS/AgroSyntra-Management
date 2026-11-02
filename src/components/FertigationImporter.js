@@ -33,8 +33,8 @@ import {
   recipeNotApprovedMessage,
 } from '../utils/fertigationImportValidate';
 
-const headerBg = '#2e7d32';
-const bannerBg = '#1b5e20';
+const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
+const bannerBg = '#164a31';
 const bannerColor = '#fff';
 const altRowBg = '#e8f5e9';
 const cellBorder = '1px solid #c8c8c8';
@@ -405,7 +405,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
           <Box>
             <Paper
               variant="outlined"
-              sx={{ p: 5, textAlign: 'center', borderStyle: 'dashed', borderColor: headerBg, cursor: 'pointer', '&:hover': { background: '#f1f8e9' } }}
+              sx={{ p: 5, textAlign: 'center', borderStyle: 'dashed', borderColor: headerBg, cursor: 'pointer', '&:hover': { background: 'rgba(31,122,77,0.05)' } }}
               onClick={() => fileRef.current?.click()}
             >
               <UploadIcon sx={{ fontSize: 56, color: headerBg, mb: 1 }} />
@@ -519,7 +519,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
                         <TableCell sx={{ ...cellStyle, fontWeight: 600 }}>{h}</TableCell>
                         <TableCell sx={cellStyle}>
                           {autoKgLabel ? (
-                            <Typography sx={{ fontSize: '0.72rem', color: '#1b5e20', fontWeight: 600 }}>
+                            <Typography sx={{ fontSize: '0.72rem', color: '#164a31', fontWeight: 600 }}>
                               {autoKgLabel}
                             </Typography>
                           ) : (
@@ -600,7 +600,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
                         <TableCell sx={{ ...cellStyle, textAlign: 'center', color: '#888' }}>{r._rowNum}</TableCell>
                         {showSheetColumn && <TableCell sx={cellStyle}>{r._sheet || ''}</TableCell>}
                         <TableCell sx={cellStyle}>
-                          {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: '#2e7d32' }} />}
+                          {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: '#1f7a4d' }} />}
                           {r._status === 'warning' && <WarnIcon sx={{ fontSize: 16, color: '#e65100' }} />}
                           {r._status === 'error' && <ErrIcon sx={{ fontSize: 16, color: '#c62828' }} />}
                         </TableCell>
@@ -676,7 +676,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
             variant="contained"
             onClick={() => prepareMapping(sheetInfos, selectedSheetNames)}
             disabled={selectedSheetNames.length === 0}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#1b5e20' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
           >
             Continue — {selectedRowCount} rows
           </Button>
@@ -686,7 +686,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
             variant="contained"
             onClick={applyMappingAndValidate}
             disabled={!columnMapping || Object.values(columnMapping).filter(Boolean).length < 3}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#1b5e20' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
           >
             Continue — Validate {rawDataRows.length} rows
           </Button>
@@ -697,7 +697,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
             onClick={handleImport}
             disabled={importing || importableRows.length === 0}
             startIcon={importing ? <CircularProgress size={16} /> : <ImportIcon />}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#1b5e20' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
           >
             {importing ? 'Importing...' : `Import ${importableRows.length} rows`}
           </Button>

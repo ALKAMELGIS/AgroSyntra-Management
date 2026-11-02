@@ -11,6 +11,7 @@ import {
   Link,
   CircularProgress,
 } from '@mui/material';
+import BackgroundMoon from '../components/BackgroundMoon';
 import { useAuth } from '../contexts/AuthContext';
 import { getFriendlyError } from '../utils/errorMessages';
 
@@ -60,7 +61,9 @@ function Register() {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        minHeight: '100dvh',
+        position: 'relative',
+        '& > :not(.ac-moon)': { position: 'relative', zIndex: 1 },
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -68,6 +71,7 @@ function Register() {
         p: 2,
       }}
     >
+      <BackgroundMoon variant="auth" />
       <Card sx={{ maxWidth: 400, width: '100%' }}>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>

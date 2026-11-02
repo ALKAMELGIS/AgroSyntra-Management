@@ -414,7 +414,7 @@ function CountriesSitesManagement() {
               <Form>
                 <DialogContent>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         label={t('zoneAccess.zoneName')}
@@ -426,7 +426,7 @@ function CountriesSitesManagement() {
                         helperText={touched.name && errors.name}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         label={t('zoneAccess.codeHint')}
@@ -465,7 +465,7 @@ function CountriesSitesManagement() {
               <Form>
                 <DialogContent>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         label={t('zoneAccess.siteName')}
@@ -477,7 +477,7 @@ function CountriesSitesManagement() {
                         helperText={touched.name && errors.name}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         label={t('zoneAccess.location')}
@@ -489,7 +489,7 @@ function CountriesSitesManagement() {
                         helperText={touched.location && errors.location}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <TextField
                         fullWidth
                         type="number"

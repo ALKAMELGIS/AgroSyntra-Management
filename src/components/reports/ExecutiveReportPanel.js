@@ -21,7 +21,7 @@ function KpiCard({ title, value, subtitle, delta, color = '#16a34a' }) {
           <Typography variant="caption" color="text.secondary" display="block">{subtitle}</Typography>
         )}
         {delta && (
-          <Typography variant="caption" sx={{ color: delta.startsWith('+') ? '#16a34a' : delta.startsWith('-') ? '#dc3545' : 'text.secondary', fontWeight: 600 }}>
+          <Typography variant="caption" sx={{ color: delta.startsWith('+') ? '#16a34a' : delta.startsWith('-') ? '#c23b2b' : 'text.secondary', fontWeight: 600 }}>
             {delta}
           </Typography>
         )}
@@ -58,7 +58,7 @@ export default function ExecutiveReportPanel({
 
   return (
     <Box className="executive-report-panel" sx={{ '@media print': { p: 0 } }}>
-      <Paper elevation={0} sx={{ p: { xs: 2, sm: 3 }, mb: 3, bgcolor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 2 }}>
+      <Paper elevation={0} sx={{ p: { xs: 2, sm: 3 }, mb: 3, bgcolor: 'background.muted', border: '1px solid', borderColor: 'divider', borderRadius: 4 }}>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'flex-end', justifyContent: 'space-between' }}>
           <Box>
             <Typography variant="h5" sx={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -93,7 +93,7 @@ export default function ExecutiveReportPanel({
         <>
           <Grid container spacing={1.5} sx={{ mb: 3 }}>
             {report.kpis.map((kpi) => (
-              <Grid item xs={6} sm={4} md={2} key={kpi.title}>
+              <Grid size={{ xs: 6, sm: 4, md: 2 }} key={kpi.title}>
                 <KpiCard {...kpi} />
               </Grid>
             ))}
@@ -126,7 +126,7 @@ export default function ExecutiveReportPanel({
 
           <Grid container spacing={2}>
             {report.topFive.map((section) => (
-              <Grid item xs={12} sm={6} md={4} key={section.title}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={section.title}>
                 <Paper elevation={0} sx={{ p: 2, height: '100%', border: '1px solid #e2e8f0', borderRadius: 2 }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1.5 }}>
                     {section.title}

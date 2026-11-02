@@ -431,14 +431,14 @@ function ECPHEntry() {
               <Form>
                 <Grid container spacing={3}>
                   {/* Section 1: Basic Information */}
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper elevation={2} sx={{ p: 3 }}>
                       <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
                         <SettingsIcon color="primary" />
                         Basic Information
                       </Typography>
                       <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                           <TextField
                             fullWidth
                             label="Date"
@@ -453,7 +453,7 @@ function ECPHEntry() {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                           <TextField
                             fullWidth
                             select
@@ -505,7 +505,7 @@ function ECPHEntry() {
                             )}
                           </TextField>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                           <TextField
                             fullWidth
                             select
@@ -556,7 +556,7 @@ function ECPHEntry() {
                             )}
                           </TextField>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                           <TextField
                             fullWidth
                             select
@@ -627,7 +627,7 @@ function ECPHEntry() {
                             )}
                           </TextField>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                           <TextField
                             fullWidth
                             label="Time"
@@ -647,7 +647,7 @@ function ECPHEntry() {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                           <TextField
                             fullWidth
                             select
@@ -665,7 +665,7 @@ function ECPHEntry() {
                             ))}
                           </TextField>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                           <TextField
                             fullWidth
                             select
@@ -688,7 +688,7 @@ function ECPHEntry() {
                   </Grid>
 
                   {/* Section 2: First Valve */}
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper elevation={2} sx={{ p: 3 }}>
                       <ValveFormSection
                         prefix="valve1"
@@ -708,7 +708,7 @@ function ECPHEntry() {
                   </Grid>
 
                   {/* Section 3: Second Valve (Optional) */}
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper elevation={2} sx={{ p: 3 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                         <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -756,14 +756,14 @@ function ECPHEntry() {
                   </Grid>
 
                   {/* Section 4: Field-Level Summary */}
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper elevation={2} sx={{ p: 3 }}>
                       <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
                         <CalculateIcon color="primary" />
                         Field-Level Summary
                       </Typography>
                       <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                           <TextField
                             fullWidth
                             label="V1 Total Water QTY (M³)"
@@ -781,7 +781,7 @@ function ECPHEntry() {
                           />
                         </Grid>
                         {valve2Expanded && (
-                          <Grid item xs={12} sm={6} md={3}>
+                          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                             <TextField
                               fullWidth
                               label="V2 Total Water QTY (M³)"
@@ -799,7 +799,7 @@ function ECPHEntry() {
                             />
                           </Grid>
                         )}
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                           <TextField
                             fullWidth
                             label={
@@ -830,7 +830,7 @@ function ECPHEntry() {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                           <TextField
                             fullWidth
                             label={
@@ -871,7 +871,7 @@ function ECPHEntry() {
                           />
                         </Grid>
                         {selectedCrop && (
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <Box sx={{ 
                               p: 1.5, 
                               bgcolor: 'info.light', 
@@ -894,7 +894,7 @@ function ECPHEntry() {
                   </Grid>
 
                   {/* Action Buttons */}
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Paper elevation={2} sx={{ p: 3 }}>
                       <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
                         <Button

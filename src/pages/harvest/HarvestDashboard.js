@@ -249,7 +249,7 @@ function HarvestDashboard() {
   return (
     <Container maxWidth="xl">
       <Box sx={{ py: 3 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <Typography variant="h4" sx={{ fontWeight: 600 }}>
             Harvest Dashboard
           </Typography>
@@ -270,7 +270,7 @@ function HarvestDashboard() {
             Filters
           </Typography>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField
                 fullWidth
                 type="date"
@@ -281,7 +281,7 @@ function HarvestDashboard() {
                 inputProps={{ min: seasonStart || undefined, max: seasonEnd || undefined }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField
                 fullWidth
                 type="date"
@@ -292,7 +292,7 @@ function HarvestDashboard() {
                 inputProps={{ min: seasonStart || undefined, max: seasonEnd || undefined }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField
                 fullWidth
                 select
@@ -307,7 +307,7 @@ function HarvestDashboard() {
                 ))}
               </TextField>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField
                 fullWidth
                 select
@@ -326,7 +326,7 @@ function HarvestDashboard() {
 
         {/* Summary Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Card
               variant="outlined"
               sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid', borderLeftColor: 'primary.main' }}
@@ -341,7 +341,7 @@ function HarvestDashboard() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Card
               variant="outlined"
               sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid', borderLeftColor: 'success.main' }}
@@ -356,7 +356,7 @@ function HarvestDashboard() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Card
               variant="outlined"
               sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid', borderLeftColor: 'warning.main' }}

@@ -453,12 +453,12 @@ export default function PivotFertigationTab({ readOnly = false }) {
         <TableCell sx={{ ...dCell, p: 0, width: 52, position: 'sticky', right: 0, backgroundColor: '#fff', zIndex: 1 }}>
           {readOnly ? null : isNew ? (
             <IconButton size="small" onClick={handleSaveNew} disabled={savingId === 'new'} sx={{ p: '2px' }}>
-              {savingId === 'new' ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 16, color: '#1B5E20' }} />}
+              {savingId === 'new' ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 16, color: '#165c3a' }} />}
             </IconButton>
           ) : (
             <>
               <IconButton size="small" onClick={() => handleUpdateRow(row)} disabled={savingId === row.id} sx={{ p: '2px' }}>
-                {savingId === row.id ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 16, color: '#1B5E20' }} />}
+                {savingId === row.id ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 16, color: '#165c3a' }} />}
               </IconButton>
               <IconButton size="small" onClick={() => handleDelete(row.id)} sx={{ p: '2px' }}>
                 <Delete sx={{ fontSize: 16, color: '#c62828' }} />
@@ -479,7 +479,7 @@ export default function PivotFertigationTab({ readOnly = false }) {
           <>
             <DeleteSelectedButton count={selection.size} onClick={handleBulkDelete} />
             <Button size="small" startIcon={<FileUpload />} onClick={() => setImporterOpen(true)}
-              sx={{ fontFamily: FONT, fontSize: '11px', textTransform: 'none', color: '#1B5E20' }}>
+              sx={{ fontFamily: FONT, fontSize: '11px', textTransform: 'none', color: '#165c3a' }}>
               Import Excel
             </Button>
             <Button size="small" startIcon={<Add />} onClick={() => setNewRow(emptyRow(pivotFields))}

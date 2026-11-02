@@ -428,7 +428,7 @@ function FertigationDashboard() {
   return (
     <Container maxWidth="xl">
       <Box sx={{ py: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <Typography variant="h4" sx={{ fontWeight: 600 }}>Fertigation Dashboard</Typography>
           <Box>
             <Button variant="outlined" startIcon={<Download />} onClick={exportToExcel} sx={{ mr: 1 }}>
@@ -442,7 +442,7 @@ function FertigationDashboard() {
 
         {/* Summary Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid #1976d2' }}>
               <CardContent>
                 <Typography variant="overline" color="text.secondary">
@@ -457,8 +457,8 @@ function FertigationDashboard() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid #2e7d32' }}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid #1f7a4d' }}>
               <CardContent>
                 <Typography variant="overline" color="text.secondary">
                   Total Fertilizer
@@ -469,7 +469,7 @@ function FertigationDashboard() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid #ed6c02' }}>
               <CardContent>
                 <Typography variant="overline" color="text.secondary">
@@ -481,7 +481,7 @@ function FertigationDashboard() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid #0288d1' }}>
               <CardContent>
                 <Typography variant="overline" color="text.secondary">
@@ -502,7 +502,7 @@ function FertigationDashboard() {
             <Typography variant="h6">Filters</Typography>
           </Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <TextField
                 fullWidth size="small"
                 type="date"
@@ -513,7 +513,7 @@ function FertigationDashboard() {
                 inputProps={{ min: seasonStart || undefined, max: seasonEnd || undefined }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <TextField
                 fullWidth size="small"
                 type="date"
@@ -524,7 +524,7 @@ function FertigationDashboard() {
                 inputProps={{ min: seasonStart || undefined, max: seasonEnd || undefined }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>Sites</InputLabel>
                 <Select
@@ -543,7 +543,7 @@ function FertigationDashboard() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>Fields</InputLabel>
                 <Select
@@ -562,7 +562,7 @@ function FertigationDashboard() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>Recipes</InputLabel>
                 <Select
@@ -581,7 +581,7 @@ function FertigationDashboard() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>Crops</InputLabel>
                 <Select
@@ -723,7 +723,7 @@ function FertigationDashboard() {
                 </ResponsiveContainer>
                 <Box sx={{ mt: 3 }}>
                   <Grid container spacing={3}>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
                           <Pie
@@ -744,7 +744,7 @@ function FertigationDashboard() {
                         </PieChart>
                       </ResponsiveContainer>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TableContainer>
                         <Table size="small">
                           <TableHead>

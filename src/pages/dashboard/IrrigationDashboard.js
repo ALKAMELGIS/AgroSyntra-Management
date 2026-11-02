@@ -277,13 +277,13 @@ export default function IrrigationDashboard({
       ) : (
         <>
       <Grid container spacing={1.5} sx={{ mb: 3 }}>
-        <Grid item xs={6} sm={4}>
+        <Grid size={{ xs: 6, sm: 4 }}>
           <DashboardStatCard title="Total water" value={totalWater.toFixed(1)} subtitle="m³" />
         </Grid>
-        <Grid item xs={6} sm={4}>
+        <Grid size={{ xs: 6, sm: 4 }}>
           <DashboardStatCard title="Total cycles" value={totalCycles.toFixed(0)} />
         </Grid>
-        <Grid item xs={6} sm={4}>
+        <Grid size={{ xs: 6, sm: 4 }}>
           <DashboardStatCard title="Days with irrigation" value={waterByDate.length} />
         </Grid>
       </Grid>

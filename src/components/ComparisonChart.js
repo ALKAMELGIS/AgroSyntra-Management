@@ -23,7 +23,7 @@ import {
 } from 'recharts';
 import { apiRequest } from '../utils/api';
 
-const COLORS = ['#2e7d32', '#1976d2', '#f57c00', '#9c27b0', '#e91e63'];
+const COLORS = ['#1f7a4d', '#1976d2', '#f57c00', '#9c27b0', '#e91e63'];
 
 const METRIC_OPTIONS = [
   { value: 'total_quantity', label: 'Harvest Yield (kg)' },
@@ -88,7 +88,7 @@ export default function ComparisonChart() {
       </Box>
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Autocomplete
             multiple
             options={fields}
@@ -111,7 +111,7 @@ export default function ComparisonChart() {
             }
           />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <TextField
             select
             fullWidth
@@ -140,7 +140,7 @@ export default function ComparisonChart() {
             <Bar
               dataKey="value"
               name={METRIC_OPTIONS.find((m) => m.value === metric)?.label || metric}
-              fill="#2e7d32"
+              fill="#1f7a4d"
             >
               {chartData.map((_, i) => (
                 <rect key={i} fill={COLORS[i % COLORS.length]} />
@@ -160,7 +160,7 @@ export default function ComparisonChart() {
         <Box sx={{ mt: 2 }}>
           <Grid container spacing={2}>
             {chartData.map((item, idx) => (
-              <Grid item xs={6} md={3} key={item.name}>
+              <Grid size={{ xs: 6, md: 3 }} key={item.name}>
                 <Paper variant="outlined" sx={{ p: 1.5, textAlign: 'center', borderLeft: `3px solid ${COLORS[idx]}` }}>
                   <Typography variant="caption" color="text.secondary">{item.name}</Typography>
                   <Typography variant="h6" fontWeight={600}>{item.value.toLocaleString()}</Typography>

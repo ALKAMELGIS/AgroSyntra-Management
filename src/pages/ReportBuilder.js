@@ -165,7 +165,7 @@ export default function ReportBuilder() {
               ))}
             </TextField>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <TextField
                   fullWidth
                   type="date"
@@ -175,7 +175,7 @@ export default function ReportBuilder() {
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <TextField
                   fullWidth
                   type="date"

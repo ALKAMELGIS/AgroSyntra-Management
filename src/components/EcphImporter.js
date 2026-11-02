@@ -15,10 +15,10 @@ import {
 import * as XLSX from 'xlsx';
 import { bulkCreateEcph } from '../utils/backendApi';
 
-const headerBg = '#4472c4';
+const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
 const bannerBg = '#1f3864';
 const bannerColor = '#fff';
-const altRowBg = '#eaf1f8';
+const altRowBg = 'rgba(31,122,77,0.06)';
 const cellBorder = '1px solid #c8c8c8';
 const warnBg = '#fff8e1';
 const errBg = '#ffebee';
@@ -635,7 +635,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
             {sheetChoices.length === 0 ? (
               <Paper
                 variant="outlined"
-                sx={{ p: 5, textAlign: 'center', borderStyle: 'dashed', borderColor: headerBg, cursor: 'pointer', '&:hover': { background: '#f5f7fa' } }}
+                sx={{ p: 5, textAlign: 'center', borderStyle: 'dashed', borderColor: headerBg, cursor: 'pointer', '&:hover': { background: 'rgba(31,122,77,0.05)' } }}
                 onClick={() => fileRef.current?.click()}
               >
                 <UploadIcon sx={{ fontSize: 56, color: headerBg, mb: 1 }} />
@@ -655,7 +655,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
                 <Box sx={{ display: 'flex', gap: 1.5, justifyContent: 'center', flexWrap: 'wrap', mt: 1 }}>
                   {sheetChoices.map(name => (
                     <Button key={name} variant="outlined" onClick={() => selectSheet(name)}
-                      sx={{ textTransform: 'none', borderColor: headerBg, color: headerBg, '&:hover': { background: '#eaf1f8' } }}>
+                      sx={{ textTransform: 'none', borderColor: headerBg, color: headerBg, '&:hover': { background: 'rgba(31,122,77,0.06)' } }}>
                       {name}
                     </Button>
                   ))}
@@ -762,7 +762,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
                           if (col.key === '_status') {
                             return (
                               <TableCell key={col.key} sx={cellStyle}>
-                                {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: '#2e7d32' }} />}
+                                {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: '#1f7a4d' }} />}
                                 {r._status === 'warning' && <WarnIcon sx={{ fontSize: 16, color: '#e65100' }} />}
                                 {r._status === 'error' && <ErrIcon sx={{ fontSize: 16, color: '#c62828' }} />}
                               </TableCell>
@@ -840,7 +840,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
             variant="contained"
             onClick={applyMappingAndValidate}
             disabled={!columnMapping || Object.values(columnMapping).filter(Boolean).length < 2}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#3a63a8' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
           >
             Continue — Validate {rawDataRows.length} rows
           </Button>
@@ -851,7 +851,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
             onClick={handleImport}
             disabled={importing || importableRows.length === 0}
             startIcon={importing ? <CircularProgress size={16} /> : <ImportIcon />}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#3a63a8' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
           >
             {importing ? 'Importing...' : `Import ${importableRows.length} rows`}
           </Button>

@@ -14,8 +14,9 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { Spa as EcoIcon } from '@mui/icons-material';
+import { SpaOutlined as EcoIcon } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
+import BackgroundMoon from '../components/BackgroundMoon';
 import { getFriendlyError } from '../utils/errorMessages';
 import { API_BASE as API_URL } from '../config/api';
 import { loginTeamLeader } from './WorkerLogin';
@@ -143,78 +144,125 @@ function Login() {
     setError('');
   };
 
+  const panelCopy = isTeamLeaderMode
+    ? 'Record daily worker activities for your team.'
+    : isFieldStaffMode
+      ? 'Scouters and operators sign in with Employee ID + PIN.'
+      : 'Manage your farm operations, from field to forecast.';
+  const panelTags = isTeamLeaderMode
+    ? ['Workers', 'Activities', 'Submit']
+    : isFieldStaffMode
+      ? ['Scouting', 'IPM', 'Field work']
+      : ['Data Entry', 'Analytics', 'Reports'];
+
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex' }}>
-      {/* Left branded panel */}
+    <Box sx={{ minHeight: '100dvh', display: 'flex', bgcolor: 'background.default' }}>
+      {/* Left branded panel — a calm night field under a soft moon */}
       {!isMobile && (
         <Box
+          component="aside"
           sx={{
-            width: '50%',
-            background: 'linear-gradient(160deg, #2d6a3f 0%, #3d7c4f 50%, #5a9e6b 100%)',
+            width: { md: '46%', lg: '50%' },
+            m: 3,
+            borderRadius: 6,
+            background: 'radial-gradient(120% 90% at 80% 0%, #2a6b4a 0%, #15402c 46%, #0b2418 100%)',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            p: 8,
+            justifyContent: 'space-between',
+            p: { md: 10, lg: 14 },
             position: 'relative',
             overflow: 'hidden',
+            color: '#fff',
           }}
         >
+          {/* moon */}
           <Box
+            aria-hidden="true"
             sx={{
               position: 'absolute',
-              inset: 0,
-              opacity: 0.06,
-              backgroundImage: `radial-gradient(circle at 25% 25%, #fff 1px, transparent 1px),
-                                radial-gradient(circle at 75% 75%, #fff 1px, transparent 1px)`,
-              backgroundSize: '40px 40px',
+              top: '9%',
+              right: '10%',
+              width: { md: 150, lg: 190 },
+              aspectRatio: '1 / 1',
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 36% 32%, #ffffff 0%, #eef3ec 38%, #c9d6cb 72%, #9fb3a5 100%)',
+              boxShadow: '0 0 60px 18px rgba(214,236,220,0.12), 0 0 160px 60px rgba(214,236,220,0.06)',
+              opacity: 0.78,
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                inset: 0,
+                borderRadius: '50%',
+                background: `radial-gradient(circle at 30% 40%, rgba(120,140,128,0.16) 0 9%, transparent 13%),
+                             radial-gradient(circle at 62% 58%, rgba(120,140,128,0.13) 0 13%, transparent 18%),
+                             radial-gradient(circle at 44% 74%, rgba(120,140,128,0.1) 0 6%, transparent 9%),
+                             radial-gradient(circle at 68% 30%, rgba(120,140,128,0.11) 0 5%, transparent 8%)`,
+                filter: 'blur(2.5px)',
+              },
             }}
           />
-          <Box sx={{ position: 'relative', textAlign: 'center', maxWidth: 400 }}>
+          {/* rolling field horizon */}
+          <Box
+            aria-hidden="true"
+            component="svg"
+            viewBox="0 0 800 240"
+            preserveAspectRatio="none"
+            sx={{ position: 'absolute', left: 0, right: 0, bottom: 0, width: '100%', height: '34%', opacity: 0.9 }}
+          >
+            <path d="M0 150 C 160 110, 320 120, 460 140 S 700 170, 800 130 L800 240 L0 240 Z" fill="rgba(255,255,255,0.04)" />
+            <path d="M0 190 C 180 150, 360 170, 520 180 S 720 200, 800 170 L800 240 L0 240 Z" fill="rgba(255,255,255,0.05)" />
+            <g stroke="rgba(255,255,255,0.07)" strokeWidth="1" fill="none">
+              <path d="M0 210 Q 400 160 800 205" />
+              <path d="M0 222 Q 400 180 800 218" />
+              <path d="M0 232 Q 400 200 800 230" />
+            </g>
+          </Box>
+
+          <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 3 }}>
             <Box
               sx={{
-                width: 64,
-                height: 64,
-                borderRadius: 3,
-                bgcolor: 'rgba(255,255,255,0.15)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                mx: 'auto',
-                mb: 4,
+                width: 40,
+                height: 40,
+                borderRadius: 2.5,
+                bgcolor: 'rgba(255,255,255,0.12)',
+                border: '1px solid rgba(255,255,255,0.18)',
+                display: 'grid',
+                placeItems: 'center',
               }}
             >
-              <EcoIcon sx={{ fontSize: 36, color: '#fff' }} />
+              <EcoIcon sx={{ fontSize: 22, color: '#fff' }} />
             </Box>
-            <Typography sx={{ fontSize: '2rem', fontWeight: 700, color: '#fff', mb: 2, lineHeight: 1.2 }}>
+            <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#fff', letterSpacing: '-0.01em' }}>
               Elite Agro Cloud
             </Typography>
-            <Typography sx={{ fontSize: '1.125rem', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, mb: 4 }}>
-              {isTeamLeaderMode
-                ? 'Record daily worker activities for your team.'
-                : isFieldStaffMode
-                  ? 'Scouters and operators sign in with Employee ID + PIN.'
-                  : 'Manage your farm operations, from field to forecast.'}
+          </Box>
+
+          <Box sx={{ position: 'relative', maxWidth: 540, mb: { md: 20, lg: 24 } }}>
+            <Typography
+              component="h2"
+              sx={{ fontSize: { md: '2.25rem', lg: '2.875rem' }, fontWeight: 600, color: '#fff', lineHeight: 1.08, letterSpacing: '-0.035em', mb: 4 }}
+            >
+              Every field,<br />calmly in view.
             </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3 }}>
-              {(isTeamLeaderMode
-                ? ['Workers', 'Activities', 'Submit']
-                : isFieldStaffMode
-                  ? ['Scouting', 'IPM', 'Field work']
-                  : ['Data Entry', 'Analytics', 'Reports']).map((label) => (
+            <Typography sx={{ fontSize: '1.0625rem', color: 'rgba(255,255,255,0.74)', lineHeight: 1.6, mb: 6 }}>
+              {panelCopy}
+            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+              {panelTags.map((label) => (
                 <Box
                   key={label}
                   sx={{
-                    px: 3,
+                    px: 3.5,
                     py: 1.5,
-                    borderRadius: 2,
-                    bgcolor: 'rgba(255,255,255,0.1)',
-                    border: '1px solid rgba(255,255,255,0.15)',
+                    borderRadius: 999,
+                    bgcolor: 'rgba(255,255,255,0.08)',
+                    border: '1px solid rgba(255,255,255,0.14)',
+                    fontSize: '0.8125rem',
+                    color: 'rgba(255,255,255,0.88)',
+                    fontWeight: 500,
                   }}
                 >
-                  <Typography sx={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.9)', fontWeight: 500 }}>
-                    {label}
-                  </Typography>
+                  {label}
                 </Box>
               ))}
             </Box>
@@ -224,32 +272,35 @@ function Login() {
 
       {/* Right form panel */}
       <Box
+        component="main"
         sx={{
-          width: isMobile ? '100%' : '50%',
+          flex: 1,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          bgcolor: '#faf8f5',
-          p: 4,
+          position: 'relative',
+          overflow: 'hidden',
+          px: { xs: 5, sm: 8 },
+          py: { xs: 10, sm: 12 },
         }}
       >
-        <Box sx={{ maxWidth: 400, width: '100%' }}>
+        {isMobile && <BackgroundMoon variant="auth" />}
+        <Box sx={{ maxWidth: 400, width: '100%', position: 'relative', zIndex: 1 }}>
           {isMobile && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 6 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 10 }}>
               <Box
                 sx={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 2,
-                  bgcolor: 'primary.main',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  width: 38,
+                  height: 38,
+                  borderRadius: 2.5,
+                  backgroundImage: (t) => `linear-gradient(145deg, ${t.palette.primary.light}, ${t.palette.primary.dark})`,
+                  display: 'grid',
+                  placeItems: 'center',
                 }}
               >
                 <EcoIcon sx={{ fontSize: 20, color: '#fff' }} />
               </Box>
-              <Typography sx={{ fontWeight: 700, fontSize: '1.125rem', color: 'text.primary' }}>
+              <Typography sx={{ fontWeight: 600, fontSize: '1.0625rem', color: 'text.primary', letterSpacing: '-0.01em' }}>
                 Elite Agro Cloud
               </Typography>
             </Box>
@@ -261,7 +312,8 @@ function Login() {
             onChange={handleModeChange}
             fullWidth
             size="small"
-            sx={{ mb: 4 }}
+            sx={{ mb: 8 }}
+            aria-label="Sign-in type"
           >
             <ToggleButton value="staff" sx={{ textTransform: 'none', flex: 1 }}>
               Staff login
@@ -274,10 +326,10 @@ function Login() {
             </ToggleButton>
           </ToggleButtonGroup>
 
-          <Typography sx={{ fontWeight: 700, fontSize: '1.5rem', color: 'text.primary', mb: 1 }}>
+          <Typography component="h1" sx={{ fontWeight: 600, fontSize: { xs: '1.75rem', sm: '2rem' }, letterSpacing: '-0.03em', lineHeight: 1.15, color: 'text.primary', mb: 2 }}>
             {isTeamLeaderMode ? 'Team leader sign in' : isFieldStaffMode ? 'Field staff sign in' : 'Welcome back'}
           </Typography>
-          <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', mb: 4 }}>
+          <Typography sx={{ fontSize: '0.9375rem', color: 'text.secondary', mb: 7 }}>
             {isTeamLeaderMode
               ? 'Enter your Employee ID and PIN to open the Daily Activity Sheet'
               : isFieldStaffMode
@@ -322,7 +374,7 @@ function Login() {
                 disabled={loading || !employeeId || !pin}
                 sx={{ py: 2.5 }}
               >
-                {loading ? <CircularProgress size={24} /> : 'Open Daily Activity Sheet'}
+                {loading ? <CircularProgress size={22} color="inherit" /> : 'Open Daily Activity Sheet'}
               </Button>
             </form>
           ) : isFieldStaffMode ? (
@@ -354,7 +406,7 @@ function Login() {
                 disabled={loading || !employeeId || !pin}
                 sx={{ py: 2.5 }}
               >
-                {loading ? <CircularProgress size={24} /> : 'Sign In'}
+                {loading ? <CircularProgress size={22} color="inherit" /> : 'Sign In'}
               </Button>
             </form>
           ) : (
@@ -367,7 +419,7 @@ function Login() {
                     size="large"
                     onClick={handleMicrosoftLogin}
                     disabled={microsoftLoading}
-                    sx={{ mb: 4, borderColor: '#d6d3ce', color: '#1a1a1a' }}
+                    sx={{ mb: 4 }}
                   >
                     {microsoftLoading ? (
                       <CircularProgress size={24} />
@@ -409,7 +461,7 @@ function Login() {
                   autoComplete="current-password"
                 />
 
-                <Box sx={{ textAlign: 'right', mb: 4 }}>
+                <Box sx={{ textAlign: 'end', mb: 5 }}>
                   <Link component={RouterLink} to="/forgot-password" variant="body2" sx={{ color: 'primary.main' }}>
                     Forgot password?
                   </Link>
@@ -423,7 +475,7 @@ function Login() {
                   disabled={loading}
                   sx={{ mb: 4, py: 2.5 }}
                 >
-                  {loading ? <CircularProgress size={24} /> : 'Sign In'}
+                  {loading ? <CircularProgress size={22} color="inherit" /> : 'Sign In'}
                 </Button>
               </form>
 

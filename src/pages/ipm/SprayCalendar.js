@@ -97,7 +97,7 @@ export default function SprayCalendar() {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
         <Typography variant="h4" sx={{ fontWeight: 700 }}>Spray Calendar</Typography>
         <FormControl size="small" sx={{ minWidth: 200 }}>
           <InputLabel>Filter by Field</InputLabel>
@@ -208,55 +208,55 @@ export default function SprayCalendar() {
         <DialogContent>
           {detailDialog.app && (
             <Grid container spacing={2} sx={{ mt: 0 }}>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Product</Typography>
                 <Typography>{detailDialog.app.product_name || '—'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Field</Typography>
                 <Typography>{detailDialog.app.field_name || '—'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Application Date</Typography>
                 <Typography>{new Date(detailDialog.app.application_date).toLocaleDateString()}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Start Time</Typography>
                 <Typography>{formatClockTime(detailDialog.app.application_start_time)}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">End Time</Typography>
                 <Typography>{formatClockTime(detailDialog.app.application_end_time)}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">PHI End</Typography>
                 <Typography>{formatPhiEndDateTime(detailDialog.app.phi_end_date, detailDialog.app.application_end_time)}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Dosage</Typography>
                 <Typography>{detailDialog.app.dosage ? `${detailDialog.app.dosage} ${detailDialog.app.dosage_unit || ''}` : '—'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Method</Typography>
                 <Typography sx={{ textTransform: 'capitalize' }}>{detailDialog.app.application_method || '—'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Operator</Typography>
                 <Typography>{detailDialog.app.operator_name || '—'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography variant="subtitle2" color="text.secondary">Status</Typography>
                 <Chip label={detailDialog.app.approval_status} size="small"
                   color={detailDialog.app.approval_status === 'approved' ? 'success' : detailDialog.app.approval_status === 'rejected' ? 'error' : 'warning'} />
               </Grid>
               {detailDialog.app.target_pest && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Typography variant="subtitle2" color="text.secondary">Target Pest</Typography>
                   <Typography>{detailDialog.app.target_pest}</Typography>
                 </Grid>
               )}
               {detailDialog.app.notes && (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Typography variant="subtitle2" color="text.secondary">Notes</Typography>
                   <Typography>{detailDialog.app.notes}</Typography>
                 </Grid>

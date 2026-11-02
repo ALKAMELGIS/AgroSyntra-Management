@@ -1,5 +1,6 @@
 import { Box, Paper, Typography } from '@mui/material';
 
+/** KPI tile: small label, large tabular value, optional caption. */
 export default function DashboardStatCard({ title, value, subtitle, color }) {
   return (
     <Paper
@@ -7,31 +8,46 @@ export default function DashboardStatCard({ title, value, subtitle, color }) {
       sx={{
         height: '100%',
         overflow: 'hidden',
-        borderColor: 'table.gridline',
+        boxShadow: 1,
+        position: 'relative',
+        transition: 'border-color 200ms ease',
+        '&:hover': { borderColor: 'border.strong' },
       }}
     >
-      <Box sx={{ height: 3, bgcolor: 'table.headerBg' }} />
-      <Box sx={{ px: 1.5, py: 1.25 }}>
+      <Box sx={{ px: { xs: 4, sm: 5 }, py: { xs: 3.5, sm: 4.5 } }}>
         <Typography
+          component="p"
           sx={{
-            fontSize: '0.6875rem',
-            fontWeight: 500,
+            fontSize: '0.71875rem',
+            fontWeight: 600,
             textTransform: 'uppercase',
-            letterSpacing: '0.08em',
+            letterSpacing: '0.07em',
             color: 'text.secondary',
-            mb: 0.5,
+            mb: 2,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
           }}
         >
+          <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: color || 'primary.main', flexShrink: 0 }} />
           {title}
         </Typography>
         <Typography
-          variant="h5"
-          sx={{ fontWeight: 700, color: color || 'table.headerBg', wordBreak: 'break-word' }}
+          component="p"
+          sx={{
+            fontSize: { xs: '1.375rem', sm: '1.625rem' },
+            fontWeight: 600,
+            lineHeight: 1.15,
+            letterSpacing: '-0.025em',
+            color: 'text.primary',
+            fontVariantNumeric: 'tabular-nums',
+            wordBreak: 'break-word',
+          }}
         >
           {value}
         </Typography>
         {subtitle && (
-          <Typography variant="caption" color="text.secondary">{subtitle}</Typography>
+          <Typography variant="caption" color="text.secondary" component="p" sx={{ mt: 1 }}>{subtitle}</Typography>
         )}
       </Box>
     </Paper>

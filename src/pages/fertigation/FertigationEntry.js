@@ -405,7 +405,7 @@ function FertigationEntry() {
               minHeight: 32,
               py: 0,
             },
-            '& .Mui-selected': { fontWeight: 700, color: '#1B5E20 !important' },
+            '& .Mui-selected': { fontWeight: 700, color: '#165c3a !important' },
           }}
         >
           {availableStructureTabs.map((s) => (
@@ -502,7 +502,7 @@ function FertigationEntry() {
                     Basic Information
                   </Typography>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                       <TextField
                         fullWidth
                         type="date"
@@ -528,7 +528,7 @@ function FertigationEntry() {
                       defaultSiteId={defaultSiteId}
                     />
                     {selectedField && (
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Card sx={{ bgcolor: 'info.light', color: 'white' }}>
                           <CardContent>
                             <Typography variant="body1">
@@ -542,7 +542,7 @@ function FertigationEntry() {
                       </Grid>
                     )}
                     {existingEntry && (
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Alert severity="info">
                           Entry exists for this field and date. Saving will update it.
                         </Alert>
@@ -557,7 +557,7 @@ function FertigationEntry() {
                     Water Parameters
                   </Typography>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                       <TextField
                         fullWidth
                         type="number"
@@ -577,7 +577,7 @@ function FertigationEntry() {
                         inputProps={{ step: 0.01, min: 0 }}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                       <TextField
                         fullWidth
                         type="number"
@@ -597,7 +597,7 @@ function FertigationEntry() {
                         inputProps={{ step: 1, min: 1 }}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                       <Card variant="outlined" sx={{ height: '100%', display: 'flex', alignItems: 'center', borderRadius: 3 }}>
                         <CardContent sx={{ width: '100%' }}>
                           <Tooltip title="Water volume containing fertilizer" arrow>
@@ -621,7 +621,7 @@ function FertigationEntry() {
                     Recipe Selection
                   </Typography>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         fullWidth
                         select
@@ -673,7 +673,7 @@ function FertigationEntry() {
                       </TextField>
                     </Grid>
                     {selectedRecipe && (
-                      <Grid item xs={12} md={6}>
+                      <Grid size={{ xs: 12, md: 6 }}>
                         <Card variant="outlined" sx={{ borderRadius: 3 }}>
                           <CardContent>
                             <Typography variant="body2" sx={{ color: 'text.primary' }}>
@@ -817,7 +817,7 @@ function FertigationEntry() {
                     {selectedRecipe && dailyWater > 0 && Object.keys(calculatedFertilizers).length > 0 && (
                       <Box sx={{ mt: 3, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>
                         <Grid container spacing={2}>
-                          <Grid item xs={12} sm={6}>
+                          <Grid size={{ xs: 12, sm: 6 }}>
                             <Typography variant="body2" color="text.secondary">
                               Total Daily Fertilizer
                             </Typography>
@@ -831,7 +831,7 @@ function FertigationEntry() {
                               kg
                             </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={6}>
+                          <Grid size={{ xs: 12, sm: 6 }}>
                             <Typography variant="body2" color="text.secondary">
                               Fertigation Water Volume
                             </Typography>
@@ -839,7 +839,7 @@ function FertigationEntry() {
                               {toNumber(dailyWater).toFixed(2)} m³
                             </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={6}>
+                          <Grid size={{ xs: 12, sm: 6 }}>
                             <Typography variant="body2" color="text.secondary">
                               Cumulative Fertigation Water
                             </Typography>
@@ -847,7 +847,7 @@ function FertigationEntry() {
                               {(toNumber(cumulativeData?.water) + toNumber(dailyWater)).toFixed(2)} m³
                             </Typography>
                           </Grid>
-                          <Grid item xs={12} sm={6}>
+                          <Grid size={{ xs: 12, sm: 6 }}>
                             <Typography variant="body2" color="text.secondary">
                               Selected Recipe
                             </Typography>

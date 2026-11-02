@@ -160,16 +160,16 @@ export default function HarvestDashboard({ fieldId, siteId, dateFrom, dateTo, al
   return (
     <Box>
       <Grid container spacing={1.5} sx={{ mb: 3 }}>
-        <Grid item xs={6} sm={3}>
+        <Grid size={{ xs: 6, sm: 3 }}>
           <DashboardStatCard title="Total Harvest" value={`${stats.totalKg} kg`} />
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid size={{ xs: 6, sm: 3 }}>
           <DashboardStatCard title="Entries" value={stats.count} />
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid size={{ xs: 6, sm: 3 }}>
           <DashboardStatCard title="Avg per Entry" value={`${stats.avgPerEntry} kg`} color="#3b82f6" />
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid size={{ xs: 6, sm: 3 }}>
           <DashboardStatCard title="Top Crop" value={stats.topCrop} color="#f59e0b" />
         </Grid>
       </Grid>
@@ -253,7 +253,7 @@ export default function HarvestDashboard({ fieldId, siteId, dateFrom, dateTo, al
                 <YAxis tick={{ fontSize: 11, fill: CHART_TICK }} />
                 <RTooltip contentStyle={CHART_TOOLTIP} />
                 <Legend />
-                <Area type="monotone" dataKey="cumulative" name="Cumulative (kg)" stroke="#6366f1" fill="#6366f1" fillOpacity={0.15} strokeWidth={2} />
+                <Area type="monotone" dataKey="cumulative" name="Cumulative (kg)" stroke="#2f6aa8" fill="#2f6aa8" fillOpacity={0.15} strokeWidth={2} />
                 <Line type="monotone" dataKey="daily" name="Daily (kg)" stroke={FARM_GREEN} strokeWidth={1.5} dot={{ r: 2 }} />
               </ComposedChart>
             </ResponsiveContainer>

@@ -70,7 +70,7 @@ import { apiRequest } from '../utils/api';
 
 const CATEGORY_META = {
   ecph:        { label: 'EC / PH',              icon: <ScienceIcon sx={{ fontSize: 40 }} />,     color: '#1976d2' },
-  fertigation: { label: 'Fertigation',          icon: <WaterDropIcon sx={{ fontSize: 40 }} />,   color: '#2e7d32' },
+  fertigation: { label: 'Fertigation',          icon: <WaterDropIcon sx={{ fontSize: 40 }} />,   color: '#1f7a4d' },
   harvest:     { label: 'Harvest',              icon: <AgricultureIcon sx={{ fontSize: 40 }} />, color: '#ed6c02' },
   planting:    { label: 'Planting & Transplant', icon: <YardIcon sx={{ fontSize: 40 }} />,       color: '#9c27b0' },
   pest:        { label: 'Pest Applications',     icon: <PestIcon sx={{ fontSize: 40 }} />,       color: '#d32f2f' },
@@ -638,7 +638,7 @@ export default function Templates() {
     const isHiddenOnSite = tpl.is_visible === false;
 
     return (
-      <Grid item xs={12} sm={6} md={4} key={tpl.id}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }} key={tpl.id}>
         <Card
           variant="outlined"
           sx={{
@@ -803,7 +803,7 @@ export default function Templates() {
         <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>Templates</Typography>
         <Grid container spacing={3}>
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <Grid item xs={12} sm={6} md={4} key={i}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
               <Skeleton variant="rounded" height={160} />
             </Grid>
           ))}
@@ -815,9 +815,9 @@ export default function Templates() {
   if (!selectedCategory) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
           <Typography variant="h4" sx={{ fontWeight: 600 }}>Templates</Typography>
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             {isAdmin && (
               <Button variant="outlined" startIcon={<SettingsIcon />} onClick={openConfig}>
                 Configure Sites
@@ -899,7 +899,7 @@ export default function Templates() {
 
         <Grid container spacing={3}>
           {categories.map((cat) => (
-            <Grid item xs={12} sm={6} md={4} key={cat.key}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={cat.key}>
               <Card
                 variant="outlined"
                 sx={{

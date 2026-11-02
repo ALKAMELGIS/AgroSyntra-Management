@@ -710,11 +710,11 @@ export default function EcphEntriesTable({ siteId, masterData, refreshTrigger = 
         <DialogContent>
           {editingEntry && (
             <Grid container spacing={2} sx={{ mt: 1 }}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant="subtitle2" color="text.secondary">Editing Valve 1 (Quick Edit)</Typography>
               </Grid>
               {['ecIn', 'ecOut', 'phIn', 'phOut'].map((field) => (
-                <Grid item xs={12} sm={6} key={field}>
+                <Grid size={{ xs: 12, sm: 6 }} key={field}>
                   <TextField
                     fullWidth
                     label={field.replace(/([A-Z])/g, ' $1').replace(/^./, (s) => s.toUpperCase())}

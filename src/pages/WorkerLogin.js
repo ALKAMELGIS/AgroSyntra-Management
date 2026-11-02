@@ -119,7 +119,7 @@ export default function WorkerLogin() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#f5f5f5' }}>
+    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.default' }}>
       <Paper sx={{ p: 4, width: 360, maxWidth: '90vw' }}>
         <Typography variant="h5" fontWeight={700} textAlign="center" gutterBottom>
           Team Leader Login

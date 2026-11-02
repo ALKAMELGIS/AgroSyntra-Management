@@ -234,7 +234,7 @@ export function buildEcphExecutiveReport(entries, fieldInfoMap, dateFrom, dateTo
     {
       title: 'Avg Drain %',
       value: current.avgDrain != null ? `${current.avgDrain.toFixed(1)}%` : '—',
-      color: current.avgDrain != null && !drainInRange(current.avgDrain) ? '#e65100' : '#6366f1',
+      color: current.avgDrain != null && !drainInRange(current.avgDrain) ? '#e65100' : '#2f6aa8',
     },
     {
       title: 'In Target Range',

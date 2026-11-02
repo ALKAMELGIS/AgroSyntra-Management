@@ -2,12 +2,10 @@ import { useState, useEffect } from 'react';
 import { Box, Typography, Alert, CircularProgress } from '@mui/material';
 import { apiRequest } from '../utils/api';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
-import useAppLayout from '../hooks/useAppLayout';
 import DailyActivitySheet from '../components/manpower/DailyActivitySheet';
 
 export default function ManpowerActivitySheet() {
   const { activeSiteId } = useActiveSite();
-  const { contentPadding } = useAppLayout();
   const [activities, setActivities] = useState([]);
   const [references, setReferences] = useState([]);
   const [fields, setFields] = useState([]);
@@ -69,7 +67,7 @@ export default function ManpowerActivitySheet() {
   };
 
   return (
-    <Box sx={{ p: contentPadding, maxWidth: 1400, mx: 'auto' }}>
+    <Box sx={{ maxWidth: 1400, mx: 'auto' }}>
       <Typography variant="h4" fontWeight={700} sx={{ fontSize: { xs: '1.25rem', md: '2.125rem' }, mb: 0.5 }}>
         Daily Activity Sheet
       </Typography>

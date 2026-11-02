@@ -234,7 +234,7 @@ function WeatherMap() {
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
       <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
           <Typography variant="h4">Field Map</Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
@@ -250,7 +250,7 @@ function WeatherMap() {
 
         {/* Filters */}
         <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <FormControl fullWidth>
               <InputLabel>Zone</InputLabel>
               <Select
@@ -269,7 +269,7 @@ function WeatherMap() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <FormControl fullWidth>
               <InputLabel>Site</InputLabel>
               <Select
@@ -286,7 +286,7 @@ function WeatherMap() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid size={{ xs: 12, sm: 6, md: 6 }}>
             <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center' }}>
               <Typography variant="body2">Layers:</Typography>
               <ToggleButtonGroup
@@ -488,12 +488,12 @@ function WeatherMap() {
       {/* Field Details Panel */}
       {selectedField && (
         <Paper elevation={3} sx={{ mt: 3, p: 3 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
             <Typography variant="h5">{selectedField.name}</Typography>
             <Button onClick={() => setSelectedField(null)}>Close</Button>
           </Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Card>
                 <CardContent>
                   <Typography variant="h6" gutterBottom>Weather</Typography>
@@ -518,7 +518,7 @@ function WeatherMap() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Card>
                 <CardContent>
                   <Typography variant="h6" gutterBottom>Soil Health</Typography>
@@ -537,7 +537,7 @@ function WeatherMap() {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Card>
                 <CardContent>
                   <Typography variant="h6" gutterBottom>Field Health (NDVI)</Typography>

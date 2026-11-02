@@ -242,7 +242,7 @@ export default function GPSTracking() {
       </Box>
 
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="h6" gutterBottom>Equipment ({equipment.length})</Typography>
             {equipment.map((eq) => {
@@ -316,7 +316,7 @@ export default function GPSTracking() {
           )}
         </Grid>
 
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Paper sx={{ p: 0, overflow: 'hidden', borderRadius: 2 }}>
             <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #eee' }}>
               <Typography variant="body2" color="text.secondary">

@@ -567,12 +567,12 @@ export default function PivotPppApplicationTab({
         <TableCell sx={{ ...dCell, p: 0, width: 52, position: 'sticky', right: 0, backgroundColor: '#fff', zIndex: 1 }}>
           {isNew ? (
             <IconButton size="small" onClick={handleSaveNew} disabled={savingId === 'new'} sx={{ p: '2px' }}>
-              {savingId === 'new' ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 14, color: '#2E7D32' }} />}
+              {savingId === 'new' ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />}
             </IconButton>
           ) : canModifyExisting ? (
             <Box sx={{ display: 'flex' }}>
               <IconButton size="small" onClick={() => handleUpdateRow(row)} disabled={savingId === row.id} sx={{ p: '2px' }}>
-                {savingId === row.id ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 14, color: '#2E7D32' }} />}
+                {savingId === row.id ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />}
               </IconButton>
               <IconButton size="small" onClick={() => handleDelete(row.id)} sx={{ p: '2px' }}>
                 <Delete sx={{ fontSize: 14, color: '#C62828' }} />

@@ -486,7 +486,7 @@ export default function WorkOrders() {
           <Button onClick={closeCreate}>Cancel</Button>
           <Button variant="contained" onClick={handleCreate} disabled={creating}
             startIcon={creating ? <CircularProgress size={16} /> : <Send />}
-            sx={{ bgcolor: '#2e7d32', '&:hover': { bgcolor: '#1b5e20' } }}>
+            sx={{ bgcolor: '#1f7a4d', '&:hover': { bgcolor: '#165c3a' } }}>
             {editingId ? 'Save Changes' : 'Issue Work Order'}
           </Button>
         </DialogActions>

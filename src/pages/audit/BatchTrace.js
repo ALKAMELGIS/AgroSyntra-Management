@@ -72,7 +72,7 @@ function TraceMatchCard({ match, index, total }) {
         breakInside: 'avoid',
       }}
     >
-      <Box sx={{ bgcolor: '#1B5E20', color: '#fff', px: 2, py: 1.5 }}>
+      <Box sx={{ bgcolor: '#165c3a', color: '#fff', px: 2, py: 1.5 }}>
         <Typography variant="h6" sx={{ fontFamily: FONT, fontWeight: 700, color: '#fff' }}>
           {total > 1 ? `Match ${index + 1} of ${total}` : 'Batch Trace Report'}
         </Typography>
@@ -108,7 +108,7 @@ function TraceMatchCard({ match, index, total }) {
           <TableContainer component={Paper} variant="outlined" sx={{ mb: 2 }}>
             <Table size="small">
               <TableHead>
-                <TableRow sx={{ bgcolor: '#f5f5f5' }}>
+                <TableRow sx={{ bgcolor: 'background.muted' }}>
                   <TableCell>Variety</TableCell>
                   <TableCell align="right">Quantity</TableCell>
                   <TableCell>Grade</TableCell>
@@ -146,7 +146,7 @@ function TraceMatchCard({ match, index, total }) {
               <TableContainer component={Paper} variant="outlined">
                 <Table size="small">
                   <TableHead>
-                    <TableRow sx={{ bgcolor: '#f5f5f5' }}>
+                    <TableRow sx={{ bgcolor: 'background.muted' }}>
                       <TableCell>Worker</TableCell>
                       <TableCell>Employee ID</TableCell>
                       <TableCell>Section</TableCell>

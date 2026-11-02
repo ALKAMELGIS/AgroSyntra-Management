@@ -126,7 +126,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
         {/* Weather Parameters - Two Column Layout */}
         <Grid container spacing={1.5}>
           {/* Feels like */}
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography
                 variant="body2"
@@ -152,7 +152,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
           </Grid>
 
           {/* Wind speed */}
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography
                 variant="body2"
@@ -178,7 +178,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
           </Grid>
 
           {/* Wind Direction */}
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography
                 variant="body2"
@@ -215,7 +215,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
           </Grid>
 
           {/* Humidity */}
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography
                 variant="body2"
@@ -241,7 +241,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
           </Grid>
 
           {/* Clouds */}
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography
                 variant="body2"
@@ -267,7 +267,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
           </Grid>
 
           {/* Pressure */}
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography
                 variant="body2"

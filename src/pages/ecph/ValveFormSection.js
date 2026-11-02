@@ -53,7 +53,7 @@ export default function ValveFormSection({
     <>
       {/* Valve Number */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             label={
@@ -86,7 +86,7 @@ export default function ValveFormSection({
       {/* EC/pH Measurements */}
       <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>EC/pH Measurements</Typography>
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             type="number"
@@ -107,7 +107,7 @@ export default function ValveFormSection({
             inputProps={{ min: 0.0, max: 5.0, step: 0.01 }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             type="number"
@@ -128,7 +128,7 @@ export default function ValveFormSection({
             inputProps={{ min: 0.0, max: 5.0, step: 0.01 }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             type="number"
@@ -149,7 +149,7 @@ export default function ValveFormSection({
             inputProps={{ min: 4.0, max: 9.0, step: 0.01 }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             type="number"
@@ -175,7 +175,7 @@ export default function ValveFormSection({
       {/* Water Volume & Drainage */}
       <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>Water Volume & Drainage</Typography>
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             type="number"
@@ -196,7 +196,7 @@ export default function ValveFormSection({
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             type="number"
@@ -221,7 +221,7 @@ export default function ValveFormSection({
             sx={{ '& .MuiInputBase-input': { backgroundColor: 'action.hover' } }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             type="number"
@@ -249,7 +249,7 @@ export default function ValveFormSection({
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             label={
@@ -278,7 +278,7 @@ export default function ValveFormSection({
       {/* Water Quantity */}
       <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>Water Quantity</Typography>
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             type="number"
@@ -299,7 +299,7 @@ export default function ValveFormSection({
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             type="number"
@@ -320,7 +320,7 @@ export default function ValveFormSection({
             inputProps={{ min: 0, step: 1 }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <TextField
             fullWidth
             label={
@@ -349,7 +349,7 @@ export default function ValveFormSection({
       {/* Calculations */}
       <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>Calculations</Typography>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
           <TextField
             fullWidth
             label={

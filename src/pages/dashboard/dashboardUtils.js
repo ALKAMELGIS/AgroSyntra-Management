@@ -4,14 +4,14 @@
 
 // Agricultural color palette used across dashboard cards and charts
 export const colors = {
-  primary: '#3d7c4f',
-  secondary: '#6366f1',
-  success: '#5a9e6b',
-  warning: '#e8913a',
-  error: '#dc3545',
+  primary: '#1f7a4d',
+  secondary: '#2f6aa8',
+  success: '#3a9a68',
+  warning: '#c4761a',
+  error: '#c23b2b',
   info: '#3b82f6',
   earth: '#8d6e63',
-  harvest: '#e8913a',
+  harvest: '#c4761a',
 };
 
 const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

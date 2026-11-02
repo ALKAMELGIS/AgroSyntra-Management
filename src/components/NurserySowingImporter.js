@@ -14,10 +14,10 @@ import {
 import * as XLSX from 'xlsx';
 import { apiRequest } from '../utils/api';
 
-const bannerBg = '#3d7c4f';
+const bannerBg = '#1f7a4d';
 const bannerColor = '#fff';
 const hdrStyle = {
-  background: '#3d7c4f', color: '#fff', fontWeight: 700,
+  background: '#1f7a4d', color: '#fff', fontWeight: 700,
   fontSize: '0.72rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
 };
 const cellStyle = { fontSize: '0.72rem', padding: '5px 8px', border: '1px solid #c8c8c8' };

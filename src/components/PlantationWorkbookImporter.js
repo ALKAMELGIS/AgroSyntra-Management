@@ -32,7 +32,7 @@ import { normalizeMasterName } from '../utils/masterDataFuzzyMatch';
 import { rowToClosingPayload, rowToOpeningPayload } from '../utils/plantationWorkbookRows';
 
 const STEPS = ['Upload Excel', 'Map Columns', 'Review matches', 'Imported'];
-const headerBg = '#1f3864';
+const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
 const cellBorder = '1px solid #c8c8c8';
 const hdrStyle = {
   background: headerBg,
@@ -384,7 +384,7 @@ export default function PlantationWorkbookImporter({
                 borderStyle: 'dashed',
                 borderColor: headerBg,
                 cursor: 'pointer',
-                '&:hover': { background: '#f5f7fa' },
+                '&:hover': { background: 'rgba(31,122,77,0.05)' },
               }}
               onClick={() => fileRef.current?.click()}
             >

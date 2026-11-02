@@ -87,7 +87,7 @@ function SoilCard({ fieldName, soilData }) {
         </Box>
 
         <Grid container spacing={1.5}>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="body2" sx={{ color: '#34495e', fontSize: '0.875rem' }}>
                 Soil Temp
@@ -98,7 +98,7 @@ function SoilCard({ fieldName, soilData }) {
             </Box>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="body2" sx={{ color: '#34495e', fontSize: '0.875rem' }}>
                 EC
@@ -109,7 +109,7 @@ function SoilCard({ fieldName, soilData }) {
             </Box>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="body2" sx={{ color: '#34495e', fontSize: '0.875rem' }}>
                 pH
@@ -120,7 +120,7 @@ function SoilCard({ fieldName, soilData }) {
             </Box>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="body2" sx={{ color: '#34495e', fontSize: '0.875rem' }}>
                 Depth

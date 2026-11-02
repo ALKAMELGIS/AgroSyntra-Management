@@ -12,7 +12,6 @@ export default function NavAreaTabs({ value, onChange, visibleAreaIds }) {
         width: '100%',
         borderTop: '1px solid',
         borderColor: 'divider',
-        bgcolor: 'background.paper',
       }}
     >
       <Tabs
@@ -20,17 +19,18 @@ export default function NavAreaTabs({ value, onChange, visibleAreaIds }) {
         onChange={(_, v) => onChange(v)}
         variant="scrollable"
         scrollButtons="auto"
+        allowScrollButtonsMobile
+        aria-label="Workspace areas"
         sx={{
-          minHeight: 40,
-          px: 1,
+          minHeight: 44,
+          px: { xs: 0, sm: 3, md: 4 },
+          '& .MuiTabs-flexContainer': { gap: { xs: 0, sm: 1 } },
           '& .MuiTab-root': {
-            minHeight: 40,
-            py: 0.75,
-            px: 2,
-            textTransform: 'none',
-            fontWeight: 600,
-            fontSize: '0.8125rem',
+            minHeight: 44,
+            py: 2,
+            px: { xs: 3, sm: 3.5 },
           },
+          '& .MuiTabs-scrollButtons': { width: 32 },
         }}
       >
         {tabs.map((area) => (

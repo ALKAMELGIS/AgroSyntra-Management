@@ -500,7 +500,7 @@ function PivotIrrigationMonthTab({ sheet, pivotFields, farmName, onRefresh, read
                     <TableCell sx={irrDCell} />
                     <TableCell sx={{ ...irrDCell, p: 0 }}>
                       <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }}>
-                        <Check sx={{ fontSize: 14, color: '#2E7D32' }} />
+                        <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -676,7 +676,7 @@ export default function IrrigationEntry() {
               minHeight: 32,
               py: 0,
             },
-            '& .Mui-selected': { fontWeight: 700, color: '#1B5E20 !important' },
+            '& .Mui-selected': { fontWeight: 700, color: '#165c3a !important' },
           }}
         >
           {availableStructureTabs.map((s) => (
@@ -750,12 +750,12 @@ export default function IrrigationEntry() {
         <>
         <Button size="small" startIcon={<FileUpload sx={{ fontSize: '13px !important' }} />}
           onClick={() => setImporterOpen(true)}
-          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: '#1B5E20', border: '1px solid #B0B0B0', backgroundColor: '#fff' }}>
+          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: '#165c3a', border: '1px solid #B0B0B0', backgroundColor: '#fff' }}>
           Import Excel
         </Button>
         <Button size="small" startIcon={<Add sx={{ fontSize: '13px !important' }} />}
           onClick={() => setAddOpen(true)}
-          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: '#1B5E20', border: '1px solid #B0B0B0', backgroundColor: '#fff' }}>
+          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: '#165c3a', border: '1px solid #B0B0B0', backgroundColor: '#fff' }}>
           Add Month
         </Button>
         </>
@@ -786,7 +786,7 @@ export default function IrrigationEntry() {
             '& .Mui-selected': {
               backgroundColor: '#fff !important',
               fontWeight: 700,
-              color: '#1B5E20 !important',
+              color: '#165c3a !important',
             },
           }}
         >

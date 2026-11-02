@@ -88,7 +88,7 @@ export default function TaskDetailDialog({ task, open, onClose, users = [] }) {
         {loading ? <Box sx={{ textAlign: 'center', py: 4 }}><CircularProgress /></Box> : (
           <Grid container spacing={3}>
             {/* Task Info */}
-            <Grid item xs={12}>
+            <Grid size={12}>
               {task.description && <Typography variant="body1" sx={{ mb: 2 }}>{task.description}</Typography>}
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                 {assignedUser && (
@@ -102,7 +102,7 @@ export default function TaskDetailDialog({ task, open, onClose, users = [] }) {
             </Grid>
 
             {/* Checklist */}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
                 Checklist {checklist.length > 0 && `(${completedCount}/${checklist.length})`}
               </Typography>
@@ -133,10 +133,10 @@ export default function TaskDetailDialog({ task, open, onClose, users = [] }) {
               </Box>
             </Grid>
 
-            <Grid item xs={12}><Divider /></Grid>
+            <Grid size={12}><Divider /></Grid>
 
             {/* Comments */}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
                 Comments ({comments.length})
               </Typography>

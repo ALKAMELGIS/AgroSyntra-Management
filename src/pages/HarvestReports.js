@@ -234,7 +234,7 @@ function HarvestReports() {
             </Box>
 
             <Grid container spacing={3}>
-              <Grid item xs={12} md={4}>
+              <Grid size={{ xs: 12, md: 4 }}>
                 <Paper elevation={2} sx={{ p: 3, textAlign: 'center' }}>
                   <Typography variant="h6" gutterBottom>Daily Report</Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -245,7 +245,7 @@ function HarvestReports() {
                   </Button>
                 </Paper>
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid size={{ xs: 12, md: 4 }}>
                 <Paper elevation={2} sx={{ p: 3, textAlign: 'center' }}>
                   <Typography variant="h6" gutterBottom>Weekly Report</Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -256,7 +256,7 @@ function HarvestReports() {
                   </Button>
                 </Paper>
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid size={{ xs: 12, md: 4 }}>
                 <Paper elevation={2} sx={{ p: 3, textAlign: 'center' }}>
                   <Typography variant="h6" gutterBottom>Export All Data</Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

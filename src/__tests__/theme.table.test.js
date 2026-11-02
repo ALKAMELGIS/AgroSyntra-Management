@@ -24,7 +24,7 @@ describe('table palette tokens', () => {
     for (const mode of ['light', 'dark']) {
       const { palette } = createAppTheme(mode);
       expect(palette.table.headerText).toBe('#ffffff');
-      expect(palette.table.headerBg).toBe('#3d7c4f');
+      expect(palette.table.headerBg).toBe('#1d5a3c');
     }
   });
 });

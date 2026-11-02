@@ -38,7 +38,7 @@ export default function YieldPredictions() {
       </Typography>
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
           <TextField select fullWidth label="Select Field" value={selectedField} onChange={(e) => setSelectedField(e.target.value)} size="small">
             {fields.map((f) => <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>)}
           </TextField>
@@ -54,21 +54,21 @@ export default function YieldPredictions() {
       {prediction && prediction.confidence_pct > 0 && (
         <>
           <Grid container spacing={2} sx={{ mb: 3 }}>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Card sx={{ bgcolor: '#e8f5e9' }}><CardContent>
                 <Typography variant="caption" color="text.secondary">Predicted Yield</Typography>
                 <Typography variant="h4" fontWeight={700}>{prediction.predicted_yield.toFixed(1)}</Typography>
                 <Typography variant="caption">kg</Typography>
               </CardContent></Card>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Card><CardContent>
                 <Typography variant="caption" color="text.secondary">Confidence</Typography>
                 <Typography variant="h4" fontWeight={700}>{prediction.confidence_pct}%</Typography>
                 <LinearProgress variant="determinate" value={prediction.confidence_pct} sx={{ mt: 1 }} />
               </CardContent></Card>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Card><CardContent>
                 <Typography variant="caption" color="text.secondary">Range</Typography>
                 <Typography variant="h5" fontWeight={700}>
@@ -76,7 +76,7 @@ export default function YieldPredictions() {
                 </Typography>
               </CardContent></Card>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid size={{ xs: 6, sm: 3 }}>
               <Card><CardContent>
                 <Typography variant="caption" color="text.secondary">Trend</Typography>
                 <Chip
@@ -112,19 +112,19 @@ export default function YieldPredictions() {
             <Typography variant="h6" gutterBottom>Prediction Details</Typography>
             <Typography variant="body2" color="text.secondary">{prediction.methodology}</Typography>
             <Grid container spacing={2} sx={{ mt: 1 }}>
-              <Grid item xs={6} sm={3}>
+              <Grid size={{ xs: 6, sm: 3 }}>
                 <Typography variant="caption" color="text.secondary">Historical Average</Typography>
                 <Typography variant="h6">{prediction.factors.historical_avg.toFixed(1)} kg</Typography>
               </Grid>
-              <Grid item xs={6} sm={3}>
+              <Grid size={{ xs: 6, sm: 3 }}>
                 <Typography variant="caption" color="text.secondary">Data Points</Typography>
                 <Typography variant="h6">{prediction.factors.data_points}</Typography>
               </Grid>
-              <Grid item xs={6} sm={3}>
+              <Grid size={{ xs: 6, sm: 3 }}>
                 <Typography variant="caption" color="text.secondary">Seasonal Factor</Typography>
                 <Typography variant="h6">{prediction.factors.seasonal_factor.toFixed(2)}x</Typography>
               </Grid>
-              <Grid item xs={6} sm={3}>
+              <Grid size={{ xs: 6, sm: 3 }}>
                 <Typography variant="caption" color="text.secondary">Crop</Typography>
                 <Typography variant="h6">{prediction.crop_name || 'N/A'}</Typography>
               </Grid>

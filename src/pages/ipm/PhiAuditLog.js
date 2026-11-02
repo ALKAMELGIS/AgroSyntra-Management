@@ -202,7 +202,7 @@ export default function PhiAuditLog() {
       {/* Filters */}
       <Paper sx={{ p: 2, mb: 2 }} variant="outlined">
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={6} sm={3} md={2}>
+          <Grid size={{ xs: 6, sm: 3, md: 2 }}>
             <TextField
               label="From"
               type="date"
@@ -213,7 +213,7 @@ export default function PhiAuditLog() {
               InputLabelProps={{ shrink: true }}
             />
           </Grid>
-          <Grid item xs={6} sm={3} md={2}>
+          <Grid size={{ xs: 6, sm: 3, md: 2 }}>
             <TextField
               label="To"
               type="date"
@@ -224,7 +224,7 @@ export default function PhiAuditLog() {
               InputLabelProps={{ shrink: true }}
             />
           </Grid>
-          <Grid item xs={6} sm={3} md={2}>
+          <Grid size={{ xs: 6, sm: 3, md: 2 }}>
             <FormControl size="small" fullWidth>
               <InputLabel>Field</InputLabel>
               <Select value={filterField} onChange={(e) => setFilterField(e.target.value)} label="Field">
@@ -235,7 +235,7 @@ export default function PhiAuditLog() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={6} sm={3} md={2}>
+          <Grid size={{ xs: 6, sm: 3, md: 2 }}>
             <FormControl size="small" fullWidth>
               <InputLabel>Status</InputLabel>
               <Select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} label="Status">
@@ -246,7 +246,7 @@ export default function PhiAuditLog() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={6} sm={3} md={2}>
+          <Grid size={{ xs: 6, sm: 3, md: 2 }}>
             <FormControl size="small" fullWidth>
               <InputLabel>Severity</InputLabel>
               <Select value={filterSeverity} onChange={(e) => setFilterSeverity(e.target.value)} label="Severity">

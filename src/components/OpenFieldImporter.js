@@ -27,10 +27,10 @@ import {
   requiredImportUprootSlots,
 } from '../utils/importUprootDates';
 
-const headerBg = '#3d7c4f';
-const bannerBg = '#3d7c4f';
+const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
+const bannerBg = '#1f7a4d';
 const bannerColor = '#fff';
-const altRowBg = '#eaf1f8';
+const altRowBg = 'rgba(31,122,77,0.06)';
 const cellBorder = '1px solid #c8c8c8';
 const warnBg = '#fff8e1';
 const errBg = '#ffebee';

@@ -143,7 +143,7 @@ export default function LocationSelector({
 
   return (
     <>
-      <Grid item {...gridSize}>
+      <Grid size={gridSize}>
         <TextField
           fullWidth
           select
@@ -173,7 +173,7 @@ export default function LocationSelector({
         </TextField>
       </Grid>
 
-      <Grid item {...gridSize}>
+      <Grid size={gridSize}>
         <TextField
           fullWidth
           select
@@ -208,7 +208,7 @@ export default function LocationSelector({
         </TextField>
       </Grid>
 
-      <Grid item {...gridSize}>
+      <Grid size={gridSize}>
         <TextField
           fullWidth
           select
@@ -243,7 +243,7 @@ export default function LocationSelector({
         </TextField>
       </Grid>
 
-      <Grid item {...gridSize}>
+      <Grid size={gridSize}>
         <TextField
           fullWidth
           select

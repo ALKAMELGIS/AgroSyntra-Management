@@ -27,25 +27,25 @@ import {
 // They are literals here because this grid draws with plain inline styles
 // rather than MUI sx, so it has no theme to read from.
 const cellBorder = '1px solid #c8c8c8';
-const headerBg = '#3d7c4f';
+const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
 const headerColor = '#fff';
 // The pinned Actions column sits darker so it reads as a separate band where it
 // meets the rest of the header.
-const headerPinnedBg = '#2d6a3f';
+const headerPinnedBg = '#164a31';
 const frozenBg = '#f2f2f2';
 const focusBg = '#d5e7d9';
 // Deliberately a warm neutral rather than a green. Calculated cells are tinted
 // green, and a green stripe underneath them would swallow that signal.
-const altRowBg = '#f5f3f0';
+const altRowBg = '#eff1ed';
 const readonlyBg = '#f0f0f0';
 const calcBg = '#e8f5e9';
 const dirtyBg = '#fff8e1';
 const activeRowBg = '#dfeee3';
 const activeCellBg = '#c6dfcd';
-const bannerBg = '#1e4429';
+const bannerBg = '#143d29';
 const bannerColor = '#ffffff';
-const bannerSubBg = '#2d6a3f';
-const mixtureBorderColor = '#3d7c4f';
+const bannerSubBg = '#1d5a3c';
+const mixtureBorderColor = '#1f7a4d';
 const mixtureChildBg = '#eef4ef';
 const filterBarBg = '#e9e5e0';
 
@@ -79,7 +79,7 @@ const inputBaseStyle = {
   boxSizing: 'border-box', fontFamily: 'inherit',
 };
 const readonlyStyle = { ...inputBaseStyle, background: readonlyBg, color: '#666', cursor: 'default' };
-const calcStyle = { ...inputBaseStyle, background: calcBg, fontWeight: 600, color: '#2e7d32', cursor: 'default', textAlign: 'right' };
+const calcStyle = { ...inputBaseStyle, background: calcBg, fontWeight: 600, color: '#1f7a4d', cursor: 'default', textAlign: 'right' };
 const filterSelectStyle = {
   border: '1px solid #bbb', borderRadius: 3, padding: '3px 4px', fontSize: '0.72rem',
   background: '#fff', fontFamily: 'inherit', minWidth: 0, maxWidth: 140,

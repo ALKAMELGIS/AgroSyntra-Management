@@ -349,7 +349,7 @@ export default function ScoutingReports() {
       {/* Stats Cards */}
       {stats && (
         <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={6} md={2}>
+          <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
                 <Typography variant="h5" color="primary" sx={{ fontWeight: 700 }}>{stats.total_reports || 0}</Typography>
@@ -357,7 +357,7 @@ export default function ScoutingReports() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={6} md={2}>
+          <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
                 <Typography variant="h5" color="warning.main" sx={{ fontWeight: 700 }}>{stats.pending_reports || 0}</Typography>
@@ -365,7 +365,7 @@ export default function ScoutingReports() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={6} md={2}>
+          <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
                 <Typography variant="h5" color="success.main" sx={{ fontWeight: 700 }}>{stats.resolved_reports || 0}</Typography>
@@ -373,7 +373,7 @@ export default function ScoutingReports() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={6} md={2}>
+          <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>{Number(stats.avg_infestation || 0).toFixed(1)}%</Typography>
@@ -381,7 +381,7 @@ export default function ScoutingReports() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={6} md={2}>
+          <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
                 <Typography variant="h5" color="error" sx={{ fontWeight: 700 }}>{Number(stats.max_infestation || 0).toFixed(0)}%</Typography>
@@ -389,7 +389,7 @@ export default function ScoutingReports() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={6} md={2}>
+          <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>{stats.fields_affected || 0}</Typography>
@@ -404,7 +404,7 @@ export default function ScoutingReports() {
       <Collapse in={showFilters}>
         <Paper sx={{ p: 2, mb: 2 }}>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} md={2.4}>
+            <Grid size={{ xs: 12, md: 2.4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>Field</InputLabel>
                 <Select value={filterField} label="Field" onChange={(e) => { setFilterField(e.target.value); setPage(0); }}>
@@ -413,7 +413,7 @@ export default function ScoutingReports() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={2.4}>
+            <Grid size={{ xs: 12, md: 2.4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>Status</InputLabel>
                 <Select value={filterStatus} label="Status" onChange={(e) => { setFilterStatus(e.target.value); setPage(0); }}>
@@ -425,17 +425,17 @@ export default function ScoutingReports() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={2.4}>
+            <Grid size={{ xs: 12, md: 2.4 }}>
               <TextField fullWidth size="small" label="From Date" type="date" InputLabelProps={{ shrink: true }}
                 value={filterStartDate} onChange={(e) => { setFilterStartDate(e.target.value); setPage(0); }}
                 inputProps={{ min: seasonStart || undefined, max: seasonEnd || undefined }} />
             </Grid>
-            <Grid item xs={12} md={2.4}>
+            <Grid size={{ xs: 12, md: 2.4 }}>
               <TextField fullWidth size="small" label="To Date" type="date" InputLabelProps={{ shrink: true }}
                 value={filterEndDate} onChange={(e) => { setFilterEndDate(e.target.value); setPage(0); }}
                 inputProps={{ min: seasonStart || undefined, max: seasonEnd || undefined }} />
             </Grid>
-            <Grid item xs={12} md={2.4}>
+            <Grid size={{ xs: 12, md: 2.4 }}>
               <Button variant="text" size="small" onClick={() => { setFilterField(''); setFilterStatus(''); setFilterSeverity(''); setFilterStartDate(seasonStart); setFilterEndDate(seasonEnd); setPage(0); }}>
                 Clear Filters
               </Button>
@@ -820,7 +820,7 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
   return (
     <Grid container spacing={2}>
       {/* Quick actions — available to anyone who can see the report */}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, flexWrap: 'wrap' }}>
           <Button
             size="small"
@@ -839,7 +839,7 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
 
       {/* Header summary */}
       {header.length > 0 && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             {header.map(([k, v]) => (
               <Box key={k}>
@@ -851,13 +851,13 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
         </Grid>
       )}
       {location && (
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="caption" color="text.secondary">Location</Typography>
           <Typography variant="body2">{location}</Typography>
         </Grid>
       )}
       {(d.gps_lat && d.gps_lng) && (
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="caption" color="text.secondary">
             <LocationOn fontSize="small" sx={{ verticalAlign: 'middle', mr: 0.5 }} />
             GPS
@@ -868,13 +868,13 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
 
       {/* Observations */}
       {insectObs.length > 0 && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="subtitle2" sx={{ mt: 1, mb: 0.5, fontWeight: 700 }}>Insect counts</Typography>
           <ObservationsTable rows={insectObs} showPercent={false} />
         </Grid>
       )}
       {diseaseObs.length > 0 && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="subtitle2" sx={{ mt: 1, mb: 0.5, fontWeight: 700 }}>Disease counts</Typography>
           <ObservationsTable rows={diseaseObs} showPercent={true} />
         </Grid>
@@ -882,7 +882,7 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
 
       {/* Growth stage */}
       {growth && Object.values(growth).some((v) => v !== null && v !== undefined) && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="subtitle2" sx={{ mt: 1, mb: 0.5, fontWeight: 700 }}>Growth stage</Typography>
           <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
             {[
@@ -903,7 +903,7 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
 
       {/* Trap cards */}
       {trapCards.length > 0 && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="subtitle2" sx={{ mt: 1, mb: 0.5, fontWeight: 700 }}>Insect trap cards</Typography>
           <Paper variant="outlined" sx={{ overflowX: 'auto' }}>
             <Table size="small">
@@ -936,7 +936,7 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
 
       {/* Comments / notes */}
       {(d.comments || d.notes) && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="subtitle2" color="text.secondary">Comments</Typography>
           <Typography variant="body2">{d.comments || d.notes}</Typography>
         </Grid>
@@ -944,7 +944,7 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
 
       {/* Sent back — reason from the pest agronomist */}
       {d.review_notes && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity={d.status === 'returned' ? 'warning' : 'info'}>
             {d.status === 'returned' ? 'Sent back' : 'Previously sent back'}
             {d.returned_at && ` on ${new Date(d.returned_at).toLocaleDateString()}`}: {d.review_notes}
@@ -954,7 +954,7 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
 
       {/* Reviewer */}
       {d.reviewed_by && (
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="caption" color="text.secondary">Reviewed by</Typography>
           <Typography variant="body2">
             {d.reviewer_name || d.reviewed_by}
@@ -965,7 +965,7 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
 
       {/* Photos */}
       {d.photos && d.photos.length > 0 && (
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>Photos</Typography>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
             {d.photos.map((photo) => (

@@ -77,7 +77,7 @@ export function DashboardSkeleton() {
       {/* Stats Grid */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
         {[1, 2, 3, 4].map((i) => (
-          <Grid item xs={12} sm={6} md={3} key={i}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
             <StatCardSkeleton />
           </Grid>
         ))}
@@ -85,10 +85,10 @@ export function DashboardSkeleton() {
 
       {/* Charts */}
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <ChartSkeleton height={300} />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <ChartSkeleton height={300} />
         </Grid>
       </Grid>

@@ -1,113 +1,150 @@
 import { useNavigate } from 'react-router-dom';
-import {
-  Box, Typography, Card, CardActionArea, CardContent, Grid, Chip, Paper,
-} from '@mui/material';
-import DashboardSection from './dashboard/DashboardSection';
+import { Box, Typography, ButtonBase } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import { ArrowForwardRounded as ArrowIcon } from '@mui/icons-material';
+
+function greetingFor(date) {
+  const hour = date.getHours();
+  if (hour < 12) return 'Good morning';
+  if (hour < 17) return 'Good afternoon';
+  return 'Good evening';
+}
+
+/** Config titles are sometimes SHOUTED ("IPM CONTROL"); show them in calm title case, keeping acronyms. */
+const ACRONYMS = new Set(['IPM', 'PHI', 'GIS', 'GPS', 'EC', 'PH', 'API', 'KPI', 'PPP', 'AI']);
+function calmTitle(title) {
+  if (!title || title !== title.toUpperCase()) return title;
+  return title
+    .split(/(\s+|\/|&)/)
+    .map((w) => (ACRONYMS.has(w) || !/[A-Z]/.test(w) ? w : w.charAt(0) + w.slice(1).toLowerCase()))
+    .join('');
+}
+
+function HubTile({ tile, onOpen }) {
+  const Icon = tile.icon;
+  return (
+    <ButtonBase
+      onClick={() => onOpen(tile.path)}
+      focusRipple
+      sx={(t) => ({
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        gap: 4,
+        width: '100%',
+        minHeight: { xs: 112, sm: 124 },
+        p: { xs: 3.5, sm: 4.5 },
+        textAlign: 'start',
+        borderRadius: 4,
+        bgcolor: 'background.paper',
+        border: '1px solid',
+        borderColor: 'divider',
+        boxShadow: t.shadows[1],
+        transition: 'border-color 200ms ease, box-shadow 220ms ease, transform 220ms cubic-bezier(0.22,1,0.36,1)',
+        '& .hub-arrow': {
+          opacity: 0,
+          transform: t.direction === 'rtl' ? 'translateX(4px) scaleX(-1)' : 'translateX(-4px)',
+          transition: 'opacity 200ms ease, transform 220ms cubic-bezier(0.22,1,0.36,1)',
+        },
+        '&:hover, &.Mui-focusVisible': {
+          borderColor: alpha(t.palette.primary.main, 0.35),
+          boxShadow: t.shadows[5],
+          transform: 'translateY(-2px)',
+          '& .hub-arrow': { opacity: 1, transform: t.direction === 'rtl' ? 'translateX(0) scaleX(-1)' : 'translateX(0)' },
+          '& .hub-icon': { bgcolor: 'primary.main', color: 'primary.contrastText' },
+        },
+        '&.Mui-focusVisible': { outline: `2px solid ${t.palette.primary.main}`, outlineOffset: 2 },
+        '@media (hover: none)': { '& .hub-arrow': { opacity: 0.6, transform: 'none' } },
+      })}
+    >
+      <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+        <Box
+          className="hub-icon"
+          sx={(t) => ({
+            width: 40,
+            height: 40,
+            borderRadius: 3,
+            display: 'grid',
+            placeItems: 'center',
+            bgcolor: alpha(t.palette.primary.main, t.palette.mode === 'dark' ? 0.16 : 0.08),
+            color: 'primary.main',
+            transition: 'background-color 200ms ease, color 200ms ease',
+          })}
+        >
+          <Icon sx={{ fontSize: 21 }} />
+        </Box>
+        <ArrowIcon className="hub-arrow" sx={{ fontSize: 18, color: 'text.secondary', mt: 0.5 }} />
+      </Box>
+      <Typography
+        component="span"
+        sx={{ fontWeight: 600, fontSize: { xs: '0.875rem', sm: '0.9375rem' }, color: 'text.primary', lineHeight: 1.3, letterSpacing: '-0.01em' }}
+      >
+        {tile.label}
+      </Typography>
+    </ButtonBase>
+  );
+}
 
 export default function HubTileGrid({ sections, userName, subtitle }) {
   const navigate = useNavigate();
-
-  const greeting = (() => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 17) return 'Good afternoon';
-    return 'Good evening';
-  })();
-
-  const dateLabel = new Date().toLocaleDateString('en-US', {
+  const now = new Date();
+  const greeting = greetingFor(now);
+  const dateLabel = now.toLocaleDateString('en-US', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   });
 
   return (
-    <Box sx={{ maxWidth: 1100, mx: 'auto', py: 2, px: 1 }}>
-      <Paper variant="outlined" sx={{ mb: 2, overflow: 'hidden' }}>
-        <Box
-          sx={{
-            bgcolor: 'table.headerBg',
-            color: 'table.headerText',
-            px: 2.5,
-            py: 2,
-          }}
+    <Box sx={{ maxWidth: 1240, mx: 'auto', pt: { xs: 2, md: 4 }, pb: 4 }}>
+      <Box component="header" sx={{ mb: { xs: 7, md: 10 } }}>
+        <Typography
+          variant="overline"
+          component="p"
+          sx={{ display: 'inline-flex', alignItems: 'center', gap: 2, mb: 2, color: 'text.secondary' }}
         >
-          <Typography variant="h5" sx={{ fontWeight: 700, fontSize: '1.35rem', color: 'inherit', mb: 0.5 }}>
-            {greeting}, {userName?.split(' ')[0] || 'there'}
-          </Typography>
-          {subtitle && (
-            <Typography variant="body2" sx={{ color: 'inherit', opacity: 0.9, mb: 1 }}>
-              {subtitle}
-            </Typography>
-          )}
-          <Chip
-            label={dateLabel}
-            size="small"
-            sx={{
-              fontWeight: 500,
-              fontSize: '0.75rem',
-              bgcolor: 'rgba(255,255,255,0.18)',
-              color: 'inherit',
-              border: 0,
-            }}
-          />
-        </Box>
-      </Paper>
+          <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main' }} />
+          {dateLabel}
+        </Typography>
+        <Typography
+          variant="h2"
+          component="h1"
+          sx={{ fontSize: { xs: '1.875rem', sm: '2.25rem', md: '2.625rem' }, fontWeight: 600, letterSpacing: '-0.035em' }}
+        >
+          {greeting}, {userName?.split(' ')[0] || 'there'}
+        </Typography>
+        <Typography variant="body1" sx={{ mt: 2, color: 'text.secondary', maxWidth: 620, fontSize: { xs: '0.9375rem', md: '1.0625rem' } }}>
+          {subtitle || 'Everything happening across your fields today, one tap away.'}
+        </Typography>
+      </Box>
 
       {sections.map((section) => (
-        <DashboardSection key={section.title} title={section.title}>
-          <Box sx={{ p: 1.5 }}>
-            <Grid container spacing={1.25}>
-              {section.tiles.map((tile) => {
-                const Icon = tile.icon;
-                return (
-                  <Grid item xs={6} sm={4} md={3} key={tile.path}>
-                    <Card
-                      variant="outlined"
-                      sx={{
-                        borderRadius: 1,
-                        borderColor: 'divider',
-                        transition: 'border-color 0.15s, background-color 0.15s',
-                        '&:hover': {
-                          borderColor: 'primary.main',
-                          bgcolor: 'table.rowHover',
-                        },
-                      }}
-                    >
-                      <CardActionArea onClick={() => navigate(tile.path)} sx={{ p: 1.5 }}>
-                        <CardContent
-                          sx={{
-                            p: 0,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            textAlign: 'center',
-                            gap: 1,
-                            '&:last-child': { pb: 0 },
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              width: 40,
-                              height: 40,
-                              borderRadius: 1,
-                              bgcolor: 'table.sectionBg',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}
-                          >
-                            <Icon sx={{ fontSize: 22, color: 'primary.main' }} />
-                          </Box>
-                          <Typography sx={{ fontWeight: 600, fontSize: '0.75rem', color: 'text.primary', lineHeight: 1.3 }}>
-                            {tile.label}
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                    </Card>
-                  </Grid>
-                );
-              })}
-            </Grid>
+        <Box component="section" key={section.title} sx={{ mb: { xs: 7, md: 9 } }} aria-label={section.title}>
+          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 3, mb: 3.5 }}>
+            <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
+              {calmTitle(section.title)}
+            </Typography>
+            <Box sx={{ flex: 1, height: '1px', bgcolor: 'divider', alignSelf: 'center' }} />
+            <Typography variant="caption" sx={{ color: 'text.disabled', whiteSpace: 'nowrap' }}>
+              {section.tiles.length}
+            </Typography>
           </Box>
-        </DashboardSection>
+          <Box
+            sx={{
+              display: 'grid',
+              gap: { xs: 2.5, sm: 3.5 },
+              gridTemplateColumns: {
+                xs: 'repeat(2, minmax(0, 1fr))',
+                sm: 'repeat(3, minmax(0, 1fr))',
+                md: 'repeat(auto-fill, minmax(200px, 1fr))',
+              },
+            }}
+          >
+            {section.tiles.map((tile) => (
+              <HubTile key={tile.path} tile={tile} onOpen={navigate} />
+            ))}
+          </Box>
+        </Box>
       ))}
     </Box>
   );

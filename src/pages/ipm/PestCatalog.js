@@ -275,7 +275,7 @@ export default function PestCatalog() {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
         <Typography variant="h4" sx={{ fontWeight: 700 }}>Pest &amp; Disease Catalog</Typography>
         {canEdit && pageTab === 'catalog' && (
           <Button variant="contained" startIcon={<Add />} onClick={handleOpenCreate}>

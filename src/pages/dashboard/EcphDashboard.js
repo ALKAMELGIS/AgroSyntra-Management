@@ -155,22 +155,22 @@ export default function EcphDashboard({ fieldId, siteId, dateFrom, dateTo, allFi
   return (
     <Box>
       <Grid container spacing={1.5} sx={{ mb: 3 }}>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Avg EC In" value={stats.ecIn} />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Avg EC Out" value={stats.ecOut} color="#f59e0b" />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Avg pH In" value={stats.phIn} color="#3b82f6" />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
-          <DashboardStatCard title="Avg pH Out" value={stats.phOut} color="#6366f1" />
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
+          <DashboardStatCard title="Avg pH Out" value={stats.phOut} color="#2f6aa8" />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Avg Drain %" value={stats.drain} color="#e65100" />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Total Entries" value={stats.count} />
         </Grid>
       </Grid>
@@ -201,7 +201,7 @@ export default function EcphDashboard({ fieldId, siteId, dateFrom, dateTo, allFi
               <RTooltip contentStyle={CHART_TOOLTIP} />
               <Legend />
               <Line type="monotone" dataKey="phIn" name="pH In" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} connectNulls />
-              <Line type="monotone" dataKey="phOut" name="pH Out" stroke="#6366f1" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+              <Line type="monotone" dataKey="phOut" name="pH Out" stroke="#2f6aa8" strokeWidth={2} dot={{ r: 3 }} connectNulls />
             </LineChart>
           </ResponsiveContainer>
         </DashboardChartBody>

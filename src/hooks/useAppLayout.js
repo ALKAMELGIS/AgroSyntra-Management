@@ -1,10 +1,18 @@
 import { useMemo } from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 
-export const APP_BAR_HEIGHT = 56;
-export const NAV_TABS_HEIGHT = 40;
+export const APP_BAR_HEIGHT = 60;
+export const NAV_TABS_HEIGHT = 44;
 
-export const CONTENT_PADDING = { xs: 1, sm: 2, md: 3 };
+/** Main content gutter (theme spacing units of 4px): 12 / 20 / 24 / 28 px. */
+export const CONTENT_PADDING = { xs: 3, sm: 5, md: 6, lg: 7 };
+/** Negative gutter, for full-bleed children (maps, edge-to-edge sheets). */
+export const CONTENT_BLEED = { xs: -3, sm: -5, md: -6, lg: -7 };
+
+// Pixel gutter per breakpoint and the gutter the page offsets were tuned for
+// before the spacing refresh; the difference keeps scroll regions on-screen.
+const PAD_PX = { phone: 12, tablet: 20, laptop: 24, desktop: 28 };
+const LEGACY_PAD_PX = { phone: 4, tablet: 8, laptop: 12, desktop: 12 };
 
 /**
  * Shared layout metrics for responsive pages (phone, tablet, desktop).
@@ -20,18 +28,24 @@ export default function useAppLayout(options = {}) {
   const topBarHeight = APP_BAR_HEIGHT + (showNavTabs ? NAV_TABS_HEIGHT : 0);
 
   return useMemo(() => {
+    const tier = isPhone ? 'phone' : isMobile ? 'tablet' : isTablet ? 'laptop' : 'desktop';
+    const padPx = PAD_PX[tier];
+    const extraPad = (PAD_PX[tier] - LEGACY_PAD_PX[tier]) * 2;
     const contentMinHeight = `calc(100dvh - ${topBarHeight}px)`;
     const scrollRegionHeight = (extraOffset = 0) =>
-      `calc(100dvh - ${topBarHeight + extraOffset}px)`;
+      `calc(100dvh - ${topBarHeight + extraOffset + extraPad}px)`;
 
     return {
       isMobile,
       isTablet,
       isPhone,
       topBarHeight,
+      padPx,
       contentPadding: CONTENT_PADDING,
+      contentBleed: CONTENT_BLEED,
       contentMinHeight,
       scrollRegionHeight,
+      fullBleedHeight: `calc(100dvh - ${topBarHeight}px)`,
       mainSx: {
         flexGrow: 1,
         p: CONTENT_PADDING,

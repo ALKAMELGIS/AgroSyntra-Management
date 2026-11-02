@@ -23,7 +23,7 @@ export default function IrrigationDashboard() {
       </Typography>
 
       <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid item xs={12} sm={4} md={3}>
+        <Grid size={{ xs: 12, sm: 4, md: 3 }}>
           <FormControl fullWidth size="small">
             <InputLabel>Site</InputLabel>
             <Select value={siteId} label="Site" onChange={(e) => setSiteId(e.target.value)}>
@@ -33,7 +33,7 @@ export default function IrrigationDashboard() {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <TextField
             size="small"
             fullWidth
@@ -45,7 +45,7 @@ export default function IrrigationDashboard() {
             inputProps={{ min: seasonStart || undefined, max: seasonEnd || undefined }}
           />
         </Grid>
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <TextField
             size="small"
             fullWidth

@@ -56,29 +56,25 @@ function clickableRow(onClick) {
 
 function BriefSection({ icon, title, count, children }) {
   return (
-    <Paper variant="outlined" sx={{ mb: 3, overflow: 'hidden' }}>
+    <Paper variant="outlined" sx={{ mb: 4, overflow: 'hidden', boxShadow: 1 }}>
       <Box
         sx={{
-          bgcolor: 'table.headerBg',
-          color: 'table.headerText',
-          px: 2,
-          py: 1,
+          px: { xs: 4, sm: 5 },
+          py: 3,
           display: 'flex',
           alignItems: 'center',
-          gap: 1,
-          '& .MuiSvgIcon-root': { color: 'inherit' },
+          gap: 2.5,
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+          '& .MuiSvgIcon-root': { color: 'primary.main', fontSize: 20 },
         }}
       >
         {icon}
-        <Typography variant="subtitle1" fontWeight={700} sx={{ flexGrow: 1, color: 'inherit' }}>
+        <Typography component="h2" sx={{ flexGrow: 1, fontSize: '0.9375rem', fontWeight: 600, letterSpacing: '-0.01em' }}>
           {title}
         </Typography>
         {count != null && count !== '' && (
-          <Chip
-            size="small"
-            label={count}
-            sx={{ bgcolor: 'rgba(255,255,255,0.22)', color: 'inherit', fontWeight: 600 }}
-          />
+          <Chip size="small" label={count} sx={{ fontWeight: 600 }} />
         )}
       </Box>
       {children}

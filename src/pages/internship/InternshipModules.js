@@ -68,7 +68,7 @@ export default function InternshipModules() {
               : 0;
 
             return (
-              <Grid item xs={12} sm={6} md={4} key={mod.id}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={mod.id}>
                 <Card sx={{ height: '100%', position: 'relative', '&:hover': { boxShadow: 6 }, transition: 'box-shadow 0.2s' }}>
                   <CardActionArea onClick={() => navigate(`/internship/module/${mod.id}`)} sx={{ height: '100%' }}>
                     <CardContent sx={{ p: 3, display: 'flex', flexDirection: 'column', height: '100%' }}>

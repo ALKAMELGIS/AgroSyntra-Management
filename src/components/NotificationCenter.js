@@ -15,7 +15,7 @@ import {
   Chip,
 } from '@mui/material';
 import {
-  Notifications as BellIcon,
+  NotificationsNoneOutlined as BellIcon,
   Warning as WarningIcon,
   Error as ErrorIcon,
   Info as InfoIcon,

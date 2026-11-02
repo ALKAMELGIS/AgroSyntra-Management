@@ -770,12 +770,12 @@ export default function ProductCatalog() {
             <>
               {/* Row 1: Name & Active Ingredient */}
               <Grid container spacing={2} sx={{ mt: 0.5 }}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField fullWidth size="small" label="Product Trade Name *" value={pestForm.name}
                     onChange={(e) => setPestForm({ ...pestForm, name: e.target.value })}
                     error={!!formErrors.name} helperText={formErrors.name} />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField fullWidth size="small" label="Active Ingredient(s)" value={pestForm.activeIngredient}
                     onChange={(e) => setPestForm({ ...pestForm, activeIngredient: e.target.value })} />
                 </Grid>
@@ -783,12 +783,12 @@ export default function ProductCatalog() {
 
               {/* Row 2: Target Crops & Pests */}
               <Grid container spacing={2} sx={{ mt: 0.5 }}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField fullWidth size="small" label="Target Crop(s)" value={pestForm.targetCrops}
                     onChange={(e) => setPestForm({ ...pestForm, targetCrops: e.target.value })}
                     placeholder="e.g. Tomato, Pepper, Cucumber" />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField fullWidth size="small" label="Target Disease/Pests" value={pestForm.targetPests}
                     onChange={(e) => setPestForm({ ...pestForm, targetPests: e.target.value })}
                     placeholder="Comma-separated: Whitefly, Thrips, Mites" />
@@ -799,17 +799,17 @@ export default function ProductCatalog() {
 
               {/* Row 3: Dose info */}
               <Grid container spacing={2}>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Max Individual Dose" value={pestForm.maxIndividualDose}
                     onChange={(e) => setPestForm({ ...pestForm, maxIndividualDose: e.target.value })}
                     placeholder="e.g. 0.5 ml/L" />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Max Total Dose" value={pestForm.maxTotalDose}
                     onChange={(e) => setPestForm({ ...pestForm, maxTotalDose: e.target.value })}
                     placeholder="e.g. 1500L/Ha" />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Max Applications" value={pestForm.maxApplications}
                     onChange={(e) => setPestForm({ ...pestForm, maxApplications: e.target.value })}
                     placeholder="e.g. 2 or N/A"
@@ -819,17 +819,17 @@ export default function ProductCatalog() {
 
               {/* Row 4: Timing */}
               <Grid container spacing={2} sx={{ mt: 0.5 }}>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Growth Stage" value={pestForm.growthStage}
                     onChange={(e) => setPestForm({ ...pestForm, growthStage: e.target.value })}
                     placeholder="e.g. All Stages" />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Spray Interval" value={pestForm.sprayInterval}
                     onChange={(e) => setPestForm({ ...pestForm, sprayInterval: e.target.value })}
                     placeholder="e.g. 7-10 days" />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="PHI (Days) *" type="number" value={pestForm.phiDays}
                     onChange={(e) => setPestForm({ ...pestForm, phiDays: e.target.value })}
                     inputProps={{ min: 0 }}
@@ -839,17 +839,17 @@ export default function ProductCatalog() {
 
               {/* Row 5: PHI text, REI, Bee */}
               <Grid container spacing={2} sx={{ mt: 0.5 }}>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="PHI Details" value={pestForm.phiText}
                     onChange={(e) => setPestForm({ ...pestForm, phiText: e.target.value })}
                     placeholder="e.g. 3 days veg, 7 days fruit" />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Re-Entry Interval" value={pestForm.reEntryInterval}
                     onChange={(e) => setPestForm({ ...pestForm, reEntryInterval: e.target.value })}
                     placeholder="e.g. when field is dry" />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Bumble Bee Interval" value={pestForm.bumbleBeeInterval}
                     onChange={(e) => setPestForm({ ...pestForm, bumbleBeeInterval: e.target.value })}
                     placeholder="e.g. >30 days out" />
@@ -860,12 +860,12 @@ export default function ProductCatalog() {
 
               {/* Row 6: Category, MSDS, legacy fields */}
               <Grid container spacing={2}>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Chemical Category" value={pestForm.chemicalCategory}
                     onChange={(e) => setPestForm({ ...pestForm, chemicalCategory: e.target.value })}
                     placeholder="e.g. 4A, Acaricide" />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <FormControlLabel
                     control={
                       <Switch checked={pestForm.hasLabelMsds}
@@ -874,7 +874,7 @@ export default function ProductCatalog() {
                     label="Label & MSDS Available"
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <FormControl fullWidth size="small">
                     <InputLabel>Formulation Type</InputLabel>
                     <Select value={pestForm.formulationType} label="Formulation Type"
@@ -887,15 +887,15 @@ export default function ProductCatalog() {
 
               {/* Row 7: Manufacturer, Reg#, Safety Notes */}
               <Grid container spacing={2} sx={{ mt: 0.5 }}>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Manufacturer" value={pestForm.manufacturer}
                     onChange={(e) => setPestForm({ ...pestForm, manufacturer: e.target.value })} />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Registration #" value={pestForm.registrationNumber}
                     onChange={(e) => setPestForm({ ...pestForm, registrationNumber: e.target.value })} />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                   <TextField fullWidth size="small" label="Safety Notes" value={pestForm.safetyNotes}
                     onChange={(e) => setPestForm({ ...pestForm, safetyNotes: e.target.value })} />
                 </Grid>
@@ -903,12 +903,12 @@ export default function ProductCatalog() {
             </>
           ) : (
             <Grid container spacing={2} sx={{ mt: 0.5 }}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField fullWidth label="Product Name *" value={bioForm.name}
                   onChange={(e) => setBioForm({ ...bioForm, name: e.target.value })}
                   error={!!formErrors.bioName} helperText={formErrors.bioName} />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <FormControl fullWidth>
                   <InputLabel>Agent Type</InputLabel>
                   <Select value={bioForm.agentType} label="Agent Type"
@@ -917,7 +917,7 @@ export default function ProductCatalog() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <FormControl fullWidth>
                   <InputLabel>Form Type</InputLabel>
                   <Select value={bioForm.formType} label="Form Type"
@@ -926,7 +926,7 @@ export default function ProductCatalog() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField fullWidth multiline rows={2} label="Application Rate Guide" value={bioForm.applicationRateGuide}
                   onChange={(e) => setBioForm({ ...bioForm, applicationRateGuide: e.target.value })} />
               </Grid>

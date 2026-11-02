@@ -1585,7 +1585,7 @@ export default function BiologicalControlRecord() {
                       {renderMetaCell('Week 1 starts', setup.start_date || week1Label, 'start_date', '', 'date')}
                       <td style={{ border: cellBorder, padding: '3px 8px', background: totalRowBg, minWidth: 100 }}>
                         <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Total Cost</div>
-                        <div style={{ fontWeight: 700, color: '#2e7d32', fontSize: '0.9rem' }}>
+                        <div style={{ fontWeight: 700, color: '#1f7a4d', fontSize: '0.9rem' }}>
                           {grandTotalCost > 0
                             ? grandTotalCost.toFixed(2)
                             : (products.some((p) => productTotals[p.id]?.missingPrice) ? '—' : '0.00')}
@@ -1715,7 +1715,7 @@ export default function BiologicalControlRecord() {
                           COST
                         </td>
                         {products.map(p => (
-                          <td key={`${p.id}_c`} colSpan={2} style={{ border: cellBorder, padding: '2px 4px', fontWeight: 700, textAlign: 'right', background: costRowBg, color: '#2e7d32', fontSize: '0.75rem' }}>
+                          <td key={`${p.id}_c`} colSpan={2} style={{ border: cellBorder, padding: '2px 4px', fontWeight: 700, textAlign: 'right', background: costRowBg, color: '#1f7a4d', fontSize: '0.75rem' }}>
                             {productTotals[p.id]?.costLabel || ''}
                           </td>
                         ))}
@@ -1849,7 +1849,7 @@ export default function BiologicalControlRecord() {
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', background: totalRowBg, minWidth: 100 }}>
                         <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Total Cost</div>
-                        <div style={{ fontWeight: 700, color: '#2e7d32', fontSize: '0.9rem' }}>{summaryFieldCost.toFixed(2)}</div>
+                        <div style={{ fontWeight: 700, color: '#1f7a4d', fontSize: '0.9rem' }}>{summaryFieldCost.toFixed(2)}</div>
                       </td>
                     </tr>
                   </tbody>
@@ -1877,8 +1877,8 @@ export default function BiologicalControlRecord() {
                         <td style={summaryBodyCell(i)}>{f.number_of_plants ? parseInt(f.number_of_plants, 10).toLocaleString() : '—'}</td>
                         <td style={summaryBodyCell(i)}>{f.plants_per_m2 || '—'}</td>
                         <td style={summaryBodyCell(i)}>{parseFloat(f.total_units).toFixed(0)}</td>
-                        <td style={{ ...summaryBodyCell(i), color: '#2e7d32', fontWeight: 600 }}>{parseFloat(f.total_cost).toFixed(2)}</td>
-                        <td style={{ ...summaryBodyCell(i), color: '#2e7d32' }}>
+                        <td style={{ ...summaryBodyCell(i), color: '#1f7a4d', fontWeight: 600 }}>{parseFloat(f.total_cost).toFixed(2)}</td>
+                        <td style={{ ...summaryBodyCell(i), color: '#1f7a4d' }}>
                           {f.surface_m2 ? (parseFloat(f.total_cost) / parseFloat(f.surface_m2)).toFixed(5) : '—'}
                         </td>
                       </tr>
@@ -1891,7 +1891,7 @@ export default function BiologicalControlRecord() {
                     </tr>
                     <tr>
                       <td colSpan={5} style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', fontSize: '0.75rem' }}>COST</td>
-                      <td style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', color: '#2e7d32', fontSize: '0.75rem' }}>{summaryFieldCost.toFixed(2)}</td>
+                      <td style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', color: '#1f7a4d', fontSize: '0.75rem' }}>{summaryFieldCost.toFixed(2)}</td>
                       <td style={{ border: cellBorder, padding: '2px 6px', background: costRowBg }} />
                     </tr>
                   </tbody>
@@ -1917,7 +1917,7 @@ export default function BiologicalControlRecord() {
                         <td style={summaryBodyCell(i, 'left')}>{pt.item_code || '—'}</td>
                         <td style={summaryBodyCell(i)}>{pt.total_per_m2 ? parseFloat(pt.total_per_m2).toFixed(1) : '0'}</td>
                         <td style={summaryBodyCell(i)}>{pt.total_units ? parseFloat(pt.total_units).toFixed(0) : '0'}</td>
-                        <td style={{ ...summaryBodyCell(i), color: '#2e7d32', fontWeight: 600 }}>{parseFloat(pt.total_cost).toFixed(2)}</td>
+                        <td style={{ ...summaryBodyCell(i), color: '#1f7a4d', fontWeight: 600 }}>{parseFloat(pt.total_cost).toFixed(2)}</td>
                       </tr>
                     ))}
                     <tr>
@@ -1928,7 +1928,7 @@ export default function BiologicalControlRecord() {
                     </tr>
                     <tr>
                       <td colSpan={4} style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', fontSize: '0.75rem' }}>COST</td>
-                      <td style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', color: '#2e7d32', fontSize: '0.75rem' }}>{summaryProductCost.toFixed(2)}</td>
+                      <td style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', color: '#1f7a4d', fontSize: '0.75rem' }}>{summaryProductCost.toFixed(2)}</td>
                     </tr>
                   </tbody>
                 </table>

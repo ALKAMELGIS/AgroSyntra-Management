@@ -1980,7 +1980,7 @@ export default function PesticideApplications() {
           ) : (
             <Grid container spacing={2}>
               {phiStatus.map((phi) => (
-                <Grid item xs={12} sm={6} md={4} key={phi.id}>
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={phi.id}>
                   <Card sx={{ borderLeft: 4, borderColor: phi.days_remaining <= 1 ? 'warning.main' : 'error.main' }}>
                     <CardContent>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -2238,12 +2238,12 @@ export default function PesticideApplications() {
         // the themed tables draw from. They are literals here because this report
         // paints with plain inline styles rather than MUI sx, so it has no theme
         // to read from.
-        const hdr = { background: '#3d7c4f', color: '#fff', fontWeight: 700, fontSize: '0.72rem', padding: '6px 10px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap' };
+        const hdr = { background: '#1f7a4d', color: '#fff', fontWeight: 700, fontSize: '0.72rem', padding: '6px 10px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap' };
         const cell = { fontSize: '0.72rem', padding: '5px 10px', border: '1px solid #c8c8c8' };
         // Deliberately a warm neutral rather than a green. Cost cells are tinted
         // green, and a green stripe underneath them would swallow that signal.
-        const altBg = '#f5f3f0';
-        const calcCell = { ...cell, background: '#e8f5e9', fontWeight: 600, color: '#2e7d32', textAlign: 'right' };
+        const altBg = '#eff1ed';
+        const calcCell = { ...cell, background: '#e8f5e9', fontWeight: 600, color: '#1f7a4d', textAlign: 'right' };
         const bannerBg = '#1e4429';
         const bannerStyle = { background: bannerBg, color: '#fff', padding: '8px 16px', fontSize: '0.85rem', fontWeight: 700, borderBottom: `2px solid ${hdr.background}` };
 
@@ -2256,7 +2256,7 @@ export default function PesticideApplications() {
               </Typography>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button size="small" variant="contained" startIcon={<FileDownload />}
-                  sx={{ textTransform: 'none', fontSize: '0.72rem', bgcolor: hdr.background, '&:hover': { bgcolor: '#2d6a3f' } }}
+                  sx={{ textTransform: 'none', fontSize: '0.72rem', bgcolor: hdr.background, '&:hover': { bgcolor: '#165c3a' } }}
                   onClick={() => setCostingExportDialogOpen(true)}>
                   Export Excel
                 </Button>
@@ -2303,7 +2303,7 @@ export default function PesticideApplications() {
             {/* KPI Summary Cards */}
             <Box sx={{ display: 'flex', gap: 2, p: 2, background: '#faf9f7', borderBottom: '1px solid #c8c8c8' }}>
               {[
-                { label: 'Total Cost (AED)', value: totalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), color: '#2e7d32', bg: '#e8f5e9' },
+                { label: 'Total Cost (AED)', value: totalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), color: '#1f7a4d', bg: '#e8f5e9' },
                 { label: 'Total Qty Applied', value: totalQty.toLocaleString(undefined, { maximumFractionDigits: 1 }), color: '#1565c0', bg: '#e3f2fd' },
                 { label: 'Applications', value: totalApps, color: '#e65100', bg: '#fff3e0' },
                 { label: 'Products Used', value: uniqueProducts, color: '#6a1b9a', bg: '#f3e5f5' },
@@ -2466,7 +2466,7 @@ export default function PesticideApplications() {
                 variant="outlined"
                 startIcon={<UploadIcon />}
                 onClick={() => { setImporterTemplateId(tpl.id); setImporterTemplateName(tpl.name); setImporterOpen(true); }}
-                sx={{ textTransform: 'none', fontSize: '0.75rem', borderColor: '#3d7c4f', color: '#3d7c4f', '&:hover': { borderColor: '#2d6a3f', background: '#eef4ef' } }}
+                sx={{ textTransform: 'none', fontSize: '0.75rem', borderColor: '#1f7a4d', color: '#1f7a4d', '&:hover': { borderColor: '#165c3a', background: '#eef4ef' } }}
                 disabled={!canCreate}
               >
                 Import from Excel
@@ -2519,7 +2519,7 @@ export default function PesticideApplications() {
             Crop & Location
           </Typography>
           <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>Field ID *</InputLabel>
                 <Select value={form.fieldId} label="Field ID *" onChange={(e) => handleFieldChange(e.target.value)}>
@@ -2527,7 +2527,7 @@ export default function PesticideApplications() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Autocomplete
                 freeSolo size="small"
                 options={[...new Set(fields.map((f) => f.current_crop || f.crop_name).filter(Boolean))]}
@@ -2536,11 +2536,11 @@ export default function PesticideApplications() {
                 renderInput={(params) => <TextField {...params} label="Crop" />}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField fullWidth size="small" label="Variety" value={form.variety}
                 onChange={(e) => setForm((p) => ({ ...p, variety: e.target.value }))} />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, minHeight: 40, display: 'flex', alignItems: 'center', px: 0.5 }}>
                 <SegmentSelector
                   value={form.segmentId}
@@ -2560,13 +2560,13 @@ export default function PesticideApplications() {
             Scouting & Justification
           </Typography>
           <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <TextField fullWidth size="small" type="date" label="Scouting Date" value={form.scoutingDate}
                 onChange={(e) => setForm((p) => ({ ...p, scoutingDate: e.target.value }))}
                 InputLabelProps={{ shrink: true }}
                 error={!!formErrors.scoutingDate} helperText={formErrors.scoutingDate} />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <Autocomplete
                 freeSolo size="small"
                 options={justificationOptionList}
@@ -2575,7 +2575,7 @@ export default function PesticideApplications() {
                 renderInput={(params) => <TextField {...params} label="Justification (Pest, Disease or Preventive)" />}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <TextField fullWidth size="small" label="% Seen & Expected Problem" value={form.percentSeen}
                 onChange={(e) => setForm((p) => ({ ...p, percentSeen: e.target.value }))}
                 placeholder='e.g. 0.10% or Out of Scouting Area' />
@@ -2590,22 +2590,22 @@ export default function PesticideApplications() {
             Application Details
           </Typography>
           <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField fullWidth size="small" type="date" label="Application Date *" value={form.applicationDate}
                 onChange={(e) => setForm((p) => ({ ...p, applicationDate: e.target.value }))}
                 InputLabelProps={{ shrink: true }} />
             </Grid>
-            <Grid item xs={6} sm={3} md={2}>
+            <Grid size={{ xs: 6, sm: 3, md: 2 }}>
               <TextField fullWidth size="small" type="time" label="Start Time" value={form.applicationStartTime}
                 onChange={(e) => setForm((p) => ({ ...p, applicationStartTime: e.target.value }))}
                 InputLabelProps={{ shrink: true }} />
             </Grid>
-            <Grid item xs={6} sm={3} md={2}>
+            <Grid size={{ xs: 6, sm: 3, md: 2 }}>
               <TextField fullWidth size="small" type="time" label="End Time" value={form.applicationEndTime}
                 onChange={(e) => setForm((p) => ({ ...p, applicationEndTime: e.target.value }))}
                 InputLabelProps={{ shrink: true }} />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>Name of PPP *</InputLabel>
                 <Select value={form.productId} label="Name of PPP *" onChange={(e) => handleProductChange(e.target.value)}>
@@ -2617,7 +2617,7 @@ export default function PesticideApplications() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <TextField fullWidth size="small" label="Active Ingredient" value={form.activeIngredient}
                 onChange={(e) => setForm((p) => ({ ...p, activeIngredient: e.target.value }))}
                 helperText="Auto-filled from product" />
@@ -2632,31 +2632,31 @@ export default function PesticideApplications() {
             Dosage & Cost
           </Typography>
           <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={6} sm={4} md={2}>
+            <Grid size={{ xs: 6, sm: 4, md: 2 }}>
               <TextField fullWidth size="small" label="Dose/L of Water" type="number" value={form.dosage}
                 onChange={(e) => setForm((p) => ({ ...p, dosage: e.target.value }))}
                 inputProps={{ step: 0.01, min: 0 }} placeholder="ml/gm"
                 error={!!formErrors.dosage} helperText={formErrors.dosage} />
             </Grid>
-            <Grid item xs={6} sm={4} md={2}>
+            <Grid size={{ xs: 6, sm: 4, md: 2 }}>
               <TextField fullWidth size="small" label="Rate/Ha" type="number" value={form.ratePerHa}
                 onChange={(e) => handleCostFields('ratePerHa', e.target.value)}
                 inputProps={{ step: 0.01, min: 0 }}
                 error={!!formErrors.ratePerHa} helperText={formErrors.ratePerHa} />
             </Grid>
-            <Grid item xs={6} sm={4} md={2}>
+            <Grid size={{ xs: 6, sm: 4, md: 2 }}>
               <TextField fullWidth size="small" label="Unit Price" type="number" value={form.unitPrice}
                 onChange={(e) => handleCostFields('unitPrice', e.target.value)}
                 inputProps={{ step: 0.01, min: 0 }}
                 error={!!formErrors.unitPrice} helperText={formErrors.unitPrice} />
             </Grid>
-            <Grid item xs={6} sm={4} md={2}>
+            <Grid size={{ xs: 6, sm: 4, md: 2 }}>
               <TextField fullWidth size="small" label="Cost" type="number" value={form.cost}
                 onChange={(e) => setForm((p) => ({ ...p, cost: e.target.value }))}
                 inputProps={{ step: 0.01, min: 0 }}
                 error={!!formErrors.cost} helperText={formErrors.cost || 'Auto = Rate x Price'} />
             </Grid>
-            <Grid item xs={6} sm={4} md={2}>
+            <Grid size={{ xs: 6, sm: 4, md: 2 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>UoM</InputLabel>
                 <Select value={form.uom} label="UoM" onChange={(e) => setForm((p) => ({ ...p, uom: e.target.value }))}>
@@ -2664,7 +2664,7 @@ export default function PesticideApplications() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6} sm={4} md={2}>
+            <Grid size={{ xs: 6, sm: 4, md: 2 }}>
               <TextField fullWidth size="small" label="Total Qty Applied (Ltr)" type="number"
                 value={form.totalQuantityApplied}
                 onChange={(e) => setForm((p) => ({ ...p, totalQuantityApplied: e.target.value }))}
@@ -2680,20 +2680,20 @@ export default function PesticideApplications() {
             Operations & Verification
           </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField fullWidth size="small" label="Machinery Used" value={form.machineryUsed}
                 onChange={(e) => setForm((p) => ({ ...p, machineryUsed: e.target.value }))}
                 placeholder='e.g. 2,4,3,6,9 or Boom Spray' />
             </Grid>
-            <Grid item xs={6} sm={3} md={2}>
+            <Grid size={{ xs: 6, sm: 3, md: 2 }}>
               <TextField fullWidth size="small" label="PHI (Days)" value={phiDays} disabled
                 helperText="From product" />
             </Grid>
-            <Grid item xs={6} sm={3} md={2}>
+            <Grid size={{ xs: 6, sm: 3, md: 2 }}>
               <TextField fullWidth size="small" label="Clear to Harvest" value={clearToHarvestDate} disabled
                 InputLabelProps={{ shrink: true }} helperText="Auto-calculated" />
             </Grid>
-            <Grid item xs={12} sm={6} md={2}>
+            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
               <Autocomplete
                 freeSolo size="small"
                 options={WEATHER_OPTIONS}
@@ -2702,15 +2702,15 @@ export default function PesticideApplications() {
                 renderInput={(params) => <TextField {...params} label="Weather" />}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField fullWidth size="small" label="Operator" value={form.operatorName}
                 onChange={(e) => setForm((p) => ({ ...p, operatorName: e.target.value }))} />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField fullWidth size="small" label="Authorized / Verified by" value={form.verifiedBy}
                 onChange={(e) => setForm((p) => ({ ...p, verifiedBy: e.target.value }))} />
             </Grid>
-            <Grid item xs={12} sm={6} md={9}>
+            <Grid size={{ xs: 12, sm: 6, md: 9 }}>
               <TextField fullWidth size="small" multiline rows={2} label="Notes (optional)" value={form.notes}
                 onChange={(e) => setForm((p) => ({ ...p, notes: e.target.value }))} />
             </Grid>

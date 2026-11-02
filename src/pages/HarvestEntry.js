@@ -63,7 +63,7 @@ import { DeleteSelectedButton, RowSelectCell, SelectAllCheckbox, deleteIdsSequen
 import { useRowSelection } from '../hooks/useRowSelection';
 
 const GRID_BORDER = '1px solid #BDBDBD';
-const HEADER_FILL = '#1B5E20';
+const HEADER_FILL = '#165c3a';
 const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
 const HARVEST_DATE_WIDTH = 110;
 
@@ -572,7 +572,7 @@ function WeeklySummaryTab({ siteId }) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Typography sx={{ fontFamily: FONT, fontWeight: 700, fontSize: '11px', mb: '4px', color: HEADER_FILL }}>
           THIS WEEK
         </Typography>
@@ -598,7 +598,7 @@ function WeeklySummaryTab({ siteId }) {
           </Table>
         </TableContainer>
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Typography sx={{ fontFamily: FONT, fontWeight: 700, fontSize: '11px', mb: '4px', color: HEADER_FILL }}>
           TODAY
         </Typography>
@@ -862,7 +862,7 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
       <Box sx={{ border: PIVOT_BORDER, backgroundColor: PIVOT_BANNER_BG }}>
         <Box sx={{ display: 'flex', minHeight: 72 }}>
           <Box sx={{ width: 100, borderRight: PIVOT_BORDER, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 1 }}>
-            <Typography sx={{ fontFamily: FONT, fontSize: '9px', fontWeight: 700, color: '#2E7D32', textAlign: 'center', lineHeight: 1.2 }}>
+            <Typography sx={{ fontFamily: FONT, fontSize: '9px', fontWeight: 700, color: '#1f7a4d', textAlign: 'center', lineHeight: 1.2 }}>
               ELITE AGRO{'\n'}UAE LLC
             </Typography>
           </Box>
@@ -1041,7 +1041,7 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
                     </TableCell>
                     <TableCell sx={{ ...pivotDCell, p: 0 }}>
                       <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }}>
-                        <Check sx={{ fontSize: 14, color: '#2E7D32' }} />
+                        <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>

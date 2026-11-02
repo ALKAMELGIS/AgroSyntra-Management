@@ -346,7 +346,7 @@ export default function ManpowerRecord() {
   const { data: masterData } = useMasterData();
   const { activeSiteId } = useActiveSite();
   const theme = useTheme();
-  const { isMobile, contentPadding, scrollRegionHeight } = useAppLayout();
+  const { isMobile, scrollRegionHeight } = useAppLayout();
   const recordsTableHeight = scrollRegionHeight(isMobile ? 300 : 320);
   const workersTableHeight = scrollRegionHeight(isMobile ? 280 : 300);
   const workersCountGridHeight = scrollRegionHeight(isMobile ? 320 : 360);
@@ -1158,7 +1158,7 @@ export default function ManpowerRecord() {
   // ─── Render ───────────────────────────────────────────────────
 
   return (
-    <Box sx={{ p: contentPadding }}>
+    <Box>
       <Box sx={{
         display: 'flex',
         flexDirection: { xs: 'column', sm: 'row' },

@@ -83,11 +83,11 @@ function TabPanel({ children, value, index }) {
 }
 
 export default function GISMap() {
-  const { isMobile, scrollRegionHeight } = useAppLayout();
+  const { isMobile, scrollRegionHeight, contentBleed, topBarHeight, padPx } = useAppLayout();
   const { t } = useTranslation();
   // CEO and operation manager manage GIS layers; everyone else (incl. farm manager) views only.
   const canEdit = canEditGis(useAuth().user);
-  const mapHeight = scrollRegionHeight(0);
+  const mapHeight = `calc(100dvh - ${topBarHeight + padPx}px)`;
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [layers, setLayers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -578,7 +578,7 @@ export default function GISMap() {
       popupContent += `<b>${mappedName}:</b> ${value ?? 'N/A'}<br/>`;
     }
     if (props._linkedFieldId) {
-      popupContent += '<br/><b style="color: #2e7d32">Linked to field</b>';
+      popupContent += '<br/><b style="color: #1f7a4d">Linked to field</b>';
     }
     popupContent += '</div>';
     leafletLayer.bindPopup(popupContent);
@@ -598,8 +598,8 @@ export default function GISMap() {
       display: 'flex',
       height: mapHeight,
       position: 'relative',
-      mx: { xs: -1, sm: -2, md: -3 },
-      mb: { xs: -1, sm: -2, md: -3 },
+      mx: contentBleed,
+      mb: contentBleed,
     }}>
       {/* Side Panel */}
       <Drawer

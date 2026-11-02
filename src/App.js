@@ -21,6 +21,7 @@ import CommandPalette from './components/CommandPalette';
 import NotificationCenter from './components/NotificationCenter';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sidebar from './components/Sidebar';
+import BackgroundMoon from './components/BackgroundMoon';
 import NavAreaTabs from './components/NavAreaTabs';
 import {
   drawerWidth,
@@ -130,8 +131,13 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 // Suspense fallback for lazy-loaded routes
 function PageLoader() {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '40vh' }}>
-      <CircularProgress />
+    <Box
+      role="status"
+      aria-live="polite"
+      sx={{ display: 'flex', flexDirection: 'column', gap: 3, justifyContent: 'center', alignItems: 'center', minHeight: '40vh' }}
+    >
+      <CircularProgress size={28} />
+      <Typography variant="caption" color="text.secondary">Loading…</Typography>
     </Box>
   );
 }
@@ -184,45 +190,54 @@ function SearchBar() {
 
   return (
     <Box
+      component="button"
+      type="button"
       onClick={openCommandPalette}
+      aria-label="Search data (Ctrl K)"
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: 1,
-        bgcolor: 'background.default',
+        gap: 2.5,
+        bgcolor: 'background.muted',
         border: '1px solid',
-        borderColor: 'divider',
-        borderRadius: 2,
-        px: { sm: 2, md: 3 },
-        py: 1.5,
+        borderColor: 'transparent',
+        borderRadius: 999,
+        px: 3.5,
+        height: 38,
         cursor: 'pointer',
-        minWidth: { sm: 200, md: 340 },
+        font: 'inherit',
+        color: 'inherit',
+        textAlign: 'start',
+        minWidth: { sm: 220, md: 320 },
         flex: { sm: 1, md: 'none' },
         maxWidth: { sm: 360, md: 420 },
-        transition: 'border-color 150ms ease',
-        '&:hover': { borderColor: 'text.disabled' },
+        transition: 'border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease',
+        '&:hover': { borderColor: 'divider', bgcolor: 'background.paper' },
+        '&:focus-visible': { outline: 'none', borderColor: 'primary.main', bgcolor: 'background.paper' },
       }}
     >
       <SearchIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
-      <Typography sx={{ fontSize: '0.8125rem', color: 'text.disabled', flexGrow: 1, userSelect: 'none' }} noWrap>
-        Search Data...
+      <Typography component="span" sx={{ fontSize: '0.875rem', color: 'text.secondary', flexGrow: 1, userSelect: 'none' }} noWrap>
+        Search data…
       </Typography>
       <Box
+        component="kbd"
         sx={{
-          display: { xs: 'none', sm: 'flex' },
+          display: { xs: 'none', sm: 'inline-flex' },
           alignItems: 'center',
-          gap: 0.5,
           bgcolor: 'background.paper',
           border: '1px solid',
           borderColor: 'divider',
           borderRadius: 1.5,
           px: 1.5,
           py: 0.25,
+          fontSize: '0.6875rem',
+          color: 'text.secondary',
+          fontWeight: 500,
+          lineHeight: 1.6,
         }}
       >
-        <Typography sx={{ fontSize: '0.6875rem', color: 'text.secondary', fontWeight: 500, fontFamily: 'monospace' }}>
-          Ctrl K
-        </Typography>
+        Ctrl K
       </Box>
     </Box>
   );
@@ -260,19 +275,42 @@ function UserMenu() {
   return (
     <>
       <Box
+        component="button"
+        type="button"
         onClick={handleMenu}
+        aria-haspopup="menu"
+        aria-expanded={Boolean(anchorEl)}
+        aria-label="Account menu"
         sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: 2,
+          gap: 2.5,
           cursor: 'pointer',
-          px: 2,
+          font: 'inherit',
+          color: 'inherit',
+          bgcolor: 'transparent',
+          border: 0,
+          pl: 1,
+          pr: { xs: 1, sm: 3 },
           py: 1,
-          borderRadius: 2,
+          ml: 1,
+          borderRadius: 999,
+          textAlign: 'start',
+          transition: 'background-color 160ms ease',
           '&:hover': { bgcolor: 'action.hover' },
         }}
       >
-        <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main', fontSize: '0.8125rem', fontWeight: 600 }}>
+        <Avatar
+          sx={{
+            width: 34,
+            height: 34,
+            bgcolor: 'primary.main',
+            color: 'primary.contrastText',
+            fontSize: '0.8125rem',
+            fontWeight: 600,
+            boxShadow: (t) => `0 0 0 2px ${t.palette.background.paper}, 0 0 0 3px ${t.palette.divider}`,
+          }}
+        >
           {user.name?.charAt(0)?.toUpperCase() || 'U'}
         </Avatar>
         <Box sx={{ display: { xs: 'none', sm: 'block' }, minWidth: 0 }}>
@@ -290,18 +328,16 @@ function UserMenu() {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        slotProps={{ paper: { sx: { minWidth: 200, mt: 1 } } }}
+        slotProps={{ paper: { sx: { minWidth: 240, mt: 1.5 } } }}
       >
-        <MenuItem disabled sx={{ opacity: '1 !important' }}>
-          <Box>
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>{user.name}</Typography>
-            <Typography variant="caption" color="text.secondary">{user.email}</Typography>
-          </Box>
-        </MenuItem>
+        <Box sx={{ px: 3, pt: 2, pb: 2.5 }}>
+          <Typography sx={{ fontWeight: 600, fontSize: '0.875rem', color: 'text.primary' }} noWrap>{user.name}</Typography>
+          <Typography variant="caption" color="text.secondary" noWrap component="div">{user.email}</Typography>
+        </Box>
         <Divider />
         <MenuItem onClick={handleTheme}>
           {themeIcons[mode]}
-          <Typography sx={{ ml: 2, fontSize: '0.8125rem' }}>{themeLabels[mode]}</Typography>
+          <Typography sx={{ ml: 2, fontSize: '0.875rem' }}>{themeLabels[mode]}</Typography>
         </MenuItem>
         <Box sx={{ px: 2, py: 1 }}>
           <LanguageSwitcher />
@@ -309,7 +345,7 @@ function UserMenu() {
         <Divider />
         <MenuItem onClick={handleLogout}>
           <LogoutIcon sx={{ fontSize: 18 }} />
-          <Typography sx={{ ml: 2, fontSize: '0.8125rem' }}>Sign out</Typography>
+          <Typography sx={{ ml: 2, fontSize: '0.875rem' }}>Sign out</Typography>
         </MenuItem>
       </Menu>
     </>
@@ -354,16 +390,13 @@ function AuthenticatedLayout() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', position: 'relative', minHeight: '100dvh' }}>
+      <BackgroundMoon />
       {/* AppBar */}
       <AppBar
         position="fixed"
-        color="transparent"
         elevation={0}
         sx={{
-          bgcolor: 'background.paper',
-          borderBottom: '1px solid',
-          borderColor: 'divider',
           width: { md: `calc(100% - ${sidebarOpen ? drawerWidth : 0}px)` },
           ml: { md: `${sidebarOpen ? drawerWidth : 0}px` },
           pt: 'env(safe-area-inset-top, 0px)',
@@ -374,13 +407,12 @@ function AuthenticatedLayout() {
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
       >
-        <Toolbar sx={{ minHeight: `${APP_BAR_HEIGHT}px !important`, gap: 1 }}>
+        <Toolbar sx={{ minHeight: `${APP_BAR_HEIGHT}px !important`, gap: { xs: 1, sm: 2 }, px: { xs: 3, sm: 5, md: 6 } }}>
           <IconButton
-            aria-label="open drawer"
+            aria-label={isMobile || !sidebarOpen ? 'Open navigation' : 'Collapse navigation'}
             edge="start"
             onClick={handleDrawerToggle}
             sx={{ mr: 1, color: 'text.secondary' }}
-            size="small"
           >
             <MenuIcon fontSize="small" />
           </IconButton>
@@ -417,11 +449,15 @@ function AuthenticatedLayout() {
         className="page-content"
         sx={{
           flexGrow: 1,
+          position: 'relative',
+          zIndex: 1,
+          minWidth: 0,
           p: contentPadding,
           pb: {
-            xs: `calc(${themeMUI.spacing(1)} + env(safe-area-inset-bottom, 0px))`,
-            sm: `calc(${themeMUI.spacing(2)} + env(safe-area-inset-bottom, 0px))`,
-            md: `calc(${themeMUI.spacing(3)} + env(safe-area-inset-bottom, 0px))`,
+            xs: `calc(${themeMUI.spacing(contentPadding.xs)} + env(safe-area-inset-bottom, 0px))`,
+            sm: `calc(${themeMUI.spacing(contentPadding.sm)} + env(safe-area-inset-bottom, 0px))`,
+            md: `calc(${themeMUI.spacing(contentPadding.md)} + env(safe-area-inset-bottom, 0px))`,
+            lg: `calc(${themeMUI.spacing(contentPadding.lg)} + env(safe-area-inset-bottom, 0px))`,
           },
           width: { md: `calc(100% - ${sidebarOpen ? drawerWidth : 0}px)` },
           transition: themeMUI.transitions.create(['width', 'margin'], {
@@ -433,7 +469,7 @@ function AuthenticatedLayout() {
         }}
       >
         {isSeasonReadOnly && activeSeason ? (
-          <Alert severity="warning" sx={{ mb: 2 }}>
+          <Alert severity="warning" sx={{ mb: 4 }}>
             {activeSeason.status === 'reopen_pending'
               ? `${activeSeason.name} is waiting for an auditor to reopen it. You can look at this season, but you cannot record new work until it is approved.`
               : isEndedSeason(activeSeason)

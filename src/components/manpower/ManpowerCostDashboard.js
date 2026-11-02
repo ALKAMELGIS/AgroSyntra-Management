@@ -86,7 +86,7 @@ export default function ManpowerCostDashboard({ data, loading, error }) {
           <DashboardStatCard title={t('manpowerCost.dashboard.totalHours')} value={formatHours(totals.hours)} color="#3b82f6" />
         </Grid>
         <Grid size={{ xs: 6, md: 3 }}>
-          <DashboardStatCard title={t('manpowerCost.dashboard.workers')} value={totals.workers} color="#6366f1" />
+          <DashboardStatCard title={t('manpowerCost.dashboard.workers')} value={totals.workers} color="#2f6aa8" />
         </Grid>
         <Grid size={{ xs: 6, md: 3 }}>
           <DashboardStatCard title={t('manpowerCost.dashboard.avgRate')} value={formatAed(avgRate)} color="#f59e0b" />

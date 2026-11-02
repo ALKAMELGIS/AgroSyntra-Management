@@ -48,7 +48,7 @@ const germTintSx = {
 
 function getGermColor(pct) {
   if (pct == null || isNaN(pct)) return undefined;
-  if (pct >= 90) return '#2e7d32';
+  if (pct >= 90) return '#1f7a4d';
   if (pct >= 70) return '#e65100';
   return '#c62828';
 }

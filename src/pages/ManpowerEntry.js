@@ -70,7 +70,7 @@ export default function ManpowerEntry() {
   );
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#f5f5f5' }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <AppBar position="static" color="primary" elevation={1}>
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }} fontWeight={700}>

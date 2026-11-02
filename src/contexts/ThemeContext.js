@@ -42,22 +42,19 @@ export function AppThemeProvider({ children }) {
     return () => i18n.off('languageChanged', handleLangChange);
   }, []);
 
-  const prefersDark = useMemo(() => {
-    if (typeof window === 'undefined') return false;
+  const [prefersDark, setPrefersDark] = useState(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return false;
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }, []);
+  });
 
-  // Listen for system theme changes
+  // Follow OS theme changes live (used when mode === 'system').
   useEffect(() => {
+    if (!window.matchMedia) return undefined;
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = () => {
-      if (mode === 'system') {
-        setMode('system');
-      }
-    };
+    const handler = (e) => setPrefersDark(e.matches);
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
-  }, [mode]);
+  }, []);
 
   const resolvedMode = useMemo(() => {
     if (mode === 'system') {
@@ -65,6 +62,15 @@ export function AppThemeProvider({ children }) {
     }
     return mode;
   }, [mode, prefersDark]);
+
+  // Expose the resolved mode to plain CSS (html[data-theme]) and the browser UI.
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', resolvedMode);
+    document.documentElement.style.colorScheme = resolvedMode;
+    document.querySelectorAll('meta[name="theme-color"]').forEach((m) => {
+      m.setAttribute('content', resolvedMode === 'dark' ? '#0c100e' : '#f5f6f3');
+    });
+  }, [resolvedMode]);
 
   const theme = useMemo(
     () => createAppTheme(resolvedMode, direction),
