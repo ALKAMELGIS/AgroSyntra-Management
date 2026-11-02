@@ -37,35 +37,35 @@ export default function InternshipProgress() {
         Back to Modules
       </Button>
 
-      <Typography variant="h4" fontWeight={700} gutterBottom>My Progress</Typography>
+      <Typography variant="h4" gutterBottom>My Progress</Typography>
 
       {/* Stats Cards */}
       <Grid container spacing={2} sx={{ mb: 4 }}>
         <Grid size={{ xs: 6, sm: 3 }}>
           <Paper sx={{ p: 2, textAlign: 'center' }}>
             <CheckCircle color="success" sx={{ fontSize: 32, mb: 0.5 }} />
-            <Typography variant="h5" fontWeight={700}>{stats.totalLessonsCompleted || 0}</Typography>
+            <Typography variant="h5">{stats.totalLessonsCompleted || 0}</Typography>
             <Typography variant="caption" color="text.secondary">Lessons Completed</Typography>
           </Paper>
         </Grid>
         <Grid size={{ xs: 6, sm: 3 }}>
           <Paper sx={{ p: 2, textAlign: 'center' }}>
             <AccessTime color="primary" sx={{ fontSize: 32, mb: 0.5 }} />
-            <Typography variant="h5" fontWeight={700}>{formatTime(stats.totalTimeSeconds)}</Typography>
+            <Typography variant="h5">{formatTime(stats.totalTimeSeconds)}</Typography>
             <Typography variant="caption" color="text.secondary">Total Time</Typography>
           </Paper>
         </Grid>
         <Grid size={{ xs: 6, sm: 3 }}>
           <Paper sx={{ p: 2, textAlign: 'center' }}>
             <Quiz color="secondary" sx={{ fontSize: 32, mb: 0.5 }} />
-            <Typography variant="h5" fontWeight={700}>{attempts.length}</Typography>
+            <Typography variant="h5">{attempts.length}</Typography>
             <Typography variant="caption" color="text.secondary">Quizzes Taken</Typography>
           </Paper>
         </Grid>
         <Grid size={{ xs: 6, sm: 3 }}>
           <Paper sx={{ p: 2, textAlign: 'center' }}>
             <TrendingUp color="info" sx={{ fontSize: 32, mb: 0.5 }} />
-            <Typography variant="h5" fontWeight={700}>{stats.avgQuizScore || 0}%</Typography>
+            <Typography variant="h5">{stats.avgQuizScore || 0}%</Typography>
             <Typography variant="caption" color="text.secondary">Avg Quiz Score</Typography>
           </Paper>
         </Grid>

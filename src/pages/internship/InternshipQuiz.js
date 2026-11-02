@@ -75,7 +75,7 @@ export default function InternshipQuiz() {
 
       <Paper sx={{ p: 4 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-          <Typography variant="h5" fontWeight={700} sx={{ flexGrow: 1 }}>
+          <Typography variant="h5" sx={{ flexGrow: 1 }}>
             {quiz.title}
           </Typography>
           <Chip

@@ -547,7 +547,7 @@ export default function ChangeRequests() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 } }}>
-      <Typography variant="h5" fontWeight={700} gutterBottom>
+      <Typography variant="h5" gutterBottom>
         Change Requests
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

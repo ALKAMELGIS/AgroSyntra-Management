@@ -54,7 +54,7 @@ export default function Enrollment() {
 
   return (
     <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
-      <Typography variant="h4" fontWeight={700} gutterBottom>
+      <Typography variant="h4" gutterBottom>
         Internship Enrollment
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>

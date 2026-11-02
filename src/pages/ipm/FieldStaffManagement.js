@@ -204,7 +204,7 @@ export default function FieldStaffManagement() {
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h4" fontWeight={700}>Field Staff</Typography>
+          <Typography variant="h4">Field Staff</Typography>
           <Typography variant="body2" color="text.secondary">
             Create or link scouters and operators with Employee ID + PIN. Link existing manpower workers without duplicating them.
           </Typography>

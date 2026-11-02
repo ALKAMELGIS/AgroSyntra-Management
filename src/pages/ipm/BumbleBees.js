@@ -964,7 +964,7 @@ export default function BumbleBees() {
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, gap: 1, flexWrap: 'wrap' }}>
-        <Typography variant="h4" fontWeight={700}>Bumble Bee Deployments</Typography>
+        <Typography variant="h4">Bumble Bee Deployments</Typography>
         <Button
           startIcon={<FileDownload />}
           variant="outlined"

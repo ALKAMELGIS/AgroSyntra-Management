@@ -37,7 +37,7 @@ export default function InternshipModule() {
         Back to Modules
       </Button>
 
-      <Typography variant="h4" fontWeight={700} gutterBottom>
+      <Typography variant="h4" gutterBottom>
         {mod.title}
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>

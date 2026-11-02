@@ -816,7 +816,7 @@ export default function Templates() {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
-          <Typography variant="h4" sx={{ fontWeight: 600 }}>Templates</Typography>
+          <Typography variant="h4">Templates</Typography>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             {isAdmin && (
               <Button variant="outlined" startIcon={<SettingsIcon />} onClick={openConfig}>
@@ -1063,7 +1063,7 @@ export default function Templates() {
               {catMeta.icon}
             </Box>
             <Box>
-              <Typography variant="h5" sx={{ fontWeight: 600 }}>
+              <Typography variant="h5">
                 {catMeta.label || selectedCategory.key}
               </Typography>
               {isBrowseView && (

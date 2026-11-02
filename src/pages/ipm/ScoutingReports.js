@@ -306,7 +306,7 @@ export default function ScoutingReports() {
         gap: 1.5,
         mb: 3,
       }}>
-        <Typography variant="h4" sx={{ fontWeight: 700, fontSize: { xs: '1.25rem', md: '2.125rem' } }}>Scouting Reports</Typography>
+        <Typography variant="h4">Scouting Reports</Typography>
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
           {pageTab === 'reports' && !readOnly && (
           <Button startIcon={<Add />} onClick={() => { setEditingReport(null); setFormOpen(true); }} variant="contained" size="small">
@@ -352,7 +352,7 @@ export default function ScoutingReports() {
           <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
-                <Typography variant="h5" color="primary" sx={{ fontWeight: 700 }}>{stats.total_reports || 0}</Typography>
+                <Typography variant="h5" color="primary" >{stats.total_reports || 0}</Typography>
                 <Typography variant="caption" color="text.secondary">Total (30d)</Typography>
               </CardContent>
             </Card>
@@ -360,7 +360,7 @@ export default function ScoutingReports() {
           <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
-                <Typography variant="h5" color="warning.main" sx={{ fontWeight: 700 }}>{stats.pending_reports || 0}</Typography>
+                <Typography variant="h5" color="warning.main" >{stats.pending_reports || 0}</Typography>
                 <Typography variant="caption" color="text.secondary">Pending</Typography>
               </CardContent>
             </Card>
@@ -368,7 +368,7 @@ export default function ScoutingReports() {
           <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
-                <Typography variant="h5" color="success.main" sx={{ fontWeight: 700 }}>{stats.resolved_reports || 0}</Typography>
+                <Typography variant="h5" color="success.main" >{stats.resolved_reports || 0}</Typography>
                 <Typography variant="caption" color="text.secondary">Resolved</Typography>
               </CardContent>
             </Card>
@@ -376,7 +376,7 @@ export default function ScoutingReports() {
           <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
-                <Typography variant="h5" sx={{ fontWeight: 700 }}>{Number(stats.avg_infestation || 0).toFixed(1)}%</Typography>
+                <Typography variant="h5">{Number(stats.avg_infestation || 0).toFixed(1)}%</Typography>
                 <Typography variant="caption" color="text.secondary">Avg Infestation</Typography>
               </CardContent>
             </Card>
@@ -384,7 +384,7 @@ export default function ScoutingReports() {
           <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
-                <Typography variant="h5" color="error" sx={{ fontWeight: 700 }}>{Number(stats.max_infestation || 0).toFixed(0)}%</Typography>
+                <Typography variant="h5" color="error" >{Number(stats.max_infestation || 0).toFixed(0)}%</Typography>
                 <Typography variant="caption" color="text.secondary">Max Infestation</Typography>
               </CardContent>
             </Card>
@@ -392,7 +392,7 @@ export default function ScoutingReports() {
           <Grid size={{ xs: 6, md: 2 }}>
             <Card>
               <CardContent sx={{ textAlign: 'center', py: 1.5 }}>
-                <Typography variant="h5" sx={{ fontWeight: 700 }}>{stats.fields_affected || 0}</Typography>
+                <Typography variant="h5">{stats.fields_affected || 0}</Typography>
                 <Typography variant="caption" color="text.secondary">Fields Affected</Typography>
               </CardContent>
             </Card>

@@ -392,7 +392,7 @@ export default function PumpRoom() {
 
   return (
     <Box sx={{ p: 2, width: '100%' }}>
-      <Typography variant="h5" fontWeight={700} gutterBottom>Pump Room</Typography>
+      <Typography variant="h5" gutterBottom>Pump Room</Typography>
       {!canWrite && (
         <ReadOnlyBanner message="View only — only the data-entry worker can edit the pump room." />
       )}

@@ -146,7 +146,7 @@ function AIBrainCard() {
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
           <BrainIcon color="primary" fontSize="large" />
-          <Typography variant="h5" fontWeight={700}>AI Brain</Typography>
+          <Typography variant="h5">AI Brain</Typography>
           {hasExistingKey && (
             <Chip icon={<CheckCircle />} label="Connected" color="success" size="small" sx={{ ml: 'auto' }} />
           )}
@@ -329,7 +329,7 @@ function WeatherMapApiKeyCard() {
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
           <WeatherIcon color="info" fontSize="large" />
-          <Typography variant="h5" fontWeight={700}>Weather Map API Key</Typography>
+          <Typography variant="h5">Weather Map API Key</Typography>
           {hasExistingKey && (
             <Chip icon={<CheckCircle />} label="Connected" color="success" size="small" sx={{ ml: 'auto' }} />
           )}
@@ -462,7 +462,7 @@ export default function ApiKeys() {
 
       {/* API Keys Section */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-        <Typography variant="h4" fontWeight={700} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <KeyIcon fontSize="large" /> API Keys
         </Typography>
         <Button variant="contained" startIcon={<AddIcon />} onClick={() => { setCreateOpen(true); setNewKey(null); }}>

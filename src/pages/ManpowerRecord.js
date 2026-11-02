@@ -1168,7 +1168,7 @@ export default function ManpowerRecord() {
         mb: 2,
       }}>
         <Box>
-          <Typography variant="h4" fontWeight={700} sx={{ fontSize: { xs: '1.25rem', md: '2.125rem' } }}>Manpower Record</Typography>
+          <Typography variant="h4">Manpower Record</Typography>
           <Typography variant="body2" color="text.secondary">
             Daily work activity tracking and worker management
           </Typography>

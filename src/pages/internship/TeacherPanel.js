@@ -33,7 +33,7 @@ export default function TeacherPanel() {
   if (!canAuthor) {
     return (
       <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
-        <Typography variant="h4" fontWeight={700} gutterBottom>
+        <Typography variant="h4" gutterBottom>
           Teacher Panel
         </Typography>
         <Alert severity="info" sx={{ mb: 3 }}>{t('adminAccess.trainingAuthorOnly')}</Alert>
@@ -44,7 +44,7 @@ export default function TeacherPanel() {
 
   return (
     <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
-      <Typography variant="h4" fontWeight={700} gutterBottom>
+      <Typography variant="h4" gutterBottom>
         Teacher Panel
       </Typography>
 

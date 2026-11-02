@@ -36,7 +36,7 @@ export default function InternshipModules() {
     <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box>
-          <Typography variant="h4" fontWeight={700} gutterBottom>
+          <Typography variant="h4" gutterBottom>
             Internship Training
           </Typography>
           <Typography variant="body1" color="text.secondary">

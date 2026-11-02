@@ -386,7 +386,7 @@ export default function TemplatePreview() {
         )}
         <Box sx={{ flexGrow: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.25 }}>
-            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            <Typography variant="h5">
               {template.name}
             </Typography>
             {catMeta && (

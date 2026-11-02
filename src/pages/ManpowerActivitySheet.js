@@ -68,7 +68,7 @@ export default function ManpowerActivitySheet() {
 
   return (
     <Box sx={{ maxWidth: 1400, mx: 'auto' }}>
-      <Typography variant="h4" fontWeight={700} sx={{ fontSize: { xs: '1.25rem', md: '2.125rem' }, mb: 0.5 }}>
+      <Typography variant="h4" sx={{ fontSize: { xs: '1.25rem', md: '2.125rem' }, mb: 0.5 }}>
         Daily Activity Sheet
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

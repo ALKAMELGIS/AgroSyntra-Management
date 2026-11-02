@@ -23,7 +23,7 @@ import { MapLifecycle, SafeFitLatLngBounds } from '../utils/leafletSafe';
 import { API_BASE, getAuthHeaders } from '../config/api';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import useAppLayout from '../hooks/useAppLayout';
+import useAppLayout, { CONTEXT_BAR_HEIGHT } from '../hooks/useAppLayout';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { canEditGis } from '../utils/roleAccess';
@@ -83,11 +83,11 @@ function TabPanel({ children, value, index }) {
 }
 
 export default function GISMap() {
-  const { isMobile, scrollRegionHeight, contentBleed, topBarHeight, padPx } = useAppLayout();
+  const { isMobile, scrollRegionHeight, contentBleed, topBarHeight, padPx, bottomChrome } = useAppLayout();
   const { t } = useTranslation();
   // CEO and operation manager manage GIS layers; everyone else (incl. farm manager) views only.
   const canEdit = canEditGis(useAuth().user);
-  const mapHeight = `calc(100dvh - ${topBarHeight + padPx}px)`;
+  const mapHeight = `calc(100dvh - ${topBarHeight + padPx + bottomChrome + CONTEXT_BAR_HEIGHT}px)`;
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [layers, setLayers] = useState([]);
   const [loading, setLoading] = useState(true);

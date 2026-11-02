@@ -188,6 +188,12 @@ html[lang='ar'] .MuiTypography-root {
   }
 }
 
+/* Phone bottom navigation: keep toasts and pinned bars above it. */
+html.has-bottom-nav .MuiSnackbar-root[class*='anchorOriginBottom'],
+html.has-bottom-nav .ac-fixed-bottom {
+  margin-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+}
+
 /* --- Scrollbars -------------------------------------------------------- */
 
 * {

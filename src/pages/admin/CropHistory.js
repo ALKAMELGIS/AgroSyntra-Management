@@ -1061,7 +1061,7 @@ export default function CropHistory() {
   /* ─── RENDER ─── */
   return (
     <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1600, mx: 'auto' }}>
-      <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Typography variant="h5" sx={{ mb: 0.5, display: 'flex', alignItems: 'center', gap: 1 }}>
         <HistoryIcon /> Crop Rotation & Planting
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

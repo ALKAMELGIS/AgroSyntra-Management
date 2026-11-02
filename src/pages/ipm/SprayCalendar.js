@@ -98,7 +98,7 @@ export default function SprayCalendar() {
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-        <Typography variant="h4" sx={{ fontWeight: 700 }}>Spray Calendar</Typography>
+        <Typography variant="h4">Spray Calendar</Typography>
         <FormControl size="small" sx={{ minWidth: 200 }}>
           <InputLabel>Filter by Field</InputLabel>
           <Select value={filterField} label="Filter by Field" onChange={(e) => setFilterField(e.target.value)}>

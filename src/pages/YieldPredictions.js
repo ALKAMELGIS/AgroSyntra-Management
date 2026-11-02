@@ -33,7 +33,7 @@ export default function YieldPredictions() {
 
   return (
     <Container maxWidth="xl" sx={{ py: 3 }}>
-      <Typography variant="h4" fontWeight={700} gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Typography variant="h4" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <PredictionIcon fontSize="large" /> Yield Predictions
       </Typography>
 
@@ -57,21 +57,21 @@ export default function YieldPredictions() {
             <Grid size={{ xs: 6, sm: 3 }}>
               <Card sx={{ bgcolor: '#e8f5e9' }}><CardContent>
                 <Typography variant="caption" color="text.secondary">Predicted Yield</Typography>
-                <Typography variant="h4" fontWeight={700}>{prediction.predicted_yield.toFixed(1)}</Typography>
+                <Typography variant="h4">{prediction.predicted_yield.toFixed(1)}</Typography>
                 <Typography variant="caption">kg</Typography>
               </CardContent></Card>
             </Grid>
             <Grid size={{ xs: 6, sm: 3 }}>
               <Card><CardContent>
                 <Typography variant="caption" color="text.secondary">Confidence</Typography>
-                <Typography variant="h4" fontWeight={700}>{prediction.confidence_pct}%</Typography>
+                <Typography variant="h4">{prediction.confidence_pct}%</Typography>
                 <LinearProgress variant="determinate" value={prediction.confidence_pct} sx={{ mt: 1 }} />
               </CardContent></Card>
             </Grid>
             <Grid size={{ xs: 6, sm: 3 }}>
               <Card><CardContent>
                 <Typography variant="caption" color="text.secondary">Range</Typography>
-                <Typography variant="h5" fontWeight={700}>
+                <Typography variant="h5">
                   {prediction.confidence_lower.toFixed(0)} — {prediction.confidence_upper.toFixed(0)}
                 </Typography>
               </CardContent></Card>

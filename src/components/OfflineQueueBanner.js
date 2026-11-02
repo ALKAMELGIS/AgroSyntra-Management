@@ -158,6 +158,7 @@ export default function OfflineQueueBanner() {
   return (
     <>
       <Box
+        className="ac-fixed-bottom"
         sx={{
           position: 'fixed',
           bottom: 12,

@@ -70,7 +70,7 @@ function Register() {
     >
       <Card sx={{ maxWidth: 400, width: '100%' }}>
         <CardContent sx={{ p: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+          <Typography variant="h4" component="h1" gutterBottom sx={{ mb: 3 }}>
             Create Account
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>

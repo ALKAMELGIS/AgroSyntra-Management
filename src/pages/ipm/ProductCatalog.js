@@ -355,7 +355,7 @@ export default function ProductCatalog() {
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h4" fontWeight={700}>Product Catalog</Typography>
+          <Typography variant="h4">Product Catalog</Typography>
           <Typography variant="body2" color="text.secondary">
             {pesticideProducts.length} active pesticide products, {foundationProducts.length} foundation reference items, {bioProducts.length} biological products
           </Typography>

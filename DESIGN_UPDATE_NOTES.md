@@ -24,3 +24,10 @@ All features, routes, roles and data flows are unchanged. Visual / UX changes on
 - Tabs now scroll with arrows instead of being clipped on narrow screens (theme default).
 - Select fields with an empty option no longer overlap their label (Organization Settings).
 - Tasks board shows 3 columns from tablet width; sidebar site selector matches the season selector.
+
+## Round 3 — built for daily staff use
+- **Breadcrumb trail on every page** (Home › Area › Section › Page) generated from the navigation config (`src/config/pageMeta.js`, `components/PageContextBar.js`). Area links back to its module hub.
+- **Phone bottom navigation** (Home · Modules · Search · Alerts · Menu) for one-thumb use in the field; snackbars and pinned bars are lifted above it.
+- **"Continue where you left off"** on Home: the last 6 opened pages for this browser, filtered by the user's current role.
+- **Fixed scroll-region heights**: pages never knew the area-tabs row was visible, so spreadsheets/maps overflowed by 44px. The shell now shares this via `AppChromeContext`; the GIS map fits the screen exactly.
+- Page titles normalized to the theme weights (removed ad-hoc 700/800 weights and oversize h4 overrides in 50 pages).

@@ -181,7 +181,7 @@ export default function InternshipLesson() {
       {/* Reading Phase */}
       {phase === 'reading' && (
         <Paper sx={{ p: 4, mb: 3 }}>
-          <Typography variant="h5" fontWeight={700} gutterBottom>{lesson.title}</Typography>
+          <Typography variant="h5" gutterBottom>{lesson.title}</Typography>
           <Divider sx={{ mb: 3 }} />
           <Box
             sx={{ '& h1,& h2,& h3': { mt: 3, mb: 1 }, '& p': { mb: 2, lineHeight: 1.8 }, '& ul,& ol': { pl: 3, mb: 2 }, '& li': { mb: 0.5 } }}
@@ -255,7 +255,7 @@ export default function InternshipLesson() {
         <Paper sx={{ p: 4 }}>
           <Box sx={{ textAlign: 'center', mb: 3 }}>
             <CheckCircle sx={{ fontSize: 64, color: 'success.main', mb: 2 }} />
-            <Typography variant="h5" fontWeight={700} gutterBottom>Lesson Completed!</Typography>
+            <Typography variant="h5" gutterBottom>Lesson Completed!</Typography>
             <Typography variant="body1" color="text.secondary">
               Score: {quizResult.correct}/{quizResult.total} ({quizResult.score}%) | Time spent: {formatTime(elapsed)}
             </Typography>

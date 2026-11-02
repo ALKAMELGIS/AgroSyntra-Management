@@ -383,7 +383,7 @@ export default function ApiIntegrations() {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Science color="primary" sx={{ fontSize: 32 }} />
-          <Typography variant="h4" fontWeight={700}>API Integrations</Typography>
+          <Typography variant="h4">API Integrations</Typography>
         </Box>
         <Button variant="contained" startIcon={<Add />} onClick={openAdd}>Add Integration</Button>
       </Box>

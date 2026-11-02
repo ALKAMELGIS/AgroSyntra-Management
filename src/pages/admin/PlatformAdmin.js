@@ -117,7 +117,7 @@ export default function PlatformAdmin() {
 
   return (
     <Box sx={{ py: 3, px: { xs: 2, md: 3 }, maxWidth: 1100, mx: 'auto' }}>
-      <Typography variant="h4" fontWeight={700} gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Typography variant="h4" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <OrgIcon fontSize="large" /> Platform Admin
       </Typography>
       <Typography color="text.secondary" sx={{ mb: 3 }}>

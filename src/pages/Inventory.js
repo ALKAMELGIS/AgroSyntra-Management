@@ -223,7 +223,7 @@ export default function Inventory() {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Inventory2 color="primary" sx={{ fontSize: 32 }} />
-          <Typography variant="h4" fontWeight={700}>Inventory</Typography>
+          <Typography variant="h4">Inventory</Typography>
         </Box>
         {canWrite && <Button variant="contained" startIcon={<Add />} onClick={openAdd}>Add Item</Button>}
       </Box>

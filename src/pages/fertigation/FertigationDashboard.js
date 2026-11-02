@@ -429,7 +429,7 @@ function FertigationDashboard() {
     <Container maxWidth="xl">
       <Box sx={{ py: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-          <Typography variant="h4" sx={{ fontWeight: 600 }}>Fertigation Dashboard</Typography>
+          <Typography variant="h4">Fertigation Dashboard</Typography>
           <Box>
             <Button variant="outlined" startIcon={<Download />} onClick={exportToExcel} sx={{ mr: 1 }}>
               Export Excel
@@ -448,7 +448,7 @@ function FertigationDashboard() {
                 <Typography variant="overline" color="text.secondary">
                   Fertigation Water
                 </Typography>
-                <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                <Typography variant="h5">
                   {summary.totalWater} m³
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
@@ -463,7 +463,7 @@ function FertigationDashboard() {
                 <Typography variant="overline" color="text.secondary">
                   Total Fertilizer
                 </Typography>
-                <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                <Typography variant="h5">
                   {summary.totalFertilizer} kg
                 </Typography>
               </CardContent>
@@ -475,7 +475,7 @@ function FertigationDashboard() {
                 <Typography variant="overline" color="text.secondary">
                   Average Daily Usage
                 </Typography>
-                <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                <Typography variant="h5">
                   {summary.averageDailyUsage} kg/day
                 </Typography>
               </CardContent>
@@ -487,7 +487,7 @@ function FertigationDashboard() {
                 <Typography variant="overline" color="text.secondary">
                   Total Entries
                 </Typography>
-                <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                <Typography variant="h5">
                   {summary.totalEntries}
                 </Typography>
               </CardContent>

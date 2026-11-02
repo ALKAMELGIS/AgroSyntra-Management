@@ -130,7 +130,7 @@ export default function DailyBrief() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" fontWeight={700} sx={{ mb: 0.5 }}>Daily Farm Brief</Typography>
+      <Typography variant="h4" sx={{ mb: 0.5 }}>Daily Farm Brief</Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 1 }}>{today}</Typography>
       {activeSite?.name && (
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -368,19 +368,19 @@ export default function DailyBrief() {
             <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
               {weather.temperature != null && (
                 <Paper variant="outlined" sx={{ p: 2, textAlign: 'center', minWidth: 100 }}>
-                  <Typography variant="h4" fontWeight={700}>{weather.temperature}°C</Typography>
+                  <Typography variant="h4">{weather.temperature}°C</Typography>
                   <Typography variant="caption">Temperature</Typography>
                 </Paper>
               )}
               {weather.humidity != null && (
                 <Paper variant="outlined" sx={{ p: 2, textAlign: 'center', minWidth: 100 }}>
-                  <Typography variant="h4" fontWeight={700}>{weather.humidity}%</Typography>
+                  <Typography variant="h4">{weather.humidity}%</Typography>
                   <Typography variant="caption">Humidity</Typography>
                 </Paper>
               )}
               {weather.windSpeed != null && (
                 <Paper variant="outlined" sx={{ p: 2, textAlign: 'center', minWidth: 100 }}>
-                  <Typography variant="h4" fontWeight={700}>{weather.windSpeed}</Typography>
+                  <Typography variant="h4">{weather.windSpeed}</Typography>
                   <Typography variant="caption">Wind (km/h)</Typography>
                 </Paper>
               )}

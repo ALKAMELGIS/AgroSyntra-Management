@@ -1609,7 +1609,7 @@ export default function PesticideApplications() {
         mb: 2,
       }}>
         <Box>
-          <Typography variant="h4" fontWeight={700} sx={{ fontSize: { xs: '1.25rem', md: '2.125rem' } }}>
+          <Typography variant="h4">
             Plant Protection Application Record
           </Typography>
           <Typography variant="body2" color="text.secondary">

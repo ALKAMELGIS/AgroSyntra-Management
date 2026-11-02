@@ -158,7 +158,7 @@ export default function SummaryContents() {
     <Box maxWidth={1100} mx="auto" pb={editMode && dirty ? 10 : 0}>
       <Box display="flex" justifyContent="space-between" alignItems="flex-start" flexWrap="wrap" gap={2} mb={2}>
         <Box>
-          <Typography variant="h4" fontWeight={700} gutterBottom>
+          <Typography variant="h4" gutterBottom>
             Summary & Contents
           </Typography>
           <Typography variant="subtitle1" color="text.secondary">
@@ -550,6 +550,7 @@ export default function SummaryContents() {
       {editMode && dirty && (
         <Paper
           elevation={8}
+          className="ac-fixed-bottom"
           sx={{
             position: 'fixed',
             bottom: 0,

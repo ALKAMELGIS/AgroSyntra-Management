@@ -337,7 +337,7 @@ export default function BatchTrace() {
       `}</style>
 
       <Box className="no-print" sx={{ mb: 3 }}>
-        <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5 }}>
+        <Typography variant="h5" sx={{ mb: 0.5 }}>
           Batch Trace
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

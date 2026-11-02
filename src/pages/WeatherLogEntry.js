@@ -586,7 +586,7 @@ function WeatherLogEntry() {
       {selectedSite && fieldsWithCoordinates.length > 0 && (
         <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            <Typography variant="h5">
               Current Weather by Field
             </Typography>
             {apiStatus.configured && (

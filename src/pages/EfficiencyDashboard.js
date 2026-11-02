@@ -525,7 +525,7 @@ function EfficiencyDashboard() {
             {label}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
-            <Typography variant="h5" sx={{ fontWeight: 700 }}>
+            <Typography variant="h5">
               {typeof value === 'number' ? value.toFixed(2) : value}
               {unit}
             </Typography>
@@ -693,7 +693,7 @@ function EfficiencyDashboard() {
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-          <Typography variant="h4" sx={{ fontWeight: 600 }}>
+          <Typography variant="h4">
             Climate-Contextual Water Use Efficiency
           </Typography>
           <Button

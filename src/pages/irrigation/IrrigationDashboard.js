@@ -17,7 +17,7 @@ export default function IrrigationDashboard() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h5" fontWeight={700} gutterBottom>Irrigation Dashboard</Typography>
+      <Typography variant="h5" gutterBottom>Irrigation Dashboard</Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         Water and cycles from Irrigation Entry (RC-108) plus separately entered pivot irrigation.
       </Typography>

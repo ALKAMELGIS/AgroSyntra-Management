@@ -1,4 +1,6 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useState } from 'react';
+import { readRecentPages, RECENT_PAGES_EVENT } from '../utils/recentPages';
+import { getSidebarSections, AREA_SECTIONS } from '../config/navAreas';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import HubTileGrid from '../components/HubTileGrid';
@@ -97,12 +99,28 @@ function Home() {
     }
   }, [role, navigate]);
 
+  const [recentRaw, setRecentRaw] = useState(readRecentPages);
+  useEffect(() => {
+    const sync = () => setRecentRaw(readRecentPages());
+    window.addEventListener(RECENT_PAGES_EVENT, sync);
+    return () => window.removeEventListener(RECENT_PAGES_EVENT, sync);
+  }, []);
+
+  // Only offer pages this user can still open (roles can change between visits).
+  const recent = useMemo(() => {
+    const allowed = new Set();
+    Object.keys(AREA_SECTIONS).forEach((areaId) => {
+      getSidebarSections(user, areaId).forEach((section) => section.items.forEach((it) => allowed.add(it.path)));
+    });
+    return recentRaw.filter((r) => allowed.has(r.path));
+  }, [recentRaw, user]);
+
   const visibleSections = useMemo(() => {
     return SECTIONS.filter(s => !s.roles || s.roles.includes(role));
   }, [role]);
 
   return (
-    <HubTileGrid sections={visibleSections} userName={user?.name} />
+    <HubTileGrid sections={visibleSections} userName={user?.name} recent={recent} />
   );
 }
 

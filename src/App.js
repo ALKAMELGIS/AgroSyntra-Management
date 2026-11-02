@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Box, useTheme, useMediaQuery, Menu, MenuItem, Avatar, Divider, CircularProgress, Tooltip, Alert } from '@mui/material';
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { MenuOutlined as MenuIcon, LogoutOutlined as LogoutIcon, DarkModeOutlined as DarkModeIcon, LightModeOutlined as LightModeIcon, SettingsBrightnessOutlined as SystemModeIcon, SearchOutlined as SearchIcon } from '@mui/icons-material';
 import './i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
@@ -22,6 +22,8 @@ import NotificationCenter from './components/NotificationCenter';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sidebar from './components/Sidebar';
 import NavAreaTabs from './components/NavAreaTabs';
+import PageContextBar from './components/PageContextBar';
+import MobileBottomNav, { MOBILE_NAV_HEIGHT } from './components/MobileBottomNav';
 import {
   drawerWidth,
   DEFAULT_NAV_AREA,
@@ -29,7 +31,7 @@ import {
   resolveNavArea,
   getHubPathForArea,
 } from './config/navAreas';
-import useAppLayout, { APP_BAR_HEIGHT } from './hooks/useAppLayout';
+import useAppLayout, { APP_BAR_HEIGHT, AppChromeContext } from './hooks/useAppLayout';
 import {
   getRoleLabel, FIELD_STAFF_MANAGER_ROLES, SHEET_RESTORE_ROLES, INTEGRATION_ADMIN_ROLES, SYSTEM_ADMIN_ROLES,
   MANPOWER_COST_VIEW_ROLES,
@@ -363,7 +365,8 @@ function AuthenticatedLayout() {
   const themeMUI = useTheme();
   const visibleNavAreas = getVisibleNavAreas(user);
   const showNavTabs = visibleNavAreas.length > 1;
-  const { isMobile, topBarHeight, contentPadding, contentMinHeight } = useAppLayout({ showNavTabs });
+  const { isMobile, isPhone, topBarHeight, contentPadding, contentMinHeight } = useAppLayout({ showNavTabs });
+  const chromeValue = useMemo(() => ({ showNavTabs }), [showNavTabs]);
 
   useEffect(() => {
     setNavArea((current) => resolveNavArea(location.pathname, user, current));
@@ -441,6 +444,8 @@ function AuthenticatedLayout() {
       {/* Command Palette */}
       <CommandPalette />
 
+      {isPhone && <MobileBottomNav activeNavArea={navArea} onOpenMenu={() => setMobileOpen(true)} />}
+
       {/* Main Content */}
       <Box
         component="main"
@@ -452,7 +457,7 @@ function AuthenticatedLayout() {
           minWidth: 0,
           p: contentPadding,
           pb: {
-            xs: `calc(${themeMUI.spacing(contentPadding.xs)} + env(safe-area-inset-bottom, 0px))`,
+            xs: `calc(${themeMUI.spacing(contentPadding.xs)} + ${MOBILE_NAV_HEIGHT}px + env(safe-area-inset-bottom, 0px))`,
             sm: `calc(${themeMUI.spacing(contentPadding.sm)} + env(safe-area-inset-bottom, 0px))`,
             md: `calc(${themeMUI.spacing(contentPadding.md)} + env(safe-area-inset-bottom, 0px))`,
             lg: `calc(${themeMUI.spacing(contentPadding.lg)} + env(safe-area-inset-bottom, 0px))`,
@@ -466,6 +471,7 @@ function AuthenticatedLayout() {
           minHeight: contentMinHeight,
         }}
       >
+        <PageContextBar />
         {isSeasonReadOnly && activeSeason ? (
           <Alert severity="warning" sx={{ mb: 4 }}>
             {activeSeason.status === 'reopen_pending'
@@ -475,6 +481,7 @@ function AuthenticatedLayout() {
                 : `${activeSeason.name} is locked. Request reopen so an auditor can unlock data entry for this year.`}
           </Alert>
         ) : null}
+        <AppChromeContext.Provider value={chromeValue}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={guarded(Home)} />
@@ -563,6 +570,7 @@ function AuthenticatedLayout() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
+        </AppChromeContext.Provider>
       </Box>
     </Box>
   );

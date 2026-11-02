@@ -189,7 +189,7 @@ export default function PhiAuditLog() {
     <Box sx={{ p: { xs: 1, md: 3 } }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap" gap={1}>
         <Box>
-          <Typography variant="h5" fontWeight={700}>PHI Audit Log</Typography>
+          <Typography variant="h5">PHI Audit Log</Typography>
           <Typography variant="body2" color="text.secondary">
             Harvests that occurred while a spray PHI was still active on the same segment / field
           </Typography>

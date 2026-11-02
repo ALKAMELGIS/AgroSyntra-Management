@@ -185,7 +185,7 @@ function ResetPassword() {
     >
       <Card sx={{ maxWidth: 400, width: '100%' }}>
         <CardContent sx={{ p: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 700, mb: 1 }}>
+          <Typography variant="h4" component="h1" gutterBottom sx={{ mb: 1 }}>
             Set New Password
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>

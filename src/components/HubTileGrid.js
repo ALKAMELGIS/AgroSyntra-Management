@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, ButtonBase } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { ArrowForwardRounded as ArrowIcon } from '@mui/icons-material';
+import { ArrowForwardRounded as ArrowIcon, HistoryOutlined as RecentIcon } from '@mui/icons-material';
+import { calmLabel } from '../config/pageMeta';
+import { getTileMeta } from '../config/hubTiles';
 
 function greetingFor(date) {
   const hour = date.getHours();
@@ -10,15 +12,7 @@ function greetingFor(date) {
   return 'Good evening';
 }
 
-/** Config titles are sometimes SHOUTED ("IPM CONTROL"); show them in calm title case, keeping acronyms. */
-const ACRONYMS = new Set(['IPM', 'PHI', 'GIS', 'GPS', 'EC', 'PH', 'API', 'KPI', 'PPP', 'AI']);
-function calmTitle(title) {
-  if (!title || title !== title.toUpperCase()) return title;
-  return title
-    .split(/(\s+|\/|&)/)
-    .map((w) => (ACRONYMS.has(w) || !/[A-Z]/.test(w) ? w : w.charAt(0) + w.slice(1).toLowerCase()))
-    .join('');
-}
+const calmTitle = calmLabel;
 
 function HubTile({ tile, onOpen }) {
   const Icon = tile.icon;
@@ -87,7 +81,7 @@ function HubTile({ tile, onOpen }) {
   );
 }
 
-export default function HubTileGrid({ sections, userName, subtitle }) {
+export default function HubTileGrid({ sections, userName, subtitle, recent = [] }) {
   const navigate = useNavigate();
   const now = new Date();
   const greeting = greetingFor(now);
@@ -117,6 +111,74 @@ export default function HubTileGrid({ sections, userName, subtitle }) {
           {subtitle || 'Everything happening across your fields today, one tap away.'}
         </Typography>
       </Box>
+
+      {recent.length > 0 && (
+        <Box component="section" aria-label="Recently opened" sx={{ mb: { xs: 7, md: 9 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+            <RecentIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
+            <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600 }}>
+              Continue where you left off
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              overflowX: 'auto',
+              pb: 1,
+              mx: { xs: -3, sm: 0 },
+              px: { xs: 3, sm: 0 },
+              flexWrap: { sm: 'wrap' },
+              scrollSnapType: 'x mandatory',
+            }}
+          >
+            {recent.map((item) => {
+              const Icon = getTileMeta(item.path).icon;
+              return (
+                <ButtonBase
+                  key={item.path}
+                  onClick={() => navigate(item.path)}
+                  focusRipple
+                  sx={(t) => ({
+                    flexShrink: 0,
+                    scrollSnapAlign: 'start',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 2,
+                    height: 40,
+                    pl: 2,
+                    pr: 4,
+                    borderRadius: 999,
+                    bgcolor: 'background.paper',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    fontSize: '0.875rem',
+                    fontWeight: 500,
+                    color: 'text.primary',
+                    transition: 'border-color 160ms ease, background-color 160ms ease',
+                    '&:hover, &.Mui-focusVisible': { borderColor: alpha(t.palette.primary.main, 0.4) },
+                  })}
+                >
+                  <Box
+                    sx={(t) => ({
+                      width: 28,
+                      height: 28,
+                      borderRadius: '50%',
+                      display: 'grid',
+                      placeItems: 'center',
+                      bgcolor: alpha(t.palette.primary.main, t.palette.mode === 'dark' ? 0.16 : 0.08),
+                      color: 'primary.main',
+                    })}
+                  >
+                    <Icon sx={{ fontSize: 16 }} />
+                  </Box>
+                  {item.title}
+                </ButtonBase>
+              );
+            })}
+          </Box>
+        </Box>
+      )}
 
       {sections.map((section) => (
         <Box component="section" key={section.title} sx={{ mb: { xs: 7, md: 9 } }} aria-label={section.title}>

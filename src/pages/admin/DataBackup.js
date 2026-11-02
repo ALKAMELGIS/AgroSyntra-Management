@@ -190,7 +190,7 @@ export default function DataBackup() {
 
   return (
     <Box sx={{ p: 3, maxWidth: 800, mx: 'auto' }}>
-      <Typography variant="h4" fontWeight={700} gutterBottom>Data Backup</Typography>
+      <Typography variant="h4" gutterBottom>Data Backup</Typography>
       <Typography variant="body2" color="text.secondary" mb={3}>
         Protect your farm data with multiple backup methods.
       </Typography>

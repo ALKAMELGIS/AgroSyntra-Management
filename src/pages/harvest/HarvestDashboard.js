@@ -250,7 +250,7 @@ function HarvestDashboard() {
     <Container maxWidth="xl">
       <Box sx={{ py: 3 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-          <Typography variant="h4" sx={{ fontWeight: 600 }}>
+          <Typography variant="h4">
             Harvest Dashboard
           </Typography>
           <Button
@@ -335,7 +335,7 @@ function HarvestDashboard() {
                 <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 1 }}>
                   Total Plantations
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                <Typography variant="h4">
                   {summary.totalPlantations}
                 </Typography>
               </CardContent>
@@ -350,7 +350,7 @@ function HarvestDashboard() {
                 <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 1 }}>
                   Total Yield
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                <Typography variant="h4">
                   {summary.totalYield} Ton
                 </Typography>
               </CardContent>
@@ -365,7 +365,7 @@ function HarvestDashboard() {
                 <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 1 }}>
                   Average per Plantation
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                <Typography variant="h4">
                   {summary.averagePerPlantation} Ton
                 </Typography>
               </CardContent>

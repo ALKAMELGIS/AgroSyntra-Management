@@ -70,7 +70,7 @@ export default function SystemHealth() {
   return (
     <Box sx={{ p: 3, maxWidth: 1000, mx: 'auto' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-        <Typography variant="h4" fontWeight={700}>System Health</Typography>
+        <Typography variant="h4">System Health</Typography>
         <Button startIcon={<Refresh />} onClick={fetchData} disabled={loading}>Refresh</Button>
       </Box>
 
