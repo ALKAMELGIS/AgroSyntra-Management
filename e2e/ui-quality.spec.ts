@@ -149,6 +149,35 @@ test.describe('Arabic / RTL and dark mode', () => {
   }
 
   for (const route of ROUTES.filter((r) => !NEEDS_REAL_DATA.has(r))) {
+    test(`${route} has no light panels in dark mode`, async ({ page }) => {
+      await page.setViewportSize({ width: 1280, height: 860 });
+      await prepare(page, { theme: 'dark' });
+      await page.goto(route);
+      await settle(page);
+      // Any element with a light background covering >6% of the screen is a dark-mode leak.
+      const leaks = await page.evaluate(() => {
+        const vw = innerWidth; const vh = innerHeight; const out: string[] = [];
+        const lum = (c: string) => {
+          const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return 0;
+          const [r, g, b, a = '1'] = m[1].split(',').map((x) => x.trim());
+          if (parseFloat(a) < 0.6) return 0;
+          return (0.2126 * +r + 0.7152 * +g + 0.0722 * +b) / 255;
+        };
+        document.querySelectorAll('body *').forEach((el) => {
+          if ((el as HTMLElement).closest('.leaflet-container')) return;
+          const r = el.getBoundingClientRect();
+          const w = Math.max(0, Math.min(r.right, vw) - Math.max(r.left, 0));
+          const h = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+          if ((w * h) / (vw * vh) < 0.06) return;
+          if (lum(getComputedStyle(el).backgroundColor) > 0.75) out.push(`${el.tagName}.${(el.className || '').toString().slice(0, 60)}`);
+        });
+        return out;
+      });
+      expect(leaks).toEqual([]);
+    });
+  }
+
+  for (const route of ROUTES.filter((r) => !NEEDS_REAL_DATA.has(r))) {
     test(`${route} renders in Arabic without overflow`, async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
       const errors: string[] = [];

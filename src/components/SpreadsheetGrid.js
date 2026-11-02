@@ -26,28 +26,28 @@ import {
 // Greens mirror palette.table in src/theme.js, which is the source of truth.
 // They are literals here because this grid draws with plain inline styles
 // rather than MUI sx, so it has no theme to read from.
-const cellBorder = '1px solid #c8c8c8';
+const cellBorder = '1px solid var(--sheet-grid, #c8c8c8)';
 const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
 const headerColor = '#fff';
 // The pinned Actions column sits darker so it reads as a separate band where it
 // meets the rest of the header.
 const headerPinnedBg = '#164a31';
-const frozenBg = '#f2f2f2';
-const focusBg = '#d5e7d9';
+const frozenBg = 'var(--sheet-muted, #f2f2f2)';
+const focusBg = 'var(--sheet-select, #d5e7d9)';
 // Deliberately a warm neutral rather than a green. Calculated cells are tinted
 // green, and a green stripe underneath them would swallow that signal.
-const altRowBg = '#eff1ed';
-const readonlyBg = '#f0f0f0';
-const calcBg = '#e8f5e9';
-const dirtyBg = '#fff8e1';
-const activeRowBg = '#dfeee3';
-const activeCellBg = '#c6dfcd';
+const altRowBg = 'var(--sheet-muted, #eff1ed)';
+const readonlyBg = 'var(--sheet-muted, #f0f0f0)';
+const calcBg = 'var(--sheet-tint-green, #e8f5e9)';
+const dirtyBg = 'var(--sheet-tint-yellow, #fff8e1)';
+const activeRowBg = 'var(--sheet-select, #dfeee3)';
+const activeCellBg = 'var(--sheet-select-strong, #c6dfcd)';
 const bannerBg = '#143d29';
 const bannerColor = '#ffffff';
 const bannerSubBg = '#1d5a3c';
 const mixtureBorderColor = '#1f7a4d';
-const mixtureChildBg = '#eef4ef';
-const filterBarBg = '#e9e5e0';
+const mixtureChildBg = 'var(--sheet-tint-green, #eef4ef)';
+const filterBarBg = 'var(--sheet-muted, #e9e5e0)';
 
 // ─── Frozen columns ────────────────────────────────────────────────
 // Widths of the two gutter columns. Named because the sticky offset of every
@@ -78,11 +78,11 @@ const inputBaseStyle = {
   fontSize: '0.75rem', background: 'transparent', height: '100%',
   boxSizing: 'border-box', fontFamily: 'inherit',
 };
-const readonlyStyle = { ...inputBaseStyle, background: readonlyBg, color: '#666', cursor: 'default' };
-const calcStyle = { ...inputBaseStyle, background: calcBg, fontWeight: 600, color: '#1f7a4d', cursor: 'default', textAlign: 'right' };
+const readonlyStyle = { ...inputBaseStyle, background: readonlyBg, color: 'var(--sheet-ink-2, #666)', cursor: 'default' };
+const calcStyle = { ...inputBaseStyle, background: calcBg, fontWeight: 600, color: 'var(--sheet-accent, #1f7a4d)', cursor: 'default', textAlign: 'right' };
 const filterSelectStyle = {
-  border: '1px solid #bbb', borderRadius: 3, padding: '3px 4px', fontSize: '0.72rem',
-  background: '#fff', fontFamily: 'inherit', minWidth: 0, maxWidth: 140,
+  border: '1px solid var(--sheet-border, #bbb)', borderRadius: 3, padding: '3px 4px', fontSize: '0.72rem',
+  background: 'var(--sheet-bg, #fff)', fontFamily: 'inherit', minWidth: 0, maxWidth: 140,
 };
 const filterInputStyle = {
   ...filterSelectStyle, width: 110,
@@ -799,7 +799,7 @@ function SpreadsheetGrid({
         display: 'flex', flexWrap: 'wrap', gap: 0.75, alignItems: 'center',
         px: 1, py: 0.5, bgcolor: filterBarBg, borderBottom: cellBorder, flexShrink: 0,
       }}>
-        <Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: '#555', mr: 0.5 }}>Filter:</Typography>
+        <Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--sheet-ink-2, #555)', mr: 0.5 }}>Filter:</Typography>
 
         {farmAreas.length > 0 && (
           <select value={filterFarmArea} onChange={(e) => { setFilterFarmArea(e.target.value); setFilterField(''); }}
@@ -854,7 +854,7 @@ function SpreadsheetGrid({
       <Box sx={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         flexWrap: isCompact ? 'wrap' : 'nowrap', gap: isCompact ? 0.5 : 0,
-        px: 1, py: 0.5, bgcolor: '#f5f5f5', borderBottom: cellBorder, flexShrink: 0,
+        px: 1, py: 0.5, bgcolor: 'var(--sheet-muted, #f5f5f5)', borderBottom: cellBorder, flexShrink: 0,
         position: 'sticky', top: 0, zIndex: 20,
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
@@ -873,7 +873,7 @@ function SpreadsheetGrid({
               sx={{ height: 22, fontSize: '0.7rem' }} />
           )}
         </Box>
-        <Typography sx={{ fontSize: '0.7rem', color: '#888' }}>
+        <Typography sx={{ fontSize: '0.7rem', color: 'var(--sheet-ink-3, #888)' }}>
           {loading ? 'Loading records…' : `${editRows.length} record${editRows.length !== 1 ? 's' : ''}`}
         </Typography>
       </Box>
@@ -941,7 +941,7 @@ function SpreadsheetGrid({
               const rowBg = isDirty ? dirtyBg : baseBg;
               // Frozen cells cannot inherit the row's transparency, so odd rows
               // need the white they were showing through to.
-              const opaqueBase = isChild ? mixtureChildBg : (isOdd ? '#fff' : altRowBg);
+              const opaqueBase = isChild ? mixtureChildBg : (isOdd ? 'var(--sheet-bg, #fff)' : altRowBg);
               const frozenCellBg = isDirty ? dirtyBg
                 : (isActive ? activeRowBg : opaqueBase);
 
@@ -976,7 +976,7 @@ function SpreadsheetGrid({
                     position: 'sticky', left: GUTTER_CHECKBOX_W, zIndex: 1,
                     background: isActive ? activeCellBg : (isChild ? mixtureChildBg : frozenBg),
                     textAlign: 'center', fontWeight: 600, fontSize: '0.7rem',
-                    color: isChild ? mixtureBorderColor : '#666',
+                    color: isChild ? 'var(--sheet-accent, #1f7a4d)' : 'var(--sheet-ink-2, #666)',
                     padding: '2px 4px',
                     borderLeft: isChild ? `3px solid ${mixtureBorderColor}` : (isGroupParent ? `3px solid ${mixtureBorderColor}` : cellBorder),
                   }}>
@@ -997,7 +997,7 @@ function SpreadsheetGrid({
                       <Tooltip title={row.groupId ? 'Save group' : 'Save row'}>
                         <span>
                           <IconButton size="small"
-                            sx={{ p: 0.3, color: groupHasDirty ? headerBg : '#ccc' }}
+                            sx={{ p: 0.3, color: groupHasDirty ? 'var(--sheet-accent, #1d5a3c)' : 'var(--sheet-ink-3, #ccc)' }}
                             disabled={saving || !groupHasDirty}
                             onClick={(e) => { e.stopPropagation(); handleSave(realIdx); }} aria-label="Save">
                             <SaveIcon sx={{ fontSize: 15 }} />
@@ -1013,13 +1013,13 @@ function SpreadsheetGrid({
                         </Tooltip>
                       )}
                       <Tooltip title="Duplicate">
-                        <IconButton size="small" sx={{ p: 0.3, color: '#888' }}
+                        <IconButton size="small" sx={{ p: 0.3, color: 'var(--sheet-ink-3, #888)' }}
                           onClick={(e) => { e.stopPropagation(); duplicateRow(realIdx); }}>
                           <CopyIcon sx={{ fontSize: 14 }} />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Delete">
-                        <IconButton size="small" sx={{ p: 0.3, color: '#d32f2f' }}
+                        <IconButton size="small" sx={{ p: 0.3, color: 'var(--sheet-danger, #d32f2f)' }}
                           onClick={(e) => { e.stopPropagation(); handleDelete(realIdx); }}>
                           <DeleteIcon sx={{ fontSize: 14 }} />
                         </IconButton>
@@ -1033,7 +1033,7 @@ function SpreadsheetGrid({
               <tr>
                 <td colSpan={columns.length + 3} style={{
                   ...compactBodyCellStyle, textAlign: 'center', padding: '40px 16px',
-                  background: '#fafafa', color: '#888', fontSize: '0.85rem',
+                  background: 'var(--sheet-alt, #fafafa)', color: 'var(--sheet-ink-3, #888)', fontSize: '0.85rem',
                 }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
                     <CircularProgress size={28} />
@@ -1045,7 +1045,7 @@ function SpreadsheetGrid({
               <tr>
                 <td colSpan={columns.length + 3} style={{
                   ...compactBodyCellStyle, textAlign: 'center', padding: '40px 16px',
-                  background: '#fafafa', color: '#888', fontSize: '0.85rem',
+                  background: 'var(--sheet-alt, #fafafa)', color: 'var(--sheet-ink-3, #888)', fontSize: '0.85rem',
                 }}>
                   {hasAnyFilter
                     ? 'No records match the current filters'

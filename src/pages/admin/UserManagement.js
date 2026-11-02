@@ -408,6 +408,11 @@ function UserManagement() {
                 </TableRow>
               </TableHead>
               <TableBody>
+                {users.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={6}>No users yet. Use “Add User” to invite your team.</TableCell>
+                  </TableRow>
+                )}
                 {users.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell>{user.name}</TableCell>

@@ -20,11 +20,11 @@ import { DeleteSelectedButton, RowSelectCell, SelectAllCheckbox, deleteIdsSequen
 import { useRowSelection } from '../../hooks/useRowSelection';
 
 const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
-const BORDER = '1px solid #000';
-const HDR_BLUE = '#DBEEF4';
-const HDR_PEACH = '#FDEADA';
-const CALC_BG = '#E2EFDA';
-const DOC_BG = '#E1F0FF';
+const BORDER = '1px solid var(--sheet-border, #000)';
+const HDR_BLUE = 'var(--sheet-tint-blue, #DBEEF4)';
+const HDR_PEACH = 'var(--sheet-tint-peach, #FDEADA)';
+const CALC_BG = 'var(--sheet-tint-green, #E2EFDA)';
+const DOC_BG = 'var(--sheet-tint-blue, #E1F0FF)';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -55,7 +55,7 @@ const SEGMENT_OPTIONS = ['LS', 'RS', 'LS-RS', 'ALL'];
 function hdr(bg, extra = {}) {
   return {
     backgroundColor: `${bg} !important`,
-    color: '#000 !important',
+    color: 'var(--sheet-ink, #000) !important',
     fontFamily: FONT,
     fontWeight: 700,
     fontSize: '10px',
@@ -79,7 +79,7 @@ const dCell = {
   px: '3px',
   lineHeight: 1.3,
   textAlign: 'center',
-  backgroundColor: '#fff',
+  backgroundColor: 'var(--sheet-bg, #fff)',
 };
 
 const inputSx = {
@@ -552,7 +552,7 @@ export default function PivotPppApplicationTab({
     };
 
     return (
-      <TableRow key={row.id || 'new'} sx={isNew ? { backgroundColor: '#FAFAFA' } : undefined}>
+      <TableRow key={row.id || 'new'} sx={isNew ? { backgroundColor: 'var(--sheet-alt, #FAFAFA)' } : undefined}>
         {canModifyExisting ? (
           isNew ? <TableCell padding="checkbox" /> : (
             <RowSelectCell
@@ -564,18 +564,18 @@ export default function PivotPppApplicationTab({
           )
         ) : null}
         {PIVOT_RC109_COLS.map((col) => renderCell(col, row, rowSetter))}
-        <TableCell sx={{ ...dCell, p: 0, width: 52, position: 'sticky', right: 0, backgroundColor: '#fff', zIndex: 1 }}>
+        <TableCell sx={{ ...dCell, p: 0, width: 52, position: 'sticky', right: 0, backgroundColor: 'var(--sheet-bg, #fff)', zIndex: 1 }}>
           {isNew ? (
             <IconButton size="small" onClick={handleSaveNew} disabled={savingId === 'new'} sx={{ p: '2px' }}>
-              {savingId === 'new' ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />}
+              {savingId === 'new' ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 14, color: 'var(--sheet-accent, #1f7a4d)' }} />}
             </IconButton>
           ) : canModifyExisting ? (
             <Box sx={{ display: 'flex' }}>
               <IconButton size="small" onClick={() => handleUpdateRow(row)} disabled={savingId === row.id} sx={{ p: '2px' }}>
-                {savingId === row.id ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />}
+                {savingId === row.id ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 14, color: 'var(--sheet-accent, #1f7a4d)' }} />}
               </IconButton>
               <IconButton size="small" onClick={() => handleDelete(row.id)} sx={{ p: '2px' }} aria-label="Delete">
-                <Delete sx={{ fontSize: 14, color: '#C62828' }} />
+                <Delete sx={{ fontSize: 14, color: 'var(--sheet-danger, #C62828)' }} />
               </IconButton>
             </Box>
           ) : null}
@@ -662,7 +662,7 @@ export default function PivotPppApplicationTab({
 
       <Box sx={{
         flexShrink: 0, py: 1, px: 0.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        borderTop: BORDER, backgroundColor: '#fff', position: 'relative', zIndex: 2,
+        borderTop: BORDER, backgroundColor: 'var(--sheet-bg, #fff)', position: 'relative', zIndex: 2,
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {canModifyExisting && (
@@ -672,7 +672,7 @@ export default function PivotPppApplicationTab({
               label={canDirectEdit ? 'Delete selected' : 'Request deletion'}
             />
           )}
-          <Typography sx={{ fontFamily: FONT, fontSize: '10px', color: '#666' }}>
+          <Typography sx={{ fontFamily: FONT, fontSize: '10px', color: 'var(--sheet-ink-2, #666)' }}>
             Rate = Total Quality Applied ÷ 15 · Clear to Harvest = Application Date + PHI
           </Typography>
         </Box>

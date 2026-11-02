@@ -1,7 +1,7 @@
-export const GRID_BORDER = '1px solid #BDBDBD';
+export const GRID_BORDER = '1px solid var(--sheet-border, #BDBDBD)';
 export const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
-export const HEADER_FILL = '#E6E0EC';
-export const TOTAL_ROW_BG = '#C8E6C9';
+export const HEADER_FILL = 'var(--sheet-tint-lavender, #E6E0EC)';
+export const TOTAL_ROW_BG = 'var(--sheet-select, #C8E6C9)';
 
 export const hCell = {
   fontFamily: FONT,

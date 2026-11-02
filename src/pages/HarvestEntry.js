@@ -1,4 +1,3 @@
-import SheetSurface from '../components/SheetSurface';
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -63,7 +62,7 @@ import { excelTableSx, freezeColumnsSx } from '../components/table/ExcelTable';
 import { DeleteSelectedButton, RowSelectCell, SelectAllCheckbox, deleteIdsSequentially } from '../components/table/BulkSelect';
 import { useRowSelection } from '../hooks/useRowSelection';
 
-const GRID_BORDER = '1px solid #BDBDBD';
+const GRID_BORDER = '1px solid var(--sheet-border, #BDBDBD)';
 const HEADER_FILL = '#165c3a';
 const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
 const HARVEST_DATE_WIDTH = 110;
@@ -83,7 +82,7 @@ const harvestEntrySx = (theme) => ({
     boxShadow: 'inset -1px 0 0 rgba(0,0,0,0.06)',
   },
   '&&& .MuiTableBody-root .MuiTableRow-root.row-draft .MuiTableCell-root': {
-    backgroundColor: '#F1F8E9',
+    backgroundColor: 'var(--sheet-tint-green, #F1F8E9)',
   },
 });
 
@@ -148,8 +147,8 @@ function CompanyHeader({ fieldName }) {
           </Typography>
         </Box>
         <Box sx={{ width: 160, p: '4px 8px', textAlign: 'right', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <Typography sx={{ fontFamily: FONT, fontSize: '9px', color: '#555' }}>EAG/AFO/IMS/RC-111</Typography>
-          <Typography sx={{ fontFamily: FONT, fontSize: '9px', color: '#555' }}>Issue 03, Rev00</Typography>
+          <Typography sx={{ fontFamily: FONT, fontSize: '9px', color: 'var(--sheet-ink-2, #555)' }}>EAG/AFO/IMS/RC-111</Typography>
+          <Typography sx={{ fontFamily: FONT, fontSize: '9px', color: 'var(--sheet-ink-2, #555)' }}>Issue 03, Rev00</Typography>
         </Box>
       </Box>
       <Box sx={{ p: '3px 8px' }}>
@@ -359,7 +358,7 @@ function FieldTab({
                     <TableCell>{r.authorizedBy || ''}</TableCell>
                     <TableCell align="center" sx={{ px: 0 }}>
                       <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }} aria-label="Delete">
-                        <Delete sx={{ fontSize: 14, color: '#C62828' }} />
+                        <Delete sx={{ fontSize: 14, color: 'var(--sheet-danger, #C62828)' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -629,18 +628,18 @@ function WeeklySummaryTab({ siteId }) {
   );
 }
 
-const PIVOT_SAGE = '#EBF1DE';
-const PIVOT_PEACH = '#FDEADA';
-const PIVOT_BLUE = '#DBEEF4';
-const PIVOT_BORDER = '1px solid #000';
-const PIVOT_BANNER_BG = '#FFFFFF';
+const PIVOT_SAGE = 'var(--sheet-tint-green, #EBF1DE)';
+const PIVOT_PEACH = 'var(--sheet-tint-peach, #FDEADA)';
+const PIVOT_BLUE = 'var(--sheet-tint-blue, #DBEEF4)';
+const PIVOT_BORDER = '1px solid var(--sheet-border, #000)';
+const PIVOT_BANNER_BG = 'var(--sheet-bg, #FFFFFF)';
 const PIVOT_NOTE =
   'Note: *Authorization of the Harvest  **Verification of the Record. If different, please indicate both';
 
 function pivotHdr(bg, extra = {}) {
   return {
     backgroundColor: `${bg} !important`,
-    color: '#000 !important',
+    color: 'var(--sheet-ink, #000) !important',
     fontFamily: FONT,
     fontWeight: 700,
     fontSize: '10px',
@@ -664,7 +663,7 @@ const pivotDCell = {
   px: '4px',
   lineHeight: 1.3,
   textAlign: 'center',
-  backgroundColor: '#fff',
+  backgroundColor: 'var(--sheet-bg, #fff)',
 };
 
 function formatTime24(timeStr) {
@@ -863,7 +862,7 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
       <Box sx={{ border: PIVOT_BORDER, backgroundColor: PIVOT_BANNER_BG }}>
         <Box sx={{ display: 'flex', minHeight: 72 }}>
           <Box sx={{ width: 100, borderRight: PIVOT_BORDER, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 1 }}>
-            <Typography sx={{ fontFamily: FONT, fontSize: '9px', fontWeight: 700, color: '#1f7a4d', textAlign: 'center', lineHeight: 1.2 }}>
+            <Typography sx={{ fontFamily: FONT, fontSize: '9px', fontWeight: 700, color: 'var(--sheet-accent, #1f7a4d)', textAlign: 'center', lineHeight: 1.2 }}>
               ELITE AGRO{'\n'}UAE LLC
             </Typography>
           </Box>
@@ -973,14 +972,14 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
                       <TableCell sx={pivotDCell}>{r.authorizedBy || ''}</TableCell>
                       <TableCell sx={{ ...pivotDCell, px: 0 }}>
                         <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }} aria-label="Delete">
-                          <Delete sx={{ fontSize: 14, color: '#C62828' }} />
+                          <Delete sx={{ fontSize: 14, color: 'var(--sheet-danger, #C62828)' }} />
                         </IconButton>
                       </TableCell>
                     </TableRow>
                   );
                 })}
                 {newRow && (
-                  <TableRow sx={{ backgroundColor: '#FAFAFA' }}>
+                  <TableRow sx={{ backgroundColor: 'var(--sheet-alt, #FAFAFA)' }}>
                     <TableCell sx={pivotDCell} />
                     <TableCell sx={{ ...pivotDCell, p: 0 }}>
                       <Select size="small" value={newRow.fieldId} sx={selectSx}
@@ -1042,7 +1041,7 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
                     </TableCell>
                     <TableCell sx={{ ...pivotDCell, p: 0 }}>
                       <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }} aria-label="Confirm">
-                        <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />
+                        <Check sx={{ fontSize: 14, color: 'var(--sheet-accent, #1f7a4d)' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -1055,7 +1054,7 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
       <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
         <Button size="small" variant="outlined" startIcon={<Add sx={{ fontSize: 14 }} />}
           onClick={handleAddRow} disabled={!!newRow}
-          sx={{ fontFamily: FONT, fontSize: '11px', textTransform: 'none', borderColor: '#000', color: '#000' }}>
+          sx={{ fontFamily: FONT, fontSize: '11px', textTransform: 'none', borderColor: 'var(--sheet-border, #000)', color: 'var(--sheet-ink, #000)' }}>
           Add Row
         </Button>
       </Box>
@@ -1261,7 +1260,7 @@ function OpenFieldTab({
                     <TableCell>{r.authorizedBy || ''}</TableCell>
                     <TableCell align="center" sx={{ px: 0 }}>
                       <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }} aria-label="Delete">
-                        <Delete sx={{ fontSize: 14, color: '#C62828' }} />
+                        <Delete sx={{ fontSize: 14, color: 'var(--sheet-danger, #C62828)' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -1344,14 +1343,6 @@ function OpenFieldTab({
 }
 
 function HarvestEntry() {
-  return (
-    <SheetSurface>
-      <HarvestEntrySheet />
-    </SheetSurface>
-  );
-}
-
-function HarvestEntrySheet() {
   const readOnly = useReadOnlyMode(PAGE_KEYS.DATA_ENTRY);
   const { activeSiteId } = useActiveSite();
   const { data: masterData } = useMasterData();
@@ -1602,7 +1593,7 @@ function HarvestEntrySheet() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: pageHeight, fontFamily: FONT }}>
       {/* Spreadsheet content area */}
-      <Box sx={{ flex: 1, overflow: 'auto', backgroundColor: '#fff', p: '12px 16px' }}>
+      <Box sx={{ flex: 1, overflow: 'auto', backgroundColor: 'var(--sheet-bg, #fff)', p: '12px 16px' }}>
         {readOnly && <Box sx={{ mb: 2 }}><ReadOnlyBanner /></Box>}
         <HarvestEntryToolbar
           farmAreas={farmAreas}
@@ -1679,8 +1670,8 @@ function HarvestEntrySheet() {
 
       {/* Excel-style bottom tab bar */}
       <Box sx={{
-        borderTop: '1px solid #B0B0B0',
-        backgroundColor: '#E0E0E0',
+        borderTop: '1px solid var(--sheet-border, #B0B0B0)',
+        backgroundColor: 'var(--sheet-muted, #E0E0E0)',
         minHeight: 28,
         display: 'flex',
         alignItems: 'flex-end',
@@ -1691,7 +1682,7 @@ function HarvestEntrySheet() {
         {!readOnly && (
         <Button size="small" startIcon={<FileUpload sx={{ fontSize: '13px !important' }} />}
           onClick={() => setImporterOpen(true)}
-          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: HEADER_FILL, border: '1px solid #B0B0B0', backgroundColor: '#fff' }}>
+          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: HEADER_FILL, border: '1px solid var(--sheet-border, #B0B0B0)', backgroundColor: 'var(--sheet-bg, #fff)' }}>
           Import Excel
         </Button>
         )}
@@ -1716,15 +1707,15 @@ function HarvestEntrySheet() {
               mr: '1px',
               borderTopLeftRadius: 3,
               borderTopRightRadius: 3,
-              border: '1px solid #B0B0B0',
+              border: '1px solid var(--sheet-border, #B0B0B0)',
               borderBottom: 'none',
-              backgroundColor: '#D6D6D6',
-              color: '#333',
+              backgroundColor: 'var(--sheet-select, #D6D6D6)',
+              color: 'var(--sheet-ink, #333)',
               transition: 'none',
             },
             '& .Mui-selected': {
-              backgroundColor: '#fff !important',
-              color: '#000 !important',
+              backgroundColor: 'var(--sheet-bg, #fff) !important',
+              color: 'var(--sheet-ink, #000) !important',
               fontWeight: 700,
               borderTop: `2px solid ${HEADER_FILL}`,
               zIndex: 1,

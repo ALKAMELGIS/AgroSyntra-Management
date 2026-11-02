@@ -22,11 +22,11 @@ import { DeleteSelectedButton, RowSelectCell, SelectAllCheckbox, deleteIdsSequen
 import { useRowSelection } from '../../hooks/useRowSelection';
 
 const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
-const BORDER = '1px solid #000';
-const HDR_BLUE = '#DBEEF4';
-const HDR_PEACH = '#FDEADA';
-const CALC_BG = '#E2EFDA';
-const DOC_BG = '#E1F0FF';
+const BORDER = '1px solid var(--sheet-border, #000)';
+const HDR_BLUE = 'var(--sheet-tint-blue, #DBEEF4)';
+const HDR_PEACH = 'var(--sheet-tint-peach, #FDEADA)';
+const CALC_BG = 'var(--sheet-tint-green, #E2EFDA)';
+const DOC_BG = 'var(--sheet-tint-blue, #E1F0FF)';
 
 const RC132_COLS = [
   { key: 'date', label: 'Date (ddmmyyyy)', bg: HDR_BLUE, width: 100 },
@@ -47,7 +47,7 @@ const RC132_COLS = [
 function hdr(bg, extra = {}) {
   return {
     backgroundColor: `${bg} !important`,
-    color: '#000 !important',
+    color: 'var(--sheet-ink, #000) !important',
     fontFamily: FONT,
     fontWeight: 700,
     fontSize: '10px',
@@ -71,7 +71,7 @@ const dCell = {
   px: '3px',
   lineHeight: 1.3,
   textAlign: 'center',
-  backgroundColor: '#fff',
+  backgroundColor: 'var(--sheet-bg, #fff)',
 };
 
 const inputSx = {
@@ -440,7 +440,7 @@ export default function PivotFertigationTab({ readOnly = false }) {
     };
 
     return (
-      <TableRow key={row.id || 'new'} selected={!isNew && selection.selectedIds.has(row.id)} sx={isNew ? { backgroundColor: '#FAFAFA' } : undefined}>
+      <TableRow key={row.id || 'new'} selected={!isNew && selection.selectedIds.has(row.id)} sx={isNew ? { backgroundColor: 'var(--sheet-alt, #FAFAFA)' } : undefined}>
         {isNew ? <TableCell padding="checkbox" /> : (
           <RowSelectCell
             id={row.id}
@@ -450,18 +450,18 @@ export default function PivotFertigationTab({ readOnly = false }) {
           />
         )}
         {RC132_COLS.map((col) => renderCell(col, row, rowSetter))}
-        <TableCell sx={{ ...dCell, p: 0, width: 52, position: 'sticky', right: 0, backgroundColor: '#fff', zIndex: 1 }}>
+        <TableCell sx={{ ...dCell, p: 0, width: 52, position: 'sticky', right: 0, backgroundColor: 'var(--sheet-bg, #fff)', zIndex: 1 }}>
           {readOnly ? null : isNew ? (
             <IconButton size="small" onClick={handleSaveNew} disabled={savingId === 'new'} sx={{ p: '2px' }}>
-              {savingId === 'new' ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 16, color: '#165c3a' }} />}
+              {savingId === 'new' ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 16, color: 'var(--sheet-accent, #165c3a)' }} />}
             </IconButton>
           ) : (
             <>
               <IconButton size="small" onClick={() => handleUpdateRow(row)} disabled={savingId === row.id} sx={{ p: '2px' }}>
-                {savingId === row.id ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 16, color: '#165c3a' }} />}
+                {savingId === row.id ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 16, color: 'var(--sheet-accent, #165c3a)' }} />}
               </IconButton>
               <IconButton size="small" onClick={() => handleDelete(row.id)} sx={{ p: '2px' }} aria-label="Delete">
-                <Delete sx={{ fontSize: 16, color: '#c62828' }} />
+                <Delete sx={{ fontSize: 16, color: 'var(--sheet-danger, #c62828)' }} />
               </IconButton>
             </>
           )}
@@ -479,7 +479,7 @@ export default function PivotFertigationTab({ readOnly = false }) {
           <>
             <DeleteSelectedButton count={selection.size} onClick={handleBulkDelete} />
             <Button size="small" startIcon={<FileUpload />} onClick={() => setImporterOpen(true)}
-              sx={{ fontFamily: FONT, fontSize: '11px', textTransform: 'none', color: '#165c3a' }}>
+              sx={{ fontFamily: FONT, fontSize: '11px', textTransform: 'none', color: 'var(--sheet-accent, #165c3a)' }}>
               Import Excel
             </Button>
             <Button size="small" startIcon={<Add />} onClick={() => setNewRow(emptyRow(pivotFields))}
@@ -497,12 +497,12 @@ export default function PivotFertigationTab({ readOnly = false }) {
             <MenuItem key={y} value={y}>{y}</MenuItem>
           ))}
         </TextField>
-        <Typography sx={{ fontFamily: FONT, fontSize: '11px', color: '#666', ml: 'auto' }}>
+        <Typography sx={{ fontFamily: FONT, fontSize: '11px', color: 'var(--sheet-ink-2, #666)', ml: 'auto' }}>
           {records.length} record{records.length !== 1 ? 's' : ''}
         </Typography>
       </Box>
 
-      <Box sx={{ border: BORDER, backgroundColor: '#fff', flex: 1, overflow: 'auto' }}>
+      <Box sx={{ border: BORDER, backgroundColor: 'var(--sheet-bg, #fff)', flex: 1, overflow: 'auto' }}>
         <Box sx={{ display: 'flex', minHeight: 64 }}>
           <Box sx={{ width: 120, borderRight: BORDER }} />
           <Box sx={{ flex: 1, borderRight: BORDER, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 1 }}>
@@ -512,7 +512,7 @@ export default function PivotFertigationTab({ readOnly = false }) {
             <Typography sx={{ fontFamily: FONT, fontWeight: 700, fontSize: '12px' }}>
               FERTILIZER APPLICATION RECORD
             </Typography>
-            <Typography sx={{ fontFamily: FONT, fontSize: '10px', color: '#444' }}>
+            <Typography sx={{ fontFamily: FONT, fontSize: '10px', color: 'var(--sheet-ink-2, #444)' }}>
               EAG/AFO/IMS/RC-132 — Issue 03, 17-Sept-2020, Rev00
             </Typography>
           </Box>
@@ -550,13 +550,13 @@ export default function PivotFertigationTab({ readOnly = false }) {
                 {newRow && renderDataRow(newRow, { isNew: true })}
                 {records.length === 0 && !newRow && (
                   <TableRow>
-                    <TableCell colSpan={RC132_COLS.length + 1} sx={{ ...dCell, py: 3, color: '#888' }}>
+                    <TableCell colSpan={RC132_COLS.length + 1} sx={{ ...dCell, py: 3, color: 'var(--sheet-ink-3, #888)' }}>
                       {readOnly ? t('dataEntryAccess.noRecordsYet') : 'No records yet. Import your RC-132 Excel or click Add Row.'}
                     </TableCell>
                   </TableRow>
                 )}
                 {records.length > 0 && (
-                  <TableRow sx={{ backgroundColor: '#DCE6F2' }}>
+                  <TableRow sx={{ backgroundColor: 'var(--sheet-tint-blue, #DCE6F2)' }}>
                     <TableCell colSpan={7} sx={{ ...dCell, fontWeight: 700, textAlign: 'right' }}>TOTAL</TableCell>
                     <TableCell sx={{ ...dCell, fontWeight: 700 }}>{formatNum(totalKg, 1)}</TableCell>
                     <TableCell colSpan={5} sx={dCell} />

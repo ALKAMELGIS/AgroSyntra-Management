@@ -118,6 +118,46 @@ export function cssTokens(mode = 'light') {
     '--font-sans': FONT_SANS,
     '--font-mono': FONT_MONO,
     '--ease-out': 'cubic-bezier(0.22, 1, 0.36, 1)',
+    // Excel-style entry sheets (SpreadsheetGrid, Harvest/Irrigation/Pivot sheets).
+    ...(mode === 'dark'
+      ? {
+        '--sheet-bg': '#141a17',
+        '--sheet-alt': '#171e1a',
+        '--sheet-muted': '#1b231f',
+        '--sheet-border': '#3b463f',
+        '--sheet-grid': '#2b342f',
+        '--sheet-ink': '#e9eee9',
+        '--sheet-ink-2': '#b5c0b8',
+        '--sheet-ink-3': '#8c978f',
+        '--sheet-accent': '#74c99c',
+        '--sheet-danger': '#f19a8d',
+        '--sheet-select': 'rgba(76,178,126,0.18)',
+        '--sheet-select-strong': 'rgba(76,178,126,0.30)',
+        '--sheet-tint-blue': 'rgba(106,166,230,0.14)',
+        '--sheet-tint-green': 'rgba(76,178,126,0.12)',
+        '--sheet-tint-peach': 'rgba(229,162,79,0.14)',
+        '--sheet-tint-yellow': 'rgba(229,190,79,0.14)',
+        '--sheet-tint-lavender': 'rgba(160,140,210,0.16)',
+      }
+      : {
+        '--sheet-bg': '#ffffff',
+        '--sheet-alt': '#fafafa',
+        '--sheet-muted': '#f2f3f0',
+        '--sheet-border': '#b0b0b0',
+        '--sheet-grid': '#d5d5d5',
+        '--sheet-ink': '#111111',
+        '--sheet-ink-2': '#555555',
+        '--sheet-ink-3': '#767676',
+        '--sheet-accent': '#1f7a4d',
+        '--sheet-danger': '#c62828',
+        '--sheet-select': '#d5e7d9',
+        '--sheet-select-strong': '#c6dfcd',
+        '--sheet-tint-blue': '#dbeef4',
+        '--sheet-tint-green': '#ebf1de',
+        '--sheet-tint-peach': '#fdeada',
+        '--sheet-tint-yellow': '#fff8e1',
+        '--sheet-tint-lavender': '#e6e0ec',
+      }),
   };
 }
 

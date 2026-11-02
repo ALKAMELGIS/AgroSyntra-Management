@@ -1,4 +1,3 @@
-import SheetSurface from '../../components/SheetSurface';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Box, Tabs, Tab, Table, TableHead, TableBody, TableRow, TableCell, TableContainer,
@@ -30,12 +29,12 @@ import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../../utils/roleAccess';
 
 const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
-const IRR_BORDER = '1px solid #000';
-const IRR_BLUE = '#DBEEF4';
-const IRR_PEACH = '#FDEADA';
-const IRR_INFO = '#E6E0EC';
-const IRR_TOTAL = '#DCE6F2';
-const IRR_DOC = '#E1F0FF';
+const IRR_BORDER = '1px solid var(--sheet-border, #000)';
+const IRR_BLUE = 'var(--sheet-tint-blue, #DBEEF4)';
+const IRR_PEACH = 'var(--sheet-tint-peach, #FDEADA)';
+const IRR_INFO = 'var(--sheet-tint-lavender, #E6E0EC)';
+const IRR_TOTAL = 'var(--sheet-tint-blue, #DCE6F2)';
+const IRR_DOC = 'var(--sheet-tint-blue, #E1F0FF)';
 const SUMMARY_MULT = 220;
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -47,7 +46,7 @@ const MONTH_FULL = [
 function irrHdr(bg, extra = {}) {
   return {
     backgroundColor: `${bg} !important`,
-    color: '#000 !important',
+    color: 'var(--sheet-ink, #000) !important',
     fontFamily: FONT,
     fontWeight: 700,
     fontSize: '10px',
@@ -71,7 +70,7 @@ const irrDCell = {
   px: '4px',
   lineHeight: 1.3,
   textAlign: 'center',
-  backgroundColor: '#fff',
+  backgroundColor: 'var(--sheet-bg, #fff)',
 };
 
 const inputSx = {
@@ -240,7 +239,7 @@ function IrrigationSummaryTab({ siteId, siteName, year }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <Typography sx={{ fontFamily: FONT, fontSize: '9px', color: '#555', mt: 1 }}>
+      <Typography sx={{ fontFamily: FONT, fontSize: '9px', color: 'var(--sheet-ink-2, #555)', mt: 1 }}>
         Summary values = monthly volume (m³) × {SUMMARY_MULT}
       </Typography>
     </Box>
@@ -344,7 +343,7 @@ function PivotIrrigationMonthTab({ sheet, pivotFields, farmName, onRefresh, read
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', px: 1, py: 0.5 }}>
         <DeleteSelectedButton count={selection.size} onClick={handleBulkDelete} disabled={readOnly} />
       </Box>
-      <Box sx={{ border: IRR_BORDER, backgroundColor: '#fff' }}>
+      <Box sx={{ border: IRR_BORDER, backgroundColor: 'var(--sheet-bg, #fff)' }}>
         <Box sx={{ display: 'flex', minHeight: 64 }}>
           <Box sx={{ width: 120, borderRight: IRR_BORDER }} />
           <Box sx={{ flex: 1, borderRight: IRR_BORDER, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 1 }}>
@@ -449,14 +448,14 @@ function PivotIrrigationMonthTab({ sheet, pivotFields, farmName, onRefresh, read
                     <TableCell sx={irrDCell} />
                     <TableCell sx={{ ...irrDCell, p: 0 }}>
                       <IconButton size="small" onClick={() => handleDeleteRow(r.id)} sx={{ p: '2px' }} aria-label="Delete">
-                        <Delete sx={{ fontSize: 14, color: '#C62828' }} />
+                        <Delete sx={{ fontSize: 14, color: 'var(--sheet-danger, #C62828)' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
                   );
                 })}
                 {newRow && (
-                  <TableRow sx={{ backgroundColor: '#FAFAFA' }}>
+                  <TableRow sx={{ backgroundColor: 'var(--sheet-alt, #FAFAFA)' }}>
                     <TableCell sx={irrDCell} />
                     <TableCell sx={{ ...irrDCell, p: 0 }}>
                       <input value={newRow.date} placeholder="dd/mm/yyyy" onChange={e => setNewRow(p => ({ ...p, date: e.target.value }))} style={inputSx} />
@@ -501,7 +500,7 @@ function PivotIrrigationMonthTab({ sheet, pivotFields, farmName, onRefresh, read
                     <TableCell sx={irrDCell} />
                     <TableCell sx={{ ...irrDCell, p: 0 }}>
                       <IconButton size="small" onClick={handleSaveRow} sx={{ p: '2px' }} aria-label="Confirm">
-                        <Check sx={{ fontSize: 14, color: '#1f7a4d' }} />
+                        <Check sx={{ fontSize: 14, color: 'var(--sheet-accent, #1f7a4d)' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -527,7 +526,7 @@ function PivotIrrigationMonthTab({ sheet, pivotFields, farmName, onRefresh, read
       <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
         <Button size="small" variant="outlined" startIcon={<Add sx={{ fontSize: 14 }} />}
           onClick={handleAddRow} disabled={!!newRow || pivotFields.length === 0}
-          sx={{ fontFamily: FONT, fontSize: '11px', textTransform: 'none', borderColor: '#000', color: '#000' }}>
+          sx={{ fontFamily: FONT, fontSize: '11px', textTransform: 'none', borderColor: 'var(--sheet-border, #000)', color: 'var(--sheet-ink, #000)' }}>
           Add Row
         </Button>
       </Box>
@@ -536,14 +535,6 @@ function PivotIrrigationMonthTab({ sheet, pivotFields, farmName, onRefresh, read
 }
 
 export default function IrrigationEntry() {
-  return (
-    <SheetSurface>
-      <IrrigationEntrySheet />
-    </SheetSurface>
-  );
-}
-
-function IrrigationEntrySheet() {
   const readOnly = useReadOnlyMode(PAGE_KEYS.DATA_ENTRY);
   const { activeSiteId, activeSite } = useActiveSite();
   const notify = useNotification();
@@ -664,7 +655,7 @@ function IrrigationEntrySheet() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: pageHeight, fontFamily: FONT }}>
-      <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #ddd' }}>
+      <Box sx={{ px: 2, py: 1, borderBottom: '1px solid var(--sheet-grid, #ddd)' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
           <Typography sx={{ fontFamily: FONT, fontWeight: 600, fontSize: '13px' }}>Year</Typography>
           <TextField size="small" type="number" value={year} inputProps={{ 'aria-label': 'Year' }} onChange={e => {
@@ -685,7 +676,7 @@ function IrrigationEntrySheet() {
               minHeight: 32,
               py: 0,
             },
-            '& .Mui-selected': { fontWeight: 700, color: '#165c3a !important' },
+            '& .Mui-selected': { fontWeight: 700, color: 'var(--sheet-accent, #165c3a) !important' },
           }}
         >
           {availableStructureTabs.map((s) => (
@@ -694,7 +685,7 @@ function IrrigationEntrySheet() {
         </Tabs>
       </Box>
 
-      <Box sx={{ flex: 1, overflow: 'auto', backgroundColor: '#fff', p: '12px 16px' }}>
+      <Box sx={{ flex: 1, overflow: 'auto', backgroundColor: 'var(--sheet-bg, #fff)', p: '12px 16px' }}>
         {readOnly && <Box sx={{ mb: 2 }}><ReadOnlyBanner /></Box>}
         {availableStructureTabs.length === 0 ? (
           <Alert severity="info">
@@ -746,8 +737,8 @@ function IrrigationEntrySheet() {
 
       {isPivot && (
       <Box sx={{
-        borderTop: '1px solid #B0B0B0',
-        backgroundColor: '#E0E0E0',
+        borderTop: '1px solid var(--sheet-border, #B0B0B0)',
+        backgroundColor: 'var(--sheet-muted, #E0E0E0)',
         minHeight: 28,
         display: 'flex',
         alignItems: 'flex-end',
@@ -759,12 +750,12 @@ function IrrigationEntrySheet() {
         <>
         <Button size="small" startIcon={<FileUpload sx={{ fontSize: '13px !important' }} />}
           onClick={() => setImporterOpen(true)}
-          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: '#165c3a', border: '1px solid #B0B0B0', backgroundColor: '#fff' }}>
+          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: 'var(--sheet-accent, #165c3a)', border: '1px solid var(--sheet-border, #B0B0B0)', backgroundColor: 'var(--sheet-bg, #fff)' }}>
           Import Excel
         </Button>
         <Button size="small" startIcon={<Add sx={{ fontSize: '13px !important' }} />}
           onClick={() => setAddOpen(true)}
-          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: '#165c3a', border: '1px solid #B0B0B0', backgroundColor: '#fff' }}>
+          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: 'var(--sheet-accent, #165c3a)', border: '1px solid var(--sheet-border, #B0B0B0)', backgroundColor: 'var(--sheet-bg, #fff)' }}>
           Add Month
         </Button>
         </>
@@ -785,17 +776,17 @@ function IrrigationEntrySheet() {
               height: 24,
               py: 0,
               px: '10px',
-              border: '1px solid #B0B0B0',
+              border: '1px solid var(--sheet-border, #B0B0B0)',
               borderBottom: 'none',
               borderRadius: '3px 3px 0 0',
               mr: '2px',
-              backgroundColor: '#D5D5D5',
-              color: '#333',
+              backgroundColor: 'var(--sheet-select, #D5D5D5)',
+              color: 'var(--sheet-ink, #333)',
             },
             '& .Mui-selected': {
-              backgroundColor: '#fff !important',
+              backgroundColor: 'var(--sheet-bg, #fff) !important',
               fontWeight: 700,
-              color: '#165c3a !important',
+              color: 'var(--sheet-accent, #165c3a) !important',
             },
           }}
         >

@@ -98,17 +98,17 @@ const twoRowHeadSx = {
     overflow: 'visible',
   },
   '&& tbody .col-frozen-2 input.rc108-date': {
-    color: '#111',
+    color: 'var(--sheet-ink, #111)',
     overflow: 'visible',
     fontSize: '0.75rem',
     colorScheme: 'light',
   },
   '&& tbody .col-frozen-2 input.rc108-date::-webkit-datetime-edit': {
-    color: '#111',
+    color: 'var(--sheet-ink, #111)',
     padding: 0,
   },
   '&& tbody .col-frozen-2 input.rc108-date::-webkit-datetime-edit-fields-wrapper': {
-    color: '#111',
+    color: 'var(--sheet-ink, #111)',
   },
   '&& tbody .col-frozen-2 input.rc108-date::-webkit-calendar-picker-indicator': {
     width: 14,
@@ -122,7 +122,7 @@ const twoRowHeadSx = {
 };
 const draftSx = {
   '&&& .MuiTableBody-root .MuiTableRow-root.row-draft .MuiTableCell-root:not(.table-gutter)': {
-    backgroundColor: '#fffde7',
+    backgroundColor: 'var(--sheet-tint-yellow, #fffde7)',
   },
 };
 
@@ -160,7 +160,7 @@ function CellInput({ value, onChange, type = 'text', rowIdx, col, disabled }) {
         fontSize: '0.75rem',
         fontFamily: 'inherit',
         background: 'transparent',
-        color: '#111',
+        color: 'var(--sheet-ink, #111)',
         padding: '2px 0',
         boxSizing: 'border-box',
         overflow: isDate ? 'visible' : 'hidden',

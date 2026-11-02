@@ -55,3 +55,10 @@ Fixed through it:
 - Excel-style entry sheets (Harvest, Irrigation) render as a light "paper" surface in dark mode (`components/SheetSurface.js`) instead of light-on-light text.
 - Replaced non-existent palette shades (`primary.50`, `grey.100`, …) that rendered transparent or stayed light in dark mode (≈25 places); quiz review keeps its correct/incorrect tint.
 - Dashboard tabs, spray-calendar "Clear" chip and shift-schedule day headers fixed for dark mode.
+
+## Round 6 — real dark mode for entry sheets, empty states
+- Removed the white "paper" island: every Excel-style sheet (SpreadsheetGrid, Harvest, Irrigation, RC-108, fertigation & PPP pivots) now draws with `--sheet-*` colour tokens (defined per mode in `theme.js`), so cells, gridlines, tints and selection all follow dark mode (110 hard-coded colours converted).
+- Unified empty state for every table that has no rows (≈60 tables, pure CSS in `App.css`): icon, centred calm message; left-aligned on phones so it stays visible in wide tables. User Management now shows one too.
+- Dark map background before tiles load.
+- New gate test: **no light panels in dark mode** on any screen (any light surface over 6% of the screen fails).
+- Quality gate now **313 Playwright tests — all passing** on the production build; 666 unit tests passing.
