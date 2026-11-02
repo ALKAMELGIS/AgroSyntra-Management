@@ -1,0 +1,12 @@
+node_modules
+build
+.git
+.gitignore
+*.md
+.env
+.env.*
+backend
+mobile
+.vscode
+.cursor
+coverage

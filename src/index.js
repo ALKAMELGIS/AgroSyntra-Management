@@ -1,0 +1,30 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import 'leaflet/dist/leaflet.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { initSentry } from './utils/sentry';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { SW_UPDATE_EVENT } from './components/AppUpdateBanner';
+
+// Initialize Sentry error tracking
+initSentry();
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+
+serviceWorkerRegistration.register({
+  onUpdate: (registration) => {
+    window.dispatchEvent(new CustomEvent(SW_UPDATE_EVENT, { detail: registration }));
+  },
+});

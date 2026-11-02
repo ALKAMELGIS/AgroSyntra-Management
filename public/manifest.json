@@ -1,0 +1,51 @@
+{
+  "short_name": "Al Maha Farm",
+  "name": "Al Maha Farm — Elite Agro Cloud",
+  "description": "Precision agriculture platform for harvest tracking, fertigation, weather monitoring, scouting, and real-time analytics.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#2e7d32",
+  "background_color": "#f5f5f5",
+  "categories": ["productivity", "business", "agriculture"],
+  "shortcuts": [
+    {
+      "name": "New Scouting Report",
+      "short_name": "Scout",
+      "description": "Create a new scouting report",
+      "url": "/ipm/scouting"
+    },
+    {
+      "name": "Harvest Entry",
+      "short_name": "Harvest",
+      "description": "Record a harvest",
+      "url": "/harvest/entry"
+    },
+    {
+      "name": "EC / pH Entry",
+      "short_name": "EC/pH",
+      "description": "Record an EC/pH reading",
+      "url": "/data-entry/ec-ph"
+    }
+  ]
+}

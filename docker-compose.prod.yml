@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  # PostgreSQL with PostGIS
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: almaha-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-almaha}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-almahafarm}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-almaha}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - almaha-network
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: almaha-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - almaha-network
+
+  # Backend API
+  backend:
+    image: ${BACKEND_IMAGE:-ghcr.io/your-org/al-maha-farm/backend:latest}
+    container_name: almaha-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://${POSTGRES_USER:-almaha}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-almahafarm}
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      SENTRY_DSN: ${BACKEND_SENTRY_DSN:-}
+      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY:-}
+      SENTINELHUB_CLIENT_ID: ${SENTINELHUB_CLIENT_ID:-}
+      SENTINELHUB_CLIENT_SECRET: ${SENTINELHUB_CLIENT_SECRET:-}
+      JOBS_ENABLED: "true"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/v1/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - almaha-network
+    # Don't expose port directly in production - use nginx/load balancer
+    # ports:
+    #   - "3001:3001"
+
+  # Frontend served by Nginx
+  frontend:
+    image: ${FRONTEND_IMAGE:-ghcr.io/your-org/al-maha-farm/frontend:latest}
+    container_name: almaha-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - almaha-network
+
+  # Nginx reverse proxy / load balancer
+  nginx:
+    image: nginx:alpine
+    container_name: almaha-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-proxy.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - almaha-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  almaha-network:
+    driver: bridge

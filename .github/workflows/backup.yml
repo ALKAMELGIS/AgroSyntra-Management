@@ -1,0 +1,76 @@
+name: Database Backup
+
+on:
+  # Run daily at 2 AM UTC
+  schedule:
+    - cron: '0 2 * * *'
+  # Allow manual trigger
+  workflow_dispatch:
+
+env:
+  # pg_dump must be the same major version as the database server (or newer).
+  # The production database runs PostgreSQL 17; change this when the server is upgraded.
+  PG_MAJOR: '17'
+
+jobs:
+  backup:
+    name: Backup Database
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client
+        run: |
+          set -euo pipefail
+          # The runner's default client is older than the server (pg_dump refuses to dump a newer
+          # server), so install the matching major version from the official PostgreSQL apt repo.
+          if ! grep -rqs "apt.postgresql.org" /etc/apt/sources.list /etc/apt/sources.list.d/; then
+            sudo apt-get install -y postgresql-common
+            sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          fi
+          sudo apt-get update
+          sudo apt-get install -y "postgresql-client-${PG_MAJOR}"
+          "/usr/lib/postgresql/${PG_MAJOR}/bin/pg_dump" --version
+
+      - name: Create backup
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          set -euo pipefail
+          PG_DUMP="/usr/lib/postgresql/${PG_MAJOR}/bin/pg_dump"
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          BACKUP_FILE="backup_${TIMESTAMP}.sql"
+
+          echo "Creating backup: $BACKUP_FILE with $("$PG_DUMP" --version)"
+          "$PG_DUMP" "$DATABASE_URL" --no-owner --no-acl > "$BACKUP_FILE"
+
+          if [ ! -s "$BACKUP_FILE" ]; then
+            echo "::error::Backup file is empty"
+            exit 1
+          fi
+
+          # Compress the backup
+          gzip "$BACKUP_FILE"
+
+          echo "BACKUP_FILE=${BACKUP_FILE}.gz" >> $GITHUB_ENV
+          echo "BACKUP_SIZE=$(du -h "${BACKUP_FILE}.gz" | cut -f1)" >> $GITHUB_ENV
+          echo "Backup created successfully!"
+
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-${{ github.run_number }}
+          path: "*.sql.gz"
+          # ~34 MB per daily backup: 7 days stays well inside the free 500 MB artifact storage.
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: Backup summary
+        run: |
+          echo "## Backup Complete! ✅" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **File:** ${{ env.BACKUP_FILE }} (${{ env.BACKUP_SIZE }})" >> $GITHUB_STEP_SUMMARY
+          echo "- **Date:** $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Retention:** 7 days" >> $GITHUB_STEP_SUMMARY

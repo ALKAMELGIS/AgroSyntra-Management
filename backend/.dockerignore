@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.gitignore
+*.md
+.env
+.env.*
+docker
+coverage
+__tests__
+*.test.ts
+*.spec.ts
+Dockerfile*
