@@ -5,7 +5,7 @@ import {
   Accordion, AccordionSummary, AccordionDetails, Divider,
   Table, TableBody, TableCell, TableHead, TableRow, TableContainer,
 } from '@mui/material';
-import { ExpandMore, Check, Close, Edit } from '@mui/icons-material';
+import { ExpandMoreOutlined as ExpandMore, CheckOutlined as Check, CloseOutlined as Close, EditOutlined as Edit } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
 import useSeasonListDates from '../../hooks/useSeasonListDates';

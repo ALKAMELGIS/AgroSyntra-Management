@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import { Breadcrumbs, Link, Typography, Box } from '@mui/material';
-import { NavigateNext as NavIcon, Home as HomeIcon } from '@mui/icons-material';
+import { NavigateNextOutlined as NavIcon, HomeOutlined as HomeIcon } from '@mui/icons-material';
 
 /**
  * Route-path to human-readable label mapping.

@@ -4,8 +4,8 @@ import {
   Table, TableBody, TableCell, TableHead, TableRow, Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
 import {
-  Download, Storage, CloudDone, CloudUpload, CloudOff, PlayArrow, Warning, BugReport, Inventory,
-  Restore,
+  DownloadOutlined as Download, StorageOutlined as Storage, CloudDoneOutlined as CloudDone, CloudUploadOutlined as CloudUpload, CloudOffOutlined as CloudOff, PlayArrow, WarningOutlined as Warning, BugReportOutlined as BugReport, InventoryOutlined as Inventory,
+  RestoreOutlined as Restore,
 } from '@mui/icons-material';
 
 import { API_BASE, getAuthHeaders } from '../../config/api';

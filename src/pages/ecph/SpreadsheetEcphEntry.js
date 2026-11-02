@@ -5,12 +5,12 @@ import {
   CircularProgress, Alert, Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
 import {
-  Add as AddIcon,
-  Save as SaveIcon,
-  ContentPaste as PasteIcon,
-  Delete as DeleteIcon,
-  Restore as RestoreIcon,
-  DeleteSweep as DiscardIcon,
+  AddOutlined as AddIcon,
+  SaveOutlined as SaveIcon,
+  ContentPasteOutlined as PasteIcon,
+  DeleteOutlined as DeleteIcon,
+  RestoreOutlined as RestoreIcon,
+  DeleteSweepOutlined as DiscardIcon,
   FileDownloadOutlined as ImportIcon,
 } from '@mui/icons-material';
 import { useMasterData } from '../../utils/useMasterData';

@@ -3,7 +3,7 @@ import {
   Popover, Box, Typography, Checkbox, FormControlLabel, TextField,
   IconButton, Chip, Tooltip, Divider, Button,
 } from '@mui/material';
-import { FilterList as FilterIcon, Close as CloseIcon } from '@mui/icons-material';
+import { FilterListOutlined as FilterIcon, CloseOutlined as CloseIcon } from '@mui/icons-material';
 import { getLocationOptionsForField } from '../utils/plantingSegment';
 import { classifyAllowedTokens } from '../utils/plantingOccupancy';
 

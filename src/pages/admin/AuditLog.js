@@ -18,7 +18,7 @@ import {
   TablePagination,
   Chip,
 } from '@mui/material';
-import { History as HistoryIcon, Refresh as RefreshIcon } from '@mui/icons-material';
+import { HistoryOutlined as HistoryIcon, RefreshOutlined as RefreshIcon } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import { queryAuditLogs } from '../../utils/backendApi';
 import { format } from 'date-fns';

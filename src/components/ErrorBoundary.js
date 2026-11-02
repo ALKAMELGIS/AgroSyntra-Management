@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Box, Typography, Button, Paper } from '@mui/material';
-import { ErrorOutline as ErrorIcon, Refresh as RefreshIcon } from '@mui/icons-material';
+import { ErrorOutlineOutlined as ErrorIcon, RefreshOutlined as RefreshIcon } from '@mui/icons-material';
 import { captureException } from '../utils/sentry';
 
 /**

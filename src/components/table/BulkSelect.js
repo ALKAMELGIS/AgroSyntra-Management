@@ -1,5 +1,5 @@
 import { Button, Checkbox, TableCell } from '@mui/material';
-import { Delete } from '@mui/icons-material';
+import { DeleteOutlined as Delete } from '@mui/icons-material';
 
 export const headerCheckboxSx = (t) => ({
   color: t.palette.table?.headerText || '#fff',

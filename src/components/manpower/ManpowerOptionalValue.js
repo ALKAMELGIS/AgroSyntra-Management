@@ -1,5 +1,5 @@
 import { Box, Chip, Typography } from '@mui/material';
-import { WarningAmber as WarningIcon } from '@mui/icons-material';
+import { WarningAmberOutlined as WarningIcon } from '@mui/icons-material';
 import {
   isMissingActivity,
   isMissingTarget,

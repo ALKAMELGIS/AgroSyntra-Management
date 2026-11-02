@@ -4,7 +4,7 @@ import {
   Box, Typography, Button, CircularProgress, Chip, Alert,
   AppBar, Toolbar, IconButton, Tooltip,
 } from '@mui/material';
-import { Logout } from '@mui/icons-material';
+import { LogoutOutlined as Logout } from '@mui/icons-material';
 import { useWorkerSession, workerLogout, workerApiRequest } from './WorkerLogin';
 import DailyActivitySheet from '../components/manpower/DailyActivitySheet';
 

@@ -2,7 +2,7 @@ import {
   Table, TableHead, TableRow, TableCell, TableBody, TextField, Tooltip,
   IconButton, FormControl, Select, MenuItem, Box, Typography,
 } from '@mui/material';
-import { Add as AddIcon, DeleteOutline as DeleteIcon } from '@mui/icons-material';
+import { AddOutlined as AddIcon, DeleteOutlineOutlined as DeleteIcon } from '@mui/icons-material';
 import { COUNT_BASIS_OPTIONS, SCOUTING_SAMPLE_INDICES } from '../utils/scoutingObsRows';
 import { pestGroupKey, formatInfestationPct } from '../utils/scoutingInfestation';
 

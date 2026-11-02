@@ -22,7 +22,7 @@ import {
   Alert,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Add, Delete, Edit, TaskAlt } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit, TaskAltOutlined as TaskAlt } from '@mui/icons-material';
 import { FERTILIZER_LIST } from '../data/recipeDatabase';
 import { approveRecipe, createRecipe, deleteRecipe, listRecipesAll, updateRecipe } from '../utils/backendApi';
 import { TableSkeleton } from '../components/LoadingSkeleton';

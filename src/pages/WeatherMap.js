@@ -4,7 +4,7 @@ import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { MapContainer, TileLayer, Marker, Popup, Polygon, LayersControl, LayerGroup } from 'react-leaflet';
 import { MapLifecycle, SafeFitBounds } from '../utils/leafletSafe';
 import { Icon } from 'leaflet';
-import { Refresh, Layers, Satellite, Terrain } from '@mui/icons-material';
+import { RefreshOutlined as Refresh, LayersOutlined as Layers, SatelliteOutlined as Satellite, TerrainOutlined as Terrain } from '@mui/icons-material';
 import { loadMasterData } from '../utils/masterDataUtils';
 import { fetchCurrentWeather } from '../utils/weatherService';
 import { getNDVIData, getSoilHealthData, isAgroAPIAvailable, createAgroPolygon, getRegisteredPolygons } from '../utils/agroApiService';

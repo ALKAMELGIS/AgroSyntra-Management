@@ -5,7 +5,7 @@ import {
   DialogActions, Alert, CircularProgress, FormControl, InputLabel, Select,
   Autocomplete, ToggleButton, ToggleButtonGroup, Divider,
 } from '@mui/material';
-import { Add as AddIcon } from '@mui/icons-material';
+import { AddOutlined as AddIcon } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNotification } from '../../contexts/NotificationContext';

@@ -4,8 +4,8 @@ import {
   LinearProgress, Divider,
 } from '@mui/material';
 import {
-  CheckCircle, Error as ErrorIcon, Warning, Refresh, Storage, Memory,
-  Speed, Timer,
+  CheckCircleOutlined as CheckCircle, ErrorOutlined as ErrorIcon, WarningOutlined as Warning, RefreshOutlined as Refresh, StorageOutlined as Storage, MemoryOutlined as Memory,
+  SpeedOutlined as Speed, TimerOutlined as Timer,
 } from '@mui/icons-material';
 
 import { API_BASE } from '../../config/api';

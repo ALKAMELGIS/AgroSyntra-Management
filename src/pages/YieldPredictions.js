@@ -4,7 +4,7 @@ import {
   Chip, LinearProgress, Alert,
 } from '@mui/material';
 import {
-  TrendingUp as PredictionIcon, Agriculture as CropIcon, Analytics as AnalyticsIcon,
+  TrendingUpOutlined as PredictionIcon, AgricultureOutlined as CropIcon, AnalyticsOutlined as AnalyticsIcon,
 } from '@mui/icons-material';
 import {
   ComposedChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,

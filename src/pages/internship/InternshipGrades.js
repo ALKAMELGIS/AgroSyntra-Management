@@ -4,7 +4,7 @@ import {
   Box, Typography, Paper, LinearProgress, Table, TableHead,
   TableRow, TableCell, TableBody, Chip, Tabs, Tab,
 } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBackOutlined as ArrowBack } from '@mui/icons-material';
 import { useState } from 'react';
 import { apiRequest } from '../../utils/api';
 import { useAuth } from '../../contexts/AuthContext';

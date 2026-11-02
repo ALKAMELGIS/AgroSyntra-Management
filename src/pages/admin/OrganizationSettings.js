@@ -4,8 +4,8 @@ import {
   Chip, Divider, Switch, FormControlLabel, MenuItem,
 } from '@mui/material';
 import {
-  Business as OrgIcon, Settings as SettingsIcon, Group as UsersIcon,
-  Save as SaveIcon,
+  BusinessOutlined as OrgIcon, SettingsOutlined as SettingsIcon, GroupOutlined as UsersIcon,
+  SaveOutlined as SaveIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
@@ -101,7 +101,7 @@ export default function OrganizationSettings() {
                 onChange={(e) => setSettings({ ...settings, default_site: e.target.value })}
                 helperText="Pre-fills site dropdowns across all pages (can still be changed)"
                 SelectProps={{ displayEmpty: true }}
-              >
+               InputLabelProps={{ shrink: true }}>
                 <MenuItem value=""><em>None (manual selection)</em></MenuItem>
                 {allSites.map((s) => (
                   <MenuItem key={s.id} value={s.id}>{s.name}</MenuItem>

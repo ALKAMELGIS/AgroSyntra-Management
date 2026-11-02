@@ -3,9 +3,9 @@ import {
   Alert, List, ListItem, ListItemText, Divider, Chip,
 } from '@mui/material';
 import {
-  Assessment as ReportIcon,
-  CheckCircle, Warning, ErrorOutline, Info,
-  Print as PrintIcon,
+  AssessmentOutlined as ReportIcon,
+  CheckCircleOutlined as CheckCircle, WarningOutlined as Warning, ErrorOutlineOutlined as ErrorOutline, InfoOutlined as Info,
+  PrintOutlined as PrintIcon,
 } from '@mui/icons-material';
 import { formatPeriodLabel } from '../../utils/executiveReportUtils';
 

@@ -24,9 +24,9 @@ import {
   Tab,
 } from '@mui/material';
 import {
-  Save, Clear, Info as InfoIcon,
-  GridOn as SpreadsheetIcon,
-  ViewList as FormViewIcon,
+  SaveOutlined as Save, ClearOutlined as Clear, InfoOutlined as InfoIcon,
+  GridOnOutlined as SpreadsheetIcon,
+  ViewListOutlined as FormViewIcon,
 } from '@mui/icons-material';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';

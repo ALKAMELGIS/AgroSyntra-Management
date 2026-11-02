@@ -18,14 +18,14 @@ import {
   Divider,
 } from '@mui/material';
 import {
-  TrendingUp,
-  TrendingDown,
-  Remove,
-  Download,
-  CheckCircle,
-  Warning,
-  Error as ErrorIcon,
-  Info,
+  TrendingUpOutlined as TrendingUp,
+  TrendingDownOutlined as TrendingDown,
+  RemoveOutlined as Remove,
+  DownloadOutlined as Download,
+  CheckCircleOutlined as CheckCircle,
+  WarningOutlined as Warning,
+  ErrorOutlined as ErrorIcon,
+  InfoOutlined as Info,
 } from '@mui/icons-material';
 import { loadMasterData } from '../utils/masterDataUtils';
 import { exportToExcel } from '../utils/masterDataUtils';

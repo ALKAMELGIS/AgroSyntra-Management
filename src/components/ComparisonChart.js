@@ -10,7 +10,7 @@ import {
   Grid,
   Autocomplete,
 } from '@mui/material';
-import { CompareArrows as CompareIcon } from '@mui/icons-material';
+import { CompareArrowsOutlined as CompareIcon } from '@mui/icons-material';
 import {
   BarChart,
   Bar,

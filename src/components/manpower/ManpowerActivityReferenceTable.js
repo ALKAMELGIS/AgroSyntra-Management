@@ -4,7 +4,7 @@ import {
   Divider, IconButton, Menu, MenuItem, Paper, Tab, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Tabs, TextField, Tooltip, Typography,
 } from '@mui/material';
-import { Add, Delete, DriveFileMove, Save } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete, DriveFileMoveOutlined as DriveFileMove, SaveOutlined as Save } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
 import { excelTableSx, GutterCell } from '../table/ExcelTable';

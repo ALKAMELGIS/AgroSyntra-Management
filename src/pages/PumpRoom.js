@@ -6,7 +6,7 @@ import {
   CircularProgress, Alert, Checkbox, FormControlLabel,
 } from '@mui/material';
 import {
-  Add, Close, Delete, FileDownload, FileUpload,
+  AddOutlined as Add, CloseOutlined as Close, DeleteOutlined as Delete, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { getFriendlyError } from '../utils/errorMessages';

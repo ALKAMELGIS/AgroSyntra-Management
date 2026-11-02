@@ -4,8 +4,8 @@ import {
   DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText,
 } from '@mui/material';
 import {
-  CloudOff as OfflineIcon,
-  CloudSync as SyncIcon,
+  CloudOffOutlined as OfflineIcon,
+  CloudSyncOutlined as SyncIcon,
 } from '@mui/icons-material';
 import { listQueue, deleteQueueItem, updateQueueItem, subscribe } from '../utils/offlineQueue';
 import { API_BASE } from '../config/api';

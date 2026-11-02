@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Typography, CircularProgress, Button } from '@mui/material';
-import { Print as PrintIcon } from '@mui/icons-material';
+import { PrintOutlined as PrintIcon } from '@mui/icons-material';
 import api from '../../utils/api';
 import { rowLabels } from '../../utils/mixtureGroups';
 

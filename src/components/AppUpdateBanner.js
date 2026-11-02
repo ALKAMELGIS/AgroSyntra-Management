@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Snackbar, Alert, Button } from '@mui/material';
-import { SystemUpdateAlt } from '@mui/icons-material';
+import { SystemUpdateAltOutlined as SystemUpdateAlt } from '@mui/icons-material';
 import { API_BASE } from '../config/api';
 
 export const SW_UPDATE_EVENT = 'app:sw-update';

@@ -7,7 +7,7 @@ import { pestJustification } from '../utils/pestExcelExport';
 import { dropdownOptionsWithValue } from '../utils/dropdownOptions';
 import { formatPercentSeen } from '../utils/percentSeen';
 import {
-  Add as AddIcon,
+  AddOutlined as AddIcon,
   SaveOutlined as SaveIcon,
   DeleteOutlined as DeleteIcon,
   ContentCopyOutlined as CopyIcon,

@@ -6,10 +6,10 @@ import {
   FormControl, Select, MenuItem,
 } from '@mui/material';
 import {
-  CloudUpload as UploadIcon,
-  CheckCircleOutline as OkIcon,
+  CloudUploadOutlined as UploadIcon,
+  CheckCircleOutlineOutlined as OkIcon,
   WarningAmberOutlined as WarnIcon,
-  ErrorOutline as ErrIcon,
+  ErrorOutlineOutlined as ErrIcon,
 } from '@mui/icons-material';
 import * as XLSX from 'xlsx';
 import { bulkImportFertApp, syncFertilizerProducts } from '../../utils/backendApi';

@@ -7,8 +7,8 @@ import {
   Checkbox, FormControlLabel, Divider, Autocomplete,
 } from '@mui/material';
 import {
-  Add, Edit, Delete, Sync, CheckCircle, Error as ErrorIcon,
-  Link as LinkIcon, LinkOff, Science, PlayArrow, ContentCopy, History,
+  AddOutlined as Add, EditOutlined as Edit, DeleteOutlined as Delete, SyncOutlined as Sync, CheckCircleOutlined as CheckCircle, ErrorOutlined as ErrorIcon,
+  Link as LinkIcon, LinkOffOutlined as LinkOff, ScienceOutlined as Science, PlayArrow, ContentCopyOutlined as ContentCopy, HistoryOutlined as History,
 } from '@mui/icons-material';
 import { useNotification } from '../../contexts/NotificationContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../../components/table/ExcelTable';

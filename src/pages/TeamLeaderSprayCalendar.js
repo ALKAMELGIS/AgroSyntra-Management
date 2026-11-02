@@ -5,7 +5,7 @@ import {
   Select, MenuItem, Chip, Button, AppBar, Toolbar, Dialog, DialogTitle, DialogContent,
   DialogActions, Grid, Alert,
 } from '@mui/material';
-import { ChevronLeft, ChevronRight, Today, Logout, ArrowBack } from '@mui/icons-material';
+import { ChevronLeftOutlined as ChevronLeft, ChevronRightOutlined as ChevronRight, TodayOutlined as Today, LogoutOutlined as Logout, ArrowBackOutlined as ArrowBack } from '@mui/icons-material';
 import { workerApiRequest, useWorkerSession, workerLogout } from './WorkerLogin';
 import {
   buildSprayCalendarFieldRows,

@@ -25,12 +25,12 @@ import {
   CircularProgress,
 } from '@mui/material';
 import {
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  Save as SaveIcon,
-  Add as AddIcon,
-  Inbox as InboxIcon,
-  DeleteSweep as BulkDeleteIcon,
+  DeleteOutlined as DeleteIcon,
+  EditOutlined as EditIcon,
+  SaveOutlined as SaveIcon,
+  AddOutlined as AddIcon,
+  InboxOutlined as InboxIcon,
+  DeleteSweepOutlined as BulkDeleteIcon,
 } from '@mui/icons-material';
 import { getCropDripperCount, getCropDripTestCount } from '../../utils/masterDataUtils';
 import { listEcphAll, deleteEcph, updateEcph } from '../../utils/backendApi';

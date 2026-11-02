@@ -6,7 +6,7 @@ import {
   ToggleButtonGroup, ToggleButton, Checkbox,
 } from '@mui/material';
 import {
-  Add, Check, Close, Visibility, Print, Delete, Send, Save,
+  AddOutlined as Add, CheckOutlined as Check, CloseOutlined as Close, Visibility, PrintOutlined as Print, DeleteOutlined as Delete, SendOutlined as Send, SaveOutlined as Save,
 } from '@mui/icons-material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import api from '../../utils/api';

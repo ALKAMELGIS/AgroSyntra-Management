@@ -8,8 +8,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useConfirmDialog } from '../../components/ConfirmDialog';
 import {
-  Delete, Save as SaveIcon, FileDownload, FileUpload, AddCircleOutline,
-  CheckCircle, CheckCircleOutline,
+  DeleteOutlined as Delete, SaveOutlined as SaveIcon, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload, AddCircleOutlineOutlined as AddCircleOutline,
+  CheckCircleOutlined as CheckCircle, CheckCircleOutlineOutlined as CheckCircleOutline,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';

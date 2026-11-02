@@ -19,12 +19,12 @@ import {
   ToggleButton,
 } from '@mui/material';
 import {
-  Notifications as BellIcon,
-  Warning as WarningIcon,
-  Error as ErrorIcon,
-  Info as InfoIcon,
-  CheckCircle as CheckIcon,
-  DoneAll as DoneAllIcon,
+  NotificationsOutlined as BellIcon,
+  WarningOutlined as WarningIcon,
+  ErrorOutlined as ErrorIcon,
+  InfoOutlined as InfoIcon,
+  CheckCircleOutlined as CheckIcon,
+  DoneAllOutlined as DoneAllIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { format } from 'date-fns';

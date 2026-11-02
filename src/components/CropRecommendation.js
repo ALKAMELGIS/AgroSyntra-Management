@@ -4,7 +4,7 @@ import {
   Skeleton, Avatar,
 } from '@mui/material';
 import {
-  EmojiNature as CropIcon, Star as StarIcon, TrendingUp as ScoreIcon,
+  EmojiNatureOutlined as CropIcon, Star as StarIcon, TrendingUpOutlined as ScoreIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 

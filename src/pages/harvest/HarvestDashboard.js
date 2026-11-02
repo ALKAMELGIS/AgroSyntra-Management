@@ -19,7 +19,7 @@ import {
   Button,
 } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
-import { Download } from '@mui/icons-material';
+import { DownloadOutlined as Download } from '@mui/icons-material';
 import { listHarvestsAll } from '../../utils/backendApi';
 import useSeasonListDates from '../../hooks/useSeasonListDates';
 import useOpsExcelExport from '../../hooks/useOpsExcelExport';

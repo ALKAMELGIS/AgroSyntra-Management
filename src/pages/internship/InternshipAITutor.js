@@ -5,7 +5,7 @@ import {
   Box, Typography, Paper, TextField, IconButton, LinearProgress,
   Button, Avatar, Alert,
 } from '@mui/material';
-import { ArrowBack, Send, SmartToy, Person } from '@mui/icons-material';
+import { ArrowBackOutlined as ArrowBack, SendOutlined as Send, SmartToyOutlined as SmartToy, PersonOutlined as Person } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 
 export default function InternshipAITutor() {

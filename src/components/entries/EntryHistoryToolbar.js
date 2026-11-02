@@ -10,8 +10,8 @@ import {
   CircularProgress,
 } from '@mui/material';
 import {
-  Search as SearchIcon,
-  FileDownload as ExportIcon,
+  SearchOutlined as SearchIcon,
+  FileDownloadOutlined as ExportIcon,
 } from '@mui/icons-material';
 import { DATE_PRESETS } from '../../utils/entryDateRange';
 

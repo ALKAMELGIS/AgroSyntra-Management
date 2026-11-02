@@ -5,7 +5,7 @@ import {
   Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField,
   Tooltip, Typography,
 } from '@mui/material';
-import { Add, Delete, Edit, History, Undo } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit, HistoryOutlined as History, UndoOutlined as Undo } from '@mui/icons-material';
 import { useApiMutation, useApiQuery, useDynamicMutation } from '../../hooks/useApiQuery';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNotification } from '../../contexts/NotificationContext';

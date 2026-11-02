@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {
   Alert, Box, Button, CircularProgress, Container, MenuItem, Paper, Tab, Tabs, TextField, Typography,
 } from '@mui/material';
-import { FileDownload } from '@mui/icons-material';
+import { FileDownloadOutlined as FileDownload } from '@mui/icons-material';
 import { useApiQuery } from '../hooks/useApiQuery';
 import useOpsExcelExport from '../hooks/useOpsExcelExport';
 import { useActiveSite } from '../contexts/ActiveSiteContext';

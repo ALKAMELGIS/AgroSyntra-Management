@@ -7,16 +7,16 @@ import {
   Card, CardContent, Slider, Tabs, Tab, LinearProgress, Autocomplete,
 } from '@mui/material';
 import {
-  Layers as LayersIcon, Add as AddIcon, Delete as DeleteIcon,
-  Sync as SyncIcon, Upload as UploadIcon, Link as LinkIcon,
+  LayersOutlined as LayersIcon, AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
+  SyncOutlined as SyncIcon, UploadOutlined as UploadIcon, LinkOutlined as LinkIcon,
   Visibility as VisIcon, VisibilityOff as VisOffIcon,
-  ExpandMore, ChevronRight, Close as CloseIcon,
-  CloudDownload as CloudIcon, Map as MapIcon,
-  Palette as PaletteIcon, Check as CheckIcon,
-  Info as InfoIcon, AutoFixHigh as AutoLinkIcon,
-  Grass as CropIcon, Water as WaterIcon, Science as ScienceIcon,
-  BugReport as BugIcon, Warning as WarningIcon,
-  Agriculture as HarvestIcon, Shield as ShieldIcon,
+  ExpandMoreOutlined as ExpandMore, ChevronRightOutlined as ChevronRight, CloseOutlined as CloseIcon,
+  CloudDownloadOutlined as CloudIcon, MapOutlined as MapIcon,
+  PaletteOutlined as PaletteIcon, CheckOutlined as CheckIcon,
+  InfoOutlined as InfoIcon, AutoFixHighOutlined as AutoLinkIcon,
+  GrassOutlined as CropIcon, WaterOutlined as WaterIcon, ScienceOutlined as ScienceIcon,
+  BugReportOutlined as BugIcon, WarningOutlined as WarningIcon,
+  AgricultureOutlined as HarvestIcon, ShieldOutlined as ShieldIcon,
 } from '@mui/icons-material';
 import { MapContainer, TileLayer, GeoJSON, Popup, Marker } from 'react-leaflet';
 import { MapLifecycle, SafeFitLatLngBounds } from '../utils/leafletSafe';

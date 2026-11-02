@@ -26,7 +26,7 @@ import {
   Button,
   Grid,
 } from '@mui/material';
-import { CheckCircle, Edit as EditIcon, Refresh as RefreshIcon } from '@mui/icons-material';
+import { CheckCircleOutlined as CheckCircle, EditOutlined as EditIcon, RefreshOutlined as RefreshIcon } from '@mui/icons-material';
 import api from '../../utils/api';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import { useNotification } from '../../contexts/NotificationContext';

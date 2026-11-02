@@ -22,9 +22,9 @@ import {
   CircularProgress,
 } from '@mui/material';
 import {
-  Business as OrgIcon,
-  Add as AddIcon,
-  ContentCopy as CopyIcon,
+  BusinessOutlined as OrgIcon,
+  AddOutlined as AddIcon,
+  ContentCopyOutlined as CopyIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import { useActAsOrg } from '../../contexts/ActAsOrgContext';

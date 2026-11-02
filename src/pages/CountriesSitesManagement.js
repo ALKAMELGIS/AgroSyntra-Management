@@ -26,7 +26,7 @@ import {
 } from '@mui/material';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { ExpandMore, ExpandLess } from '@mui/icons-material';
+import { ExpandMoreOutlined as ExpandMore, ExpandLessOutlined as ExpandLess } from '@mui/icons-material';
 import { loadMasterData, exportToExcel } from '../utils/masterDataUtils';
 import {
   createCountry,

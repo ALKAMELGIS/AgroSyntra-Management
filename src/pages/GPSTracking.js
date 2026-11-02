@@ -5,8 +5,8 @@ import {
   Alert,
 } from '@mui/material';
 import {
-  GpsFixed as GpsIcon, Add as AddIcon, Delete as DeleteIcon,
-  MyLocation as PositionIcon, Refresh as RefreshIcon, ContentCopy as CopyIcon,
+  GpsFixedOutlined as GpsIcon, AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
+  MyLocationOutlined as PositionIcon, RefreshOutlined as RefreshIcon, ContentCopyOutlined as CopyIcon,
 } from '@mui/icons-material';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';

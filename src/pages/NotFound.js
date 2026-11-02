@@ -1,5 +1,5 @@
 import { Box, Typography, Button, Paper } from '@mui/material';
-import { SentimentDissatisfied as SadIcon, Home as HomeIcon } from '@mui/icons-material';
+import { SentimentDissatisfiedOutlined as SadIcon, HomeOutlined as HomeIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 export default function NotFound() {

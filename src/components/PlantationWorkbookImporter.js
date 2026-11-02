@@ -5,9 +5,9 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography,
 } from '@mui/material';
 import {
-  CheckCircleOutline as OkIcon,
-  CloudUpload as UploadIcon,
-  ErrorOutline as ErrIcon,
+  CheckCircleOutlineOutlined as OkIcon,
+  CloudUploadOutlined as UploadIcon,
+  ErrorOutlineOutlined as ErrIcon,
   WarningAmberOutlined as WarnIcon,
 } from '@mui/icons-material';
 import * as XLSX from 'xlsx';

@@ -4,7 +4,7 @@ import {
   Button, MenuItem, Typography, IconButton, Select, Dialog, DialogTitle,
   DialogContent, DialogActions, CircularProgress, TextField, Alert,
 } from '@mui/material';
-import { Add, Delete, Check, FileUpload } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete, CheckOutlined as Check, FileUploadOutlined as FileUpload } from '@mui/icons-material';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import useSeasonListDates from '../../hooks/useSeasonListDates';
 import { useNotification } from '../../contexts/NotificationContext';

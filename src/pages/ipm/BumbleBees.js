@@ -7,7 +7,7 @@ import {
   CircularProgress, Grid, FormControl, Select, Tabs, Tab, Alert, Card, CardContent,
   IconButton, Tooltip, Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
-import { Check, Delete, AddCircleOutline, FileDownload } from '@mui/icons-material';
+import { CheckOutlined as Check, DeleteOutlined as Delete, AddCircleOutlineOutlined as AddCircleOutline, FileDownloadOutlined as FileDownload } from '@mui/icons-material';
 import api from '../../utils/api';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import { useNotification } from '../../contexts/NotificationContext';

@@ -6,7 +6,7 @@ import {
   Tooltip, Typography,
 } from '@mui/material';
 import {
-  Add, ArrowBack, ChevronLeft, ChevronRight, Delete, Download, PictureAsPdf, UploadFile,
+  AddOutlined as Add, ArrowBackOutlined as ArrowBack, ChevronLeftOutlined as ChevronLeft, ChevronRightOutlined as ChevronRight, DeleteOutlined as Delete, DownloadOutlined as Download, PictureAsPdfOutlined as PictureAsPdf, UploadFileOutlined as UploadFile,
 } from '@mui/icons-material';
 import api from '../../utils/api';
 import { API_BASE } from '../../config/api';

@@ -6,11 +6,11 @@ import {
   Autocomplete,
 } from '@mui/material';
 import {
-  Save as SaveIcon,
-  ContentPaste as PasteIcon,
-  Restore as RestoreIcon,
-  DeleteSweep as DiscardIcon,
-  FileUpload as ImportIcon,
+  SaveOutlined as SaveIcon,
+  ContentPasteOutlined as PasteIcon,
+  RestoreOutlined as RestoreIcon,
+  DeleteSweepOutlined as DiscardIcon,
+  FileUploadOutlined as ImportIcon,
 } from '@mui/icons-material';
 import { useMasterData } from '../../utils/useMasterData';
 import { createFertigation, listFertigationEntries, listRecipesAll, listFertigationGroups } from '../../utils/backendApi';

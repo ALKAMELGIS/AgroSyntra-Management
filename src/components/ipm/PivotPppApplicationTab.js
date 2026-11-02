@@ -4,7 +4,7 @@ import {
   Button, MenuItem, Typography, IconButton, Select, CircularProgress, Alert,
   Dialog, DialogTitle, DialogContent, DialogActions, TextField,
 } from '@mui/material';
-import { Add, Delete, Check } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete, CheckOutlined as Check } from '@mui/icons-material';
 import api from '../../utils/api';
 import { listAllPesticideApplications } from '../../utils/listPesticideApplications';
 import { useNotification } from '../../contexts/NotificationContext';

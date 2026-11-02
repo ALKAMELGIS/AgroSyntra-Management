@@ -45,7 +45,7 @@ import {
   Pie,
   Cell,
 } from 'recharts';
-import { Download, Print, FilterList } from '@mui/icons-material';
+import { DownloadOutlined as Download, PrintOutlined as Print, FilterListOutlined as FilterList } from '@mui/icons-material';
 import { loadMasterData } from '../../utils/masterDataUtils';
 import useOpsExcelExport from '../../hooks/useOpsExcelExport';
 import { OPS_EXPORT } from '../../utils/companyExcelExport';

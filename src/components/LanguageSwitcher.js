@@ -1,74 +1,48 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
-import LanguageIcon from '@mui/icons-material/Language';
+import { Box, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import LanguageIcon from '@mui/icons-material/LanguageOutlined';
 
 const languages = [
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+  { code: 'en', name: 'English' },
+  { code: 'ar', name: 'العربية' },
 ];
 
+/** Inline segmented language switch (used inside the account menu). */
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const changeLanguage = (code) => {
+    if (!code) return;
     i18n.changeLanguage(code);
     // Update document direction for RTL support
     document.documentElement.dir = code === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = code;
-    handleClose();
   };
 
-  const currentLang = languages.find(l => l.code === i18n.language) || languages[0];
+  const current = (languages.find((l) => i18n.language?.startsWith(l.code)) || languages[0]).code;
 
   return (
-    <>
-      <Tooltip title="Change Language">
-        <IconButton
-          color="inherit"
-          onClick={handleClick}
-          sx={{ ml: 1 }}
-        >
-          <LanguageIcon />
-        </IconButton>
-      </Tooltip>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+      <LanguageIcon sx={{ fontSize: 18, color: 'text.secondary', flexShrink: 0 }} />
+      <Typography sx={{ fontSize: '0.875rem', flexGrow: 1 }}>Language</Typography>
+      <ToggleButtonGroup
+        size="small"
+        exclusive
+        value={current}
+        onChange={(_, code) => changeLanguage(code)}
+        aria-label="Language"
       >
         {languages.map((lang) => (
-          <MenuItem
+          <ToggleButton
             key={lang.code}
-            onClick={() => changeLanguage(lang.code)}
-            selected={lang.code === currentLang.code}
-            sx={{ 
-              minWidth: 150,
-              direction: lang.code === 'ar' ? 'rtl' : 'ltr',
-            }}
+            value={lang.code}
+            lang={lang.code}
+            sx={{ px: 2.5, py: 0.75, fontSize: '0.75rem' }}
           >
-            <span style={{ marginRight: 8 }}>{lang.flag}</span>
             {lang.name}
-          </MenuItem>
+          </ToggleButton>
         ))}
-      </Menu>
-    </>
+      </ToggleButtonGroup>
+    </Box>
   );
 }

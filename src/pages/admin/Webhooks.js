@@ -5,8 +5,8 @@ import {
   IconButton, Chip, Checkbox, FormGroup, FormControlLabel, Collapse,
 } from '@mui/material';
 import {
-  Webhook as WebhookIcon, Add as AddIcon, Delete as DeleteIcon,
-  ExpandMore as ExpandIcon, ExpandLess as CollapseIcon,
+  WebhookOutlined as WebhookIcon, AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
+  ExpandMoreOutlined as ExpandIcon, ExpandLessOutlined as CollapseIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';

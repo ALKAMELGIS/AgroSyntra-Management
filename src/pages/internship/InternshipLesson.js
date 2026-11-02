@@ -5,7 +5,7 @@ import {
   Box, Typography, Paper, Button, LinearProgress, Divider, Chip,
   RadioGroup, FormControlLabel, Radio, Alert, CircularProgress,
 } from '@mui/material';
-import { ArrowBack, CheckCircle, Timer, NavigateNext, Replay, Quiz } from '@mui/icons-material';
+import { ArrowBackOutlined as ArrowBack, CheckCircleOutlined as CheckCircle, TimerOutlined as Timer, NavigateNextOutlined as NavigateNext, ReplayOutlined as Replay, QuizOutlined as Quiz } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useAuth } from '../../contexts/AuthContext';
 import QuizReviewPanel from '../../components/QuizReviewPanel';

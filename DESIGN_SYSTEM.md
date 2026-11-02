@@ -52,11 +52,6 @@ Radius: 6 · 8 · 12 · 16 (cards) · 20 (dialogs) · pill (buttons, chips, sear
 - **Icons**: Material *Outlined* family everywhere in navigation and hubs.
 - **Layout grid**: MUI v7 `Grid` with `size={{ xs, sm, md }}` (legacy `item xs=` props are not supported in v7).
 
-## Background moon
-`src/components/BackgroundMoon.js` — inline SVG, fixed behind content, partially off-screen at the
-inline-end edge (mirrors in RTL). Light opacity 0.6 of a near-page-tone disc; dark 0.075. No pointer
-events, hidden from screen readers and print, slow 48s drift disabled under `prefers-reduced-motion`.
-
 ## RTL note
 Do not put `::placeholder` (or other selectors the stylis prefixer expands) in theme `styleOverrides`;
 it crashes the RTL emotion cache. Put such rules in `App.css`.

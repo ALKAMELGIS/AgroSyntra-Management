@@ -13,7 +13,7 @@ import {
   Box, Typography, Paper, IconButton, Tooltip, CircularProgress, FormControl, InputLabel,
   Select, MenuItem, Chip, Dialog, DialogTitle, DialogContent, DialogActions, Button, Grid,
 } from '@mui/material';
-import { ChevronLeft, ChevronRight, Today } from '@mui/icons-material';
+import { ChevronLeftOutlined as ChevronLeft, ChevronRightOutlined as ChevronRight, TodayOutlined as Today } from '@mui/icons-material';
 import api from '../../utils/api';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 

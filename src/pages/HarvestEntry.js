@@ -19,7 +19,7 @@ import {
   Grid,
   CircularProgress,
 } from '@mui/material';
-import { Add, Delete, Check, FileUpload } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete, CheckOutlined as Check, FileUploadOutlined as FileUpload } from '@mui/icons-material';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { useMasterData } from '../utils/useMasterData';
 import HarvestImporter from '../components/HarvestImporter';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Typography, Box, Grid } from '@mui/material';
-import { LocationOn, Navigation } from '@mui/icons-material';
+import { LocationOnOutlined as LocationOn, NavigationOutlined as Navigation } from '@mui/icons-material';
 
 /**
  * WeatherCard Component

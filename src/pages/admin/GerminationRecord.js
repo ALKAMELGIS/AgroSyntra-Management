@@ -5,7 +5,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress, Alert,
 } from '@mui/material';
 import {
-  Add, Delete, Edit, FileDownload, FileUpload, Save as SaveIcon,
+  AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload, SaveOutlined as SaveIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';

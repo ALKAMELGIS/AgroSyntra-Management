@@ -3,7 +3,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Button, TextField, Typography, Box, Alert, Chip,
 } from '@mui/material';
-import { ContentPaste as PasteIcon } from '@mui/icons-material';
+import { ContentPasteOutlined as PasteIcon } from '@mui/icons-material';
 
 const KNOWN_HEADERS = {
   'nh location': 'field_name', 'gh location': 'field_name', 'field': 'field_name',

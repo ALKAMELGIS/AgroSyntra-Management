@@ -7,10 +7,10 @@ import {
   Tooltip,
 } from '@mui/material';
 import {
-  WaterDrop as WaterDropIcon,
-  Calculate as CalculateIcon,
-  Settings as SettingsIcon,
-  Info as InfoIcon,
+  WaterDropOutlined as WaterDropIcon,
+  CalculateOutlined as CalculateIcon,
+  SettingsOutlined as SettingsIcon,
+  InfoOutlined as InfoIcon,
 } from '@mui/icons-material';
 
 /**

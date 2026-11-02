@@ -84,6 +84,6 @@ describe('ConfirmDialogComponent', () => {
         onCancel={() => {}}
       />
     );
-    expect(screen.getByTestId('WarningIcon')).toBeInTheDocument();
+    expect(screen.getByTestId('WarningOutlinedIcon')).toBeInTheDocument();
   });
 });

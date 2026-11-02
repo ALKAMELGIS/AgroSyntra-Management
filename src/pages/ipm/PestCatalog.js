@@ -4,7 +4,7 @@ import {
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip,
   IconButton, Alert, CircularProgress, Tabs, Tab, Tooltip, Switch, FormControlLabel, Autocomplete,
 } from '@mui/material';
-import { Add, Edit, Delete, BugReport, Science, HelpOutline, Grass, Spa, HealthAndSafety } from '@mui/icons-material';
+import { AddOutlined as Add, EditOutlined as Edit, DeleteOutlined as Delete, BugReportOutlined as BugReport, ScienceOutlined as Science, HelpOutlineOutlined as HelpOutline, GrassOutlined as Grass, SpaOutlined as Spa, HealthAndSafetyOutlined as HealthAndSafety } from '@mui/icons-material';
 import api from '../../utils/api';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';

@@ -577,6 +577,8 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
         },
       },
       MuiTabs: {
+        // Scroll instead of clipping when tabs outgrow narrow screens.
+        defaultProps: { variant: 'scrollable', scrollButtons: 'auto', allowScrollButtonsMobile: true },
         styleOverrides: {
           root: { minHeight: 44 },
           indicator: { backgroundColor: palette.primary.main, height: 2, borderRadius: 2 },

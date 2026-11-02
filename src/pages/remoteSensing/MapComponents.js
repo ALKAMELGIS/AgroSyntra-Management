@@ -16,13 +16,13 @@ import {
   Switch,
 } from '@mui/material';
 import {
-  Close as CloseIcon,
-  Satellite as SatelliteIcon,
-  Search as SearchIcon,
-  MyLocation as MyLocationIcon,
-  Home as HomeIcon,
-  Map as MapIcon,
-  Terrain as TerrainIcon,
+  CloseOutlined as CloseIcon,
+  SatelliteOutlined as SatelliteIcon,
+  SearchOutlined as SearchIcon,
+  MyLocationOutlined as MyLocationIcon,
+  HomeOutlined as HomeIcon,
+  MapOutlined as MapIcon,
+  TerrainOutlined as TerrainIcon,
 } from '@mui/icons-material';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';

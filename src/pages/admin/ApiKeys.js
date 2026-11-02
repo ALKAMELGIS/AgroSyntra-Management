@@ -6,9 +6,9 @@ import {
   Card, CardContent, Divider, InputAdornment,
 } from '@mui/material';
 import {
-  VpnKey as KeyIcon, Add as AddIcon, Delete as DeleteIcon, ContentCopy as CopyIcon,
-  Psychology as BrainIcon, CheckCircle, Cancel as ErrorIcon, Visibility, VisibilityOff,
-  CloudQueue as WeatherIcon,
+  VpnKeyOutlined as KeyIcon, AddOutlined as AddIcon, DeleteOutlined as DeleteIcon, ContentCopyOutlined as CopyIcon,
+  PsychologyOutlined as BrainIcon, CheckCircleOutlined as CheckCircle, CancelOutlined as ErrorIcon, Visibility, VisibilityOff,
+  CloudQueueOutlined as WeatherIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';

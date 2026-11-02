@@ -4,8 +4,7 @@
  * Component styling lives in src/theme.js. The CSS variables used here are
  * injected by the theme (MuiCssBaseline → :root) so they follow light / dark
  * mode automatically. Keep this file for things the theme cannot express:
- * legacy class hooks, mobile/PWA polish, scrollbars, print, and the ambient
- * background layer.
+ * legacy class hooks, mobile/PWA polish, scrollbars and print.
  */
 
 :root {
@@ -155,7 +154,7 @@ html[lang='ar'] .MuiTypography-root {
   }
 }
 
-.page-content > :not(.ac-moon) {
+.page-content > * {
   animation: ac-page-in 360ms var(--ease-out) both;
 }
 
@@ -217,7 +216,6 @@ html[lang='ar'] .MuiTypography-root {
 /* --- Print ------------------------------------------------------------- */
 
 @media print {
-  .ac-moon,
   .MuiAppBar-root,
   .MuiDrawer-root {
     display: none !important;

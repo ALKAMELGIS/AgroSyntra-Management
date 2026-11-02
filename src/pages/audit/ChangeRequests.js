@@ -24,10 +24,10 @@ import {
   Tab,
 } from '@mui/material';
 import {
-  Check as ApproveIcon,
-  Close as RejectIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
+  CheckOutlined as ApproveIcon,
+  CloseOutlined as RejectIcon,
+  EditOutlined as EditIcon,
+  DeleteOutlined as DeleteIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import api from '../../utils/api';

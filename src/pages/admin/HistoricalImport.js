@@ -7,16 +7,16 @@ import {
   Collapse,
 } from '@mui/material';
 import {
-  UploadFile as UploadIcon,
+  UploadFileOutlined as UploadIcon,
   PlayArrow as DryRunIcon,
-  Publish as ExecuteIcon,
-  Refresh as RefreshIcon,
-  History as HistoryIcon,
-  ExpandMore as ExpandMoreIcon,
-  ExpandLess as ExpandLessIcon,
-  CheckCircle as CheckIcon,
-  Warning as WarningIcon,
-  Agriculture as CropIcon,
+  PublishOutlined as ExecuteIcon,
+  RefreshOutlined as RefreshIcon,
+  HistoryOutlined as HistoryIcon,
+  ExpandMoreOutlined as ExpandMoreIcon,
+  ExpandLessOutlined as ExpandLessIcon,
+  CheckCircleOutlined as CheckIcon,
+  WarningOutlined as WarningIcon,
+  AgricultureOutlined as CropIcon,
 } from '@mui/icons-material';
 import { API_BASE, getAuthHeaders } from '../../config/api';
 

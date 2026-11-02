@@ -4,8 +4,8 @@ import {
   List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton, Divider, Avatar, CircularProgress,
 } from '@mui/material';
 import {
-  Close as CloseIcon, Send as SendIcon, Add as AddIcon, Person as PersonIcon,
-  CalendarToday as CalendarIcon, Flag as FlagIcon, CheckCircle as CheckIcon,
+  CloseOutlined as CloseIcon, SendOutlined as SendIcon, AddOutlined as AddIcon, PersonOutlined as PersonIcon,
+  CalendarTodayOutlined as CalendarIcon, FlagOutlined as FlagIcon, CheckCircleOutlined as CheckIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { useNotification } from '../contexts/NotificationContext';

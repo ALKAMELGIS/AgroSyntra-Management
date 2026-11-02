@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 import { SpaOutlined as EcoIcon } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
-import BackgroundMoon from '../components/BackgroundMoon';
 import { getFriendlyError } from '../utils/errorMessages';
 import { API_BASE as API_URL } from '../config/api';
 import { loginTeamLeader } from './WorkerLogin';
@@ -157,7 +156,7 @@ function Login() {
 
   return (
     <Box sx={{ minHeight: '100dvh', display: 'flex', bgcolor: 'background.default' }}>
-      {/* Left branded panel — a calm night field under a soft moon */}
+      {/* Left branded panel — calm field horizon */}
       {!isMobile && (
         <Box
           component="aside"
@@ -175,32 +174,6 @@ function Login() {
             color: '#fff',
           }}
         >
-          {/* moon */}
-          <Box
-            aria-hidden="true"
-            sx={{
-              position: 'absolute',
-              top: '9%',
-              right: '10%',
-              width: { md: 150, lg: 190 },
-              aspectRatio: '1 / 1',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle at 36% 32%, #ffffff 0%, #eef3ec 38%, #c9d6cb 72%, #9fb3a5 100%)',
-              boxShadow: '0 0 60px 18px rgba(214,236,220,0.12), 0 0 160px 60px rgba(214,236,220,0.06)',
-              opacity: 0.78,
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                inset: 0,
-                borderRadius: '50%',
-                background: `radial-gradient(circle at 30% 40%, rgba(120,140,128,0.16) 0 9%, transparent 13%),
-                             radial-gradient(circle at 62% 58%, rgba(120,140,128,0.13) 0 13%, transparent 18%),
-                             radial-gradient(circle at 44% 74%, rgba(120,140,128,0.1) 0 6%, transparent 9%),
-                             radial-gradient(circle at 68% 30%, rgba(120,140,128,0.11) 0 5%, transparent 8%)`,
-                filter: 'blur(2.5px)',
-              },
-            }}
-          />
           {/* rolling field horizon */}
           <Box
             aria-hidden="true"
@@ -284,7 +257,6 @@ function Login() {
           py: { xs: 10, sm: 12 },
         }}
       >
-        {isMobile && <BackgroundMoon variant="auth" />}
         <Box sx={{ maxWidth: 400, width: '100%', position: 'relative', zIndex: 1 }}>
           {isMobile && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 10 }}>

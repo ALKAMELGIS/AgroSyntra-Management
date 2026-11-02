@@ -27,11 +27,11 @@ import {
 } from '@mui/material';
 import { useNotification } from '../contexts/NotificationContext';
 import {
-  CloudDownload,
-  CloudQueue,
-  LocationOn,
-  Refresh,
-  Sensors,
+  CloudDownloadOutlined as CloudDownload,
+  CloudQueueOutlined as CloudQueue,
+  LocationOnOutlined as LocationOn,
+  RefreshOutlined as Refresh,
+  SensorsOutlined as Sensors,
 } from '@mui/icons-material';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';

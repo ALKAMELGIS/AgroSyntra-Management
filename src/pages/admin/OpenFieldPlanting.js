@@ -6,8 +6,8 @@ import {
   CircularProgress,
 } from '@mui/material';
 import {
-  Add, Delete, Save as SaveIcon, FileUpload,
-  AddCircleOutline,
+  AddOutlined as Add, DeleteOutlined as Delete, SaveOutlined as SaveIcon, FileUploadOutlined as FileUpload,
+  AddCircleOutlineOutlined as AddCircleOutline,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';

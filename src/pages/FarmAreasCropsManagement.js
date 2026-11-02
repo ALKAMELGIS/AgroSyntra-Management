@@ -28,7 +28,7 @@ import {
   IconButton,
   Collapse,
 } from '@mui/material';
-import { KeyboardArrowDown, KeyboardArrowUp, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
+import { KeyboardArrowDownOutlined as KeyboardArrowDown, KeyboardArrowUpOutlined as KeyboardArrowUp, DeleteOutlined as DeleteIcon, AddOutlined as AddIcon } from '@mui/icons-material';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { loadMasterData, exportToExcel } from '../utils/masterDataUtils';

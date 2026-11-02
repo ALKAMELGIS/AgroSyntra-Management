@@ -3,7 +3,7 @@ import {
   Box, Typography, TextField, IconButton, Avatar, List, ListItem, ListItemAvatar,
   ListItemText, ListItemSecondaryAction, CircularProgress,
 } from '@mui/material';
-import { Send as SendIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import { SendOutlined as SendIcon, DeleteOutlined as DeleteIcon } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { useNotification } from '../contexts/NotificationContext';
 import { useAuth } from '../contexts/AuthContext';

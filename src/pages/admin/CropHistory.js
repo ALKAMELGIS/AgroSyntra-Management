@@ -8,8 +8,8 @@ import {
   FormControl, InputLabel, Select, CircularProgress, Stack, Tabs, Tab,
 } from '@mui/material';
 import {
-  Edit, Delete, FileUpload, History as HistoryIcon,
-  Save as SaveIcon, Spa as NurseryIcon, AddCircleOutline, SwapHoriz, FileDownload,
+  EditOutlined as Edit, DeleteOutlined as Delete, FileUploadOutlined as FileUpload, HistoryOutlined as HistoryIcon,
+  SaveOutlined as SaveIcon, SpaOutlined as NurseryIcon, AddCircleOutlineOutlined as AddCircleOutline, SwapHorizOutlined as SwapHoriz, FileDownloadOutlined as FileDownload,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';

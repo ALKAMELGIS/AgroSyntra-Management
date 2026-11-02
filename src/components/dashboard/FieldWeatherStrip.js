@@ -1,5 +1,5 @@
 import { Box, Typography, Skeleton } from '@mui/material';
-import { Navigation, CloudQueue } from '@mui/icons-material';
+import { NavigationOutlined as Navigation, CloudQueueOutlined as CloudQueue } from '@mui/icons-material';
 import { windDirectionLabel } from '../../utils/siteFieldWeather';
 
 export default function FieldWeatherStrip({ weather, loading = false, variant = 'compact' }) {

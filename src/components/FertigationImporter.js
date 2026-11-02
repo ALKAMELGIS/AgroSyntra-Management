@@ -6,10 +6,10 @@ import {
   MenuItem, Select, FormControl, Checkbox,
 } from '@mui/material';
 import {
-  CloudUpload as UploadIcon,
-  CheckCircleOutline as OkIcon,
+  CloudUploadOutlined as UploadIcon,
+  CheckCircleOutlineOutlined as OkIcon,
   WarningAmberOutlined as WarnIcon,
-  ErrorOutline as ErrIcon,
+  ErrorOutlineOutlined as ErrIcon,
   FileDownloadOutlined as ImportIcon,
 } from '@mui/icons-material';
 import * as XLSX from 'xlsx';

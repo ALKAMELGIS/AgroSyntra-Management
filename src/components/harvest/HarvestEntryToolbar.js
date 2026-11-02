@@ -1,5 +1,5 @@
 import { Toolbar, TextField, MenuItem, IconButton, Tooltip, Typography } from '@mui/material';
-import { FileDownload as ExportIcon } from '@mui/icons-material';
+import { FileDownloadOutlined as ExportIcon } from '@mui/icons-material';
 
 export default function HarvestEntryToolbar({
   farmAreas = [],

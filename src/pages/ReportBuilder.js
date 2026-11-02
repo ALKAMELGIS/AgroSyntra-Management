@@ -23,9 +23,9 @@ import {
   Checkbox,
 } from '@mui/material';
 import {
-  Description as ReportIcon,
-  Download as DownloadIcon,
-  PictureAsPdf as PdfIcon,
+  DescriptionOutlined as ReportIcon,
+  DownloadOutlined as DownloadIcon,
+  PictureAsPdfOutlined as PdfIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { useNotification } from '../contexts/NotificationContext';

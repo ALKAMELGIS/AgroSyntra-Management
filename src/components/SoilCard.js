@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography, Box, Grid } from '@mui/material';
-import { Grass } from '@mui/icons-material';
+import { GrassOutlined as Grass } from '@mui/icons-material';
 
 function SoilCard({ fieldName, soilData }) {
   if (!soilData) {

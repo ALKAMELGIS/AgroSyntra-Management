@@ -12,10 +12,10 @@ import {
   Button,
 } from '@mui/material';
 import {
-  CloudUpload as UploadIcon,
-  Delete as DeleteIcon,
-  CameraAlt as CameraIcon,
-  InsertDriveFile as FileIcon,
+  CloudUploadOutlined as UploadIcon,
+  DeleteOutlined as DeleteIcon,
+  CameraAltOutlined as CameraIcon,
+  InsertDriveFileOutlined as FileIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { useNotification } from '../contexts/NotificationContext';

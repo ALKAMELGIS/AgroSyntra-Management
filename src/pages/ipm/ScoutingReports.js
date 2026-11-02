@@ -7,8 +7,8 @@ import {
   TablePagination, Select, InputLabel, FormControl, Stack, Tabs, Tab,
 } from '@mui/material';
 import {
-  ExpandMore, ExpandLess, CheckCircle, Visibility, BugReport, FilterList,
-  Photo as PhotoIcon, LocationOn, Refresh, Add, Edit, Delete, Print, Undo,
+  ExpandMoreOutlined as ExpandMore, ExpandLessOutlined as ExpandLess, CheckCircleOutlined as CheckCircle, Visibility, BugReportOutlined as BugReport, FilterListOutlined as FilterList,
+  PhotoOutlined as PhotoIcon, LocationOnOutlined as LocationOn, RefreshOutlined as Refresh, AddOutlined as Add, EditOutlined as Edit, DeleteOutlined as Delete, PrintOutlined as Print, UndoOutlined as Undo,
 } from '@mui/icons-material';
 import api from '../../utils/api';
 import { API_BASE } from '../../config/api';

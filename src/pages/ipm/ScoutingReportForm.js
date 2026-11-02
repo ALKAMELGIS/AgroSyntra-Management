@@ -5,7 +5,7 @@ import {
   Select, InputLabel, FormControl, Chip, Table, TableHead, TableRow, TableCell,
   TableBody, Paper, InputAdornment, Autocomplete,
 } from '@mui/material';
-import { MyLocation, Close, Save, PhotoLibrary, CameraAlt, Delete as DeleteIcon } from '@mui/icons-material';
+import { MyLocationOutlined as MyLocation, CloseOutlined as Close, SaveOutlined as Save, PhotoLibraryOutlined as PhotoLibrary, CameraAltOutlined as CameraAlt, DeleteOutlined as DeleteIcon } from '@mui/icons-material';
 import api from '../../utils/api';
 import useAppLayout from '../../hooks/useAppLayout';
 import {

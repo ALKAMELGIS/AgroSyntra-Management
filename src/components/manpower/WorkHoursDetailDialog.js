@@ -18,7 +18,7 @@ import {
   CircularProgress,
   Alert,
 } from '@mui/material';
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { KeyboardArrowDownOutlined as KeyboardArrowDown, KeyboardArrowUpOutlined as KeyboardArrowUp } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 
 function DrillRow({ row }) {

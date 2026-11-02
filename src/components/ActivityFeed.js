@@ -3,8 +3,8 @@ import {
   List, ListItem, ListItemAvatar, ListItemText, Avatar, Typography, Box, Chip, Skeleton, Paper,
 } from '@mui/material';
 import {
-  Agriculture as HarvestIcon, WaterDrop as WaterIcon, Science as EcphIcon,
-  Assignment as TaskIcon, Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon,
+  AgricultureOutlined as HarvestIcon, WaterDropOutlined as WaterIcon, ScienceOutlined as EcphIcon,
+  AssignmentOutlined as TaskIcon, EditOutlined as EditIcon, DeleteOutlined as DeleteIcon, AddOutlined as AddIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { formatDistanceToNow } from 'date-fns';

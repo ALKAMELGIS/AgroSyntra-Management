@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Snackbar, Alert, Badge, Button, Box, Typography } from '@mui/material';
-import { WifiOff, Sync as SyncIcon, CloudDone } from '@mui/icons-material';
+import { WifiOffOutlined as WifiOff, SyncOutlined as SyncIcon, CloudDoneOutlined as CloudDone } from '@mui/icons-material';
 import { getPendingCount, syncPendingEntries } from '../utils/offlineQueue';
 import { apiRequest } from '../utils/api';
 

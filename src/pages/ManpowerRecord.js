@@ -11,8 +11,8 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import {
-  Edit, Delete, Add, Search, FileDownload, FileUpload,
-  Star, StarBorder, Lock, FilterList, People, Assignment, Today, TableChart, HowToReg, AccessTime, MenuBook, Insights,
+  EditOutlined as Edit, DeleteOutlined as Delete, AddOutlined as Add, SearchOutlined as Search, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload,
+  Star, StarBorder, Lock, FilterListOutlined as FilterList, PeopleOutlined as People, AssignmentOutlined as Assignment, TodayOutlined as Today, TableChartOutlined as TableChart, HowToRegOutlined as HowToReg, AccessTimeOutlined as AccessTime, MenuBookOutlined as MenuBook, InsightsOutlined as Insights,
 } from '@mui/icons-material';
 import { apiRequest, apiRequestWithMeta } from '../utils/api';
 import { useNotification } from '../contexts/NotificationContext';

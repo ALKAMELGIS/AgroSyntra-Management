@@ -4,7 +4,7 @@ import {
   DialogContent, DialogTitle, FormControlLabel, IconButton, Paper, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow, Typography,
 } from '@mui/material';
-import { AddCircleOutline, Delete, FileDownload, FileUpload, Save as SaveIcon } from '@mui/icons-material';
+import { AddCircleOutlineOutlined as AddCircleOutline, DeleteOutlined as Delete, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload, SaveOutlined as SaveIcon } from '@mui/icons-material';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useNotification } from '../../contexts/NotificationContext';
 import { apiRequest } from '../../utils/api';

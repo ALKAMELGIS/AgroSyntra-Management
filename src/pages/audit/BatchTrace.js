@@ -18,12 +18,12 @@ import {
   Stack,
 } from '@mui/material';
 import {
-  Search as SearchIcon,
-  Print as PrintIcon,
-  Agriculture as AgricultureIcon,
-  Groups as GroupsIcon,
-  PestControl as PestControlIcon,
-  Assignment as AssignmentIcon,
+  SearchOutlined as SearchIcon,
+  PrintOutlined as PrintIcon,
+  AgricultureOutlined as AgricultureIcon,
+  GroupsOutlined as GroupsIcon,
+  PestControlOutlined as PestControlIcon,
+  AssignmentOutlined as AssignmentIcon,
 } from '@mui/icons-material';
 import api from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';

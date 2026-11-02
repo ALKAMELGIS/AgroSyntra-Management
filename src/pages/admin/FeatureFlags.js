@@ -4,7 +4,7 @@ import {
   TableHead, TableRow, Switch, Chip, Button, Dialog, DialogTitle,
   DialogContent, DialogActions, TextField, IconButton, Tooltip,
 } from '@mui/material';
-import { Add, Delete } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
 import { TableSkeleton } from '../../components/LoadingSkeleton';

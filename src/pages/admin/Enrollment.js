@@ -6,7 +6,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, TextField,
   Alert, IconButton, LinearProgress,
 } from '@mui/material';
-import { PersonAdd, Edit } from '@mui/icons-material';
+import { PersonAddOutlined as PersonAdd, EditOutlined as Edit } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 
 export default function Enrollment() {

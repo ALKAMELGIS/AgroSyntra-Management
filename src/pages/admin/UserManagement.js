@@ -31,13 +31,13 @@ import {
   ListItemSecondaryAction,
 } from '@mui/material';
 import {
-  Edit as EditIcon,
-  Block as BlockIcon,
-  CheckCircle as ActiveIcon,
-  PersonAdd as AddIcon,
-  Assignment as AssignmentIcon,
-  Delete as DeleteIcon,
-  Security as PermissionsIcon,
+  EditOutlined as EditIcon,
+  BlockOutlined as BlockIcon,
+  CheckCircleOutlined as ActiveIcon,
+  PersonAddOutlined as AddIcon,
+  AssignmentOutlined as AssignmentIcon,
+  DeleteOutlined as DeleteIcon,
+  SecurityOutlined as PermissionsIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import { canManageUser } from '../../utils/adminAccess';

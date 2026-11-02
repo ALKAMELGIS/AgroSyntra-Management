@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typography, Alert,
 } from '@mui/material';
-import { CameraAlt, Close } from '@mui/icons-material';
+import { CameraAltOutlined as CameraAlt, CloseOutlined as Close } from '@mui/icons-material';
 
 function stopStream(stream) {
   stream?.getTracks?.().forEach((track) => track.stop());

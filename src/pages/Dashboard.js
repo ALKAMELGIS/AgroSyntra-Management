@@ -9,7 +9,7 @@ import {
   Paper,
   TextField,
 } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+import { CloseOutlined as CloseIcon } from '@mui/icons-material';
 import { DashboardSkeleton } from '../components/LoadingSkeleton';
 import FarmMonitor from './dashboard/FarmMonitor';
 import useDashboardData from './dashboard/useDashboardData';

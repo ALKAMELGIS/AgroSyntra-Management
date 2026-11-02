@@ -26,12 +26,12 @@ import {
   Snackbar,
 } from '@mui/material';
 import {
-  Edit as EditIcon,
-  Add as AddIcon,
-  Delete as DeleteIcon,
-  OpenInNew as OpenIcon,
-  Save as SaveIcon,
-  Close as CloseIcon,
+  EditOutlined as EditIcon,
+  AddOutlined as AddIcon,
+  DeleteOutlined as DeleteIcon,
+  OpenInNewOutlined as OpenIcon,
+  SaveOutlined as SaveIcon,
+  CloseOutlined as CloseIcon,
 } from '@mui/icons-material';
 
 function toContentBody(payload) {

@@ -4,7 +4,7 @@ import {
   Box, Typography, Checkbox, FormControlLabel, FormGroup, Divider, Alert,
   List, ListItemButton, ListItemText, IconButton, MenuItem,
 } from '@mui/material';
-import { Add, Delete, Edit } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit } from '@mui/icons-material';
 import {
   createFertigationGroup,
   updateFertigationGroup,

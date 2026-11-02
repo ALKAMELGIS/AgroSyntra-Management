@@ -8,8 +8,8 @@ import {
   Radio, RadioGroup,
 } from '@mui/material';
 import {
-  Check, Close, Add, Timer, Search, FilterList, FileDownload,
-  Agriculture, Science, CalendarMonth,
+  Check, Close, AddOutlined as Add, TimerOutlined as Timer, SearchOutlined as Search, FilterListOutlined as FilterList, FileDownloadOutlined as FileDownload,
+  AgricultureOutlined as Agriculture, ScienceOutlined as Science, CalendarMonthOutlined as CalendarMonth,
   InventoryOutlined as CatalogIcon,
   HomeOutlined as MySiteIcon,
   PublicOutlined as BrowseIcon,
@@ -19,7 +19,7 @@ import {
   ContentCopyOutlined as CopyIcon,
   DeleteOutlined as DeleteIcon,
   AttachMoneyOutlined as CostIcon,
-  PictureAsPdf as PdfIcon,
+  PictureAsPdfOutlined as PdfIcon,
   UploadFileOutlined as UploadIcon,
   AssignmentOutlined as WorkOrderIcon,
 } from '@mui/icons-material';

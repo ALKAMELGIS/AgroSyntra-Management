@@ -8,8 +8,8 @@ import {
 } from '@mui/material';
 import { TableSkeleton } from '../components/LoadingSkeleton';
 import {
-  Add, Edit, Delete, Search, Inventory2, Warning, ShoppingCart,
-  ExpandMore, ExpandLess, TrendingDown, TrendingUp,
+  AddOutlined as Add, EditOutlined as Edit, DeleteOutlined as Delete, SearchOutlined as Search, Inventory2Outlined as Inventory2, WarningOutlined as Warning, ShoppingCartOutlined as ShoppingCart,
+  ExpandMoreOutlined as ExpandMore, ExpandLessOutlined as ExpandLess, TrendingDownOutlined as TrendingDown, TrendingUpOutlined as TrendingUp,
 } from '@mui/icons-material';
 import { useNotification } from '../contexts/NotificationContext';
 import { useActiveSite } from '../contexts/ActiveSiteContext';

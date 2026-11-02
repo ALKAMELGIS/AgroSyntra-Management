@@ -5,7 +5,7 @@ import {
   CircularProgress, Grid, FormControl, InputLabel, Select, IconButton, Tooltip, Switch,
   FormControlLabel, Divider, Alert, Autocomplete, Checkbox,
 } from '@mui/material';
-import { Add, Delete, CheckCircle, Cancel, ContentCopy } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete, CheckCircleOutlined as CheckCircle, CancelOutlined as Cancel, ContentCopyOutlined as ContentCopy } from '@mui/icons-material';
 import api from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';

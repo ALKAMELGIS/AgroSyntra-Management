@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { TextField, MenuItem, ListSubheader, Box, Typography } from '@mui/material';
-import { ChevronRight, LocationOnOutlined } from '@mui/icons-material';
+import { ChevronRightOutlined as ChevronRight, LocationOnOutlined } from '@mui/icons-material';
 
 function findSiteWithZone(countries, siteId) {
   if (!siteId) return null;
@@ -63,7 +63,7 @@ export default function SiteZoneSelect({
       }}
       InputLabelProps={{ shrink: true }}
       sx={{
-        '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: 'action.hover' },
+        '& .MuiOutlinedInput-root': { borderRadius: 2.5, bgcolor: 'background.muted' },
         '& .MuiSelect-select': { py: 1, fontSize: '0.8125rem', fontWeight: 600 },
         ...sx,
       }}

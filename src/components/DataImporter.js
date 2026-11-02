@@ -23,7 +23,7 @@ import {
   Step,
   StepLabel,
 } from '@mui/material';
-import { CloudUpload as UploadIcon, Check as CheckIcon } from '@mui/icons-material';
+import { CloudUploadOutlined as UploadIcon, CheckOutlined as CheckIcon } from '@mui/icons-material';
 import * as XLSX from 'xlsx';
 import { apiRequest } from '../utils/api';
 import { useNotification } from '../contexts/NotificationContext';

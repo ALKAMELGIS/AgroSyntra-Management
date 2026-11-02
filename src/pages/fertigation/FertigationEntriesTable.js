@@ -23,10 +23,10 @@ import {
   CircularProgress,
 } from '@mui/material';
 import {
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  Save as SaveIcon,
-  Inbox as InboxIcon,
+  DeleteOutlined as DeleteIcon,
+  EditOutlined as EditIcon,
+  SaveOutlined as SaveIcon,
+  InboxOutlined as InboxIcon,
 } from '@mui/icons-material';
 import { listFertigationAll, listRecipesAll, deleteFertigation, updateFertigation } from '../../utils/backendApi';
 import { useNotification } from '../../contexts/NotificationContext';

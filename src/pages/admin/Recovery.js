@@ -3,7 +3,7 @@ import {
   Container, Paper, Typography, Box, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Button, CircularProgress, Chip,
 } from '@mui/material';
-import { Restore as RestoreIcon, Refresh as RefreshIcon } from '@mui/icons-material';
+import { RestoreOutlined as RestoreIcon, RefreshOutlined as RefreshIcon } from '@mui/icons-material';
 import { format } from 'date-fns';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNotification } from '../../contexts/NotificationContext';

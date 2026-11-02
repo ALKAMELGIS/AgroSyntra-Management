@@ -5,7 +5,7 @@ import {
   Table, TableHead, TableRow, TableCell, TableBody,
 } from '@mui/material';
 import {
-  ArrowBack, AccessTime, CheckCircle, Quiz, TrendingUp,
+  ArrowBackOutlined as ArrowBack, AccessTimeOutlined as AccessTime, CheckCircleOutlined as CheckCircle, QuizOutlined as Quiz, TrendingUpOutlined as TrendingUp,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 

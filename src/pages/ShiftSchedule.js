@@ -4,9 +4,9 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, Chip, IconButton, Avatar, Tooltip,
 } from '@mui/material';
 import {
-  Schedule as ScheduleIcon, Add as AddIcon, Delete as DeleteIcon,
-  ChevronLeft as PrevIcon, ChevronRight as NextIcon,
-  WbSunny as MorningIcon, WbTwilight as AfternoonIcon, NightsStay as NightIcon,
+  ScheduleOutlined as ScheduleIcon, AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
+  ChevronLeftOutlined as PrevIcon, ChevronRightOutlined as NextIcon,
+  WbSunnyOutlined as MorningIcon, WbTwilightOutlined as AfternoonIcon, NightsStayOutlined as NightIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { useNotification } from '../contexts/NotificationContext';

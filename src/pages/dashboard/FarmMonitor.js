@@ -5,10 +5,10 @@ import {
   Typography, Tooltip, IconButton, CircularProgress,
 } from '@mui/material';
 import {
-  BugReport as BugIcon,
-  Opacity as SprayIcon,
-  CloudQueue as CloudIcon,
-  Refresh as RefreshIcon,
+  BugReportOutlined as BugIcon,
+  OpacityOutlined as SprayIcon,
+  CloudQueueOutlined as CloudIcon,
+  RefreshOutlined as RefreshIcon,
 } from '@mui/icons-material';
 import FieldWeatherStrip from '../../components/dashboard/FieldWeatherStrip';
 import DashboardSection from '../../components/dashboard/DashboardSection';

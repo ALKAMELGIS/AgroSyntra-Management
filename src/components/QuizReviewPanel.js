@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
-import { CheckCircle, Cancel } from '@mui/icons-material';
+import { CheckCircleOutlined as CheckCircle, CancelOutlined as Cancel } from '@mui/icons-material';
 
 /**
  * Shared post-submit quiz review panel.

@@ -6,12 +6,12 @@ import {
   Select, MenuItem, FormControl, Collapse, IconButton,
 } from '@mui/material';
 import {
-  CloudUpload as UploadIcon,
-  CheckCircleOutline as OkIcon,
+  CloudUploadOutlined as UploadIcon,
+  CheckCircleOutlineOutlined as OkIcon,
   WarningAmberOutlined as WarnIcon,
-  ErrorOutline as ErrIcon,
-  ExpandMore as ExpandIcon,
-  ExpandLess as CollapseIcon,
+  ErrorOutlineOutlined as ErrIcon,
+  ExpandMoreOutlined as ExpandIcon,
+  ExpandLessOutlined as CollapseIcon,
 } from '@mui/icons-material';
 import * as XLSX from 'xlsx';
 import { bulkImportIrrigation } from '../utils/backendApi';

@@ -12,8 +12,15 @@ All features, routes, roles and data flows are unchanged. Visual / UX changes on
 
 ## New
 - Unified design system (`src/theme.js`, see `DESIGN_SYSTEM.md`).
-- Subtle background moon (`BackgroundMoon`), also on the auth screens.
 - Redesigned app shell: translucent blurred top bar, pill search, account menu, calmer sidebar with an active indicator, workspace tabs.
 - Redesigned Home / area hubs, dashboard section cards, KPI cards, Daily Brief sections, and Login.
 - Inter + IBM Plex Sans Arabic, loaded once with preconnect (removed the render-blocking CSS `@import`).
 - Respect for `prefers-reduced-motion`; visible keyboard focus rings; 44px menu items on phones.
+
+## Round 2
+- Removed the background moon completely (component, app shell, login and auth pages).
+- Icon family unified: 138 files switched to Material *Outlined* icons (semantic pairs such as star/checkbox left untouched).
+- Language switcher: inline English | العربية segmented control in the account menu (no emoji flags, clear label).
+- Tabs now scroll with arrows instead of being clipped on narrow screens (theme default).
+- Select fields with an empty option no longer overlap their label (Organization Settings).
+- Tasks board shows 3 columns from tablet width; sidebar site selector matches the season selector.

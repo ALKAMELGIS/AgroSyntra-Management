@@ -27,14 +27,14 @@ import {
   Tooltip,
 } from '@mui/material';
 import {
-  Add as AddIcon,
-  Assignment as TaskIcon,
-  Person as PersonIcon,
-  CalendarToday as CalendarIcon,
-  Flag as FlagIcon,
-  ArrowForward as MoveIcon,
-  Delete as DeleteIcon,
-  CheckCircleOutline as CheckIcon,
+  AddOutlined as AddIcon,
+  AssignmentOutlined as TaskIcon,
+  PersonOutlined as PersonIcon,
+  CalendarTodayOutlined as CalendarIcon,
+  FlagOutlined as FlagIcon,
+  ArrowForwardOutlined as MoveIcon,
+  DeleteOutlined as DeleteIcon,
+  CheckCircleOutlineOutlined as CheckIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { useNotification } from '../contexts/NotificationContext';
@@ -187,7 +187,7 @@ export default function Tasks() {
         {COLUMNS.map((col) => {
           const colTasks = tasks.filter((t) => t.status === col.id);
           return (
-            <Grid size={{ xs: 12, md: 4 }} key={col.id}>
+            <Grid size={{ xs: 12, sm: 4 }} key={col.id}>
               <Paper
                 sx={{
                   p: 2,

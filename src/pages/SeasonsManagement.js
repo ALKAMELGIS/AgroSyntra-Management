@@ -19,7 +19,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Add, Delete, Edit, FileDownload, PlayArrow } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit, FileDownloadOutlined as FileDownload, PlayArrow } from '@mui/icons-material';
 import { TableSkeleton } from '../components/LoadingSkeleton';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
 import { useAuth } from '../contexts/AuthContext';

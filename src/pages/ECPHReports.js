@@ -11,9 +11,9 @@ import {
   TextField,
   MenuItem,
 } from '@mui/material';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import TableChartIcon from '@mui/icons-material/TableChart';
-import AssessmentIcon from '@mui/icons-material/Assessment';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdfOutlined';
+import TableChartIcon from '@mui/icons-material/TableChartOutlined';
+import AssessmentIcon from '@mui/icons-material/AssessmentOutlined';
 import { loadMasterData } from '../utils/masterDataUtils';
 import { listEcphAll } from '../utils/backendApi';
 import { generateECPHReport, downloadPDF } from '../utils/pdfExport';

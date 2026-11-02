@@ -21,7 +21,6 @@ import CommandPalette from './components/CommandPalette';
 import NotificationCenter from './components/NotificationCenter';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sidebar from './components/Sidebar';
-import BackgroundMoon from './components/BackgroundMoon';
 import NavAreaTabs from './components/NavAreaTabs';
 import {
   drawerWidth,
@@ -339,7 +338,7 @@ function UserMenu() {
           {themeIcons[mode]}
           <Typography sx={{ ml: 2, fontSize: '0.875rem' }}>{themeLabels[mode]}</Typography>
         </MenuItem>
-        <Box sx={{ px: 2, py: 1 }}>
+        <Box sx={{ px: 2.5, py: 1.5 }}>
           <LanguageSwitcher />
         </Box>
         <Divider />
@@ -391,7 +390,6 @@ function AuthenticatedLayout() {
 
   return (
     <Box sx={{ display: 'flex', position: 'relative', minHeight: '100dvh' }}>
-      <BackgroundMoon />
       {/* AppBar */}
       <AppBar
         position="fixed"

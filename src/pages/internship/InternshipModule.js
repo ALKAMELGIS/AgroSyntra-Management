@@ -5,8 +5,8 @@ import {
   Chip, LinearProgress, Button, Tabs, Tab, Paper,
 } from '@mui/material';
 import {
-  ArrowBack, MenuBook, Quiz, SmartToy,
-  CheckCircleOutline, PlayCircleOutline,
+  ArrowBackOutlined as ArrowBack, MenuBookOutlined as MenuBook, QuizOutlined as Quiz, SmartToyOutlined as SmartToy,
+  CheckCircleOutlineOutlined as CheckCircleOutline, PlayCircleOutlineOutlined as PlayCircleOutline,
 } from '@mui/icons-material';
 import { useState } from 'react';
 import { apiRequest } from '../../utils/api';

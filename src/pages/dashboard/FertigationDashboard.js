@@ -4,7 +4,7 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   TableSortLabel, CircularProgress, IconButton,
 } from '@mui/material';
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { ChevronLeftOutlined as ChevronLeft, ChevronRightOutlined as ChevronRight } from '@mui/icons-material';
 import {
   LineChart, Line, BarChart, Bar, Area, PieChart, Pie, Cell,
   ComposedChart,

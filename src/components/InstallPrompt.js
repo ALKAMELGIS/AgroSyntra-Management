@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Snackbar, Alert, Button } from '@mui/material';
-import { InstallMobile } from '@mui/icons-material';
+import { InstallMobileOutlined as InstallMobile } from '@mui/icons-material';
 
 /**
  * Lightweight "Install this app" surface.

@@ -5,10 +5,10 @@ import {
   TableCell, TableBody, TableContainer, Alert, CircularProgress, Paper, Stack,
 } from '@mui/material';
 import {
-  Shield as PhiIcon, Agriculture as HarvestIcon,
-  BugReport as PestIcon, WbSunny as WeatherIcon,
-  NotificationsActive as AlertIcon, Assignment as WorkOrderIcon,
-  RateReview as ReviewIcon,
+  ShieldOutlined as PhiIcon, AgricultureOutlined as HarvestIcon,
+  BugReportOutlined as PestIcon, WbSunnyOutlined as WeatherIcon,
+  NotificationsActiveOutlined as AlertIcon, AssignmentOutlined as WorkOrderIcon,
+  RateReviewOutlined as ReviewIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { useActiveSite } from '../contexts/ActiveSiteContext';

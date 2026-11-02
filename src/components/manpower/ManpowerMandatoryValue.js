@@ -1,5 +1,5 @@
 import { Chip, Typography } from '@mui/material';
-import { ErrorOutline as ErrorIcon } from '@mui/icons-material';
+import { ErrorOutlineOutlined as ErrorIcon } from '@mui/icons-material';
 import { isMandatoryValueEmpty } from '../../utils/manpowerOptionalFields';
 
 export function mandatoryRequiredChip() {

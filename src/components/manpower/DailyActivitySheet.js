@@ -4,7 +4,7 @@ import {
   CircularProgress, Alert, IconButton, Tooltip, Chip,
   Card, CardContent, Divider, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText,
 } from '@mui/material';
-import { Delete, ContentCopy, Save, Add, Remove } from '@mui/icons-material';
+import { DeleteOutlined as Delete, ContentCopyOutlined as ContentCopy, SaveOutlined as Save, AddOutlined as Add, RemoveOutlined as Remove } from '@mui/icons-material';
 import {
   blockIsBlank,
   blockMeetsRequiredFields,

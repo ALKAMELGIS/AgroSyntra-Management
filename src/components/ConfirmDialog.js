@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
-import { Warning as WarningIcon } from '@mui/icons-material';
+import { WarningOutlined as WarningIcon } from '@mui/icons-material';
 
 /**
  * Reusable confirmation dialog to replace window.confirm()

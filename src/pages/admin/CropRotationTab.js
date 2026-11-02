@@ -5,7 +5,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Tooltip,
   FormControl, InputLabel, Select, CircularProgress, Stack, Tabs, Tab,
 } from '@mui/material';
-import { Add, Edit, Delete, FileDownload, FileUpload } from '@mui/icons-material';
+import { AddOutlined as Add, EditOutlined as Edit, DeleteOutlined as Delete, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload } from '@mui/icons-material';
 import * as XLSX from 'xlsx';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';

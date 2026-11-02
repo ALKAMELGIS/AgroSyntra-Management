@@ -6,8 +6,8 @@ import {
   Chip, Alert, Snackbar, Tooltip, FormControlLabel,
 } from '@mui/material';
 import {
-  Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon,
-  Science as ScienceIcon,
+  AddOutlined as AddIcon, DeleteOutlined as DeleteIcon, EditOutlined as EditIcon,
+  ScienceOutlined as ScienceIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { excelTableSx, GutterCell } from '../components/table/ExcelTable';
