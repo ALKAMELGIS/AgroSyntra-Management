@@ -28,7 +28,8 @@ import { useRowSelection } from '../../hooks/useRowSelection';
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../../utils/roleAccess';
 
-const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
+// Unified with the app font (theme FONT_SANS via CSS variable).
+const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
 const IRR_BORDER = '1px solid var(--sheet-border, #000)';
 const IRR_BLUE = 'var(--sheet-tint-blue, #DBEEF4)';
 const IRR_PEACH = 'var(--sheet-tint-peach, #FDEADA)';

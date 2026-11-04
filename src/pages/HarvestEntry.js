@@ -64,7 +64,8 @@ import { useRowSelection } from '../hooks/useRowSelection';
 
 const GRID_BORDER = '1px solid var(--sheet-border, #BDBDBD)';
 const HEADER_FILL = '#165c3a';
-const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
+// Unified with the app font (theme FONT_SANS via CSS variable).
+const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
 const HARVEST_DATE_WIDTH = 110;
 
 // Two-row header on Field / Open Field: names on row 1, the qty total on row 2.

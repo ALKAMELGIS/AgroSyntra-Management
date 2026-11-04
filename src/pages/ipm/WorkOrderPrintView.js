@@ -40,7 +40,7 @@ export default function WorkOrderPrintView() {
       </Box>
 
       <Box sx={{
-        maxWidth: 1100, mx: 'auto', p: 3, fontFamily: '"Arial", "Helvetica", sans-serif',
+        maxWidth: 1100, mx: 'auto', p: 3, fontFamily: 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)',
         '@media print': { p: 0, maxWidth: '100%' },
       }}>
         {/* ─── Header ─────────────────────────────────────────────── */}

@@ -473,7 +473,7 @@ export default function ApiKeys() {
       {newKey && (
         <Alert severity="success" sx={{ mb: 3 }} action={<IconButton onClick={copyKey} aria-label="Copy"><CopyIcon /></IconButton>}>
           <Typography variant="subtitle2">Your new API key (copy it now — it won't be shown again):</Typography>
-          <Typography variant="body2" sx={{ fontFamily: 'monospace', mt: 0.5, wordBreak: 'break-all' }}>{newKey}</Typography>
+          <Typography variant="body2" sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', mt: 0.5, wordBreak: 'break-all' }}>{newKey}</Typography>
         </Alert>
       )}
 

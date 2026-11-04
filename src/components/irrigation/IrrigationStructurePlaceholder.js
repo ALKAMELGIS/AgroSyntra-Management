@@ -1,6 +1,7 @@
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
+// Unified with the app font (theme FONT_SANS via CSS variable).
+const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
 
 export default function IrrigationStructurePlaceholder({
   structureLabel = '',

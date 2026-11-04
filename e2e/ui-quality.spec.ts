@@ -233,6 +233,29 @@ test.describe('populated data', () => {
   }
 });
 
+test.describe('typography', () => {
+  test.use({ viewport: { width: 1366, height: 860 } });
+  for (const route of ROUTES.filter((r) => !NEEDS_REAL_DATA.has(r))) {
+    test(`${route} uses only the app fonts`, async ({ page }) => {
+      await prepare(page, { rich: true });
+      await page.goto(route);
+      await settle(page);
+      const stray = await page.evaluate(() => {
+        const bad = new Set<string>();
+        document.querySelectorAll('body *').forEach((el) => {
+          if (el.closest('.leaflet-container, svg')) return;
+          const hasText = Array.from(el.childNodes).some((n) => n.nodeType === 3 && (n.textContent || '').trim());
+          if (!hasText || !(el as HTMLElement).offsetParent) return;
+          const first = getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '').trim();
+          if (!['Inter', 'IBM Plex Sans Arabic', 'JetBrains Mono'].includes(first)) bad.add(`${first} <${el.tagName.toLowerCase()}>`);
+        });
+        return Array.from(bad);
+      });
+      expect(stray, 'every visible text uses Inter (or JetBrains Mono for codes)').toEqual([]);
+    });
+  }
+});
+
 test.describe('add / create forms', () => {
   // [route, role] pairs whose primary "Add / New" action opens a dialog.
   const FORMS: [string, string][] = [

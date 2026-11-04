@@ -21,7 +21,8 @@ import PivotFertigationImporter from './PivotFertigationImporter';
 import { DeleteSelectedButton, RowSelectCell, SelectAllCheckbox, deleteIdsSequentially } from '../table/BulkSelect';
 import { useRowSelection } from '../../hooks/useRowSelection';
 
-const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
+// Unified with the app font (theme FONT_SANS via CSS variable).
+const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
 const BORDER = '1px solid var(--sheet-border, #000)';
 const HDR_BLUE = 'var(--sheet-tint-blue, #DBEEF4)';
 const HDR_PEACH = 'var(--sheet-tint-peach, #FDEADA)';

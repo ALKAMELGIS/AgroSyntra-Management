@@ -2027,7 +2027,7 @@ export default function BiologicalControlRecord() {
                                 onChange={e => setCatalogEditData(prev => ({ ...prev, itemCode: e.target.value }))}
                               />
                             ) : (
-                              <Typography variant="body2" sx={{ fontFamily: 'monospace', fontWeight: 500 }}>{p.item_code}</Typography>
+                              <Typography variant="body2" sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontWeight: 500 }}>{p.item_code}</Typography>
                             )}
                           </TableCell>
                           <TableCell>
@@ -2232,7 +2232,7 @@ export default function BiologicalControlRecord() {
                           </TableCell>
                           <TableCell sx={{ color: '#999', fontSize: '0.75rem' }}>{idx + 1}</TableCell>
                           <TableCell>
-                            <Typography variant="body2" sx={{ fontFamily: 'monospace', fontWeight: 500 }}>{p.item_code}</Typography>
+                            <Typography variant="body2" sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontWeight: 500 }}>{p.item_code}</Typography>
                           </TableCell>
                           <TableCell>{p.item_name}</TableCell>
                           <TableCell>{p.uom_name || '—'}</TableCell>

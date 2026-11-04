@@ -490,7 +490,7 @@ function LessonManager({ moduleId }) {
                       fullWidth multiline minRows={8} maxRows={20}
                       value={l.content || ''}
                       onChange={(e) => updateGeneratedLesson(i, 'content', e.target.value)}
-                      sx={{ mt: 2, '& .MuiInputBase-input': { fontFamily: 'monospace', fontSize: '0.85rem' } }}
+                      sx={{ mt: 2, '& .MuiInputBase-input': { fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.85rem' } }}
                       placeholder="HTML content..."
                     />
                   )}

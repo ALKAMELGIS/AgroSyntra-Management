@@ -28,7 +28,8 @@ import {
 import api from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
 
-const FONT = '"Calibri", "Segoe UI", Arial, sans-serif';
+// Unified with the app font (theme FONT_SANS via CSS variable).
+const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
 
 function formatDate(dateStr) {
   if (!dateStr) return '—';

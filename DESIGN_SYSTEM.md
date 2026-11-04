@@ -25,7 +25,7 @@ CSS variables: `--brand-green`, `--text-primary`, `--text-secondary`, `--bg-page
 Charts: `src/components/dashboard/dashboardChartTheme.js` → `CHART_COLORS` (calm, earthy, ordered for distinguishability).
 
 ## Typography
-Inter (Latin) + IBM Plex Sans Arabic (Arabic), loaded once in `public/index.html`.
+Inter (Latin) + IBM Plex Sans Arabic (Arabic), loaded once in `public/index.html`. **The only UI fonts** — use `var(--font-sans)` / `var(--font-mono)` (or the theme) for any inline `fontFamily`; never hard-code Calibri/Arial. Excel exports may keep Calibri.
 Headings 600 weight with negative tracking; numerals are tabular.
 
 | Variant | Desktop | Phone |

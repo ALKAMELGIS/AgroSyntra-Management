@@ -108,7 +108,7 @@ export default function PasteFromExcel({ open, onClose, onPaste }) {
           placeholder="Paste Excel data here..."
           value={text}
           onChange={(e) => { setText(e.target.value); setPreview(null); setError(''); }}
-          sx={{ fontFamily: 'monospace', '& textarea': { fontFamily: 'monospace', fontSize: '0.8rem' } }}
+          sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', '& textarea': { fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.8rem' } }}
         />
 
         {error && <Alert severity="error" sx={{ mt: 1 }}>{error}</Alert>}

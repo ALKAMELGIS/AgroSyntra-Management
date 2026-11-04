@@ -131,7 +131,7 @@ export default function OrganizationSettings() {
             {org && (
               <Box>
                 <Typography variant="body2" color="text.secondary" gutterBottom>Organization ID</Typography>
-                <Typography variant="body1" sx={{ fontFamily: 'monospace', mb: 2 }}>{org.id}</Typography>
+                <Typography variant="body1" sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', mb: 2 }}>{org.id}</Typography>
                 <Typography variant="body2" color="text.secondary" gutterBottom>Created</Typography>
                 <Typography variant="body1" sx={{ mb: 2 }}>
                   {org.created_at ? new Date(org.created_at).toLocaleDateString() : 'Unknown'}

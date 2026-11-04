@@ -5,7 +5,7 @@ import {
   WORKERS_COUNT_SUMMARY_METRICS,
 } from '../../utils/manpowerWorkHoursGrid';
 
-const CELL_FONT = '"Segoe UI", Calibri, Arial, sans-serif';
+const CELL_FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
 
 function HoursSummaryTable({ grid, maxHeight, onCellClick }) {
   return (

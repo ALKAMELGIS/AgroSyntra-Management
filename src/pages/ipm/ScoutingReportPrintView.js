@@ -236,7 +236,7 @@ export default function ScoutingReportPrintView() {
         }
 
         .print-root {
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          font-family: Inter, "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
           color: #000;
           background: #f5f5f5;
           padding: 16px;

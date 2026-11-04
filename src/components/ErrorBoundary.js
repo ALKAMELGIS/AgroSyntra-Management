@@ -72,7 +72,7 @@ class ErrorBoundary extends Component {
                 <Typography
                   variant="caption"
                   component="pre"
-                  sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: 'monospace', color: 'error.dark' }}
+                  sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: 'var(--font-mono, ui-monospace, monospace)', color: 'error.dark' }}
                 >
                   {this.state.error.toString()}
                   {this.state.errorInfo?.componentStack}

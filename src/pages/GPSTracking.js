@@ -302,7 +302,7 @@ export default function GPSTracking() {
               action={<IconButton size="small" onClick={copyIngest} aria-label="Copy"><CopyIcon fontSize="small" /></IconButton>}
             >
               <Typography variant="subtitle2">Send this tractor into the map</Typography>
-              <Typography variant="caption" display="block" sx={{ fontFamily: 'monospace', wordBreak: 'break-all' }}>
+              <Typography variant="caption" display="block" sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', wordBreak: 'break-all' }}>
                 POST {API_BASE}/gps/position
               </Typography>
               <Typography variant="caption" display="block">

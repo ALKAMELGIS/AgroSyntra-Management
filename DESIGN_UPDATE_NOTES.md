@@ -81,3 +81,10 @@ Fixed through it:
 - **Whole app shell in Arabic** (`src/i18n/shellLabels.js`): area tabs, sidebar sections and pages, hubs and greeting, breadcrumbs, phone bar, search, account menu, command palette (search works with Arabic or English names), roles.
 - **Login page translated** and gets an English/العربية switch before sign-in.
 - Gate: **475 Playwright tests, all passing** on the production build; 666 unit tests passing.
+
+## Round 10 — one font everywhere
+- Removed every other font from the UI: the Excel-style sheets (Harvest, Irrigation, fertigation/PPP pivots, manpower pivots, entry sheet styles) used Calibri/Segoe UI, work orders and print views used Arial/system fonts, and 17 code/ID fields used the browser's default monospace. All now use the app font (Inter + IBM Plex Sans Arabic) via `var(--font-sans)`, and codes use `var(--font-mono)` (JetBrains Mono).
+- Native buttons/inputs/selects inherit the page font.
+- Excel *exports* keep Calibri on purpose (the font Excel users expect in the file).
+- New gate test: **every visible text on every screen uses Inter / IBM Plex Sans Arabic / JetBrains Mono**.
+- Gate: **523 Playwright tests, all passing** on the production build; 666 unit tests passing.

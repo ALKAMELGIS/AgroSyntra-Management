@@ -95,7 +95,7 @@ export default function Webhooks() {
             {webhooks.map((wh) => (
               <>
                 <TableRow key={wh.id} hover onClick={() => toggleExpand(wh.id)} sx={{ cursor: 'pointer' }}>
-                  <TableCell><Typography variant="body2" sx={{ fontFamily: 'monospace' }}>{wh.url}</Typography></TableCell>
+                  <TableCell><Typography variant="body2" sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)' }}>{wh.url}</Typography></TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
                       {wh.events?.map((e) => <Chip key={e} label={e} size="small" variant="outlined" />)}

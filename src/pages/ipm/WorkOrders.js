@@ -609,7 +609,7 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
   const justification = isCreate ? form.justification : (wo?.justification || '');
 
   return (
-    <Box sx={{ fontFamily: '"Arial", sans-serif', minWidth: 1000 }}>
+    <Box sx={{ fontFamily: 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)', minWidth: 1000 }}>
       {/* ─── Header ─────────────────────────────────────────────── */}
       <Box sx={{ display: 'flex', border: B }}>
         <Box sx={{ flex: 1, p: '6px 10px', borderRight: B }}>

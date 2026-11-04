@@ -1182,7 +1182,7 @@ function FieldTypesNamesManagement() {
             if (!printWindow) return;
             const svg = document.querySelector('#qr-single-container svg');
             printWindow.document.write(`<html><head><title>QR - ${qrDialog.field?.name}</title>
-              <style>body{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;}
+              <style>body{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:Inter, 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;}
               h2{margin-top:16px;}</style></head><body>
               ${svg?.outerHTML || ''}<h2>${qrDialog.field?.name}</h2></body></html>`);
             printWindow.document.close();
@@ -1212,7 +1212,7 @@ function FieldTypesNamesManagement() {
             const printWindow = window.open('', '_blank');
             if (!printWindow) return;
             printWindow.document.write(`<html><head><title>QR Codes</title>
-              <style>body{font-family:sans-serif;} .qr-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;}
+              <style>body{font-family:Inter, 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;} .qr-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;}
               .qr-item{text-align:center;padding:12px;border:1px solid #ccc;border-radius:4px;page-break-inside:avoid;}
               h3{margin-top:8px;font-size:14px;}</style></head><body><div class="qr-grid">
               ${container.innerHTML}</div></body></html>`);

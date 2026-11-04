@@ -284,7 +284,7 @@ function AuditLog() {
                       />
                     </TableCell>
                     <TableCell>{row.entity || '-'}</TableCell>
-                    <TableCell sx={{ fontFamily: 'monospace', fontSize: '0.85rem' }}>
+                    <TableCell sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.85rem' }}>
                       {row.entityId ? String(row.entityId).slice(0, 8) + '…' : '-'}
                     </TableCell>
                     <TableCell sx={{ maxWidth: 200 }}>

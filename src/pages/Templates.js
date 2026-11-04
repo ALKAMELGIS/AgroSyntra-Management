@@ -282,7 +282,7 @@ function TemplatePreviewDialog({ template, open, onClose, onOpen, canEdit, onEdi
                           </Box>
                         )}
                         {col.type === 'calculated' && col.formula && (
-                          <Typography variant="caption" sx={{ fontFamily: 'monospace', color: 'text.secondary' }}>
+                          <Typography variant="caption" sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', color: 'text.secondary' }}>
                             {col.formula}
                           </Typography>
                         )}

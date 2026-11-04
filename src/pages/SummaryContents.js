@@ -490,7 +490,7 @@ export default function SummaryContents() {
                           value={item.path}
                           editable
                           placeholder="/path"
-                          sx={{ fontFamily: 'monospace', fontSize: '0.85rem' }}
+                          sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.85rem' }}
                           onChange={(v) =>
                             markDirty((d) => {
                               const contentsGroups = [...d.contentsGroups];

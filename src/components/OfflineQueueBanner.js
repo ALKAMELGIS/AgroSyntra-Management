@@ -223,7 +223,7 @@ export default function OfflineQueueBanner() {
                         <Chip size="small" label={e.method} />
                         <Typography
                           variant="body2"
-                          sx={{ fontFamily: 'monospace', fontSize: '0.8rem' }}
+                          sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.8rem' }}
                         >
                           {e.endpoint}
                         </Typography>

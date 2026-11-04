@@ -462,7 +462,7 @@ export default function PestCatalog() {
                     </TableCell>
                   )}
                   {isBioTab && (
-                    <TableCell sx={{ fontFamily: 'monospace' }}>{item.match_pattern || '—'}</TableCell>
+                    <TableCell sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)' }}>{item.match_pattern || '—'}</TableCell>
                   )}
                   {isBioTab && (
                     <TableCell className="col-numeric">{item.sort_order ?? 0}</TableCell>
