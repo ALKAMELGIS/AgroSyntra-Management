@@ -329,7 +329,7 @@ function HarvestDashboard() {
           <Grid size={{ xs: 12, sm: 4 }}>
             <Card
               variant="outlined"
-              sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid', borderLeftColor: 'primary.main' }}
+              sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', borderLeft: '3px solid', borderLeftColor: 'primary.main' }}
             >
               <CardContent>
                 <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 1 }}>
@@ -344,7 +344,7 @@ function HarvestDashboard() {
           <Grid size={{ xs: 12, sm: 4 }}>
             <Card
               variant="outlined"
-              sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid', borderLeftColor: 'success.main' }}
+              sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', borderLeft: '3px solid', borderLeftColor: 'success.main' }}
             >
               <CardContent>
                 <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 1 }}>
@@ -359,7 +359,7 @@ function HarvestDashboard() {
           <Grid size={{ xs: 12, sm: 4 }}>
             <Card
               variant="outlined"
-              sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid', borderLeftColor: 'warning.main' }}
+              sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', borderLeft: '3px solid', borderLeftColor: 'warning.main' }}
             >
               <CardContent>
                 <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 1 }}>
@@ -384,7 +384,7 @@ function HarvestDashboard() {
                 data={chartData}
                 margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
               >
-                <CartesianGrid stroke="#e2e8f0" />
+                <CartesianGrid stroke="#e3e7e2" />
                 <XAxis
                   dataKey="plantation"
                   angle={-45}

@@ -223,7 +223,7 @@ export function buildEcphExecutiveReport(entries, fieldInfoMap, dateFrom, dateTo
       title: 'Avg EC Out',
       value: current.avgEcOut != null ? current.avgEcOut.toFixed(2) : '—',
       delta: formatDelta(pctChange(current.avgEcOut, prevAgg.avgEcOut)),
-      color: current.avgEcOut != null && !ecInRange(current.avgEcOut) ? '#e65100' : '#16a34a',
+      color: current.avgEcOut != null && !ecInRange(current.avgEcOut) ? '#e65100' : '#1f7a4d',
     },
     {
       title: 'Avg pH Out',
@@ -240,7 +240,7 @@ export function buildEcphExecutiveReport(entries, fieldInfoMap, dateFrom, dateTo
       title: 'In Target Range',
       value: current.inRangePct != null ? `${current.inRangePct.toFixed(0)}%` : '—',
       subtitle: 'EC & pH readings',
-      color: current.inRangePct != null && current.inRangePct >= 80 ? '#16a34a' : '#f59e0b',
+      color: current.inRangePct != null && current.inRangePct >= 80 ? '#1f7a4d' : '#f59e0b',
     },
     {
       title: 'Total Water',

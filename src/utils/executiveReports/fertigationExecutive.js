@@ -228,7 +228,7 @@ export function buildFertigationExecutiveReport(entries, fieldInfoMap, dateFrom,
     {
       title: 'Field Coverage',
       value: allFieldCount > 0 ? `${current.fieldsActive}/${allFieldCount}` : String(current.fieldsActive),
-      color: current.fieldsActive >= allFieldCount * 0.8 ? '#16a34a' : '#e65100',
+      color: current.fieldsActive >= allFieldCount * 0.8 ? '#1f7a4d' : '#e65100',
     },
   ];
 

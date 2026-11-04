@@ -209,10 +209,10 @@ test.describe('Arabic / RTL and dark mode', () => {
 test.describe('populated data', () => {
   // Pages whose payload shape a generic fixture cannot satisfy.
   const SKIP = new Set([...NEEDS_REAL_DATA, '/audit/phi-audit-log']);
-  for (const theme of ['light', 'dark'] as const) {
+  for (const [theme, width] of [['light', 1366], ['dark', 1366], ['light', 390]] as const) {
     for (const route of ROUTES.filter((r) => !SKIP.has(r))) {
-      test(`${route} with data (${theme})`, async ({ page }) => {
-        await page.setViewportSize({ width: 1366, height: 860 });
+      test(`${route} with data (${theme}, ${width}px)`, async ({ page }) => {
+        await page.setViewportSize({ width, height: width < 600 ? 844 : 860 });
         const errors: string[] = [];
         page.on('pageerror', (e) => errors.push(e.message));
         await prepare(page, { theme, rich: true });
@@ -227,6 +227,46 @@ test.describe('populated data', () => {
         const blocking = axe.violations
           .filter((v) => v.impact === 'serious' || v.impact === 'critical')
           .map((v) => `${v.id} (${v.nodes.length}): ${v.nodes.slice(0, 3).map((n) => `${n.target.join(' ')} ${(n.failureSummary || '').split('\n')[1] || ''}`.slice(0, 200)).join(' | ')}`);
+        expect(blocking).toEqual([]);
+      });
+    }
+  }
+});
+
+test.describe('add / create forms', () => {
+  // [route, role] pairs whose primary "Add / New" action opens a dialog.
+  const FORMS: [string, string][] = [
+    ['/admin/crop-history', 'worker'], ['/gps-tracking', 'worker'], ['/inventory', 'worker'],
+    ['/ipm/pest-catalog', 'worker'], ['/ipm/product-catalog', 'worker'], ['/manage/recipes', 'worker'],
+    ['/shift-schedule', 'worker'], ['/tasks', 'worker'], ['/manage/farm-areas', 'operation_manager'],
+    ['/gis-map', 'operation_manager'],
+  ];
+  for (const width of [1366, 390]) {
+    for (const [route, role] of FORMS) {
+      if (route === '/gis-map' && width < 600) continue;
+      test(`${route} add form (${role}, ${width}px)`, async ({ page }) => {
+        await page.setViewportSize({ width, height: width < 600 ? 844 : 860 });
+        await page.addInitScript((r) => {
+          localStorage.setItem('almaha_user', JSON.stringify({ id: 'u1', name: 'QA', role: r, organizationId: 'o1' }));
+          localStorage.setItem('almaha_access_token', 'qa-token');
+          localStorage.setItem('i18nextLng', 'en');
+        }, role);
+        await page.route(/\/api\/v1\//, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: [] }) }));
+        await page.goto(route);
+        await settle(page);
+        // Shift schedule adds per day via an icon button; others use a labelled Add/New/Create button.
+        const trigger = route === '/shift-schedule'
+          ? page.getByRole('button', { name: 'Add' }).first()
+          : page.getByRole('button', { name: /^(\+\s*)?(add|new|create)\b/i }).first();
+        await trigger.click();
+        const dialog = page.getByRole('dialog').last();
+        await expect(dialog).toBeVisible();
+        const box = await dialog.boundingBox();
+        expect(box && box.x >= 0 && box.x + box.width <= width, 'dialog fits the screen').toBeTruthy();
+        const axe = await new AxeBuilder({ page }).include('[role="dialog"]')
+          .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+        const blocking = axe.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')
+          .map((v) => `${v.id} (${v.nodes.length}): ${v.nodes[0].html.slice(0, 120)}`);
         expect(blocking).toEqual([]);
       });
     }

@@ -9,19 +9,22 @@ import {
 } from '@mui/icons-material';
 import { formatPeriodLabel } from '../../utils/executiveReportUtils';
 
-function KpiCard({ title, value, subtitle, delta, color = '#16a34a' }) {
+function KpiCard({ title, value, subtitle, delta, color = '#1f7a4d' }) {
+  // Same anatomy as the dashboard KPI tiles: series colour as an accent dot,
+  // value in the text colour so it stays readable in light and dark mode.
   return (
-    <Card variant="outlined" sx={{ height: '100%', border: '1px solid #e2e8f0', borderLeft: `3px solid ${color}` }}>
-      <CardContent sx={{ py: 2 }}>
-        <Typography sx={{ fontSize: '0.6875rem', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'text.secondary', mb: 0.5 }}>
+    <Card variant="outlined" sx={{ height: '100%', boxShadow: 1 }}>
+      <CardContent sx={{ py: 3.5, px: 4, '&:last-child': { pb: 3.5 } }}>
+        <Typography sx={{ fontSize: '0.6875rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: 'text.secondary', mb: 1.5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: color, flexShrink: 0 }} />
           {title}
         </Typography>
-        <Typography variant="h5" sx={{ fontWeight: 700, color }}>{value}</Typography>
+        <Typography sx={{ fontSize: '1.5rem', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.2, color: 'text.primary', fontVariantNumeric: 'tabular-nums' }}>{value}</Typography>
         {subtitle && (
-          <Typography variant="caption" color="text.secondary" display="block">{subtitle}</Typography>
+          <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5 }}>{subtitle}</Typography>
         )}
         {delta && (
-          <Typography variant="caption" sx={{ color: delta.startsWith('+') ? '#16a34a' : delta.startsWith('-') ? '#c23b2b' : 'text.secondary', fontWeight: 600 }}>
+          <Typography variant="caption" sx={{ color: delta.startsWith('+') ? 'success.main' : delta.startsWith('-') ? 'error.main' : 'text.secondary', fontWeight: 600 }}>
             {delta}
           </Typography>
         )}
@@ -99,7 +102,7 @@ export default function ExecutiveReportPanel({
             ))}
           </Grid>
 
-          <Paper elevation={0} sx={{ p: 3, mb: 3, border: '1px solid #e2e8f0', borderRadius: 2 }}>
+          <Paper elevation={0} sx={{ p: 3, mb: 3, border: '1px solid', borderColor: 'divider', borderRadius: 4 }}>
             <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 700 }}>
               Interpretation
             </Typography>
@@ -127,7 +130,7 @@ export default function ExecutiveReportPanel({
           <Grid container spacing={2}>
             {report.topFive.map((section) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={section.title}>
-                <Paper elevation={0} sx={{ p: 2, height: '100%', border: '1px solid #e2e8f0', borderRadius: 2 }}>
+                <Paper elevation={0} sx={{ p: 2, height: '100%', border: '1px solid', borderColor: 'divider', borderRadius: 4 }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1.5 }}>
                     {section.title}
                   </Typography>

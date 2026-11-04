@@ -391,7 +391,7 @@ function RecipesManagement() {
                           type="number"
                           value={fert.kgPerLiter}
                           onChange={(e) => handleFertilizerChange(index, 'kgPerLiter', e.target.value)}
-                          inputProps={{ step: 0.00001 }}
+                          inputProps={{ step: 0.00001, 'aria-label': `${fert.name} kg per litre` }}
                           size="small"
                         />
                       </TableCell>
@@ -400,6 +400,7 @@ function RecipesManagement() {
                           type="number"
                           value={fert.dose}
                           onChange={(e) => handleFertilizerChange(index, 'dose', e.target.value)}
+                          inputProps={{ 'aria-label': `${fert.name} Dose` }}
                           size="small"
                         />
                       </TableCell>
@@ -408,6 +409,7 @@ function RecipesManagement() {
                           type="number"
                           value={fert.tankVolume}
                           onChange={(e) => handleFertilizerChange(index, 'tankVolume', e.target.value)}
+                          inputProps={{ 'aria-label': `${fert.name} Tank volume` }}
                           size="small"
                         />
                       </TableCell>
@@ -416,6 +418,7 @@ function RecipesManagement() {
                           type="number"
                           value={fert.quantityPer1000L}
                           onChange={(e) => handleFertilizerChange(index, 'quantityPer1000L', e.target.value)}
+                          inputProps={{ 'aria-label': `${fert.name} Quantity per 1000 L` }}
                           size="small"
                         />
                       </TableCell>
@@ -423,6 +426,7 @@ function RecipesManagement() {
                         <TextField
                           value={fert.elementPpm}
                           onChange={(e) => handleFertilizerChange(index, 'elementPpm', e.target.value)}
+                          inputProps={{ 'aria-label': `${fert.name} Element ppm` }}
                           placeholder="K:50, S:18"
                           size="small"
                           fullWidth

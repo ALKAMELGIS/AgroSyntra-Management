@@ -443,7 +443,7 @@ function FertigationDashboard() {
         {/* Summary Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-            <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid #1976d2' }}>
+            <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', borderLeft: '3px solid #1976d2' }}>
               <CardContent>
                 <Typography variant="overline" color="text.secondary">
                   Fertigation Water
@@ -458,7 +458,7 @@ function FertigationDashboard() {
             </Card>
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-            <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid #1f7a4d' }}>
+            <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', borderLeft: '3px solid #1f7a4d' }}>
               <CardContent>
                 <Typography variant="overline" color="text.secondary">
                   Total Fertilizer
@@ -470,7 +470,7 @@ function FertigationDashboard() {
             </Card>
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-            <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid #ed6c02' }}>
+            <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', borderLeft: '3px solid #ed6c02' }}>
               <CardContent>
                 <Typography variant="overline" color="text.secondary">
                   Average Daily Usage
@@ -482,7 +482,7 @@ function FertigationDashboard() {
             </Card>
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-            <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', borderLeft: '3px solid #0288d1' }}>
+            <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', borderLeft: '3px solid #0288d1' }}>
               <CardContent>
                 <Typography variant="overline" color="text.secondary">
                   Total Entries
@@ -496,7 +496,7 @@ function FertigationDashboard() {
         </Grid>
 
         {/* Filter Panel */}
-        <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', p: 3, mb: 3 }}>
+        <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', p: 3, mb: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
             <FilterList sx={{ mr: 1, color: 'text.secondary' }} />
             <Typography variant="h6">Filters</Typography>
@@ -615,14 +615,14 @@ function FertigationDashboard() {
 
         {/* View 1: Water Usage Over Time */}
         <TabPanel value={activeTab} index={0}>
-          <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', p: 3 }}>
+          <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Water Usage Over Time
             </Typography>
             {waterUsageData.length > 0 ? (
               <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={waterUsageData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-                  <CartesianGrid stroke="#e2e8f0" />
+                  <CartesianGrid stroke="#e3e7e2" />
                   <XAxis
                     dataKey="date"
                     angle={-45}
@@ -648,7 +648,7 @@ function FertigationDashboard() {
 
         {/* View 2: Fertilizer Composition Per Field */}
         <TabPanel value={activeTab} index={1}>
-          <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', p: 3 }}>
+          <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Fertilizer Composition by Field
             </Typography>
@@ -660,7 +660,7 @@ function FertigationDashboard() {
                       data={fertilizerCompositionData}
                       margin={{ top: 20, right: 30, left: 20, bottom: 100 }}
                     >
-                      <CartesianGrid stroke="#e2e8f0" />
+                      <CartesianGrid stroke="#e3e7e2" />
                       <XAxis
                         dataKey="field"
                         angle={-45}
@@ -702,7 +702,7 @@ function FertigationDashboard() {
 
         {/* View 3: Cumulative Fertilizer Usage */}
         <TabPanel value={activeTab} index={2}>
-          <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', p: 3 }}>
+          <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Cumulative Fertilizer Usage
             </Typography>
@@ -710,7 +710,7 @@ function FertigationDashboard() {
               <>
                 <ResponsiveContainer width="100%" height={400}>
                   <AreaChart data={cumulativeData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                    <CartesianGrid stroke="#e2e8f0" />
+                    <CartesianGrid stroke="#e3e7e2" />
                     <XAxis dataKey="date" />
                     <YAxis
                       label={{ value: 'Cumulative (kg)', angle: -90, position: 'insideLeft' }}
@@ -777,7 +777,7 @@ function FertigationDashboard() {
 
         {/* View 4: Data Table */}
         <TabPanel value={activeTab} index={3}>
-          <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid #e2e8f0', p: 3 }}>
+          <Card variant="outlined" sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Fertigation Entries
             </Typography>

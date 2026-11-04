@@ -169,7 +169,7 @@ export function buildHarvestExecutiveReport(entries, fieldInfoMap, dateFrom, dat
       title: 'Total Harvest',
       value: `${current.totalKg.toLocaleString(undefined, { maximumFractionDigits: 0 })} kg`,
       delta: formatDelta(pctChange(current.totalKg, prevAgg.totalKg)),
-      color: '#16a34a',
+      color: '#1f7a4d',
     },
     {
       title: 'Harvest Days',
@@ -191,7 +191,7 @@ export function buildHarvestExecutiveReport(entries, fieldInfoMap, dateFrom, dat
       title: 'Grade A Share',
       value: current.gradeAPct != null ? `${current.gradeAPct.toFixed(0)}%` : '—',
       subtitle: 'of graded volume',
-      color: current.gradeAPct != null && current.gradeAPct >= 70 ? '#16a34a' : '#f59e0b',
+      color: current.gradeAPct != null && current.gradeAPct >= 70 ? '#1f7a4d' : '#f59e0b',
     },
     {
       title: 'Varieties',
