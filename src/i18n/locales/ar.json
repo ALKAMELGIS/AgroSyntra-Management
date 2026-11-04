@@ -42,7 +42,13 @@
     "farm_manager": "مدير المزرعة",
     "operation_manager": "مدير العمليات",
     "agronomist": "مهندس زراعي",
-    "worker": "عامل"
+    "worker": "عامل",
+    "pest_agronomist": "مهندس وقاية النبات",
+    "scouter": "كاشف ميداني",
+    "operator": "مشغّل",
+    "auditor": "مدقق",
+    "intern_student": "متدرب",
+    "intern_teacher": "مشرف التدريب"
   },
   "nav": {
     "dashboard": "لوحة التحكم",

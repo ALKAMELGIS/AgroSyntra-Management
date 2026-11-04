@@ -77,6 +77,7 @@ import { useNotification } from '../contexts/NotificationContext';
 import { canManageSeasons } from '../utils/roleAccess';
 import { apiRequest } from '../utils/api';
 import { isSeasonLocked, farmTodayYmd, toSeasonYmd } from '../utils/seasonListDates';
+import { useShellLabel } from '../i18n/shellLabels';
 
 const PATH_ICONS = {
   '/': HomeIcon,
@@ -150,6 +151,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
   const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const L = useShellLabel();
   const { user } = useAuth();
   const notify = useNotification();
   const { logoUrl, refresh: refreshLogo } = useOrganizationLogo();
@@ -310,10 +312,10 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
         </Tooltip>
         <Box>
           <Typography sx={{ fontWeight: 600, fontSize: '0.9375rem', color: 'text.primary', letterSpacing: '-0.015em', lineHeight: 1.2 }}>
-            Al Maha Farm
+            {L('Al Maha Farm')}
           </Typography>
           <Typography sx={{ fontSize: '0.71875rem', color: 'text.secondary', lineHeight: 1.35 }}>
-            Elite Agro Cloud
+            {L('Elite Agro Cloud')}
           </Typography>
         </Box>
       </Box>
@@ -474,7 +476,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
                   color: hasActive ? 'text.primary' : 'text.secondary',
                 }}
               >
-                {section.label}
+                {L(section.label)}
               </Typography>
               <List disablePadding>
                 {section.items.map((item) => {
@@ -483,7 +485,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
                   return (
                     <SidebarItem
                       key={item.path}
-                      item={{ ...item, icon: <ItemIcon /> }}
+                      item={{ ...item, text: L(item.text), icon: <ItemIcon /> }}
                       active={isActive(item.path)}
                       onNavigate={handleNavigation}
                       badgeCount={badge?.count ?? 0}

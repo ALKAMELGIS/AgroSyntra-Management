@@ -5,6 +5,7 @@ import { ChevronRightRounded as SepIcon, HomeOutlined as HomeIcon } from '@mui/i
 import { findPageMeta } from '../config/pageMeta';
 import { getHubPathForArea } from '../config/navAreas';
 import { recordRecentPage } from '../utils/recentPages';
+import { useShellLabel } from '../i18n/shellLabels';
 
 /**
  * Quiet "where am I" trail shown above every page: Home › Area › Section.
@@ -13,6 +14,7 @@ import { recordRecentPage } from '../utils/recentPages';
 export default function PageContextBar() {
   const { pathname } = useLocation();
   const meta = findPageMeta(pathname);
+  const L = useShellLabel();
 
   useEffect(() => {
     if (meta?.exact) recordRecentPage({ path: meta.path, title: meta.title });
@@ -54,7 +56,7 @@ export default function PageContextBar() {
         <>
           {sep}
           <Link component={RouterLink} to={getHubPathForArea(meta.areaId)} underline="none" sx={crumbSx}>
-            {meta.areaLabel}
+            {L(meta.areaLabel)}
           </Link>
         </>
       )}
@@ -62,7 +64,7 @@ export default function PageContextBar() {
         <Box component="span" sx={{ display: { xs: 'none', sm: 'inline-flex' }, alignItems: 'center' }}>
           {sep}
           <Typography component="span" sx={{ ...crumbSx, '&:hover': {} }}>
-            {meta.section}
+            {L(meta.section)}
           </Typography>
         </Box>
       )}
@@ -73,7 +75,7 @@ export default function PageContextBar() {
         noWrap
         sx={{ fontSize: '0.8125rem', fontWeight: 600, color: 'text.primary', minWidth: 0 }}
       >
-        {meta.title}
+        {L(meta.title)}
       </Typography>
     </Box>
   );

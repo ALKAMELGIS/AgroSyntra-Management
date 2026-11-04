@@ -70,3 +70,14 @@ Fixed through it:
 - Notifications list fixed to valid list markup; timestamps readable on unread rows.
 - Amber status chips (Draft, Warning %) and filled alerts darkened to meet 4.5:1; GIS "fields lost polygon" banner's Review button now visible and the banner no longer covers the zoom control.
 - Executive report ranking badges follow dark mode.
+
+## Round 8 — phone data checks and add/create forms
+- Every screen checked with populated data on phone (390 px) too; executive-report KPI cards rebuilt (accent dot, readable value in both modes, theme borders) and old light borders (`#e2e8f0`) replaced across dashboards.
+- New gate: the main **Add / New / Create** forms (crop rotation, equipment, inventory, pest, product, recipe, shift, task, crop, GIS layer) open, fit the screen on phone and desktop, and pass accessibility checks.
+- Product-catalog and other dialogs: 3–4 fields per row on phones → one or two per row (`size={{ xs: 12, sm: 4 }}`).
+- Recipe fertiliser grid inputs (64) now have names.
+
+## Round 9 — Arabic for staff
+- **Whole app shell in Arabic** (`src/i18n/shellLabels.js`): area tabs, sidebar sections and pages, hubs and greeting, breadcrumbs, phone bar, search, account menu, command palette (search works with Arabic or English names), roles.
+- **Login page translated** and gets an English/العربية switch before sign-in.
+- Gate: **475 Playwright tests, all passing** on the production build; 666 unit tests passing.

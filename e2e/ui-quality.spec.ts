@@ -323,6 +323,26 @@ test.describe('core usability', () => {
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   });
 
+  test('login offers Arabic and switches the whole page to RTL', async ({ page }) => {
+    await prepare(page, { auth: false });
+    await page.goto('/login');
+    await settle(page);
+    await page.getByRole('button', { name: 'العربية' }).click();
+    await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+    await expect(page.getByRole('button', { name: 'تسجيل الدخول' })).toBeVisible();
+    await expect(page.getByLabel('البريد الإلكتروني')).toBeVisible();
+  });
+
+  test('app shell navigation is translated in Arabic', async ({ page }) => {
+    await prepare(page, { lang: 'ar' });
+    await page.goto('/ipm/scouting-reports');
+    await settle(page);
+    const crumbs = page.getByRole('navigation', { name: 'Breadcrumb' });
+    await expect(crumbs.getByText('تقارير الكشف')).toBeVisible();
+    const bar = page.getByRole('navigation', { name: 'Quick navigation' });
+    await expect(bar.getByText('الرئيسية')).toBeVisible();
+  });
+
   test('keyboard focus is visible on the first control', async ({ page }) => {
     await prepare(page, { auth: false });
     await page.goto('/login');

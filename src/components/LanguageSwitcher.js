@@ -24,7 +24,7 @@ export default function LanguageSwitcher() {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
       <LanguageIcon sx={{ fontSize: 18, color: 'text.secondary', flexShrink: 0 }} />
-      <Typography sx={{ fontSize: '0.875rem', flexGrow: 1 }}>Language</Typography>
+      <Typography sx={{ fontSize: '0.875rem', flexGrow: 1 }}>{(i18n.language || '').startsWith('ar') ? 'اللغة' : 'Language'}</Typography>
       <ToggleButtonGroup
         size="small"
         exclusive

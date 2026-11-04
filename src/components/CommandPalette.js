@@ -34,6 +34,7 @@ import {
   GroupOutlined as UsersIcon,
   HistoryOutlined as HistoryIcon,
 } from '@mui/icons-material';
+import { useShellLabel, useIsArabic } from '../i18n/shellLabels';
 
 const ALL_COMMANDS = [
   { label: 'Home', path: '/', icon: <HomeIcon />, keywords: 'home landing welcome' },
@@ -81,6 +82,8 @@ function fuzzyMatch(text, query) {
 export default function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const L = useShellLabel();
+  const isAr = useIsArabic();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
   const inputRef = useRef(null);
@@ -103,9 +106,9 @@ export default function CommandPalette() {
   const filtered = useMemo(() => {
     if (!query.trim()) return ALL_COMMANDS;
     return ALL_COMMANDS.filter(
-      (cmd) => fuzzyMatch(cmd.label, query) || fuzzyMatch(cmd.keywords, query)
+      (cmd) => fuzzyMatch(cmd.label, query) || fuzzyMatch(L(cmd.label), query) || fuzzyMatch(cmd.keywords, query)
     );
-  }, [query]);
+  }, [query, L]);
 
   useEffect(() => {
     setSelectedIndex(0);
@@ -158,7 +161,7 @@ export default function CommandPalette() {
           inputRef={inputRef}
           autoFocus
           fullWidth
-          placeholder="Search pages... (Ctrl+K)"
+          placeholder={isAr ? 'ابحث في الصفحات… (Ctrl+K)' : 'Search pages... (Ctrl+K)'}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -199,7 +202,7 @@ export default function CommandPalette() {
               >
                 <ListItemIcon sx={{ minWidth: 36 }}>{cmd.icon}</ListItemIcon>
                 <ListItemText
-                  primary={cmd.label}
+                  primary={L(cmd.label)}
                   primaryTypographyProps={{ fontWeight: idx === selectedIndex ? 600 : 400 }}
                 />
                 <Typography variant="caption" color="text.secondary">

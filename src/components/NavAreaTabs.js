@@ -1,7 +1,9 @@
 import { Tabs, Tab, Box } from '@mui/material';
 import { NAV_AREAS } from '../config/navAreas';
+import { useShellLabel } from '../i18n/shellLabels';
 
 export default function NavAreaTabs({ value, onChange, visibleAreaIds }) {
+  const L = useShellLabel();
   const tabs = NAV_AREAS.filter((a) => visibleAreaIds.includes(a.id));
 
   if (tabs.length <= 1) return null;
@@ -34,7 +36,7 @@ export default function NavAreaTabs({ value, onChange, visibleAreaIds }) {
         }}
       >
         {tabs.map((area) => (
-          <Tab key={area.id} value={area.id} label={area.label} />
+          <Tab key={area.id} value={area.id} label={L(area.label)} />
         ))}
       </Tabs>
     </Box>

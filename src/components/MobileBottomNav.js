@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import { getHubPathForArea } from '../config/navAreas';
 import { MOBILE_NAV_HEIGHT } from '../hooks/useAppLayout';
+import { useShellLabel } from '../i18n/shellLabels';
 
 export { MOBILE_NAV_HEIGHT };
 
@@ -21,6 +22,7 @@ export { MOBILE_NAV_HEIGHT };
 export default function MobileBottomNav({ activeNavArea, onOpenMenu }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const L = useShellLabel();
   const hubPath = activeNavArea ? getHubPathForArea(activeNavArea) : null;
 
   // Lets App.css lift snackbars and other bottom-pinned UI above this bar.
@@ -34,13 +36,13 @@ export default function MobileBottomNav({ activeNavArea, onOpenMenu }) {
   };
 
   const items = [
-    { key: 'home', label: 'Home', icon: HomeIcon, active: pathname === '/', onClick: () => navigate('/') },
+    { key: 'home', label: L('Home'), icon: HomeIcon, active: pathname === '/', onClick: () => navigate('/') },
     ...(hubPath
-      ? [{ key: 'area', label: 'Modules', icon: AreaIcon, active: pathname.startsWith('/hub/'), onClick: () => navigate(hubPath) }]
+      ? [{ key: 'area', label: L('Modules'), icon: AreaIcon, active: pathname.startsWith('/hub/'), onClick: () => navigate(hubPath) }]
       : []),
-    { key: 'search', label: 'Search', icon: SearchIcon, active: false, onClick: openSearch },
-    { key: 'alerts', label: 'Alerts', icon: BellIcon, active: pathname.startsWith('/notifications'), onClick: () => navigate('/notifications') },
-    { key: 'menu', label: 'Menu', icon: MenuIcon, active: false, onClick: onOpenMenu },
+    { key: 'search', label: L('Search'), icon: SearchIcon, active: false, onClick: openSearch },
+    { key: 'alerts', label: L('Alerts'), icon: BellIcon, active: pathname.startsWith('/notifications'), onClick: () => navigate('/notifications') },
+    { key: 'menu', label: L('Menu'), icon: MenuIcon, active: false, onClick: onOpenMenu },
   ];
 
   return (

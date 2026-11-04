@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from
 import { AppBar, Toolbar, Typography, IconButton, Box, useTheme, useMediaQuery, Menu, MenuItem, Avatar, Divider, CircularProgress, Tooltip, Alert } from '@mui/material';
 import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { MenuOutlined as MenuIcon, LogoutOutlined as LogoutIcon, DarkModeOutlined as DarkModeIcon, LightModeOutlined as LightModeIcon, SettingsBrightnessOutlined as SystemModeIcon, SearchOutlined as SearchIcon } from '@mui/icons-material';
-import './i18n';
+import i18n from './i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AppThemeProvider, useThemeMode } from './contexts/ThemeContext';
@@ -37,6 +37,7 @@ import {
   MANPOWER_COST_VIEW_ROLES,
 } from './utils/roleAccess';
 import './App.css';
+import { useShellLabel, useIsArabic } from './i18n/shellLabels';
 
 // Lazy-loaded page components (code splitting)
 const Home = lazy(() => import('./pages/Home'));
@@ -170,6 +171,7 @@ const INTERN_TEACHER = ['ceo', 'farm_manager', 'operation_manager', 'intern_teac
 const FIELD_STAFF_MANAGERS = FIELD_STAFF_MANAGER_ROLES;
 
 function SearchBar() {
+  const L = useShellLabel();
   const theme = useTheme();
   const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
   const openCommandPalette = () => {
@@ -216,7 +218,7 @@ function SearchBar() {
     >
       <SearchIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
       <Typography component="span" sx={{ fontSize: '0.875rem', color: 'text.secondary', flexGrow: 1, userSelect: 'none' }} noWrap>
-        Search data…
+        {L('Search data…')}
       </Typography>
       <Box
         component="kbd"
@@ -247,7 +249,9 @@ function UserMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const themeIcons = { light: <LightModeIcon sx={{ fontSize: 18 }} />, dark: <DarkModeIcon sx={{ fontSize: 18 }} />, system: <SystemModeIcon sx={{ fontSize: 18 }} /> };
-  const themeLabels = { light: 'Light Mode', dark: 'Dark Mode', system: 'System Theme' };
+  const L = useShellLabel();
+  const isAr = useIsArabic();
+  const themeLabels = { light: L('Light Mode'), dark: L('Dark Mode'), system: L('System Theme') };
 
   const handleMenu = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -316,7 +320,7 @@ function UserMenu() {
             {user.name || 'User'}
           </Typography>
           <Typography sx={{ fontSize: '0.6875rem', color: 'text.secondary', lineHeight: 1.3 }} noWrap>
-            {roleLabels[user.role] || user.role || 'Worker'}
+            {(isAr && i18n.exists(`roles.${user.role}`)) ? i18n.t(`roles.${user.role}`) : (roleLabels[user.role] || user.role || 'Worker')}
           </Typography>
         </Box>
       </Box>
@@ -343,7 +347,7 @@ function UserMenu() {
         <Divider />
         <MenuItem onClick={handleLogout}>
           <LogoutIcon sx={{ fontSize: 18 }} />
-          <Typography sx={{ ml: 2, fontSize: '0.875rem' }}>Sign out</Typography>
+          <Typography sx={{ ml: 2, fontSize: '0.875rem' }}>{L('Sign out')}</Typography>
         </MenuItem>
       </Menu>
     </>

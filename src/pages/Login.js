@@ -14,7 +14,8 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { SpaOutlined as EcoIcon } from '@mui/icons-material';
+import { SpaOutlined as EcoIcon, LanguageOutlined as LanguageIcon } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { getFriendlyError } from '../utils/errorMessages';
 import { API_BASE as API_URL } from '../config/api';
@@ -28,6 +29,45 @@ const MicrosoftIcon = () => (
     <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
   </svg>
 );
+
+const LOGIN_AR = {
+  "Record daily worker activities for your team.": "سجّل الأنشطة اليومية لفريقك.",
+  "Scouters and operators sign in with Employee ID + PIN.": "يدخل الكشّافون والمشغّلون برقم الموظف والرمز السري.",
+  "Manage your farm operations, from field to forecast.": "أدِر عمليات مزرعتك، من الحقل إلى التوقعات.",
+  "Workers": "العمال",
+  "Activities": "الأنشطة",
+  "Submit": "الإرسال",
+  "Scouting": "الكشف",
+  "IPM": "المكافحة المتكاملة",
+  "Field work": "العمل الميداني",
+  "Data Entry": "إدخال البيانات",
+  "Analytics": "التحليلات",
+  "Reports": "التقارير",
+  "Elite Agro Cloud": "إيليت أجرو كلاود",
+  "Every field,": "كل حقل،",
+  "calmly in view.": "بهدوء أمام عينيك.",
+  "Staff login": "دخول الموظفين",
+  "Field staff": "العاملون الميدانيون",
+  "Team leader": "قائد الفريق",
+  "Team leader sign in": "دخول قائد الفريق",
+  "Field staff sign in": "دخول العاملين الميدانيين",
+  "Welcome back": "أهلاً بعودتك",
+  "Enter your Employee ID and PIN to open the Daily Activity Sheet": "أدخل رقم الموظف والرمز السري لفتح ورقة النشاط اليومي",
+  "Scouters and operators: Employee ID + PIN for the main app": "الكشّافون والمشغّلون: رقم الموظف والرمز السري للدخول إلى التطبيق",
+  "Sign in to your account to continue": "سجّل الدخول إلى حسابك للمتابعة",
+  "Employee ID": "رقم الموظف",
+  "PIN": "الرمز السري",
+  "Open Daily Activity Sheet": "فتح ورقة النشاط اليومي",
+  "Sign In": "تسجيل الدخول",
+  "Sign in with Microsoft": "الدخول باستخدام Microsoft",
+  "or": "أو",
+  "Email": "البريد الإلكتروني",
+  "Password": "كلمة المرور",
+  "Forgot password?": "نسيت كلمة المرور؟",
+  "Don't have an account?": "ليس لديك حساب؟",
+  "Sign up": "إنشاء حساب",
+  "Sign-in type": "نوع الدخول"
+};
 
 function Login() {
   const [searchParams] = useSearchParams();
@@ -51,6 +91,15 @@ function Login() {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isTeamLeaderMode = loginMode === 'team-leader';
   const isFieldStaffMode = loginMode === 'field-staff';
+  const { i18n } = useTranslation();
+  const isAr = (i18n.language || '').startsWith('ar');
+  const tr = (en) => (isAr && LOGIN_AR[en]) || en;
+  const switchLanguage = () => {
+    const code = isAr ? 'en' : 'ar';
+    i18n.changeLanguage(code);
+    document.documentElement.dir = code === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = code;
+  };
 
   useEffect(() => {
     const mode = searchParams.get('mode');
@@ -144,15 +193,15 @@ function Login() {
   };
 
   const panelCopy = isTeamLeaderMode
-    ? 'Record daily worker activities for your team.'
+    ? tr('Record daily worker activities for your team.')
     : isFieldStaffMode
-      ? 'Scouters and operators sign in with Employee ID + PIN.'
-      : 'Manage your farm operations, from field to forecast.';
+      ? tr('Scouters and operators sign in with Employee ID + PIN.')
+      : tr('Manage your farm operations, from field to forecast.');
   const panelTags = isTeamLeaderMode
-    ? ['Workers', 'Activities', 'Submit']
+    ? ['Workers', 'Activities', 'Submit'].map(tr)
     : isFieldStaffMode
-      ? ['Scouting', 'IPM', 'Field work']
-      : ['Data Entry', 'Analytics', 'Reports'];
+      ? ['Scouting', 'IPM', 'Field work'].map(tr)
+      : ['Data Entry', 'Analytics', 'Reports'].map(tr);
 
   return (
     <Box sx={{ minHeight: '100dvh', display: 'flex', bgcolor: 'background.default' }}>
@@ -206,7 +255,7 @@ function Login() {
               <EcoIcon sx={{ fontSize: 22, color: '#fff' }} />
             </Box>
             <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#fff', letterSpacing: '-0.01em' }}>
-              Elite Agro Cloud
+              {tr('Elite Agro Cloud')}
             </Typography>
           </Box>
 
@@ -215,7 +264,7 @@ function Login() {
               component="h2"
               sx={{ fontSize: { md: '2.25rem', lg: '2.875rem' }, fontWeight: 600, color: '#fff', lineHeight: 1.08, letterSpacing: '-0.035em', mb: 4 }}
             >
-              Every field,<br />calmly in view.
+              {tr('Every field,')}<br />{tr('calmly in view.')}
             </Typography>
             <Typography sx={{ fontSize: '1.0625rem', color: 'rgba(255,255,255,0.74)', lineHeight: 1.6, mb: 6 }}>
               {panelCopy}
@@ -257,6 +306,15 @@ function Login() {
           py: { xs: 10, sm: 12 },
         }}
       >
+        <Button
+          onClick={switchLanguage}
+          size="small"
+          startIcon={<LanguageIcon sx={{ fontSize: 18 }} />}
+          lang={isAr ? 'en' : 'ar'}
+          sx={{ position: 'absolute', top: 16, insetInlineEnd: 16, zIndex: 2 }}
+        >
+          {isAr ? 'English' : 'العربية'}
+        </Button>
         <Box sx={{ maxWidth: 400, width: '100%', position: 'relative', zIndex: 1 }}>
           {isMobile && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 10 }}>
@@ -273,7 +331,7 @@ function Login() {
                 <EcoIcon sx={{ fontSize: 20, color: '#fff' }} />
               </Box>
               <Typography sx={{ fontWeight: 600, fontSize: '1.0625rem', color: 'text.primary', letterSpacing: '-0.01em' }}>
-                Elite Agro Cloud
+                {tr('Elite Agro Cloud')}
               </Typography>
             </Box>
           )}
@@ -285,28 +343,28 @@ function Login() {
             fullWidth
             size="small"
             sx={{ mb: 8 }}
-            aria-label="Sign-in type"
+            aria-label={tr('Sign-in type')}
           >
             <ToggleButton value="staff" sx={{ textTransform: 'none', flex: 1 }}>
-              Staff login
+              {tr('Staff login')}
             </ToggleButton>
             <ToggleButton value="field-staff" sx={{ textTransform: 'none', flex: 1 }}>
-              Field staff
+              {tr('Field staff')}
             </ToggleButton>
             <ToggleButton value="team-leader" sx={{ textTransform: 'none', flex: 1 }}>
-              Team leader
+              {tr('Team leader')}
             </ToggleButton>
           </ToggleButtonGroup>
 
           <Typography component="h1" sx={{ fontWeight: 600, fontSize: { xs: '1.75rem', sm: '2rem' }, letterSpacing: '-0.03em', lineHeight: 1.15, color: 'text.primary', mb: 2 }}>
-            {isTeamLeaderMode ? 'Team leader sign in' : isFieldStaffMode ? 'Field staff sign in' : 'Welcome back'}
+            {tr(isTeamLeaderMode ? 'Team leader sign in' : isFieldStaffMode ? 'Field staff sign in' : 'Welcome back')}
           </Typography>
           <Typography sx={{ fontSize: '0.9375rem', color: 'text.secondary', mb: 7 }}>
             {isTeamLeaderMode
-              ? 'Enter your Employee ID and PIN to open the Daily Activity Sheet'
+              ? tr('Enter your Employee ID and PIN to open the Daily Activity Sheet')
               : isFieldStaffMode
-                ? 'Scouters and operators: Employee ID + PIN for the main app'
-                : 'Sign in to your account to continue'}
+                ? tr('Scouters and operators: Employee ID + PIN for the main app')
+                : tr('Sign in to your account to continue')}
           </Typography>
 
           {error && (
@@ -319,7 +377,7 @@ function Login() {
             <form onSubmit={handleTeamLeaderSubmit}>
               <TextField
                 fullWidth
-                label="Employee ID"
+                label={tr('Employee ID')}
                 value={employeeId}
                 onChange={(e) => setEmployeeId(e.target.value)}
                 required
@@ -329,7 +387,7 @@ function Login() {
               />
               <TextField
                 fullWidth
-                label="PIN"
+                label={tr('PIN')}
                 type="password"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
@@ -346,14 +404,14 @@ function Login() {
                 disabled={loading || !employeeId || !pin}
                 sx={{ py: 2.5 }}
               >
-                {loading ? <CircularProgress size={22} color="inherit" /> : 'Open Daily Activity Sheet'}
+                {loading ? <CircularProgress size={22} color="inherit" /> : tr('Open Daily Activity Sheet')}
               </Button>
             </form>
           ) : isFieldStaffMode ? (
             <form onSubmit={handleFieldStaffSubmit}>
               <TextField
                 fullWidth
-                label="Employee ID"
+                label={tr('Employee ID')}
                 value={employeeId}
                 onChange={(e) => setEmployeeId(e.target.value)}
                 required
@@ -362,7 +420,7 @@ function Login() {
               />
               <TextField
                 fullWidth
-                label="PIN"
+                label={tr('PIN')}
                 type="password"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
@@ -378,7 +436,7 @@ function Login() {
                 disabled={loading || !employeeId || !pin}
                 sx={{ py: 2.5 }}
               >
-                {loading ? <CircularProgress size={22} color="inherit" /> : 'Sign In'}
+                {loading ? <CircularProgress size={22} color="inherit" /> : tr('Sign In')}
               </Button>
             </form>
           ) : (
@@ -398,14 +456,14 @@ function Login() {
                     ) : (
                       <>
                         <MicrosoftIcon />
-                        Sign in with Microsoft
+                        {tr('Sign in with Microsoft')}
                       </>
                     )}
                   </Button>
 
                   <Divider sx={{ my: 4 }}>
                     <Typography variant="body2" color="text.secondary">
-                      or
+                      {tr('or')}
                     </Typography>
                   </Divider>
                 </>
@@ -414,7 +472,7 @@ function Login() {
               <form onSubmit={handleStaffSubmit}>
                 <TextField
                   fullWidth
-                  label="Email"
+                  label={tr('Email')}
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -424,7 +482,7 @@ function Login() {
                 />
                 <TextField
                   fullWidth
-                  label="Password"
+                  label={tr('Password')}
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -435,7 +493,7 @@ function Login() {
 
                 <Box sx={{ textAlign: 'end', mb: 5 }}>
                   <Link component={RouterLink} to="/forgot-password" variant="body2" sx={{ color: 'primary.main' }}>
-                    Forgot password?
+                    {tr('Forgot password?')}
                   </Link>
                 </Box>
 
@@ -447,14 +505,14 @@ function Login() {
                   disabled={loading}
                   sx={{ mb: 4, py: 2.5 }}
                 >
-                  {loading ? <CircularProgress size={22} color="inherit" /> : 'Sign In'}
+                  {loading ? <CircularProgress size={22} color="inherit" /> : tr('Sign In')}
                 </Button>
               </form>
 
               <Typography variant="body2" align="center" sx={{ color: 'text.secondary' }}>
-                Don&apos;t have an account?{' '}
+                {tr("Don't have an account?")}{' '}
                 <Link component={RouterLink} to="/register" sx={{ color: 'primary.main', fontWeight: 500 }}>
-                  Sign up
+                  {tr('Sign up')}
                 </Link>
               </Typography>
             </>

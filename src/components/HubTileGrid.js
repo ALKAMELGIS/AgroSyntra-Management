@@ -4,6 +4,7 @@ import { alpha } from '@mui/material/styles';
 import { ArrowForwardRounded as ArrowIcon, HistoryOutlined as RecentIcon } from '@mui/icons-material';
 import { calmLabel } from '../config/pageMeta';
 import { getTileMeta } from '../config/hubTiles';
+import { useShellLabel, useIsArabic } from '../i18n/shellLabels';
 
 function greetingFor(date) {
   const hour = date.getHours();
@@ -14,7 +15,7 @@ function greetingFor(date) {
 
 const calmTitle = calmLabel;
 
-function HubTile({ tile, onOpen }) {
+function HubTile({ tile, onOpen, L }) {
   const Icon = tile.icon;
   return (
     <ButtonBase
@@ -75,7 +76,7 @@ function HubTile({ tile, onOpen }) {
         component="span"
         sx={{ fontWeight: 600, fontSize: { xs: '0.875rem', sm: '0.9375rem' }, color: 'text.primary', lineHeight: 1.3, letterSpacing: '-0.01em' }}
       >
-        {tile.label}
+        {L(tile.label)}
       </Typography>
     </ButtonBase>
   );
@@ -84,8 +85,10 @@ function HubTile({ tile, onOpen }) {
 export default function HubTileGrid({ sections, userName, subtitle, recent = [] }) {
   const navigate = useNavigate();
   const now = new Date();
-  const greeting = greetingFor(now);
-  const dateLabel = now.toLocaleDateString('en-US', {
+  const L = useShellLabel();
+  const isAr = useIsArabic();
+  const greeting = L(greetingFor(now));
+  const dateLabel = now.toLocaleDateString(isAr ? 'ar-AE' : 'en-US', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   });
 
@@ -105,10 +108,10 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
           component="h1"
           sx={{ fontSize: { xs: '1.875rem', sm: '2.25rem', md: '2.625rem' }, fontWeight: 600, letterSpacing: '-0.035em' }}
         >
-          {greeting}, {userName?.split(' ')[0] || 'there'}
+          {greeting}{isAr ? '، ' : ', '}{userName?.split(' ')[0] || ''}
         </Typography>
         <Typography variant="body1" sx={{ mt: 2, color: 'text.secondary', maxWidth: 620, fontSize: { xs: '0.9375rem', md: '1.0625rem' } }}>
-          {subtitle || 'Everything happening across your fields today, one tap away.'}
+          {subtitle || L('Everything happening across your fields today, one tap away.')}
         </Typography>
       </Box>
 
@@ -117,7 +120,7 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
             <RecentIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
             <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600 }}>
-              Continue where you left off
+              {L('Continue where you left off')}
             </Typography>
           </Box>
           <Box
@@ -172,7 +175,7 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
                   >
                     <Icon sx={{ fontSize: 16 }} />
                   </Box>
-                  {item.title}
+                  {L(item.title)}
                 </ButtonBase>
               );
             })}
@@ -184,7 +187,7 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
         <Box component="section" key={section.title} sx={{ mb: { xs: 7, md: 9 } }} aria-label={section.title}>
           <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 3, mb: 3.5 }}>
             <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
-              {calmTitle(section.title)}
+              {L(calmTitle(section.title))}
             </Typography>
             <Box sx={{ flex: 1, height: '1px', bgcolor: 'divider', alignSelf: 'center' }} />
             <Typography variant="caption" sx={{ color: 'text.disabled', whiteSpace: 'nowrap' }}>
@@ -203,7 +206,7 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
             }}
           >
             {section.tiles.map((tile) => (
-              <HubTile key={tile.path} tile={tile} onOpen={navigate} />
+              <HubTile key={tile.path} tile={tile} onOpen={navigate} L={L} />
             ))}
           </Box>
         </Box>
