@@ -9,6 +9,7 @@ function TestConsumer() {
       <button onClick={() => notify.error('Failed!')}>Error</button>
       <button onClick={() => notify.warning('Careful!')}>Warning</button>
       <button onClick={() => notify.info('FYI!')}>Info</button>
+      <button onClick={() => { notify.error('First'); notify.success('Second'); }}>Burst</button>
     </div>
   );
 }
@@ -53,5 +54,22 @@ describe('NotificationContext', () => {
     });
 
     expect(await screen.findByText('Failed!')).toBeInTheDocument();
+  });
+
+  it('queues messages fired together instead of dropping one', async () => {
+    jest.useFakeTimers();
+    render(
+      <NotificationProvider>
+        <TestConsumer />
+      </NotificationProvider>
+    );
+    act(() => { screen.getByText('Burst').click(); });
+    expect(screen.getByText('First')).toBeInTheDocument();
+    expect(screen.queryByText('Second')).not.toBeInTheDocument();
+    // Close the first toast; the second must follow.
+    act(() => { screen.getByLabelText('Close notification').click(); });
+    act(() => { jest.advanceTimersByTime(1000); });
+    expect(await screen.findByText('Second')).toBeInTheDocument();
+    jest.useRealTimers();
   });
 });

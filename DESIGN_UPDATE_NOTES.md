@@ -106,3 +106,11 @@ Fixed through it:
 - **"Skip to content" link** (first Tab press) jumps keyboard users past the top bar and sidebar.
 - **Page changes are announced** to screen readers (polite live region).
 - Gate: every screen also checked for one h1, a descriptive document title, a main landmark and a bypass mechanism → **525 Playwright tests, all passing**; 666 unit tests passing.
+
+## Round 14 — feedback toasts (UI UX Pro Max: feedback)
+- **Bug fixed in the global notification system** (used by ~80 screens): when two messages fired together (e.g. an error then "Saved"), one could replace the other, because the queue updated state from inside another state update with a stale "open" flag. Messages are now queued strictly in order; duplicate messages already waiting are collapsed. Covered by a new unit test.
+- **Readable timing**: success 4 s, info 5 s, warning 7 s, error 9 s; the timer pauses while hovered or focused; every toast has a close button.
+- **New toast look**: light surface card with a tinted status icon, calm in both light and dark mode (instead of solid red/green/amber blocks).
+- **Placement**: bottom inline-end corner (mirrors in Arabic), full width above the phone navigation bar on phones.
+- Errors are announced assertively, others politely, to screen readers.
+- Gate: **526 Playwright tests, all passing** (new: toast appears above the phone bar and closes); **667 unit tests** passing.

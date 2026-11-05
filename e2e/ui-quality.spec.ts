@@ -391,6 +391,31 @@ test.describe('core usability', () => {
     await expect(page.getByRole('dialog', { name: 'View only' })).toBeVisible();
   });
 
+  test('success toast appears above the phone navigation and can be closed', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('almaha_user', JSON.stringify({ id: 'u1', name: 'QA', role: 'worker', organizationId: 'o1' }));
+      localStorage.setItem('almaha_access_token', 'qa-token');
+      localStorage.setItem('i18nextLng', 'en');
+    });
+    await page.route(/\/api\/v1\//, (r) => r.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify({ success: true, data: r.request().method() === 'GET' ? [] : { id: 't1', title: 'x' } }),
+    }));
+    await page.goto('/tasks');
+    await settle(page);
+    await page.getByRole('button', { name: /^(\+\s*)?(add|new|create)\b/i }).first().click();
+    const dialog = page.getByRole('dialog').last();
+    await dialog.getByRole('textbox').first().fill('Check drip lines in GH-02');
+    await dialog.getByRole('button', { name: /create|save|add/i }).last().click();
+    const toast = page.getByRole('status').filter({ hasText: 'Task created' });
+    await expect(toast).toBeVisible();
+    const t = (await toast.boundingBox())!;
+    const nav = (await page.getByRole('navigation', { name: 'Quick navigation' }).boundingBox())!;
+    expect(t.y + t.height).toBeLessThanOrEqual(nav.y + 1);
+    await toast.getByRole('button', { name: 'Close notification' }).click();
+    await expect(toast).toBeHidden();
+  });
+
   test('skip link jumps keyboard users past the navigation', async ({ page }) => {
     await prepare(page);
     await page.goto('/tasks');

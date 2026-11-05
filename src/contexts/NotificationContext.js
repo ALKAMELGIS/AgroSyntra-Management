@@ -1,7 +1,19 @@
 import { createContext, useContext, useState, useCallback, useMemo } from 'react';
-import { Snackbar, Alert } from '@mui/material';
+import { Snackbar, Box, IconButton, Typography, useMediaQuery } from '@mui/material';
+import { useTheme, alpha } from '@mui/material/styles';
+import {
+  CheckCircleOutlineRounded as SuccessIcon,
+  ErrorOutlineRounded as ErrorIcon,
+  WarningAmberRounded as WarningIcon,
+  InfoOutlined as InfoIcon,
+  CloseRounded as CloseIcon,
+} from '@mui/icons-material';
 
 const NotificationContext = createContext(null);
+
+/** Errors and warnings stay long enough to be read; the timer pauses on hover / focus. */
+const DURATION = { success: 4000, info: 5000, warning: 7000, error: 9000 };
+const ICONS = { success: SuccessIcon, info: InfoIcon, warning: WarningIcon, error: ErrorIcon };
 
 /**
  * Global notification provider – replaces per-page Snackbar boilerplate.
@@ -12,32 +24,28 @@ const NotificationContext = createContext(null);
  *   notify.error('Something went wrong');
  *   notify.warning('Check your input');
  *   notify.info('Processing…');
+ *
+ * Messages are queued strictly in order (none are dropped when several fire at
+ * once). Toasts sit at the bottom inline-end corner (mirrors in Arabic) and
+ * centred on phones, above the phone navigation bar.
  */
 export function NotificationProvider({ children }) {
-  const [queue, setQueue] = useState([]);      // queued messages
-  const [current, setCurrent] = useState(null); // currently shown
-  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
+  const [queue, setQueue] = useState([]); // queue[0] is the toast on screen
+  const [open, setOpen] = useState(true);
 
-  const showNext = useCallback((q) => {
-    if (q.length > 0) {
-      setCurrent(q[0]);
-      setOpen(true);
-      setQueue(q.slice(1));
-    }
-  }, []);
+  const current = queue[0] || null;
 
   const enqueue = useCallback((message, severity = 'success') => {
-    const item = { message, severity, key: Date.now() + Math.random() };
+    if (message == null || message === '') return;
+    const sev = ICONS[severity] ? severity : 'info';
     setQueue((prev) => {
-      if (!open) {
-        // Show immediately if nothing is showing
-        setCurrent(item);
-        setOpen(true);
-        return prev;
-      }
-      return [...prev, item];
+      // Collapse an identical message that is already waiting (e.g. double clicks).
+      if (prev.some((p, i) => i > 0 && p.message === message && p.severity === sev)) return prev;
+      return [...prev, { message, severity: sev, key: `${Date.now()}-${Math.random()}` }];
     });
-  }, [open]);
+  }, []);
 
   const handleClose = useCallback((_event, reason) => {
     if (reason === 'clickaway') return;
@@ -45,15 +53,8 @@ export function NotificationProvider({ children }) {
   }, []);
 
   const handleExited = useCallback(() => {
-    setCurrent(null);
-    setQueue((prev) => {
-      if (prev.length > 0) {
-        setCurrent(prev[0]);
-        setOpen(true);
-        return prev.slice(1);
-      }
-      return prev;
-    });
+    setQueue((prev) => prev.slice(1));
+    setOpen(true);
   }, []);
 
   const notify = useMemo(() => ({
@@ -64,26 +65,66 @@ export function NotificationProvider({ children }) {
     show: (message, severity) => enqueue(message, severity),
   }), [enqueue]);
 
+  // 'right' is mirrored to the left by the RTL style plugin, i.e. always the inline-end corner.
+  const horizontal = isPhone ? 'center' : 'right';
+  const Icon = current ? ICONS[current.severity] : null;
+  const tone = current ? theme.palette[current.severity] : null;
+
   return (
     <NotificationContext.Provider value={notify}>
       {children}
       <Snackbar
         key={current?.key}
-        open={open}
-        autoHideDuration={4000}
+        open={Boolean(current) && open}
+        autoHideDuration={current ? DURATION[current.severity] : null}
         onClose={handleClose}
         TransitionProps={{ onExited: handleExited }}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal }}
+        sx={{ '@media (max-width: 599.95px)': { left: 12, right: 12 } }}
       >
         {current ? (
-          <Alert
-            onClose={handleClose}
-            severity={current.severity}
-            variant="filled"
-            sx={{ width: '100%', minWidth: 280 }}
+          <Box
+            role={current.severity === 'error' || current.severity === 'warning' ? 'alert' : 'status'}
+            aria-live={current.severity === 'error' ? 'assertive' : 'polite'}
+            sx={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: 2.5,
+              width: { xs: '100%', sm: 'auto' },
+              minWidth: { sm: 320 },
+              maxWidth: { sm: 440 },
+              py: 2.5,
+              pl: 3.5,
+              pr: 1.5,
+              borderRadius: 3,
+              bgcolor: 'background.paper',
+              color: 'text.primary',
+              border: '1px solid',
+              borderColor: 'divider',
+              boxShadow: theme.shadows[8],
+            }}
           >
-            {current.message}
-          </Alert>
+            <Box
+              sx={{
+                width: 28,
+                height: 28,
+                flexShrink: 0,
+                borderRadius: '50%',
+                display: 'grid',
+                placeItems: 'center',
+                bgcolor: alpha(tone.main, theme.palette.mode === 'dark' ? 0.18 : 0.1),
+                color: theme.palette.mode === 'dark' ? tone.light : tone.dark,
+              }}
+            >
+              <Icon sx={{ fontSize: 18 }} />
+            </Box>
+            <Typography sx={{ flex: 1, fontSize: '0.875rem', lineHeight: 1.5, pt: 0.5, color: 'text.primary', wordBreak: 'break-word' }}>
+              {current.message}
+            </Typography>
+            <IconButton size="small" onClick={handleClose} aria-label="Close notification" sx={{ mt: -0.25 }}>
+              <CloseIcon sx={{ fontSize: 18 }} />
+            </IconButton>
+          </Box>
         ) : undefined}
       </Snackbar>
     </NotificationContext.Provider>
@@ -97,5 +138,3 @@ export function useNotification() {
   }
   return context;
 }
-
-export default NotificationContext;
