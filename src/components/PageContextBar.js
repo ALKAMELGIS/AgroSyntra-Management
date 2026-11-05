@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import { Box, Link, Typography } from '@mui/material';
 import { ChevronRightRounded as SepIcon, HomeOutlined as HomeIcon } from '@mui/icons-material';
@@ -20,7 +20,36 @@ export default function PageContextBar() {
     if (meta?.exact) recordRecentPage({ path: meta.path, title: meta.title });
   }, [meta?.exact, meta?.path, meta?.title]);
 
-  if (pathname === '/' || pathname.startsWith('/hub/') || !meta) return null;
+  const pageTitle = meta ? L(meta.title) : null;
+  const appName = L('Elite Agro Cloud');
+
+  // Browser tab shows the page ("Scouting Reports — Elite Agro Cloud").
+  useEffect(() => {
+    document.title = pageTitle && pathname !== '/' ? `${pageTitle} — ${appName}` : `${L('Al Maha Farm')} — ${appName}`;
+  }, [pageTitle, pathname, appName, L]);
+
+  // Every page needs exactly one <h1>; add a screen-reader-only one when the page has none.
+  const [needsH1, setNeedsH1] = useState(false);
+  useEffect(() => {
+    const check = () => setNeedsH1(!document.querySelector('main h1:not([data-page-title])'));
+    check();
+    const t = setTimeout(check, 1500);
+    return () => clearTimeout(t);
+  }, [pathname]);
+
+  const srOnly = {
+    position: 'absolute', width: 1, height: 1, p: 0, m: -1, overflow: 'hidden',
+    clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0,
+  };
+  const hiddenHeading = needsH1 && pageTitle ? (
+    <Box component="h1" data-page-title="" sx={srOnly}>{pageTitle}</Box>
+  ) : null;
+  // Polite announcement of the new page for screen-reader users after navigation.
+  const announcer = (
+    <Box role="status" aria-live="polite" sx={srOnly}>{pageTitle || ''}</Box>
+  );
+
+  if (pathname === '/' || pathname.startsWith('/hub/') || !meta) return <>{hiddenHeading}{announcer}</>;
 
   const sep = (
     <SepIcon
@@ -37,6 +66,9 @@ export default function PageContextBar() {
   };
 
   return (
+    <>
+    {hiddenHeading}
+    {announcer}
     <Box
       component="nav"
       aria-label="Breadcrumb"
@@ -78,5 +110,6 @@ export default function PageContextBar() {
         {L(meta.title)}
       </Typography>
     </Box>
+    </>
   );
 }

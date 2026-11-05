@@ -130,6 +130,7 @@ export const SHELL_AR = {
   'Sign out': 'تسجيل الخروج',
   'Elite Agro Cloud': 'إيليت أجرو كلاود',
   'Al Maha Farm': 'مزرعة المها',
+  'Skip to content': 'انتقل إلى المحتوى',
 };
 
 /** Returns a function that maps a shell label to the current language. */

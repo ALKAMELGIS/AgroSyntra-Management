@@ -99,3 +99,10 @@ Fixed through it:
 - Status messages that must be seen at a glance stay visible as one slim line (`<InfoNote mode="line">`): empty states ("No fields in this farm area"), import results ("12 of 15 columns mapped", "3 rows skipped"), "select a site first", warnings like "Entry exists — saving will update it", and notes inside confirm dialogs.
 - 40 notes became icons, 95 stay as one line.
 - Gate: **524 Playwright tests passing** (help-note test updated: text hidden until the icon is clicked); 666 unit tests passing.
+
+## Round 13 — page structure & navigation (UI UX Pro Max: navigation / accessibility)
+- **Browser tab names the page**: "Scouting Reports — Elite Agro Cloud" (Arabic when the app is in Arabic) instead of the same title on every tab — staff with several tabs open can tell them apart.
+- **Exactly one page heading (h1) on every screen**: pages without a visible title get a screen-reader-only heading from the navigation config.
+- **"Skip to content" link** (first Tab press) jumps keyboard users past the top bar and sidebar.
+- **Page changes are announced** to screen readers (polite live region).
+- Gate: every screen also checked for one h1, a descriptive document title, a main landmark and a bypass mechanism → **525 Playwright tests, all passing**; 666 unit tests passing.

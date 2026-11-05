@@ -25,8 +25,17 @@ const ALL_ENTRIES = (() => {
  * Longest matching nav path wins, so `/weather-log/map` resolves to "Weather Map".
  * Returns null for routes that are not in the navigation.
  */
+// Routes reached from the top bar rather than the sidebar.
+const EXTRA_PAGES = [
+  { path: '/notifications', text: 'Notifications', section: 'General', areaId: null },
+];
+
 export function findPageMeta(pathname) {
   if (!pathname) return null;
+  const extra = EXTRA_PAGES.find((e) => pathname === e.path || pathname.startsWith(`${e.path}/`));
+  if (extra) {
+    return { title: extra.text, path: extra.path, exact: extra.path === pathname, section: extra.section, areaId: null, areaLabel: null };
+  }
   let best = null;
   ALL_ENTRIES.forEach((entry) => {
     const p = entry.path;

@@ -102,8 +102,13 @@ for (const vp of VIEWPORTS) {
         expect(errors, 'no uncaught errors').toEqual([]);
         await expect(page.getByText('Something went wrong')).toHaveCount(0);
 
+        // One page title for assistive tech, and a descriptive browser-tab title.
+        await expect(page.locator('main h1')).toHaveCount(1);
+        await expect(page).toHaveTitle(/Elite Agro Cloud/);
+
         const axe = await new AxeBuilder({ page })
           .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+          .withRules(['page-has-heading-one', 'bypass', 'document-title', 'landmark-one-main'])
           // Leaflet renders its own third-party controls.
           .exclude('.leaflet-control-container')
           .analyze();
@@ -384,6 +389,19 @@ test.describe('core usability', () => {
     // "View only" is an eye icon with the same behaviour.
     await page.getByRole('button', { name: 'View only' }).first().click();
     await expect(page.getByRole('dialog', { name: 'View only' })).toBeVisible();
+  });
+
+  test('skip link jumps keyboard users past the navigation', async ({ page }) => {
+    await prepare(page);
+    await page.goto('/tasks');
+    await settle(page);
+    await page.keyboard.press('Tab');
+    const skip = page.getByRole('link', { name: 'Skip to content' });
+    await expect(skip).toBeFocused();
+    await expect(skip).toBeInViewport();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('#main-content')).toBeFocused();
+    await expect(page).toHaveTitle('Tasks — Elite Agro Cloud');
   });
 
   test('keyboard focus is visible on the first control', async ({ page }) => {

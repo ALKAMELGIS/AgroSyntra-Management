@@ -356,6 +356,7 @@ function UserMenu() {
 
 // Authenticated layout with sidebar
 function AuthenticatedLayout() {
+  const L = useShellLabel();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [navArea, setNavArea] = useState(DEFAULT_NAV_AREA);
@@ -394,6 +395,29 @@ function AuthenticatedLayout() {
 
   return (
     <Box sx={{ display: 'flex', position: 'relative', minHeight: '100dvh' }}>
+      <Box
+        component="a"
+        href="#main-content"
+        sx={(t) => ({
+          position: 'fixed',
+          top: 8,
+          insetInlineStart: 8,
+          zIndex: t.zIndex.tooltip + 1,
+          px: 4,
+          py: 2,
+          borderRadius: 2,
+          bgcolor: 'primary.main',
+          color: 'primary.contrastText',
+          fontWeight: 600,
+          fontSize: '0.875rem',
+          textDecoration: 'none',
+          transform: 'translateY(-200%)',
+          transition: 'transform 160ms ease',
+          '&:focus': { transform: 'none', outline: 'none', boxShadow: t.shadows[6] },
+        })}
+      >
+        {L('Skip to content')}
+      </Box>
       {/* AppBar */}
       <AppBar
         position="fixed"
@@ -450,6 +474,8 @@ function AuthenticatedLayout() {
       {/* Main Content */}
       <Box
         component="main"
+        id="main-content"
+        tabIndex={-1}
         className="page-content"
         sx={{
           flexGrow: 1,
