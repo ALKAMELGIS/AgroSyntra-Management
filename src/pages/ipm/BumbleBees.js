@@ -934,7 +934,7 @@ export default function BumbleBees() {
   if (!activeSiteId) {
     return (
       <Box sx={{ p: 3 }}>
-        <InfoNote severity="info">Select a site to manage bumble bee deployments and inventory.</InfoNote>
+        <InfoNote mode="line" severity="info">Select a site to manage bumble bee deployments and inventory.</InfoNote>
       </Box>
     );
   }
@@ -1062,7 +1062,7 @@ export default function BumbleBees() {
       </TabPanel>
 
       <TabPanel value={tab} index={1}>
-        <InfoNote severity="info" sx={{ mb: 2 }} icon={false}>
+        <InfoNote mode="line" severity="info" sx={{ mb: 2 }} icon={false}>
           <strong>On hand:</strong> {onHand} boxes
           {pendingIncoming.length > 0 && (
             <>

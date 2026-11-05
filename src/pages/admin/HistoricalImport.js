@@ -268,7 +268,7 @@ export default function HistoricalImport() {
             </Select>
           </FormControl>
           {target && (
-            <InfoNote severity="info" sx={{ mt: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mt: 2 }}>
               {target.description}
             </InfoNote>
           )}
@@ -573,7 +573,7 @@ export default function HistoricalImport() {
             )}
 
             {result.stats.unmappedHeaders?.length > 0 && (
-              <InfoNote severity="info" sx={{ mb: 2 }}>
+              <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
                 These columns aren't used by this target and were ignored:{' '}
                 <strong>{result.stats.unmappedHeaders.join(', ')}</strong>
               </InfoNote>

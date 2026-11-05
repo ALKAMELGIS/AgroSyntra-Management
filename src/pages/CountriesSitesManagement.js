@@ -249,7 +249,7 @@ function CountriesSitesManagement() {
         </Box>
 
         {scopeNote ? (
-          <InfoNote severity="info" sx={{ mb: 2 }}>{scopeNote}</InfoNote>
+          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>{scopeNote}</InfoNote>
         ) : null}
 
         {canCreateZone ? (

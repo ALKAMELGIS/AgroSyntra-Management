@@ -202,7 +202,7 @@ export default function ManpowerRatesPanel({ siteId, sites }) {
   const siteName = sites.find((s) => s.id === siteId)?.name || '';
 
   if (!siteId) {
-    return <InfoNote severity="info">{t('manpowerCost.rates.pickSite')}</InfoNote>;
+    return <InfoNote mode="line" severity="info">{t('manpowerCost.rates.pickSite')}</InfoNote>;
   }
   if (rates.isLoading) {
     return <Box sx={{ p: 4, textAlign: 'center' }}><CircularProgress /></Box>;

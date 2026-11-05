@@ -310,7 +310,7 @@ export default function GerminationRecord({ siteFilter }) {
       </Box>
 
       {sections.length === 0 && !loading && (
-        <InfoNote severity="info" sx={{ mb: 2 }}>No germination tables yet. Click "Add New Table" to start.</InfoNote>
+        <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>No germination tables yet. Click "Add New Table" to start.</InfoNote>
       )}
 
       {sections.map(section => (

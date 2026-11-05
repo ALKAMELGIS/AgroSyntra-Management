@@ -2029,7 +2029,7 @@ export default function PesticideApplications() {
           </Box>
 
           {!activeSiteId && pestCatalogTab === 0 && (
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               Select a site from the sidebar to see site-specific products and pricing.
             </InfoNote>
           )}
@@ -2508,7 +2508,7 @@ export default function PesticideApplications() {
           </Typography>
         </DialogTitle>
         <DialogContent dividers>
-          <InfoNote severity="info" sx={{ mb: 2 }}>
+          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
             {createsAutoApproved
               ? 'Your entries are approved automatically when saved.'
               : 'This application will require approval from a pest agronomist before it takes effect.'}

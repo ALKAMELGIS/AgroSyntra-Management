@@ -16,7 +16,7 @@ export default function ImportCycleUprootFields({
   return (
     <Box sx={{ mb: 2 }}>
       {slots.length > 0 && (
-        <InfoNote severity="info" sx={{ mb: 1.5 }}>
+        <InfoNote mode="line" severity="info" sx={{ mb: 1.5 }}>
           These cycles plant the same land again. Enter an uproot date on or after the
           previous plant and before the next. Harvests, sprays and manpower stay on the
           finished cycle.

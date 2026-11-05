@@ -480,7 +480,7 @@ export default function PlantationWorkbookImporter({
               </Alert>
             )}
             {confirmReady && willCreateCount > 0 && (
-              <InfoNote severity="info" sx={{ mb: 2 }}>
+              <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
                 {willCreateCount} new family/variety name{willCreateCount === 1 ? '' : 's'} will be created when you confirm. Nothing is saved until then.
               </InfoNote>
             )}
@@ -555,7 +555,7 @@ export default function PlantationWorkbookImporter({
             <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>Import complete</Typography>
             <Chip label={`${importResults.success} rows processed`} color="success" />
             {importResults.closingPending > 0 && (
-              <InfoNote severity="info" sx={{ mt: 2, textAlign: 'left' }}>
+              <InfoNote mode="line" severity="info" sx={{ mt: 2, textAlign: 'left' }}>
                 Closing rows sent for operation manager approval ({importResults.closingPending}).
               </InfoNote>
             )}

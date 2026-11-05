@@ -330,7 +330,7 @@ function WeatherMap() {
         )}
 
         {agroAvailable && availableFields.length > 0 && (
-          <InfoNote severity="info" sx={{ mb: 2 }}>
+          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
             <Typography variant="body2" gutterBottom>
               <strong>NDVI Display Requirements:</strong>
             </Typography>

@@ -567,7 +567,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
             sx={{ mb: 2 }}
           />
           {endDateBackdated ? (
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               Harvest, sprays and other records after {endDate} stay in the app, but this
               year will no longer cover those days in the sidebar range.
             </InfoNote>
@@ -600,7 +600,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
       <Dialog open={reopenOpen} onClose={() => !requestingReopen && setReopenOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>Request reopen of {activeSeason?.name || 'this season'}?</DialogTitle>
         <DialogContent>
-          <InfoNote severity="info" sx={{ mb: 2 }}>
+          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
             An auditor must approve this. Only plantings uprooted as &quot;Season closed&quot; come back.
             Cycle uproots stay finished. Writes stay blocked until the auditor approves.
           </InfoNote>

@@ -93,3 +93,9 @@ Fixed through it:
 - New `components/InfoNote.js`: long explanatory banners ("View only — …", "Data entry workers fill the Daily Activity Sheet…", import hints, etc.) now take **one slim line** with a small icon; when the text does not fit, a **More / المزيد** toggle expands it in place (keyboard and screen-reader friendly, `aria-expanded`).
 - Applied in 66 files (all "View only" banners via `ReadOnlyBanner`, page help texts, importer hints). Warnings, errors and banners with actions (e.g. draft Restore/Discard) stay full alerts on purpose.
 - Gate: **524 Playwright tests, all passing** (new test: long notes stay one line and expand on demand); 666 unit tests passing.
+
+## Round 12 — help texts become an ⓘ icon
+- `InfoNote` now defaults to **icon-only**: long help/explanation texts and every **View only** banner show just a small icon (ⓘ, or 👁 for view-only); tapping/clicking it (or Enter/Space) opens the text in a small popup; Esc or clicking outside closes it. Accessible names "Information"/"معلومات" and "View only"/"للعرض فقط".
+- Status messages that must be seen at a glance stay visible as one slim line (`<InfoNote mode="line">`): empty states ("No fields in this farm area"), import results ("12 of 15 columns mapped", "3 rows skipped"), "select a site first", warnings like "Entry exists — saving will update it", and notes inside confirm dialogs.
+- 40 notes became icons, 95 stay as one line.
+- Gate: **524 Playwright tests passing** (help-note test updated: text hidden until the icon is clicked); 666 unit tests passing.

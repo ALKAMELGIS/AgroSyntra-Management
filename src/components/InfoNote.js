@@ -1,17 +1,92 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import { Alert, Box, ButtonBase } from '@mui/material';
-import { ExpandMoreRounded as MoreIcon } from '@mui/icons-material';
+import { useId, useLayoutEffect, useRef, useState } from 'react';
+import { Alert, Box, ButtonBase, IconButton, Popover, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import { InfoOutlined as InfoIcon, ExpandMoreRounded as MoreIcon } from '@mui/icons-material';
 import { useIsArabic } from '../i18n/shellLabels';
 
 /**
- * Compact informational note.
+ * Icon-only informational note.
+ *
+ * Long explanations ("View only — …", "Data entry workers fill …") no longer take
+ * space on the page: only a small icon is shown, and tapping / clicking it (or
+ * Enter / Space) opens the full text in a small popup next to the icon.
+ * Drop-in replacement for <Alert severity="info">…</Alert>.
+ *
+ * Props: children (the message), icon (optional custom icon), label (accessible
+ * name for the icon; defaults to "Information"), sx (outer spacing).
+ *
+ * mode="line" keeps status messages that must be seen at a glance ("No fields in
+ * this farm area", "12 of 15 columns mapped") visible as one slim line with a
+ * More toggle instead of hiding them behind the icon.
+ */
+export default function InfoNote({ mode = 'icon', ...props }) {
+  if (mode === 'line') return <InfoLine {...props} />;
+  return <InfoIcon_ {...props} />;
+}
+
+function InfoIcon_({ children, sx, icon, label, severity = 'info' }) {
+  const [anchor, setAnchor] = useState(null);
+  const isAr = useIsArabic();
+  const popId = useId();
+  const open = Boolean(anchor);
+  const name = label || (isAr ? 'معلومات' : 'Information');
+
+  return (
+    <Box sx={{ display: 'flex', mb: 1, ...sx, '@media print': { display: 'none' } }}>
+      <IconButton
+        size="small"
+        onClick={(e) => setAnchor(open ? null : e.currentTarget)}
+        aria-label={name}
+        aria-expanded={open}
+        aria-controls={open ? popId : undefined}
+        aria-haspopup="dialog"
+        data-info-note=""
+        sx={(t) => ({
+          width: 28,
+          height: 28,
+          p: 0,
+          color: `${severity}.main`,
+          bgcolor: open ? alpha(t.palette[severity]?.main || t.palette.info.main, 0.12) : 'transparent',
+          '&:hover': { bgcolor: alpha(t.palette[severity]?.main || t.palette.info.main, 0.1), color: `${severity}.main` },
+          '& .MuiSvgIcon-root': { fontSize: 18 },
+        })}
+      >
+        {icon || <InfoIcon />}
+      </IconButton>
+      <Popover
+        id={popId}
+        open={open}
+        anchorEl={anchor}
+        onClose={() => setAnchor(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: isAr ? 'right' : 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: isAr ? 'right' : 'left' }}
+        slotProps={{
+          paper: {
+            role: 'dialog',
+            'aria-label': name,
+            sx: { mt: 1, p: 3.5, maxWidth: 380, width: 'calc(100vw - 32px)', '@media (min-width:420px)': { width: 'auto' } },
+          },
+        }}
+      >
+        <Typography component="div" sx={{ fontSize: '0.8125rem', lineHeight: 1.6, color: 'text.primary' }}>
+          {children}
+        </Typography>
+      </Popover>
+    </Box>
+  );
+}
+
+
+
+/**
+ * One-line status note (mode="line").
  *
  * Long explanations ("View only — …", "Data entry workers fill …") used to take
  * two or three full-width lines on every page. InfoNote shows them as one slim
  * line with a small icon; when the text does not fit, a "More" toggle expands it
  * in place (tap / click / keyboard). Drop-in replacement for <Alert severity="info">.
  */
-export default function InfoNote({ children, sx, icon, severity = 'info', ...rest }) {
+function InfoLine({ children, sx, icon, severity = 'info', ...rest }) {
   const textRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [overflowing, setOverflowing] = useState(false);

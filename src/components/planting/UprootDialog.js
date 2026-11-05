@@ -79,7 +79,7 @@ export default function UprootDialog({
           Frees the selected segments for the next cycle. Harvest, sprays and manpower stay on the finished cycle.
         </Typography>
         {!hasOccupancy && (
-          <InfoNote severity="info" sx={{ mb: 2 }}>Nothing is currently growing on this field.</InfoNote>
+          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>Nothing is currently growing on this field.</InfoNote>
         )}
         <TextField
           size="small"

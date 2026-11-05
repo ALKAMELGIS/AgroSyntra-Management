@@ -155,7 +155,7 @@ export default function AgronomicReference() {
       {loading ? (
         <Typography>Loading...</Typography>
       ) : Object.keys(grouped).length === 0 ? (
-        <InfoNote severity="info">No thresholds configured yet. Click "Add Threshold" to get started.</InfoNote>
+        <InfoNote mode="line" severity="info">No thresholds configured yet. Click "Add Threshold" to get started.</InfoNote>
       ) : (
         Object.entries(grouped).map(([cropName, items]) => (
           <Paper key={cropName} variant="outlined" sx={{ mb: 2, overflow: 'hidden' }}>

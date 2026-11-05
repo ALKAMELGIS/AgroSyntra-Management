@@ -93,7 +93,7 @@ export default function Enrollment() {
           </Table>
         </Paper>
       ) : (
-        <InfoNote severity="info" sx={{ mb: 4 }}>No interns enrolled yet. Assign roles below.</InfoNote>
+        <InfoNote mode="line" severity="info" sx={{ mb: 4 }}>No interns enrolled yet. Assign roles below.</InfoNote>
       )}
 
       <Typography variant="h6" sx={{ mb: 2 }}>All Users — Assign Internship Roles</Typography>

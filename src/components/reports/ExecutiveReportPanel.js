@@ -92,7 +92,7 @@ export default function ExecutiveReportPanel({
       </Paper>
 
       {!report.hasData ? (
-        <InfoNote severity="info">No data found for the selected date range. Adjust the dates or check that entries exist.</InfoNote>
+        <InfoNote mode="line" severity="info">No data found for the selected date range. Adjust the dates or check that entries exist.</InfoNote>
       ) : (
         <>
           <Grid container spacing={1.5} sx={{ mb: 3 }}>

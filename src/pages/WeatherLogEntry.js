@@ -647,7 +647,7 @@ function WeatherLogEntry() {
         {!canWrite && <ReadOnlyBanner />}
 
         {/* How It Works Explanation */}
-        <InfoNote severity="info" sx={{ mb: 3 }}>
+        <InfoNote mode="line" severity="info" sx={{ mb: 3 }}>
           <Typography variant="subtitle2" gutterBottom>
             <strong>How OpenWeatherMap Gets Exact Weather for Your Area:</strong>
           </Typography>
@@ -695,7 +695,7 @@ function WeatherLogEntry() {
         </Alert>
 
         {existingEntry && (
-          <InfoNote severity="info" sx={{ mb: 3 }}>
+          <InfoNote mode="line" severity="info" sx={{ mb: 3 }}>
             An entry already exists for this site and date. Updating will replace the existing entry.
             {existingEntry.source === 'openweathermap' && (
               <Typography variant="caption" display="block" sx={{ mt: 1 }}>
@@ -794,7 +794,7 @@ function WeatherLogEntry() {
                   </Box>
                 </Box>
               ) : (
-                <InfoNote severity="info">
+                <InfoNote mode="line" severity="info">
                   No fields with coordinates for this site. GIS-linked fields get coordinates automatically on sync;
                   re-run GIS auto-link or add latitude/longitude in Field Types & Names.
                 </InfoNote>

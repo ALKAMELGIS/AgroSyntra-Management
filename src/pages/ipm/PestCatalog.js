@@ -298,7 +298,7 @@ export default function PestCatalog() {
         <>
           {samplingError && <Alert severity="error" sx={{ mb: 2 }}>{samplingError}</Alert>}
           {!activeSiteId ? (
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               Select a site in the sidebar to configure sampling units.
             </InfoNote>
           ) : (

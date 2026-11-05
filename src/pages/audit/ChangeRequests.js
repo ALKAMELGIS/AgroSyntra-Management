@@ -592,7 +592,7 @@ export default function ChangeRequests() {
           <CircularProgress />
         </Box>
       ) : requests.length === 0 ? (
-        <InfoNote severity="info">No change requests found.</InfoNote>
+        <InfoNote mode="line" severity="info">No change requests found.</InfoNote>
       ) : (
         <TableContainer component={Paper} variant="outlined">
           <Table size="small">

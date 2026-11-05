@@ -626,7 +626,7 @@ export default function SpreadsheetEcphEntry({ onEntrySaved, readOnly = false })
       )}
 
       {selectedSite && farmAreasForSite.length === 0 && (
-        <InfoNote severity="info" sx={{ mb: 2 }}>No farm areas found for this site.</InfoNote>
+        <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>No farm areas found for this site.</InfoNote>
       )}
 
       {/* Spreadsheet Grid */}
@@ -830,7 +830,7 @@ export default function SpreadsheetEcphEntry({ onEntrySaved, readOnly = false })
       )}
 
       {currentFarmArea && rows.length === 0 && (
-        <InfoNote severity="info">
+        <InfoNote mode="line" severity="info">
           No fields in this farm area. Add fields first.
         </InfoNote>
       )}

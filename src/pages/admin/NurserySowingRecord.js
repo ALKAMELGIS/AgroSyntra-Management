@@ -363,7 +363,7 @@ export default function NurserySowingRecord({
   };
 
   if (!siteFilter) {
-    return <InfoNote severity="info">Select a site to enter nursery sowing records (RC-241).</InfoNote>;
+    return <InfoNote mode="line" severity="info">Select a site to enter nursery sowing records (RC-241).</InfoNote>;
   }
 
   if (loading) {

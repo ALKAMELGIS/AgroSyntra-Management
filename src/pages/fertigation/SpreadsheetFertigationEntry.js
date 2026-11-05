@@ -679,11 +679,11 @@ export default function SpreadsheetFertigationEntry({ onEntrySaved, readOnly = f
       )}
 
       {selectedSite && farmAreasForSite.length === 0 && (
-        <InfoNote severity="info" sx={{ mb: 2 }}>No farm areas found for this site.</InfoNote>
+        <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>No farm areas found for this site.</InfoNote>
       )}
 
       {groupMode && (
-        <InfoNote severity="info" sx={{ mb: 2 }}>
+        <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
           Group mode: <strong>{selectedGroup.name}</strong> — {rows.length} field(s). Use group defaults below, then override individual rows if needed.
         </InfoNote>
       )}
@@ -948,7 +948,7 @@ export default function SpreadsheetFertigationEntry({ onEntrySaved, readOnly = f
       )}
 
       {!groupMode && currentFarmArea && rows.length === 0 && (
-        <InfoNote severity="info">No fields in this farm area. Add fields first.</InfoNote>
+        <InfoNote mode="line" severity="info">No fields in this farm area. Add fields first.</InfoNote>
       )}
 
       {groupMode && rows.length === 0 && (

@@ -434,7 +434,7 @@ export default function CropRotationTab({
         availabilityLoading ? (
           <Box sx={{ textAlign: 'center', py: 4 }}><CircularProgress /></Box>
         ) : visibleAvailability.length === 0 ? (
-          <InfoNote severity="info">
+          <InfoNote mode="line" severity="info">
             {fieldFilterId
               ? 'This field is fully occupied, or has no free segments to show.'
               : 'No vacant or partly free fields for this type.'}
@@ -501,7 +501,7 @@ export default function CropRotationTab({
         occupancyLoading ? (
           <Box sx={{ textAlign: 'center', py: 4 }}><CircularProgress /></Box>
         ) : visibleCurrent.length === 0 ? (
-          <InfoNote severity="info">
+          <InfoNote mode="line" severity="info">
             {fieldFilterId
               ? 'No crop currently occupying this field.'
               : 'No crop currently occupying these fields.'}
@@ -561,7 +561,7 @@ export default function CropRotationTab({
       )}
 
       {!loading && visibleGaps.length > 0 && (
-        <InfoNote severity="info" sx={{ mb: 2 }}>
+        <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
           <strong>{visibleGaps.length} date gap(s) detected</strong> — some fields have periods between rotations
           where no crop is assigned.
           {visibleGaps.slice(0, 5).map((g, i) => (
@@ -578,7 +578,7 @@ export default function CropRotationTab({
       {loading ? (
         <Box sx={{ textAlign: 'center', py: 4 }}><CircularProgress /></Box>
       ) : visibleHistory.length === 0 ? (
-        <InfoNote severity="info">{history.length === 0 && !fieldFilterId && !structureFieldIds?.size ? 'No crop rotation history found.' : emptyCopy}</InfoNote>
+        <InfoNote mode="line" severity="info">{history.length === 0 && !fieldFilterId && !structureFieldIds?.size ? 'No crop rotation history found.' : emptyCopy}</InfoNote>
       ) : (
         <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 340px)' }}>
           <Table size="small" sx={[excelTableSx, freezeColumnsSx(ROTATION_FROZEN_WIDTHS)]}>

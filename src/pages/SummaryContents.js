@@ -208,7 +208,7 @@ export default function SummaryContents() {
       )}
 
       {error && !data && (
-        <InfoNote severity="info" sx={{ mb: 2 }}>
+        <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
           Showing default content (could not load saved version).
         </InfoNote>
       )}

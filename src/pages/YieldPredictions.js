@@ -48,7 +48,7 @@ export default function YieldPredictions() {
       {loading && <LinearProgress sx={{ mb: 2 }} />}
 
       {prediction && prediction.confidence_pct === 0 && (
-        <InfoNote severity="info" sx={{ mb: 3 }}>{prediction.methodology}</InfoNote>
+        <InfoNote mode="line" severity="info" sx={{ mb: 3 }}>{prediction.methodology}</InfoNote>
       )}
 
       {prediction && prediction.confidence_pct > 0 && (

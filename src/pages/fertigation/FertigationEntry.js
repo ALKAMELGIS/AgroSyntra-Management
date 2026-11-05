@@ -415,7 +415,7 @@ function FertigationEntry() {
         </Tabs>
 
         {availableStructureTabs.length === 0 && (
-          <InfoNote severity="info" sx={{ mb: 2 }}>
+          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
             No fields configured for this site. Add fields in Management to enable fertigation entry.
           </InfoNote>
         )}
@@ -544,7 +544,7 @@ function FertigationEntry() {
                     )}
                     {existingEntry && (
                       <Grid size={12}>
-                        <InfoNote severity="info">
+                        <InfoNote mode="line" severity="info">
                           Entry exists for this field and date. Saving will update it.
                         </InfoNote>
                       </Grid>
@@ -807,7 +807,7 @@ function FertigationEntry() {
                           </Alert>
                         )}
                         {Object.values(calculatedFertilizers).some(val => val > 100) && (
-                          <InfoNote severity="info" sx={{ mt: 1 }}>
+                          <InfoNote mode="line" severity="info" sx={{ mt: 1 }}>
                             Some calculated amounts seem unusually high. Please verify water volume and recipe concentrations.
                           </InfoNote>
                         )}

@@ -132,7 +132,7 @@ export default function FertigationGroupManager({
       <DialogTitle>Manage Fertigation Field Groups</DialogTitle>
       <DialogContent dividers>
         {!siteId && (
-          <InfoNote severity="info">Select a site first.</InfoNote>
+          <InfoNote mode="line" severity="info">Select a site first.</InfoNote>
         )}
 
         {siteId && !editingId && (
@@ -148,7 +148,7 @@ export default function FertigationGroupManager({
               )}
             </Box>
             {groups.length === 0 ? (
-              <InfoNote severity="info">No field groups yet. Create one for blocks like Nethouse 1–10.</InfoNote>
+              <InfoNote mode="line" severity="info">No field groups yet. Create one for blocks like Nethouse 1–10.</InfoNote>
             ) : (
               <List dense disablePadding>
                 {groups.map((group) => (

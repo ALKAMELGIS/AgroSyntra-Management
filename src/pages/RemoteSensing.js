@@ -590,7 +590,7 @@ function RemoteSensing() {
         )}
 
         {availableFields.length === 0 && (
-          <InfoNote severity="info" sx={{ mt: 2 }}>
+          <InfoNote mode="line" severity="info" sx={{ mt: 2 }}>
             No field boundaries found yet. Click <strong>Draw Field</strong> to draw a polygon and assign it to an existing Field ID.
             Use the <strong>Satellite</strong> base map to trace boundaries from aerial imagery.
           </InfoNote>
@@ -1216,7 +1216,7 @@ function RemoteSensing() {
 
                     {drawnPolygon && (
                       <Grid size={12}>
-                        <InfoNote severity="info">
+                        <InfoNote mode="line" severity="info">
                           <Typography variant="body2">
                             Polygon with {drawnPolygon.length} points will be saved to the selected field.
                           </Typography>

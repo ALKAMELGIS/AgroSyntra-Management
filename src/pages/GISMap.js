@@ -1207,7 +1207,7 @@ export default function GISMap() {
                 </Box>
               ))
           ) : (
-            <InfoNote severity="info">No attributes found. Sync the layer first to discover attributes.</InfoNote>
+            <InfoNote mode="line" severity="info">No attributes found. Sync the layer first to discover attributes.</InfoNote>
           )}
         </DialogContent>
         <DialogActions>
@@ -1303,7 +1303,7 @@ export default function GISMap() {
               <Typography sx={{ mb: 2 }}>
                 You're about to delete the layer <strong>{layerToDelete.name}</strong>.
               </Typography>
-              <InfoNote severity="info" sx={{ mb: 2 }}>
+              <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
                 <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
                   This removes the map polygons only.
                 </Typography>
@@ -1338,7 +1338,7 @@ export default function GISMap() {
       <Dialog open={orphansOpen} onClose={() => setOrphansOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>Fields with missing GIS polygon</DialogTitle>
         <DialogContent>
-          <InfoNote severity="info" sx={{ mb: 2 }}>
+          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
             These fields are still in the database — all readings, harvests,
             and history are intact. Only their polygon on the map is gone
             because the corresponding feature was renamed or deleted on the

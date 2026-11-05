@@ -669,7 +669,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
 
         {step === 1 && (
           <Box>
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               {mappedCount} of {excelHeaders.length} columns mapped — {rawDataRows.length} data rows detected.
               Adjust any incorrect mappings below, then click "Continue".
             </InfoNote>
@@ -731,7 +731,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
 
         {step === 2 && (
           <Box>
-            <InfoNote severity="info" sx={{ mb: 2, fontSize: '0.75rem' }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2, fontSize: '0.75rem' }}>
               Duplicates are skipped — if a reading with the same field + date + time already exists, it won&apos;t be imported again.
             </InfoNote>
             <Box sx={{ display: 'flex', gap: 1.5, mb: 2, alignItems: 'center', flexWrap: 'wrap' }}>

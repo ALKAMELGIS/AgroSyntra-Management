@@ -465,7 +465,7 @@ export default function PppMsdsTab({ canManage }) {
         <DialogTitle>Match PDFs to products</DialogTitle>
         <DialogContent>
           {skippedZip.length > 0 && (
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               Skipped {skippedZip.length} non-PDF file{skippedZip.length === 1 ? '' : 's'}:{' '}
               {skippedZip.map((s) => s.filename).join(', ')}
             </InfoNote>

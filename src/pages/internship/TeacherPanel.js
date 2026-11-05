@@ -739,7 +739,7 @@ function QuestionBankDialog({ lessonId, onClose }) {
         {isLoading && <LinearProgress sx={{ mb: 2 }} />}
 
         {questions.length === 0 && !isLoading && (
-          <InfoNote severity="info">No questions yet. Click &quot;Generate 20 Questions&quot; to create a question bank for this lesson.</InfoNote>
+          <InfoNote mode="line" severity="info">No questions yet. Click &quot;Generate 20 Questions&quot; to create a question bank for this lesson.</InfoNote>
         )}
 
         {questions.map((q, idx) => (

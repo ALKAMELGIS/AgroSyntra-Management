@@ -877,20 +877,20 @@ export default function Templates() {
         )}
 
         {browseTab === 0 && !activeSiteId && (
-          <InfoNote severity="info" sx={{ mb: 3 }}>
+          <InfoNote mode="line" severity="info" sx={{ mb: 3 }}>
             Select a default site in Organization Settings to see site-specific templates.
             Showing all available templates.
           </InfoNote>
         )}
 
         {categories.length === 0 && browseTab === 0 && (
-          <InfoNote severity="info">
+          <InfoNote mode="line" severity="info">
             No templates are assigned to this site yet. Use "Configure Sites" to assign templates, or create a new one.
           </InfoNote>
         )}
 
         {categories.length === 0 && browseTab === 1 && (
-          <InfoNote severity="info">
+          <InfoNote mode="line" severity="info">
             {browseSiteFilter || browseSearch
               ? 'No templates match your filters.'
               : 'No custom templates exist yet across any site.'}
@@ -951,7 +951,7 @@ export default function Templates() {
           <DialogTitle>Configure Templates per Site</DialogTitle>
           <DialogContent>
             {sites.length === 0 ? (
-              <InfoNote severity="info">No sites found.</InfoNote>
+              <InfoNote mode="line" severity="info">No sites found.</InfoNote>
             ) : (
               <TableContainer sx={{ mt: 1 }}>
                 <Table size="small">
@@ -1086,7 +1086,7 @@ export default function Templates() {
       </Box>
 
       {catTemplates.length === 0 && (
-        <InfoNote severity="info">No templates in this category{isBrowseView ? ' across any site' : ' yet'}.</InfoNote>
+        <InfoNote mode="line" severity="info">No templates in this category{isBrowseView ? ' across any site' : ' yet'}.</InfoNote>
       )}
 
       <Grid container spacing={3}>

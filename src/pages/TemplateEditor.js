@@ -415,7 +415,7 @@ export default function TemplateEditor() {
             </Box>
 
             {columns.length === 0 && (
-              <InfoNote severity="info" sx={{ m: 2 }}>
+              <InfoNote mode="line" severity="info" sx={{ m: 2 }}>
                 Upload an Excel file or add columns manually to get started.
               </InfoNote>
             )}

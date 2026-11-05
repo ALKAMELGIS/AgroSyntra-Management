@@ -424,7 +424,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
 
         {step === 1 && (
           <Box>
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               {sheetInfos.length} data sheets detected. Input file (all fields) is unchecked by default.
               Tick the field tabs to import, or tick Input file to import every field.
             </InfoNote>
@@ -479,7 +479,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
 
         {step === 2 && (
           <Box>
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               {mappedCount} of {excelHeaders.length} columns mapped — {rawDataRows.length} data rows detected
               {mapSourceSheet ? ` from ${mapSourceSheet}` : ''}.
               Adjust any incorrect mappings below, then click "Continue".

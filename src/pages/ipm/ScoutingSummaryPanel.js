@@ -262,9 +262,9 @@ export default function ScoutingSummaryPanel({ activeSiteId, onOpenReport }) {
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
       {!summary?.fields?.length ? (
-        <InfoNote severity="info">No fields found for this site and date range.</InfoNote>
+        <InfoNote mode="line" severity="info">No fields found for this site and date range.</InfoNote>
       ) : !visibleFields.length ? (
-        <InfoNote severity="info">No fields match the selected field type.</InfoNote>
+        <InfoNote mode="line" severity="info">No fields match the selected field type.</InfoNote>
       ) : (
         <>
           <Tabs

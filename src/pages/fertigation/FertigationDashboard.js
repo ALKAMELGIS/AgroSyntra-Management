@@ -641,7 +641,7 @@ function FertigationDashboard() {
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <InfoNote severity="info">No data available for the selected filters</InfoNote>
+              <InfoNote mode="line" severity="info">No data available for the selected filters</InfoNote>
             )}
           </Card>
         </TabPanel>
@@ -695,7 +695,7 @@ function FertigationDashboard() {
                 </Box>
               </Box>
             ) : (
-              <InfoNote severity="info">No data available for the selected filters</InfoNote>
+              <InfoNote mode="line" severity="info">No data available for the selected filters</InfoNote>
             )}
           </Card>
         </TabPanel>
@@ -770,7 +770,7 @@ function FertigationDashboard() {
                 </Box>
               </>
             ) : (
-              <InfoNote severity="info">No data available for the selected filters</InfoNote>
+              <InfoNote mode="line" severity="info">No data available for the selected filters</InfoNote>
             )}
           </Card>
         </TabPanel>
@@ -826,7 +826,7 @@ function FertigationDashboard() {
                 </Table>
               </TableContainer>
             ) : (
-              <InfoNote severity="info">No data available for the selected filters</InfoNote>
+              <InfoNote mode="line" severity="info">No data available for the selected filters</InfoNote>
             )}
           </Card>
         </TabPanel>

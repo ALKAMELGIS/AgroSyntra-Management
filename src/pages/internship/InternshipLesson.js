@@ -195,7 +195,7 @@ export default function InternshipLesson() {
       {phase === 'reading' && isStudent && (
         <Box sx={{ textAlign: 'center' }}>
           {noBankMsg ? (
-            <InfoNote severity="info" sx={{ justifyContent: 'center' }}>Quiz not available yet. Your teacher has not generated questions for this lesson.</InfoNote>
+            <InfoNote mode="line" severity="info" sx={{ justifyContent: 'center' }}>Quiz not available yet. Your teacher has not generated questions for this lesson.</InfoNote>
           ) : (
             <Button
               variant="contained" size="large" startIcon={quizLoading ? <CircularProgress size={18} color="inherit" /> : <Quiz />}

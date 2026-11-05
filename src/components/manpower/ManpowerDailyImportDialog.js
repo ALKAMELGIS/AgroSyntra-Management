@@ -381,7 +381,7 @@ export default function ManpowerDailyImportDialog({
               )}
             </Box>
             {(review.newCasualCount > 0 || review.newPermanentCount > 0) && (
-              <InfoNote severity="info">
+              <InfoNote mode="line" severity="info">
                 Will add {review.newWorkers.length} workers
                 {review.newCasualCount ? ` · ${review.newCasualCount} Casual` : ''}
                 {review.newPermanentCount ? ` · ${review.newPermanentCount} Permanent (EAG)` : ''}
@@ -540,7 +540,7 @@ export default function ManpowerDailyImportDialog({
               </Alert>
             )}
             {review.importableBlocks.length === 0 && review.updatableBlocks.length === 0 && !hasMappingWork && (
-              <InfoNote severity="info">Nothing to import.</InfoNote>
+              <InfoNote mode="line" severity="info">Nothing to import.</InfoNote>
             )}
           </Box>
         )}

@@ -481,7 +481,7 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
               </Alert>
             )}
             {importResults.skipped > 0 && (
-              <InfoNote severity="info" sx={{ mb: 2 }}>
+              <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
                 <strong>{importResults.skipped}</strong> row(s) skipped (duplicates already exist in system).
               </InfoNote>
             )}

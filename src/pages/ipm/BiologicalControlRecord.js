@@ -1415,7 +1415,7 @@ export default function BiologicalControlRecord() {
   if (!activeSiteId) {
     return (
       <Box sx={{ p: 4 }}>
-        <InfoNote severity="info">Select a site from Organization Settings to use Biological Control Records.</InfoNote>
+        <InfoNote mode="line" severity="info">Select a site from Organization Settings to use Biological Control Records.</InfoNote>
       </Box>
     );
   }
@@ -1423,7 +1423,7 @@ export default function BiologicalControlRecord() {
   if (!seasonReady) {
     return (
       <Box sx={{ p: 4 }}>
-        <InfoNote severity="info">Select a season in the sidebar to use Biological Control Records.</InfoNote>
+        <InfoNote mode="line" severity="info">Select a season in the sidebar to use Biological Control Records.</InfoNote>
       </Box>
     );
   }
@@ -1549,7 +1549,7 @@ export default function BiologicalControlRecord() {
       )}
 
       {crops.length === 0 && (
-        <InfoNote severity="info" sx={{ m: 2 }}>
+        <InfoNote mode="line" severity="info" sx={{ m: 2 }}>
           No records found for {activeSeason?.name || 'this season'}. Use "Import Excel" or click + on the sheet tabs below to get started.
         </InfoNote>
       )}
@@ -1603,7 +1603,7 @@ export default function BiologicalControlRecord() {
 
               {/* ── Spreadsheet Grid ── */}
               {products.length === 0 ? (
-                <InfoNote severity="info" sx={{ m: 2 }}>
+                <InfoNote mode="line" severity="info" sx={{ m: 2 }}>
                   No products assigned to this field yet. Products will be auto-copied from the previous season if available, or use "Add Product" / "Import Excel".
                 </InfoNote>
               ) : (
@@ -1735,7 +1735,7 @@ export default function BiologicalControlRecord() {
               )}
             </>
           ) : (
-            <InfoNote severity="info" sx={{ m: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ m: 2 }}>
               Select a field tab below or click "+" to add a new field.
             </InfoNote>
           )}
@@ -1936,7 +1936,7 @@ export default function BiologicalControlRecord() {
               </Box>
             </>
           ) : (
-            <InfoNote severity="info" sx={{ m: 2 }}>No summary data available for this crop and season.</InfoNote>
+            <InfoNote mode="line" severity="info" sx={{ m: 2 }}>No summary data available for this crop and season.</InfoNote>
           )}
         </Box>
       )}
@@ -1980,7 +1980,7 @@ export default function BiologicalControlRecord() {
           </Box>
 
           {!activeSiteId && catalogTab === 0 && (
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               Select a site from the sidebar to see site-specific products and pricing.
             </InfoNote>
           )}

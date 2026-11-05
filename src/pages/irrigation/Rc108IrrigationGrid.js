@@ -541,10 +541,10 @@ export default function Rc108IrrigationGrid({
     : 0;
 
   if (!siteId) {
-    return <InfoNote severity="info">Select a site to enter irrigation.</InfoNote>;
+    return <InfoNote mode="line" severity="info">Select a site to enter irrigation.</InfoNote>;
   }
   if (locations.length === 0) {
-    return <InfoNote severity="info">No fields on this site for this structure.</InfoNote>;
+    return <InfoNote mode="line" severity="info">No fields on this site for this structure.</InfoNote>;
   }
 
   return (

@@ -1016,7 +1016,7 @@ export default function PlantationWorkbook({
   };
 
   if (!siteFilter) {
-    return <InfoNote severity="info">Select a site to manage plantation opening / closing.</InfoNote>;
+    return <InfoNote mode="line" severity="info">Select a site to manage plantation opening / closing.</InfoNote>;
   }
   if (loading) {
     return <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}><CircularProgress /></Box>;

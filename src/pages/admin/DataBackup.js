@@ -361,7 +361,7 @@ export default function DataBackup() {
               </Typography>
             </Stack>
           ) : (
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               <Typography variant="body2" fontWeight={600} sx={{ mb: 0.5 }}>
                 Ask your deployer to set these environment variables on the backend service:
               </Typography>

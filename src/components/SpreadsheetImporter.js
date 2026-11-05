@@ -520,7 +520,7 @@ export default function SpreadsheetImporter({
         {/* Step 1: Column Mapping */}
         {step === 1 && (
           <Box>
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               {mappedCount} of {excelHeaders.length} columns mapped — {rawDataRows.length} data rows detected.
               Adjust any incorrect mappings below, then click "Continue".
             </InfoNote>

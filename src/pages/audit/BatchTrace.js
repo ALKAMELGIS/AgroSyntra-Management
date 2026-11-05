@@ -380,7 +380,7 @@ export default function BatchTrace() {
         )}
 
         {!loading && searched && matches.length === 0 && (
-          <InfoNote severity="info">
+          <InfoNote mode="line" severity="info">
             No harvest records found for batch number &quot;{batchNumber.trim()}&quot;.
           </InfoNote>
         )}

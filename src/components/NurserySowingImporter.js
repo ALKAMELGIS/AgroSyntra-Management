@@ -363,7 +363,7 @@ export default function NurserySowingImporter({
 
   const renderStep1 = () => (
     <Box>
-      <InfoNote severity="info" sx={{ mb: 2 }}>
+      <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
         {importableRows.length} of {counts.total} rows will be saved to sowing records.
         Unmatched crop/variety names still import as text fields where possible.
       </InfoNote>

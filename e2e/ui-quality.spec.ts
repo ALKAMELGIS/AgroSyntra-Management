@@ -366,15 +366,24 @@ test.describe('core usability', () => {
     await expect(bar.getByText('الرئيسية')).toBeVisible();
   });
 
-  test('long info notes stay on one line and expand on demand', async ({ page }) => {
+  test('help notes show only an icon and open the text on click', async ({ page }) => {
     await prepare(page);
     await page.goto('/manpower-record');
     await settle(page);
-    const note = page.getByRole('alert').filter({ hasText: 'Daily Activity Sheet' }).first();
-    expect((await note.boundingBox())!.height).toBeLessThanOrEqual(44);
-    await note.getByRole('button', { name: /More/ }).click();
-    expect((await note.boundingBox())!.height).toBeGreaterThan(60);
-    await expect(note.getByRole('button', { name: /Less/ })).toHaveAttribute('aria-expanded', 'true');
+    // The long Daily Activity Sheet explanation is hidden until asked for.
+    await expect(page.getByText('Data entry workers and operators fill the Daily Activity Sheet')).toBeHidden();
+    const icon = page.getByRole('button', { name: 'Information' }).first();
+    const box = (await icon.boundingBox())!;
+    expect(box.height).toBeLessThanOrEqual(32);
+    await icon.click();
+    // While the popup is open the rest of the page is aria-hidden (modal popover), so assert on the popup.
+    await expect(page.getByRole('dialog', { name: 'Information' })).toContainText('Daily Activity Sheet');
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('dialog', { name: 'Information' })).toBeHidden();
+    await expect(icon).toHaveAttribute('aria-expanded', 'false');
+    // "View only" is an eye icon with the same behaviour.
+    await page.getByRole('button', { name: 'View only' }).first().click();
+    await expect(page.getByRole('dialog', { name: 'View only' })).toBeVisible();
   });
 
   test('keyboard focus is visible on the first control', async ({ page }) => {

@@ -1578,7 +1578,7 @@ export default function ManpowerRecord() {
               <Typography color="text.secondary">No manpower records in this date range.</Typography>
             </Paper>
           ) : activeSiteId && !pivotLoading && pivotData && !workersCountRowOrder.length ? (
-            <InfoNote severity="info">No crop or variety rows to display for this site and date range.</InfoNote>
+            <InfoNote mode="line" severity="info">No crop or variety rows to display for this site and date range.</InfoNote>
           ) : activeSiteId && pivotData?.dates?.length && workersCountRowOrder.length ? (
             <>
               <WorkersCountPivotTable
@@ -1682,7 +1682,7 @@ export default function ManpowerRecord() {
               <Typography color="text.secondary">No approved manpower records in this date range.</Typography>
             </Paper>
           ) : activeSiteId && !hoursLoading && hoursData && !workHoursRowOrder.length ? (
-            <InfoNote severity="info">No crop or variety rows to display for this site and date range.</InfoNote>
+            <InfoNote mode="line" severity="info">No crop or variety rows to display for this site and date range.</InfoNote>
           ) : activeSiteId && hoursData?.dates?.length && workHoursRowOrder.length ? (
             <>
               {hoursCropFilter !== '__all__' && resolvePivotActivities(hoursData).filter((a) => hoursActivityKeys.includes(a.key)).slice(0, 3).map((act) => {

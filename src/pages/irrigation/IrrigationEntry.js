@@ -689,7 +689,7 @@ export default function IrrigationEntry() {
       <Box sx={{ flex: 1, overflow: 'auto', backgroundColor: 'var(--sheet-bg, #fff)', p: '12px 16px' }}>
         {readOnly && <Box sx={{ mb: 2 }}><ReadOnlyBanner /></Box>}
         {availableStructureTabs.length === 0 ? (
-          <InfoNote severity="info">
+          <InfoNote mode="line" severity="info">
             No fields configured for this site. Add fields in Management to enable irrigation entry.
           </InfoNote>
         ) : isPivot ? (

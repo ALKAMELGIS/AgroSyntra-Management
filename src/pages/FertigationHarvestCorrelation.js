@@ -141,11 +141,11 @@ export default function FertigationHarvestCorrelation() {
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
       {!selectedField ? (
-        <InfoNote severity="info">Select a field to view the correlation chart.</InfoNote>
+        <InfoNote mode="line" severity="info">Select a field to view the correlation chart.</InfoNote>
       ) : loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}><CircularProgress /></Box>
       ) : data.length === 0 ? (
-        <InfoNote severity="info">No data found for the selected field and period.</InfoNote>
+        <InfoNote mode="line" severity="info">No data found for the selected field and period.</InfoNote>
       ) : (
         <Paper sx={{ p: 2 }}>
           <ResponsiveContainer width="100%" height={400}>

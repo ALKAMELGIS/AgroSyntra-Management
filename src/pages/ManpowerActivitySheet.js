@@ -77,7 +77,7 @@ export default function ManpowerActivitySheet() {
       </Typography>
 
       {!activeSiteId && (
-        <InfoNote severity="info">Select an Active Site to load fields and workers.</InfoNote>
+        <InfoNote mode="line" severity="info">Select an Active Site to load fields and workers.</InfoNote>
       )}
       {loadError && <Alert severity="error" sx={{ mb: 2 }}>{loadError}</Alert>}
       {loading && (

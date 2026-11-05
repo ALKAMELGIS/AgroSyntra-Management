@@ -1170,7 +1170,7 @@ export default function CropHistory() {
           ))}
 
           {!pLoading && visiblePlantingRows.length === 0 && pRows.some((r) => !r._isNew) && (
-            <InfoNote severity="info" sx={{ mb: 2 }}>
+            <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
               {fieldFilterId
                 ? 'No planting records for this field.'
                 : 'No planting records for this field type.'}

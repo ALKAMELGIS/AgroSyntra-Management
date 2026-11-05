@@ -787,7 +787,7 @@ function EfficiencyDashboard() {
         </Card>
 
         {weeklyMetrics.length === 0 ? (
-          <InfoNote severity="info">
+          <InfoNote mode="line" severity="info">
             No data available for the selected filters. Please ensure you have harvest entries, EC/pH entries, and weather data for the selected period.
           </InfoNote>
         ) : (

@@ -81,7 +81,7 @@ const CROP_ROTATION_PATH = '/admin/crop-history?tab=rotation';
 
 function CropRotationNote({ sx }) {
   return (
-    <InfoNote severity="info" sx={sx}>
+    <InfoNote mode="line" severity="info" sx={sx}>
       Change crops in{' '}
       <Link component={RouterLink} to={CROP_ROTATION_PATH}>
         Crop History → Crop Rotation

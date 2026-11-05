@@ -249,9 +249,9 @@ function SeasonsManagement() {
         </Box>
 
         {!activeSiteId ? (
-          <InfoNote severity="info">Pick a site in the sidebar to manage seasons.</InfoNote>
+          <InfoNote mode="line" severity="info">Pick a site in the sidebar to manage seasons.</InfoNote>
         ) : !hasOpenSeason && canManage ? (
-          <InfoNote severity="info" sx={{ mb: 2 }}>
+          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
             This site has no open season. Start the current farm year (1 Sep – 31 Jul), or add a past year and request reopen for historical import.
           </InfoNote>
         ) : (
