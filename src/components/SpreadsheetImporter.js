@@ -17,6 +17,7 @@ import { guessFieldKey, normalizeHeader } from '../utils/pestImportGuess';
 import { formatPercentSeen } from '../utils/percentSeen';
 import { applyFieldPickToExcelValue, resolveImportField } from '../utils/pppImportFieldMatch';
 import { runBulkImportBatches } from '../utils/pppBulkImportBatches';
+import InfoNote from './InfoNote';
 
 // ─── Excel-like colour palette (matches SpreadsheetGrid) ──────────
 const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
@@ -519,10 +520,10 @@ export default function SpreadsheetImporter({
         {/* Step 1: Column Mapping */}
         {step === 1 && (
           <Box>
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               {mappedCount} of {excelHeaders.length} columns mapped — {rawDataRows.length} data rows detected.
               Adjust any incorrect mappings below, then click "Continue".
-            </Alert>
+            </InfoNote>
             <TableContainer sx={{ maxHeight: 420, border: cellBorder }}>
               <Table stickyHeader size="small">
                 <TableHead>

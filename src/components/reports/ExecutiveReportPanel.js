@@ -8,6 +8,7 @@ import {
   PrintOutlined as PrintIcon,
 } from '@mui/icons-material';
 import { formatPeriodLabel } from '../../utils/executiveReportUtils';
+import InfoNote from '../InfoNote';
 
 function KpiCard({ title, value, subtitle, delta, color = '#1f7a4d' }) {
   // Same anatomy as the dashboard KPI tiles: series colour as an accent dot,
@@ -91,7 +92,7 @@ export default function ExecutiveReportPanel({
       </Paper>
 
       {!report.hasData ? (
-        <Alert severity="info">No data found for the selected date range. Adjust the dates or check that entries exist.</Alert>
+        <InfoNote severity="info">No data found for the selected date range. Adjust the dates or check that entries exist.</InfoNote>
       ) : (
         <>
           <Grid container spacing={1.5} sx={{ mb: 3 }}>

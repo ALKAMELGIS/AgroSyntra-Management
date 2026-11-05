@@ -1,8 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField,
-  Box, Typography, Checkbox, FormControlLabel, FormGroup, Divider, Alert,
-  List, ListItemButton, ListItemText, IconButton, MenuItem,
+  Box, Typography, Checkbox, FormControlLabel, FormGroup, Divider, List, ListItemButton, ListItemText, IconButton, MenuItem,
 } from '@mui/material';
 import { AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit } from '@mui/icons-material';
 import {
@@ -12,6 +11,7 @@ import {
 } from '../../utils/backendApi';
 import { useNotification } from '../../contexts/NotificationContext';
 import { isRecipeApproved, recipeOptionLabel, recipePickerOptions } from '../../utils/recipeApproval';
+import InfoNote from '../InfoNote';
 
 const emptyForm = () => ({
   name: '',
@@ -132,7 +132,7 @@ export default function FertigationGroupManager({
       <DialogTitle>Manage Fertigation Field Groups</DialogTitle>
       <DialogContent dividers>
         {!siteId && (
-          <Alert severity="info">Select a site first.</Alert>
+          <InfoNote severity="info">Select a site first.</InfoNote>
         )}
 
         {siteId && !editingId && (
@@ -148,7 +148,7 @@ export default function FertigationGroupManager({
               )}
             </Box>
             {groups.length === 0 ? (
-              <Alert severity="info">No field groups yet. Create one for blocks like Nethouse 1–10.</Alert>
+              <InfoNote severity="info">No field groups yet. Create one for blocks like Nethouse 1–10.</InfoNote>
             ) : (
               <List dense disablePadding>
                 {groups.map((group) => (

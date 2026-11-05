@@ -1,8 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Box, Typography, Paper, Button, TextField, Chip, Alert,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Box, Typography, Paper, Button, TextField, Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   CircularProgress, IconButton, Tooltip,
 } from '@mui/material';
 import {
@@ -21,6 +20,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import useReadOnlyMode from '../../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { isReadOnlyOnPage, PAGE_KEYS } from '../../utils/roleAccess';
+import InfoNote from '../../components/InfoNote';
 
 /** When true, every sowing grid cell renders disabled (view-only roles, closed season). */
 const CellReadOnlyContext = createContext(false);
@@ -363,7 +363,7 @@ export default function NurserySowingRecord({
   };
 
   if (!siteFilter) {
-    return <Alert severity="info">Select a site to enter nursery sowing records (RC-241).</Alert>;
+    return <InfoNote severity="info">Select a site to enter nursery sowing records (RC-241).</InfoNote>;
   }
 
   if (loading) {

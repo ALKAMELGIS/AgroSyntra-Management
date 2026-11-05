@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { canWriteOpsStock } from '../utils/roleAccess';
 
 import { API_BASE, getAuthHeaders } from '../config/api';
+import InfoNote from '../components/InfoNote';
 
 const API = API_BASE;
 const headers = () => ({
@@ -228,7 +229,7 @@ export default function Inventory() {
         {canWrite && <Button variant="contained" startIcon={<Add />} onClick={openAdd}>Add Item</Button>}
       </Box>
       {!canWrite && (
-        <Alert severity="info" sx={{ mb: 2 }}>{t('adminAccess.inventoryViewOnly')}</Alert>
+        <InfoNote severity="info" sx={{ mb: 2 }}>{t('adminAccess.inventoryViewOnly')}</InfoNote>
       )}
 
       {/* Low stock alert */}

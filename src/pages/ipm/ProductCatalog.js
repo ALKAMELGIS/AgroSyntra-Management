@@ -15,6 +15,7 @@ import { useMasterData } from '../../utils/useMasterData';
 import { canEditIpmCatalog, canManagePppMsds } from '../../utils/ipmAccess';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../../components/table/ExcelTable';
 import PppMsdsTab from './PppMsdsTab';
+import InfoNote from '../../components/InfoNote';
 
 const FORMULATION_TYPES = ['spray', 'drench', 'fog', 'granule', 'dust', 'other'];
 const AGENT_TYPES = ['predatory_mite', 'parasitic_wasp', 'nematode', 'fungus', 'bacteria', 'other'];
@@ -376,7 +377,7 @@ export default function ProductCatalog() {
       </Tabs>
 
       {!canEdit && tab !== 4 && (
-        <Alert severity="info" sx={{ mb: 2 }}>{t('ipmCatalogAccess.productViewOnly')}</Alert>
+        <InfoNote severity="info" sx={{ mb: 2 }}>{t('ipmCatalogAccess.productViewOnly')}</InfoNote>
       )}
 
       {/* ─── Pesticide Products Table (Excel column order) ─── */}
@@ -468,9 +469,9 @@ export default function ProductCatalog() {
       {/* ─── Foundation Catalog (read-only reference) ─── */}
       {tab === 1 && (
         <Box>
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             Reference catalog — platform-maintained PPP data sheets. Add items to your active product list; changes here do not affect other organizations.
-          </Alert>
+          </InfoNote>
           <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: PHI_TABLE_MAX_HEIGHT }}>
             <Table size="small" sx={[excelTableSx, freezeColumnsSx(PRODUCT_FROZEN_WIDTHS, GUTTER_WIDTH)]}>
               <TableHead>

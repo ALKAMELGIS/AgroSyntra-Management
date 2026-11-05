@@ -13,7 +13,6 @@ import {
   IconButton,
   Breadcrumbs,
   Link,
-  Alert,
   Skeleton,
   Dialog,
   DialogTitle,
@@ -67,6 +66,7 @@ import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
 import { apiRequest } from '../utils/api';
+import InfoNote from '../components/InfoNote';
 
 const CATEGORY_META = {
   ecph:        { label: 'EC / PH',              icon: <ScienceIcon sx={{ fontSize: 40 }} />,     color: '#1976d2' },
@@ -877,24 +877,24 @@ export default function Templates() {
         )}
 
         {browseTab === 0 && !activeSiteId && (
-          <Alert severity="info" sx={{ mb: 3 }}>
+          <InfoNote severity="info" sx={{ mb: 3 }}>
             Select a default site in Organization Settings to see site-specific templates.
             Showing all available templates.
-          </Alert>
+          </InfoNote>
         )}
 
         {categories.length === 0 && browseTab === 0 && (
-          <Alert severity="info">
+          <InfoNote severity="info">
             No templates are assigned to this site yet. Use "Configure Sites" to assign templates, or create a new one.
-          </Alert>
+          </InfoNote>
         )}
 
         {categories.length === 0 && browseTab === 1 && (
-          <Alert severity="info">
+          <InfoNote severity="info">
             {browseSiteFilter || browseSearch
               ? 'No templates match your filters.'
               : 'No custom templates exist yet across any site.'}
-          </Alert>
+          </InfoNote>
         )}
 
         <Grid container spacing={3}>
@@ -951,7 +951,7 @@ export default function Templates() {
           <DialogTitle>Configure Templates per Site</DialogTitle>
           <DialogContent>
             {sites.length === 0 ? (
-              <Alert severity="info">No sites found.</Alert>
+              <InfoNote severity="info">No sites found.</InfoNote>
             ) : (
               <TableContainer sx={{ mt: 1 }}>
                 <Table size="small">
@@ -1086,7 +1086,7 @@ export default function Templates() {
       </Box>
 
       {catTemplates.length === 0 && (
-        <Alert severity="info">No templates in this category{isBrowseView ? ' across any site' : ' yet'}.</Alert>
+        <InfoNote severity="info">No templates in this category{isBrowseView ? ' across any site' : ' yet'}.</InfoNote>
       )}
 
       <Grid container spacing={3}>

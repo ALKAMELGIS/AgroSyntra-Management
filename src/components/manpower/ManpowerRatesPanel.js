@@ -16,6 +16,7 @@ import { canEditManpowerRates } from '../../utils/roleAccess';
 import {
   WORKER_CATEGORIES, formatAed, groupRateRows, nextScheduledRate, rateInForce, todayIso, workersOnPersonalRate,
 } from '../../utils/manpowerCost';
+import InfoNote from '../InfoNote';
 
 const INVALIDATE = [['manpower-cost']];
 
@@ -201,7 +202,7 @@ export default function ManpowerRatesPanel({ siteId, sites }) {
   const siteName = sites.find((s) => s.id === siteId)?.name || '';
 
   if (!siteId) {
-    return <Alert severity="info">{t('manpowerCost.rates.pickSite')}</Alert>;
+    return <InfoNote severity="info">{t('manpowerCost.rates.pickSite')}</InfoNote>;
   }
   if (rates.isLoading) {
     return <Box sx={{ p: 4, textAlign: 'center' }}><CircularProgress /></Box>;
@@ -256,7 +257,7 @@ export default function ManpowerRatesPanel({ siteId, sites }) {
 
   return (
     <Box>
-      {!canEdit && <Alert severity="info" variant="outlined" sx={{ mb: 2 }}>{t('manpowerCost.rates.readOnly')}</Alert>}
+      {!canEdit && <InfoNote severity="info" sx={{ mb: 2 }}>{t('manpowerCost.rates.readOnly')}</InfoNote>}
 
       <DashboardSection title={`${t('manpowerCost.rates.groupTitle')}${siteName ? ` · ${siteName}` : ''}`}>
         <Typography variant="body2" color="text.secondary" sx={{ px: 2, pt: 1.5 }}>

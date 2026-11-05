@@ -84,6 +84,7 @@ import { FitBounds, DrawingTool, MapWidgets, BasemapLayer, MapLifecycle, MapResi
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import L from 'leaflet';
+import InfoNote from '../components/InfoNote';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -589,10 +590,10 @@ function RemoteSensing() {
         )}
 
         {availableFields.length === 0 && (
-          <Alert severity="info" sx={{ mt: 2 }}>
+          <InfoNote severity="info" sx={{ mt: 2 }}>
             No field boundaries found yet. Click <strong>Draw Field</strong> to draw a polygon and assign it to an existing Field ID.
             Use the <strong>Satellite</strong> base map to trace boundaries from aerial imagery.
-          </Alert>
+          </InfoNote>
         )}
       </Paper>
 
@@ -1215,11 +1216,11 @@ function RemoteSensing() {
 
                     {drawnPolygon && (
                       <Grid size={12}>
-                        <Alert severity="info">
+                        <InfoNote severity="info">
                           <Typography variant="body2">
                             Polygon with {drawnPolygon.length} points will be saved to the selected field.
                           </Typography>
-                        </Alert>
+                        </InfoNote>
                       </Grid>
                     )}
                   </Grid>

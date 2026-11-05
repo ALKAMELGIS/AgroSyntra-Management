@@ -14,6 +14,7 @@ import { excelTableSx, GutterCell } from '../components/table/ExcelTable';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { canEditThresholds } from '../utils/roleAccess';
+import InfoNote from '../components/InfoNote';
 
 const PARAMETER_LABELS = {
   temperature: { label: 'Temperature', unit: '°C' },
@@ -138,7 +139,7 @@ export default function AgronomicReference() {
         )}
       </Box>
       {!canEdit && (
-        <Alert severity="info" sx={{ mb: 2 }}>{tr('adminAccess.thresholdsViewOnly')}</Alert>
+        <InfoNote severity="info" sx={{ mb: 2 }}>{tr('adminAccess.thresholdsViewOnly')}</InfoNote>
       )}
 
       <Box sx={{ mb: 2, display: 'flex', gap: 2, alignItems: 'center' }}>
@@ -154,7 +155,7 @@ export default function AgronomicReference() {
       {loading ? (
         <Typography>Loading...</Typography>
       ) : Object.keys(grouped).length === 0 ? (
-        <Alert severity="info">No thresholds configured yet. Click "Add Threshold" to get started.</Alert>
+        <InfoNote severity="info">No thresholds configured yet. Click "Add Threshold" to get started.</InfoNote>
       ) : (
         Object.entries(grouped).map(([cropName, items]) => (
           <Paper key={cropName} variant="outlined" sx={{ mb: 2, overflow: 'hidden' }}>

@@ -74,6 +74,7 @@ import {
 } from '../../utils/justificationCatalog';
 import useAppLayout from '../../hooks/useAppLayout';
 import { fetchOrganizationLogoDataUrl } from '../../utils/organizationLogo';
+import InfoNote from '../../components/InfoNote';
 
 // ─── Constants ────────────────────────────────────────────────────
 
@@ -2028,9 +2029,9 @@ export default function PesticideApplications() {
           </Box>
 
           {!activeSiteId && pestCatalogTab === 0 && (
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               Select a site from the sidebar to see site-specific products and pricing.
-            </Alert>
+            </InfoNote>
           )}
 
           {/* My Site sub-tab */}
@@ -2507,11 +2508,11 @@ export default function PesticideApplications() {
           </Typography>
         </DialogTitle>
         <DialogContent dividers>
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             {createsAutoApproved
               ? 'Your entries are approved automatically when saved.'
               : 'This application will require approval from a pest agronomist before it takes effect.'}
-          </Alert>
+          </InfoNote>
 
           {/* Section 1: Crop & Location */}
           <Typography variant="subtitle2" color="primary" fontWeight={700} gutterBottom sx={{ mt: 1 }}>
@@ -2753,9 +2754,9 @@ export default function PesticideApplications() {
             : `Request ${changeRequestDialog.action === 'delete' ? 'Deletion' : 'Edit'}`}
         </DialogTitle>
         <DialogContent>
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             Your request will be sent to an auditor for review before the change is applied.
-          </Alert>
+          </InfoNote>
           <TextField
             fullWidth
             multiline
@@ -2843,9 +2844,9 @@ export default function PesticideApplications() {
               </Grid>
             ))}
           </Grid>
-          <Alert severity="info" sx={{ fontSize: '0.75rem', mt: 2 }}>
+          <InfoNote severity="info" sx={{ fontSize: '0.75rem', mt: 2 }}>
             PDF includes summaries and period comparison. Detail rows are included for ≤50 records; for larger sets use Excel.
-          </Alert>
+          </InfoNote>
         </DialogContent>
         <DialogActions sx={{ px: 2, py: 1.5, flexWrap: 'wrap', gap: 1 }}>
           <Button

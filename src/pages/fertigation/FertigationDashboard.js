@@ -20,7 +20,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Alert,
   Select,
   FormControl,
   InputLabel,
@@ -53,6 +52,7 @@ import { FERTILIZER_LIST } from '../../data/recipeDatabase';
 import { fetchFertigationDashboardData } from '../dashboard/fertigationDashboardAdapter';
 import { listRecipesAll } from '../../utils/backendApi';
 import { fertigationRecipeName } from '../../utils/fertigationEntryLabels';
+import InfoNote from '../../components/InfoNote';
 
 const toNumber = (value) => {
   const num = Number(value);
@@ -641,7 +641,7 @@ function FertigationDashboard() {
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <Alert severity="info">No data available for the selected filters</Alert>
+              <InfoNote severity="info">No data available for the selected filters</InfoNote>
             )}
           </Card>
         </TabPanel>
@@ -695,7 +695,7 @@ function FertigationDashboard() {
                 </Box>
               </Box>
             ) : (
-              <Alert severity="info">No data available for the selected filters</Alert>
+              <InfoNote severity="info">No data available for the selected filters</InfoNote>
             )}
           </Card>
         </TabPanel>
@@ -770,7 +770,7 @@ function FertigationDashboard() {
                 </Box>
               </>
             ) : (
-              <Alert severity="info">No data available for the selected filters</Alert>
+              <InfoNote severity="info">No data available for the selected filters</InfoNote>
             )}
           </Card>
         </TabPanel>
@@ -826,7 +826,7 @@ function FertigationDashboard() {
                 </Table>
               </TableContainer>
             ) : (
-              <Alert severity="info">No data available for the selected filters</Alert>
+              <InfoNote severity="info">No data available for the selected filters</InfoNote>
             )}
           </Card>
         </TabPanel>

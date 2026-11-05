@@ -32,6 +32,7 @@ import {
   normalizeRecipeKey,
   recipeNotApprovedMessage,
 } from '../utils/fertigationImportValidate';
+import InfoNote from './InfoNote';
 
 const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
 const bannerBg = '#164a31';
@@ -423,10 +424,10 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
 
         {step === 1 && (
           <Box>
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               {sheetInfos.length} data sheets detected. Input file (all fields) is unchecked by default.
               Tick the field tabs to import, or tick Input file to import every field.
-            </Alert>
+            </InfoNote>
             <Box sx={{ display: 'flex', gap: 1, mb: 1.5 }}>
               <Button size="small" onClick={() => setSelectedSheetNames(sheetInfos.map((s) => s.name))} sx={{ textTransform: 'none' }}>
                 Select all
@@ -478,11 +479,11 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
 
         {step === 2 && (
           <Box>
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               {mappedCount} of {excelHeaders.length} columns mapped — {rawDataRows.length} data rows detected
               {mapSourceSheet ? ` from ${mapSourceSheet}` : ''}.
               Adjust any incorrect mappings below, then click "Continue".
-            </Alert>
+            </InfoNote>
             {headerMismatchNames.length > 0 && (
               <Alert severity="warning" sx={{ mb: 2 }}>
                 Sheets {headerMismatchNames.join(', ')} have different header labels than {mapSourceSheet}.

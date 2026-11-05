@@ -24,6 +24,7 @@ import {
   parseHarvestDataRows,
   shouldSkipHarvestSheet,
 } from '../utils/harvestImportParse';
+import InfoNote from './InfoNote';
 
 const HEADER_FILL = '#165c3a';
 const hdrStyle = {
@@ -312,9 +313,9 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
               Found <strong>{sheetData.length}</strong> sheet(s). Matched <strong>{matchedSheets.length}</strong> to fields.
               Use the dropdown to manually assign unmatched sheets.
             </Typography>
-            <Alert severity="info" sx={{ mb: 2, fontSize: '0.75rem' }}>
+            <InfoNote severity="info" sx={{ mb: 2, fontSize: '0.75rem' }}>
               Duplicates are automatically skipped — same field, date, variety, and shift (or start time if shift is blank) will not be imported again.
-            </Alert>
+            </InfoNote>
 
             <TableContainer sx={{ maxHeight: 350 }}>
               <Table size="small">
@@ -480,9 +481,9 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
               </Alert>
             )}
             {importResults.skipped > 0 && (
-              <Alert severity="info" sx={{ mb: 2 }}>
+              <InfoNote severity="info" sx={{ mb: 2 }}>
                 <strong>{importResults.skipped}</strong> row(s) skipped (duplicates already exist in system).
-              </Alert>
+              </InfoNote>
             )}
             {importResults.failed > 0 && (
               <Alert severity="error" sx={{ mb: 2 }}>

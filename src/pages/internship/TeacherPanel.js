@@ -15,6 +15,7 @@ import { apiRequest } from '../../utils/api';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { canAuthorTraining } from '../../utils/roleAccess';
+import InfoNote from '../../components/InfoNote';
 
 export default function TeacherPanel() {
   const { t } = useTranslation();
@@ -36,7 +37,7 @@ export default function TeacherPanel() {
         <Typography variant="h4" gutterBottom>
           Teacher Panel
         </Typography>
-        <Alert severity="info" sx={{ mb: 3 }}>{t('adminAccess.trainingAuthorOnly')}</Alert>
+        <InfoNote severity="info" sx={{ mb: 3 }}>{t('adminAccess.trainingAuthorOnly')}</InfoNote>
         <GradeViewer />
       </Box>
     );
@@ -738,7 +739,7 @@ function QuestionBankDialog({ lessonId, onClose }) {
         {isLoading && <LinearProgress sx={{ mb: 2 }} />}
 
         {questions.length === 0 && !isLoading && (
-          <Alert severity="info">No questions yet. Click &quot;Generate 20 Questions&quot; to create a question bank for this lesson.</Alert>
+          <InfoNote severity="info">No questions yet. Click &quot;Generate 20 Questions&quot; to create a question bank for this lesson.</InfoNote>
         )}
 
         {questions.map((q, idx) => (

@@ -51,6 +51,7 @@ import {
 import WeatherCard from '../components/WeatherCard';
 import SoilCard from '../components/SoilCard';
 import { canWriteWeatherLogs } from '../utils/weatherLogAccess';
+import InfoNote from '../components/InfoNote';
 
 const weatherSchema = Yup.object().shape({
   date: Yup.string().required('Date is required'),
@@ -646,7 +647,7 @@ function WeatherLogEntry() {
         {!canWrite && <ReadOnlyBanner />}
 
         {/* How It Works Explanation */}
-        <Alert severity="info" sx={{ mb: 3 }}>
+        <InfoNote severity="info" sx={{ mb: 3 }}>
           <Typography variant="subtitle2" gutterBottom>
             <strong>How OpenWeatherMap Gets Exact Weather for Your Area:</strong>
           </Typography>
@@ -671,7 +672,7 @@ function WeatherLogEntry() {
               </li>
             </ul>
           </Typography>
-        </Alert>
+        </InfoNote>
 
         {/* API Status */}
         <Alert
@@ -694,14 +695,14 @@ function WeatherLogEntry() {
         </Alert>
 
         {existingEntry && (
-          <Alert severity="info" sx={{ mb: 3 }}>
+          <InfoNote severity="info" sx={{ mb: 3 }}>
             An entry already exists for this site and date. Updating will replace the existing entry.
             {existingEntry.source === 'openweathermap' && (
               <Typography variant="caption" display="block" sx={{ mt: 1 }}>
                 This entry was auto-fetched from OpenWeatherMap API.
               </Typography>
             )}
-          </Alert>
+          </InfoNote>
         )}
 
         {fieldsWithCoordinates.length > 0 && selectedSite && (
@@ -793,10 +794,10 @@ function WeatherLogEntry() {
                   </Box>
                 </Box>
               ) : (
-                <Alert severity="info">
+                <InfoNote severity="info">
                   No fields with coordinates for this site. GIS-linked fields get coordinates automatically on sync;
                   re-run GIS auto-link or add latitude/longitude in Field Types & Names.
-                </Alert>
+                </InfoNote>
               )}
             </CardContent>
           </Card>

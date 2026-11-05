@@ -16,6 +16,7 @@ import {
 import * as XLSX from 'xlsx';
 import { bulkImportIrrigation } from '../utils/backendApi';
 import { parseIrrigationWorkbook } from '../utils/irrigationImportParser';
+import InfoNote from './InfoNote';
 
 const HEADER_FILL = '#165c3a';
 const hdrStyle = {
@@ -197,9 +198,9 @@ export default function IrrigationImporter({
                 Replace All
               </Button>
             </Box>
-            <Alert severity="info" sx={{ mb: 2, fontSize: '0.75rem' }}>
+            <InfoNote severity="info" sx={{ mb: 2, fontSize: '0.75rem' }}>
               Merge skips rows that match an existing date + field + segment. Replace deletes all records for that month first.
-            </Alert>
+            </InfoNote>
 
             <TableContainer sx={{ maxHeight: 320, mb: 2 }}>
               <Table size="small" stickyHeader>

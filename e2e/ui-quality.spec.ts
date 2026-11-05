@@ -366,6 +366,17 @@ test.describe('core usability', () => {
     await expect(bar.getByText('الرئيسية')).toBeVisible();
   });
 
+  test('long info notes stay on one line and expand on demand', async ({ page }) => {
+    await prepare(page);
+    await page.goto('/manpower-record');
+    await settle(page);
+    const note = page.getByRole('alert').filter({ hasText: 'Daily Activity Sheet' }).first();
+    expect((await note.boundingBox())!.height).toBeLessThanOrEqual(44);
+    await note.getByRole('button', { name: /More/ }).click();
+    expect((await note.boundingBox())!.height).toBeGreaterThan(60);
+    await expect(note.getByRole('button', { name: /Less/ })).toHaveAttribute('aria-expanded', 'true');
+  });
+
   test('keyboard focus is visible on the first control', async ({ page }) => {
     await prepare(page, { auth: false });
     await page.goto('/login');

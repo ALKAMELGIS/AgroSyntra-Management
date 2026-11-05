@@ -9,6 +9,7 @@ import {
 import { apiRequest } from '../utils/api';
 import { useMasterData } from '../utils/useMasterData';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
+import InfoNote from '../components/InfoNote';
 
 export default function FertigationHarvestCorrelation() {
   const { data: masterRaw } = useMasterData();
@@ -140,11 +141,11 @@ export default function FertigationHarvestCorrelation() {
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
       {!selectedField ? (
-        <Alert severity="info">Select a field to view the correlation chart.</Alert>
+        <InfoNote severity="info">Select a field to view the correlation chart.</InfoNote>
       ) : loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}><CircularProgress /></Box>
       ) : data.length === 0 ? (
-        <Alert severity="info">No data found for the selected field and period.</Alert>
+        <InfoNote severity="info">No data found for the selected field and period.</InfoNote>
       ) : (
         <Paper sx={{ p: 2 }}>
           <ResponsiveContainer width="100%" height={400}>

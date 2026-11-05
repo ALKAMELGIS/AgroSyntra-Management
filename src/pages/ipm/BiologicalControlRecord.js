@@ -70,6 +70,7 @@ import {
   packCost,
   resolvedSitePrice,
 } from '../../utils/bioControlWeeks';
+import InfoNote from '../../components/InfoNote';
 
 function UomPicker({ options, value, onChange, label = 'UOM', variant = 'outlined', sx }) {
   const selected = typeof value === 'object' && value
@@ -1414,7 +1415,7 @@ export default function BiologicalControlRecord() {
   if (!activeSiteId) {
     return (
       <Box sx={{ p: 4 }}>
-        <Alert severity="info">Select a site from Organization Settings to use Biological Control Records.</Alert>
+        <InfoNote severity="info">Select a site from Organization Settings to use Biological Control Records.</InfoNote>
       </Box>
     );
   }
@@ -1422,7 +1423,7 @@ export default function BiologicalControlRecord() {
   if (!seasonReady) {
     return (
       <Box sx={{ p: 4 }}>
-        <Alert severity="info">Select a season in the sidebar to use Biological Control Records.</Alert>
+        <InfoNote severity="info">Select a season in the sidebar to use Biological Control Records.</InfoNote>
       </Box>
     );
   }
@@ -1436,18 +1437,18 @@ export default function BiologicalControlRecord() {
       )}
       {!isSeasonReadOnly && canProposeBioCells(user) && (
         <Box sx={{ px: 2, pt: 1, flexShrink: 0 }}>
-          <Alert severity="info" sx={{ py: 0 }}>
+          <InfoNote severity="info" sx={{ py: 0 }}>
             Values you enter wait for the pest agronomist&apos;s approval (amber cells) and are not counted until approved.
             To remove a whole field table, use ✕ on its tab to send a delete request.
-          </Alert>
+          </InfoNote>
         </Box>
       )}
       {!isSeasonReadOnly && !isBioManager && !canProposeBioCells(user) && canImportBio(user) && (
         <Box sx={{ px: 2, pt: 1, flexShrink: 0 }}>
-          <Alert severity="info" sx={{ py: 0 }}>
+          <InfoNote severity="info" sx={{ py: 0 }}>
             You can import an Excel file — imported values wait for the pest agronomist&apos;s approval.
             To remove a whole field table, use ✕ on its tab to send a delete request.
-          </Alert>
+          </InfoNote>
         </Box>
       )}
       {/* ── Toolbar ── */}
@@ -1548,9 +1549,9 @@ export default function BiologicalControlRecord() {
       )}
 
       {crops.length === 0 && (
-        <Alert severity="info" sx={{ m: 2 }}>
+        <InfoNote severity="info" sx={{ m: 2 }}>
           No records found for {activeSeason?.name || 'this season'}. Use "Import Excel" or click + on the sheet tabs below to get started.
-        </Alert>
+        </InfoNote>
       )}
 
       {/* ── SPREADSHEET VIEW ── */}
@@ -1602,9 +1603,9 @@ export default function BiologicalControlRecord() {
 
               {/* ── Spreadsheet Grid ── */}
               {products.length === 0 ? (
-                <Alert severity="info" sx={{ m: 2 }}>
+                <InfoNote severity="info" sx={{ m: 2 }}>
                   No products assigned to this field yet. Products will be auto-copied from the previous season if available, or use "Add Product" / "Import Excel".
-                </Alert>
+                </InfoNote>
               ) : (
                 <Box sx={{ flex: 1, overflow: 'auto', px: 0 }}>
                   <table style={{ borderCollapse: 'collapse', fontSize: '0.75rem', width: 'max-content', minWidth: '100%' }}>
@@ -1734,9 +1735,9 @@ export default function BiologicalControlRecord() {
               )}
             </>
           ) : (
-            <Alert severity="info" sx={{ m: 2 }}>
+            <InfoNote severity="info" sx={{ m: 2 }}>
               Select a field tab below or click "+" to add a new field.
-            </Alert>
+            </InfoNote>
           )}
 
           {/* ── Excel-like bottom sheet tabs ── */}
@@ -1935,7 +1936,7 @@ export default function BiologicalControlRecord() {
               </Box>
             </>
           ) : (
-            <Alert severity="info" sx={{ m: 2 }}>No summary data available for this crop and season.</Alert>
+            <InfoNote severity="info" sx={{ m: 2 }}>No summary data available for this crop and season.</InfoNote>
           )}
         </Box>
       )}
@@ -1979,9 +1980,9 @@ export default function BiologicalControlRecord() {
           </Box>
 
           {!activeSiteId && catalogTab === 0 && (
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               Select a site from the sidebar to see site-specific products and pricing.
-            </Alert>
+            </InfoNote>
           )}
 
           {/* My Site tab */}

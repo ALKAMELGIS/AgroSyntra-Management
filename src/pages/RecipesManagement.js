@@ -19,8 +19,7 @@ import {
   TableRow,
   TextField,
   Typography,
-  Alert,
-} from '@mui/material';
+  } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit, TaskAltOutlined as TaskAlt } from '@mui/icons-material';
 import { FERTILIZER_LIST } from '../data/recipeDatabase';
@@ -31,6 +30,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { canApproveRecipes, isRecipeApproved } from '../utils/recipeApproval';
 import { canEditRecipes } from '../utils/roleAccess';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
+import InfoNote from '../components/InfoNote';
 
 const RECIPE_FROZEN_WIDTHS = [180];
 
@@ -248,7 +248,7 @@ function RecipesManagement() {
           )}
         </Box>
         {!canEdit && (
-          <Alert severity="info" sx={{ mb: 2 }}>{t('adminAccess.recipesViewOnly')}</Alert>
+          <InfoNote severity="info" sx={{ mb: 2 }}>{t('adminAccess.recipesViewOnly')}</InfoNote>
         )}
 
         <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 280px)' }}>

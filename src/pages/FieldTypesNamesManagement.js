@@ -26,7 +26,6 @@ import {
   MenuItem,
   Chip,
   Divider,
-  Alert,
   Link,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
@@ -47,6 +46,7 @@ import {
 } from '../utils/backendApi';
 import { TableSkeleton } from '../components/LoadingSkeleton';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
+import InfoNote from '../components/InfoNote';
 
 const FIELD_FROZEN_WIDTHS = [160];
 
@@ -81,13 +81,13 @@ const CROP_ROTATION_PATH = '/admin/crop-history?tab=rotation';
 
 function CropRotationNote({ sx }) {
   return (
-    <Alert severity="info" sx={sx}>
+    <InfoNote severity="info" sx={sx}>
       Change crops in{' '}
       <Link component={RouterLink} to={CROP_ROTATION_PATH}>
         Crop History → Crop Rotation
       </Link>
       {' '}(workers and agronomists record crop changes).
-    </Alert>
+    </InfoNote>
   );
 }
 

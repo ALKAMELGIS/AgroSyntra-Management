@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Alert, Box, Button, Checkbox, CircularProgress, Dialog, DialogActions,
+  Box, Button, Checkbox, CircularProgress, Dialog, DialogActions,
   DialogContent, DialogTitle, FormControlLabel, IconButton, Paper, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow, Typography,
 } from '@mui/material';
@@ -24,6 +24,7 @@ import {
   irrigationDripFilename,
   RC108_STRUCTURE_LABELS,
 } from '../../utils/irrigationExcelExport';
+import InfoNote from '../../components/InfoNote';
 
 const FLOW_KEY = (siteId) => `rc108-flow-rate-${siteId}`;
 const FROZEN_COLS = [
@@ -540,10 +541,10 @@ export default function Rc108IrrigationGrid({
     : 0;
 
   if (!siteId) {
-    return <Alert severity="info">Select a site to enter irrigation.</Alert>;
+    return <InfoNote severity="info">Select a site to enter irrigation.</InfoNote>;
   }
   if (locations.length === 0) {
-    return <Alert severity="info">No fields on this site for this structure.</Alert>;
+    return <InfoNote severity="info">No fields on this site for this structure.</InfoNote>;
   }
 
   return (

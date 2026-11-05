@@ -24,6 +24,7 @@ import FertigationGroupManager from '../../components/fertigation/FertigationGro
 import { apiRequest } from '../../utils/api';
 import { excelTableSx } from '../../components/table/ExcelTable';
 import { isRecipeApproved, recipeOptionLabel, recipePickerOptions } from '../../utils/recipeApproval';
+import InfoNote from '../../components/InfoNote';
 
 const CELL = { sx: {} };
 const NUM_CELL = { sx: { minWidth: 70 } };
@@ -678,13 +679,13 @@ export default function SpreadsheetFertigationEntry({ onEntrySaved, readOnly = f
       )}
 
       {selectedSite && farmAreasForSite.length === 0 && (
-        <Alert severity="info" sx={{ mb: 2 }}>No farm areas found for this site.</Alert>
+        <InfoNote severity="info" sx={{ mb: 2 }}>No farm areas found for this site.</InfoNote>
       )}
 
       {groupMode && (
-        <Alert severity="info" sx={{ mb: 2 }}>
+        <InfoNote severity="info" sx={{ mb: 2 }}>
           Group mode: <strong>{selectedGroup.name}</strong> — {rows.length} field(s). Use group defaults below, then override individual rows if needed.
-        </Alert>
+        </InfoNote>
       )}
 
       {/* Spreadsheet Grid */}
@@ -947,7 +948,7 @@ export default function SpreadsheetFertigationEntry({ onEntrySaved, readOnly = f
       )}
 
       {!groupMode && currentFarmArea && rows.length === 0 && (
-        <Alert severity="info">No fields in this farm area. Add fields first.</Alert>
+        <InfoNote severity="info">No fields in this farm area. Add fields first.</InfoNote>
       )}
 
       {groupMode && rows.length === 0 && (

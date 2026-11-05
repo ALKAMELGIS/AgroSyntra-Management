@@ -27,6 +27,7 @@ import useAppLayout, { CONTEXT_BAR_HEIGHT } from '../hooks/useAppLayout';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { canEditGis } from '../utils/roleAccess';
+import InfoNote from '../components/InfoNote';
 
 function sanitizeUrlInput(raw) {
   return raw.replace(/[^\x20-\x7E]/g, '').trim();
@@ -636,7 +637,7 @@ export default function GISMap() {
               Add Layer
             </Button>
           ) : (
-            <Alert severity="info">{t('adminAccess.gisViewOnly')}</Alert>
+            <InfoNote severity="info">{t('adminAccess.gisViewOnly')}</InfoNote>
           )}
         </Box>
 
@@ -1206,7 +1207,7 @@ export default function GISMap() {
                 </Box>
               ))
           ) : (
-            <Alert severity="info">No attributes found. Sync the layer first to discover attributes.</Alert>
+            <InfoNote severity="info">No attributes found. Sync the layer first to discover attributes.</InfoNote>
           )}
         </DialogContent>
         <DialogActions>
@@ -1302,7 +1303,7 @@ export default function GISMap() {
               <Typography sx={{ mb: 2 }}>
                 You're about to delete the layer <strong>{layerToDelete.name}</strong>.
               </Typography>
-              <Alert severity="info" sx={{ mb: 2 }}>
+              <InfoNote severity="info" sx={{ mb: 2 }}>
                 <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
                   This removes the map polygons only.
                 </Typography>
@@ -1312,7 +1313,7 @@ export default function GISMap() {
                   If you reconnect the same ArcGIS source later, the polygons reappear
                   automatically and re-link to your existing fields by name.
                 </Typography>
-              </Alert>
+              </InfoNote>
               <Alert severity="warning">
                 If you just want to stop seeing this layer on the map,
                 click <strong>Hide</strong> instead. Nothing is lost.
@@ -1337,7 +1338,7 @@ export default function GISMap() {
       <Dialog open={orphansOpen} onClose={() => setOrphansOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>Fields with missing GIS polygon</DialogTitle>
         <DialogContent>
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             These fields are still in the database — all readings, harvests,
             and history are intact. Only their polygon on the map is gone
             because the corresponding feature was renamed or deleted on the
@@ -1347,7 +1348,7 @@ export default function GISMap() {
             polygon, or use "Link to field" on the map to point a different
             feature at this field. If the field really is retired, you can
             soft-delete it from the Fields page.
-          </Alert>
+          </InfoNote>
           <List dense>
             {orphans.map((o) => (
               <ListItem key={o.id} divider>

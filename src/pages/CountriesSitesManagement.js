@@ -22,8 +22,7 @@ import {
   DialogActions,
   IconButton,
   Collapse,
-  Alert,
-} from '@mui/material';
+  } from '@mui/material';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { ExpandMoreOutlined as ExpandMore, ExpandLessOutlined as ExpandLess } from '@mui/icons-material';
@@ -41,6 +40,7 @@ import { TableSkeleton } from '../components/LoadingSkeleton';
 import { useNotification } from '../contexts/NotificationContext';
 import { useAuth } from '../contexts/AuthContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
+import InfoNote from '../components/InfoNote';
 
 const ZONE_FROZEN_WIDTHS = [220];
 const SITE_FROZEN_WIDTHS = [180];
@@ -249,7 +249,7 @@ function CountriesSitesManagement() {
         </Box>
 
         {scopeNote ? (
-          <Alert severity="info" sx={{ mb: 2 }}>{scopeNote}</Alert>
+          <InfoNote severity="info" sx={{ mb: 2 }}>{scopeNote}</InfoNote>
         ) : null}
 
         {canCreateZone ? (

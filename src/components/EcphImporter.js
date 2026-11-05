@@ -14,6 +14,7 @@ import {
 } from '@mui/icons-material';
 import * as XLSX from 'xlsx';
 import { bulkCreateEcph } from '../utils/backendApi';
+import InfoNote from './InfoNote';
 
 const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
 const bannerBg = '#1f3864';
@@ -668,10 +669,10 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
 
         {step === 1 && (
           <Box>
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               {mappedCount} of {excelHeaders.length} columns mapped — {rawDataRows.length} data rows detected.
               Adjust any incorrect mappings below, then click "Continue".
-            </Alert>
+            </InfoNote>
             <TableContainer sx={{ maxHeight: 420, border: cellBorder }}>
               <Table stickyHeader size="small">
                 <TableHead>
@@ -730,9 +731,9 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
 
         {step === 2 && (
           <Box>
-            <Alert severity="info" sx={{ mb: 2, fontSize: '0.75rem' }}>
+            <InfoNote severity="info" sx={{ mb: 2, fontSize: '0.75rem' }}>
               Duplicates are skipped — if a reading with the same field + date + time already exists, it won&apos;t be imported again.
-            </Alert>
+            </InfoNote>
             <Box sx={{ display: 'flex', gap: 1.5, mb: 2, alignItems: 'center', flexWrap: 'wrap' }}>
               <Chip icon={<OkIcon />} label={`${counts.ok} Ready`} color="success" size="small" sx={{ fontWeight: 600 }} />
               <Chip icon={<WarnIcon />} label={`${counts.warn} Warnings`} color="warning" size="small" sx={{ fontWeight: 600 }} />

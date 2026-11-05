@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
-  Alert, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent,
+  Box, Button, CircularProgress, Dialog, DialogActions, DialogContent,
   DialogTitle, TextField, Typography,
 } from '@mui/material';
 import SegmentSelector from '../SegmentSelector';
@@ -14,6 +14,7 @@ import {
   segmentsPayloadFromSelector,
   todayYmd,
 } from '../../utils/plantingOccupancy';
+import InfoNote from '../InfoNote';
 
 export default function UprootDialog({
   open,
@@ -78,7 +79,7 @@ export default function UprootDialog({
           Frees the selected segments for the next cycle. Harvest, sprays and manpower stay on the finished cycle.
         </Typography>
         {!hasOccupancy && (
-          <Alert severity="info" sx={{ mb: 2 }}>Nothing is currently growing on this field.</Alert>
+          <InfoNote severity="info" sx={{ mb: 2 }}>Nothing is currently growing on this field.</InfoNote>
         )}
         <TextField
           size="small"

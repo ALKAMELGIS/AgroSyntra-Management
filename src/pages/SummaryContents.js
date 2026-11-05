@@ -33,6 +33,7 @@ import {
   SaveOutlined as SaveIcon,
   CloseOutlined as CloseIcon,
 } from '@mui/icons-material';
+import InfoNote from '../components/InfoNote';
 
 function toContentBody(payload) {
   if (!payload) return APP_SUMMARY_DEFAULTS;
@@ -195,9 +196,9 @@ export default function SummaryContents() {
       </Box>
 
       {editMode && (
-        <Alert severity="info" sx={{ mb: 2 }}>
+        <InfoNote severity="info" sx={{ mb: 2 }}>
           Edit mode: click any text to change it. Press Save when finished.
-        </Alert>
+        </InfoNote>
       )}
 
       {saveError && (
@@ -207,9 +208,9 @@ export default function SummaryContents() {
       )}
 
       {error && !data && (
-        <Alert severity="info" sx={{ mb: 2 }}>
+        <InfoNote severity="info" sx={{ mb: 2 }}>
           Showing default content (could not load saved version).
-        </Alert>
+        </InfoNote>
       )}
 
       <Typography variant="overline" color="primary" fontWeight={700}>

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Alert, Box, Button, CircularProgress, Container, MenuItem, Paper, Tab, Tabs, TextField, Typography,
+  Box, Button, CircularProgress, Container, MenuItem, Paper, Tab, Tabs, TextField, Typography,
 } from '@mui/material';
 import { FileDownloadOutlined as FileDownload } from '@mui/icons-material';
 import { useApiQuery } from '../hooks/useApiQuery';
@@ -15,6 +15,7 @@ import { buildManpowerCostSheets, hasManpowerCostData } from '../utils/manpowerC
 import ManpowerCostTable from '../components/manpower/ManpowerCostTable';
 import ManpowerCostDashboard from '../components/manpower/ManpowerCostDashboard';
 import ManpowerRatesPanel from '../components/manpower/ManpowerRatesPanel';
+import InfoNote from '../components/InfoNote';
 
 const TABS = ['cost', 'dashboard', 'rates'];
 
@@ -145,9 +146,9 @@ export default function ManpowerCost() {
         </Tabs>
 
         {tab !== 'rates' && (
-          <Alert severity="info" variant="outlined" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             {t('manpowerCost.approvedOnlyNote')}
-          </Alert>
+          </InfoNote>
         )}
 
         {tab === 'cost' && (

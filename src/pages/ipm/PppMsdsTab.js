@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Alert, Autocomplete, Box, Button, Chip, CircularProgress, Dialog, DialogActions,
+  Autocomplete, Box, Button, Chip, CircularProgress, Dialog, DialogActions,
   DialogContent, DialogTitle, IconButton, Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, TextField, ToggleButton, ToggleButtonGroup,
   Tooltip, Typography,
@@ -13,6 +13,7 @@ import { API_BASE } from '../../config/api';
 import { getAuthHeaders } from '../../utils/authStorage';
 import { useNotification } from '../../contexts/NotificationContext';
 import { excelTableSx, GutterCell } from '../../components/table/ExcelTable';
+import InfoNote from '../../components/InfoNote';
 
 const TABLE_MAX_HEIGHT = 'calc(100vh - 300px)';
 const SWIPE_THRESHOLD = 60;
@@ -464,10 +465,10 @@ export default function PppMsdsTab({ canManage }) {
         <DialogTitle>Match PDFs to products</DialogTitle>
         <DialogContent>
           {skippedZip.length > 0 && (
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               Skipped {skippedZip.length} non-PDF file{skippedZip.length === 1 ? '' : 's'}:{' '}
               {skippedZip.map((s) => s.filename).join(', ')}
-            </Alert>
+            </InfoNote>
           )}
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             Keep the suggestion, search for a product on the right, or leave blank to skip that file.

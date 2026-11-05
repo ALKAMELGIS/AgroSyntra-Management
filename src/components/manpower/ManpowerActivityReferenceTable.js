@@ -19,6 +19,7 @@ import {
   rowMatchesSheet,
   visibleReferenceSheets,
 } from '../../utils/manpowerReferenceSheets';
+import InfoNote from '../InfoNote';
 
 function emptyDraft(localId, crop, variety, sheet) {
   return {
@@ -341,11 +342,11 @@ export default function ManpowerActivityReferenceTable({
 
   return (
     <Box>
-      <Alert severity="info" sx={{ mb: 2 }}>
+      <InfoNote severity="info" sx={{ mb: 2 }}>
         Existing activities and units are listed by crop. Targets stay blank until you fill them.
         A variety only needs the activities that differ; the rest stay on Any variety.
         Only Operation Managers can change this table.
-      </Alert>
+      </InfoNote>
       {!canEdit && (
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
           View only — ask an Operation Manager to change the reference.

@@ -67,6 +67,7 @@ import { blockMeetsRequiredFields, getBlockValidationError, getBlockMandatoryErr
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
 import { DeleteSelectedButton, RowCheckbox, SelectAllCheckbox, deleteIdsSequentially } from '../components/table/BulkSelect';
 import { useRowSelection } from '../hooks/useRowSelection';
+import InfoNote from '../components/InfoNote';
 
 const MAX_BLOCKS = 8;
 const BLOCK_COLS = ['Activity', 'Unit', 'Variety', 'Location', 'Section', 'Start', 'End', 'Target', 'Actual', 'Hours'];
@@ -1203,9 +1204,9 @@ export default function ManpowerRecord() {
         )}
       </Tabs>
 
-      <Alert severity="info" sx={{ mb: 2 }}>
+      <InfoNote severity="info" sx={{ mb: 2 }}>
         {t('manpowerAccess.pageInfo')}
-      </Alert>
+      </InfoNote>
 
       {/* ─── Tab 0: Records View ──────────────────────────────── */}
       {tab === 0 && (
@@ -1324,9 +1325,9 @@ export default function ManpowerRecord() {
       {/* ─── Tab 1: Daily Manpower Report ─────────────────────── */}
       {tab === 1 && (
         <>
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             Daily snapshot of submitted work activities for the selected date.
-          </Alert>
+          </InfoNote>
 
           <Paper sx={{ p: 2, mb: 2, display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
             <TextField size="small" type="date" label="Date" value={dailyDate}
@@ -1553,14 +1554,14 @@ export default function ManpowerRecord() {
             </Button>
           </Paper>
 
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             Reports use the site selected in the top-left selector. The activity grid and
             <strong> Till date</strong> both sum <strong>From</strong> through <strong>To</strong>.
             <strong> Daily report date</strong> only affects the daily summary block — it defaults
             to today and can be any day, including one with no records.
             Use <strong>Crop</strong> or <strong>Variety</strong> to group the activity grid, daily report, and till date report.
             Budget/Difference are placeholders for now.
-          </Alert>
+          </InfoNote>
 
           {!activeSiteId && (
             <Alert severity="warning" sx={{ mb: 2 }}>
@@ -1577,7 +1578,7 @@ export default function ManpowerRecord() {
               <Typography color="text.secondary">No manpower records in this date range.</Typography>
             </Paper>
           ) : activeSiteId && !pivotLoading && pivotData && !workersCountRowOrder.length ? (
-            <Alert severity="info">No crop or variety rows to display for this site and date range.</Alert>
+            <InfoNote severity="info">No crop or variety rows to display for this site and date range.</InfoNote>
           ) : activeSiteId && pivotData?.dates?.length && workersCountRowOrder.length ? (
             <>
               <WorkersCountPivotTable
@@ -1654,11 +1655,11 @@ export default function ManpowerRecord() {
             </Button>
           </Paper>
 
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             <strong>Approved records only.</strong> Workers count tab includes pending records.
             Hours are additive across crops — use this tab for season budgeting.
             General activities (Supervisor, IPM, Irrigation, etc.) always appear on the <strong>General</strong> row, not per crop.
-          </Alert>
+          </InfoNote>
 
           {hoursData?.missingHoursCount > 0 && (
             <Alert severity="warning" sx={{ mb: 2 }}>
@@ -1681,7 +1682,7 @@ export default function ManpowerRecord() {
               <Typography color="text.secondary">No approved manpower records in this date range.</Typography>
             </Paper>
           ) : activeSiteId && !hoursLoading && hoursData && !workHoursRowOrder.length ? (
-            <Alert severity="info">No crop or variety rows to display for this site and date range.</Alert>
+            <InfoNote severity="info">No crop or variety rows to display for this site and date range.</InfoNote>
           ) : activeSiteId && hoursData?.dates?.length && workHoursRowOrder.length ? (
             <>
               {hoursCropFilter !== '__all__' && resolvePivotActivities(hoursData).filter((a) => hoursActivityKeys.includes(a.key)).slice(0, 3).map((act) => {
@@ -1776,9 +1777,9 @@ export default function ManpowerRecord() {
         <DialogTitle>{editDialog.asChangeRequest ? 'Request edit' : 'Edit Record'}</DialogTitle>
         <DialogContent dividers>
           {editDialog.asChangeRequest && (
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               Your changes will be sent to an operation manager for review.
-            </Alert>
+            </InfoNote>
           )}
           {(() => {
             const mErr = editShowMandatoryErrors ? getBlockMandatoryErrors(editForm, { force: true }) : {};
@@ -1858,9 +1859,9 @@ export default function ManpowerRecord() {
           Request {changeRequestDialog.action === 'delete' ? 'deletion' : 'edit'}
         </DialogTitle>
         <DialogContent dividers>
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             Your request will be sent to an operation manager for review before the change is applied.
-          </Alert>
+          </InfoNote>
           <TextField
             fullWidth
             multiline

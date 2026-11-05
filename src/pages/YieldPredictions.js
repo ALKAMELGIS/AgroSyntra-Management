@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   Container, Paper, Typography, Box, Grid, Card, CardContent, TextField, MenuItem,
-  Chip, LinearProgress, Alert,
-} from '@mui/material';
+  Chip, LinearProgress, } from '@mui/material';
 import {
   TrendingUpOutlined as PredictionIcon, AgricultureOutlined as CropIcon, AnalyticsOutlined as AnalyticsIcon,
 } from '@mui/icons-material';
@@ -11,6 +10,7 @@ import {
   BarChart, Bar,
 } from 'recharts';
 import { apiRequest } from '../utils/api';
+import InfoNote from '../components/InfoNote';
 
 export default function YieldPredictions() {
   const [fields, setFields] = useState([]);
@@ -48,7 +48,7 @@ export default function YieldPredictions() {
       {loading && <LinearProgress sx={{ mb: 2 }} />}
 
       {prediction && prediction.confidence_pct === 0 && (
-        <Alert severity="info" sx={{ mb: 3 }}>{prediction.methodology}</Alert>
+        <InfoNote severity="info" sx={{ mb: 3 }}>{prediction.methodology}</InfoNote>
       )}
 
       {prediction && prediction.confidence_pct > 0 && (

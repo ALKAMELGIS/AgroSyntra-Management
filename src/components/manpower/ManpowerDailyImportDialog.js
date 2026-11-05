@@ -24,6 +24,7 @@ import {
   updatesPayloadFromBlocks,
 } from '../../utils/manpowerDailyExcel';
 import { loadDailyImportFiles } from '../../utils/manpowerDailyZip';
+import InfoNote from '../InfoNote';
 
 async function fetchAllWorkers() {
   return apiRequest('/manpower/workers?active_only=false') || [];
@@ -380,12 +381,12 @@ export default function ManpowerDailyImportDialog({
               )}
             </Box>
             {(review.newCasualCount > 0 || review.newPermanentCount > 0) && (
-              <Alert severity="info">
+              <InfoNote severity="info">
                 Will add {review.newWorkers.length} workers
                 {review.newCasualCount ? ` · ${review.newCasualCount} Casual` : ''}
                 {review.newPermanentCount ? ` · ${review.newPermanentCount} Permanent (EAG)` : ''}
                 . Data entry can deactivate people who have left.
-              </Alert>
+              </InfoNote>
             )}
             {review.needsSiteForNewWorkers && (
               <Alert severity="warning">Choose an active site before importing new workers.</Alert>
@@ -539,7 +540,7 @@ export default function ManpowerDailyImportDialog({
               </Alert>
             )}
             {review.importableBlocks.length === 0 && review.updatableBlocks.length === 0 && !hasMappingWork && (
-              <Alert severity="info">Nothing to import.</Alert>
+              <InfoNote severity="info">Nothing to import.</InfoNote>
             )}
           </Box>
         )}

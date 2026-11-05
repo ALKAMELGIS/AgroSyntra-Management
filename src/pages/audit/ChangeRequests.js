@@ -54,6 +54,7 @@ import {
   sumInspectionBuckets,
 } from '../../utils/bumbleBeeInspection';
 import { refreshChangeRequestBadgeCount } from '../../hooks/useChangeRequestBadgeCount';
+import InfoNote from '../../components/InfoNote';
 
 const ENTITY_TYPE_LABELS = {
   [ENTITY_PESTICIDE_APPLICATION]: 'Pesticide application',
@@ -591,7 +592,7 @@ export default function ChangeRequests() {
           <CircularProgress />
         </Box>
       ) : requests.length === 0 ? (
-        <Alert severity="info">No change requests found.</Alert>
+        <InfoNote severity="info">No change requests found.</InfoNote>
       ) : (
         <TableContainer component={Paper} variant="outlined">
           <Table size="small">

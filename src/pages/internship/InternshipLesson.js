@@ -9,6 +9,7 @@ import { ArrowBackOutlined as ArrowBack, CheckCircleOutlined as CheckCircle, Tim
 import { apiRequest } from '../../utils/api';
 import { useAuth } from '../../contexts/AuthContext';
 import QuizReviewPanel from '../../components/QuizReviewPanel';
+import InfoNote from '../../components/InfoNote';
 
 function formatTime(seconds) {
   const m = Math.floor(seconds / 60);
@@ -194,7 +195,7 @@ export default function InternshipLesson() {
       {phase === 'reading' && isStudent && (
         <Box sx={{ textAlign: 'center' }}>
           {noBankMsg ? (
-            <Alert severity="info" sx={{ justifyContent: 'center' }}>Quiz not available yet. Your teacher has not generated questions for this lesson.</Alert>
+            <InfoNote severity="info" sx={{ justifyContent: 'center' }}>Quiz not available yet. Your teacher has not generated questions for this lesson.</InfoNote>
           ) : (
             <Button
               variant="contained" size="large" startIcon={quizLoading ? <CircularProgress size={18} color="inherit" /> : <Quiz />}

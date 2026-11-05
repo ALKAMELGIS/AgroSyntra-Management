@@ -1,5 +1,6 @@
-import { Alert, Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { isValidImportUprootDate } from '../../utils/importUprootDates';
+import InfoNote from '../InfoNote';
 
 export default function ImportCycleUprootFields({
   slots = [],
@@ -15,11 +16,11 @@ export default function ImportCycleUprootFields({
   return (
     <Box sx={{ mb: 2 }}>
       {slots.length > 0 && (
-        <Alert severity="info" sx={{ mb: 1.5 }}>
+        <InfoNote severity="info" sx={{ mb: 1.5 }}>
           These cycles plant the same land again. Enter an uproot date on or after the
           previous plant and before the next. Harvests, sprays and manpower stay on the
           finished cycle.
-        </Alert>
+        </InfoNote>
       )}
       {slots.map((slot) => {
         const value = dates[slot.id] || '';

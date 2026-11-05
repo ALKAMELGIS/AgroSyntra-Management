@@ -88,3 +88,8 @@ Fixed through it:
 - Excel *exports* keep Calibri on purpose (the font Excel users expect in the file).
 - New gate test: **every visible text on every screen uses Inter / IBM Plex Sans Arabic / JetBrains Mono**.
 - Gate: **523 Playwright tests, all passing** on the production build; 666 unit tests passing.
+
+## Round 11 — compact info notes
+- New `components/InfoNote.js`: long explanatory banners ("View only — …", "Data entry workers fill the Daily Activity Sheet…", import hints, etc.) now take **one slim line** with a small icon; when the text does not fit, a **More / المزيد** toggle expands it in place (keyboard and screen-reader friendly, `aria-expanded`).
+- Applied in 66 files (all "View only" banners via `ReadOnlyBanner`, page help texts, importer hints). Warnings, errors and banners with actions (e.g. draft Restore/Discard) stay full alerts on purpose.
+- Gate: **524 Playwright tests, all passing** (new test: long notes stay one line and expand on demand); 666 unit tests passing.

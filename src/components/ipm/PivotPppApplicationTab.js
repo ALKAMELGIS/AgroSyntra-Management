@@ -18,6 +18,7 @@ import { formatPercentSeen } from '../../utils/percentSeen';
 import useSameDaySprayWarn from './useSameDaySprayWarn';
 import { DeleteSelectedButton, RowSelectCell, SelectAllCheckbox, deleteIdsSequentially } from '../table/BulkSelect';
 import { useRowSelection } from '../../hooks/useRowSelection';
+import InfoNote from '../InfoNote';
 
 // Unified with the app font (theme FONT_SANS via CSS variable).
 const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
@@ -701,9 +702,9 @@ export default function PivotPppApplicationTab({
             : `Request ${changeRequestDialog.action === 'delete' ? 'Deletion' : 'Edit'}`}
         </DialogTitle>
         <DialogContent>
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             Your request will be sent to an auditor for review before the change is applied.
-          </Alert>
+          </InfoNote>
           <TextField
             fullWidth
             multiline

@@ -15,6 +15,7 @@ import useSeasonListDates from '../../hooks/useSeasonListDates';
 import { OPS_EXPORT } from '../../utils/companyExcelExport';
 import { safeExportFilename } from '../../utils/excelSheetName';
 import { buildScoutingSummarySheets } from '../../utils/scoutingSummaryExcelExport';
+import InfoNote from '../../components/InfoNote';
 
 const cellBorder = '1px solid #c8c8c8';
 const SCOUTING_HEADER_BG = '#E8A598';
@@ -261,9 +262,9 @@ export default function ScoutingSummaryPanel({ activeSiteId, onOpenReport }) {
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
       {!summary?.fields?.length ? (
-        <Alert severity="info">No fields found for this site and date range.</Alert>
+        <InfoNote severity="info">No fields found for this site and date range.</InfoNote>
       ) : !visibleFields.length ? (
-        <Alert severity="info">No fields match the selected field type.</Alert>
+        <InfoNote severity="info">No fields match the selected field type.</InfoNote>
       ) : (
         <>
           <Tabs

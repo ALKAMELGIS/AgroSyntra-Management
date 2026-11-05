@@ -30,6 +30,7 @@ import {
 } from '../utils/plantationWorkbookImport';
 import { normalizeMasterName } from '../utils/masterDataFuzzyMatch';
 import { rowToClosingPayload, rowToOpeningPayload } from '../utils/plantationWorkbookRows';
+import InfoNote from './InfoNote';
 
 const STEPS = ['Upload Excel', 'Map Columns', 'Review matches', 'Imported'];
 const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
@@ -401,9 +402,9 @@ export default function PlantationWorkbookImporter({
 
         {step === 1 && activeMeta && (
           <Box>
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               Headers are matched by name (spaces and hyphens ignored). Change any binding before the dry run.
-            </Alert>
+            </InfoNote>
             {workbookSheets.length > 1 && (
               <FormControl size="small" sx={{ mb: 2, minWidth: 220 }}>
                 <Select
@@ -479,9 +480,9 @@ export default function PlantationWorkbookImporter({
               </Alert>
             )}
             {confirmReady && willCreateCount > 0 && (
-              <Alert severity="info" sx={{ mb: 2 }}>
+              <InfoNote severity="info" sx={{ mb: 2 }}>
                 {willCreateCount} new family/variety name{willCreateCount === 1 ? '' : 's'} will be created when you confirm. Nothing is saved until then.
-              </Alert>
+              </InfoNote>
             )}
             {fieldsFetchDone && fieldOptions.length === 0 && (
               <Alert severity="warning" sx={{ mb: 2 }}>
@@ -554,9 +555,9 @@ export default function PlantationWorkbookImporter({
             <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>Import complete</Typography>
             <Chip label={`${importResults.success} rows processed`} color="success" />
             {importResults.closingPending > 0 && (
-              <Alert severity="info" sx={{ mt: 2, textAlign: 'left' }}>
+              <InfoNote severity="info" sx={{ mt: 2, textAlign: 'left' }}>
                 Closing rows sent for operation manager approval ({importResults.closingPending}).
-              </Alert>
+              </InfoNote>
             )}
             {importResults.warnings?.length > 0 && (
               <Alert severity="warning" sx={{ mt: 2, textAlign: 'left' }}>

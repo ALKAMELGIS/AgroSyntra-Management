@@ -35,6 +35,7 @@ import {
   toSeasonYmd,
   unusedPastSeasonWindow,
 } from '../utils/seasonListDates';
+import InfoNote from '../components/InfoNote';
 
 const SEASON_FROZEN_WIDTHS = [160];
 
@@ -248,15 +249,15 @@ function SeasonsManagement() {
         </Box>
 
         {!activeSiteId ? (
-          <Alert severity="info">Pick a site in the sidebar to manage seasons.</Alert>
+          <InfoNote severity="info">Pick a site in the sidebar to manage seasons.</InfoNote>
         ) : !hasOpenSeason && canManage ? (
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             This site has no open season. Start the current farm year (1 Sep – 31 Jul), or add a past year and request reopen for historical import.
-          </Alert>
+          </InfoNote>
         ) : (
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             Add a past farm year here so historical planting can attach to it after an auditor unlocks it. This does not uproot fields or open a new year.
-          </Alert>
+          </InfoNote>
         )}
 
         <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 280px)' }}>
@@ -359,15 +360,15 @@ function SeasonsManagement() {
         <DialogTitle>Edit {editTarget?.name || 'season'}</DialogTitle>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 2 }}>
           {editTarget?.status === 'open' ? (
-            <Alert severity="info">
+            <InfoNote severity="info">
               Change the year name or planned end. Start date stays put so plantings already
               in the year keep their occupancy.
-            </Alert>
+            </InfoNote>
           ) : (
-            <Alert severity="info">
+            <InfoNote severity="info">
               Changing the end date only updates the year calendar window. Planting uproot
               dates from End season stay as they were.
-            </Alert>
+            </InfoNote>
           )}
           <TextField
             label="Name"

@@ -12,6 +12,7 @@ import 'leaflet/dist/leaflet.css';
 
 // Fix for default marker icons in react-leaflet
 import L from 'leaflet';
+import InfoNote from '../components/InfoNote';
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -322,14 +323,14 @@ function WeatherMap() {
         </Grid>
 
         {!agroAvailable && (
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             Agro API features (NDVI, Satellite, Soil Health) require an OpenWeatherMap API key.
             Add it in <strong>Admin → API Keys → Weather Map API Key</strong>.
-          </Alert>
+          </InfoNote>
         )}
 
         {agroAvailable && availableFields.length > 0 && (
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             <Typography variant="body2" gutterBottom>
               <strong>NDVI Display Requirements:</strong>
             </Typography>
@@ -341,7 +342,7 @@ function WeatherMap() {
                 <li>Add polygon coordinates in <strong>Master Data → Field Types & Names</strong> (Edit field)</li>
               </ul>
             </Typography>
-          </Alert>
+          </InfoNote>
         )}
 
         {availableFields.length === 0 && selectedSite && (

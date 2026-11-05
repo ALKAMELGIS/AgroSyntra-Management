@@ -19,6 +19,7 @@ import {
   AgricultureOutlined as CropIcon,
 } from '@mui/icons-material';
 import { API_BASE, getAuthHeaders } from '../../config/api';
+import InfoNote from '../../components/InfoNote';
 
 function isExcelFile(name) {
   return /\.(xlsx|xls)$/i.test(name || '');
@@ -267,9 +268,9 @@ export default function HistoricalImport() {
             </Select>
           </FormControl>
           {target && (
-            <Alert severity="info" sx={{ mt: 2 }}>
+            <InfoNote severity="info" sx={{ mt: 2 }}>
               {target.description}
-            </Alert>
+            </InfoNote>
           )}
         </CardContent>
       </Card>
@@ -422,9 +423,9 @@ export default function HistoricalImport() {
           <Collapse in={cropPreviewExpanded}>
             <CardContent sx={{ pt: 0 }}>
               {!cropPreview && !cropPreviewLoading && (
-                <Alert severity="info">
+                <InfoNote severity="info">
                   Map the <strong>Field name</strong> and <strong>Date</strong> columns above to see how crops will be resolved.
-                </Alert>
+                </InfoNote>
               )}
               {cropPreview?.summary.unresolved > 0 && (
                 <Alert severity="warning" sx={{ mb: 2 }} icon={<WarningIcon />}>
@@ -572,10 +573,10 @@ export default function HistoricalImport() {
             )}
 
             {result.stats.unmappedHeaders?.length > 0 && (
-              <Alert severity="info" sx={{ mb: 2 }}>
+              <InfoNote severity="info" sx={{ mb: 2 }}>
                 These columns aren't used by this target and were ignored:{' '}
                 <strong>{result.stats.unmappedHeaders.join(', ')}</strong>
-              </Alert>
+              </InfoNote>
             )}
 
             {result.stats.errors.length > 0 && (

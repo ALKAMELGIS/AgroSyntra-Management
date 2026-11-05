@@ -10,6 +10,7 @@ import {
 
 import { API_BASE, getAuthHeaders } from '../../config/api';
 import api from '../../utils/api';
+import InfoNote from '../../components/InfoNote';
 
 // Remembers the last time a CSV backup was downloaded so we can nudge the
 // user if too much time has passed. Prototype-level mitigation for the
@@ -360,7 +361,7 @@ export default function DataBackup() {
               </Typography>
             </Stack>
           ) : (
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               <Typography variant="body2" fontWeight={600} sx={{ mb: 0.5 }}>
                 Ask your deployer to set these environment variables on the backend service:
               </Typography>
@@ -384,7 +385,7 @@ export default function DataBackup() {
                 Once set, a nightly backup runs at <strong>02:00 UTC</strong> automatically,
                 and you'll be able to trigger one manually from this page.
               </Typography>
-            </Alert>
+            </InfoNote>
           )}
 
           <Button

@@ -3,6 +3,7 @@ import { Box, Typography, Alert, CircularProgress } from '@mui/material';
 import { apiRequest } from '../utils/api';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import DailyActivitySheet from '../components/manpower/DailyActivitySheet';
+import InfoNote from '../components/InfoNote';
 
 export default function ManpowerActivitySheet() {
   const { activeSiteId } = useActiveSite();
@@ -76,7 +77,7 @@ export default function ManpowerActivitySheet() {
       </Typography>
 
       {!activeSiteId && (
-        <Alert severity="info">Select an Active Site to load fields and workers.</Alert>
+        <InfoNote severity="info">Select an Active Site to load fields and workers.</InfoNote>
       )}
       {loadError && <Alert severity="error" sx={{ mb: 2 }}>{loadError}</Alert>}
       {loading && (

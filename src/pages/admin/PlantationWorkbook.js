@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
-  Box, Typography, Paper, Button, TextField, Alert,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Box, Typography, Paper, Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Tabs, Tab, CircularProgress, IconButton, Tooltip, Checkbox,
   Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
@@ -28,6 +27,7 @@ import PlantationWorkbookImporter from '../../components/PlantationWorkbookImpor
 import useOpsExcelExport from '../../hooks/useOpsExcelExport';
 import { OPS_EXPORT } from '../../utils/companyExcelExport';
 import { buildPlantationExportSheets } from '../../utils/cropHistoryExcelExport';
+import InfoNote from '../../components/InfoNote';
 
 const CREATE_NEW_VALUE = '__CREATE_NEW__';
 const PWB_CHECK_WIDTH = 42;
@@ -1016,7 +1016,7 @@ export default function PlantationWorkbook({
   };
 
   if (!siteFilter) {
-    return <Alert severity="info">Select a site to manage plantation opening / closing.</Alert>;
+    return <InfoNote severity="info">Select a site to manage plantation opening / closing.</InfoNote>;
   }
   if (loading) {
     return <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}><CircularProgress /></Box>;

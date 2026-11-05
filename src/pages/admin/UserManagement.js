@@ -44,6 +44,7 @@ import { canManageUser } from '../../utils/adminAccess';
 import { apiRequest } from '../../utils/api';
 import { TableSkeleton } from '../../components/LoadingSkeleton';
 import { useNotification } from '../../contexts/NotificationContext';
+import InfoNote from '../../components/InfoNote';
 
 const ROLES = [
   { value: 'ceo', label: 'CEO', color: 'error' },
@@ -601,9 +602,9 @@ function UserManagement() {
               <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
                 {t('zoneAccess.zonesTitle')}
               </Typography>
-              <Alert severity="info" sx={{ mb: 2 }}>
+              <InfoNote severity="info" sx={{ mb: 2 }}>
                 {t('zoneAccess.zonesHelp')}
-              </Alert>
+              </InfoNote>
               <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
                 <Autocomplete
                   options={zones.filter((z) => !zoneAssignments.some((a) => a.countryId === z.id))}
@@ -645,9 +646,9 @@ function UserManagement() {
             </Box>
           ) : null}
 
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             Assigning a user to a site automatically grants access to every farm area and field within it.
-          </Alert>
+          </InfoNote>
 
           <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
             <TextField

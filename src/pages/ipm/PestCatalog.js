@@ -11,6 +11,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { canEditIpmCatalog } from '../../utils/ipmAccess';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../../components/table/ExcelTable';
+import InfoNote from '../../components/InfoNote';
 
 const CATEGORY_LABELS = {
   pest: 'Pest',
@@ -290,16 +291,16 @@ export default function PestCatalog() {
       </Tabs>
 
       {!canEdit && (
-        <Alert severity="info" sx={{ mb: 2 }}>{t('ipmCatalogAccess.pestViewOnly')}</Alert>
+        <InfoNote severity="info" sx={{ mb: 2 }}>{t('ipmCatalogAccess.pestViewOnly')}</InfoNote>
       )}
 
       {pageTab === 'sampling' ? (
         <>
           {samplingError && <Alert severity="error" sx={{ mb: 2 }}>{samplingError}</Alert>}
           {!activeSiteId ? (
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               Select a site in the sidebar to configure sampling units.
-            </Alert>
+            </InfoNote>
           ) : (
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
               Per-field sampling units for scouting infestation %: (plant count × sum of segment averages) ÷ sampling units.

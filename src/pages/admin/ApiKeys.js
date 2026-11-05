@@ -17,6 +17,7 @@ import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { canManageSystemSettings } from '../../utils/roleAccess';
+import InfoNote from '../../components/InfoNote';
 
 const AI_MODELS = {
   anthropic: [
@@ -457,7 +458,7 @@ export default function ApiKeys() {
           <WeatherMapApiKeyCard />
         </>
       ) : (
-        <Alert severity="info" sx={{ mb: 3 }}>{t('adminAccess.systemKeysCeoOnly')}</Alert>
+        <InfoNote severity="info" sx={{ mb: 3 }}>{t('adminAccess.systemKeysCeoOnly')}</InfoNote>
       )}
 
       {/* API Keys Section */}

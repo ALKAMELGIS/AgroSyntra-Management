@@ -52,6 +52,7 @@ import PivotFertigationTab from '../../components/fertigation/PivotFertigationTa
 import IrrigationStructurePlaceholder from '../../components/irrigation/IrrigationStructurePlaceholder';
 import { IRRIGATION_STRUCTURES } from '../../utils/fieldTypeHelpers';
 import { useActiveSiteStructures } from '../../hooks/useActiveSiteStructures';
+import InfoNote from '../../components/InfoNote';
 
 // Week number calculation helper
 const getWeekNumber = (date) => {
@@ -414,9 +415,9 @@ function FertigationEntry() {
         </Tabs>
 
         {availableStructureTabs.length === 0 && (
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             No fields configured for this site. Add fields in Management to enable fertigation entry.
-          </Alert>
+          </InfoNote>
         )}
 
         {isPivot && <PivotFertigationTab readOnly={readOnly} />}
@@ -543,9 +544,9 @@ function FertigationEntry() {
                     )}
                     {existingEntry && (
                       <Grid size={12}>
-                        <Alert severity="info">
+                        <InfoNote severity="info">
                           Entry exists for this field and date. Saving will update it.
-                        </Alert>
+                        </InfoNote>
                       </Grid>
                     )}
                   </Grid>
@@ -806,9 +807,9 @@ function FertigationEntry() {
                           </Alert>
                         )}
                         {Object.values(calculatedFertilizers).some(val => val > 100) && (
-                          <Alert severity="info" sx={{ mt: 1 }}>
+                          <InfoNote severity="info" sx={{ mt: 1 }}>
                             Some calculated amounts seem unusually high. Please verify water volume and recipe concentrations.
-                          </Alert>
+                          </InfoNote>
                         )}
                       </Box>
                     )}

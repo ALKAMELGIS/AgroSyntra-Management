@@ -47,6 +47,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import useReadOnlyMode from '../../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { isReadOnlyOnPage, PAGE_KEYS } from '../../utils/roleAccess';
+import InfoNote from '../../components/InfoNote';
 
 /** When true, every planting grid cell renders disabled (view-only roles, closed season). */
 const CellReadOnlyContext = createContext(false);
@@ -1169,11 +1170,11 @@ export default function CropHistory() {
           ))}
 
           {!pLoading && visiblePlantingRows.length === 0 && pRows.some((r) => !r._isNew) && (
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               {fieldFilterId
                 ? 'No planting records for this field.'
                 : 'No planting records for this field type.'}
-            </Alert>
+            </InfoNote>
           )}
 
           {pLoading ? (

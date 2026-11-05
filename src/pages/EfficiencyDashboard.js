@@ -31,6 +31,7 @@ import { loadMasterData } from '../utils/masterDataUtils';
 import { exportToExcel } from '../utils/masterDataUtils';
 import { listEcphAll, listHarvestsAll, listWeatherLogsAll } from '../utils/backendApi';
 import * as XLSX from 'xlsx';
+import InfoNote from '../components/InfoNote';
 
 // Helper: Get week number from date
 const getWeekNumber = (date) => {
@@ -786,9 +787,9 @@ function EfficiencyDashboard() {
         </Card>
 
         {weeklyMetrics.length === 0 ? (
-          <Alert severity="info">
+          <InfoNote severity="info">
             No data available for the selected filters. Please ensure you have harvest entries, EC/pH entries, and weather data for the selected period.
-          </Alert>
+          </InfoNote>
         ) : (
           <Box>
             <Typography variant="overline" color="text.secondary" sx={{ display: 'block', mb: 2 }}>

@@ -32,6 +32,7 @@ import { useActiveSeason } from '../../contexts/ActiveSeasonContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../../components/table/ExcelTable';
 import { DeleteSelectedButton, RowCheckbox, SelectAllCheckbox, deleteIdsSequentially } from '../../components/table/BulkSelect';
 import { useRowSelection } from '../../hooks/useRowSelection';
+import InfoNote from '../../components/InfoNote';
 
 function TabPanel({ children, value, index }) {
   if (value !== index) return null;
@@ -933,7 +934,7 @@ export default function BumbleBees() {
   if (!activeSiteId) {
     return (
       <Box sx={{ p: 3 }}>
-        <Alert severity="info">Select a site to manage bumble bee deployments and inventory.</Alert>
+        <InfoNote severity="info">Select a site to manage bumble bee deployments and inventory.</InfoNote>
       </Box>
     );
   }
@@ -978,10 +979,10 @@ export default function BumbleBees() {
 
       {readOnly && <ReadOnlyBanner message="View only — bumble bee deployments cannot be modified." />}
       {canPropose && (
-        <Alert severity="info" sx={{ mb: 2 }}>
+        <InfoNote severity="info" sx={{ mb: 2 }}>
           Your deployments, boxes on hand, orders and inspection edits are sent to the pest agronomist
           for approval and are not applied until approved. New inspections are saved directly.
-        </Alert>
+        </InfoNote>
       )}
 
       <ProposalPanel
@@ -1061,7 +1062,7 @@ export default function BumbleBees() {
       </TabPanel>
 
       <TabPanel value={tab} index={1}>
-        <Alert severity="info" sx={{ mb: 2 }} icon={false}>
+        <InfoNote severity="info" sx={{ mb: 2 }} icon={false}>
           <strong>On hand:</strong> {onHand} boxes
           {pendingIncoming.length > 0 && (
             <>
@@ -1074,7 +1075,7 @@ export default function BumbleBees() {
           <Button size="small" onClick={() => setTab(3)} sx={{ verticalAlign: 'baseline', p: 0, minWidth: 0 }}>
             Inventory tab
           </Button>
-        </Alert>
+        </InfoNote>
 
         {saveToast && tab === 1 && (
           <Alert severity="success" sx={{ mb: 1 }} onClose={() => setSaveToast('')}>{saveToast}</Alert>
@@ -1292,9 +1293,9 @@ export default function BumbleBees() {
           Count each box in one strength column only. Total must match last deployment total on field.
         </Typography>
         {inspectionEditPurpose === 'change_request' && (
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             Edit the highlighted row, click <strong>Save changes</strong>, then <strong>Submit for approval</strong> and enter a reason.
-          </Alert>
+          </InfoNote>
         )}
         {canLiveEdit && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>

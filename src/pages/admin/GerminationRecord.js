@@ -24,6 +24,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import useReadOnlyMode from '../../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { isReadOnlyOnPage, PAGE_KEYS } from '../../utils/roleAccess';
+import InfoNote from '../../components/InfoNote';
 
 const GERM_FROZEN_WIDTHS = [140];
 const twoRowHeadSx = {
@@ -309,7 +310,7 @@ export default function GerminationRecord({ siteFilter }) {
       </Box>
 
       {sections.length === 0 && !loading && (
-        <Alert severity="info" sx={{ mb: 2 }}>No germination tables yet. Click "Add New Table" to start.</Alert>
+        <InfoNote severity="info" sx={{ mb: 2 }}>No germination tables yet. Click "Add New Table" to start.</InfoNote>
       )}
 
       {sections.map(section => (

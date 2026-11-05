@@ -4,10 +4,11 @@ import {
   Box, Typography, Paper, Table, TableHead, TableRow, TableCell,
   TableBody, Button, Chip, Select, MenuItem, FormControl, InputLabel,
   Dialog, DialogTitle, DialogContent, DialogActions, TextField,
-  Alert, IconButton, LinearProgress,
+  IconButton, LinearProgress,
 } from '@mui/material';
 import { PersonAddOutlined as PersonAdd, EditOutlined as Edit } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
+import InfoNote from '../../components/InfoNote';
 
 export default function Enrollment() {
   const queryClient = useQueryClient();
@@ -92,7 +93,7 @@ export default function Enrollment() {
           </Table>
         </Paper>
       ) : (
-        <Alert severity="info" sx={{ mb: 4 }}>No interns enrolled yet. Assign roles below.</Alert>
+        <InfoNote severity="info" sx={{ mb: 4 }}>No interns enrolled yet. Assign roles below.</InfoNote>
       )}
 
       <Typography variant="h6" sx={{ mb: 2 }}>All Users — Assign Internship Roles</Typography>

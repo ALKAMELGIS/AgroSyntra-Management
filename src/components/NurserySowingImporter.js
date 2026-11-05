@@ -13,6 +13,7 @@ import {
 } from '@mui/icons-material';
 import * as XLSX from 'xlsx';
 import { apiRequest } from '../utils/api';
+import InfoNote from './InfoNote';
 
 const bannerBg = '#1f7a4d';
 const bannerColor = '#fff';
@@ -362,10 +363,10 @@ export default function NurserySowingImporter({
 
   const renderStep1 = () => (
     <Box>
-      <Alert severity="info" sx={{ mb: 2 }}>
+      <InfoNote severity="info" sx={{ mb: 2 }}>
         {importableRows.length} of {counts.total} rows will be saved to sowing records.
         Unmatched crop/variety names still import as text fields where possible.
-      </Alert>
+      </InfoNote>
       <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 420 }}>
         <Table stickyHeader size="small">
           <TableHead>

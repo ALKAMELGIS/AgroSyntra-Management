@@ -78,6 +78,7 @@ import { canManageSeasons } from '../utils/roleAccess';
 import { apiRequest } from '../utils/api';
 import { isSeasonLocked, farmTodayYmd, toSeasonYmd } from '../utils/seasonListDates';
 import { useShellLabel } from '../i18n/shellLabels';
+import InfoNote from './InfoNote';
 
 const PATH_ICONS = {
   '/': HomeIcon,
@@ -566,10 +567,10 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
             sx={{ mb: 2 }}
           />
           {endDateBackdated ? (
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <InfoNote severity="info" sx={{ mb: 2 }}>
               Harvest, sprays and other records after {endDate} stay in the app, but this
               year will no longer cover those days in the sidebar range.
-            </Alert>
+            </InfoNote>
           ) : null}
           <Typography variant="body2" sx={{ mb: 1 }}>
             Type <strong>{END_SEASON_CONFIRM}</strong> to confirm.
@@ -599,10 +600,10 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
       <Dialog open={reopenOpen} onClose={() => !requestingReopen && setReopenOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>Request reopen of {activeSeason?.name || 'this season'}?</DialogTitle>
         <DialogContent>
-          <Alert severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 2 }}>
             An auditor must approve this. Only plantings uprooted as &quot;Season closed&quot; come back.
             Cycle uproots stay finished. Writes stay blocked until the auditor approves.
-          </Alert>
+          </InfoNote>
           <TextField
             autoFocus
             fullWidth

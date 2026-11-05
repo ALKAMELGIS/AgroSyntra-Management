@@ -6,6 +6,7 @@ import {
 import { apiRequest } from '../../utils/api';
 import { excelTableSx, GutterCell } from '../table/ExcelTable';
 import useSeasonListDates from '../../hooks/useSeasonListDates';
+import InfoNote from '../InfoNote';
 
 function statusRowSx(status) {
   if (status === 'Under') {
@@ -104,10 +105,10 @@ export default function ManpowerPerformancePanel({ siteId, tableHeight }) {
         <Button variant="outlined" onClick={load} disabled={loading}>Refresh</Button>
       </Paper>
 
-      <Alert severity="info" sx={{ mb: 2 }}>
+      <InfoNote severity="info" sx={{ mb: 2 }}>
         Approved records only. Actual is compared to the Reference target in the same unit.
         Overtime is any worker-day over 10 hours.
-      </Alert>
+      </InfoNote>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 

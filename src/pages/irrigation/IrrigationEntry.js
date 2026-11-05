@@ -2,8 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Box, Tabs, Tab, Table, TableHead, TableBody, TableRow, TableCell, TableContainer,
   Button, MenuItem, Typography, IconButton, Select, Dialog, DialogTitle,
-  DialogContent, DialogActions, CircularProgress, TextField, Alert,
-} from '@mui/material';
+  DialogContent, DialogActions, CircularProgress, TextField, } from '@mui/material';
 import { AddOutlined as Add, DeleteOutlined as Delete, CheckOutlined as Check, FileUploadOutlined as FileUpload } from '@mui/icons-material';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import useSeasonListDates from '../../hooks/useSeasonListDates';
@@ -27,6 +26,7 @@ import { DeleteSelectedButton, RowSelectCell, SelectAllCheckbox, deleteIdsSequen
 import { useRowSelection } from '../../hooks/useRowSelection';
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../../utils/roleAccess';
+import InfoNote from '../../components/InfoNote';
 
 // Unified with the app font (theme FONT_SANS via CSS variable).
 const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
@@ -689,9 +689,9 @@ export default function IrrigationEntry() {
       <Box sx={{ flex: 1, overflow: 'auto', backgroundColor: 'var(--sheet-bg, #fff)', p: '12px 16px' }}>
         {readOnly && <Box sx={{ mb: 2 }}><ReadOnlyBanner /></Box>}
         {availableStructureTabs.length === 0 ? (
-          <Alert severity="info">
+          <InfoNote severity="info">
             No fields configured for this site. Add fields in Management to enable irrigation entry.
-          </Alert>
+          </InfoNote>
         ) : isPivot ? (
           currentTab?.type === 'summary' ? (
           <IrrigationSummaryTab

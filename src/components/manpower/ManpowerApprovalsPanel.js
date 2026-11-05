@@ -11,6 +11,7 @@ import { useNotification } from '../../contexts/NotificationContext';
 import useSeasonListDates from '../../hooks/useSeasonListDates';
 import ManpowerOptionalValue from './ManpowerOptionalValue';
 import { excelTableSx, GutterCell } from '../table/ExcelTable';
+import InfoNote from '../InfoNote';
 
 function formatDate(dateStr) {
   if (!dateStr) return '—';
@@ -192,10 +193,10 @@ export default function ManpowerApprovalsPanel({
         />
       </Paper>
 
-      <Alert severity="info" sx={{ mb: 2 }}>
+      <InfoNote severity="info" sx={{ mb: 2 }}>
         Each card is one Daily Activity Sheet submit (team leader or data entry). <strong>Approve all</strong> approves every pending worker in that group only.
         Pending activities are hidden from Daily Report and Workers count until approved.
-      </Alert>
+      </InfoNote>
 
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>

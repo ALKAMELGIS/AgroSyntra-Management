@@ -26,6 +26,7 @@ import useAppLayout from '../../hooks/useAppLayout';
 import PasteFromExcel from './PasteFromExcel';
 import EcphImporter from '../../components/EcphImporter';
 import { excelTableSx } from '../../components/table/ExcelTable';
+import InfoNote from '../../components/InfoNote';
 
 const WEATHER_OPTIONS = [
   'Sunny', 'Cloudy', 'Partly Cloudy', 'Foggy', 'Raining', 'Windy', 'Overcast', 'Hazy',
@@ -625,7 +626,7 @@ export default function SpreadsheetEcphEntry({ onEntrySaved, readOnly = false })
       )}
 
       {selectedSite && farmAreasForSite.length === 0 && (
-        <Alert severity="info" sx={{ mb: 2 }}>No farm areas found for this site.</Alert>
+        <InfoNote severity="info" sx={{ mb: 2 }}>No farm areas found for this site.</InfoNote>
       )}
 
       {/* Spreadsheet Grid */}
@@ -829,9 +830,9 @@ export default function SpreadsheetEcphEntry({ onEntrySaved, readOnly = false })
       )}
 
       {currentFarmArea && rows.length === 0 && (
-        <Alert severity="info">
+        <InfoNote severity="info">
           No fields in this farm area. Add fields first.
-        </Alert>
+        </InfoNote>
       )}
 
       <PasteFromExcel open={pasteOpen} onClose={() => setPasteOpen(false)} onPaste={handlePasteData} />

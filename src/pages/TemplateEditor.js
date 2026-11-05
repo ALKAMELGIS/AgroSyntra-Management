@@ -10,7 +10,6 @@ import {
   TextField,
   MenuItem,
   IconButton,
-  Alert,
   Table,
   TableBody,
   TableCell,
@@ -43,6 +42,7 @@ import { useNotification } from '../contexts/NotificationContext';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { apiRequest } from '../utils/api';
 import { excelTableSx, GutterCell } from '../components/table/ExcelTable';
+import InfoNote from '../components/InfoNote';
 
 function toCamelCase(str) {
   return str
@@ -415,9 +415,9 @@ export default function TemplateEditor() {
             </Box>
 
             {columns.length === 0 && (
-              <Alert severity="info" sx={{ m: 2 }}>
+              <InfoNote severity="info" sx={{ m: 2 }}>
                 Upload an Excel file or add columns manually to get started.
-              </Alert>
+              </InfoNote>
             )}
 
             {columns.map((col, idx) => (

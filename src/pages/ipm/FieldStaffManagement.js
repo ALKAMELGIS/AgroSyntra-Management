@@ -14,6 +14,7 @@ import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import { apiRequest } from '../../utils/api';
 import { canManageFieldStaff, getRoleLabel } from '../../utils/roleAccess';
 import { excelTableSx, GutterCell } from '../../components/table/ExcelTable';
+import InfoNote from '../../components/InfoNote';
 
 function workerOptionLabel(w) {
   if (!w) return '';
@@ -214,7 +215,7 @@ export default function FieldStaffManagement() {
         </Button>
       </Box>
 
-      <Alert severity="info" sx={{ mb: 2 }}>{t('fieldStaffAccess.siteScopeNote')}</Alert>
+      <InfoNote severity="info" sx={{ mb: 2 }}>{t('fieldStaffAccess.siteScopeNote')}</InfoNote>
 
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}><CircularProgress /></Box>

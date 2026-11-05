@@ -27,6 +27,7 @@ import {
 } from '@mui/icons-material';
 import api from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
+import InfoNote from '../../components/InfoNote';
 
 // Unified with the app font (theme FONT_SANS via CSS variable).
 const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
@@ -379,9 +380,9 @@ export default function BatchTrace() {
         )}
 
         {!loading && searched && matches.length === 0 && (
-          <Alert severity="info">
+          <InfoNote severity="info">
             No harvest records found for batch number &quot;{batchNumber.trim()}&quot;.
-          </Alert>
+          </InfoNote>
         )}
 
         {!loading && matches.length > 0 && (
