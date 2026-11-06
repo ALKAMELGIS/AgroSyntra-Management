@@ -29,9 +29,9 @@ import InfoNote from './InfoNote';
 const HEADER_FILL = '#165c3a';
 const hdrStyle = {
   background: HEADER_FILL, color: '#fff', fontWeight: 700,
-  fontSize: '0.72rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
+  fontSize: '0.6875rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
 };
-const cellStyle = { fontSize: '0.72rem', padding: '5px 8px', border: '1px solid #c8c8c8' };
+const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: '1px solid #c8c8c8' };
 
 const STEPS = ['Upload Excel', 'Match Sheets', 'Validate (Dry Run)', 'Import Results'];
 
@@ -340,14 +340,14 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
                               value={s.isMultiField ? '__multi_field__' : (s.field?.id || '')}
                               onChange={(e) => handleManualMatch(idx, e.target.value)}
                               displayEmpty
-                              sx={{ fontSize: '0.72rem', height: 28 }}
+                              sx={{ fontSize: '0.6875rem', height: 28 }}
                             >
-                              <MenuItem value="" sx={{ fontSize: '0.72rem' }}><em>-- Select Field --</em></MenuItem>
-                              <MenuItem value="__multi_field__" sx={{ fontSize: '0.72rem', fontWeight: 600 }}>
+                              <MenuItem value="" sx={{ fontSize: '0.6875rem' }}><em>-- Select Field --</em></MenuItem>
+                              <MenuItem value="__multi_field__" sx={{ fontSize: '0.6875rem', fontWeight: 600 }}>
                                 Multi-field (field ID from column)
                               </MenuItem>
                               {fields.map(f => (
-                                <MenuItem key={f.id} value={f.id} disabled={assignedFieldIds.has(f.id) && s.field?.id !== f.id} sx={{ fontSize: '0.72rem' }}>
+                                <MenuItem key={f.id} value={f.id} disabled={assignedFieldIds.has(f.id) && s.field?.id !== f.id} sx={{ fontSize: '0.6875rem' }}>
                                   {f.name}
                                 </MenuItem>
                               ))}
@@ -358,17 +358,17 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
                       <TableCell sx={cellStyle}>{s.rows.length}</TableCell>
                       <TableCell sx={cellStyle}>
                         {s.isPivotHarvest && s.isMultiField && s.rows.length > 0 ? (
-                          <Chip label={`Pivot ${s.pivotCrop || 'forage'}`} size="small" color="info" variant="outlined" sx={{ fontSize: '0.7rem' }} />
+                          <Chip label={`Pivot ${s.pivotCrop || 'forage'}`} size="small" color="info" variant="outlined" sx={{ fontSize: '0.6875rem' }} />
                         ) : s.isMultiField && s.rows.length > 0 ? (
-                          <Chip label="Multi-field" size="small" color="info" variant="outlined" sx={{ fontSize: '0.7rem' }} />
+                          <Chip label="Multi-field" size="small" color="info" variant="outlined" sx={{ fontSize: '0.6875rem' }} />
                         ) : s.matched && s.rows.length > 0 ? (
-                          <Chip label="Matched" size="small" color="success" variant="outlined" sx={{ fontSize: '0.7rem' }} />
+                          <Chip label="Matched" size="small" color="success" variant="outlined" sx={{ fontSize: '0.6875rem' }} />
                         ) : s.error ? (
-                          <Chip label={s.error} size="small" color="error" variant="outlined" sx={{ fontSize: '0.7rem' }} />
+                          <Chip label={s.error} size="small" color="error" variant="outlined" sx={{ fontSize: '0.6875rem' }} />
                         ) : s.rows.length === 0 ? (
-                          <Chip label="No data rows" size="small" color="default" variant="outlined" sx={{ fontSize: '0.7rem' }} />
+                          <Chip label="No data rows" size="small" color="default" variant="outlined" sx={{ fontSize: '0.6875rem' }} />
                         ) : (
-                          <Chip label="Not assigned" size="small" color="warning" variant="outlined" sx={{ fontSize: '0.7rem' }} />
+                          <Chip label="Not assigned" size="small" color="warning" variant="outlined" sx={{ fontSize: '0.6875rem' }} />
                         )}
                       </TableCell>
                     </TableRow>

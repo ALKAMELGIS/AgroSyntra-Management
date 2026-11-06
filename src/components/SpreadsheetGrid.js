@@ -66,7 +66,7 @@ const IDENTITY_KEYS = ['cropName', 'variety', 'fieldId', 'fieldName'];
 const FROZEN_EDGE_SHADOW = { boxShadow: '4px 0 6px -4px rgba(0,0,0,0.28)' };
 
 const headerCellStyle = {
-  border: cellBorder, padding: '4px 6px', fontSize: '0.7rem', lineHeight: 1.3,
+  border: cellBorder, padding: '4px 6px', fontSize: '0.6875rem', lineHeight: 1.3,
   height: 32, background: headerBg, color: headerColor, fontWeight: 700,
   textAlign: 'center', whiteSpace: 'nowrap',
 };
@@ -81,7 +81,7 @@ const inputBaseStyle = {
 const readonlyStyle = { ...inputBaseStyle, background: readonlyBg, color: 'var(--sheet-ink-2, #666)', cursor: 'default' };
 const calcStyle = { ...inputBaseStyle, background: calcBg, fontWeight: 600, color: 'var(--sheet-accent, #1f7a4d)', cursor: 'default', textAlign: 'right' };
 const filterSelectStyle = {
-  border: '1px solid var(--sheet-border, #bbb)', borderRadius: 3, padding: '3px 4px', fontSize: '0.72rem',
+  border: '1px solid var(--sheet-border, #bbb)', borderRadius: 3, padding: '3px 4px', fontSize: '0.6875rem',
   background: 'var(--sheet-bg, #fff)', fontFamily: 'inherit', minWidth: 0, maxWidth: 140,
 };
 const filterInputStyle = {
@@ -710,7 +710,7 @@ function SpreadsheetGrid({
             <select value={value}
               onChange={(e) => handleCellChange(realIdx, col.key, e.target.value)}
               onFocus={(e) => handleFocus(rowId, col.key, e)} onBlur={handleBlur}
-              style={{ ...inputBaseStyle, cursor: 'pointer', fontSize: '0.72rem' }}>
+              style={{ ...inputBaseStyle, cursor: 'pointer', fontSize: '0.6875rem' }}>
               <option value="">— select —</option>
               {items.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
             </select>
@@ -723,7 +723,7 @@ function SpreadsheetGrid({
           <select value={value}
             onChange={(e) => handleCellChange(realIdx, col.key, e.target.value)}
             onFocus={(e) => handleFocus(rowId, col.key, e)} onBlur={handleBlur}
-            style={{ ...inputBaseStyle, cursor: 'pointer', fontSize: '0.72rem' }}>
+            style={{ ...inputBaseStyle, cursor: 'pointer', fontSize: '0.6875rem' }}>
             <option value="">— select —</option>
             {options.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
           </select>
@@ -771,10 +771,10 @@ function SpreadsheetGrid({
             <tr>
               <td colSpan={3} style={{
                 background: bannerBg, color: bannerColor, padding: '8px 16px',
-                fontSize: '0.85rem', fontWeight: 700, letterSpacing: 0.5, borderBottom: `2px solid ${headerBg}`,
+                fontSize: '0.875rem', fontWeight: 700, letterSpacing: 0.5, borderBottom: `2px solid ${headerBg}`,
               }}>
                 ELITE AGRO UAE LLC
-                <span style={{ float: 'right', fontSize: '0.7rem', fontWeight: 400, opacity: 0.8 }}>
+                <span style={{ float: 'right', fontSize: '0.6875rem', fontWeight: 400, opacity: 0.8 }}>
                   EAG/AFO/IMS/RC-109
                 </span>
               </td>
@@ -785,7 +785,7 @@ function SpreadsheetGrid({
                 fontSize: '0.75rem', fontWeight: 600, borderBottom: cellBorder,
               }}>
                 PLANT PROTECTION PRODUCT (PPP) — {templateName || 'APPLICATION RECORD'}
-                <span style={{ float: 'right', fontSize: '0.65rem', fontWeight: 400, opacity: 0.7 }}>
+                <span style={{ float: 'right', fontSize: '0.6875rem', fontWeight: 400, opacity: 0.7 }}>
                   Issue 03, 17-Sept-2020, Rev00
                 </span>
               </td>
@@ -799,7 +799,7 @@ function SpreadsheetGrid({
         display: 'flex', flexWrap: 'wrap', gap: 0.75, alignItems: 'center',
         px: 1, py: 0.5, bgcolor: filterBarBg, borderBottom: cellBorder, flexShrink: 0,
       }}>
-        <Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--sheet-ink-2, #555)', mr: 0.5 }}>Filter:</Typography>
+        <Typography sx={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--sheet-ink-2, #555)', mr: 0.5 }}>Filter:</Typography>
 
         {farmAreas.length > 0 && (
           <select value={filterFarmArea} onChange={(e) => { setFilterFarmArea(e.target.value); setFilterField(''); }}
@@ -846,7 +846,7 @@ function SpreadsheetGrid({
 
         {hasAnyFilter && (
           <Chip label={`${visibleRows.length} of ${editRows.length}`}
-            size="small" variant="outlined" sx={{ height: 20, fontSize: '0.65rem' }} />
+            size="small" variant="outlined" sx={{ height: 20, fontSize: '0.6875rem' }} />
         )}
       </Box>
 
@@ -870,10 +870,10 @@ function SpreadsheetGrid({
           )}
           {hasDirty && (
             <Chip label={`${dirty.size} unsaved`} color="warning" size="small" variant="outlined"
-              sx={{ height: 22, fontSize: '0.7rem' }} />
+              sx={{ height: 22, fontSize: '0.6875rem' }} />
           )}
         </Box>
-        <Typography sx={{ fontSize: '0.7rem', color: 'var(--sheet-ink-3, #888)' }}>
+        <Typography sx={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-3, #888)' }}>
           {loading ? 'Loading records…' : `${editRows.length} record${editRows.length !== 1 ? 's' : ''}`}
         </Typography>
       </Box>
@@ -975,7 +975,7 @@ function SpreadsheetGrid({
                     ...compactBodyCellStyle,
                     position: 'sticky', left: GUTTER_CHECKBOX_W, zIndex: 1,
                     background: isActive ? activeCellBg : (isChild ? mixtureChildBg : frozenBg),
-                    textAlign: 'center', fontWeight: 600, fontSize: '0.7rem',
+                    textAlign: 'center', fontWeight: 600, fontSize: '0.6875rem',
                     color: isChild ? 'var(--sheet-accent, #1f7a4d)' : 'var(--sheet-ink-2, #666)',
                     padding: '2px 4px',
                     borderLeft: isChild ? `3px solid ${mixtureBorderColor}` : (isGroupParent ? `3px solid ${mixtureBorderColor}` : cellBorder),
@@ -1000,7 +1000,7 @@ function SpreadsheetGrid({
                             sx={{ p: 0.3, color: groupHasDirty ? 'var(--sheet-accent, #1d5a3c)' : 'var(--sheet-ink-3, #ccc)' }}
                             disabled={saving || !groupHasDirty}
                             onClick={(e) => { e.stopPropagation(); handleSave(realIdx); }} aria-label={row.groupId ? 'Save group' : 'Save row'}>
-                            <SaveIcon sx={{ fontSize: 15 }} />
+                            <SaveIcon sx={{ fontSize: 16 }} />
                           </IconButton>
                         </span>
                       </Tooltip>
@@ -1008,7 +1008,7 @@ function SpreadsheetGrid({
                         <Tooltip title={isChild ? `Add another mixture (up to ${MAX_PRODUCTS_PER_MIXTURE} products)` : 'Add mixture'}>
                           <IconButton size="small" sx={{ p: 0.3, color: headerBg }}
                             onClick={(e) => { e.stopPropagation(); addMixture(realIdx); }}>
-                            <MixtureIcon sx={{ fontSize: 15 }} />
+                            <MixtureIcon sx={{ fontSize: 16 }} />
                           </IconButton>
                         </Tooltip>
                       )}
@@ -1033,7 +1033,7 @@ function SpreadsheetGrid({
               <tr>
                 <td colSpan={columns.length + 3} style={{
                   ...compactBodyCellStyle, textAlign: 'center', padding: '40px 16px',
-                  background: 'var(--sheet-alt, #fafafa)', color: 'var(--sheet-ink-3, #888)', fontSize: '0.85rem',
+                  background: 'var(--sheet-alt, #fafafa)', color: 'var(--sheet-ink-3, #888)', fontSize: '0.875rem',
                 }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
                     <CircularProgress size={28} />
@@ -1045,7 +1045,7 @@ function SpreadsheetGrid({
               <tr>
                 <td colSpan={columns.length + 3} style={{
                   ...compactBodyCellStyle, textAlign: 'center', padding: '40px 16px',
-                  background: 'var(--sheet-alt, #fafafa)', color: 'var(--sheet-ink-3, #888)', fontSize: '0.85rem',
+                  background: 'var(--sheet-alt, #fafafa)', color: 'var(--sheet-ink-3, #888)', fontSize: '0.875rem',
                 }}>
                   {hasAnyFilter
                     ? 'No records match the current filters'

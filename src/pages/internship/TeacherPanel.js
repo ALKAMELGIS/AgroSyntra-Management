@@ -481,7 +481,7 @@ function LessonManager({ moduleId }) {
                   {previewIdx === i && (
                     <Paper variant="outlined" sx={{ p: 2, mt: 2, maxHeight: 300, overflow: 'auto', bgcolor: '#fafffe' }}>
                       <Box
-                        sx={{ '& h2': { mt: 2, mb: 1, fontSize: '1.1rem' }, '& p': { mb: 1.5, lineHeight: 1.7, fontSize: '0.9rem' }, '& ul,& ol': { pl: 3, mb: 1.5 }, '& li': { mb: 0.5, fontSize: '0.9rem' } }}
+                        sx={{ '& h2': { mt: 2, mb: 1, fontSize: '1.125rem' }, '& p': { mb: 1.5, lineHeight: 1.7, fontSize: '0.875rem' }, '& ul,& ol': { pl: 3, mb: 1.5 }, '& li': { mb: 0.5, fontSize: '0.875rem' } }}
                         dangerouslySetInnerHTML={{ __html: l.content || '<p>No content yet.</p>' }}
                       />
                     </Paper>
@@ -492,7 +492,7 @@ function LessonManager({ moduleId }) {
                       fullWidth multiline minRows={8} maxRows={20}
                       value={l.content || ''}
                       onChange={(e) => updateGeneratedLesson(i, 'content', e.target.value)}
-                      sx={{ mt: 2, '& .MuiInputBase-input': { fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.85rem' } }}
+                      sx={{ mt: 2, '& .MuiInputBase-input': { fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.875rem' } }}
                       placeholder="HTML content..."
                     />
                   )}
@@ -577,7 +577,7 @@ function LessonManager({ moduleId }) {
           ) : (
             <Paper variant="outlined" sx={{ p: 2, mt: 1, maxHeight: 300, overflow: 'auto', bgcolor: '#fafffe' }}>
               <Box
-                sx={{ '& h2': { mt: 2, mb: 1, fontSize: '1.1rem' }, '& p': { mb: 1.5, lineHeight: 1.7, fontSize: '0.9rem' }, '& ul,& ol': { pl: 3, mb: 1.5 }, '& li': { mb: 0.5, fontSize: '0.9rem' } }}
+                sx={{ '& h2': { mt: 2, mb: 1, fontSize: '1.125rem' }, '& p': { mb: 1.5, lineHeight: 1.7, fontSize: '0.875rem' }, '& ul,& ol': { pl: 3, mb: 1.5 }, '& li': { mb: 0.5, fontSize: '0.875rem' } }}
                 dangerouslySetInnerHTML={{ __html: editForm.content || '<p>No content yet.</p>' }}
               />
             </Paper>

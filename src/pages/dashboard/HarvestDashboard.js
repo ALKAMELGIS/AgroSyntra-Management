@@ -212,7 +212,7 @@ export default function HarvestDashboard({ fieldId, siteId, dateFrom, dateTo, al
               <BarChart data={fieldComparisonData} layout="vertical" margin={{ left: 100 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID} />
                 <XAxis type="number" tick={{ fontSize: 11, fill: CHART_TICK }} />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 10, fill: CHART_TICK }} width={100} />
+                <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: CHART_TICK }} width={100} />
                 <RTooltip contentStyle={CHART_TOOLTIP} />
                 <Bar dataKey="total" name="Total (kg)" radius={[0, 4, 4, 0]}>
                   {fieldComparisonData.map((_, idx) => (

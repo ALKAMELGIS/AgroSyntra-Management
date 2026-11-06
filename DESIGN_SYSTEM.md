@@ -84,3 +84,15 @@ it crashes the RTL emotion cache. Put such rules in `App.css`.
 - Frame padding ≤ 24 px (`p: 4` or less with the 4 px spacing unit); gaps between page sections 16–24 px.
 - In `sx`, sizes ≤ 1 are percentages — write `'1px'` for one pixel.
 - Leave at least 12 px (`rowGap: 3`) above an outlined field whose label floats on its border when a row can wrap.
+
+## Size scale (enforced in theme.js)
+- Buttons: small 32 · medium 40 · large 48 px high; their icons 16 · 18 · 20.
+- Icon buttons: small 32 · medium 40 · large 48 px; icons 18 · 20 · 24.
+- Icons: 16 (inside chips / small buttons) · 18 (menus, fields) · 20 (default) · 24 (large).
+- Type: 11 · 12 · 13 · 14 · 15 · 16 · 18 · 20 · 22 · 24 · 26 · 30 px — use theme variants; never type sizes like 0.72rem.
+- Radii: fields / buttons 10 · tiles 12 · cards 16 · dialogs 20 · chips pill.
+- Repeated controls (per row / per layer) carry the item in their accessible name.
+
+## Map screens
+- Use `useFillHeight` for the map box; panels beside the map on desktop, in a drawer / below on phones.
+- Legends and floating panels stay above the map credits (bottom ≥ 30 px) and never cover each other.

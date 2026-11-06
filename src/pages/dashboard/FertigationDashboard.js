@@ -325,7 +325,7 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
               <BarChart data={fertCompositionData} layout="vertical" margin={{ left: 120 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID} />
                 <XAxis type="number" tick={{ fontSize: 11, fill: CHART_TICK }} />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 10, fill: CHART_TICK }} width={120} />
+                <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: CHART_TICK }} width={120} />
                 <RTooltip contentStyle={CHART_TOOLTIP} />
                 <Bar dataKey="total" name="Total (kg)" radius={[0, 4, 4, 0]}>
                   {fertCompositionData.map((_, idx) => (
@@ -399,7 +399,7 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
               <BarChart data={fertPerFieldData.chartData} layout="vertical" margin={{ left: 80 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID} />
                 <XAxis type="number" tick={{ fontSize: 11, fill: CHART_TICK }} />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 10, fill: CHART_TICK }} width={80} />
+                <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: CHART_TICK }} width={80} />
                 <RTooltip contentStyle={CHART_TOOLTIP} />
                 <Legend />
                 {fertPerFieldData.fertNames.slice(0, 8).map((fn, idx) => (

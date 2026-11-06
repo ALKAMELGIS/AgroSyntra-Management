@@ -26,9 +26,9 @@ const errBg = '#ffebee';
 
 const hdrStyle = {
   background: headerBg, color: '#fff', fontWeight: 700,
-  fontSize: '0.72rem', padding: '6px 8px', border: cellBorder, whiteSpace: 'nowrap',
+  fontSize: '0.6875rem', padding: '6px 8px', border: cellBorder, whiteSpace: 'nowrap',
 };
-const cellStyle = { fontSize: '0.72rem', padding: '5px 8px', border: cellBorder };
+const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: cellBorder };
 
 const STEPS = ['Select Type & Upload', 'Map Columns', 'Review & Validate', 'Import Results'];
 const IMPORT_TYPES = [
@@ -606,7 +606,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="xl" fullWidth>
       <DialogTitle sx={{ background: bannerBg, color: bannerColor, py: 1.5 }}>
-        <Typography sx={{ fontSize: '0.95rem', fontWeight: 700 }}>
+        <Typography sx={{ fontSize: '0.9375rem', fontWeight: 700 }}>
           Import EC/pH from Excel
         </Typography>
       </DialogTitle>
@@ -701,11 +701,11 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
                               value={mapped}
                               onChange={(e) => handleMappingChange(idx, e.target.value)}
                               displayEmpty
-                              sx={{ fontSize: '0.72rem' }}
+                              sx={{ fontSize: '0.6875rem' }}
                             >
-                              <MenuItem value="" sx={{ fontSize: '0.72rem', color: '#999' }}>(skip)</MenuItem>
+                              <MenuItem value="" sx={{ fontSize: '0.6875rem', color: '#999' }}>(skip)</MenuItem>
                               {NH_TEMPLATE_FIELDS.map(f => (
-                                <MenuItem key={f.key} value={f.key} sx={{ fontSize: '0.72rem' }}>{f.label}</MenuItem>
+                                <MenuItem key={f.key} value={f.key} sx={{ fontSize: '0.6875rem' }}>{f.label}</MenuItem>
                               ))}
                             </Select>
                           </FormControl>
@@ -771,7 +771,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
                           }
                           if (col.key === '_notes') {
                             return (
-                              <TableCell key={col.key} sx={{ ...cellStyle, fontSize: '0.65rem', color: r._status === 'error' ? '#c62828' : '#e65100', maxWidth: 220 }}>
+                              <TableCell key={col.key} sx={{ ...cellStyle, fontSize: '0.6875rem', color: r._status === 'error' ? '#c62828' : '#e65100', maxWidth: 220 }}>
                                 <Tooltip title={notes} describeChild><span>{notes.length > 60 ? notes.slice(0, 60) + '...' : notes}</span></Tooltip>
                               </TableCell>
                             );

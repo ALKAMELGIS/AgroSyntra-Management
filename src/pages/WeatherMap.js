@@ -14,6 +14,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import useFillHeight from '../hooks/useFillHeight';
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -233,6 +234,9 @@ function WeatherMap() {
 
   const selectedCountryData = masterData.countries.find((c) => c.id === selectedCountry);
 
+  // The map fills the rest of the screen on every size (was a fixed 70vh box).
+  const [mapBoxRef, mapHeight] = useFillHeight({ min: 360 });
+
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
       <Box>
@@ -355,8 +359,8 @@ function WeatherMap() {
 
       {/* Map Container */}
       {selectedSite && availableFields.length > 0 && (
-        <Paper elevation={3} sx={{ overflow: 'hidden' }}>
-          <Box sx={{ height: '70vh', position: 'relative' }}>
+        <Paper variant="outlined" sx={{ overflow: 'hidden' }}>
+          <Box ref={mapBoxRef} sx={{ height: mapHeight, position: 'relative' }}>
             <MapContainer
               center={availableFields[0]?.latitude && availableFields[0]?.longitude
                 ? [availableFields[0].latitude, availableFields[0].longitude]
@@ -489,7 +493,7 @@ function WeatherMap() {
 
       {/* Field Details Panel */}
       {selectedField && (
-        <Paper elevation={3} sx={{ mt: 3, p: 3 }}>
+        <Paper variant="outlined" sx={{ mt: 3, p: 3 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
             <Typography variant="h5">{selectedField.name}</Typography>
             <Button onClick={() => setSelectedField(null)}>Close</Button>

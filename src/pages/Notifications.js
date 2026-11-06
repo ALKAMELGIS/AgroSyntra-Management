@@ -88,7 +88,7 @@ export default function Notifications() {
               <Chip label={`${unreadCount} unread`} color="error" size="small" />
             )}
           </Box>
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
             <ToggleButtonGroup
               value={filter}
               exclusive

@@ -89,7 +89,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
               fontWeight: 600,
               color: '#2c3e50',
               mb: 0.5,
-              fontSize: '1.1rem',
+              fontSize: '1.125rem',
             }}
           >
             {fieldName}

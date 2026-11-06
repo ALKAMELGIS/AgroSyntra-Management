@@ -12,7 +12,7 @@ export function mandatoryRequiredChip() {
         bgcolor: '#ffebee',
         color: '#c62828',
         fontWeight: 600,
-        fontSize: '0.7rem',
+        fontSize: '0.6875rem',
         height: 24,
         border: '1px solid #ef9a9a',
         '& .MuiChip-icon': { color: '#d32f2f' },

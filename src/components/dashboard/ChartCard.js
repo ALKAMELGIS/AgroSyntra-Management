@@ -168,7 +168,7 @@ function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChar
             <RadarChart data={radarData}>
               <PolarGrid stroke="#e3e7e2" />
               <PolarAngleAxis dataKey={dataKeys.length >= 2 ? xKey : 'subject'} tick={{ fontSize: 11, fill: '#58625c' }} />
-              <PolarRadiusAxis tick={{ fontSize: 10, fill: '#58625c' }} />
+              <PolarRadiusAxis tick={{ fontSize: 11, fill: '#58625c' }} />
               <RTooltip contentStyle={TOOLTIP_STYLE} />
               <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '0.75rem' }} />
               {dataKeys.map((dk, i) => (

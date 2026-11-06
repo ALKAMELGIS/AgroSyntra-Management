@@ -39,12 +39,12 @@ const hdrStyle = {
   background: headerBg,
   color: '#fff',
   fontWeight: 700,
-  fontSize: '0.72rem',
+  fontSize: '0.6875rem',
   padding: '6px 8px',
   border: cellBorder,
   whiteSpace: 'nowrap',
 };
-const cellStyle = { fontSize: '0.72rem', padding: '5px 8px', border: cellBorder };
+const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: cellBorder };
 const PORTAL_SELECT_PROPS = { MenuProps: { disablePortal: false } };
 
 function sampleCell(row, idx) {
@@ -440,7 +440,7 @@ export default function PlantationWorkbookImporter({
                               value={mapped}
                               onChange={(e) => handleMappingChange(idx, e.target.value)}
                               displayEmpty
-                              sx={{ fontSize: '0.72rem' }}
+                              sx={{ fontSize: '0.6875rem' }}
                             >
                               <MenuItem value="">(skip)</MenuItem>
                               {PLANTATION_IMPORT_COLUMNS.map((f) => (

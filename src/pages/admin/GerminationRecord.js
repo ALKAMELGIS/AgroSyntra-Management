@@ -456,7 +456,7 @@ function SectionTable({ section, records, maxCounting, editingName, tempName, se
                       value={displayName}
                       onChange={(e) => onCellChange(section.id, record.id, null, 'varietyName', e.target.value)}
                       disabled={readOnly}
-                      InputProps={{ disableUnderline: true, sx: { fontSize: '0.72rem', fontWeight: 600 } }}
+                      InputProps={{ disableUnderline: true, sx: { fontSize: '0.6875rem', fontWeight: 600 } }}
                       fullWidth
                     />
                   </TableCell>
@@ -477,7 +477,7 @@ function SectionTable({ section, records, maxCounting, editingName, tempName, se
                             value={count.date || ''}
                             onChange={(e) => onCellChange(section.id, record.id, n, 'date', e.target.value)}
                             disabled={readOnly}
-                            InputProps={{ disableUnderline: true, sx: { fontSize: '0.68rem' } }}
+                            InputProps={{ disableUnderline: true, sx: { fontSize: '0.6875rem' } }}
                             sx={{ minWidth: 88, '& input': { py: 0, height: 22 } }}
                           />
                         </TableCell>
@@ -489,7 +489,7 @@ function SectionTable({ section, records, maxCounting, editingName, tempName, se
                             value={count.seeds_total ?? ''}
                             onChange={(e) => onCellChange(section.id, record.id, n, 'seeds_total', e.target.value ? Number(e.target.value) : null)}
                             disabled={readOnly}
-                            InputProps={{ disableUnderline: true, sx: { fontSize: '0.72rem' } }}
+                            InputProps={{ disableUnderline: true, sx: { fontSize: '0.6875rem' } }}
                             sx={{ width: 56, '& input': { py: 0, height: 22 } }}
                           />
                         </TableCell>
@@ -501,7 +501,7 @@ function SectionTable({ section, records, maxCounting, editingName, tempName, se
                             value={count.seeds_no_germ ?? ''}
                             onChange={(e) => onCellChange(section.id, record.id, n, 'seeds_no_germ', e.target.value ? Number(e.target.value) : null)}
                             disabled={readOnly}
-                            InputProps={{ disableUnderline: true, sx: { fontSize: '0.72rem' } }}
+                            InputProps={{ disableUnderline: true, sx: { fontSize: '0.6875rem' } }}
                             sx={{ width: 56, '& input': { py: 0, height: 22 } }}
                           />
                         </TableCell>

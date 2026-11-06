@@ -168,7 +168,7 @@ function fmtWhen(value) {
 
 function CellStatusTooltip({ cell, canReview, onApprove, onReject }) {
   return (
-    <Box sx={{ fontSize: '0.72rem', lineHeight: 1.5, maxWidth: 260 }}>
+    <Box sx={{ fontSize: '0.6875rem', lineHeight: 1.5, maxWidth: 260 }}>
       <div>Approved: per m² {fmtCellNum(cell.perM2)} · units {fmtCellNum(cell.units)}</div>
       {cell.hasPending && (
         <div style={{ marginTop: 4 }}>
@@ -190,9 +190,9 @@ function CellStatusTooltip({ cell, canReview, onApprove, onReject }) {
       {canReview && cell.hasPending && (
         <Box sx={{ display: 'flex', gap: 0.5, mt: 1 }}>
           <Button size="small" variant="contained" color="success" onClick={onApprove}
-            sx={{ fontSize: '0.7rem', py: 0, textTransform: 'none' }}>Approve</Button>
+            sx={{ fontSize: '0.6875rem', py: 0, textTransform: 'none' }}>Approve</Button>
           <Button size="small" variant="contained" color="error" onClick={onReject}
-            sx={{ fontSize: '0.7rem', py: 0, textTransform: 'none' }}>Reject…</Button>
+            sx={{ fontSize: '0.6875rem', py: 0, textTransform: 'none' }}>Reject…</Button>
         </Box>
       )}
     </Box>
@@ -1349,7 +1349,7 @@ export default function BiologicalControlRecord() {
           style={{ ...inputStyle, cursor: canEditCells ? 'text' : 'default' }}
         />
         {showPendingCaption && (
-          <span style={{ position: 'absolute', left: 2, top: 1, fontSize: '0.55rem', lineHeight: 1, color: pendingText, pointerEvents: 'none' }}>
+          <span style={{ position: 'absolute', left: 2, top: 1, fontSize: '0.6875rem', lineHeight: 1, color: pendingText, pointerEvents: 'none' }}>
             →{cell.pendingClear ? '✕' : fmtCellNum(pendingValue)}
           </span>
         )}
@@ -1387,7 +1387,7 @@ export default function BiologicalControlRecord() {
     return (
       <td key={field} style={{ border: cellBorder, padding: '3px 8px', minWidth: 100, cursor: canEditSetup ? 'pointer' : 'default', background: isEditing ? focusBg : 'transparent' }}
         onClick={() => !isEditing && canEditSetup && startMetaEdit(field, inputType === 'date' ? toDateInputValue(value) : value)}>
-        <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>{label}</div>
+        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>{label}</div>
         {isEditing ? (
           <input
             ref={metaInputRef}
@@ -1396,10 +1396,10 @@ export default function BiologicalControlRecord() {
             onChange={e => setEditingMeta(prev => ({ ...prev, value: e.target.value }))}
             onBlur={saveMetaEdit}
             onKeyDown={e => { if (e.key === 'Enter') saveMetaEdit(); if (e.key === 'Escape') setEditingMeta(null); }}
-            style={{ ...inputStyle, textAlign: 'left', fontWeight: 700, fontSize: '0.8rem' }}
+            style={{ ...inputStyle, textAlign: 'left', fontWeight: 700, fontSize: '0.8125rem' }}
           />
         ) : (
-          <div style={{ fontWeight: 700, fontSize: '0.8rem' }}>
+          <div style={{ fontWeight: 700, fontSize: '0.8125rem' }}>
             {(() => {
               const shown = inputType === 'date' ? toDateInputValue(value) : value;
               return shown != null && shown !== '' && shown !== 0
@@ -1463,7 +1463,7 @@ export default function BiologicalControlRecord() {
           InputLabelProps={{ shrink: true }}
           value={filterFrom}
           onChange={(e) => setFilterFrom(e.target.value)}
-          sx={{ width: 150, '& .MuiInputBase-root': { height: 30, fontSize: '0.8rem' } }}
+          sx={{ width: 150, '& .MuiInputBase-root': { height: 30, fontSize: '0.8125rem' } }}
         />
         <TextField
           size="small"
@@ -1472,7 +1472,7 @@ export default function BiologicalControlRecord() {
           InputLabelProps={{ shrink: true }}
           value={filterTo}
           onChange={(e) => setFilterTo(e.target.value)}
-          sx={{ width: 150, '& .MuiInputBase-root': { height: 30, fontSize: '0.8rem' } }}
+          sx={{ width: 150, '& .MuiInputBase-root': { height: 30, fontSize: '0.8125rem' } }}
         />
         <ToggleButtonGroup size="small" exclusive value={viewMode} onChange={(_, v) => { if (v) setViewMode(v); }}
           sx={{ height: 30 }}>
@@ -1508,7 +1508,7 @@ export default function BiologicalControlRecord() {
         <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1, px: 2, py: 0.75, borderBottom: cellBorder, bgcolor: pendingCellBg, flexShrink: 0 }}>
           <Chip size="small" label={`${pendingKeys.length} pending`}
             sx={{ bgcolor: '#ffe08a', color: pendingText, fontWeight: 700 }} />
-          <Typography variant="body2" sx={{ color: pendingText, fontSize: '0.78rem' }}>
+          <Typography variant="body2" sx={{ color: pendingText, fontSize: '0.8125rem' }}>
             {isBioManager
               ? 'Amber cells wait for your approval. Hover a cell to approve or reject it on its own.'
               : 'Amber cells wait for the pest agronomist’s approval and are not counted yet.'}
@@ -1537,7 +1537,7 @@ export default function BiologicalControlRecord() {
             <Box key={c.id}
               onClick={() => setSelectedCropId(c.id)}
               sx={{
-                px: 2, py: 0.75, cursor: 'pointer', fontSize: '0.8rem', fontWeight: selectedCropId === c.id ? 700 : 400,
+                px: 2, py: 0.75, cursor: 'pointer', fontSize: '0.8125rem', fontWeight: selectedCropId === c.id ? 700 : 400,
                 borderBottom: selectedCropId === c.id ? '3px solid #4a7c2e' : '3px solid transparent',
                 color: selectedCropId === c.id ? '#4a7c2e' : '#666',
                 '&:hover': { bgcolor: '#e8e8e8' },
@@ -1565,19 +1565,19 @@ export default function BiologicalControlRecord() {
             <>
               {/* ── Excel-like Header ── */}
               <Box sx={{ px: 2, py: 1, flexShrink: 0 }}>
-                <table style={{ borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+                <table style={{ borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
                   <tbody>
                     <tr>
                       <td style={{ border: cellBorder, padding: '3px 8px', fontWeight: 700, bgcolor: headerBg, background: headerBg, minWidth: 120 }}>
-                        <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Company</div>
+                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Company</div>
                         <div style={{ fontWeight: 700 }}>Al Maha</div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', minWidth: 120 }}>
-                        <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Crop</div>
+                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Crop</div>
                         <div style={{ fontWeight: 700, color: '#4a7c2e' }}>{currentCropName}</div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', minWidth: 120 }}>
-                        <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Field</div>
+                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Field</div>
                         <div style={{ fontWeight: 700 }}>{currentFieldName}</div>
                       </td>
                       {renderMetaCell('Surface (m²)', setup.surface_m2, 'surface_m2')}
@@ -1585,15 +1585,15 @@ export default function BiologicalControlRecord() {
                       {renderMetaCell('Total Plants', setup.number_of_plants, 'number_of_plants')}
                       {renderMetaCell('Week 1 starts', setup.start_date || week1Label, 'start_date', '', 'date')}
                       <td style={{ border: cellBorder, padding: '3px 8px', background: totalRowBg, minWidth: 100 }}>
-                        <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Total Cost</div>
-                        <div style={{ fontWeight: 700, color: '#1f7a4d', fontSize: '0.9rem' }}>
+                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Total Cost</div>
+                        <div style={{ fontWeight: 700, color: '#1f7a4d', fontSize: '0.875rem' }}>
                           {grandTotalCost > 0
                             ? grandTotalCost.toFixed(2)
                             : (products.some((p) => productTotals[p.id]?.missingPrice) ? '—' : '0.00')}
                         </div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', background: headerBg, minWidth: 60 }}>
-                        <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Season</div>
+                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Season</div>
                         <div style={{ fontWeight: 700 }}>{activeSeason?.name || '—'}</div>
                       </td>
                     </tr>
@@ -1632,37 +1632,37 @@ export default function BiologicalControlRecord() {
                       </tr>
                       {/* Item code row */}
                       <tr>
-                        <th style={{ ...subHeaderBg && { background: subHeaderBg }, border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg }} />
+                        <th style={{ ...subHeaderBg && { background: subHeaderBg }, border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg }} />
                         {products.map(p => (
-                          <th key={`code_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
+                          <th key={`code_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
                             {p.item_code || '—'}
                           </th>
                         ))}
                       </tr>
                       <tr>
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>UOM</th>
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>UOM</th>
                         {products.map(p => (
-                          <th key={`uom_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
+                          <th key={`uom_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
                             {p.uom_name || '—'}
                           </th>
                         ))}
                       </tr>
                       <tr>
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>per pkg</th>
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>per pkg</th>
                         {products.map(p => (
-                          <th key={`pkg_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
+                          <th key={`pkg_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
                             {p.per_package || '—'}
                           </th>
                         ))}
                       </tr>
                       <tr>
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>site price</th>
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>site price</th>
                         {products.map(p => (
-                          <th key={`price_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
+                          <th key={`price_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
                             {resolvedSitePrice(p.price_per_package) != null
                               ? Number(p.price_per_package).toFixed(2)
                               : '—'}
@@ -1671,11 +1671,11 @@ export default function BiologicalControlRecord() {
                       </tr>
                       {/* Sub-column headers (per m² / #units) */}
                       <tr>
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', fontWeight: 700, position: 'sticky', left: 0, zIndex: 12, background: headerBg }}>Wk</th>
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', fontWeight: 700, position: 'sticky', left: 50, zIndex: 12, background: headerBg, textAlign: 'center' }}>Date Range</th>
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', fontWeight: 700, position: 'sticky', left: 0, zIndex: 12, background: headerBg }}>Wk</th>
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', fontWeight: 700, position: 'sticky', left: 50, zIndex: 12, background: headerBg, textAlign: 'center' }}>Date Range</th>
                         {products.map(p => ([
-                          <th key={`m_${p.id}`} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', fontWeight: 700, textAlign: 'center', background: headerBg, minWidth: 65 }}>per m²</th>,
-                          <th key={`u_${p.id}`} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', fontWeight: 700, textAlign: 'center', background: headerBg, minWidth: 65 }}># units</th>,
+                          <th key={`m_${p.id}`} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', fontWeight: 700, textAlign: 'center', background: headerBg, minWidth: 65 }}>per m²</th>,
+                          <th key={`u_${p.id}`} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', fontWeight: 700, textAlign: 'center', background: headerBg, minWidth: 65 }}># units</th>,
                         ]))}
                       </tr>
                     </thead>
@@ -1685,7 +1685,7 @@ export default function BiologicalControlRecord() {
                           <td style={{ border: cellBorder, padding: '1px 4px', fontWeight: 600, textAlign: 'center', position: 'sticky', left: 0, zIndex: 1, background: w % 2 === 0 ? altRowBg : frozenBg, fontSize: '0.75rem' }}>
                             {w}
                           </td>
-                          <td style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.65rem', color: '#777', position: 'sticky', left: 50, zIndex: 1, background: w % 2 === 0 ? altRowBg : frozenBg, whiteSpace: 'nowrap', textAlign: 'center' }}>
+                          <td style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#777', position: 'sticky', left: 50, zIndex: 1, background: w % 2 === 0 ? altRowBg : frozenBg, whiteSpace: 'nowrap', textAlign: 'center' }}>
                             {weekToDateRange(w, setup.start_date || { startDate: week1Start, startWeek: setup.start_week })}
                           </td>
                           {products.map((p, pi) => ([
@@ -1761,7 +1761,7 @@ export default function BiologicalControlRecord() {
               <Box key={fs.id}
                 onClick={() => setSelectedFieldTab(i)}
                 sx={{
-                  px: 1.5, py: 0.5, cursor: 'pointer', fontSize: '0.78rem',
+                  px: 1.5, py: 0.5, cursor: 'pointer', fontSize: '0.8125rem',
                   fontWeight: selectedFieldTab === i ? 700 : 400,
                   bgcolor: selectedFieldTab === i ? tabActiveBg : tabInactiveBg,
                   color: selectedFieldTab === i ? '#333' : '#666',
@@ -1786,7 +1786,7 @@ export default function BiologicalControlRecord() {
                 {Number(fs.pending_count) > 0 && (
                   <Tooltip title={`${fs.pending_count} value${Number(fs.pending_count) === 1 ? '' : 's'} waiting for approval`}>
                     <Box component="span" sx={{
-                      px: 0.6, borderRadius: '8px', fontSize: '0.65rem', fontWeight: 700, lineHeight: 1.5,
+                      px: 0.6, borderRadius: '8px', fontSize: '0.6875rem', fontWeight: 700, lineHeight: 1.5,
                       bgcolor: '#ffe08a', color: pendingText,
                     }}>
                       {fs.pending_count}
@@ -1799,7 +1799,7 @@ export default function BiologicalControlRecord() {
                   title={canEditSetup ? 'Delete this table' : 'Request deleting this table'}
                   onClick={e => { e.stopPropagation(); handleDeleteFieldSetup(fs.id, fs.field_name || `Field ${i + 1}`); }}
                   sx={{
-                    ml: 0.5, px: 0.3, borderRadius: '3px', fontSize: '0.7rem', lineHeight: 1,
+                    ml: 0.5, px: 0.3, borderRadius: '3px', fontSize: '0.6875rem', lineHeight: 1,
                     color: '#999', cursor: 'pointer',
                     '&:hover': { color: '#d32f2f', bgcolor: 'rgba(211,47,47,0.1)' },
                   }}>
@@ -1812,7 +1812,7 @@ export default function BiologicalControlRecord() {
             <Box
               onClick={openSetupDialog}
               sx={{
-                px: 1.5, py: 0.5, cursor: 'pointer', fontSize: '0.9rem',
+                px: 1.5, py: 0.5, cursor: 'pointer', fontSize: '0.875rem',
                 color: '#666', display: 'flex', alignItems: 'center',
                 '&:hover': { bgcolor: '#c8c8c8', color: '#333' },
               }}>
@@ -1833,24 +1833,24 @@ export default function BiologicalControlRecord() {
           ) : summaryFields.length ? (
             <>
               <Box sx={{ px: 2, py: 1, flexShrink: 0 }}>
-                <table style={{ borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+                <table style={{ borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
                   <tbody>
                     <tr>
                       <td style={{ border: cellBorder, padding: '3px 8px', background: headerBg, minWidth: 120 }}>
-                        <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Company</div>
+                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Company</div>
                         <div style={{ fontWeight: 700 }}>Al Maha</div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', minWidth: 120 }}>
-                        <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Crop</div>
+                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Crop</div>
                         <div style={{ fontWeight: 700, color: '#4a7c2e' }}>{currentCropName}</div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', background: headerBg, minWidth: 80 }}>
-                        <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Season</div>
+                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Season</div>
                         <div style={{ fontWeight: 700 }}>{activeSeason?.name || '—'}</div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', background: totalRowBg, minWidth: 100 }}>
-                        <div style={{ fontSize: '0.65rem', color: '#666', fontWeight: 600 }}>Total Cost</div>
-                        <div style={{ fontWeight: 700, color: '#1f7a4d', fontSize: '0.9rem' }}>{summaryFieldCost.toFixed(2)}</div>
+                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Total Cost</div>
+                        <div style={{ fontWeight: 700, color: '#1f7a4d', fontSize: '0.875rem' }}>{summaryFieldCost.toFixed(2)}</div>
                       </td>
                     </tr>
                   </tbody>
@@ -1950,28 +1950,28 @@ export default function BiologicalControlRecord() {
 
           <Tabs value={catalogTab} onChange={(_, v) => { setCatalogTab(v); setCatalogFilter(''); setCatalogBrowseSelected(new Set()); }}
             sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}>
-            <Tab icon={<MySiteIcon />} iconPosition="start" label="My Site" sx={{ textTransform: 'none', fontSize: '0.8rem' }} />
-            <Tab icon={<BrowseIcon />} iconPosition="start" label="Browse All" sx={{ textTransform: 'none', fontSize: '0.8rem' }} />
+            <Tab icon={<MySiteIcon />} iconPosition="start" label="My Site" sx={{ textTransform: 'none', fontSize: '0.8125rem' }} />
+            <Tab icon={<BrowseIcon />} iconPosition="start" label="Browse All" sx={{ textTransform: 'none', fontSize: '0.8125rem' }} />
           </Tabs>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             <TextField
               size="small" placeholder="Search products…" value={catalogFilter}
               onChange={e => setCatalogFilter(e.target.value)}
-              sx={{ width: 280, fontSize: '0.8rem' }}
+              sx={{ width: 280, fontSize: '0.8125rem' }}
             />
             {catalogTab === 0 && canEditSetup && (
               <Box sx={{ ml: 'auto', display: 'flex', gap: 1 }}>
                 <DeleteSelectedButton count={catalogSelection.size} onClick={handleBulkCatalogDelete} />
                 <Button size="small" variant="outlined" component="label" startIcon={<UploadIcon />} disabled={catalogSaving}
-                  sx={{ textTransform: 'none', fontSize: '0.8rem' }}>
+                  sx={{ textTransform: 'none', fontSize: '0.8125rem' }}>
                   Import from Excel
                   <input type="file" hidden accept=".xlsx,.xls" onChange={handleImportProductsOnly} />
                 </Button>
                 {!catalogNewRow && (
                   <Button size="small" variant="outlined" startIcon={<AddIcon />}
                     onClick={() => setCatalogNewRow({ itemCode: '', itemName: '', perPackage: '', pricePerPackage: '', uom: null })}
-                    sx={{ textTransform: 'none', fontSize: '0.8rem' }}>
+                    sx={{ textTransform: 'none', fontSize: '0.8125rem' }}>
                     Add Product
                   </Button>
                 )}
@@ -2240,7 +2240,7 @@ export default function BiologicalControlRecord() {
                           <TableCell align="right">{p.per_package || '—'}</TableCell>
                           <TableCell align="center">
                             {alreadyInSite ? (
-                              <Chip label="In your site" size="small" color="success" variant="outlined" sx={{ fontSize: '0.65rem' }} />
+                              <Chip label="In your site" size="small" color="success" variant="outlined" sx={{ fontSize: '0.6875rem' }} />
                             ) : canEditSetup && (
                               <Tooltip title="Copy to my site">
                                 <IconButton size="small" onClick={() => handleCatalogCopyToSite(p.id)} disabled={catalogSaving || !activeSiteId}>

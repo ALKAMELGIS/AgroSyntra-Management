@@ -215,7 +215,7 @@ function SpreadsheetInput({ value, onChange, type = 'text', inputProps, error, s
       value={value}
       onChange={onChange}
       error={error}
-      InputProps={{ disableUnderline: false, sx: { fontSize: '0.72rem', ...sx } }}
+      InputProps={{ disableUnderline: false, sx: { fontSize: '0.6875rem', ...sx } }}
       inputProps={inputProps}
     />
   );
@@ -1178,7 +1178,7 @@ export default function BumbleBees() {
                               updateDraft(row._key, { fieldId, boxesBefore: '', lastForField: null });
                               prefetchLastForField(row._key, fieldId, '');
                             }}
-                            sx={{ fontSize: '0.72rem' }}
+                            sx={{ fontSize: '0.6875rem' }}
                           >
                             <MenuItem value=""><em>Field…</em></MenuItem>
                             {fields.map((f) => (
@@ -1518,7 +1518,7 @@ export default function BumbleBees() {
                               updateInspectionDraft(row._key, { fieldId, deployTotal: null });
                               prefetchDeployTotalForInspection(row._key, fieldId);
                             }}
-                            sx={{ fontSize: '0.72rem' }}
+                            sx={{ fontSize: '0.6875rem' }}
                           >
                             <MenuItem value=""><em>Field…</em></MenuItem>
                             {fields.map((f) => (
@@ -1634,10 +1634,10 @@ export default function BumbleBees() {
               <Box sx={{
                 p: 1.5, borderRadius: 1, border: '1px solid #c8c8c8', background: kpi.bg, textAlign: 'center',
               }}>
-                <Typography sx={{ fontSize: '0.65rem', fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                <Typography sx={{ fontSize: '0.6875rem', fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                   {kpi.label}
                 </Typography>
-                <Typography sx={{ fontSize: '1.3rem', fontWeight: 800, color: kpi.color, mt: 0.3 }}>
+                <Typography sx={{ fontSize: '1.25rem', fontWeight: 800, color: kpi.color, mt: 0.3 }}>
                   {kpi.value}
                 </Typography>
               </Box>

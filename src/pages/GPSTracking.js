@@ -24,6 +24,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { canWriteOpsStock } from '../utils/roleAccess';
 import PageTitle from '../components/PageTitle';
+import useFillHeight from '../hooks/useFillHeight';
 import 'leaflet/dist/leaflet.css';
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -218,6 +219,8 @@ export default function GPSTracking() {
     : (trailCoords[0] || null);
   const onFitted = useCallback(() => setShouldFit(false), []);
   const viewingToday = trackDate === dubaiTodayYmd();
+  // The map fills the rest of the screen on every size (was a fixed 500 px).
+  const [mapBoxRef, mapHeight] = useFillHeight({ min: 360, bottomGap: 24 });
 
   return (
     <Container maxWidth="xl">
@@ -244,19 +247,26 @@ export default function GPSTracking() {
 
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 4 }}>
-          <Paper sx={{ p: 2 }}>
+          <Paper variant="outlined" sx={{ p: 2, maxHeight: { md: mapHeight + 56 }, overflow: 'auto' }}>
             <Typography variant="h6" gutterBottom>Equipment ({equipment.length})</Typography>
             {equipment.map((eq) => {
               const recent = isRecentPing(eq.last_position?.recorded_at);
               return (
                 <Card
                   key={eq.id}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={selectedId === eq.id}
+                  aria-label={`Show day track for ${eq.name}`}
                   sx={{
-                    mb: 1, cursor: 'pointer',
-                    border: selectedId === eq.id ? '2px solid #1976d2' : '1px solid #e0e0e0',
-                    '&:hover': { boxShadow: 2 },
+                    mb: 1, cursor: 'pointer', boxShadow: 'none',
+                    border: selectedId === eq.id ? '2px solid' : '1px solid',
+                    borderColor: selectedId === eq.id ? 'primary.main' : 'divider',
+                    '&:hover': { borderColor: 'primary.main' },
+                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 },
                   }}
                   onClick={() => setSelectedId(eq.id)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedId(eq.id); } }}
                 >
                   <CardContent sx={{ py: 1.5, '&:last-child': { pb: 1.5 } }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -318,7 +328,7 @@ export default function GPSTracking() {
         </Grid>
 
         <Grid size={{ xs: 12, md: 8 }}>
-          <Paper sx={{ p: 0, overflow: 'hidden', borderRadius: 2 }}>
+          <Paper variant="outlined" sx={{ p: 0, overflow: 'hidden' }}>
             <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #eee' }}>
               <Typography variant="body2" color="text.secondary">
                 {selectedEquipment
@@ -331,7 +341,7 @@ export default function GPSTracking() {
                 </Typography>
               )}
             </Box>
-            <Box sx={{ height: 500 }}>
+            <Box ref={mapBoxRef} sx={{ height: mapHeight }}>
               <MapContainer center={DEFAULT_CENTER} zoom={12} style={{ height: '100%', width: '100%' }}>
                 <MapLifecycle />
                 <MapResizeInvalidator revision={`${selectedId || ''}:${trackDate}`} />

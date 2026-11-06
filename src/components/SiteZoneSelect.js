@@ -63,7 +63,7 @@ export default function SiteZoneSelect({
       }}
       InputLabelProps={{ shrink: true }}
       sx={{
-        '& .MuiOutlinedInput-root': { borderRadius: 2.5, bgcolor: 'background.muted' },
+        '& .MuiOutlinedInput-root': { bgcolor: 'background.muted' },
         '& .MuiSelect-select': { py: 1, fontSize: '0.8125rem', fontWeight: 600 },
         ...sx,
       }}
@@ -101,7 +101,7 @@ export default function SiteZoneSelect({
             </Box>
             <Typography
               component="span"
-              sx={{ fontSize: '0.65rem', fontWeight: 600, color: 'text.secondary', letterSpacing: '0.04em' }}
+              sx={{ fontSize: '0.6875rem', fontWeight: 600, color: 'text.secondary', letterSpacing: '0.04em' }}
             >
               ZONE
             </Typography>

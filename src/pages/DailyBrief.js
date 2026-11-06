@@ -98,7 +98,7 @@ function GlanceTile({ icon, value, label, tone, onClick }) {
         gap: 3,
         p: 3.5,
         textAlign: 'start',
-        borderRadius: 3,
+        borderRadius: 2,
         border: '1px solid',
         borderColor: active ? alpha(t.palette[tone].main, 0.35) : 'divider',
         bgcolor: active ? alpha(t.palette[tone].main, t.palette.mode === 'dark' ? 0.14 : 0.07) : 'background.paper',

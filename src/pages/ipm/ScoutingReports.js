@@ -513,14 +513,20 @@ export default function ScoutingReports() {
                           </Button>
                         )}
                         {canEdit(report) && (
-                          <IconButton size="small" onClick={() => handleEdit(report)} aria-label="Edit"><Edit fontSize="small" /></IconButton>
+                          <IconButton size="small" onClick={() => handleEdit(report)} aria-label={`Edit report ${report.field_name || ''}`.trim()}><Edit fontSize="small" /></IconButton>
                         )}
                         {canDelete(report) && (
-                          <IconButton size="small" color="error" onClick={() => setDeletingId(report.id)} aria-label="Delete"><Delete fontSize="small" /></IconButton>
+                          <IconButton size="small" color="error" onClick={() => setDeletingId(report.id)} aria-label={`Delete report ${report.field_name || ''}`.trim()}><Delete fontSize="small" /></IconButton>
                         )}
                       </Box>
                     )}
-                    <Button size="small" onClick={() => toggleRow(report.id)} sx={{ mt: 1 }}>
+                    <Button
+                      size="small"
+                      onClick={() => toggleRow(report.id)}
+                      sx={{ mt: 1 }}
+                      aria-expanded={isExpanded}
+                      aria-label={`${isExpanded ? 'Hide' : 'Show'} details: ${[report.field_name, report.scouting_date].filter(Boolean).join(', ') || 'report'}`}
+                    >
                       {isExpanded ? 'Hide details' : 'Show details'}
                     </Button>
                     <Collapse in={isExpanded}>

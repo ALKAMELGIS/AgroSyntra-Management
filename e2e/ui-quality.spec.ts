@@ -569,3 +569,41 @@ test.describe('core usability', () => {
 
 
 
+
+// Map screens: the map is the main workspace on every screen size.
+test.describe('map screens', () => {
+  const MAP_ROUTES = ['/gis-map', '/remote-sensing', '/gps-tracking'];
+  for (const [w, h] of [[360, 740], [820, 1180], [1280, 800], [1920, 1080]]) {
+    for (const route of MAP_ROUTES) {
+      test(`${route} at ${w}px: map fills the screen, controls never overlap`, async ({ page }) => {
+        await page.setViewportSize({ width: w, height: h });
+        await prepare(page);
+        await page.goto(route);
+        await settle(page);
+        const map = page.locator('.leaflet-container').first();
+        await expect(map).toBeVisible();
+        const r = await map.boundingBox();
+        // Fills the height from where it starts to the bottom of the screen (min 360 px).
+        expect(r!.y + r!.height, 'map reaches the bottom area of the screen').toBeGreaterThan(h - (w < 900 ? 64 + 60 : 60));
+        expect(r!.height).toBeGreaterThanOrEqual(355);
+        // The page only scrolls when a short phone can't fit the header plus the minimum map height.
+        if (r!.height > 365) {
+          expect(await page.evaluate(() => document.scrollingElement!.scrollHeight - innerHeight), 'page does not scroll past the map').toBeLessThanOrEqual(24);
+        }
+        const overlaps = await page.evaluate(() => {
+          const m = document.querySelector('.leaflet-container')!; const wrap = m.parentElement!;
+          const items = Array.from(wrap.querySelectorAll('.leaflet-control, .MuiPaper-root, .MuiToggleButtonGroup-root, button'))
+            .filter((e) => { const b = e.getBoundingClientRect(); return b.width > 4 && b.height > 4; });
+          const top = items.filter((e) => !items.some((o) => o !== e && o.contains(e)));
+          const out: string[] = [];
+          for (let i = 0; i < top.length; i++) for (let j = i + 1; j < top.length; j++) {
+            const a = top[i].getBoundingClientRect(), c = top[j].getBoundingClientRect();
+            if (Math.min(a.right, c.right) - Math.max(a.left, c.left) > 2 && Math.min(a.bottom, c.bottom) - Math.max(a.top, c.top) > 2) out.push(`${top[i].textContent!.trim().slice(0, 16)} × ${top[j].textContent!.trim().slice(0, 16)}`);
+          }
+          return out;
+        });
+        expect(overlaps, 'map controls, legends and panels do not cover each other').toEqual([]);
+      });
+    }
+  }
+});

@@ -600,7 +600,7 @@ function FertigationEntry() {
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                      <Card variant="outlined" sx={{ height: '100%', display: 'flex', alignItems: 'center', borderRadius: 3 }}>
+                      <Card variant="outlined" sx={{ height: '100%', display: 'flex', alignItems: 'center', borderRadius: 2 }}>
                         <CardContent sx={{ width: '100%' }}>
                           <Tooltip title="Water volume containing fertilizer" arrow>
                             <Typography variant="body2" sx={{ cursor: 'help', color: 'text.secondary' }}>
@@ -676,7 +676,7 @@ function FertigationEntry() {
                     </Grid>
                     {selectedRecipe && (
                       <Grid size={{ xs: 12, md: 6 }}>
-                        <Card variant="outlined" sx={{ borderRadius: 3 }}>
+                        <Card variant="outlined" sx={{ borderRadius: 2 }}>
                           <CardContent>
                             <Typography variant="body2" sx={{ color: 'text.primary' }}>
                               <strong>Tank Volume:</strong> {selectedRecipe.tankVolume} L

@@ -601,7 +601,7 @@ export default function TemplateEditor() {
                           {col.label || '(unnamed)'}
                           {col.required && <span style={{ color: '#d32f2f' }}> *</span>}
                           {col.type === 'calculated' && (
-                            <Chip label="fx" size="small" sx={{ ml: 0.5, height: 16, fontSize: '0.6rem' }} />
+                            <Chip label="fx" size="small" sx={{ ml: 0.5, height: 16, fontSize: '0.6875rem' }} />
                           )}
                         </TableCell>
                       ))}

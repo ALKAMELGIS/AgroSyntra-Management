@@ -64,7 +64,7 @@ export default function FieldWeatherStrip({ weather, loading = false, variant = 
       <Typography
         variant="caption"
         sx={{
-          fontSize: '0.58rem',
+          fontSize: '0.6875rem',
           lineHeight: 1.3,
           color: 'text.secondary',
           fontWeight: 500,

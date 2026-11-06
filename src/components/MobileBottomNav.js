@@ -88,7 +88,7 @@ export default function MobileBottomNav({ activeNavArea, onOpenMenu }) {
               transition: 'background-color 160ms ease',
             })}
           >
-            <Icon sx={{ fontSize: 22 }} />
+            <Icon sx={{ fontSize: 20 }} />
           </Box>
           <Typography component="span" sx={{ fontSize: '0.6875rem', fontWeight: active ? 600 : 500, lineHeight: 1 }}>
             {label}

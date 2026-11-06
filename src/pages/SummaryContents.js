@@ -145,8 +145,8 @@ export default function SummaryContents() {
 
   const summaryTableSx = useMemo(
     () => ({
-      '& .MuiTableCell-root': { fontSize: '1.05rem', py: 1.5, verticalAlign: 'top' },
-      '& .MuiTableCell-head': { fontWeight: 700, fontSize: '1.1rem' },
+      '& .MuiTableCell-root': { fontSize: '1rem', py: 1.5, verticalAlign: 'top' },
+      '& .MuiTableCell-head': { fontWeight: 700, fontSize: '1.125rem' },
     }),
     []
   );
@@ -221,7 +221,7 @@ export default function SummaryContents() {
         Summary
       </Typography>
       <Paper variant="outlined" sx={{ p: 2.5, mb: 3, bgcolor: 'background.paper' }}>
-        <Box sx={{ fontSize: '1.08rem', lineHeight: 1.65, mb: 3 }}>
+        <Box sx={{ fontSize: '1rem', lineHeight: 1.65, mb: 3 }}>
           <InlineEditableText
             value={display.introText}
             editable={fieldEditable}
@@ -328,7 +328,7 @@ export default function SummaryContents() {
           </Table>
         </TableContainer>
 
-        <Box sx={{ fontSize: '1.05rem', lineHeight: 1.6, mt: 3, fontWeight: 500 }}>
+        <Box sx={{ fontSize: '1rem', lineHeight: 1.6, mt: 3, fontWeight: 500 }}>
           <InlineEditableText
             value={display.closingText}
             editable={fieldEditable}
@@ -495,7 +495,7 @@ export default function SummaryContents() {
                           value={item.path}
                           editable
                           placeholder="/path"
-                          sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.85rem' }}
+                          sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.875rem' }}
                           onChange={(v) =>
                             markDirty((d) => {
                               const contentsGroups = [...d.contentsGroups];

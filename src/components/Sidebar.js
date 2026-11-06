@@ -285,7 +285,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
             sx={{
               width: 34,
               height: 34,
-              borderRadius: 2.5,
+              borderRadius: 1.25,
               bgcolor: logoUrl && !logoUploading ? 'transparent' : 'primary.main',
               backgroundImage: logoUrl && !logoUploading ? 'none' : (t) => `linear-gradient(145deg, ${t.palette.primary.light}, ${t.palette.primary.dark})`,
               boxShadow: (t) => `inset 0 1px 0 rgba(255,255,255,0.18), 0 1px 2px ${t.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(22,92,58,0.25)'}`,
@@ -316,7 +316,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
           <Typography sx={{ fontWeight: 600, fontSize: '0.9375rem', color: 'text.primary', letterSpacing: '-0.015em', lineHeight: 1.2 }}>
             {L('Al Maha Farm')}
           </Typography>
-          <Typography sx={{ fontSize: '0.71875rem', color: 'text.secondary', lineHeight: 1.35 }}>
+          <Typography sx={{ fontSize: '0.6875rem', color: 'text.secondary', lineHeight: 1.35 }}>
             {L('Elite Agro Cloud')}
           </Typography>
         </Box>
@@ -334,7 +334,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
             value={actAsOrgId || ''}
             onChange={(e) => setActAsOrg(e.target.value || null)}
             sx={{
-              '& .MuiOutlinedInput-root': { borderRadius: 2.5, bgcolor: 'background.muted' },
+              '& .MuiOutlinedInput-root': { bgcolor: 'background.muted' },
               '& .MuiSelect-select': { py: 1, fontSize: '0.8125rem', fontWeight: 600 },
             }}
           >
@@ -382,7 +382,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
               InputLabelProps={{ shrink: true }}
               sx={{
                 mt: 1.5,
-                '& .MuiOutlinedInput-root': { borderRadius: 2.5, bgcolor: 'background.muted' },
+                '& .MuiOutlinedInput-root': { bgcolor: 'background.muted' },
                 '& .MuiSelect-select': { py: 1, fontSize: '0.8125rem', fontWeight: 600 },
               }}
             >
@@ -647,7 +647,7 @@ function SidebarItem({ item, active, onNavigate, badgeCount = 0, badgeColor = 'e
         sx={{
           position: 'relative',
           minHeight: 38,
-          borderRadius: 2.5,
+          borderRadius: 1.25,
           px: 3,
           py: 1.5,
           gap: 0.5,
@@ -676,7 +676,7 @@ function SidebarItem({ item, active, onNavigate, badgeCount = 0, badgeColor = 'e
           sx={{
             minWidth: 30,
             '& .MuiSvgIcon-root': {
-              fontSize: 19,
+              fontSize: 18,
               color: active ? 'primary.main' : 'text.secondary',
               transition: 'color 160ms ease',
             },

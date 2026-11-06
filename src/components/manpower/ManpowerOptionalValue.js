@@ -18,7 +18,7 @@ function missingChip() {
         bgcolor: '#fff3e0',
         color: '#a84b07',
         fontWeight: 600,
-        fontSize: '0.7rem',
+        fontSize: '0.6875rem',
         height: 24,
         border: '1px solid #ffb74d',
         '& .MuiChip-icon': { color: '#ef6c00' },

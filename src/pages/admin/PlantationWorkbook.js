@@ -139,7 +139,7 @@ function ClosingStatusCell({ row, isOm, onApprove, onReject }) {
               size="small"
               color="success"
               disabled={row._dirty}
-              sx={{ minWidth: 0, px: 0.75, py: 0, fontSize: '0.7rem' }}
+              sx={{ minWidth: 0, px: 0.75, py: 0, fontSize: '0.6875rem' }}
               onClick={() => onApprove?.(row)}
             >
               Approve
@@ -154,7 +154,7 @@ function ClosingStatusCell({ row, isOm, onApprove, onReject }) {
               size="small"
               color="error"
               disabled={row._dirty}
-              sx={{ minWidth: 0, px: 0.75, py: 0, fontSize: '0.7rem' }}
+              sx={{ minWidth: 0, px: 0.75, py: 0, fontSize: '0.6875rem' }}
               onClick={() => onReject?.(row)}
             >
               Reject
@@ -369,7 +369,7 @@ function SpreadsheetGrid({
                 } else if (f.type === 'fmApproval') {
                   cell = (
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 0.5 }}>
-                      <Typography variant="caption" sx={{ fontSize: '0.65rem', color: 'text.secondary', maxWidth: 140 }}>
+                      <Typography variant="caption" sx={{ fontSize: '0.6875rem', color: 'text.secondary', maxWidth: 140 }}>
                         {farmManagerNames || 'No Operation Manager assigned to site'}
                       </Typography>
                       {row.farmManagerApproved ? (
@@ -384,7 +384,7 @@ function SpreadsheetGrid({
                               <Button
                                 size="small"
                                 color="warning"
-                                sx={{ minWidth: 0, px: 0.75, py: 0, fontSize: '0.7rem' }}
+                                sx={{ minWidth: 0, px: 0.75, py: 0, fontSize: '0.6875rem' }}
                                 onClick={() => onUndoApproveOm?.(row)}
                               >
                                 Undo
@@ -1101,7 +1101,7 @@ export default function PlantationWorkbook({
         sx={{ mb: 1, borderBottom: 1, borderColor: 'divider' }}
       >
         {sheetTabs.map((t) => (
-          <Tab key={t.id} value={t.id} label={t.label} sx={{ textTransform: 'none', fontSize: '0.8rem' }} />
+          <Tab key={t.id} value={t.id} label={t.label} sx={{ textTransform: 'none', fontSize: '0.8125rem' }} />
         ))}
       </Tabs>
 

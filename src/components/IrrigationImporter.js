@@ -21,9 +21,9 @@ import InfoNote from './InfoNote';
 const HEADER_FILL = '#165c3a';
 const hdrStyle = {
   background: HEADER_FILL, color: '#fff', fontWeight: 700,
-  fontSize: '0.72rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
+  fontSize: '0.6875rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
 };
-const cellStyle = { fontSize: '0.72rem', padding: '5px 8px', border: '1px solid #c8c8c8' };
+const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: '1px solid #c8c8c8' };
 
 const STEPS = ['Upload Excel', 'Preview & Options', 'Import Results'];
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -221,19 +221,19 @@ export default function IrrigationImporter({
                       <TableCell sx={cellStyle}>{MONTH_LABELS[s.month - 1]}</TableCell>
                       <TableCell sx={cellStyle}>{s.rows?.length || 0}</TableCell>
                       <TableCell sx={cellStyle}>
-                        <Chip size="small" icon={<OkIcon />} label={s.okCount || 0} sx={{ mr: 0.5, height: 20, fontSize: '0.65rem' }} />
-                        <Chip size="small" icon={<WarnIcon />} label={s.warnCount || 0} color="warning" sx={{ mr: 0.5, height: 20, fontSize: '0.65rem' }} />
-                        <Chip size="small" icon={<ErrIcon />} label={s.errCount || 0} color="error" sx={{ height: 20, fontSize: '0.65rem' }} />
+                        <Chip size="small" icon={<OkIcon />} label={s.okCount || 0} sx={{ mr: 0.5, height: 20, fontSize: '0.6875rem' }} />
+                        <Chip size="small" icon={<WarnIcon />} label={s.warnCount || 0} color="warning" sx={{ mr: 0.5, height: 20, fontSize: '0.6875rem' }} />
+                        <Chip size="small" icon={<ErrIcon />} label={s.errCount || 0} color="error" sx={{ height: 20, fontSize: '0.6875rem' }} />
                       </TableCell>
                       <TableCell sx={cellStyle}>
                         <FormControl size="small" sx={{ minWidth: 100 }}>
                           <Select
                             value={s.mode || 'merge'}
                             onChange={(e) => setSheetMode(idx, e.target.value)}
-                            sx={{ fontSize: '0.72rem', height: 28 }}
+                            sx={{ fontSize: '0.6875rem', height: 28 }}
                           >
-                            <MenuItem value="merge" sx={{ fontSize: '0.72rem' }}>Merge</MenuItem>
-                            <MenuItem value="replace" sx={{ fontSize: '0.72rem' }}>Replace</MenuItem>
+                            <MenuItem value="merge" sx={{ fontSize: '0.6875rem' }}>Merge</MenuItem>
+                            <MenuItem value="replace" sx={{ fontSize: '0.6875rem' }}>Replace</MenuItem>
                           </Select>
                         </FormControl>
                       </TableCell>

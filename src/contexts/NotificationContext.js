@@ -101,7 +101,7 @@ export function NotificationProvider({ children }) {
               py: 2.5,
               pl: 3.5,
               pr: 1.5,
-              borderRadius: 3,
+              borderRadius: 1.5,
               bgcolor: 'background.paper',
               color: 'text.primary',
               border: '1px solid',

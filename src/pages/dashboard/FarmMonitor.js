@@ -261,7 +261,7 @@ export default function FarmMonitor({
                         position: 'absolute', top: -6, left: -6, zIndex: 1,
                         bgcolor: phiEndingSoon ? '#ff9800' : '#f44336',
                         color: '#fff', borderRadius: '4px',
-                        px: 0.7, py: 0.2, fontSize: '0.6rem', fontWeight: 700,
+                        px: 0.7, py: 0.2, fontSize: '0.6875rem', fontWeight: 700,
                         lineHeight: 1.2, boxShadow: 1,
                       }}>
                         PHI {phiDays}d
@@ -275,7 +275,7 @@ export default function FarmMonitor({
                         position: 'absolute', top: -6, left: -6, zIndex: 1,
                         bgcolor: phiEndingSoon ? '#ff9800' : '#f44336',
                         color: '#fff', borderRadius: '4px',
-                        px: 0.7, py: 0.2, fontSize: '0.6rem', fontWeight: 700,
+                        px: 0.7, py: 0.2, fontSize: '0.6875rem', fontWeight: 700,
                         lineHeight: 1.2, boxShadow: 1,
                       }}>
                         PHI {phiDays}d
@@ -291,7 +291,7 @@ export default function FarmMonitor({
                         <Box key={idx} sx={{
                           bgcolor: d.days <= 1 ? '#ff9800' : '#f44336',
                           color: '#fff', borderRadius: '4px',
-                          px: 0.7, py: 0.15, fontSize: '0.55rem', fontWeight: 700,
+                          px: 0.7, py: 0.15, fontSize: '0.6875rem', fontWeight: 700,
                           lineHeight: 1.2, boxShadow: 1, whiteSpace: 'nowrap',
                         }}>
                           {d.segment ? `${d.segment}: ${d.days}d` : `PHI ${d.days}d`}
@@ -354,7 +354,7 @@ export default function FarmMonitor({
                     label={field.field_type_name || 'Field'}
                     size="small"
                     variant="outlined"
-                    sx={{ fontSize: 10 }}
+                    sx={{ fontSize: 11 }}
                   />
                   {field.crop_name && (
                     <Typography variant="caption" display="block" color="text.secondary" mt={0.5}>
@@ -381,7 +381,7 @@ export default function FarmMonitor({
                         }}
                       >
                         <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: ecColor, border: `1px solid ${ecColor === '#9e9e9e' ? '#757575' : ecColor === '#4caf50' ? '#388e3c' : ecColor === '#ff9800' ? '#e65100' : '#c62828'}` }} />
-                        <Typography variant="caption" sx={{ fontSize: '0.6rem', fontWeight: 600, color: ecColor === '#f44336' ? '#c62828' : ecColor === '#ff9800' ? '#e65100' : 'text.secondary' }}>{ecLabel}</Typography>
+                        <Typography variant="caption" sx={{ fontSize: '0.6875rem', fontWeight: 600, color: ecColor === '#f44336' ? '#c62828' : ecColor === '#ff9800' ? '#e65100' : 'text.secondary' }}>{ecLabel}</Typography>
                       </Box>
                     </Tooltip>
                     <Tooltip title={phIn != null || phOut != null ? `pH In: ${phIn != null ? Number(phIn).toFixed(2) : '-'} | Out: ${phOut != null ? Number(phOut).toFixed(2) : '-'}` : 'No pH data'} arrow>
@@ -394,7 +394,7 @@ export default function FarmMonitor({
                         }}
                       >
                         <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: phColor, border: `1px solid ${phColor === '#9e9e9e' ? '#757575' : phColor === '#4caf50' ? '#388e3c' : phColor === '#ff9800' ? '#e65100' : '#c62828'}` }} />
-                        <Typography variant="caption" sx={{ fontSize: '0.6rem', fontWeight: 600, color: phColor === '#f44336' ? '#c62828' : phColor === '#ff9800' ? '#e65100' : 'text.secondary' }}>{phLabel}</Typography>
+                        <Typography variant="caption" sx={{ fontSize: '0.6875rem', fontWeight: 600, color: phColor === '#f44336' ? '#c62828' : phColor === '#ff9800' ? '#e65100' : 'text.secondary' }}>{phLabel}</Typography>
                       </Box>
                     </Tooltip>
                   </Box>

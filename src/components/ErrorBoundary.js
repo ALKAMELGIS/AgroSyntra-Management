@@ -46,7 +46,7 @@ class ErrorBoundary extends Component {
               p: 5,
               maxWidth: 520,
               textAlign: 'center',
-              borderRadius: 3,
+              borderRadius: 2,
             }}
           >
             <ErrorIcon sx={{ fontSize: 64, color: 'error.main', mb: 2 }} />

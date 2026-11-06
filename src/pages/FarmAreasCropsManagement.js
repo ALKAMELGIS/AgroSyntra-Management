@@ -602,7 +602,7 @@ function FarmAreasCropsManagement() {
                               disabled={!canEditCrops}
                               sx={{ width: 150 }}
                               helperText={dripperCount ? `${Number(dripperCount).toLocaleString()} drippers` : 'For EC/pH water calc'}
-                              FormHelperTextProps={{ sx: { margin: 0, fontSize: '0.7rem' } }}
+                              FormHelperTextProps={{ sx: { margin: 0, fontSize: '0.6875rem' } }}
                             />
                           </TableCell>
                           <TableCell className="col-numeric">
@@ -617,7 +617,7 @@ function FarmAreasCropsManagement() {
                               disabled={!canEditCrops}
                               sx={{ width: 150 }}
                               helperText={plantCount ? `${Number(plantCount).toLocaleString()} plants` : 'For scouting infestation %'}
-                              FormHelperTextProps={{ sx: { margin: 0, fontSize: '0.7rem' } }}
+                              FormHelperTextProps={{ sx: { margin: 0, fontSize: '0.6875rem' } }}
                             />
                           </TableCell>
                           <TableCell className="col-numeric">
@@ -632,7 +632,7 @@ function FarmAreasCropsManagement() {
                               disabled={!canEditCrops}
                               sx={{ width: 120 }}
                               helperText={dripTestCount ? `${dripTestCount} emitters/test` : 'Emitters per grow bag test'}
-                              FormHelperTextProps={{ sx: { margin: 0, fontSize: '0.7rem' } }}
+                              FormHelperTextProps={{ sx: { margin: 0, fontSize: '0.6875rem' } }}
                             />
                           </TableCell>
                           <TableCell>

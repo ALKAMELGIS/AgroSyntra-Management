@@ -151,7 +151,7 @@ function CellInput({ value, onChange, type = 'text', width, ...rest }) {
       size="small" variant="standard" value={value ?? ''}
       onChange={(e) => onChange(e.target.value)}
       type={type}
-      InputProps={{ sx: { fontSize: '0.72rem' } }}
+      InputProps={{ sx: { fontSize: '0.6875rem' } }}
       sx={{ width: width || '100%' }}
       {...rest}
       disabled={readOnly || rest.disabled}
@@ -399,7 +399,7 @@ export default function NurserySowingRecord({
       </Paper>
 
       <Box sx={{ bgcolor: 'table.headerBg', color: 'table.headerText', px: 2, py: 1, borderRadius: '4px 4px 0 0' }}>
-        <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: '0.8rem' }}>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: '0.8125rem' }}>
           SOWING RECORD — NURSERY (RC-241)
         </Typography>
       </Box>
@@ -510,7 +510,7 @@ export default function NurserySowingRecord({
                   <CellInput type="number" value={row.germinationPct} onChange={(v) => updateRow(ri, 'germinationPct', v)} width={70} />
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2" sx={{ fontSize: '0.72rem' }}>
+                  <Typography variant="body2" sx={{ fontSize: '0.6875rem' }}>
                     {row.readyToTransplantDate || '—'}
                   </Typography>
                 </TableCell>
@@ -518,7 +518,7 @@ export default function NurserySowingRecord({
                   <CellInput type="number" value={row.totalDays} onChange={(v) => updateRow(ri, 'totalDays', v)} width={70} />
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2" sx={{ fontSize: '0.72rem' }}>
+                  <Typography variant="body2" sx={{ fontSize: '0.6875rem' }}>
                     {row.releaseDate || '—'}
                   </Typography>
                 </TableCell>
@@ -526,7 +526,7 @@ export default function NurserySowingRecord({
                   <CellInput type="number" value={row.seedlingsPlanted} onChange={(v) => updateRow(ri, 'seedlingsPlanted', v)} width={85} />
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2" sx={{ fontSize: '0.72rem' }}>
+                  <Typography variant="body2" sx={{ fontSize: '0.6875rem' }}>
                     {calcRemaining(row.seedlingCount, row.seedlingsPlanted) || '—'}
                   </Typography>
                 </TableCell>

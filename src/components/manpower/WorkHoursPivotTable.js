@@ -67,11 +67,11 @@ function HoursSummaryTable({ grid, maxHeight, onCellClick }) {
           </tr>
           <tr>
             {grid.activityCols.flatMap((act) => [
-              <Box component="th" key={`${act.key}-w`} sx={{ bgcolor: 'warning.light', fontSize: 10, textAlign: 'center' }}>W</Box>,
-              <Box component="th" key={`${act.key}-h`} sx={{ bgcolor: 'warning.light', fontSize: 10, textAlign: 'center' }}>Hrs</Box>,
+              <Box component="th" key={`${act.key}-w`} sx={{ bgcolor: 'warning.light', fontSize: 11, textAlign: 'center' }}>W</Box>,
+              <Box component="th" key={`${act.key}-h`} sx={{ bgcolor: 'warning.light', fontSize: 11, textAlign: 'center' }}>Hrs</Box>,
             ])}
-            <Box component="th" sx={{ bgcolor: 'warning.light', fontSize: 10, textAlign: 'center' }}>W</Box>
-            <Box component="th" sx={{ bgcolor: 'warning.light', fontSize: 10, textAlign: 'center' }}>Hrs</Box>
+            <Box component="th" sx={{ bgcolor: 'warning.light', fontSize: 11, textAlign: 'center' }}>W</Box>
+            <Box component="th" sx={{ bgcolor: 'warning.light', fontSize: 11, textAlign: 'center' }}>Hrs</Box>
           </tr>
         </thead>
         <tbody>

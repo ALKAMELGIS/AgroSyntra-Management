@@ -7,7 +7,7 @@ import { FilterListOutlined as FilterIcon, CloseOutlined as CloseIcon } from '@m
 import { getLocationOptionsForField } from '../utils/plantingSegment';
 import { classifyAllowedTokens } from '../utils/plantingOccupancy';
 
-const chipSx = { height: 22, fontSize: '0.68rem', cursor: 'pointer' };
+const chipSx = { height: 22, fontSize: '0.6875rem', cursor: 'pointer' };
 
 export default function SegmentSelector({
   value,
@@ -87,11 +87,11 @@ export default function SegmentSelector({
           alignItems: 'center', flexWrap: 'wrap', gap: 0.3, px: 0.5,
           border: '1px solid transparent', borderRadius: 0.5,
           '&:hover': { border: '1px solid', borderColor: 'primary.light' },
-          fontSize: '0.72rem',
+          fontSize: '0.6875rem',
         }}
       >
         {value ? (
-          compact ? <Typography sx={{ fontSize: '0.72rem' }} noWrap>{isAllSelected ? 'All (Entire Field)' : value}</Typography> :
+          compact ? <Typography sx={{ fontSize: '0.6875rem' }} noWrap>{isAllSelected ? 'All (Entire Field)' : value}</Typography> :
           isAllSelected ? (
             <Chip label="All (Entire Field)" size="small" sx={chipSx} variant="outlined" color="primary"
               onDelete={() => onChange('')} />
@@ -104,7 +104,7 @@ export default function SegmentSelector({
               }} />
           ))
         ) : (
-          <Typography sx={{ fontSize: '0.72rem', color: 'text.disabled' }}>Select segments...</Typography>
+          <Typography sx={{ fontSize: '0.6875rem', color: 'text.disabled' }}>Select segments...</Typography>
         )}
       </Box>
 
@@ -126,7 +126,7 @@ export default function SegmentSelector({
             control={<Checkbox size="small" sx={{ p: 0.3 }}
               checked={isAllSelected}
               onChange={handleSelectAll} />}
-            label={<Typography sx={{ fontSize: '0.72rem', fontWeight: 600 }}>All (Entire Field)</Typography>} />
+            label={<Typography sx={{ fontSize: '0.6875rem', fontWeight: 600 }}>All (Entire Field)</Typography>} />
         </Box>
 
         <Divider sx={{ mb: 1 }} />
@@ -140,7 +140,7 @@ export default function SegmentSelector({
                   control={<Checkbox size="small" sx={{ p: 0.3 }}
                     checked={selectedItems.has(`V${v}`) || selectedItems.has(String(v))}
                     onChange={() => handleToggle(`V${v}`)} />}
-                  label={<Typography sx={{ fontSize: '0.72rem' }}>V{v}</Typography>} />
+                  label={<Typography sx={{ fontSize: '0.6875rem' }}>V{v}</Typography>} />
               ))}
             </Box>
           </Box>
@@ -155,7 +155,7 @@ export default function SegmentSelector({
                   control={<Checkbox size="small" sx={{ p: 0.3 }}
                     checked={selectedItems.has(`B${b}`)}
                     onChange={() => handleToggle(`B${b}`)} />}
-                  label={<Typography sx={{ fontSize: '0.72rem' }}>B{b}</Typography>} />
+                  label={<Typography sx={{ fontSize: '0.6875rem' }}>B{b}</Typography>} />
               ))}
             </Box>
           </Box>
@@ -167,7 +167,7 @@ export default function SegmentSelector({
               control={<Checkbox size="small" sx={{ p: 0.3 }}
                 checked={selectedItems.has('S')}
                 onChange={() => handleToggle('S')} />}
-              label={<Typography sx={{ fontSize: '0.72rem' }}>Spot (S)</Typography>} />
+              label={<Typography sx={{ fontSize: '0.6875rem' }}>Spot (S)</Typography>} />
           </Box>
         )}
 
@@ -180,7 +180,7 @@ export default function SegmentSelector({
                   control={<Checkbox size="small" sx={{ p: 0.3 }}
                     checked={selectedItems.has(token)}
                     onChange={() => handleToggle(token)} />}
-                  label={<Typography sx={{ fontSize: '0.72rem' }}>{token}</Typography>} />
+                  label={<Typography sx={{ fontSize: '0.6875rem' }}>{token}</Typography>} />
               ))}
             </Box>
           </Box>
@@ -193,16 +193,16 @@ export default function SegmentSelector({
               <TextField size="small" placeholder="Free text (e.g. Structure)"
                 value={freeText} onChange={(e) => setFreeText(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleFreeTextAdd(); } }}
-                sx={{ flex: 1, '& .MuiInputBase-input': { fontSize: '0.72rem', py: 0.5 } }} />
+                sx={{ flex: 1, '& .MuiInputBase-input': { fontSize: '0.6875rem', py: 0.5 } }} />
               <Button size="small" variant="outlined" onClick={handleFreeTextAdd}
-                disabled={!freeText.trim()} sx={{ minWidth: 40, fontSize: '0.65rem' }}>Add</Button>
+                disabled={!freeText.trim()} sx={{ minWidth: 40, fontSize: '0.6875rem' }}>Add</Button>
             </Box>
           </>
         )}
 
         {value && (
           <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
-            <Button size="small" color="error" onClick={handleClear} sx={{ fontSize: '0.65rem' }}>Clear All</Button>
+            <Button size="small" color="error" onClick={handleClear} sx={{ fontSize: '0.6875rem' }}>Clear All</Button>
           </Box>
         )}
       </Popover>
@@ -257,12 +257,12 @@ export function SegmentColumnFilter({ value, onChange, allSegments = [] }) {
                 control={<Checkbox size="small" sx={{ p: 0.3 }}
                   checked={selected.has(seg)}
                   onChange={() => handleToggle(seg)} />}
-                label={<Typography sx={{ fontSize: '0.72rem' }}>{seg}</Typography>} />
+                label={<Typography sx={{ fontSize: '0.6875rem' }}>{seg}</Typography>} />
             ))}
           </Box>
         )}
         {value && (
-          <Button size="small" onClick={() => onChange('')} sx={{ mt: 1, fontSize: '0.65rem' }}>Clear Filter</Button>
+          <Button size="small" onClick={() => onChange('')} sx={{ mt: 1, fontSize: '0.6875rem' }}>Clear Filter</Button>
         )}
       </Popover>
     </>

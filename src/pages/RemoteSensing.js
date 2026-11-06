@@ -86,6 +86,7 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import L from 'leaflet';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import useFillHeight from '../hooks/useFillHeight';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -135,7 +136,10 @@ function RemoteSensing() {
   const [fields, setFields] = useState([]);
   const [selectedField, setSelectedField] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  // Analysis panel: open beside the map on desktop, closed on phones / tablets so the map comes first.
+  const [drawerOpen, setDrawerOpen] = useState(() => typeof window === 'undefined' || window.innerWidth >= 900);
+  // The map fills the rest of the screen (never a fixed 75vh box).
+  const [mapBoxRef, mapHeight] = useFillHeight({ min: 360 });
   const [selectedLayer, setSelectedLayer] = useState('TRUE_COLOR');
   const [wmsLayers, setWmsLayers] = useState([]); // From GetCapabilities when WMS configured
   const [timeRange, setTimeRange] = useState([0, 100]); // Percentage of available time range
@@ -514,12 +518,33 @@ function RemoteSensing() {
   }, [timeSeriesSteps, timeSeriesIndex, timeRangeStart, selectedDate]);
 
   return (
-    <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-      {/* Header */}
+    <Container maxWidth="xl">
+      {/* Header: title, layer and actions on one row (wraps on small screens). */}
       <Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', columnGap: 3, rowGap: 3, mb: 3 }}>
           <PageTitle>Remote Sensing</PageTitle>
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
+            <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 220 } }}>
+              <InputLabel id="remotesensing-layer-vegetation-index-label-1">Layer / Vegetation Index</InputLabel>
+              <Select labelId="remotesensing-layer-vegetation-index-label-1"
+                value={effectiveSelectedLayer}
+                label="Layer / Vegetation Index"
+                onChange={(e) => setSelectedLayer(e.target.value)}
+              >
+                {availableLayers.map((layer) => (
+                  <MenuItem key={layer.id} value={layer.id}>
+                    {layer.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            {sentinelHubStatus?.hasWMS && (
+              <InfoNote label="About layers" sx={{ mb: 0 }}>
+                {wmsLayers.length > 0
+                  ? 'Layers from your instance'
+                  : 'If the map is blank, add layers (e.g. NDVI) in Sentinel Hub Configurator.'}
+              </InfoNote>
+            )}
             <Button
               variant="outlined"
               startIcon={loading ? <CircularProgress size={16} /> : <RefreshIcon />}
@@ -556,42 +581,15 @@ function RemoteSensing() {
           </Box>
         </Box>
 
-        {/* Filters */}
-        <Grid container spacing={2}>
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <FormControl fullWidth>
-              <InputLabel id="remotesensing-layer-vegetation-index-label-1">Layer / Vegetation Index</InputLabel>
-              <Select labelId="remotesensing-layer-vegetation-index-label-1"
-                value={effectiveSelectedLayer}
-                label="Layer / Vegetation Index"
-                onChange={(e) => setSelectedLayer(e.target.value)}
-              >
-                {availableLayers.map((layer) => (
-                  <MenuItem key={layer.id} value={layer.id}>
-                    {layer.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            {sentinelHubStatus?.hasWMS && (
-              <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
-                {wmsLayers.length > 0
-                  ? 'Layers from your instance'
-                  : 'If the map is blank, add layers (e.g. NDVI) in Sentinel Hub Configurator.'}
-              </Typography>
-            )}
-          </Grid>
-        </Grid>
-
         {/* Status Alerts */}
         {sentinelHubStatus && !sentinelHubStatus.configured && (
-          <Alert severity="warning" sx={{ mt: 2 }}>
+          <Alert severity="warning" sx={{ mb: 2 }}>
             {sentinelHubStatus.message}
           </Alert>
         )}
 
         {availableFields.length === 0 && (
-          <InfoNote mode="line" severity="info" sx={{ mt: 2 }}>
+          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
             No field boundaries found yet. Click <strong>Draw Field</strong> to draw a polygon and assign it to an existing Field ID.
             Use the <strong>Satellite</strong> base map to trace boundaries from aerial imagery.
           </InfoNote>
@@ -602,8 +600,8 @@ function RemoteSensing() {
       <Grid container spacing={3}>
         {/* Map Section */}
         <Grid size={{ xs: 12, md: drawerOpen ? 8 : 12 }}>
-          <Paper elevation={3} sx={{ overflow: 'hidden' }}>
-            <Box sx={{ height: '75vh', position: 'relative' }}>
+          <Paper variant="outlined" sx={{ overflow: 'hidden' }}>
+            <Box ref={mapBoxRef} sx={{ height: mapHeight, position: 'relative' }}>
               {searchError && (
                 <Snackbar open autoHideDuration={4000} onClose={() => setSearchError(null)} message={searchError} sx={{ position: 'absolute', top: 8, left: '50%', transform: 'translateX(-50%)', zIndex: 1100 }} />
               )}
@@ -740,12 +738,15 @@ function RemoteSensing() {
                 })}
               </MapContainer>
 
-              {/* Legend – bottom right */}
+              {/* Legend: bottom right above the map credits; on phones top right, clear of the base-map buttons. */}
               <Paper
                 elevation={2}
+                component="aside"
+                aria-label="Map legend"
                 sx={{
                   position: 'absolute',
-                  bottom: 10,
+                  top: { xs: 60, sm: 'auto' },
+                  bottom: { xs: 'auto', sm: 30 },
                   right: 10,
                   zIndex: 1000,
                   p: 1.5,
@@ -789,9 +790,9 @@ function RemoteSensing() {
                   elevation={3}
                   sx={{
                     position: 'absolute',
-                    bottom: 10,
+                    bottom: 30,
                     left: 10,
-                    right: 220,
+                    right: { xs: 10, sm: 220 },
                     zIndex: 1000,
                     p: 1,
                     display: 'flex',
@@ -851,7 +852,7 @@ function RemoteSensing() {
                           cursor: 'pointer',
                           minWidth: 'auto',
                           height: 24,
-                          '& .MuiChip-label': { px: 0.75, fontSize: '0.7rem' },
+                          '& .MuiChip-label': { px: 0.75, fontSize: '0.6875rem' },
                         }}
                       />
                     ))}
@@ -869,7 +870,7 @@ function RemoteSensing() {
         {/* Side Panel */}
         {drawerOpen && (
           <Grid size={{ xs: 12, md: 4 }}>
-            <Paper elevation={3} sx={{ p: 2, height: '75vh', overflow: 'auto' }}>
+            <Paper variant="outlined" sx={{ p: 2, height: { md: mapHeight }, maxHeight: { xs: 'none', md: mapHeight }, overflow: 'auto' }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                 <Typography variant="h6">Field Analysis</Typography>
                 <IconButton size="small" onClick={() => setDrawerOpen(false)} aria-label="Close">

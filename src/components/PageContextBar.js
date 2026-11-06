@@ -97,7 +97,7 @@ export default function PageContextBar() {
       }}
     >
       <Link component={RouterLink} to="/" underline="none" sx={{ ...crumbSx, display: 'inline-flex', alignItems: 'center' }} aria-label="Home">
-        <HomeIcon sx={{ fontSize: 17 }} />
+        <HomeIcon sx={{ fontSize: 16 }} />
       </Link>
       {meta.areaId && (
         <>

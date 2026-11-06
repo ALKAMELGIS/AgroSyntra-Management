@@ -245,14 +245,14 @@ function Login() {
               sx={{
                 width: 40,
                 height: 40,
-                borderRadius: 2.5,
+                borderRadius: 1.25,
                 bgcolor: 'rgba(255,255,255,0.12)',
                 border: '1px solid rgba(255,255,255,0.18)',
                 display: 'grid',
                 placeItems: 'center',
               }}
             >
-              <EcoIcon sx={{ fontSize: 22, color: '#fff' }} />
+              <EcoIcon sx={{ fontSize: 20, color: '#fff' }} />
             </Box>
             <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#fff', letterSpacing: '-0.01em' }}>
               {tr('Elite Agro Cloud')}
@@ -266,7 +266,7 @@ function Login() {
             >
               {tr('Every field,')}<br />{tr('calmly in view.')}
             </Typography>
-            <Typography sx={{ fontSize: '1.0625rem', color: 'rgba(255,255,255,0.74)', lineHeight: 1.6, mb: 6 }}>
+            <Typography sx={{ fontSize: '1rem', color: 'rgba(255,255,255,0.74)', lineHeight: 1.6, mb: 6 }}>
               {panelCopy}
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
@@ -322,7 +322,7 @@ function Login() {
                 sx={{
                   width: 38,
                   height: 38,
-                  borderRadius: 2.5,
+                  borderRadius: 1.25,
                   backgroundImage: (t) => `linear-gradient(145deg, ${t.palette.primary.light}, ${t.palette.primary.dark})`,
                   display: 'grid',
                   placeItems: 'center',
@@ -330,7 +330,7 @@ function Login() {
               >
                 <EcoIcon sx={{ fontSize: 20, color: '#fff' }} />
               </Box>
-              <Typography sx={{ fontWeight: 600, fontSize: '1.0625rem', color: 'text.primary', letterSpacing: '-0.01em' }}>
+              <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: 'text.primary', letterSpacing: '-0.01em' }}>
                 {tr('Elite Agro Cloud')}
               </Typography>
             </Box>

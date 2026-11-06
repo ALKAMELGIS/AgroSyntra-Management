@@ -199,12 +199,12 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       h2: { fontSize: '2rem', fontWeight: 600, lineHeight: 1.16, letterSpacing: '-0.028em', color: palette.text.primary },
       h3: { fontSize: '1.625rem', fontWeight: 600, lineHeight: 1.22, letterSpacing: '-0.024em', color: palette.text.primary },
       h4: { fontSize: '1.5rem', fontWeight: 600, lineHeight: 1.25, letterSpacing: '-0.022em', color: palette.text.primary },
-      h5: { fontSize: '1.1875rem', fontWeight: 600, lineHeight: 1.35, letterSpacing: '-0.014em', color: palette.text.primary },
+      h5: { fontSize: '1.125rem', fontWeight: 600, lineHeight: 1.35, letterSpacing: '-0.014em', color: palette.text.primary },
       h6: { fontSize: '1rem', fontWeight: 600, lineHeight: 1.45, letterSpacing: '-0.008em', color: palette.text.primary },
       subtitle1: { fontSize: '0.9375rem', fontWeight: 600, lineHeight: 1.5, letterSpacing: '-0.006em' },
       subtitle2: { fontSize: '0.8125rem', fontWeight: 600, lineHeight: 1.5, color: palette.text.secondary },
       body1: { fontSize: '0.9375rem', fontWeight: 400, lineHeight: 1.6, color: palette.text.primary },
-      body2: { fontSize: '0.84375rem', fontWeight: 400, lineHeight: 1.55, color: palette.text.secondary },
+      body2: { fontSize: '0.8125rem', fontWeight: 400, lineHeight: 1.55, color: palette.text.secondary },
       caption: { fontSize: '0.75rem', fontWeight: 500, lineHeight: 1.5, color: palette.text.secondary, letterSpacing: '0.005em' },
       button: { fontSize: '0.875rem', fontWeight: 500, lineHeight: 1.5, textTransform: 'none', letterSpacing: '-0.003em' },
       overline: { fontSize: '0.6875rem', fontWeight: 600, lineHeight: 1.6, textTransform: 'uppercase', letterSpacing: '0.08em', color: palette.text.secondary },
@@ -236,7 +236,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       h2: { [breakpoints.down('sm')]: { fontSize: '1.625rem' } },
       h3: { [breakpoints.down('sm')]: { fontSize: '1.375rem' } },
       h4: { [breakpoints.down('sm')]: { fontSize: '1.25rem' } },
-      h5: { [breakpoints.down('sm')]: { fontSize: '1.0625rem' } },
+      h5: { [breakpoints.down('sm')]: { fontSize: '1rem' } },
     },
     components: {
       // One page width for the whole app: the main area already has its own padding,
@@ -287,8 +287,9 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
         styleOverrides: {
           root: {
             borderRadius: RADIUS.pill,
-            padding: '8px 18px',
-            minHeight: 38,
+            // Size scale (all buttons): small 32 · medium 40 · large 48 px high.
+            padding: '4px 18px',
+            minHeight: 40,
             fontWeight: 500,
             fontSize: '0.875rem',
             textTransform: 'none',
@@ -298,8 +299,17 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
             '&.Mui-focusVisible': { boxShadow: focusRing },
             '&.Mui-disabled': { opacity: 0.55 },
           },
-          sizeSmall: { padding: '5px 14px', minHeight: 32, fontSize: '0.8125rem' },
-          sizeLarge: { padding: '11px 24px', minHeight: 46, fontSize: '0.9375rem' },
+          sizeSmall: {
+            padding: '2px 14px', minHeight: 32, fontSize: '0.8125rem',
+            '& .MuiButton-startIcon > *:nth-of-type(1), & .MuiButton-endIcon > *:nth-of-type(1)': { fontSize: 16 },
+          },
+          sizeMedium: {
+            '& .MuiButton-startIcon > *:nth-of-type(1), & .MuiButton-endIcon > *:nth-of-type(1)': { fontSize: 18 },
+          },
+          sizeLarge: {
+            padding: '6px 24px', minHeight: 48, fontSize: '0.9375rem',
+            '& .MuiButton-startIcon > *:nth-of-type(1), & .MuiButton-endIcon > *:nth-of-type(1)': { fontSize: 20 },
+          },
           contained: {
             backgroundColor: palette.background.paper,
             color: palette.text.primary,
@@ -380,7 +390,10 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
             '&:hover': { backgroundColor: hoverBg, color: palette.text.primary },
             '&.Mui-focusVisible': { boxShadow: focusRing },
           },
-          sizeSmall: { padding: 6 },
+          // Icon-button scale: small 32 · medium 40 · large 48 px, icons 18 / 20 / 24.
+          sizeSmall: { width: 32, height: 32, padding: 0, '& .MuiSvgIcon-root': { fontSize: 18 } },
+          sizeMedium: { width: 40, height: 40, padding: 0, '& .MuiSvgIcon-root': { fontSize: 20 } },
+          sizeLarge: { width: 48, height: 48, padding: 0, '& .MuiSvgIcon-root': { fontSize: 24 } },
         },
       },
       MuiToggleButtonGroup: {
@@ -395,7 +408,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       },
       MuiToggleButton: {
         styleOverrides: {
-          sizeSmall: { minHeight: 30 },
+          sizeSmall: { minHeight: 32 },
           root: {
             textTransform: 'none',
             fontWeight: 500,
@@ -481,7 +494,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
         styleOverrides: {
           // Placeholder colour lives in App.css: a `::placeholder` rule here breaks the RTL
           // emotion cache (stylis prefixer expands it and crashes stylis-plugin-rtl).
-          root: { fontSize: '0.9rem' },
+          root: { fontSize: '0.875rem' },
         },
       },
       MuiOutlinedInput: {
@@ -522,6 +535,9 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
           paper: { borderRadius: RADIUS.md, boxShadow: popShadow, border: `1px solid ${palette.border.subtle}` },
           option: { fontSize: '0.875rem', borderRadius: RADIUS.xs, margin: '1px 6px' },
           listbox: { padding: 6 },
+          // The field's own arrow / clear buttons stay small inside the input.
+          popupIndicator: { '&&': { width: 28, height: 28, padding: 2 } },
+          clearIndicator: { '&&': { width: 28, height: 28, padding: 2, '& .MuiSvgIcon-root': { fontSize: 18 } } },
         },
       },
       MuiCheckbox: { styleOverrides: { root: { color: borderStrong, borderRadius: RADIUS.xs } } },
@@ -716,7 +732,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
           root: {
             '& .MuiTableCell-head': {
               fontWeight: 600,
-              fontSize: '0.71875rem',
+              fontSize: '0.6875rem',
               textTransform: 'uppercase',
               letterSpacing: '0.06em',
               color: palette.text.secondary,
@@ -744,7 +760,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       },
       MuiTableCell: {
         styleOverrides: {
-          root: { padding: '12px 16px', fontSize: '0.84375rem', borderBottom: `1px solid ${palette.border.subtle}` },
+          root: { padding: '12px 16px', fontSize: '0.8125rem', borderBottom: `1px solid ${palette.border.subtle}` },
           sizeSmall: { padding: '8px 12px' },
           stickyHeader: { backgroundColor: palette.background.muted },
         },
@@ -760,7 +776,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       MuiChip: {
         styleOverrides: {
           root: { fontWeight: 500, fontSize: '0.75rem', borderRadius: RADIUS.pill, height: 26, letterSpacing: '0.005em' },
-          sizeSmall: { height: 22, fontSize: '0.71875rem' },
+          sizeSmall: { height: 22, fontSize: '0.6875rem' },
           label: { paddingLeft: 10, paddingRight: 10 },
           labelSmall: { paddingLeft: 8, paddingRight: 8 },
           filled: { border: 'none' },
@@ -772,14 +788,14 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
         },
       },
       MuiBadge: {
-        styleOverrides: { badge: { fontWeight: 600, fontSize: '0.65rem', minWidth: 18, height: 18, padding: '0 5px' } },
+        styleOverrides: { badge: { fontWeight: 600, fontSize: '0.6875rem', minWidth: 18, height: 18, padding: '0 5px' } },
       },
       MuiAvatar: {
         styleOverrides: { root: { fontWeight: 600, fontSize: '0.875rem' } },
       },
       MuiAlert: {
         styleOverrides: {
-          root: { borderRadius: RADIUS.md, fontSize: '0.84375rem', border: '1px solid', alignItems: 'flex-start', padding: '8px 14px' },
+          root: { borderRadius: RADIUS.md, fontSize: '0.8125rem', border: '1px solid', alignItems: 'flex-start', padding: '8px 14px' },
           icon: { opacity: 0.9, padding: '8px 0' },
           message: { padding: '8px 0' },
           standardSuccess: { backgroundColor: isDark ? alpha('#4cb27e', 0.1) : '#f1f8f3', borderColor: isDark ? alpha('#4cb27e', 0.25) : '#cfe6d7', color: isDark ? '#9bdab8' : '#14532f' },
@@ -807,7 +823,8 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
         defaultProps: { animation: 'wave' },
         styleOverrides: { root: { borderRadius: RADIUS.sm, backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(18,23,20,0.06)' } },
       },
-      MuiSvgIcon: { styleOverrides: { fontSizeSmall: { fontSize: '1.125rem' } } },
+      // Icon scale: small 18 · medium 20 · large 24 px (16 inside chips and small buttons).
+      MuiSvgIcon: { styleOverrides: { fontSizeSmall: { fontSize: '1.125rem' }, fontSizeMedium: { fontSize: '1.25rem' }, fontSizeLarge: { fontSize: '1.5rem' } } },
     },
   });
 }

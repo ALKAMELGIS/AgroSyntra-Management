@@ -95,7 +95,7 @@ export default function PasteFromExcelFert({ open, onClose, onPaste }) {
         <Box sx={{ mb: 1, display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
           <Typography variant="caption" color="text.secondary" sx={{ mr: 1 }}>Recognized headers:</Typography>
           {['Field ID', 'Valves', 'Flow Rate', 'Water Qty', 'Frequency', 'Daily Total', 'Crop'].map((h) => (
-            <Chip key={h} label={h} size="small" variant="outlined" sx={{ fontSize: '0.7rem', height: 22 }} />
+            <Chip key={h} label={h} size="small" variant="outlined" sx={{ fontSize: '0.6875rem', height: 22 }} />
           ))}
         </Box>
 
@@ -104,7 +104,7 @@ export default function PasteFromExcelFert({ open, onClose, onPaste }) {
           placeholder="Paste Excel data here..."
           value={text}
           onChange={(e) => { setText(e.target.value); setPreview(null); setError(''); }}
-          sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', '& textarea': { fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.8rem' } }}
+          sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', '& textarea': { fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.8125rem' } }}
         />
 
         {error && <Alert severity="error" sx={{ mt: 1 }}>{error}</Alert>}

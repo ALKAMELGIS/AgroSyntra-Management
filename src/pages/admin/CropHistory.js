@@ -1184,7 +1184,7 @@ export default function CropHistory() {
             <>
             {siteFilter && (
               <Box sx={{ bgcolor: 'table.headerBg', color: 'table.headerText', px: 2, py: 1, borderRadius: '4px 4px 0 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: '0.8rem' }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: '0.8125rem' }}>
                   SEEDING / TRANSPLANTING RECORD
                 </Typography>
                 <Typography variant="caption" sx={{ opacity: 0.85 }}>

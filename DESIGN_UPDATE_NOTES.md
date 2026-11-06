@@ -174,3 +174,31 @@ Fixed through it:
 - Inventory: the category tabs, the search box and the pagination each had their own frame → plain rows above / below the one table frame; the search fills the width on phones.
 - Report top-lists showed "undefined" for an item without a name → "Unnamed / بدون اسم"; the list divider was a fixed light colour (now follows dark mode).
 - Gate: **589 Playwright tests, all passing** — now including the overlap check on every screen at phone / tablet / desktop with and without data; **677 unit tests** passing.
+
+## Round 20 — full UI/UX audit: one design scale, map-first GIS screens
+Audit of all 50 screens at 390 / 820 / 1280 / 1920 px (buttons, icons, type, radii, clipped text, duplicate controls), then fixes, then the same audit again:
+
+| | Before | After |
+|---|---|---|
+| Button heights | 32 / 38 / 39 / 47 px | **32 / 40 / 48** (small / medium / large) |
+| Icon-button sizes | 28 / 30 / 36 / 40 px | **32 / 40 / 48** (field arrows 28 by design) |
+| Icon sizes | 10 values (14–24, incl. 17 / 19 / 21 / 22) | **16 / 18 / 20 / 24** |
+| Font sizes | 23 values (9.6, 11.2, 11.5, 13.5, 14.4, 16.8 …) | **one scale: 11 · 12 · 13 · 14 · 15 · 16 · 18 · 20 · 22 · 24 · 26 · 30** |
+| Card / panel radii | 0 / 8 / 12 / 16 / 20 / 32 px | **10 fields · 12 tiles · 16 cards · 20 dialogs** (0 for map panes) |
+| Duplicate control names | per-layer GIS actions, scouting "Show details" | each names its layer / report |
+| Clipped text | none found | none |
+
+- Theme: button sizes with matching icon sizes (16 / 18 / 20), icon-button scale (32 / 40 / 48 with 18 / 20 / 24 icons), SvgIcon scale (18 / 20 / 24), toggle buttons 32 px, h5 19 → 18 px, body2 13.5 → 13 px; Autocomplete arrow / clear buttons kept small inside fields.
+- 261 hand-written font sizes in 50 files mapped to the scale; on-screen text below 11 px raised to 11 px (charts, pivot headers, farm monitor). Print documents (PDF export, RC-231 work-order form) keep their print sizes.
+- Radii: page and card radii normalised in 14 components (hub tiles 32 → 16, report panels 32 → 16, sidebar fields 20 → 10, toasts 24 → 12 …). Note: in `sx`, `borderRadius: 2` = 16 px (× 8).
+- GIS layer list: every action names its layer ("Style Al Maha fields", "Delete layer …", "Hide layer …" with pressed state); scouting cards: "Show details: GH-01, 2026-11-03" with expanded state.
+
+**Map screens (GIS Map, Remote Sensing, GPS Tracking, Weather Map)** — the map is the main workspace:
+- New `hooks/useFillHeight`: a map fills the screen from where it starts to the bottom (above the phone nav bar, min 360 px) instead of fixed 500 px / 70vh / 75vh boxes; re-measures when banners above it appear.
+  - GPS Tracking map: 500 px fixed → 819 px (tablet) / 797 px (1920 × 1080); no page scroll.
+  - Remote Sensing: title, layer selector and actions on one row (the helper sentence moved behind an ⓘ), map starts 80 px higher; the analysis panel opens beside the map on desktop, closed on phones / tablets; no page scroll (was 900 px on phones).
+  - GIS Map layers panel 360 → 300 px on laptops (340 on large monitors): map share on 1280 px 58 % → 64 %.
+- No map control covers another: legends sit above the map credits; on phones the Remote Sensing legend moves to the top right (clear of the base-map buttons), the GIS legend steps aside while a feature's details are open, and the feature panel is full width.
+- GPS equipment cards: brand colours instead of Material blue / fixed light grey (dark mode), and keyboard-operable (Enter / Space, focus ring).
+- New permanent tests: 12 map checks (3 screens × 360 / 820 / 1280 / 1920 px) — map visible and filling the height, no page scroll past it, legends / controls / panels never overlap.
+- Gate: **601 Playwright tests, all passing** (incl. 12 new map-screen checks and the overlap check on every screen); **677 unit tests** passing.

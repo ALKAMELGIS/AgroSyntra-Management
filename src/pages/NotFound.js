@@ -20,7 +20,7 @@ export default function NotFound() {
           textAlign: 'center',
           p: 6,
           maxWidth: 480,
-          borderRadius: 3,
+          borderRadius: 2,
         }}
       >
         <SadIcon sx={{ fontSize: 80, color: 'text.secondary', mb: 2 }} />

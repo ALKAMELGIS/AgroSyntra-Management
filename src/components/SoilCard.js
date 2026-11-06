@@ -59,7 +59,7 @@ function SoilCard({ fieldName, soilData }) {
             <Grass sx={{ fontSize: 18, color: '#4caf50' }} />
             <Typography
               variant="h6"
-              sx={{ fontWeight: 600, color: '#2c3e50', fontSize: '1.1rem' }}
+              sx={{ fontWeight: 600, color: '#2c3e50', fontSize: '1.125rem' }}
             >
               {fieldName}
             </Typography>

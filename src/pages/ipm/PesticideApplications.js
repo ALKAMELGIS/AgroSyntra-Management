@@ -1897,7 +1897,7 @@ export default function PesticideApplications() {
                     <TableCell sx={{ whiteSpace: 'nowrap' }}>{app.application_start_time}</TableCell>
                     <TableCell sx={{ whiteSpace: 'nowrap' }}>{app.application_end_time}</TableCell>
                     <TableCell sx={{ whiteSpace: 'nowrap', fontWeight: 600 }}>{app.product_name}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap', fontSize: '0.8rem' }}>
+                    <TableCell sx={{ whiteSpace: 'nowrap', fontSize: '0.8125rem' }}>
                       {app.active_ingredient || app.product_active_ingredient}
                     </TableCell>
                     <TableCell className="col-numeric">{app.dosage}</TableCell>
@@ -1989,7 +1989,7 @@ export default function PesticideApplications() {
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                           <Typography fontWeight={600}>{phi.field_name}</Typography>
                           {phi.segment_id && (
-                            <Chip label={phi.segment_id} size="small" variant="outlined" sx={{ height: 20, fontSize: '0.7rem' }} />
+                            <Chip label={phi.segment_id} size="small" variant="outlined" sx={{ height: 20, fontSize: '0.6875rem' }} />
                           )}
                         </Box>
                         <Chip
@@ -2020,8 +2020,8 @@ export default function PesticideApplications() {
         <Box>
           <Tabs value={pestCatalogTab} onChange={(_, v) => { setPestCatalogTab(v); setPestCatalogFilter(''); setPestBrowseSelected(new Set()); }}
             sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}>
-            <Tab icon={<MySiteIcon />} iconPosition="start" label="My Site" sx={{ textTransform: 'none', fontSize: '0.8rem' }} />
-            <Tab icon={<BrowseIcon />} iconPosition="start" label="Browse All" sx={{ textTransform: 'none', fontSize: '0.8rem' }} />
+            <Tab icon={<MySiteIcon />} iconPosition="start" label="My Site" sx={{ textTransform: 'none', fontSize: '0.8125rem' }} />
+            <Tab icon={<BrowseIcon />} iconPosition="start" label="Browse All" sx={{ textTransform: 'none', fontSize: '0.8125rem' }} />
           </Tabs>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
@@ -2060,7 +2060,7 @@ export default function PesticideApplications() {
                         <TableRow key={p.id} hover>
                           <GutterCell index={idx + 1} />
                           <TableCell sx={{ fontWeight: 500 }}>{p.name}</TableCell>
-                          <TableCell sx={{ fontSize: '0.8rem' }}>{p.active_ingredient}</TableCell>
+                          <TableCell sx={{ fontSize: '0.8125rem' }}>{p.active_ingredient}</TableCell>
                           <TableCell>{p.formulation_type}</TableCell>
                           <TableCell align="center">
                             {p.phi_days == null || p.phi_days === '' ? null : (
@@ -2197,11 +2197,11 @@ export default function PesticideApplications() {
                             )}
                           </TableCell>
                           <TableCell sx={{ fontWeight: 500 }}>{p.name}</TableCell>
-                          <TableCell sx={{ fontSize: '0.8rem' }}>{p.active_ingredient}</TableCell>
+                          <TableCell sx={{ fontSize: '0.8125rem' }}>{p.active_ingredient}</TableCell>
                           <TableCell>{p.formulation_type}</TableCell>
                           <TableCell align="center">
                             {alreadyInSite ? (
-                              <Chip label="In your site" size="small" color="success" variant="outlined" sx={{ fontSize: '0.65rem' }} />
+                              <Chip label="In your site" size="small" color="success" variant="outlined" sx={{ fontSize: '0.6875rem' }} />
                             ) : !canEditCatalog ? null : (
                               <Tooltip title="Copy to my site">
                                 <IconButton size="small" onClick={() => handlePestCopyToSite(p.id)} disabled={pestCatalogSaving || !activeSiteId}>
@@ -2240,30 +2240,30 @@ export default function PesticideApplications() {
         // the themed tables draw from. They are literals here because this report
         // paints with plain inline styles rather than MUI sx, so it has no theme
         // to read from.
-        const hdr = { background: '#1f7a4d', color: '#fff', fontWeight: 700, fontSize: '0.72rem', padding: '6px 10px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap' };
-        const cell = { fontSize: '0.72rem', padding: '5px 10px', border: '1px solid #c8c8c8' };
+        const hdr = { background: '#1f7a4d', color: '#fff', fontWeight: 700, fontSize: '0.6875rem', padding: '6px 10px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap' };
+        const cell = { fontSize: '0.6875rem', padding: '5px 10px', border: '1px solid #c8c8c8' };
         // Deliberately a warm neutral rather than a green. Cost cells are tinted
         // green, and a green stripe underneath them would swallow that signal.
         const altBg = '#eff1ed';
         const calcCell = { ...cell, background: '#e8f5e9', fontWeight: 600, color: '#1f7a4d', textAlign: 'right' };
         const bannerBg = '#1e4429';
-        const bannerStyle = { background: bannerBg, color: '#fff', padding: '8px 16px', fontSize: '0.85rem', fontWeight: 700, borderBottom: `2px solid ${hdr.background}` };
+        const bannerStyle = { background: bannerBg, color: '#fff', padding: '8px 16px', fontSize: '0.875rem', fontWeight: 700, borderBottom: `2px solid ${hdr.background}` };
 
         return (
           <Box>
             {/* Banner */}
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', ...bannerStyle, borderRadius: '4px 4px 0 0' }}>
-              <Typography sx={{ fontSize: '0.85rem', fontWeight: 700, color: '#fff', letterSpacing: 0.5 }}>
+              <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: '#fff', letterSpacing: 0.5 }}>
                 IPM COSTING REPORT
               </Typography>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button size="small" variant="contained" startIcon={<FileDownload />}
-                  sx={{ textTransform: 'none', fontSize: '0.72rem', bgcolor: hdr.background, '&:hover': { bgcolor: '#165c3a' } }}
+                  sx={{ textTransform: 'none', fontSize: '0.6875rem', bgcolor: hdr.background, '&:hover': { bgcolor: '#165c3a' } }}
                   onClick={() => setCostingExportDialogOpen(true)}>
                   Export Excel
                 </Button>
                 <Button size="small" variant="contained" startIcon={<PdfIcon />}
-                  sx={{ textTransform: 'none', fontSize: '0.72rem', bgcolor: '#c0392b', '&:hover': { bgcolor: '#a93226' } }}
+                  sx={{ textTransform: 'none', fontSize: '0.6875rem', bgcolor: '#c0392b', '&:hover': { bgcolor: '#a93226' } }}
                   onClick={() => setCostingExportDialogOpen(true)}>
                   Generate Report
                 </Button>
@@ -2272,17 +2272,17 @@ export default function PesticideApplications() {
 
             {/* Filter Bar */}
             <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', alignItems: 'center', p: 1.5, background: '#e9e5e0', borderBottom: '1px solid #c8c8c8' }}>
-              <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#555', mr: 0.5 }}>Filter:</Typography>
+              <Typography sx={{ fontSize: '0.6875rem', fontWeight: 700, color: '#555', mr: 0.5 }}>Filter:</Typography>
               <TextField size="small" type="date" label="From" InputLabelProps={{ shrink: true }}
                 value={costDateStart} onChange={e => setCostDateStart(e.target.value)}
-                sx={{ width: 150, '& input': { fontSize: '0.72rem', py: '5px' } }} />
+                sx={{ width: 150, '& input': { fontSize: '0.6875rem', py: '5px' } }} />
               <TextField size="small" type="date" label="To" InputLabelProps={{ shrink: true }}
                 value={costDateEnd} onChange={e => setCostDateEnd(e.target.value)}
-                sx={{ width: 150, '& input': { fontSize: '0.72rem', py: '5px' } }} />
+                sx={{ width: 150, '& input': { fontSize: '0.6875rem', py: '5px' } }} />
               <FormControl size="small" sx={{ minWidth: 120 }}>
                 <InputLabel id="pesticideapplications-type-label-2" sx={{ fontSize: '0.75rem' }}>Type</InputLabel>
                 <Select labelId="pesticideapplications-type-label-2" value={costTypeFilter} label="Type" onChange={e => setCostTypeFilter(e.target.value)}
-                  sx={{ fontSize: '0.72rem', '& .MuiSelect-select': { py: '5px' } }}>
+                  sx={{ fontSize: '0.6875rem', '& .MuiSelect-select': { py: '5px' } }}>
                   <MenuItem value="all" sx={{ fontSize: '0.75rem' }}>All</MenuItem>
                   <MenuItem value="spray" sx={{ fontSize: '0.75rem' }}>Spray</MenuItem>
                   <MenuItem value="drench" sx={{ fontSize: '0.75rem' }}>Drench</MenuItem>
@@ -2293,13 +2293,13 @@ export default function PesticideApplications() {
                 options={availableCrops}
                 value={costCropFilter}
                 onChange={(_, v) => setCostCropFilter(v)}
-                renderInput={(params) => <TextField {...params} label="Crop" sx={{ '& input': { fontSize: '0.72rem' } }} />}
-                sx={{ minWidth: 200, '& .MuiChip-root': { height: 20, fontSize: '0.65rem' } }}
+                renderInput={(params) => <TextField {...params} label="Crop" sx={{ '& input': { fontSize: '0.6875rem' } }} />}
+                sx={{ minWidth: 200, '& .MuiChip-root': { height: 20, fontSize: '0.6875rem' } }}
               />
               <TextField size="small" placeholder="Search product..." value={costProductSearch}
                 onChange={e => setCostProductSearch(e.target.value)}
                 InputProps={{ startAdornment: <InputAdornment position="start"><Search sx={{ fontSize: 16, color: '#888' }} /></InputAdornment> }}
-                sx={{ width: 180, '& input': { fontSize: '0.72rem', py: '5px' } }} />
+                sx={{ width: 180, '& input': { fontSize: '0.6875rem', py: '5px' } }} />
             </Box>
 
             {/* KPI Summary Cards */}
@@ -2313,8 +2313,8 @@ export default function PesticideApplications() {
                 <Box key={kpi.label} sx={{
                   flex: 1, p: 1.5, borderRadius: 1, border: '1px solid #c8c8c8', background: kpi.bg, textAlign: 'center',
                 }}>
-                  <Typography sx={{ fontSize: '0.65rem', fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{kpi.label}</Typography>
-                  <Typography sx={{ fontSize: '1.3rem', fontWeight: 800, color: kpi.color, mt: 0.3 }}>{kpi.value}</Typography>
+                  <Typography sx={{ fontSize: '0.6875rem', fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{kpi.label}</Typography>
+                  <Typography sx={{ fontSize: '1.25rem', fontWeight: 800, color: kpi.color, mt: 0.3 }}>{kpi.value}</Typography>
                 </Box>
               ))}
             </Box>
@@ -2340,7 +2340,7 @@ export default function PesticideApplications() {
                       <TableCell sx={{ ...cell, color: '#666' }}>{r.activeIngredient}</TableCell>
                       <TableCell sx={cell}>
                         <Chip label={r.type} size="small"
-                          sx={{ fontSize: '0.65rem', height: 20, fontWeight: 600,
+                          sx={{ fontSize: '0.6875rem', height: 20, fontWeight: 600,
                             bgcolor: r.type === 'Spray' ? '#e3f2fd' : '#fce4ec',
                             color: r.type === 'Spray' ? '#1565c0' : '#c62828' }} />
                       </TableCell>
@@ -2368,7 +2368,7 @@ export default function PesticideApplications() {
             {/* Product Summary */}
             {productSummary.length > 0 && (
               <Box sx={{ mt: 2 }}>
-                <Box sx={{ ...bannerStyle, borderRadius: '4px 4px 0 0', fontSize: '0.78rem' }}>PRODUCT SUMMARY</Box>
+                <Box sx={{ ...bannerStyle, borderRadius: '4px 4px 0 0', fontSize: '0.8125rem' }}>PRODUCT SUMMARY</Box>
                 <TableContainer sx={{ border: '1px solid #c8c8c8', borderTop: 0 }}>
                   <Table size="small">
                     <TableHead>
@@ -2397,7 +2397,7 @@ export default function PesticideApplications() {
             {/* Crop Summary */}
             {cropSummary.length > 0 && (
               <Box sx={{ mt: 2, mb: 2 }}>
-                <Box sx={{ ...bannerStyle, borderRadius: '4px 4px 0 0', fontSize: '0.78rem' }}>CROP SUMMARY</Box>
+                <Box sx={{ ...bannerStyle, borderRadius: '4px 4px 0 0', fontSize: '0.8125rem' }}>CROP SUMMARY</Box>
                 <TableContainer sx={{ border: '1px solid #c8c8c8', borderTop: 0 }}>
                   <Table size="small">
                     <TableHead>
@@ -2790,7 +2790,7 @@ export default function PesticideApplications() {
       {/* Costing Excel / PDF Filters Dialog */}
       <Dialog open={costingExportDialogOpen} onClose={() => !costingExportBusy && setCostingExportDialogOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ background: '#1e4429', color: '#fff', py: 1.5 }}>
-          <Typography sx={{ fontSize: '0.95rem', fontWeight: 700 }}>Export Costing Report</Typography>
+          <Typography sx={{ fontSize: '0.9375rem', fontWeight: 700 }}>Export Costing Report</Typography>
         </DialogTitle>
         <DialogContent>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1, mb: 2 }}>

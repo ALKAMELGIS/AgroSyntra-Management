@@ -32,7 +32,7 @@ function HubTile({ tile, onOpen, L }) {
         minHeight: { xs: 96, sm: 108 },
         p: { xs: 3, sm: 4 },
         textAlign: 'start',
-        borderRadius: 4,
+        borderRadius: 2,
         bgcolor: 'background.paper',
         border: '1px solid',
         borderColor: 'divider',
@@ -60,7 +60,7 @@ function HubTile({ tile, onOpen, L }) {
           sx={(t) => ({
             width: 40,
             height: 40,
-            borderRadius: 3,
+            borderRadius: 1.5,
             display: 'grid',
             placeItems: 'center',
             bgcolor: alpha(t.palette.primary.main, t.palette.mode === 'dark' ? 0.16 : 0.08),
@@ -68,7 +68,7 @@ function HubTile({ tile, onOpen, L }) {
             transition: 'background-color 200ms ease, color 200ms ease',
           })}
         >
-          <Icon sx={{ fontSize: 21 }} />
+          <Icon sx={{ fontSize: 20 }} />
         </Box>
         <ArrowIcon className="hub-arrow" sx={{ fontSize: 18, color: 'text.secondary', mt: 0.5 }} />
       </Box>

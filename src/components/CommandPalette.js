@@ -150,7 +150,7 @@ export default function CommandPalette() {
           position: 'fixed',
           top: '15%',
           m: 0,
-          borderRadius: 3,
+          borderRadius: 2.5,
           maxHeight: '60vh',
         },
       }}

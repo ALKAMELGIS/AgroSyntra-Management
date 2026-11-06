@@ -40,9 +40,9 @@ const updateBg = '#e3f2fd';
 
 const hdrStyle = {
   background: headerBg, color: '#fff', fontWeight: 700,
-  fontSize: '0.72rem', padding: '6px 8px', border: cellBorder, whiteSpace: 'nowrap',
+  fontSize: '0.6875rem', padding: '6px 8px', border: cellBorder, whiteSpace: 'nowrap',
 };
-const cellStyle = { fontSize: '0.72rem', padding: '5px 8px', border: cellBorder };
+const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: cellBorder };
 
 const steps = ['Upload Excel', 'Map Columns', 'Review & Validate', 'Import Results'];
 
@@ -921,7 +921,7 @@ export default function PlantingImporter({
                   <TableCell sx={cellStyle}>{row._resolvedCropName || row.cropName}</TableCell>
                   <TableCell sx={cellStyle}>
                     {row._resolvedVarietyName || row.variety}
-                    {row._needsVarietyCreation && <Chip label="new" size="small" color="info" sx={{ ml: 0.5, height: 16, fontSize: '0.6rem' }} />}
+                    {row._needsVarietyCreation && <Chip label="new" size="small" color="info" sx={{ ml: 0.5, height: 16, fontSize: '0.6875rem' }} />}
                   </TableCell>
                   <TableCell sx={{ ...cellStyle, maxWidth: 200 }}>
                     {[...row._errors, ...row._warnings].join('; ')}

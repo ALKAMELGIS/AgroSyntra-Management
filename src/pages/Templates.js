@@ -117,7 +117,7 @@ function TemplateTypeChip({ template, sx }) {
       size="small"
       color={label === 'Entry form' ? 'default' : 'info'}
       variant="outlined"
-      sx={{ fontSize: '0.65rem', height: 20, ...sx }}
+      sx={{ fontSize: '0.6875rem', height: 20, ...sx }}
     />
   );
 }
@@ -146,14 +146,14 @@ function ColumnPreview({ columnsConfig }) {
             label={col.label || col.key}
             size="small"
             variant="outlined"
-            sx={{ fontSize: '0.65rem', height: 20, '& .MuiChip-label': { px: 0.75 } }}
+            sx={{ fontSize: '0.6875rem', height: 20, '& .MuiChip-label': { px: 0.75 } }}
           />
         ))}
         {remaining > 0 && (
           <Chip
             label={`+${remaining} more`}
             size="small"
-            sx={{ fontSize: '0.65rem', height: 20, bgcolor: 'action.hover', '& .MuiChip-label': { px: 0.75 } }}
+            sx={{ fontSize: '0.6875rem', height: 20, bgcolor: 'action.hover', '& .MuiChip-label': { px: 0.75 } }}
           />
         )}
       </Box>
@@ -184,7 +184,7 @@ function TemplatePreviewDialog({ template, open, onClose, onOpen, canEdit, onEdi
               <Chip
                 label={catMeta.label}
                 size="small"
-                sx={{ bgcolor: `${catMeta.color}15`, color: catMeta.color, fontWeight: 600, fontSize: '0.7rem' }}
+                sx={{ bgcolor: `${catMeta.color}15`, color: catMeta.color, fontWeight: 600, fontSize: '0.6875rem' }}
               />
             )}
             {typeLabel && (
@@ -193,7 +193,7 @@ function TemplatePreviewDialog({ template, open, onClose, onOpen, canEdit, onEdi
                 size="small"
                 color={typeLabel === 'Entry form' ? 'default' : 'info'}
                 variant="outlined"
-                sx={{ fontSize: '0.7rem' }}
+                sx={{ fontSize: '0.6875rem' }}
               />
             )}
             {template.is_system ? (
@@ -247,7 +247,7 @@ function TemplatePreviewDialog({ template, open, onClose, onOpen, canEdit, onEdi
                       <TableRow key={`section-${colSection}`}>
                         <TableCell
                           colSpan={4}
-                          sx={{ bgcolor: 'action.hover', fontWeight: 700, fontSize: '0.8rem', py: 0.75 }}
+                          sx={{ bgcolor: 'action.hover', fontWeight: 700, fontSize: '0.8125rem', py: 0.75 }}
                         >
                           {sectionMap[colSection] || colSection}
                         </TableCell>
@@ -266,7 +266,7 @@ function TemplatePreviewDialog({ template, open, onClose, onOpen, canEdit, onEdi
                           label={COLUMN_TYPE_LABELS[col.type] || col.type}
                           size="small"
                           variant="outlined"
-                          sx={{ fontSize: '0.65rem', height: 20 }}
+                          sx={{ fontSize: '0.6875rem', height: 20 }}
                         />
                       </TableCell>
                       <TableCell>
@@ -277,7 +277,7 @@ function TemplatePreviewDialog({ template, open, onClose, onOpen, canEdit, onEdi
                                 key={i}
                                 label={typeof opt === 'string' ? opt.trim() : opt}
                                 size="small"
-                                sx={{ fontSize: '0.6rem', height: 18, bgcolor: 'action.hover' }}
+                                sx={{ fontSize: '0.6875rem', height: 18, bgcolor: 'action.hover' }}
                               />
                             ))}
                           </Box>
@@ -665,10 +665,10 @@ export default function Templates() {
               </Typography>
               <Box sx={{ display: 'flex', gap: 0.5, ml: 1, flexShrink: 0, alignItems: 'center' }}>
                 {tpl.is_default && (
-                  <Chip label="Default" size="small" color="warning" sx={{ fontSize: '0.65rem', height: 20 }} />
+                  <Chip label="Default" size="small" color="warning" sx={{ fontSize: '0.6875rem', height: 20 }} />
                 )}
                 {isHiddenOnSite && (
-                  <Chip label="Hidden" size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 20 }} />
+                  <Chip label="Hidden" size="small" variant="outlined" sx={{ fontSize: '0.6875rem', height: 20 }} />
                 )}
                 {tpl.is_system ? (
                   <Chip label="Built-in" size="small" variant="outlined" />
@@ -919,7 +919,7 @@ export default function Templates() {
                     sx={{
                       width: 64,
                       height: 64,
-                      borderRadius: 3,
+                      borderRadius: 2,
                       bgcolor: `${cat.color}12`,
                       display: 'flex',
                       alignItems: 'center',
@@ -1053,7 +1053,7 @@ export default function Templates() {
               sx={{
                 width: 48,
                 height: 48,
-                borderRadius: 2.5,
+                borderRadius: 2,
                 bgcolor: `${catMeta.color || '#666'}12`,
                 display: 'flex',
                 alignItems: 'center',

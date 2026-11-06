@@ -215,7 +215,7 @@ export default function TemplatePreview() {
           {col.label || col.key || '(unnamed)'}
           {col.required && <span style={{ color: '#d32f2f' }}> *</span>}
           {col.type === 'calculated' && (
-            <Chip label="fx" size="small" sx={{ ml: 0.5, height: 16, fontSize: '0.6rem' }} />
+            <Chip label="fx" size="small" sx={{ ml: 0.5, height: 16, fontSize: '0.6875rem' }} />
           )}
         </TableCell>
       ))}
@@ -224,7 +224,7 @@ export default function TemplatePreview() {
 
   const renderCellInput = (col, rowIdx) => {
     const baseProps = { size: 'small', fullWidth: true, variant: 'standard' };
-    const sx = { '& .MuiInput-input': { fontSize: '0.8rem', py: 0.5 } };
+    const sx = { '& .MuiInput-input': { fontSize: '0.8125rem', py: 0.5 } };
 
     switch (col.type) {
       case 'number':
@@ -257,14 +257,14 @@ export default function TemplatePreview() {
             variant="standard"
             displayEmpty
             defaultValue=""
-            sx={{ fontSize: '0.8rem' }}
+            sx={{ fontSize: '0.8125rem' }}
             disableUnderline
           >
             <MenuItem value="" disabled>
               <Typography variant="body2" color="text.disabled">Select...</Typography>
             </MenuItem>
             {options.map((opt, i) => (
-              <MenuItem key={i} value={opt} sx={{ fontSize: '0.8rem' }}>{opt}</MenuItem>
+              <MenuItem key={i} value={opt} sx={{ fontSize: '0.8125rem' }}>{opt}</MenuItem>
             ))}
           </Select>
         );
@@ -393,7 +393,7 @@ export default function TemplatePreview() {
               <Chip
                 label={catMeta.label}
                 size="small"
-                sx={{ bgcolor: `${catMeta.color}15`, color: catMeta.color, fontWeight: 600, fontSize: '0.7rem' }}
+                sx={{ bgcolor: `${catMeta.color}15`, color: catMeta.color, fontWeight: 600, fontSize: '0.6875rem' }}
               />
             )}
             {template.is_system ? (

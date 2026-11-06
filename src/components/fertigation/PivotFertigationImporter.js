@@ -17,9 +17,9 @@ import { parseRc132Workbook } from '../../utils/pivotFertigationImportParser';
 
 const hdrStyle = {
   background: '#165c3a', color: '#fff', fontWeight: 700,
-  fontSize: '0.72rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
+  fontSize: '0.6875rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
 };
-const cellStyle = { fontSize: '0.72rem', padding: '5px 8px', border: '1px solid #c8c8c8' };
+const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: '1px solid #c8c8c8' };
 
 const STEPS = ['Upload Excel', 'Preview & Options', 'Import Results'];
 
@@ -149,7 +149,7 @@ export default function PivotFertigationImporter({
               sx={{ backgroundColor: '#165c3a' }}>
               Select Excel File
             </Button>
-            <Typography sx={{ mt: 2, fontSize: '0.85rem', color: '#666' }}>
+            <Typography sx={{ mt: 2, fontSize: '0.875rem', color: '#666' }}>
               Upload your RC-132 workbook. All rows from the Fertilization sheet import into one continuous log — same as Excel.
             </Typography>
           </Box>

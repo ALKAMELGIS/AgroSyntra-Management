@@ -5,6 +5,7 @@ import {
   DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select,
   MenuItem, Chip, CircularProgress, Alert, Snackbar, Divider, Tooltip,
   Card, CardContent, Slider, Tabs, Tab, LinearProgress, Autocomplete,
+  useMediaQuery,
 } from '@mui/material';
 import {
   LayersOutlined as LayersIcon, AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
@@ -85,6 +86,7 @@ function TabPanel({ children, value, index }) {
 
 export default function GISMap() {
   const { isMobile, scrollRegionHeight, contentBleed, topBarHeight, padPx, bottomChrome } = useAppLayout();
+  const isLargeScreen = useMediaQuery('(min-width:1536px)');
   const { t } = useTranslation();
   // CEO and operation manager manage GIS layers; everyone else (incl. farm manager) views only.
   const canEdit = canEditGis(useAuth().user);
@@ -592,7 +594,8 @@ export default function GISMap() {
     });
   };
 
-  const drawerWidth = 360;
+  // Layers panel: narrower on laptops so the map stays the main workspace.
+  const drawerWidth = isLargeScreen ? 340 : 300;
 
   return (
     <Box sx={{
@@ -664,7 +667,7 @@ export default function GISMap() {
                   <Tooltip title={layer.isVisible
                     ? 'Hide layer on the map (data is kept — safe)'
                     : 'Show layer on the map'}>
-                    <IconButton size="small" onClick={() => handleToggleVisibility(layer)}>
+                    <IconButton size="small" onClick={() => handleToggleVisibility(layer)} aria-label={`${layer.isVisible ? 'Hide' : 'Show'} layer ${layer.name}`} aria-pressed={!!layer.isVisible}>
                       {layer.isVisible ? <VisIcon color="primary" /> : <VisOffIcon />}
                     </IconButton>
                   </Tooltip>
@@ -692,12 +695,13 @@ export default function GISMap() {
                   {canEdit && (<>
                   {layer.sourceType === 'arcgis_feature_service' && (
                     <Tooltip title="Sync from ArcGIS">
-                      <IconButton size="small" onClick={() => handleSync(layer)}><SyncIcon fontSize="small" /></IconButton>
+                      <IconButton size="small" onClick={() => handleSync(layer)} aria-label={`Sync ${layer.name} from ArcGIS`}><SyncIcon fontSize="small" /></IconButton>
                     </Tooltip>
                   )}
                   <Tooltip title="Auto-Link to Fields">
                     <IconButton
                       size="small"
+                      aria-label={`Auto-link ${layer.name} to fields`}
                       onClick={() => handleAutoLink(layer)}
                       disabled={autoLinking === layer.id}
                     >
@@ -705,13 +709,13 @@ export default function GISMap() {
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Attribute Mapping">
-                    <IconButton size="small" onClick={() => openMappingDialog(layer)}><LinkIcon fontSize="small" /></IconButton>
+                    <IconButton size="small" onClick={() => openMappingDialog(layer)} aria-label={`Attribute mapping for ${layer.name}`}><LinkIcon fontSize="small" /></IconButton>
                   </Tooltip>
                   <Tooltip title="Style">
-                    <IconButton size="small" onClick={() => openStyleDialog(layer)}><PaletteIcon fontSize="small" /></IconButton>
+                    <IconButton size="small" onClick={() => openStyleDialog(layer)} aria-label={`Style ${layer.name}`}><PaletteIcon fontSize="small" /></IconButton>
                   </Tooltip>
                   <Tooltip title="Delete layer (removes map polygons only — fields and data entries are kept)">
-                    <IconButton size="small" color="error" onClick={() => handleDeleteLayer(layer)}><DeleteIcon fontSize="small" /></IconButton>
+                    <IconButton size="small" color="error" onClick={() => handleDeleteLayer(layer)} aria-label={`Delete layer ${layer.name}`}><DeleteIcon fontSize="small" /></IconButton>
                   </Tooltip>
                   </>)}
                   {layer.syncStatus === 'syncing' && <CircularProgress size={18} sx={{ ml: 'auto' }} />}
@@ -805,7 +809,16 @@ export default function GISMap() {
         </MapContainer>
 
         {/* PHI Legend */}
-        <Paper sx={{ position: 'absolute', bottom: 16, left: 16, zIndex: 1000, p: 1.5, opacity: 0.92 }} elevation={3}>
+        {/* Phones: the legend steps aside while a feature's details are open, so the two never cover each other. */}
+        <Paper
+          component="aside"
+          aria-label="PHI legend"
+          elevation={3}
+          sx={{
+            position: 'absolute', bottom: { xs: 30, sm: 12 }, left: 12, zIndex: 1000, p: 1.5, opacity: 0.94,
+            display: { xs: selectedFeature && !fieldInfoOpen ? 'none' : 'block', sm: 'block' },
+          }}
+        >
           <Typography variant="caption" fontWeight={600} sx={{ mb: 0.5, display: 'block' }}>PHI Status</Typography>
           {[
             { color: '#f44336', label: 'Active PHI (>1 day left)' },
@@ -825,8 +838,8 @@ export default function GISMap() {
           <Paper
             elevation={4}
             sx={{
-              position: 'absolute', bottom: 16, right: 16, zIndex: 1000,
-              width: 320, maxHeight: 350, overflow: 'auto', p: 2,
+              position: 'absolute', bottom: 12, right: 12, zIndex: 1000,
+              width: { xs: 'calc(100% - 24px)', sm: 320 }, maxHeight: { xs: '45%', sm: 350 }, overflow: 'auto', p: 2,
             }}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
@@ -921,7 +934,7 @@ export default function GISMap() {
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                           <Typography variant="body2" fontWeight={600}>{phi.productName}</Typography>
                           {phi.segment && (
-                            <Chip label={phi.segment} size="small" variant="outlined" sx={{ height: 18, fontSize: '0.65rem' }} />
+                            <Chip label={phi.segment} size="small" variant="outlined" sx={{ height: 18, fontSize: '0.6875rem' }} />
                           )}
                         </Box>
                         <Typography variant="caption" color="text.secondary">

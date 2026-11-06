@@ -153,7 +153,7 @@ export default function Rc108Importer({
                 <TableBody>
                   {excelLabels.map((label) => (
                     <TableRow key={label} hover>
-                      <TableCell sx={{ fontWeight: assignments[label] ? 400 : 700, fontSize: '0.8rem' }}>
+                      <TableCell sx={{ fontWeight: assignments[label] ? 400 : 700, fontSize: '0.8125rem' }}>
                         {label}
                       </TableCell>
                       <TableCell>
@@ -162,7 +162,7 @@ export default function Rc108Importer({
                             value={assignmentValue(assignments[label])}
                             onChange={(e) => handleAssign(label, e.target.value)}
                             displayEmpty
-                            sx={{ fontSize: '0.8rem' }}
+                            sx={{ fontSize: '0.8125rem' }}
                           >
                             <MenuItem value=""><em>Skip</em></MenuItem>
                             {RC108_STRUCTURE_ORDER.map((structure) => {
@@ -176,7 +176,7 @@ export default function Rc108Importer({
                                   <MenuItem
                                     key={`${structure}::${loc.label}`}
                                     value={`${structure}::${loc.label}`}
-                                    sx={{ fontSize: '0.8rem' }}
+                                    sx={{ fontSize: '0.8125rem' }}
                                   >
                                     {loc.label}
                                   </MenuItem>

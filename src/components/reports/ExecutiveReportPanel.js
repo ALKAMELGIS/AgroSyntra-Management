@@ -62,7 +62,7 @@ export default function ExecutiveReportPanel({
 
   return (
     <Box className="executive-report-panel" sx={{ '@media print': { p: 0 } }}>
-      <Paper elevation={0} sx={{ p: { xs: 2, sm: 3 }, mb: 3, bgcolor: 'background.muted', border: '1px solid', borderColor: 'divider', borderRadius: 4 }}>
+      <Paper elevation={0} sx={{ p: { xs: 2, sm: 3 }, mb: 3, bgcolor: 'background.muted', border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'flex-end', justifyContent: 'space-between' }}>
           <Box>
             <Typography variant="h5" sx={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -103,7 +103,7 @@ export default function ExecutiveReportPanel({
             ))}
           </Grid>
 
-          <Paper elevation={0} sx={{ p: 3, mb: 3, border: '1px solid', borderColor: 'divider', borderRadius: 4 }}>
+          <Paper elevation={0} sx={{ p: 3, mb: 3, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
             <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 700 }}>
               Interpretation
             </Typography>
@@ -131,7 +131,7 @@ export default function ExecutiveReportPanel({
           <Grid container spacing={2}>
             {report.topFive.map((section) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={section.title}>
-                <Paper elevation={0} sx={{ p: 2, height: '100%', border: '1px solid', borderColor: 'divider', borderRadius: 4 }}>
+                <Paper elevation={0} sx={{ p: 2, height: '100%', border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1.5 }}>
                     {section.title}
                   </Typography>

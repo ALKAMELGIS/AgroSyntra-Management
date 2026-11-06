@@ -658,7 +658,7 @@ function PumpUsageTab({
             onClick={() => setActiveMonth(m)}
             sx={{
               display: 'flex', alignItems: 'center', gap: 0.5,
-              px: 1.5, py: 0.8, cursor: 'pointer', fontSize: '0.72rem', fontWeight: 600,
+              px: 1.5, py: 0.8, cursor: 'pointer', fontSize: '0.6875rem', fontWeight: 600,
               borderRight: 1, borderColor: 'divider', whiteSpace: 'nowrap',
               bgcolor: m === activeMonth ? 'background.paper' : 'action.hover',
               color: m === activeMonth ? 'table.headerBg' : 'text.secondary',
@@ -683,7 +683,7 @@ function PumpUsageTab({
           </Box>
         ))}
         {canWrite && (
-          <Box onClick={handleAddMonth} sx={{ px: 2, py: 0.8, cursor: 'pointer', fontSize: '0.78rem', fontWeight: 700, color: 'table.headerBg', '&:hover': { bgcolor: 'table.rowHover' } }}>
+          <Box onClick={handleAddMonth} sx={{ px: 2, py: 0.8, cursor: 'pointer', fontSize: '0.8125rem', fontWeight: 700, color: 'table.headerBg', '&:hover': { bgcolor: 'table.rowHover' } }}>
             +
           </Box>
         )}
@@ -754,7 +754,7 @@ function PumpUsageRow({ row, idx, prevRow, pumpCount, onSave, onDelete, canWrite
           onBlur={() => commitEdit(field)}
           onKeyDown={(e) => { if (e.key === 'Enter') commitEdit(field); }}
           autoFocus
-          InputProps={{ disableUnderline: true, sx: { fontSize: '0.72rem', textAlign: 'center' } }}
+          InputProps={{ disableUnderline: true, sx: { fontSize: '0.6875rem', textAlign: 'center' } }}
           sx={{ width: '100%' }}
         />
       );

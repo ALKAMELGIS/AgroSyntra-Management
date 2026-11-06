@@ -188,7 +188,7 @@ export default function TeamLeaderSprayCalendar() {
                         color: isToday ? 'primary.contrastText' : 'text.secondary',
                       }}
                     >
-                      <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>{dayName}</Typography>
+                      <Typography variant="caption" sx={{ fontSize: '0.6875rem' }}>{dayName}</Typography>
                       <Typography variant="caption" sx={{ fontWeight: 600, display: 'block' }}>{d}</Typography>
                     </Box>
                   );

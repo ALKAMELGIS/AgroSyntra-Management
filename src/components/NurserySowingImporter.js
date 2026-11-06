@@ -19,9 +19,9 @@ const bannerBg = '#1f7a4d';
 const bannerColor = '#fff';
 const hdrStyle = {
   background: '#1f7a4d', color: '#fff', fontWeight: 700,
-  fontSize: '0.72rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
+  fontSize: '0.6875rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
 };
-const cellStyle = { fontSize: '0.72rem', padding: '5px 8px', border: '1px solid #c8c8c8' };
+const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: '1px solid #c8c8c8' };
 const warnBg = '#fff8e1';
 const errBg = '#ffebee';
 

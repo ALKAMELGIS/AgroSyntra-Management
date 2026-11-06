@@ -42,8 +42,8 @@ function InfoIcon_({ children, sx, icon, label, severity = 'info' }) {
         aria-haspopup="dialog"
         data-info-note=""
         sx={(t) => ({
-          width: 28,
-          height: 28,
+          width: 32,
+          height: 32,
           p: 0,
           color: `${severity}.main`,
           bgcolor: open ? alpha(t.palette[severity]?.main || t.palette.info.main, 0.12) : 'transparent',
@@ -117,7 +117,7 @@ function InfoLine({ children, sx, icon, severity = 'info', ...rest }) {
         px: 3,
         minHeight: 36,
         alignItems: 'center',
-        borderRadius: 2.5,
+        borderRadius: 1.5,
         fontSize: '0.8125rem',
         '& .MuiAlert-icon': { py: 0, mr: 2, fontSize: 18, alignSelf: open ? 'flex-start' : 'center', mt: open ? 2 : 0 },
         '& .MuiAlert-icon .MuiSvgIcon-root': { fontSize: 18 },

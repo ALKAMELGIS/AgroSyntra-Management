@@ -38,9 +38,9 @@ const updateBg = '#e3f2fd';
 
 const hdrStyle = {
   background: headerBg, color: '#fff', fontWeight: 700,
-  fontSize: '0.72rem', padding: '6px 8px', border: cellBorder, whiteSpace: 'nowrap',
+  fontSize: '0.6875rem', padding: '6px 8px', border: cellBorder, whiteSpace: 'nowrap',
 };
-const cellStyle = { fontSize: '0.72rem', padding: '5px 8px', border: cellBorder };
+const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: cellBorder };
 
 const steps = ['Upload Excel', 'Map Columns', 'Review & Validate', 'Import Results'];
 
