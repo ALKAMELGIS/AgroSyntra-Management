@@ -24,6 +24,7 @@ import { listHarvestsAll } from '../../utils/backendApi';
 import useSeasonListDates from '../../hooks/useSeasonListDates';
 import useOpsExcelExport from '../../hooks/useOpsExcelExport';
 import { OPS_EXPORT } from '../../utils/companyExcelExport';
+import PageTitle from '../../components/PageTitle';
 
 // Color scheme for crops
 const CROP_COLORS = {
@@ -248,11 +249,11 @@ function HarvestDashboard() {
 
   return (
     <Container maxWidth="xl">
-      <Box sx={{ py: 3 }}>
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-          <Typography variant="h4">
+          <PageTitle>
             Harvest Dashboard
-          </Typography>
+          </PageTitle>
           <Button
             variant="contained"
             disableElevation
@@ -419,7 +420,7 @@ function HarvestDashboard() {
                     color: color,
                   }))}
                 />
-                <Bar dataKey="yield" fill="#8884d8" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="yield" fill="#2f6aa8" radius={[4, 4, 0, 0]}>
                   {chartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}

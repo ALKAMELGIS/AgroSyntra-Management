@@ -6,7 +6,8 @@ import { translateUi } from './pageLabels';
  * field labels, chips, empty states, placeholders and accessible names.
  *
  * Only exact, known interface strings are replaced, so names, numbers and
- * anything staff typed stay as entered. Inputs, editable areas, code and
+ * anything staff typed stay as entered; inside table bodies only buttons,
+ * chips, empty-state rows and status words are translated. Inputs, editable areas, code and
  * anything marked data-no-translate / translate="no" are never touched.
  * Switching back to English restores every original string.
  */
@@ -29,11 +30,32 @@ function skipped(el, forAttrs = false) {
   return false;
 }
 
+/**
+ * Status words that may sit as plain text in a table cell. Any other plain cell
+ * text is treated as staff data (field, product, worker names…) and left as typed.
+ */
+const CELL_STATUS = new Set([
+  'Active', 'Inactive', 'Pending', 'Approved', 'Rejected', 'Completed', 'Submitted', 'Reviewed',
+  'Resolved', 'Draft', 'Enabled', 'Disabled', 'Never', 'Yes', 'No', 'None', 'Unknown',
+  'In Stock', 'Out of Stock', 'Low', 'Medium', 'High', 'Critical', 'Open', 'Closed', 'Overdue',
+  'In progress', 'In Progress', 'Done', 'Valid', 'Invalid', 'Connected', 'TOTAL', 'Total',
+]);
+
+/** Inside a table body only interface parts are translated, never the data. */
+function isTableData(node, parent) {
+  const cell = parent.closest('tbody td, tbody th');
+  if (!cell) return false;
+  if (parent.closest('.MuiChip-label, button, a, [role="button"], .MuiAlert-message')) return false;
+  if (cell.hasAttribute('colspan')) return false; // empty-state / summary rows
+  return !CELL_STATUS.has(node.nodeValue.trim());
+}
+
 function translateTextNode(node) {
   const value = node.nodeValue;
   if (!value || !/[A-Za-z]/.test(value)) return;
   const parent = node.parentElement;
   if (!parent || skipped(parent)) return;
+  if (isTableData(node, parent)) return;
   const ar = translateUi(value);
   if (ar == null || ar === value) return;
   if (originalText.size > 4000) originalText.forEach((_, n) => { if (!n.isConnected) originalText.delete(n); });

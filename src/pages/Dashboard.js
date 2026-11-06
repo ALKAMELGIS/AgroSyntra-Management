@@ -18,6 +18,7 @@ import useReadOnlyMode from '../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../utils/roleAccess';
 import useSeasonListDates from '../hooks/useSeasonListDates';
+import PageTitle from '../components/PageTitle';
 
 const EcphDashboard = lazy(() => import('./dashboard/EcphDashboard'));
 const FertigationDashboard = lazy(() => import('./dashboard/FertigationDashboard'));
@@ -102,10 +103,10 @@ function Dashboard() {
   if (isLoading) return <DashboardSkeleton />;
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: 600, letterSpacing: '-0.02em' }}>
+    <Box>
+      <PageTitle sx={{ mb: 3 }}>
         Analytics Dashboard
-      </Typography>
+      </PageTitle>
 
       {readOnly && <ReadOnlyBanner message="View only — dashboard data is read-only for your role." />}
 

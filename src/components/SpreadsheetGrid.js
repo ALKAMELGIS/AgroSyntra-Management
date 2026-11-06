@@ -889,7 +889,7 @@ function SpreadsheetGrid({
                 ...compactHeaderCellStyle, position: 'sticky', left: 0, zIndex: 12,
                 minWidth: GUTTER_CHECKBOX_W, width: GUTTER_CHECKBOX_W,
               }}>
-                <Checkbox size="small" sx={{ p: 0, color: '#fff', '&.Mui-checked': { color: '#fff' } }}
+                <Checkbox slotProps={{ input: { 'aria-label': 'Select all rows' } }} size="small" sx={{ p: 0, color: '#fff', '&.Mui-checked': { color: '#fff' } }}
                   checked={visibleRows.length > 0 && visibleRows.every(({ row }) => selectedRows.has(row._id || row.id))}
                   indeterminate={visibleRows.some(({ row }) => selectedRows.has(row._id || row.id)) && !visibleRows.every(({ row }) => selectedRows.has(row._id || row.id))}
                   onChange={toggleSelectAll} />
@@ -964,7 +964,7 @@ function SpreadsheetGrid({
                     background: isActive ? activeCellBg : frozenBg,
                     textAlign: 'center', padding: '0 2px',
                   }}>
-                    <Checkbox size="small" sx={{ p: 0 }}
+                    <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }} size="small" sx={{ p: 0 }}
                       checked={selectedRows.has(rowId)}
                       onChange={() => toggleSelectRow(rowId)}
                       onClick={(e) => e.stopPropagation()} />

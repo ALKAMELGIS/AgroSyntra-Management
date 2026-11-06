@@ -23,6 +23,7 @@ import { buildHarvestExcelSheets } from '../utils/harvestExcelExport';
 import ExecutiveReportPanel from '../components/reports/ExecutiveReportPanel';
 import { getDefaultDateRange } from '../utils/executiveReportUtils';
 import { buildHarvestExecutiveReport } from '../utils/executiveReports/harvestExecutive';
+import PageTitle from '../components/PageTitle';
 
 function HarvestReports() {
   const notify = useNotification();
@@ -181,9 +182,9 @@ function HarvestReports() {
   return (
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-        <Typography variant="h4" gutterBottom>
+        <PageTitle sx={{ mb: 1 }}>
           Harvest Reports
-        </Typography>
+        </PageTitle>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
           Manager executive summary and detailed data exports
         </Typography>

@@ -3,14 +3,14 @@ import {
   Container, Paper, Typography, Box, Grid, Card, CardContent, TextField, Button,
   Chip, Divider, Switch, FormControlLabel, MenuItem,
 } from '@mui/material';
-import {
-  BusinessOutlined as OrgIcon, SettingsOutlined as SettingsIcon, GroupOutlined as UsersIcon,
+import { SettingsOutlined as SettingsIcon, GroupOutlined as UsersIcon,
   SaveOutlined as SaveIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
+import PageTitle from '../../components/PageTitle';
 
 export default function OrganizationSettings() {
   const [org, setOrg] = useState(null);
@@ -59,10 +59,10 @@ export default function OrganizationSettings() {
   if (loading) return null;
 
   return (
-    <Container maxWidth="lg" sx={{ py: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <OrgIcon fontSize="large" /> Organization Settings
-      </Typography>
+    <Container maxWidth="lg">
+      <PageTitle sx={{ mb: 1 }}>
+        Organization Settings
+      </PageTitle>
 
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 6 }}>

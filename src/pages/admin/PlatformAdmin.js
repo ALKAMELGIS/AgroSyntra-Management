@@ -22,7 +22,6 @@ import {
   CircularProgress,
 } from '@mui/material';
 import {
-  BusinessOutlined as OrgIcon,
   AddOutlined as AddIcon,
   ContentCopyOutlined as CopyIcon,
 } from '@mui/icons-material';
@@ -30,6 +29,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useActAsOrg } from '../../contexts/ActAsOrgContext';
 import { useNotification } from '../../contexts/NotificationContext';
 import { apiRequest } from '../../utils/api';
+import PageTitle from '../../components/PageTitle';
 
 const OWNER_ROLES = [
   { value: 'ceo', label: 'CEO' },
@@ -117,9 +117,9 @@ export default function PlatformAdmin() {
 
   return (
     <Box sx={{ py: 3, px: { xs: 2, md: 3 }, maxWidth: 1760, mx: 'auto' }}>
-      <Typography variant="h4" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <OrgIcon fontSize="large" /> Platform Admin
-      </Typography>
+      <PageTitle sx={{ mb: 1 }}>
+        Platform Admin
+      </PageTitle>
       <Typography color="text.secondary" sx={{ mb: 3 }}>
         Create farm organizations and send owner invite links. You can create unlimited organizations.
       </Typography>
@@ -164,7 +164,7 @@ export default function PlatformAdmin() {
               </TextField>
               <FormControlLabel
                 control={(
-                  <Checkbox
+                  <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }}
                     checked={form.seedSite}
                     onChange={(e) => setForm({ ...form, seedSite: e.target.checked })}
                   />

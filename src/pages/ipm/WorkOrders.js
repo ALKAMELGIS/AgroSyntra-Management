@@ -731,7 +731,7 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
                   )}
                 </Box>
                 {isAddedRow && (
-                  <Tooltip title="Added by operator"><Typography sx={{ fontSize: 6.5, fontWeight: 700, color: '#e65100', lineHeight: 1 }}>ADDED</Typography></Tooltip>
+                  <Tooltip title="Added by operator"><Typography sx={{ fontSize: 6.5, fontWeight: 700, color: '#a84b07', lineHeight: 1 }}>ADDED</Typography></Tooltip>
                 )}
               </Box>
             </DC>
@@ -877,7 +877,7 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
             {/* Quality Check */}
             <DC w={40}>
               {(isCreate || isOpFill) ? (
-                <Checkbox size="small"
+                <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }} size="small"
                   checked={isCreate ? (item.qualityCheck || false) : (opItem?.qualityCheck || false)}
                   onChange={(e) => isCreate ? updateItem(idx, 'qualityCheck', e.target.checked) : updateOperatorItem(idx, 'qualityCheck', e.target.checked)}
                   sx={{ p: 0, '& .MuiSvgIcon-root': { fontSize: 14 } }} />

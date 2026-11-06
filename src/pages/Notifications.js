@@ -28,6 +28,7 @@ import {
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { format } from 'date-fns';
+import PageTitle from '../components/PageTitle';
 
 const SEVERITY_ICON = {
   critical: <ErrorIcon color="error" />,
@@ -81,10 +82,9 @@ export default function Notifications() {
       <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <BellIcon color="primary" sx={{ fontSize: 28 }} />
-            <Typography variant="h5" fontWeight={600}>
+            <PageTitle>
               Notifications
-            </Typography>
+            </PageTitle>
             {unreadCount > 0 && (
               <Chip label={`${unreadCount} unread`} color="error" size="small" />
             )}

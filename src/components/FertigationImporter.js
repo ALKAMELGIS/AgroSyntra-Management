@@ -602,7 +602,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
                         {showSheetColumn && <TableCell sx={cellStyle}>{r._sheet || ''}</TableCell>}
                         <TableCell sx={cellStyle}>
                           {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: '#1f7a4d' }} />}
-                          {r._status === 'warning' && <WarnIcon sx={{ fontSize: 16, color: '#e65100' }} />}
+                          {r._status === 'warning' && <WarnIcon sx={{ fontSize: 16, color: '#a84b07' }} />}
                           {r._status === 'error' && <ErrIcon sx={{ fontSize: 16, color: '#c62828' }} />}
                         </TableCell>
                         <TableCell sx={cellStyle}>{r.date || ''}</TableCell>

@@ -25,6 +25,7 @@ import { useNotification } from '../contexts/NotificationContext';
 import { loadMasterData, exportToExcel } from '../utils/masterDataUtils';
 import { fetchFieldValves, replaceFieldValves } from '../utils/backendApi';
 import { excelTableSx, GutterCell } from '../components/table/ExcelTable';
+import PageTitle from '../components/PageTitle';
 
 function ValvesConfiguration() {
   const notify = useNotification();
@@ -179,7 +180,7 @@ function ValvesConfiguration() {
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-          <Typography variant="h4">Valves Configuration</Typography>
+          <PageTitle>Valves Configuration</PageTitle>
           <Button
             variant="contained"
             color="primary"

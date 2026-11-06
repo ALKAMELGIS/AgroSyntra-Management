@@ -665,11 +665,11 @@ export default function CropRotationTab({
         <DialogTitle>{dialog.mode === 'add' ? 'Add Crop Rotation' : 'Edit Crop Rotation'}</DialogTitle>
         <DialogContent dividers>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
-            <FormControl size="small" fullWidth>
-              <InputLabel id="croprotationtab-field-label-1">Field *</InputLabel>
+            <FormControl required size="small" fullWidth>
+              <InputLabel id="croprotationtab-field-label-1">Field</InputLabel>
               <Select labelId="croprotationtab-field-label-1"
                 value={form.fieldId}
-                label="Field *"
+                label="Field"
                 onChange={(e) => setForm({ ...form, fieldId: e.target.value })}
                 disabled={dialog.mode === 'edit'}
               >
@@ -678,11 +678,11 @@ export default function CropRotationTab({
                 ))}
               </Select>
             </FormControl>
-            <FormControl size="small" fullWidth>
-              <InputLabel id="croprotationtab-crop-label-2">Crop *</InputLabel>
+            <FormControl required size="small" fullWidth>
+              <InputLabel id="croprotationtab-crop-label-2">Crop</InputLabel>
               <Select labelId="croprotationtab-crop-label-2"
                 value={form.cropId}
-                label="Crop *"
+                label="Crop"
                 onChange={(e) => setForm({ ...form, cropId: e.target.value, varietyId: '' })}
               >
                 {crops.map((c) => {
@@ -704,7 +704,7 @@ export default function CropRotationTab({
             <TextField
               size="small"
               type="date"
-              label="Start Date *"
+              label="Start Date" required
               value={form.startDate}
               onChange={(e) => setForm({ ...form, startDate: e.target.value })}
               InputLabelProps={{ shrink: true }}

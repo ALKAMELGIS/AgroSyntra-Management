@@ -52,6 +52,7 @@ import WeatherCard from '../components/WeatherCard';
 import SoilCard from '../components/SoilCard';
 import { canWriteWeatherLogs } from '../utils/weatherLogAccess';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 const weatherSchema = Yup.object().shape({
   date: Yup.string().required('Date is required'),
@@ -582,7 +583,7 @@ function WeatherLogEntry() {
       };
 
   return (
-    <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth="xl">
       {/* Weather Cards Display Section */}
       {selectedSite && fieldsWithCoordinates.length > 0 && (
         <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
@@ -637,9 +638,9 @@ function WeatherLogEntry() {
 
       {/* Weather Entry Form Section */}
       <Paper elevation={3} sx={{ p: 4 }}>
-        <Typography variant="h4" gutterBottom>
+        <PageTitle sx={{ mb: 1 }}>
           Weather & Soil Data Entry
-        </Typography>
+        </PageTitle>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
           Enter daily weather data for climate-contextual efficiency analysis. You can manually enter data or auto-fetch from OpenWeatherMap API using field coordinates.
         </Typography>

@@ -68,6 +68,7 @@ import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../comp
 import { DeleteSelectedButton, RowCheckbox, SelectAllCheckbox, deleteIdsSequentially } from '../components/table/BulkSelect';
 import { useRowSelection } from '../hooks/useRowSelection';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 const MAX_BLOCKS = 8;
 const BLOCK_COLS = ['Activity', 'Unit', 'Variety', 'Location', 'Section', 'Start', 'End', 'Target', 'Actual', 'Hours'];
@@ -1169,7 +1170,7 @@ export default function ManpowerRecord() {
         mb: 2,
       }}>
         <Box>
-          <Typography variant="h4">Manpower Record</Typography>
+          <PageTitle>Manpower Record</PageTitle>
           <Typography variant="body2" color="text.secondary">
             Daily work activity tracking and worker management
           </Typography>
@@ -1536,7 +1537,7 @@ export default function ManpowerRecord() {
             </ToggleButtonGroup>
             <FormControlLabel
               control={(
-                <Checkbox
+                <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }}
                   size="small"
                   checked={workersCountApprovedOnly}
                   onChange={(e) => setWorkersCountApprovedOnly(e.target.checked)}
@@ -1794,26 +1795,26 @@ export default function ManpowerRecord() {
                 helperText={mErr.unit || ' '} />
             </Box>
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <TextField size="small" label="Variety *" value={editForm.variety || ''} fullWidth
+              <TextField size="small" label="Variety" required value={editForm.variety || ''} fullWidth
                 onChange={(e) => setEditForm({ ...editForm, variety: e.target.value })}
                 error={Boolean(mErr.variety)}
                 helperText={mErr.variety || ' '} />
-              <TextField size="small" label="Location *" value={editForm.location || ''} fullWidth
+              <TextField size="small" label="Location" required value={editForm.location || ''} fullWidth
                 onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
                 error={Boolean(mErr.location)}
                 helperText={mErr.location || ' '} />
-              <TextField size="small" label="Section *" value={editForm.section || ''} sx={{ width: 120 }}
+              <TextField size="small" label="Section" required value={editForm.section || ''} sx={{ width: 120 }}
                 onChange={(e) => setEditForm({ ...editForm, section: e.target.value })}
                 error={Boolean(mErr.section)}
                 helperText={mErr.section || ' '} />
             </Box>
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <TextField size="small" type="time" label="Start *" value={editForm.startTime || ''}
+              <TextField size="small" type="time" label="Start" required value={editForm.startTime || ''}
                 onChange={(e) => setEditForm({ ...editForm, startTime: e.target.value })}
                 InputLabelProps={{ shrink: true }} fullWidth
                 error={Boolean(mErr.startTime)}
                 helperText={mErr.startTime || ' '} />
-              <TextField size="small" type="time" label="End *" value={editForm.endTime || ''}
+              <TextField size="small" type="time" label="End" required value={editForm.endTime || ''}
                 onChange={(e) => setEditForm({ ...editForm, endTime: e.target.value })}
                 InputLabelProps={{ shrink: true }} fullWidth
                 error={Boolean(mErr.endTime)}
@@ -1896,10 +1897,10 @@ export default function ManpowerRecord() {
         <DialogTitle>{workerDialog.mode === 'add' ? 'Add Worker' : 'Edit Worker'}</DialogTitle>
         <DialogContent dividers>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
-            <TextField size="small" label="Employee ID *" value={workerForm.employeeId}
+            <TextField size="small" label="Employee ID" required value={workerForm.employeeId}
               onChange={(e) => setWorkerForm({ ...workerForm, employeeId: e.target.value })}
               disabled={workerDialog.mode === 'edit'} />
-            <TextField size="small" label="Full Name *" value={workerForm.name}
+            <TextField size="small" label="Full Name" required value={workerForm.name}
               onChange={(e) => setWorkerForm({ ...workerForm, name: e.target.value })} />
             <FormControl size="small">
               <InputLabel id="manpowerrecord-category-label-2">Category</InputLabel>

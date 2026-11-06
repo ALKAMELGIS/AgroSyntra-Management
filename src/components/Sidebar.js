@@ -688,8 +688,16 @@ function SidebarItem({ item, active, onNavigate, badgeCount = 0, badgeColor = 'e
             fontSize: '0.875rem',
             fontWeight: active ? 600 : 450,
             color: active ? 'text.primary' : 'text.secondary',
-            noWrap: true,
             letterSpacing: '-0.005em',
+            // Long names (common in Arabic) wrap to a second line instead of being cut off.
+            sx: {
+              lineHeight: 1.35,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              overflowWrap: 'anywhere',
+            },
           }}
           sx={{ my: 0 }}
         />

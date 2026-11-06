@@ -3,6 +3,7 @@ import {
   Card, CardContent, Box, Typography, IconButton, Tooltip,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import {
   BarChart, Bar, LineChart, Line, AreaChart, Area,
   PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
@@ -17,6 +18,8 @@ import {
 import { CHART_TOOLTIP as TOOLTIP_STYLE } from './dashboardChartTheme';
 
 function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChart = 'bar', height = 300 }) {
+  // Slice / tile separators match the card surface in light and dark mode.
+  const surface = useTheme().palette.background.paper;
   const [chartType, setChartType] = useState(defaultChart);
   const [sortConfig, setSortConfig] = useState({ key: null, dir: 'asc' });
 
@@ -132,7 +135,7 @@ function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChar
             <Box sx={{ position: 'relative', width: Math.min(height, 240), height: Math.min(height, 240) }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={pieData} cx="50%" cy="50%" innerRadius="55%" outerRadius="80%" dataKey="value" strokeWidth={2} stroke="#fff">
+                  <Pie data={pieData} cx="50%" cy="50%" innerRadius="55%" outerRadius="80%" dataKey="value" strokeWidth={2} stroke={surface}>
                     {pieData.map((entry, i) => (
                       <Cell key={i} fill={entry.fill} />
                     ))}
@@ -198,7 +201,7 @@ function ChartCard({ title, data = [], dataKeys = [], xKey = 'name', defaultChar
       case 'treemap':
         return (
           <ResponsiveContainer width="100%" height={height}>
-            <Treemap data={treemapData} dataKey="size" nameKey="name" stroke="#fff" fill="#1f7a4d"
+            <Treemap data={treemapData} dataKey="size" nameKey="name" stroke={surface} fill="#1f7a4d"
               content={({ x, y, width, height: h, name, value }) => {
                 if (width < 40 || h < 30) return null;
                 return (

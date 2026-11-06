@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { Snackbar, Box, IconButton, Typography, useMediaQuery } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
+import { isMissingFieldsMessage, markMissingRequired } from '../utils/requiredFields';
 import {
   CheckCircleOutlineRounded as SuccessIcon,
   ErrorOutlineRounded as ErrorIcon,
@@ -40,6 +41,10 @@ export function NotificationProvider({ children }) {
   const enqueue = useCallback((message, severity = 'success') => {
     if (message == null || message === '') return;
     const sev = ICONS[severity] ? severity : 'info';
+    // "Please fill in all required fields": also point at the fields themselves.
+    if ((sev === 'warning' || sev === 'error') && isMissingFieldsMessage(message)) {
+      setTimeout(markMissingRequired, 0);
+    }
     setQueue((prev) => {
       // Collapse an identical message that is already waiting (e.g. double clicks).
       if (prev.some((p, i) => i > 0 && p.message === message && p.severity === sev)) return prev;

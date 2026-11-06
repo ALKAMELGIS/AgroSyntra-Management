@@ -9,10 +9,13 @@ import {
   ComposedChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   BarChart, Bar,
 } from 'recharts';
+import { useTheme } from '@mui/material/styles';
 import { apiRequest } from '../utils/api';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 export default function YieldPredictions() {
+  const surface = useTheme().palette.background.paper;
   const [fields, setFields] = useState([]);
   const [selectedField, setSelectedField] = useState('');
   const [prediction, setPrediction] = useState(null);
@@ -33,9 +36,9 @@ export default function YieldPredictions() {
 
   return (
     <Container maxWidth="xl" sx={{ py: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <PredictionIcon fontSize="large" /> Yield Predictions
-      </Typography>
+      <PageTitle sx={{ mb: 1 }}>
+        Yield Predictions
+      </PageTitle>
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
         <Grid size={{ xs: 12, sm: 6, md: 4 }}>
@@ -99,9 +102,9 @@ export default function YieldPredictions() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Area type="monotone" dataKey="upper" stroke="none" fill="#c8e6c9" name="Upper Bound" />
-                  <Area type="monotone" dataKey="lower" stroke="none" fill="#fff" name="Lower Bound" />
-                  <Line type="monotone" dataKey="predicted" stroke="#4caf50" strokeWidth={3} name="Predicted" />
+                  <Area type="monotone" dataKey="upper" stroke="none" fill="#cfe6d8" name="Upper Bound" />
+                  <Area type="monotone" dataKey="lower" stroke="none" fill={surface} name="Lower Bound" />
+                  <Line type="monotone" dataKey="predicted" stroke="#1f7a4d" strokeWidth={3} name="Predicted" />
                 </ComposedChart>
               </ResponsiveContainer>
             </Paper>

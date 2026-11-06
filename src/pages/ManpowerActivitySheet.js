@@ -4,6 +4,7 @@ import { apiRequest } from '../utils/api';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import DailyActivitySheet from '../components/manpower/DailyActivitySheet';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 export default function ManpowerActivitySheet() {
   const { activeSiteId } = useActiveSite();
@@ -69,9 +70,9 @@ export default function ManpowerActivitySheet() {
 
   return (
     <Box sx={{ maxWidth: 1760, mx: 'auto' }}>
-      <Typography variant="h4" sx={{ fontSize: { xs: '1.25rem', md: '2.125rem' }, mb: 0.5 }}>
+      <PageTitle sx={{ mb: 0.5 }}>
         Daily Activity Sheet
-      </Typography>
+      </PageTitle>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         Same sheet team leaders use. Submissions stay pending until an operation manager approves them.
       </Typography>

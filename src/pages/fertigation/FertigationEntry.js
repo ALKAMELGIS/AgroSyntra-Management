@@ -53,6 +53,7 @@ import IrrigationStructurePlaceholder from '../../components/irrigation/Irrigati
 import { IRRIGATION_STRUCTURES } from '../../utils/fieldTypeHelpers';
 import { useActiveSiteStructures } from '../../hooks/useActiveSiteStructures';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 // Week number calculation helper
 const getWeekNumber = (date) => {
@@ -372,9 +373,9 @@ function FertigationEntry() {
     <Container maxWidth="xl">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2, mb: 2 }}>
-          <Typography variant="h4">
+          <PageTitle>
             Fertigation Entry
-          </Typography>
+          </PageTitle>
           {isNethouseOrGh && (
           <ToggleButtonGroup
             value={viewMode}

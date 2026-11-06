@@ -16,6 +16,7 @@ import {
 import { ChevronLeftOutlined as ChevronLeft, ChevronRightOutlined as ChevronRight, TodayOutlined as Today } from '@mui/icons-material';
 import api from '../../utils/api';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
+import PageTitle from '../../components/PageTitle';
 
 function getDaysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
@@ -98,7 +99,7 @@ export default function SprayCalendar() {
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-        <Typography variant="h4">Spray Calendar</Typography>
+        <PageTitle>Spray Calendar</PageTitle>
         <FormControl size="small" sx={{ minWidth: 200 }}>
           <InputLabel id="spraycalendar-filter-by-field-label-1">Filter by Field</InputLabel>
           <Select labelId="spraycalendar-filter-by-field-label-1" value={filterField} label="Filter by Field" onChange={(e) => setFilterField(e.target.value)}>

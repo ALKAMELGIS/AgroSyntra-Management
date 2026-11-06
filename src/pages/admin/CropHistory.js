@@ -8,7 +8,7 @@ import {
   FormControl, InputLabel, Select, CircularProgress, Stack, Tabs, Tab,
 } from '@mui/material';
 import {
-  EditOutlined as Edit, DeleteOutlined as Delete, FileUploadOutlined as FileUpload, HistoryOutlined as HistoryIcon,
+  EditOutlined as Edit, DeleteOutlined as Delete, FileUploadOutlined as FileUpload,
   SaveOutlined as SaveIcon, SpaOutlined as NurseryIcon, AddCircleOutlineOutlined as AddCircleOutline, SwapHorizOutlined as SwapHoriz, FileDownloadOutlined as FileDownload,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
@@ -48,6 +48,7 @@ import useReadOnlyMode from '../../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { isReadOnlyOnPage, PAGE_KEYS } from '../../utils/roleAccess';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 /** When true, every planting grid cell renders disabled (view-only roles, closed season). */
 const CellReadOnlyContext = createContext(false);
@@ -1061,10 +1062,10 @@ export default function CropHistory() {
 
   /* ─── RENDER ─── */
   return (
-    <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1760, mx: 'auto' }}>
-      <Typography variant="h5" sx={{ mb: 0.5, display: 'flex', alignItems: 'center', gap: 1 }}>
-        <HistoryIcon /> Crop Rotation & Planting
-      </Typography>
+    <Box sx={{ maxWidth: 1760, mx: 'auto' }}>
+      <PageTitle sx={{ mb: 0.5 }}>
+        Crop Rotation & Planting
+      </PageTitle>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         Manage crop rotation history and planting/transplant records.
       </Typography>

@@ -48,7 +48,7 @@ export function ActiveSiteProvider({ children }) {
   const [accessLoaded, setAccessLoaded] = useState(false);
   const [assignedSiteIds, setAssignedSiteIds] = useState(null);
   const [isFullAccess, setIsFullAccess] = useState(true);
-  const { data: masterData } = useMasterData({ enabled: isAuthenticated && !authLoading });
+  const { data: masterData, settled: sitesSettled } = useMasterData({ enabled: isAuthenticated && !authLoading });
 
   useEffect(() => {
     if (!isAuthenticated || authLoading) {
@@ -151,6 +151,7 @@ export function ActiveSiteProvider({ children }) {
     accessLoaded,
     allSites,
     assignedSiteIds,
+    sitesSettled,
   });
 
   const value = useMemo(() => ({

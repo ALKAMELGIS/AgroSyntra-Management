@@ -24,6 +24,7 @@ import { canReviewScouting, SCOUTING_OWNER_EDITABLE_STATUSES } from '../../utils
 import useSeasonListDates from '../../hooks/useSeasonListDates';
 import { DeleteSelectedButton, RowCheckbox, RowSelectCell, SelectAllHeadCell, deleteIdsSequentially } from '../../components/table/BulkSelect';
 import { useRowSelection } from '../../hooks/useRowSelection';
+import PageTitle from '../../components/PageTitle';
 
 const SEVERITY_COLORS = {
   none: 'default',
@@ -306,7 +307,7 @@ export default function ScoutingReports() {
         gap: 1.5,
         mb: 3,
       }}>
-        <Typography variant="h4">Scouting Reports</Typography>
+        <PageTitle>Scouting Reports</PageTitle>
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
           {pageTab === 'reports' && !readOnly && (
           <Button startIcon={<Add />} onClick={() => { setEditingReport(null); setFormOpen(true); }} variant="contained" size="small">

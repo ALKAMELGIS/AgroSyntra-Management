@@ -9,6 +9,7 @@ import {
 } from '@mui/icons-material';
 
 import { API_BASE } from '../../config/api';
+import PageTitle from '../../components/PageTitle';
 
 const API_URL = API_BASE;
 
@@ -25,6 +26,7 @@ function StatusChip({ status }) {
 }
 
 function formatUptime(seconds) {
+  if (!Number.isFinite(Number(seconds))) return '—';
   const days = Math.floor(seconds / 86400);
   const hours = Math.floor((seconds % 86400) / 3600);
   const mins = Math.floor((seconds % 3600) / 60);
@@ -68,9 +70,9 @@ export default function SystemHealth() {
   if (loading && !health) return <Box sx={{ p: 3, textAlign: 'center' }}><CircularProgress /></Box>;
 
   return (
-    <Box sx={{ p: 3, maxWidth: 1760, mx: 'auto' }}>
+    <Box sx={{ maxWidth: 1760, mx: 'auto' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-        <Typography variant="h4">System Health</Typography>
+        <PageTitle>System Health</PageTitle>
         <Button startIcon={<Refresh />} onClick={fetchData} disabled={loading}>Refresh</Button>
       </Box>
 
@@ -95,7 +97,7 @@ export default function SystemHealth() {
                 <Box sx={{ textAlign: 'center' }}>
                   <Speed color="action" />
                   <Typography variant="body2" color="text.secondary">Version</Typography>
-                  <Typography variant="h6" fontWeight={600}>{health.version}</Typography>
+                  <Typography variant="h6" fontWeight={600}>{health.version || '—'}</Typography>
                 </Box>
               </Grid>
               <Grid size={{ xs: 6, md: 3 }}>
@@ -123,23 +125,23 @@ export default function SystemHealth() {
                     <Storage color="primary" />
                     <Typography variant="subtitle1" fontWeight={600}>Database</Typography>
                   </Box>
-                  <StatusChip status={health.checks.database.status} />
+                  <StatusChip status={health.checks?.database?.status} />
                 </Box>
-                {health.checks.database.latency != null && (
+                {health.checks?.database?.latency != null && (
                   <Typography variant="body2" color="text.secondary">
-                    Latency: {health.checks.database.latency}ms
+                    Latency: {health.checks?.database?.latency}ms
                   </Typography>
                 )}
-                {health.checks.database.pool && (
+                {health.checks?.database?.pool && (
                   <>
                     <Divider sx={{ my: 1 }} />
                     <Typography variant="body2">
-                      Pool: {health.checks.database.pool.total} total, {health.checks.database.pool.idle} idle, {health.checks.database.pool.waiting} waiting
+                      Pool: {health.checks?.database?.pool.total} total, {health.checks?.database?.pool.idle} idle, {health.checks?.database?.pool.waiting} waiting
                     </Typography>
                   </>
                 )}
-                {health.checks.database.error && (
-                  <Typography variant="body2" color="error">{health.checks.database.error}</Typography>
+                {health.checks?.database?.error && (
+                  <Typography variant="body2" color="error">{health.checks?.database?.error}</Typography>
                 )}
               </Paper>
             </Grid>
@@ -151,15 +153,15 @@ export default function SystemHealth() {
                     <Speed color="secondary" />
                     <Typography variant="subtitle1" fontWeight={600}>Redis Cache</Typography>
                   </Box>
-                  <StatusChip status={health.checks.redis.status} />
+                  <StatusChip status={health.checks?.redis?.status} />
                 </Box>
-                {health.checks.redis.latency != null && (
+                {health.checks?.redis?.latency != null && (
                   <Typography variant="body2" color="text.secondary">
-                    Latency: {health.checks.redis.latency}ms
+                    Latency: {health.checks?.redis?.latency}ms
                   </Typography>
                 )}
-                {health.checks.redis.error && (
-                  <Typography variant="body2" color="error">{health.checks.redis.error}</Typography>
+                {health.checks?.redis?.error && (
+                  <Typography variant="body2" color="error">{health.checks?.redis?.error}</Typography>
                 )}
               </Paper>
             </Grid>

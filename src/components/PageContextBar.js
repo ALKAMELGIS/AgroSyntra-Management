@@ -6,6 +6,7 @@ import { findPageMeta } from '../config/pageMeta';
 import { getHubPathForArea } from '../config/navAreas';
 import { recordRecentPage } from '../utils/recentPages';
 import { useShellLabel } from '../i18n/shellLabels';
+import { clearMissingRequired } from '../utils/requiredFields';
 
 /**
  * Quiet "where am I" trail shown above every page: Home › Area › Section.
@@ -15,6 +16,9 @@ export default function PageContextBar() {
   const { pathname } = useLocation();
   const meta = findPageMeta(pathname);
   const L = useShellLabel();
+
+  // A new page starts without "missing field" outlines from the previous one.
+  useEffect(() => { clearMissingRequired(); }, [pathname]);
 
   useEffect(() => {
     if (meta?.exact) recordRecentPage({ path: meta.path, title: meta.title });
@@ -30,11 +34,20 @@ export default function PageContextBar() {
 
   // Every page needs exactly one <h1>; add a screen-reader-only one when the page has none.
   const [needsH1, setNeedsH1] = useState(false);
+  // Watched continuously: pages that load data first show their own title later,
+  // and the fallback must step aside as soon as it appears (never two h1s).
   useEffect(() => {
     const check = () => setNeedsH1(!document.querySelector('main h1:not([data-page-title])'));
     check();
-    const t = setTimeout(check, 1500);
-    return () => clearTimeout(t);
+    const main = document.querySelector('main');
+    if (!main || typeof MutationObserver === 'undefined') return undefined;
+    let frame = 0;
+    const mo = new MutationObserver(() => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(check);
+    });
+    mo.observe(main, { childList: true, subtree: true });
+    return () => { mo.disconnect(); cancelAnimationFrame(frame); };
   }, [pathname]);
 
   const srOnly = {

@@ -53,6 +53,7 @@ import { fetchFertigationDashboardData } from '../dashboard/fertigationDashboard
 import { listRecipesAll } from '../../utils/backendApi';
 import { fertigationRecipeName } from '../../utils/fertigationEntryLabels';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 const toNumber = (value) => {
   const num = Number(value);
@@ -427,9 +428,9 @@ function FertigationDashboard() {
 
   return (
     <Container maxWidth="xl">
-      <Box sx={{ py: 4 }}>
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-          <Typography variant="h4">Fertigation Dashboard</Typography>
+          <PageTitle>Fertigation Dashboard</PageTitle>
           <Box>
             <Button variant="outlined" startIcon={<Download />} onClick={exportToExcel} sx={{ mr: 1 }}>
               Export Excel
@@ -536,7 +537,7 @@ function FertigationDashboard() {
                 >
                   {allSites.map((siteId) => (
                     <MenuItem key={siteId} value={siteId}>
-                      <Checkbox checked={filters.sites.indexOf(siteId) > -1} size="small" />
+                      <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }} checked={filters.sites.indexOf(siteId) > -1} size="small" />
                       <ListItemText primary={getSiteName(siteId)} />
                     </MenuItem>
                   ))}
@@ -555,7 +556,7 @@ function FertigationDashboard() {
                 >
                   {getFilteredFields().map((field) => (
                     <MenuItem key={field} value={field}>
-                      <Checkbox checked={filters.fields.indexOf(field) > -1} size="small" />
+                      <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }} checked={filters.fields.indexOf(field) > -1} size="small" />
                       <ListItemText primary={field} />
                     </MenuItem>
                   ))}
@@ -574,7 +575,7 @@ function FertigationDashboard() {
                 >
                   {allRecipes.map((recipe) => (
                     <MenuItem key={recipe} value={recipe}>
-                      <Checkbox checked={filters.recipes.indexOf(recipe) > -1} size="small" />
+                      <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }} checked={filters.recipes.indexOf(recipe) > -1} size="small" />
                       <ListItemText primary={recipe} />
                     </MenuItem>
                   ))}
@@ -593,7 +594,7 @@ function FertigationDashboard() {
                 >
                   {allCrops.map((crop) => (
                     <MenuItem key={crop} value={crop}>
-                      <Checkbox checked={filters.crops.indexOf(crop) > -1} size="small" />
+                      <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }} checked={filters.crops.indexOf(crop) > -1} size="small" />
                       <ListItemText primary={crop} />
                     </MenuItem>
                   ))}
@@ -637,7 +638,7 @@ function FertigationDashboard() {
                   />
                   <RechartsTooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="water" stroke="#1976d2" strokeWidth={2} name="Fertigation Water (m³)" />
+                  <Line type="monotone" dataKey="water" stroke="#2f6aa8" strokeWidth={2} name="Fertigation Water (m³)" />
                 </LineChart>
               </ResponsiveContainer>
             ) : (
@@ -718,7 +719,7 @@ function FertigationDashboard() {
                     />
                     <RechartsTooltip />
                     <Legend />
-                    <Area type="monotone" dataKey="fertilizer" stroke="#82ca9d" fill="#82ca9d" name="Fertilizer (kg)" />
+                    <Area type="monotone" dataKey="fertilizer" stroke="#3fae7a" fill="#3fae7a" name="Fertilizer (kg)" />
                   </AreaChart>
                 </ResponsiveContainer>
                 <Box sx={{ mt: 3 }}>
@@ -733,7 +734,7 @@ function FertigationDashboard() {
                             labelLine={false}
                             label={({ name, value }) => `${name}: ${value}%`}
                             outerRadius={100}
-                            fill="#8884d8"
+                            fill="#2f6aa8"
                             dataKey="value"
                           >
                             {overallCompositionData.slice(0, 8).map((entry, index) => (

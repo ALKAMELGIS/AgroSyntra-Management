@@ -31,6 +31,7 @@ import { canApproveRecipes, isRecipeApproved } from '../utils/recipeApproval';
 import { canEditRecipes } from '../utils/roleAccess';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 const RECIPE_FROZEN_WIDTHS = [180];
 
@@ -229,7 +230,7 @@ function RecipesManagement() {
     return (
       <Container maxWidth="xl">
         <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-          <Typography variant="h4" sx={{ mb: 3 }}>Recipes Management</Typography>
+          <PageTitle sx={{ mb: 3 }}>Recipes Management</PageTitle>
           <TableSkeleton rows={5} columns={6} />
         </Paper>
       </Container>
@@ -240,7 +241,7 @@ function RecipesManagement() {
     <Container maxWidth="xl">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-          <Typography variant="h4">Recipes Management</Typography>
+          <PageTitle>Recipes Management</PageTitle>
           {canEdit && (
             <Button variant="contained" startIcon={<Add />} onClick={openAdd}>
               Add Recipe

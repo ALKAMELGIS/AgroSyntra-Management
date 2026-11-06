@@ -28,7 +28,6 @@ import {
 } from '@mui/material';
 import {
   AddOutlined as AddIcon,
-  AssignmentOutlined as TaskIcon,
   PersonOutlined as PersonIcon,
   CalendarTodayOutlined as CalendarIcon,
   FlagOutlined as FlagIcon,
@@ -47,6 +46,7 @@ import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../utils/roleAccess';
 import { DeleteSelectedButton, RowCheckbox, SelectAllCheckbox, deleteIdsSequentially } from '../components/table/BulkSelect';
 import { useRowSelection } from '../hooks/useRowSelection';
+import PageTitle from '../components/PageTitle';
 
 const COLUMNS = [
   { id: 'todo', label: 'To Do', color: '#1976d2' },
@@ -158,8 +158,7 @@ export default function Tasks() {
     <Container maxWidth="xl">
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3, mt: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <TaskIcon color="primary" sx={{ fontSize: 28 }} />
-          <Typography variant="h5" fontWeight={600}>Tasks</Typography>
+          <PageTitle>Tasks</PageTitle>
           <Chip label={`${tasks.length} total`} size="small" />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

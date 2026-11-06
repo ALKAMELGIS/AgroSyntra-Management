@@ -26,6 +26,7 @@ import { buildFertigationExcelSheets } from '../utils/fertigationExcelExport';
 import ExecutiveReportPanel from '../components/reports/ExecutiveReportPanel';
 import { getDefaultDateRange } from '../utils/executiveReportUtils';
 import { buildFertigationExecutiveReport } from '../utils/executiveReports/fertigationExecutive';
+import PageTitle from '../components/PageTitle';
 
 function FertigationReports() {
   const notify = useNotification();
@@ -266,9 +267,9 @@ function FertigationReports() {
   return (
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-        <Typography variant="h4" gutterBottom>
+        <PageTitle sx={{ mb: 1 }}>
           Fertigation Reports
-        </Typography>
+        </PageTitle>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
           Manager executive summary and detailed data exports
         </Typography>

@@ -106,8 +106,15 @@ html[lang='ar'] .MuiTypography-root {
 }
 
 /* Recharts: keep charts calm and on-brand. */
-.recharts-cartesian-grid line {
+.recharts-cartesian-grid line,
+.recharts-polar-grid line,
+.recharts-polar-grid polygon,
+.recharts-polar-grid circle {
   stroke: var(--border-subtle);
+}
+.recharts-cartesian-axis-line,
+.recharts-cartesian-axis-tick-line {
+  stroke: var(--border-default, var(--border-subtle));
 }
 .recharts-text {
   fill: var(--text-secondary);
@@ -276,4 +283,34 @@ html.has-bottom-nav .ac-fixed-bottom {
   body {
     background: #fff !important;
   }
+}
+
+/* ---- Required fields ----------------------------------------------------
+   A required field the person left empty (:user-invalid), or every empty
+   required field after a save attempt reported missing fields
+   ([data-check-required], see utils/requiredFields.js), is outlined in the
+   error colour with a short "Required" note under it. */
+.MuiFormControl-root:has(> .MuiInputBase-root :is(input, textarea)[required]:user-invalid) .MuiOutlinedInput-notchedOutline,
+[data-check-required] .MuiFormControl-root:has(> .MuiInputBase-root :is(input, textarea)[required]:invalid) .MuiOutlinedInput-notchedOutline {
+  border-color: var(--error-main, #c23b2b) !important;
+  border-width: 2px;
+}
+.MuiFormControl-root:has(> .MuiInputBase-root :is(input, textarea)[required]:user-invalid) > .MuiFormLabel-root,
+[data-check-required] .MuiFormControl-root:has(> .MuiInputBase-root :is(input, textarea)[required]:invalid) > .MuiFormLabel-root {
+  color: var(--error-main, #c23b2b);
+}
+.MuiFormControl-root:has(> .MuiInputBase-root :is(input, textarea)[required]:user-invalid):not(:has(.MuiFormHelperText-root))::after,
+[data-check-required] .MuiFormControl-root:has(> .MuiInputBase-root :is(input, textarea)[required]:invalid):not(:has(.MuiFormHelperText-root))::after {
+  content: var(--required-note, 'Required');
+  display: block;
+  margin: 4px 14px 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--error-main, #c23b2b);
+}
+:root {
+  --required-note: 'Required';
+}
+html[lang|='ar'] {
+  --required-note: 'هذا الحقل مطلوب';
 }

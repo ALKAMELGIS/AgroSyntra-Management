@@ -168,7 +168,7 @@ export default function EcphDashboard({ fieldId, siteId, dateFrom, dateTo, allFi
           <DashboardStatCard title="Avg pH Out" value={stats.phOut} color="#2f6aa8" />
         </Grid>
         <Grid size={{ xs: 6, sm: 4, md: 2 }}>
-          <DashboardStatCard title="Avg Drain %" value={stats.drain} color="#e65100" />
+          <DashboardStatCard title="Avg Drain %" value={stats.drain} color="#a84b07" />
         </Grid>
         <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <DashboardStatCard title="Total Entries" value={stats.count} />
@@ -185,7 +185,7 @@ export default function EcphDashboard({ fieldId, siteId, dateFrom, dateTo, allFi
               <RTooltip contentStyle={CHART_TOOLTIP} />
               <Legend />
               <Line type="monotone" dataKey="ecIn" name="EC In" stroke={FARM_GREEN} strokeWidth={2} dot={{ r: 3 }} connectNulls />
-              <Line type="monotone" dataKey="ecOut" name="EC Out" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+              <Line type="monotone" dataKey="ecOut" name="EC Out" stroke="#d08a1e" strokeWidth={2} dot={{ r: 3 }} connectNulls />
             </LineChart>
           </ResponsiveContainer>
         </DashboardChartBody>
@@ -200,7 +200,7 @@ export default function EcphDashboard({ fieldId, siteId, dateFrom, dateTo, allFi
               <YAxis tick={{ fontSize: 11, fill: CHART_TICK }} domain={['auto', 'auto']} />
               <RTooltip contentStyle={CHART_TOOLTIP} />
               <Legend />
-              <Line type="monotone" dataKey="phIn" name="pH In" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+              <Line type="monotone" dataKey="phIn" name="pH In" stroke="#4b8fc4" strokeWidth={2} dot={{ r: 3 }} connectNulls />
               <Line type="monotone" dataKey="phOut" name="pH Out" stroke="#2f6aa8" strokeWidth={2} dot={{ r: 3 }} connectNulls />
             </LineChart>
           </ResponsiveContainer>
@@ -230,7 +230,7 @@ export default function EcphDashboard({ fieldId, siteId, dateFrom, dateTo, allFi
               <XAxis dataKey="date" tick={{ fontSize: 11, fill: CHART_TICK }} />
               <YAxis tick={{ fontSize: 11, fill: CHART_TICK }} />
               <RTooltip contentStyle={CHART_TOOLTIP} />
-              <Bar dataKey="drain" name="% Drain" fill="#e65100" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="drain" name="% Drain" fill="#b8523a" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </DashboardChartBody>
@@ -247,7 +247,7 @@ export default function EcphDashboard({ fieldId, siteId, dateFrom, dateTo, allFi
                 <RTooltip contentStyle={CHART_TOOLTIP} />
                 <Legend />
                 <Bar dataKey="ecIn" name="EC In" fill={FARM_GREEN} radius={[4, 4, 0, 0]} />
-                <Bar dataKey="phIn" name="pH In" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="phIn" name="pH In" fill="#4b8fc4" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </DashboardChartBody>

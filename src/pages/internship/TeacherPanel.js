@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { canAuthorTraining } from '../../utils/roleAccess';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 export default function TeacherPanel() {
   const { t } = useTranslation();
@@ -34,9 +35,9 @@ export default function TeacherPanel() {
   if (!canAuthor) {
     return (
       <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
-        <Typography variant="h4" gutterBottom>
+        <PageTitle sx={{ mb: 1 }}>
           Teacher Panel
-        </Typography>
+        </PageTitle>
         <InfoNote severity="info" sx={{ mb: 3 }}>{t('adminAccess.trainingAuthorOnly')}</InfoNote>
         <GradeViewer />
       </Box>
@@ -1006,7 +1007,7 @@ function QuizManager({ moduleId }) {
             >
               {lessons.map((l) => (
                 <MenuItem key={l.id} value={l.id}>
-                  <Checkbox checked={quizForm.lessonIds.indexOf(l.id) > -1} />
+                  <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }} checked={quizForm.lessonIds.indexOf(l.id) > -1} />
                   <ListItemText primary={l.title} />
                 </MenuItem>
               ))}
@@ -1089,7 +1090,7 @@ function QuizManager({ moduleId }) {
                 >
                   {lessons.map((l) => (
                     <MenuItem key={l.id} value={l.id}>
-                      <Checkbox checked={aiLessonIds.indexOf(l.id) > -1} />
+                      <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }} checked={aiLessonIds.indexOf(l.id) > -1} />
                       <ListItemText primary={l.title} />
                     </MenuItem>
                   ))}

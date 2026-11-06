@@ -11,7 +11,6 @@ import {
   PlayArrow as DryRunIcon,
   PublishOutlined as ExecuteIcon,
   RefreshOutlined as RefreshIcon,
-  HistoryOutlined as HistoryIcon,
   ExpandMoreOutlined as ExpandMoreIcon,
   ExpandLessOutlined as ExpandLessIcon,
   CheckCircleOutlined as CheckIcon,
@@ -20,6 +19,7 @@ import {
 } from '@mui/icons-material';
 import { API_BASE, getAuthHeaders } from '../../config/api';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 function isExcelFile(name) {
   return /\.(xlsx|xls)$/i.test(name || '');
@@ -240,9 +240,9 @@ export default function HistoricalImport() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1760, mx: 'auto' }}>
-      <Typography variant="h5" sx={{ mb: 0.5, display: 'flex', alignItems: 'center', gap: 1 }}>
-        <HistoryIcon /> Historical data import
-      </Typography>
+      <PageTitle sx={{ mb: 0.5 }}>
+        Historical data import
+      </PageTitle>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
         Upload a CSV or Excel file (.xlsx) from your old records and map its columns onto
         harvests, EC/pH, or fertigation entries. Crops are automatically resolved from your Crop Rotation history.

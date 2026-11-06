@@ -26,6 +26,7 @@ import {
   Button,
   Grid,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { CheckCircleOutlined as CheckCircle, EditOutlined as EditIcon, RefreshOutlined as RefreshIcon } from '@mui/icons-material';
 import api from '../../utils/api';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
@@ -34,6 +35,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { refreshPhiAuditBadgeCount } from '../../hooks/usePhiAuditBadgeCount';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../../components/table/ExcelTable';
 import { formatClockTime } from '../../utils/sprayCalendarPhi';
+import PageTitle from '../../components/PageTitle';
 
 function formatDate(dateStr) {
   if (!dateStr) return '';
@@ -75,12 +77,12 @@ function formatFarmDateTime(value) {
 }
 
 function severityColor(severity) {
-  switch (severity) {
-    case 'high': return { bg: '#ffebee', color: '#c62828' };
-    case 'medium': return { bg: '#fff3e0', color: '#e65100' };
-    case 'low': return { bg: '#fff8e1', color: '#f57f17' };
-    default: return { bg: '#f5f5f5', color: '#616161' };
-  }
+  // Palette paths, resolved by sx in the current light / dark theme.
+  const tone = { high: 'error', medium: 'warning', low: 'warning' }[severity];
+  return {
+    bg: (t) => (tone ? alpha(t.palette[tone].main, severity === 'low' ? 0.08 : 0.15) : t.palette.action.hover),
+    color: (t) => (tone ? t.palette[tone][t.palette.mode === 'dark' ? 'light' : 'dark'] : t.palette.text.secondary),
+  };
 }
 
 function statusChip(status) {
@@ -97,16 +99,21 @@ const AUDIT_FROZEN_WIDTHS = [170, 140];
 
 // Days-violated tints have to outrank excelTableSx hover, or a high-severity
 // cell greys the moment the mouse crosses the row.
-const severityCellSx = {
-  '&&& .MuiTableBody-root .MuiTableRow-root .cell-sev-high': {
-    backgroundColor: '#ffebee', color: '#c62828', fontWeight: 700,
-  },
-  '&&& .MuiTableBody-root .MuiTableRow-root .cell-sev-medium': {
-    backgroundColor: '#fff3e0', color: '#e65100', fontWeight: 700,
-  },
-  '&&& .MuiTableBody-root .MuiTableRow-root .cell-sev-low': {
-    backgroundColor: '#fff8e1', color: '#f57f17', fontWeight: 700,
-  },
+// Tints follow the theme so they stay calm and readable in dark mode too.
+const severityCellSx = (t) => {
+  const dark = t.palette.mode === 'dark';
+  const tint = (c, a) => alpha(c, dark ? a + 0.06 : a);
+  return {
+    '&&& .MuiTableBody-root .MuiTableRow-root .cell-sev-high': {
+      backgroundColor: tint(t.palette.error.main, 0.12), color: dark ? t.palette.error.light : t.palette.error.dark, fontWeight: 700,
+    },
+    '&&& .MuiTableBody-root .MuiTableRow-root .cell-sev-medium': {
+      backgroundColor: tint(t.palette.warning.main, 0.14), color: dark ? t.palette.warning.light : t.palette.warning.dark, fontWeight: 700,
+    },
+    '&&& .MuiTableBody-root .MuiTableRow-root .cell-sev-low': {
+      backgroundColor: tint(t.palette.warning.main, 0.07), color: 'inherit', fontWeight: 700,
+    },
+  };
 };
 
 export default function PhiAuditLog() {
@@ -189,7 +196,7 @@ export default function PhiAuditLog() {
     <Box sx={{ p: { xs: 1, md: 3 } }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap" gap={1}>
         <Box>
-          <Typography variant="h5">PHI Audit Log</Typography>
+          <PageTitle>PHI Audit Log</PageTitle>
           <Typography variant="body2" color="text.secondary">
             Harvests that occurred while a spray PHI was still active on the same segment / field
           </Typography>
@@ -316,8 +323,8 @@ export default function PhiAuditLog() {
                     <TableCell>
                       <Chip
                         size="small"
-                        label={row.severity.charAt(0).toUpperCase() + row.severity.slice(1)}
-                        sx={{ backgroundColor: sev.bg, color: sev.color, fontWeight: 600, fontSize: 11 }}
+                        label={row.severity ? row.severity.charAt(0).toUpperCase() + row.severity.slice(1) : '—'}
+                        sx={(t) => ({ backgroundColor: sev.bg(t), color: sev.color(t), fontWeight: 600, fontSize: 11 })}
                       />
                     </TableCell>
                     <TableCell>{statusChip(row.status)}</TableCell>

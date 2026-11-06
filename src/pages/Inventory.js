@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { TableSkeleton } from '../components/LoadingSkeleton';
 import {
-  AddOutlined as Add, EditOutlined as Edit, DeleteOutlined as Delete, SearchOutlined as Search, Inventory2Outlined as Inventory2, WarningOutlined as Warning, ShoppingCartOutlined as ShoppingCart,
+  AddOutlined as Add, EditOutlined as Edit, DeleteOutlined as Delete, SearchOutlined as Search, WarningOutlined as Warning, ShoppingCartOutlined as ShoppingCart,
   ExpandMoreOutlined as ExpandMore, ExpandLessOutlined as ExpandLess, TrendingDownOutlined as TrendingDown, TrendingUpOutlined as TrendingUp,
 } from '@mui/icons-material';
 import { useNotification } from '../contexts/NotificationContext';
@@ -19,6 +19,7 @@ import { canWriteOpsStock } from '../utils/roleAccess';
 
 import { API_BASE, getAuthHeaders } from '../config/api';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 /** Missing numbers show as an em dash instead of NaN. */
 const fmtNum = (v, digits) => (v === null || v === undefined || v === '' || !Number.isFinite(Number(v)) ? '—' : Number(v).toFixed(digits));
@@ -226,8 +227,7 @@ export default function Inventory() {
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Inventory2 color="primary" sx={{ fontSize: 32 }} />
-          <Typography variant="h4">Inventory</Typography>
+          <PageTitle>Inventory</PageTitle>
         </Box>
         {canWrite && <Button variant="contained" startIcon={<Add />} onClick={openAdd}>Add Item</Button>}
       </Box>

@@ -13,6 +13,7 @@ import 'leaflet/dist/leaflet.css';
 // Fix for default marker icons in react-leaflet
 import L from 'leaflet';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -236,7 +237,7 @@ function WeatherMap() {
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
       <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
-          <Typography variant="h4">Field Map</Typography>
+          <PageTitle>Field Map</PageTitle>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
               variant="outlined"

@@ -762,7 +762,65 @@ export const PAGE_AR = {
   'Awaiting approval': 'بانتظار الاعتماد',
   'No weather data available. Connect a weather station in API Integrations.': 'لا توجد بيانات طقس. اربط محطة طقس من تكاملات API.',
   'Site:': 'الموقع:',
+  // Weather entry help (shown behind the ⓘ / in the setup box).
+  'How OpenWeatherMap Gets Exact Weather for Your Area:': 'كيف يجلب OpenWeatherMap الطقس الدقيق لمنطقتك:',
+  'GPS Coordinates = Exact Location:': 'إحداثيات GPS = الموقع الدقيق:',
+  "Each field's latitude/longitude (e.g., 24.45°N, 54.38°E) is a specific point on Earth. The API uses these coordinates to fetch weather from the nearest weather station.": 'خط العرض وخط الطول لكل حقل (مثل 24.45° شمالًا، 54.38° شرقًا) نقطة محددة على الأرض، وتستخدمها الخدمة لجلب الطقس من أقرب محطة رصد.',
+  'Location-Specific Data:': 'بيانات خاصة بالموقع:',
+  'OpenWeatherMap has a global network of weather stations. When you provide coordinates, it returns weather data for that exact location, accounting for local microclimates, elevation, and proximity to water bodies.': 'لدى OpenWeatherMap شبكة عالمية من محطات الرصد. عند إرسال الإحداثيات يُعيد بيانات الطقس لذلك الموقع بالتحديد، مع مراعاة المناخ المحلي والارتفاع والقرب من المسطحات المائية.',
+  'Temperature accuracy is typically ±1-2°C, which is excellent for agricultural efficiency calculations. Each field gets its own weather data based on its unique coordinates.': 'دقة درجة الحرارة عادةً ±1-2°م، وهي ممتازة لحسابات الكفاءة الزراعية. يحصل كل حقل على بيانات طقس خاصة به حسب إحداثياته.',
+  'Add latitude/longitude to your fields in': 'أضف خط العرض وخط الطول لحقولك من',
+  'Master Data → Field Types & Names': 'البيانات الأساسية ← أنواع الحقول وأسماؤها',
+  ', then add your OpenWeatherMap API key in': '، ثم أضف مفتاح OpenWeatherMap من',
+  'Admin → API Keys → Weather Map API Key': 'الإدارة ← مفاتيح API ← مفتاح خريطة الطقس',
+  // Remote sensing empty state (sentence split around a button label).
+  'No field boundaries found yet. Click': 'لا توجد حدود حقول بعد. انقر',
+  'to draw a polygon and assign it to an existing Field ID. Use the': 'لرسم مضلع وربطه برقم حقل موجود. اختر خريطة',
+  'base map to trace boundaries from aerial imagery.': 'لتتبع الحدود من الصور الجوية.',
+  'Equipment (': 'المعدات (',
+  'Workers (...)': 'العمال (...)',
+  'PPP MSDS': 'صحائف سلامة المبيدات',
+  'Select row': 'تحديد الصف',
+  'Select all rows': 'تحديد كل الصفوف',
+  Select: 'تحديد',
+  'Plant Protection Application Record': 'سجل تطبيقات وقاية النبات',
+  'Application Records': 'سجلات التطبيق',
+  'Work Orders': 'أوامر العمل',
+  'Active PHI': 'فترة ما قبل الحصاد السارية',
+  'Costing Report': 'تقرير التكلفة',
+  'Export Costing Report': 'تصدير تقرير التكلفة',
+  'All Records': 'كل السجلات',
+  'Justification...': 'التبرير…',
+  'Variety...': 'الصنف…',
+  'Search crop, operator...': 'ابحث عن محصول أو مشغّل…',
+  'Search product...': 'ابحث عن منتج…',
+  'Search products…': 'ابحث عن منتجات…',
+  'App. Date': 'تاريخ التطبيق',
+  'Seen %': 'نسبة الرصد %',
+  'New Application': 'تطبيق جديد',
+  'New PPP Application Record': 'سجل تطبيق مبيد جديد',
+  'Authorized / Verified by': 'معتمد / متحقق من',
+  'Clear Date': 'مسح التاريخ',
+  'Clear to Harvest': 'جاهز للحصاد',
+  'Dose/L': 'الجرعة/لتر',
+  'Dose/L of Water': 'الجرعة/لتر ماء',
+  'Edit site price': 'تعديل سعر الموقع',
+  'Leave empty to create new': 'اتركه فارغًا لإنشاء جديد',
+  Machinery: 'الآلات',
+  'Machinery Used': 'الآلات المستخدمة',
+  'Match existing': 'مطابقة الموجود',
+  'No active PHI restrictions': 'لا توجد قيود سارية لفترة ما قبل الحصاد',
+  'No cost records found for current filters': 'لا توجد سجلات تكلفة لعوامل التصفية الحالية',
+  'Notes (optional)': 'ملاحظات (اختياري)',
+  'PHI (Days)': 'فترة ما قبل الحصاد (أيام)',
+  'Pivots (RC-109)': 'المحاور (RC-109)',
+  'Reason for Rejection': 'سبب الرفض',
+  'Remove from site': 'إزالة من الموقع',
+  'Total Qty': 'إجمالي الكمية',
+  'Total Qty Applied (Ltr)': 'إجمالي الكمية المطبقة (لتر)',
+  'Verified By': 'تم التحقق من',
   'In Stock': 'متوفر',
+  'm³': 'م³',
   'Out of Stock': 'نفد المخزون',
   'No inventory items found': 'لا توجد أصناف في المخزون',
   Pests: 'الآفات',
@@ -999,6 +1057,13 @@ const PATTERNS = [
   [/^(\d[\d,]*) rows? \((\d[\d,]*) records?\)$/i, (m) => `${m[1]} صف (${m[2]} سجل)`],
   [/^([A-Za-z &/]+) \((\d[\d,]*)\)$/, (m) => (PAGE_AR[m[1]] || SHELL_AR[m[1]] ? `${PAGE_AR[m[1]] || SHELL_AR[m[1]]} (${m[2]})` : null)],
   [/^Record (\d+)$/, (m) => `سجل ${m[1]}`],
+  [/^PPP Application Record - (\d[\d,]*) records?$/, (m) => `سجل تطبيقات المبيدات - ${m[1]} سجل`],
+  // Numbers with units: the unit is written in Arabic so the pair reads naturally right-to-left.
+  [/^([\d,.]+|—|-) ?m³$/, (m) => `${m[1]} م³`],
+  [/^([\d,.]+|—|-) ?(kg|Kg|KG)$/, (m) => `${m[1]} كجم`],
+  [/^([\d,.]+|—|-) ?Tons?$/, (m) => `${m[1]} طن`],
+  [/^([\d,.]+|—|-) ?kg\/day$/, (m) => `${m[1]} كجم/يوم`],
+  [/^([\d,.]+|—|-) ?ha$/i, (m) => `${m[1]} هكتار`],
   // Report interpretation sentences.
   [/^([\d,.]+) fertigation application\(s\) across ([\d,.]+) field\(s\), totalling ([\d,.]+) m³ water and ([\d,.]+) kg fertilizer\.$/,
     (m) => `${m[1]} عملية تسميد في ${m[2]} حقل، بإجمالي ${m[3]} م³ مياه و${m[4]} كجم سماد.`],
@@ -1016,7 +1081,7 @@ const PATTERNS = [
 export function translateUi(text) {
   if (typeof text !== 'string') return null;
   const trimmed = text.trim();
-  if (!trimmed || trimmed.length > 160) return null;
+  if (!trimmed || trimmed.length > 400) return null;
   const own = Object.prototype.hasOwnProperty;
   if (own.call(PAGE_AR, trimmed) || own.call(SHELL_AR, trimmed)) {
     const ar = own.call(PAGE_AR, trimmed) ? PAGE_AR[trimmed] : SHELL_AR[trimmed];
@@ -1025,6 +1090,7 @@ export function translateUi(text) {
   // A trailing " *" (required marker) or ":" keeps its punctuation.
   const suffix = trimmed.match(/^(.*?)(\s*\*|:)$/);
   if (suffix && PAGE_AR[suffix[1]]) return text.replace(suffix[1], PAGE_AR[suffix[1]]);
+  if (trimmed.length > 160) return null;
   for (const [re, fn] of PATTERNS) {
     const m = trimmed.match(re);
     if (m) {

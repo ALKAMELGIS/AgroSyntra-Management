@@ -3,8 +3,7 @@ import {
   Container, Paper, Typography, Box, Grid, Card, CardContent, Button, TextField, MenuItem,
   Dialog, DialogTitle, DialogContent, DialogActions, Chip, IconButton, Avatar, Tooltip,
 } from '@mui/material';
-import {
-  ScheduleOutlined as ScheduleIcon, AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
+import { AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
   ChevronLeftOutlined as PrevIcon, ChevronRightOutlined as NextIcon,
   WbSunnyOutlined as MorningIcon, WbTwilightOutlined as AfternoonIcon, NightsStayOutlined as NightIcon,
 } from '@mui/icons-material';
@@ -18,6 +17,7 @@ import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../utils/roleAccess';
 import { DeleteSelectedButton, RowCheckbox, SelectAllCheckbox, deleteIdsSequentially } from '../components/table/BulkSelect';
 import { useRowSelection } from '../hooks/useRowSelection';
+import PageTitle from '../components/PageTitle';
 
 const SHIFT_TYPES = [
   { value: 'morning', label: 'Morning', icon: <MorningIcon />, color: '#ff9800', time: { start: '06:00', end: '14:00' } },
@@ -124,11 +124,11 @@ export default function ShiftSchedule() {
   }, [shifts]);
 
   return (
-    <Container maxWidth="xl" sx={{ py: 3 }}>
+    <Container maxWidth="xl">
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-        <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <ScheduleIcon fontSize="large" /> Shift Schedule
-        </Typography>
+        <PageTitle>
+          Shift Schedule
+        </PageTitle>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {!readOnly && (
             <>

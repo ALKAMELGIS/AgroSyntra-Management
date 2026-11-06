@@ -4,14 +4,14 @@ import {
   DialogActions, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   IconButton, Chip, Checkbox, FormGroup, FormControlLabel, Collapse,
 } from '@mui/material';
-import {
-  WebhookOutlined as WebhookIcon, AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
+import { AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
   ExpandMoreOutlined as ExpandIcon, ExpandLessOutlined as CollapseIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
 import { useConfirmDialog } from '../../components/ConfirmDialog';
 import { format } from 'date-fns';
+import PageTitle from '../../components/PageTitle';
 
 const AVAILABLE_EVENTS = [
   'harvest.created', 'harvest.updated', 'harvest.deleted',
@@ -74,9 +74,9 @@ export default function Webhooks() {
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-        <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <WebhookIcon fontSize="large" /> Webhooks
-        </Typography>
+        <PageTitle>
+          Webhooks
+        </PageTitle>
         <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateOpen(true)}>Add Webhook</Button>
       </Box>
 

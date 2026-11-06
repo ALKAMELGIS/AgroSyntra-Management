@@ -36,6 +36,7 @@ import {
   unusedPastSeasonWindow,
 } from '../utils/seasonListDates';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 const SEASON_FROZEN_WIDTHS = [160];
 
@@ -213,7 +214,7 @@ function SeasonsManagement() {
     return (
       <Container maxWidth="xl">
         <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-          <Typography variant="h4" sx={{ mb: 3 }}>Seasons</Typography>
+          <PageTitle sx={{ mb: 3 }}>Seasons</PageTitle>
           <TableSkeleton rows={5} columns={6} />
         </Paper>
       </Container>
@@ -224,7 +225,7 @@ function SeasonsManagement() {
     <Container maxWidth="xl">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, gap: 2, flexWrap: 'wrap' }}>
-          <Typography variant="h4">Seasons{siteLabel ? ` — ${siteLabel}` : ''}</Typography>
+          <PageTitle>Seasons{siteLabel ? ` — ${siteLabel}` : ''}</PageTitle>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
             <Button variant="outlined" startIcon={<FileDownload />} onClick={handleExport} disabled={!seasons.length}>
               Export CSV

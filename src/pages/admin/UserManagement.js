@@ -45,6 +45,7 @@ import { apiRequest } from '../../utils/api';
 import { TableSkeleton } from '../../components/LoadingSkeleton';
 import { useNotification } from '../../contexts/NotificationContext';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 const ROLES = [
   { value: 'ceo', label: 'CEO', color: 'error' },
@@ -361,8 +362,8 @@ function UserManagement() {
 
   if (loading) {
     return (
-      <Box sx={{ p: 3 }}>
-        <Typography variant="h5" sx={{ mb: 3 }}>User Management</Typography>
+      <Box>
+        <PageTitle sx={{ mb: 3 }}>User Management</PageTitle>
         <TableSkeleton rows={6} columns={5} />
       </Box>
     );
@@ -379,11 +380,11 @@ function UserManagement() {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-        <Typography variant="h4">
+        <PageTitle>
           User Management
-        </Typography>
+        </PageTitle>
         <Button
           variant="contained"
           startIcon={<AddIcon />}

@@ -2191,7 +2191,7 @@ export default function BiologicalControlRecord() {
                   <TableHead>
                     <TableRow>
                       <TableCell padding="checkbox" sx={{ width: 42 }}>
-                        <Checkbox size="small"
+                        <Checkbox slotProps={{ input: { 'aria-label': 'Select all rows' } }} size="small"
                           indeterminate={catalogBrowseSelected.size > 0 && catalogBrowseSelected.size < browseSelectableIds.length}
                           checked={browseSelectableIds.length > 0 && catalogBrowseSelected.size === browseSelectableIds.length}
                           disabled={browseSelectableIds.length === 0}
@@ -2220,7 +2220,7 @@ export default function BiologicalControlRecord() {
                           selected={catalogBrowseSelected.has(p.id)}>
                           <TableCell padding="checkbox">
                             {alreadyInSite ? null : (
-                              <Checkbox size="small" checked={catalogBrowseSelected.has(p.id)}
+                              <Checkbox slotProps={{ input: { 'aria-label': 'Select row' } }} size="small" checked={catalogBrowseSelected.has(p.id)}
                                 onChange={e => {
                                   setCatalogBrowseSelected(prev => {
                                     const next = new Set(prev);
@@ -2357,7 +2357,7 @@ export default function BiologicalControlRecord() {
           />
           <Grid container spacing={2}>
             <Grid size={12}>
-              <TextField fullWidth size="small" label="Product Name *" value={newProductName}
+              <TextField fullWidth size="small" label="Product Name" required value={newProductName}
                 onChange={e => setNewProductName(e.target.value)} />
             </Grid>
             <Grid size={{ xs: 12, sm: 3 }}>
@@ -2462,7 +2462,7 @@ export default function BiologicalControlRecord() {
             fullWidth
             multiline
             minRows={2}
-            label="Reason (required)"
+            label="Reason"
             value={rejectDialog.reason}
             onChange={(e) => setRejectDialog((prev) => ({ ...prev, reason: e.target.value }))}
           />
@@ -2490,7 +2490,7 @@ export default function BiologicalControlRecord() {
             fullWidth
             multiline
             minRows={2}
-            label="Why should this table be deleted? (required)"
+            label="Why should this table be deleted?"
             value={deleteRequest.reason}
             onChange={(e) => setDeleteRequest((prev) => ({ ...prev, reason: e.target.value }))}
           />

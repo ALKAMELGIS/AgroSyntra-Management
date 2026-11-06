@@ -41,6 +41,7 @@ import { useNotification } from '../contexts/NotificationContext';
 import { useAuth } from '../contexts/AuthContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 const ZONE_FROZEN_WIDTHS = [220];
 const SITE_FROZEN_WIDTHS = [180];
@@ -224,7 +225,7 @@ function CountriesSitesManagement() {
     return (
       <Container maxWidth="lg">
         <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-          <Typography variant="h4" sx={{ mb: 3 }}>{t('zoneAccess.title')}</Typography>
+          <PageTitle sx={{ mb: 3 }}>{t('zoneAccess.title')}</PageTitle>
           <TableSkeleton rows={5} columns={4} />
         </Paper>
       </Container>
@@ -242,7 +243,7 @@ function CountriesSitesManagement() {
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, gap: 2, flexWrap: 'wrap' }}>
-          <Typography variant="h4">{t('zoneAccess.title')}</Typography>
+          <PageTitle>{t('zoneAccess.title')}</PageTitle>
           <Button variant="contained" color="primary" onClick={handleExport}>
             {t('zoneAccess.exportExcel')}
           </Button>

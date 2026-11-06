@@ -16,6 +16,7 @@ import ManpowerCostTable from '../components/manpower/ManpowerCostTable';
 import ManpowerCostDashboard from '../components/manpower/ManpowerCostDashboard';
 import ManpowerRatesPanel from '../components/manpower/ManpowerRatesPanel';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 const TABS = ['cost', 'dashboard', 'rates'];
 
@@ -87,7 +88,7 @@ export default function ManpowerCost() {
       <Paper elevation={3} sx={{ p: { xs: 2, md: 4 }, mt: 2 }}>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'flex-end', mb: 2 }}>
           <Box sx={{ flexGrow: 1, minWidth: 220 }}>
-            <Typography variant="h4">{t('manpowerCost.title')}</Typography>
+            <PageTitle>{t('manpowerCost.title')}</PageTitle>
             <Typography variant="body2" color="text.secondary">{t('manpowerCost.subtitle')}</Typography>
           </Box>
           {tab !== 'rates' && (

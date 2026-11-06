@@ -45,6 +45,7 @@ import {
 import { TableSkeleton } from '../components/LoadingSkeleton';
 import { useNotification } from '../contexts/NotificationContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
+import PageTitle from '../components/PageTitle';
 
 const AREA_FROZEN_WIDTHS = [180];
 const CROP_FROZEN_WIDTHS = [44, 160];
@@ -267,7 +268,7 @@ function FarmAreasCropsManagement() {
     return (
       <Container maxWidth="lg">
         <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-          <Typography variant="h4" sx={{ mb: 3 }}>Farm Areas & Crops Management</Typography>
+          <PageTitle sx={{ mb: 3 }}>Farm Areas & Crops Management</PageTitle>
           <TableSkeleton rows={5} columns={4} />
         </Paper>
       </Container>
@@ -278,7 +279,7 @@ function FarmAreasCropsManagement() {
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-          <Typography variant="h4">Farm Areas & Crops Management</Typography>
+          <PageTitle>Farm Areas & Crops Management</PageTitle>
           <Button
             variant="contained"
             color="primary"

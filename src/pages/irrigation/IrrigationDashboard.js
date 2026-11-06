@@ -5,6 +5,7 @@ import {
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import useSeasonListDates from '../../hooks/useSeasonListDates';
 import IrrigationDashboardView from '../dashboard/IrrigationDashboard';
+import PageTitle from '../../components/PageTitle';
 
 export default function IrrigationDashboard() {
   const { activeSiteId, allSites } = useActiveSite();
@@ -16,8 +17,8 @@ export default function IrrigationDashboard() {
   }, [activeSiteId, siteId]);
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h5" gutterBottom>Irrigation Dashboard</Typography>
+    <Box>
+      <PageTitle sx={{ mb: 1 }}>Irrigation Dashboard</PageTitle>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         Water and cycles from Irrigation Entry (RC-108) plus separately entered pivot irrigation.
       </Typography>

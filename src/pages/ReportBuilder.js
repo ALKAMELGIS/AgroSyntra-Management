@@ -23,7 +23,6 @@ import {
   Checkbox,
 } from '@mui/material';
 import {
-  DescriptionOutlined as ReportIcon,
   DownloadOutlined as DownloadIcon,
   PictureAsPdfOutlined as PdfIcon,
 } from '@mui/icons-material';
@@ -32,6 +31,7 @@ import { useNotification } from '../contexts/NotificationContext';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { generateHarvestReport, generateFertigationReport, generateECPHReport, downloadPDF } from '../utils/pdfExport';
 import { exportToExcel } from '../utils/masterDataUtils';
+import PageTitle from '../components/PageTitle';
 
 const ENTITY_OPTIONS = [
   { value: 'harvest', label: 'Harvest', endpoint: '/harvests' },
@@ -139,8 +139,7 @@ export default function ReportBuilder() {
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
-          <ReportIcon color="primary" sx={{ fontSize: 28 }} />
-          <Typography variant="h5" fontWeight={600}>Report Builder</Typography>
+          <PageTitle>Report Builder</PageTitle>
         </Box>
 
         <Stepper activeStep={activeStep} sx={{ mb: 4 }}>

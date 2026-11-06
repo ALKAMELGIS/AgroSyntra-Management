@@ -33,6 +33,7 @@ import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../../c
 import { DeleteSelectedButton, RowCheckbox, SelectAllCheckbox, deleteIdsSequentially } from '../../components/table/BulkSelect';
 import { useRowSelection } from '../../hooks/useRowSelection';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 function TabPanel({ children, value, index }) {
   if (value !== index) return null;
@@ -965,7 +966,7 @@ export default function BumbleBees() {
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, gap: 1, flexWrap: 'wrap' }}>
-        <Typography variant="h4">Bumble Bee Deployments</Typography>
+        <PageTitle>Bumble Bee Deployments</PageTitle>
         <Button
           startIcon={<FileDownload />}
           variant="outlined"
@@ -1626,7 +1627,7 @@ export default function BumbleBees() {
         <Grid container spacing={2} sx={{ mb: 3 }}>
           {[
             { label: 'Boxes on hand', value: onHand, color: '#1f7a4d', bg: '#e8f5e9' },
-            { label: 'Upcoming (not received)', value: inventory?.pendingIncomingTotal ?? 0, color: '#e65100', bg: '#fff3e0' },
+            { label: 'Upcoming (not received)', value: inventory?.pendingIncomingTotal ?? 0, color: '#a84b07', bg: '#fff3e0' },
             { label: 'Projected total', value: inventory?.projectedTotal ?? onHand, color: '#1565c0', bg: '#e3f2fd' },
           ].map((kpi) => (
             <Grid size={{ xs: 12, sm: 4 }} key={kpi.label}>

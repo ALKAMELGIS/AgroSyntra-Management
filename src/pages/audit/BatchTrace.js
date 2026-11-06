@@ -28,6 +28,7 @@ import {
 import api from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 // Unified with the app font (theme FONT_SANS via CSS variable).
 const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
@@ -339,9 +340,9 @@ export default function BatchTrace() {
       `}</style>
 
       <Box className="no-print" sx={{ mb: 3 }}>
-        <Typography variant="h5" sx={{ mb: 0.5 }}>
+        <PageTitle sx={{ mb: 0.5 }}>
           Batch Trace
-        </Typography>
+        </PageTitle>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           Trace harvest, workforce, PHI, and scouting data from a batch number for complaint investigation.
         </Typography>

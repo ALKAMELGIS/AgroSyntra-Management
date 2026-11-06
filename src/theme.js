@@ -126,6 +126,7 @@ export function cssTokens(mode = 'light') {
     '--radius-sm': `${RADIUS.sm}px`,
     '--font-sans': FONT_SANS,
     '--font-mono': FONT_MONO,
+    '--error-main': mode === 'dark' ? '#ef7d6d' : '#c23b2b',
     '--ease-out': 'cubic-bezier(0.22, 1, 0.36, 1)',
     // Excel-style entry sheets (SpreadsheetGrid, Harvest/Irrigation/Pivot sheets).
     ...(mode === 'dark'
@@ -505,6 +506,10 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
           root: { color: palette.text.secondary, fontSize: '0.875rem', '&.Mui-focused': { color: palette.primary.main }, '&.Mui-disabled': { color: palette.text.secondary } },
           sizeSmall: { fontSize: '0.8125rem' },
         },
+      },
+      // Required marker: the asterisk MUI adds for `required`, in the error colour.
+      MuiFormLabel: {
+        styleOverrides: { asterisk: { color: palette.error.main, '&.Mui-error': { color: palette.error.main } } },
       },
       MuiFormHelperText: {
         styleOverrides: { root: { fontSize: '0.75rem', marginLeft: 2, marginRight: 2, '&.Mui-disabled': { color: palette.text.secondary } } },

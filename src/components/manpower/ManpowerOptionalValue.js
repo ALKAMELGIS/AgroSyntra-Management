@@ -16,7 +16,7 @@ function missingChip() {
       label="Missing"
       sx={{
         bgcolor: '#fff3e0',
-        color: '#e65100',
+        color: '#a84b07',
         fontWeight: 600,
         fontSize: '0.7rem',
         height: 24,

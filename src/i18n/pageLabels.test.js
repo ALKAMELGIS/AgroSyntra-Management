@@ -53,3 +53,20 @@ describe('report sentences', () => {
     expect(translateUi('3 items below minimum stock level')).toBe('3 صنف أقل من الحد الأدنى للمخزون');
   });
 });
+
+describe('units and table data', () => {
+  it('writes units in Arabic next to numbers', () => {
+    expect(translateUi('0.0 m³')).toBe('0.0 م³');
+    expect(translateUi('12 Ton')).toBe('12 طن');
+  });
+  it('keeps names in table cells but translates status chips and words', () => {
+    document.body.innerHTML = '<table><tbody><tr><td>Active</td><td>Inventory</td><td><span class="MuiChip-label">Pending</span></td></tr><tr><td colspan="3">No data</td></tr></tbody></table>';
+    enableAutoTranslate();
+    const tds = document.querySelectorAll('td');
+    expect(tds[0].textContent).toBe('نشط');
+    expect(tds[1].textContent).toBe('Inventory'); // a name typed by staff stays as typed
+    expect(tds[2].textContent).toBe('قيد الانتظار');
+    expect(tds[3].textContent).toBe('لا توجد بيانات');
+    disableAutoTranslate();
+  });
+});

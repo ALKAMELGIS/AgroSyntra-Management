@@ -37,7 +37,7 @@ const SECTIONS = [
       { label: 'Analytics Dashboard', path: '/dashboard', icon: DashboardIcon, color: '#1976d2', bg: 'rgba(25,118,210,0.08)' },
       { label: 'Daily Brief', path: '/daily-brief', icon: AssessmentIcon, color: '#7b1fa2', bg: 'rgba(123,31,162,0.08)' },
       { label: 'GIS Map', path: '/gis-map', icon: MapIcon, color: '#1f7a4d', bg: 'rgba(46,125,50,0.08)' },
-      { label: 'Notifications', path: '/notifications', icon: NotificationsIcon, color: '#e65100', bg: 'rgba(230,81,0,0.08)' },
+      { label: 'Notifications', path: '/notifications', icon: NotificationsIcon, color: '#a84b07', bg: 'rgba(230,81,0,0.08)' },
     ],
   },
   {
@@ -54,7 +54,7 @@ const SECTIONS = [
     tiles: [
       { label: 'Pesticide Applications', path: '/ipm/pesticide-applications', icon: BugReportIcon, color: '#c62828', bg: 'rgba(198,40,40,0.08)' },
       { label: 'Scouting Reports', path: '/ipm/scouting-reports', icon: DescriptionIcon, color: '#ad1457', bg: 'rgba(173,20,87,0.08)' },
-      { label: 'Spray Calendar', path: '/ipm/spray-calendar', icon: CalendarIcon, color: '#e65100', bg: 'rgba(230,81,0,0.08)' },
+      { label: 'Spray Calendar', path: '/ipm/spray-calendar', icon: CalendarIcon, color: '#a84b07', bg: 'rgba(230,81,0,0.08)' },
       { label: 'Biological Control', path: '/ipm/biological-control-record', icon: SpaIcon, color: '#1f7a4d', bg: 'rgba(46,125,50,0.08)' },
     ],
   },

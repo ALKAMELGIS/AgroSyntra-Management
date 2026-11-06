@@ -75,6 +75,7 @@ import {
 import useAppLayout from '../../hooks/useAppLayout';
 import { fetchOrganizationLogoDataUrl } from '../../utils/organizationLogo';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 // ─── Constants ────────────────────────────────────────────────────
 
@@ -1610,9 +1611,9 @@ export default function PesticideApplications() {
         mb: 2,
       }}>
         <Box>
-          <Typography variant="h4">
+          <PageTitle>
             Plant Protection Application Record
-          </Typography>
+          </PageTitle>
           <Typography variant="body2" color="text.secondary">
             PPP Application Record - {meta.total || applications.length} records
           </Typography>
@@ -1775,7 +1776,7 @@ export default function PesticideApplications() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1, mb: 1 }}>
                       <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
                         {(canApprove || canModifyExisting) && (
-                          <Checkbox size="small" sx={{ p: 0.25, mt: 0.25 }}
+                          <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }} size="small" sx={{ p: 0.25, mt: 0.25 }}
                             checked={recordSelectedIds.has(app.id)}
                             onChange={() => toggleRecordSelected(app.id)} />
                         )}
@@ -1828,7 +1829,7 @@ export default function PesticideApplications() {
               <TableHead>
                 <TableRow>
                   <TableCell className="col-frozen-0" padding="checkbox" sx={{ width: 48 }}>
-                    <Checkbox
+                    <Checkbox slotProps={{ input: { 'aria-label': 'Select all rows' } }}
                       size="small"
                       checked={allRecordsSelected}
                       indeterminate={recordSelectedIds.size > 0 && !allRecordsSelected}
@@ -1878,7 +1879,7 @@ export default function PesticideApplications() {
                     {/* Frozen columns are ellipsized at a fixed width, so the full
                         value has to stay reachable on hover. */}
                     <TableCell className="col-frozen-0" padding="checkbox">
-                      <Checkbox size="small" checked={recordSelectedIds.has(app.id)}
+                      <Checkbox slotProps={{ input: { 'aria-label': 'Select row' } }} size="small" checked={recordSelectedIds.has(app.id)}
                         onChange={() => toggleRecordSelected(app.id)} />
                     </TableCell>
                     <TableCell className="col-frozen-1" title={cropName}>{cropName}</TableCell>
@@ -2151,7 +2152,7 @@ export default function PesticideApplications() {
                     <TableRow>
                       <GutterCell />
                       <TableCell padding="checkbox" sx={{ width: 42 }}>
-                        <Checkbox size="small"
+                        <Checkbox slotProps={{ input: { 'aria-label': 'Select all rows' } }} size="small"
                           sx={(t) => ({
                             color: t.palette.table.headerText,
                             '&.Mui-checked, &.MuiCheckbox-indeterminate': { color: t.palette.table.headerText },
@@ -2184,7 +2185,7 @@ export default function PesticideApplications() {
                           <GutterCell index={idx + 1} />
                           <TableCell padding="checkbox">
                             {alreadyInSite || !canEditCatalog ? null : (
-                              <Checkbox size="small" checked={pestBrowseSelected.has(p.id)}
+                              <Checkbox slotProps={{ input: { 'aria-label': 'Select row' } }} size="small" checked={pestBrowseSelected.has(p.id)}
                                 onChange={e => {
                                   setPestBrowseSelected(prev => {
                                     const next = new Set(prev);
@@ -2306,7 +2307,7 @@ export default function PesticideApplications() {
               {[
                 { label: 'Total Cost (AED)', value: totalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), color: '#1f7a4d', bg: '#e8f5e9' },
                 { label: 'Total Qty Applied', value: totalQty.toLocaleString(undefined, { maximumFractionDigits: 1 }), color: '#1565c0', bg: '#e3f2fd' },
-                { label: 'Applications', value: totalApps, color: '#e65100', bg: '#fff3e0' },
+                { label: 'Applications', value: totalApps, color: '#a84b07', bg: '#fff3e0' },
                 { label: 'Products Used', value: uniqueProducts, color: '#6a1b9a', bg: '#f3e5f5' },
               ].map((kpi) => (
                 <Box key={kpi.label} sx={{
@@ -2521,9 +2522,9 @@ export default function PesticideApplications() {
           </Typography>
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-              <FormControl fullWidth size="small">
-                <InputLabel id="pesticideapplications-field-id-label-3">Field ID *</InputLabel>
-                <Select labelId="pesticideapplications-field-id-label-3" value={form.fieldId} label="Field ID *" onChange={(e) => handleFieldChange(e.target.value)}>
+              <FormControl required fullWidth size="small">
+                <InputLabel id="pesticideapplications-field-id-label-3">Field ID</InputLabel>
+                <Select labelId="pesticideapplications-field-id-label-3" value={form.fieldId} label="Field ID" onChange={(e) => handleFieldChange(e.target.value)}>
                   {fields.map((f) => <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>)}
                 </Select>
               </FormControl>
@@ -2592,7 +2593,7 @@ export default function PesticideApplications() {
           </Typography>
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-              <TextField fullWidth size="small" type="date" label="Application Date *" value={form.applicationDate}
+              <TextField fullWidth size="small" type="date" label="Application Date" required value={form.applicationDate}
                 onChange={(e) => setForm((p) => ({ ...p, applicationDate: e.target.value }))}
                 InputLabelProps={{ shrink: true }} />
             </Grid>
@@ -2607,9 +2608,9 @@ export default function PesticideApplications() {
                 InputLabelProps={{ shrink: true }} />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-              <FormControl fullWidth size="small">
-                <InputLabel id="pesticideapplications-name-of-ppp-label-4">Name of PPP *</InputLabel>
-                <Select labelId="pesticideapplications-name-of-ppp-label-4" value={form.productId} label="Name of PPP *" onChange={(e) => handleProductChange(e.target.value)}>
+              <FormControl required fullWidth size="small">
+                <InputLabel id="pesticideapplications-name-of-ppp-label-4">Name of PPP</InputLabel>
+                <Select labelId="pesticideapplications-name-of-ppp-label-4" value={form.productId} label="Name of PPP" onChange={(e) => handleProductChange(e.target.value)}>
                   {(pestCatalogItems.length > 0 ? pestCatalogItems : products).map((p) => (
                     <MenuItem key={p.id} value={p.id}>
                       {p.name} {p.phi_days > 0 ? `(PHI: ${p.phi_days}d)` : ''}

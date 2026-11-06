@@ -47,6 +47,7 @@ import {
 import { TableSkeleton } from '../components/LoadingSkeleton';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 const FIELD_FROZEN_WIDTHS = [160];
 
@@ -460,7 +461,7 @@ function FieldTypesNamesManagement() {
     return (
       <Container maxWidth="lg">
         <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-          <Typography variant="h4" sx={{ mb: 3 }}>Field Types & Names Management</Typography>
+          <PageTitle sx={{ mb: 3 }}>Field Types & Names Management</PageTitle>
           <TableSkeleton rows={6} columns={5} />
         </Paper>
       </Container>
@@ -471,7 +472,7 @@ function FieldTypesNamesManagement() {
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-          <Typography variant="h4">Field Types & Names Management</Typography>
+          <PageTitle>Field Types & Names Management</PageTitle>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button
               variant="outlined"

@@ -23,6 +23,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { queryAuditLogs } from '../../utils/backendApi';
 import { format } from 'date-fns';
 import { useNotification } from '../../contexts/NotificationContext';
+import PageTitle from '../../components/PageTitle';
 
 const ENTITY_OPTIONS = [
   'harvest',
@@ -148,9 +149,9 @@ function AuditLog() {
       <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
           <HistoryIcon color="primary" sx={{ fontSize: 32 }} />
-          <Typography variant="h5" fontWeight={600}>
+          <PageTitle>
             Audit Log
-          </Typography>
+          </PageTitle>
         </Box>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
           View activity history. Only managers and above can access this page.

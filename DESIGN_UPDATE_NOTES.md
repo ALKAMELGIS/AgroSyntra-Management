@@ -136,3 +136,20 @@ Fixed through it:
 - All four weights used (400 / 500 / 600 / 700) are loaded; a test checks they are available.
 - Gate: the font check now runs on every screen in **both languages** — English must be Inter, Arabic must be IBM Plex Sans Arabic (JetBrains Mono only for codes).
 - Gate: **572 Playwright tests, all passing** (49 new font checks); **674 unit tests** passing.
+
+## Round 18 — review fixes (everything except dates)
+- **Sidebar**: long names (common in Arabic, e.g. «سجل تدقيق فترة ما قبل الحصاد») wrap to a second line instead of being cut off with "…".
+- **One page title on every screen** — new `components/PageTitle.js`: a real `<h1>`, 1.375 rem on phones / 1.625 rem from tablets, semibold, **no decorative icon**. Applied to 60+ pages that used five different sizes (19–34 px), icons on some titles only, and seven different left offsets because some pages added their own padding inside the already-padded main area (removed). Spreadsheet entry screens (Harvest / Irrigation entry, Biological Control) keep the breadcrumb as their visible title so the sheet keeps its full height.
+- **Charts**: default Recharts purple and Material blue/orange replaced by the app palette; white slice/tile separators and the white "lower bound" band now use the card surface colour (no white blocks in dark mode); radar/polar grid and axis lines themed. PHI Audit Log severity colours follow the theme.
+- **Arabic**: weather help paragraphs, the Remote Sensing empty-state sentence, count labels and units (م³ / كجم / طن / هكتار) translated. Staff data is now protected: inside table bodies only buttons, status chips, empty-state rows and a short list of status words are translated — names typed by staff always stay as typed.
+- **Required fields** (all forms): one marking method — the `required` setting (25 labels used a typed " *" or "(required)" and were converted); the asterisk is in the error colour; a required field left empty is outlined in red with a "Required / هذا الحقل مطلوب" note; when a save is refused for missing fields, every empty required field in that dialog is marked and focus jumps to the first one. Done once in CSS + `utils/requiredFields.js`, so every form gets it.
+- **Robustness bugs found by testing with empty / partial data** (each one blanked or froze a whole screen):
+  - Summary & Contents crashed when the saved content lacked a list → falls back to defaults.
+  - System Health crashed when a check (database / Redis) was missing → shows "Unhealthy" / "—".
+  - PHI Audit Log crashed on a row without severity → shows "—".
+  - Pesticide Applications, Scouting Reports and other season-based screens **loaded forever** when the organisation had no sites yet (or the site list failed): the site context waited for at least one site. It now finishes once the site list has loaded, and the pages show their "select / add a site" state.
+- Screens that now load for the first time in tests exposed three more issues, fixed: the orange text colour `#e65100` (3.45:1, below the 4.5:1 minimum) → `#a84b07` (5.7:1) in 12 files; 25 row / select-all checkboxes had no accessible name → "Select row" / "Select all rows" (تحديد الصف / تحديد كل الصفوف); a plain `monospace` font on Summary → JetBrains Mono.
+- The screen-reader fallback heading now watches the page continuously, so a page whose own title appears after its data loads never ends up with two h1 headings.
+- Pesticide Applications (which now loads in tests) had ~35 untranslated labels — tabs, filters, columns, dialog fields — now in Arabic.
+- Gate: Summary and System Health are no longer exempt — every screen must render without errors with empty and with sample data. New tests: required-field feedback, table data not translated, units, empty-site loading.
+- Totals: **589 Playwright tests, all passing** (phone / tablet / desktop, Arabic, dark mode, accessibility, fonts, forms); **677 unit tests** passing.

@@ -67,6 +67,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
 import { apiRequest } from '../utils/api';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 const CATEGORY_META = {
   ecph:        { label: 'EC / PH',              icon: <ScienceIcon sx={{ fontSize: 40 }} />,     color: '#1976d2' },
@@ -800,7 +801,7 @@ export default function Templates() {
   if (loading) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>Templates</Typography>
+        <PageTitle sx={{ mb: 3 }}>Templates</PageTitle>
         <Grid container spacing={3}>
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
@@ -816,7 +817,7 @@ export default function Templates() {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
-          <Typography variant="h4">Templates</Typography>
+          <PageTitle>Templates</PageTitle>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
             {isAdmin && (
               <Button variant="outlined" startIcon={<SettingsIcon />} onClick={openConfig}>
@@ -974,7 +975,7 @@ export default function Templates() {
                         </TableCell>
                         {sites.map((s) => (
                           <TableCell key={s.id} align="center">
-                            <Checkbox
+                            <Checkbox slotProps={{ input: { 'aria-label': 'Select row' } }}
                               checked={(siteAssignments[s.id] || []).includes(tpl.id)}
                               onChange={() => toggleAssignment(s.id, tpl.id)}
                               size="small"

@@ -4,8 +4,7 @@ import {
   MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, Chip, IconButton,
   Alert,
 } from '@mui/material';
-import {
-  GpsFixedOutlined as GpsIcon, AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
+import { AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
   MyLocationOutlined as PositionIcon, RefreshOutlined as RefreshIcon, ContentCopyOutlined as CopyIcon,
 } from '@mui/icons-material';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
@@ -24,6 +23,7 @@ import {
 } from '../utils/gpsTracking';
 import { useAuth } from '../contexts/AuthContext';
 import { canWriteOpsStock } from '../utils/roleAccess';
+import PageTitle from '../components/PageTitle';
 import 'leaflet/dist/leaflet.css';
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -220,11 +220,11 @@ export default function GPSTracking() {
   const viewingToday = trackDate === dubaiTodayYmd();
 
   return (
-    <Container maxWidth="xl" sx={{ py: 3 }}>
+    <Container maxWidth="xl">
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 1 }}>
-        <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <GpsIcon fontSize="large" /> GPS Tracking
-        </Typography>
+        <PageTitle>
+          GPS Tracking
+        </PageTitle>
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center' }}>
           <TextField
             label="Track date"

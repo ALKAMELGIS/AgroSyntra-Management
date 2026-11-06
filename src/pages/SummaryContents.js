@@ -34,14 +34,18 @@ import {
   CloseOutlined as CloseIcon,
 } from '@mui/icons-material';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 function toContentBody(payload) {
   if (!payload) return APP_SUMMARY_DEFAULTS;
+  // Missing parts fall back to the defaults instead of breaking the page.
   return {
-    introText: payload.introText,
-    closingText: payload.closingText,
-    summaryRows: payload.summaryRows,
-    contentsGroups: payload.contentsGroups,
+    introText: payload.introText ?? APP_SUMMARY_DEFAULTS.introText,
+    closingText: payload.closingText ?? APP_SUMMARY_DEFAULTS.closingText,
+    summaryRows: Array.isArray(payload.summaryRows) ? payload.summaryRows : APP_SUMMARY_DEFAULTS.summaryRows,
+    contentsGroups: Array.isArray(payload.contentsGroups)
+      ? payload.contentsGroups.map((g) => ({ ...g, items: Array.isArray(g?.items) ? g.items : [] }))
+      : APP_SUMMARY_DEFAULTS.contentsGroups,
   };
 }
 
@@ -49,10 +53,10 @@ function cloneContent(c) {
   return {
     introText: c.introText,
     closingText: c.closingText,
-    summaryRows: c.summaryRows.map((r) => ({ ...r })),
-    contentsGroups: c.contentsGroups.map((g) => ({
+    summaryRows: (c.summaryRows || []).map((r) => ({ ...r })),
+    contentsGroups: (c.contentsGroups || []).map((g) => ({
       group: g.group,
-      items: g.items.map((i) => ({ ...i })),
+      items: (g.items || []).map((i) => ({ ...i })),
     })),
   };
 }
@@ -159,9 +163,9 @@ export default function SummaryContents() {
     <Box maxWidth={1100} mx="auto" pb={editMode && dirty ? 10 : 0}>
       <Box display="flex" justifyContent="space-between" alignItems="flex-start" flexWrap="wrap" gap={2} mb={2}>
         <Box>
-          <Typography variant="h4" gutterBottom>
+          <PageTitle sx={{ mb: 1 }}>
             Summary & Contents
-          </Typography>
+          </PageTitle>
           <Typography variant="subtitle1" color="text.secondary">
             Prototype overview — Excel today vs connected app
           </Typography>
@@ -503,7 +507,7 @@ export default function SummaryContents() {
                           }
                         />
                       ) : (
-                        <Typography variant="caption" color="text.secondary" fontFamily="monospace">
+                        <Typography variant="caption" color="text.secondary" fontFamily="var(--font-mono)">
                           {item.path}
                         </Typography>
                       )}

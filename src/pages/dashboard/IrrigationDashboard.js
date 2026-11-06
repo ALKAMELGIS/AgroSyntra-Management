@@ -37,7 +37,7 @@ function WaterTempTooltip({ active, payload }) {
     <Box sx={{ ...CHART_TOOLTIP, bgcolor: 'background.paper', px: 1.25, py: 0.75 }}>
       <Typography sx={{ fontSize: 12, fontWeight: 600, mb: 0.25 }}>{point.date}</Typography>
       <Typography sx={{ fontSize: 12, color: FARM_GREEN }}>Water: {Number(point.water).toFixed(2)} m³</Typography>
-      {temp && <Typography sx={{ fontSize: 12, color: '#e65100' }}>Temp: {temp}</Typography>}
+      {temp && <Typography sx={{ fontSize: 12, color: '#a84b07' }}>Temp: {temp}</Typography>}
     </Box>
   );
 }

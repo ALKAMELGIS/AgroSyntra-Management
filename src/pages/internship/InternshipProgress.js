@@ -8,6 +8,7 @@ import {
   ArrowBackOutlined as ArrowBack, AccessTimeOutlined as AccessTime, CheckCircleOutlined as CheckCircle, QuizOutlined as Quiz, TrendingUpOutlined as TrendingUp,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
+import PageTitle from '../../components/PageTitle';
 
 function formatTime(seconds) {
   if (!seconds) return '0m';
@@ -37,7 +38,7 @@ export default function InternshipProgress() {
         Back to Modules
       </Button>
 
-      <Typography variant="h4" gutterBottom>My Progress</Typography>
+      <PageTitle sx={{ mb: 1 }}>My Progress</PageTitle>
 
       {/* Stats Cards */}
       <Grid container spacing={2} sx={{ mb: 4 }}>

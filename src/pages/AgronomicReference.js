@@ -7,7 +7,6 @@ import {
 } from '@mui/material';
 import {
   AddOutlined as AddIcon, DeleteOutlined as DeleteIcon, EditOutlined as EditIcon,
-  ScienceOutlined as ScienceIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { excelTableSx, GutterCell } from '../components/table/ExcelTable';
@@ -15,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { canEditThresholds } from '../utils/roleAccess';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 const PARAMETER_LABELS = {
   temperature: { label: 'Temperature', unit: '°C' },
@@ -124,10 +124,9 @@ export default function AgronomicReference() {
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={600}>
-            <ScienceIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
+          <PageTitle>
             Agronomic Reference
-          </Typography>
+          </PageTitle>
           <Typography variant="body2" color="text.secondary">
             Set environmental thresholds per crop. Warning (yellow) and Critical (red) alerts fire when readings exceed these values.
           </Typography>

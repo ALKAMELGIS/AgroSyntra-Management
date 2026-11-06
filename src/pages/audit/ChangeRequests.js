@@ -55,6 +55,7 @@ import {
 } from '../../utils/bumbleBeeInspection';
 import { refreshChangeRequestBadgeCount } from '../../hooks/useChangeRequestBadgeCount';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 const ENTITY_TYPE_LABELS = {
   [ENTITY_PESTICIDE_APPLICATION]: 'Pesticide application',
@@ -548,9 +549,9 @@ export default function ChangeRequests() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 } }}>
-      <Typography variant="h5" gutterBottom>
+      <PageTitle sx={{ mb: 1 }}>
         Change Requests
-      </Typography>
+      </PageTitle>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         Review edit and delete requests for IPM records and approved manpower activity records,
         and auditor reopen requests for closed seasons.

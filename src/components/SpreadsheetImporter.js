@@ -618,7 +618,7 @@ export default function SpreadsheetImporter({
                         <TableCell sx={{ ...cellStyle, textAlign: 'center', color: '#888' }}>{r._rowNum}</TableCell>
                         <TableCell sx={cellStyle}>
                           {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: '#1f7a4d' }} />}
-                          {r._status === 'warning' && <WarnIcon sx={{ fontSize: 16, color: '#e65100' }} />}
+                          {r._status === 'warning' && <WarnIcon sx={{ fontSize: 16, color: '#a84b07' }} />}
                           {r._status === 'error' && <ErrIcon sx={{ fontSize: 16, color: '#c62828' }} />}
                         </TableCell>
                         <TableCell sx={{ ...cellStyle, fontWeight: 600 }}>

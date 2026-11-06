@@ -550,7 +550,7 @@ export default function EcphEntriesTable({ siteId, masterData, refreshTrigger = 
                 <TableHead>
                   <TableRow>
                     <TableCell padding="checkbox" className="col-frozen-0">
-                      <Checkbox
+                      <Checkbox slotProps={{ input: { 'aria-label': 'Select all rows' } }}
                         size="small"
                         sx={headerCheckboxSx}
                         checked={paginatedEntries.length > 0 && selectedIds.size === paginatedEntries.length}
@@ -637,7 +637,7 @@ export default function EcphEntriesTable({ siteId, masterData, refreshTrigger = 
                     return (
                       <TableRow key={entry.id} hover selected={selectedIds.has(entry.id)}>
                         <TableCell padding="checkbox" className="col-frozen-0">
-                          <Checkbox size="small" checked={selectedIds.has(entry.id)} onChange={() => toggleSelect(entry.id)} />
+                          <Checkbox slotProps={{ input: { 'aria-label': 'Select row' } }} size="small" checked={selectedIds.has(entry.id)} onChange={() => toggleSelect(entry.id)} />
                         </TableCell>
                         <TableCell className="col-frozen-1" title={entry.date || ''}>{entry.date}</TableCell>
                         <TableCell className="col-frozen-2" title={getSiteName(entry.siteId) || ''}>{getSiteName(entry.siteId)}</TableCell>

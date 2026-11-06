@@ -23,9 +23,9 @@ const VIEWPORTS = [
 test.use({ reducedMotion: 'reduce' });
 
 const USER = { id: 1, name: 'QA Manager', email: 'qa@farm.test', role: 'ceo', organizationId: 1 };
-
 /** Screens that need real backend payload shapes to render — checked for overflow only. */
-const NEEDS_REAL_DATA = new Set(['/summary', '/admin/health']);
+// Every screen must render with empty or partial data (no exemptions since round 18).
+const NEEDS_REAL_DATA = new Set<string>();
 
 export const ROUTES = [
   '/', '/hub/operations', '/hub/ipm', '/dashboard', '/daily-brief', '/summary', '/notifications',
@@ -409,6 +409,30 @@ test.describe('core usability', () => {
     await expect(main.getByText('عوامل التصفية', { exact: true })).toHaveCount(0);
   });
 
+  test('saving with empty required fields points at the fields', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.addInitScript(() => {
+      localStorage.setItem('almaha_user', JSON.stringify({ id: 'u1', name: 'QA', role: 'worker', organizationId: 'o1' }));
+      localStorage.setItem('almaha_access_token', 'qa-token');
+      localStorage.setItem('i18nextLng', 'en');
+    });
+    await page.route(/\/api\/v1\//, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: [] }) }));
+    await page.goto('/tasks');
+    await settle(page);
+    await page.getByRole('button', { name: 'New Task' }).click();
+    const dialog = page.getByRole('dialog');
+    const title = dialog.getByLabel(/^Title/);
+    const noteCount = () => dialog.locator('.MuiFormControl-root').evaluateAll((els) =>
+      els.filter((el) => getComputedStyle(el, '::after').content.includes('Required')).length);
+    expect(await noteCount()).toBe(0); // a fresh form is calm
+    await dialog.getByRole('button', { name: 'Create Task' }).click();
+    // The empty required field is outlined with a note and receives focus.
+    await expect(title).toBeFocused();
+    await expect.poll(noteCount).toBe(1);
+    await title.fill('Check drippers in GH-02');
+    await expect.poll(noteCount).toBe(0);
+  });
+
   test('help notes show only an icon and open the text on click', async ({ page }) => {
     await prepare(page);
     await page.goto('/manpower-record');
@@ -480,5 +504,6 @@ test.describe('core usability', () => {
     expect(outline).toBe(true);
   });
 });
+
 
 

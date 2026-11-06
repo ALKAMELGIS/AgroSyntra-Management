@@ -17,6 +17,7 @@ import useReadOnlyMode from '../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../utils/roleAccess';
 import { excelTableSx, GutterCell } from '../components/table/ExcelTable';
+import PageTitle from '../components/PageTitle';
 
 const SEVERITY_COLORS = { critical: 'error', high: 'error', medium: 'warning', warning: 'warning', info: 'info' };
 
@@ -173,7 +174,7 @@ export default function DailyBrief() {
 
   return (
     <Box>
-      <Typography variant="h4" component="h1" sx={{ mb: 0.5 }}>Daily Farm Brief</Typography>
+      <PageTitle sx={{ mb: 0.5 }}>Daily Farm Brief</PageTitle>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 1 }}>{today}</Typography>
       {activeSite?.name && (
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>

@@ -23,6 +23,7 @@ import { OPS_EXPORT } from '../utils/companyExcelExport';
 import { buildPumpExportSheets, pumpExportFilename } from '../utils/pumpRoomExcelExport';
 import { computePumpTotals, parsePumpsFromRow, pumpCellUsage } from '../utils/pumpRoomMath';
 import * as XLSX from 'xlsx';
+import PageTitle from '../components/PageTitle';
 
 const PUMP_FROZEN_WIDTHS = [160, 140, 110];
 
@@ -391,8 +392,8 @@ export default function PumpRoom() {
   const deleteConfirm = activeState.deleteConfirm;
 
   return (
-    <Box sx={{ p: 2, width: '100%' }}>
-      <Typography variant="h5" gutterBottom>Pump Room</Typography>
+    <Box sx={{ width: '100%' }}>
+      <PageTitle sx={{ mb: 1 }}>Pump Room</PageTitle>
       {!canWrite && (
         <ReadOnlyBanner message="View only — only the data-entry worker can edit the pump room." />
       )}
@@ -698,7 +699,7 @@ function PumpUsageTab({
             <FormControlLabel
               key={month}
               control={(
-                <Checkbox
+                <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }}
                   checked={exportMonths.includes(month)}
                   onChange={(e) => {
                     setExportMonths((prev) => (

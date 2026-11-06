@@ -12,6 +12,7 @@ import { canEditIpmCatalog } from '../../utils/ipmAccess';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../../components/table/ExcelTable';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 const CATEGORY_LABELS = {
   pest: 'Pest',
@@ -277,7 +278,7 @@ export default function PestCatalog() {
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-        <Typography variant="h4">Pest &amp; Disease Catalog</Typography>
+        <PageTitle>Pest &amp; Disease Catalog</PageTitle>
         {canEdit && pageTab === 'catalog' && (
           <Button variant="contained" startIcon={<Add />} onClick={handleOpenCreate}>
             {isBioTab ? 'Add Biological Control' : isPreventativeTab ? 'Add Preventative' : 'Add Entry'}

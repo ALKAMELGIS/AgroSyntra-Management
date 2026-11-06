@@ -10,6 +10,7 @@ import { useNotification } from '../../contexts/NotificationContext';
 import { apiRequest } from '../../utils/api';
 import { useTranslation } from 'react-i18next';
 import { canRestoreDeletedSheets } from '../../utils/roleAccess';
+import PageTitle from '../../components/PageTitle';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -76,7 +77,7 @@ export default function Recovery() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h5">Recovery</Typography>
+          <PageTitle>Recovery</PageTitle>
           <Typography variant="body2" color="text.secondary">
             Restore deleted Pump Room sheets. More modules will appear here over time.
           </Typography>

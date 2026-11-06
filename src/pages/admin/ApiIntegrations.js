@@ -14,6 +14,7 @@ import { useNotification } from '../../contexts/NotificationContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../../components/table/ExcelTable';
 
 import { API_BASE, getAuthHeaders } from '../../config/api';
+import PageTitle from '../../components/PageTitle';
 
 const API = API_BASE;
 const INTEGRATION_FROZEN_WIDTHS = [180];
@@ -383,7 +384,7 @@ export default function ApiIntegrations() {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Science color="primary" sx={{ fontSize: 32 }} />
-          <Typography variant="h4">API Integrations</Typography>
+          <PageTitle>API Integrations</PageTitle>
         </Box>
         <Button variant="contained" startIcon={<Add />} onClick={openAdd}>Add Integration</Button>
       </Box>

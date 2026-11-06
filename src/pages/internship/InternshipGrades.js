@@ -8,6 +8,7 @@ import { ArrowBackOutlined as ArrowBack } from '@mui/icons-material';
 import { useState } from 'react';
 import { apiRequest } from '../../utils/api';
 import { useAuth } from '../../contexts/AuthContext';
+import PageTitle from '../../components/PageTitle';
 
 export default function InternshipGrades() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function InternshipGrades() {
   if (isTeacher && Array.isArray(grades)) {
     return (
       <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
-        <Typography variant="h4" gutterBottom>Grade Book</Typography>
+        <PageTitle sx={{ mb: 1 }}>Grade Book</PageTitle>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
           All student progress and quiz scores
         </Typography>

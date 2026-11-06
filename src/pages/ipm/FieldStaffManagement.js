@@ -15,6 +15,7 @@ import { apiRequest } from '../../utils/api';
 import { canManageFieldStaff, getRoleLabel } from '../../utils/roleAccess';
 import { excelTableSx, GutterCell } from '../../components/table/ExcelTable';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 function workerOptionLabel(w) {
   if (!w) return '';
@@ -205,7 +206,7 @@ export default function FieldStaffManagement() {
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h4">Field Staff</Typography>
+          <PageTitle>Field Staff</PageTitle>
           <Typography variant="body2" color="text.secondary">
             Create or link scouters and operators with Employee ID + PIN. Link existing manpower workers without duplicating them.
           </Typography>
@@ -377,10 +378,10 @@ export default function FieldStaffManagement() {
               />
 
               {selectedWorker && !selectedWorker.site_id && (
-                <FormControl fullWidth>
-                  <InputLabel id="fieldstaffmanagement-site-required-label-5">Site (required)</InputLabel>
+                <FormControl required fullWidth>
+                  <InputLabel id="fieldstaffmanagement-site-required-label-5">Site</InputLabel>
                   <Select labelId="fieldstaffmanagement-site-required-label-5"
-                    label="Site (required)"
+                    label="Site"
                     value={linkForm.siteId}
                     onChange={(e) => setLinkForm({ ...linkForm, siteId: e.target.value })}
                   >

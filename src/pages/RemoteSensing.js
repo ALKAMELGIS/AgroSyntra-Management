@@ -85,6 +85,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import L from 'leaflet';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -517,7 +518,7 @@ function RemoteSensing() {
       {/* Header */}
       <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
-          <Typography variant="h4">Remote Sensing</Typography>
+          <PageTitle>Remote Sensing</PageTitle>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
               variant="outlined"
@@ -1139,14 +1140,14 @@ function RemoteSensing() {
                 <Box sx={{ pt: 2 }}>
                   <Grid container spacing={2}>
                     <Grid size={12}>
-                      <FormControl fullWidth error={touched.fieldId && !!errors.fieldId}>
-                        <InputLabel id="remotesensing-field-id-label-2">Field ID *</InputLabel>
+                      <FormControl required fullWidth error={touched.fieldId && !!errors.fieldId}>
+                        <InputLabel id="remotesensing-field-id-label-2">Field ID</InputLabel>
                         <Select labelId="remotesensing-field-id-label-2"
                           name="fieldId"
                           value={values.fieldId}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          label="Field ID *"
+                          label="Field ID"
                           disabled={!!editingField}
                         >
                           {getAllFields.map((field) => (

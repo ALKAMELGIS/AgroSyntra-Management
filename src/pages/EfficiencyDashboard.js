@@ -32,6 +32,7 @@ import { exportToExcel } from '../utils/masterDataUtils';
 import { listEcphAll, listHarvestsAll, listWeatherLogsAll } from '../utils/backendApi';
 import * as XLSX from 'xlsx';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 // Helper: Get week number from date
 const getWeekNumber = (date) => {
@@ -691,12 +692,12 @@ function EfficiencyDashboard() {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth="xl">
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-          <Typography variant="h4">
+          <PageTitle>
             Climate-Contextual Water Use Efficiency
-          </Typography>
+          </PageTitle>
           <Button
             variant="contained"
             disableElevation

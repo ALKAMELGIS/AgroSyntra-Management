@@ -58,3 +58,12 @@ describe('siteContextLoaded', () => {
     })).toBe(true);
   });
 });
+
+describe('siteContextLoaded with no sites at all', () => {
+  it('stops waiting once the site list has loaded empty (new organisation)', () => {
+    const base = { orgDefaultLoaded: true, accessLoaded: true, allSites: [], assignedSiteIds: null };
+    expect(siteContextLoaded({ ...base, sitesSettled: false })).toBe(false);
+    expect(siteContextLoaded({ ...base, sitesSettled: true })).toBe(true);
+    expect(siteContextLoaded({ ...base, orgDefaultLoaded: false, sitesSettled: true })).toBe(false);
+  });
+});

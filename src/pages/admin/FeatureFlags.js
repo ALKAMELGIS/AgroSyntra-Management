@@ -8,6 +8,7 @@ import { AddOutlined as Add, DeleteOutlined as Delete } from '@mui/icons-materia
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
 import { TableSkeleton } from '../../components/LoadingSkeleton';
+import PageTitle from '../../components/PageTitle';
 
 export default function FeatureFlags() {
   const notify = useNotification();
@@ -60,7 +61,7 @@ export default function FeatureFlags() {
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h5" fontWeight={600}>Feature Flags</Typography>
+        <PageTitle>Feature Flags</PageTitle>
         <Button variant="contained" startIcon={<Add />} onClick={() => setAddOpen(true)}>
           Add Flag
         </Button>

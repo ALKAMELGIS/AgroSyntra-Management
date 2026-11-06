@@ -199,7 +199,7 @@ export default function HarvestDashboard({ fieldId, siteId, dateFrom, dateTo, al
               <RTooltip contentStyle={CHART_TOOLTIP} />
               <Legend />
               <Bar dataKey="quantity" name="Daily Harvest (kg)" fill={FARM_GREEN} radius={[4, 4, 0, 0]} />
-              <Line type="monotone" dataKey="quantity" name="Trend" stroke="#e65100" strokeWidth={2} dot={false} />
+              <Line type="monotone" dataKey="quantity" name="Trend" stroke="#b8523a" strokeWidth={2} dot={false} />
             </ComposedChart>
           </ResponsiveContainer>
         </DashboardChartBody>

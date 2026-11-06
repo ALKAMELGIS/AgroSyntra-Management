@@ -48,6 +48,7 @@ import EcphEntriesTable from './ecph/EcphEntriesTable';
 import useReadOnlyMode from '../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../utils/roleAccess';
+import PageTitle from '../components/PageTitle';
 
 function ECPHEntry() {
   const readOnly = useReadOnlyMode(PAGE_KEYS.DATA_ENTRY);
@@ -337,9 +338,9 @@ function ECPHEntry() {
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, flexWrap: 'wrap', gap: 1 }}>
-          <Typography variant="h4">
+          <PageTitle>
             EC/PH Entry
-          </Typography>
+          </PageTitle>
           <ToggleButtonGroup
             value={viewMode}
             exclusive

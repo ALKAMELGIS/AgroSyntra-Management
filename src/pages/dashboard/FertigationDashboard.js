@@ -269,7 +269,7 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
           <DashboardStatCard title="Avg Frequency" value={stats.avgFreq} color="#2f6aa8" />
         </Grid>
         <Grid size={{ xs: 6, sm: 4, md: 2 }}>
-          <DashboardStatCard title="Avg Valves" value={stats.avgValves} color="#e65100" />
+          <DashboardStatCard title="Avg Valves" value={stats.avgValves} color="#a84b07" />
         </Grid>
       </Grid>
 
@@ -283,7 +283,7 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
               <RTooltip contentStyle={CHART_TOOLTIP} />
               <Legend />
               <Line type="monotone" dataKey="dailyWater" name="Daily Water (m³)" stroke={FARM_GREEN} strokeWidth={2} dot={{ r: 3 }} connectNulls />
-              <Line type="monotone" dataKey="flowRate" name="Flow Rate" stroke="#3b82f6" strokeWidth={2} dot={{ r: 3 }} connectNulls />
+              <Line type="monotone" dataKey="flowRate" name="Flow Rate" stroke="#4b8fc4" strokeWidth={2} dot={{ r: 3 }} connectNulls />
             </LineChart>
           </ResponsiveContainer>
         </DashboardChartBody>
@@ -312,7 +312,7 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
               <XAxis dataKey="date" tick={{ fontSize: 11, fill: CHART_TICK }} />
               <YAxis tick={{ fontSize: 11, fill: CHART_TICK }} />
               <RTooltip contentStyle={CHART_TOOLTIP} />
-              <Bar dataKey="totalFertilizer" name="Total Fertilizer (kg)" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="totalFertilizer" name="Total Fertilizer (kg)" fill="#d08a1e" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </DashboardChartBody>
@@ -349,7 +349,7 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
                 <RTooltip contentStyle={CHART_TOOLTIP} />
                 <Legend />
                 <Area type="monotone" dataKey="cumulative" name="Cumulative (kg)" stroke="#2f6aa8" fill="#2f6aa8" fillOpacity={0.15} strokeWidth={2} />
-                <Line type="monotone" dataKey="daily" name="Daily (kg)" stroke="#f59e0b" strokeWidth={1.5} dot={{ r: 2 }} />
+                <Line type="monotone" dataKey="daily" name="Daily (kg)" stroke="#d08a1e" strokeWidth={1.5} dot={{ r: 2 }} />
               </ComposedChart>
             </ResponsiveContainer>
           </DashboardChartBody>
@@ -385,7 +385,7 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
                 <RTooltip contentStyle={CHART_TOOLTIP} />
                 <Legend />
                 <Bar dataKey="water" name="Water (m³)" fill={FARM_GREEN} radius={[4, 4, 0, 0]} />
-                <Bar dataKey="fertilizer" name="Fertilizer (kg)" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="fertilizer" name="Fertilizer (kg)" fill="#d08a1e" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </DashboardChartBody>
@@ -422,7 +422,7 @@ export default function FertigationDashboard({ fieldId, siteId, dateFrom, dateTo
                 <RTooltip contentStyle={CHART_TOOLTIP} />
                 <Legend />
                 <Bar dataKey="dailyWater" name="Avg Water (m³)" fill={FARM_GREEN} radius={[4, 4, 0, 0]} />
-                <Bar dataKey="totalFertilizer" name="Avg Fertilizer (kg)" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="totalFertilizer" name="Avg Fertilizer (kg)" fill="#d08a1e" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </DashboardChartBody>

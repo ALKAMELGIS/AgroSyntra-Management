@@ -9,6 +9,7 @@ import {
 import { PersonAddOutlined as PersonAdd, EditOutlined as Edit } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 export default function Enrollment() {
   const queryClient = useQueryClient();
@@ -55,9 +56,9 @@ export default function Enrollment() {
 
   return (
     <Box sx={{ p: 3, maxWidth: 1760, mx: 'auto' }}>
-      <Typography variant="h4" gutterBottom>
+      <PageTitle sx={{ mb: 1 }}>
         Internship Enrollment
-      </Typography>
+      </PageTitle>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
         Assign users as intern students or teachers for the training program.
       </Typography>

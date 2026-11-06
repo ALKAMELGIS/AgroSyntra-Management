@@ -714,7 +714,7 @@ export default function Rc108IrrigationGrid({
             <FormControlLabel
               key={id}
               control={(
-                <Checkbox
+                <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }}
                   checked={exportSelected.includes(id)}
                   onChange={(e) => {
                     setExportSelected((prev) => (

@@ -697,7 +697,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
               value={fields.find((f) => f.id === fieldId) || null}
               onChange={(_, v) => handleFieldChange(v)}
               renderInput={(params) => (
-                <TextField {...params} label="Field *" required
+                <TextField {...params} label="Field" required
                   helperText={fields.length === 0 ? 'No fields available — ask admin to assign you to a site or field.' : ''}
                 />
               )}

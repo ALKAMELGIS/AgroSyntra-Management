@@ -110,7 +110,7 @@ export default function TaskDetailDialog({ task, open, onClose, users = [] }) {
                 {checklist.map((item) => (
                   <ListItem key={item.id} disablePadding>
                     <ListItemIcon sx={{ minWidth: 36 }}>
-                      <Checkbox
+                      <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }}
                         checked={item.is_completed}
                         onChange={() => handleToggleItem(item.id)}
                         size="small"

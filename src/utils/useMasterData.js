@@ -20,6 +20,8 @@ export function useMasterData({ enabled = true } = {}) {
   return {
     data: query.data ?? EMPTY_MASTER_DATA,
     loading: query.isLoading,
+    /** The first request has finished (with data or with an error). */
+    settled: query.isSuccess || query.isError,
     refresh,
   };
 }

@@ -11,6 +11,7 @@ import {
 import { API_BASE, getAuthHeaders } from '../../config/api';
 import api from '../../utils/api';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 // Remembers the last time a CSV backup was downloaded so we can nudge the
 // user if too much time has passed. Prototype-level mitigation for the
@@ -191,7 +192,7 @@ export default function DataBackup() {
 
   return (
     <Box sx={{ p: 3, maxWidth: 800, mx: 'auto' }}>
-      <Typography variant="h4" gutterBottom>Data Backup</Typography>
+      <PageTitle sx={{ mb: 1 }}>Data Backup</PageTitle>
       <Typography variant="body2" color="text.secondary" mb={3}>
         Protect your farm data with multiple backup methods.
       </Typography>

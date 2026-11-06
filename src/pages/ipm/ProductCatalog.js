@@ -16,6 +16,7 @@ import { canEditIpmCatalog, canManagePppMsds } from '../../utils/ipmAccess';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../../components/table/ExcelTable';
 import PppMsdsTab from './PppMsdsTab';
 import InfoNote from '../../components/InfoNote';
+import PageTitle from '../../components/PageTitle';
 
 const FORMULATION_TYPES = ['spray', 'drench', 'fog', 'granule', 'dust', 'other'];
 const AGENT_TYPES = ['predatory_mite', 'parasitic_wasp', 'nematode', 'fungus', 'bacteria', 'other'];
@@ -356,7 +357,7 @@ export default function ProductCatalog() {
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h4">Product Catalog</Typography>
+          <PageTitle>Product Catalog</PageTitle>
           <Typography variant="body2" color="text.secondary">
             {pesticideProducts.length} active pesticide products, {foundationProducts.length} foundation reference items, {bioProducts.length} biological products
           </Typography>
@@ -737,7 +738,7 @@ export default function ProductCatalog() {
                 {otherSitesPhi.map((entry) => (
                   <TableRow key={entry.id} hover>
                     <TableCell padding="checkbox">
-                      <Checkbox size="small"
+                      <Checkbox slotProps={{ input: { 'aria-label': 'Select row' } }} size="small"
                         checked={copySelected.has(entry.id)}
                         onChange={() => {
                           setCopySelected(prev => {
@@ -774,7 +775,7 @@ export default function ProductCatalog() {
               {/* Row 1: Name & Active Ingredient */}
               <Grid container spacing={2} sx={{ mt: 0.5 }}>
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  <TextField fullWidth size="small" label="Product Trade Name *" value={pestForm.name}
+                  <TextField fullWidth size="small" label="Product Trade Name" required value={pestForm.name}
                     onChange={(e) => setPestForm({ ...pestForm, name: e.target.value })}
                     error={!!formErrors.name} helperText={formErrors.name} />
                 </Grid>
@@ -833,7 +834,7 @@ export default function ProductCatalog() {
                     placeholder="e.g. 7-10 days" />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 4 }}>
-                  <TextField fullWidth size="small" label="PHI (Days) *" type="number" value={pestForm.phiDays}
+                  <TextField fullWidth size="small" label="PHI (Days)" required type="number" value={pestForm.phiDays}
                     onChange={(e) => setPestForm({ ...pestForm, phiDays: e.target.value })}
                     inputProps={{ min: 0 }}
                     error={!!formErrors.phiDays} helperText={formErrors.phiDays || 'Pre-Harvest Interval (number)'} />
@@ -907,7 +908,7 @@ export default function ProductCatalog() {
           ) : (
             <Grid container spacing={2} sx={{ mt: 0.5 }}>
               <Grid size={12}>
-                <TextField fullWidth label="Product Name *" value={bioForm.name}
+                <TextField fullWidth label="Product Name" required value={bioForm.name}
                   onChange={(e) => setBioForm({ ...bioForm, name: e.target.value })}
                   error={!!formErrors.bioName} helperText={formErrors.bioName} />
               </Grid>

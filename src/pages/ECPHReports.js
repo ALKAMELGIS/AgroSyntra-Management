@@ -25,6 +25,7 @@ import { buildEcphExcelSheets } from '../utils/ecphExcelExport';
 import ExecutiveReportPanel from '../components/reports/ExecutiveReportPanel';
 import { getDefaultDateRange } from '../utils/executiveReportUtils';
 import { buildEcphExecutiveReport } from '../utils/executiveReports/ecphExecutive';
+import PageTitle from '../components/PageTitle';
 
 function ECPHReports() {
   const notify = useNotification();
@@ -266,9 +267,9 @@ function ECPHReports() {
   return (
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
-        <Typography variant="h4" gutterBottom>
+        <PageTitle sx={{ mb: 1 }}>
           EC/PH Reports
-        </Typography>
+        </PageTitle>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
           Manager executive summary and detailed data exports
         </Typography>

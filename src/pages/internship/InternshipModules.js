@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useAuth } from '../../contexts/AuthContext';
+import PageTitle from '../../components/PageTitle';
 
 const MODULE_ICONS = {
   Science: ScienceOutlined,
@@ -36,9 +37,9 @@ export default function InternshipModules() {
     <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box>
-          <Typography variant="h4" gutterBottom>
+          <PageTitle sx={{ mb: 1 }}>
             Internship Training
-          </Typography>
+          </PageTitle>
           <Typography variant="body1" color="text.secondary">
             Complete all 6 modules to finish your internship program
           </Typography>

@@ -70,3 +70,11 @@ it crashes the RTL emotion cache. Put such rules in `App.css`.
 ## Fonts by language
 - English: Inter (`FONT_SANS`). Arabic: IBM Plex Sans Arabic leads for all text, including numbers and Latin words (`FONT_SANS_AR`, switched on `html[lang="ar"]`). Codes: JetBrains Mono.
 - Never hard-code a font: use `var(--font-sans)` or the theme typography.
+
+## Page title
+- Every page starts with `<PageTitle>` (h1, no icon). Actions sit at the end of the same row; a short subtitle may follow in `body2 / text.secondary`.
+- Don't add padding to the page root — the main area pads.
+
+## Required fields
+- Mark with the `required` prop (TextField, or `FormControl required` for Select) — never type "*" or "(required)" into the label.
+- Validate in the save handler and report with a message containing "required" / "Please fill in…"; the shared helper outlines the empty fields and focuses the first.

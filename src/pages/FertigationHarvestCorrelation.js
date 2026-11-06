@@ -10,6 +10,7 @@ import { apiRequest } from '../utils/api';
 import { useMasterData } from '../utils/useMasterData';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import InfoNote from '../components/InfoNote';
+import PageTitle from '../components/PageTitle';
 
 export default function FertigationHarvestCorrelation() {
   const { data: masterRaw } = useMasterData();
@@ -91,9 +92,9 @@ export default function FertigationHarvestCorrelation() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
+      <PageTitle sx={{ mb: 1 }}>
         Fertigation vs Harvest Correlation
-      </Typography>
+      </PageTitle>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
         Compare water and fertilizer inputs against harvest outputs per field over time.
       </Typography>
@@ -121,9 +122,9 @@ export default function FertigationHarvestCorrelation() {
               {filteredFarmAreas.map((fa) => <MenuItem key={fa.id} value={fa.id}>{fa.name}</MenuItem>)}
             </Select>
           </FormControl>
-          <FormControl size="small" sx={{ minWidth: 160 }}>
-            <InputLabel id="fertigationharvestcorrelation-field-label-4">Field *</InputLabel>
-            <Select labelId="fertigationharvestcorrelation-field-label-4" value={selectedField} label="Field *" onChange={(e) => setSelectedField(e.target.value)}>
+          <FormControl required size="small" sx={{ minWidth: 160 }}>
+            <InputLabel id="fertigationharvestcorrelation-field-label-4">Field</InputLabel>
+            <Select labelId="fertigationharvestcorrelation-field-label-4" value={selectedField} label="Field" onChange={(e) => setSelectedField(e.target.value)}>
               <MenuItem value="">Select a field</MenuItem>
               {filteredFields.map((f) => <MenuItem key={f.id} value={f.id}>{f.name}</MenuItem>)}
             </Select>
@@ -156,9 +157,9 @@ export default function FertigationHarvestCorrelation() {
               <YAxis yAxisId="right" orientation="right" label={{ value: 'Harvest (kg)', angle: 90, position: 'insideRight' }} />
               <Tooltip labelFormatter={formatPeriod} />
               <Legend />
-              <Bar yAxisId="left" dataKey="waterM3" name="Water (m³)" fill="#2196f3" opacity={0.7} />
-              <Bar yAxisId="left" dataKey="fertilizerKg" name="Fertilizer (kg)" fill="#ff9800" opacity={0.7} />
-              <Line yAxisId="right" type="monotone" dataKey="harvestKg" name="Harvest (kg)" stroke="#4caf50" strokeWidth={3} dot={{ r: 4 }} />
+              <Bar yAxisId="left" dataKey="waterM3" name="Water (m³)" fill="#2f6aa8" opacity={0.7} />
+              <Bar yAxisId="left" dataKey="fertilizerKg" name="Fertilizer (kg)" fill="#d08a1e" opacity={0.7} />
+              <Line yAxisId="right" type="monotone" dataKey="harvestKg" name="Harvest (kg)" stroke="#1f7a4d" strokeWidth={3} dot={{ r: 4 }} />
             </ComposedChart>
           </ResponsiveContainer>
         </Paper>
