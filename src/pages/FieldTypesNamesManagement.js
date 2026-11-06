@@ -460,17 +460,17 @@ function FieldTypesNamesManagement() {
   if (loading) {
     return (
       <Container maxWidth="lg">
-        <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+        <Box>
           <PageTitle sx={{ mb: 3 }}>Field Types & Names Management</PageTitle>
           <TableSkeleton rows={6} columns={5} />
-        </Paper>
+        </Box>
       </Container>
     );
   }
 
   return (
     <Container maxWidth="lg">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <PageTitle>Field Types & Names Management</PageTitle>
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -1157,7 +1157,7 @@ function FieldTypesNamesManagement() {
             </Formik>
           )}
         </Dialog>
-      </Paper>
+      </Box>
       {confirmDialog}
 
       {/* Single Field QR Dialog */}

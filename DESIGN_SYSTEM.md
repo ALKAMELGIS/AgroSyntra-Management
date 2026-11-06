@@ -78,3 +78,9 @@ it crashes the RTL emotion cache. Put such rules in `App.css`.
 ## Required fields
 - Mark with the `required` prop (TextField, or `FormControl required` for Select) — never type "*" or "(required)" into the label.
 - Validate in the save handler and report with a message containing "required" / "Please fill in…"; the shared helper outlines the empty fields and focuses the first.
+
+## Frames and density
+- One frame per group: a page is not wrapped in a card; a table inside a card has no frame of its own; don't put a card inside a card unless the inner ones are repeated items (tiles).
+- Frame padding ≤ 24 px (`p: 4` or less with the 4 px spacing unit); gaps between page sections 16–24 px.
+- In `sx`, sizes ≤ 1 are percentages — write `'1px'` for one pixel.
+- Leave at least 12 px (`rowGap: 3`) above an outlined field whose label floats on its border when a row can wrap.

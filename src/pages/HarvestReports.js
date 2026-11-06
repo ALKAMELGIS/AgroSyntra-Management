@@ -181,7 +181,7 @@ function HarvestReports() {
 
   return (
     <Container maxWidth="lg">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <PageTitle sx={{ mb: 1 }}>
           Harvest Reports
         </PageTitle>
@@ -278,7 +278,7 @@ function HarvestReports() {
             </Box>
           </>
         )}
-      </Paper>
+      </Box>
     </Container>
   );
 }

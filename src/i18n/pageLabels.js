@@ -819,6 +819,7 @@ export const PAGE_AR = {
   'Total Qty': 'إجمالي الكمية',
   'Total Qty Applied (Ltr)': 'إجمالي الكمية المطبقة (لتر)',
   'Verified By': 'تم التحقق من',
+  Unnamed: 'بدون اسم',
   'In Stock': 'متوفر',
   'm³': 'م³',
   'Out of Stock': 'نفد المخزون',

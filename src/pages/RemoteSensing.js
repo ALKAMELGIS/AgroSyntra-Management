@@ -516,7 +516,7 @@ function RemoteSensing() {
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
       {/* Header */}
-      <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
           <PageTitle>Remote Sensing</PageTitle>
           <Box sx={{ display: 'flex', gap: 2 }}>
@@ -596,7 +596,7 @@ function RemoteSensing() {
             Use the <strong>Satellite</strong> base map to trace boundaries from aerial imagery.
           </InfoNote>
         )}
-      </Paper>
+      </Box>
 
       {/* Main Content Area */}
       <Grid container spacing={3}>
@@ -903,7 +903,7 @@ function RemoteSensing() {
 
               {/* Time-Series Analysis */}
               <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" gutterBottom>
+                <Typography variant="subtitle2" sx={{ mb: 3 }}>
                   Time-Series Analysis
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 1, mb: 1.5 }}>

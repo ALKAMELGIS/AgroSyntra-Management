@@ -27,6 +27,63 @@ const USER = { id: 1, name: 'QA Manager', email: 'qa@farm.test', role: 'ceo', or
 // Every screen must render with empty or partial data (no exemptions since round 18).
 const NEEDS_REAL_DATA = new Set<string>();
 
+/**
+ * Finds visible controls and text that overlap each other (in the page, not in
+ * menus / dialogs / maps / charts). Parts of one control (an outlined field's
+ * label and input, a badge on its icon) are not counted.
+ */
+const OVERLAP_PROBE = () => {
+  const main = document.querySelector('main');
+  if (!main) return [];
+  const SKIP = '.leaflet-container, .recharts-wrapper, [role="dialog"], .MuiPopover-root, .MuiTooltip-popper, [aria-hidden="true"], .MuiBadge-badge, .MuiAvatarGroup-root';
+  const UNIT = '.MuiFormControl-root, .MuiTextField-root, .MuiAutocomplete-root, .MuiChip-root, .MuiToggleButtonGroup-root, .MuiSlider-root, .MuiRating-root, .MuiTab-root, .MuiButtonBase-root, .MuiFormControlLabel-root';
+  const els = Array.from(main.querySelectorAll('button, a[href], input:not([type="hidden"]), select, textarea, [role="button"], [role="tab"], .MuiChip-root, h1, h2, h3, h4, h5, h6, p, span, td, th, label'))
+    .filter((el) => {
+      if (el.closest(SKIP)) return false;
+      const r = el.getBoundingClientRect();
+      if (r.width < 4 || r.height < 4 || r.bottom < 0 || r.top > innerHeight * 3) return false;
+      const cs = getComputedStyle(el);
+      if (cs.visibility === 'hidden' || parseFloat(cs.opacity) === 0) return false;
+      for (let n = el; n && n !== main; n = n.parentElement) {
+        const ns = getComputedStyle(n);
+        if (ns.position === 'fixed' || ns.position === 'sticky') return false;
+        if (ns.clip === 'rect(0px, 0px, 0px, 0px)' || ns.clipPath === 'inset(50%)') return false; // screen-reader only
+      }
+      // text elements only when they carry their own text
+      if (/^(SPAN|P|TD|TH|H\d|LABEL)$/.test(el.tagName)) {
+        return Array.from(el.childNodes).some((c) => c.nodeType === 3 && (c.textContent || '').trim());
+      }
+      return true;
+    })
+    .slice(0, 700);
+  const rects = els.map((el) => el.getBoundingClientRect());
+  const unit = els.map((el) => el.closest(UNIT));
+  const found = [];
+  for (let i = 0; i < els.length; i++) {
+    for (let j = i + 1; j < els.length; j++) {
+      const a = els[i], b = els[j];
+      if (a.contains(b) || b.contains(a)) continue;
+      if (unit[i] && unit[i] === unit[j]) continue;
+      if (unit[i] && (unit[i].contains(b))) continue;
+      if (unit[j] && (unit[j].contains(a))) continue;
+      const lab = a.tagName === 'LABEL' ? a : b.tagName === 'LABEL' ? b : null;
+      const other = lab === a ? b : a;
+      if (lab && other.id && lab.getAttribute('for') === other.id) continue; // a label and its own field
+      const A = rects[i], B = rects[j];
+      const w = Math.min(A.right, B.right) - Math.max(A.left, B.left);
+      const h = Math.min(A.bottom, B.bottom) - Math.max(A.top, B.top);
+      if (w <= 2 || h <= 2) continue;
+      const smaller = Math.min(A.width * A.height, B.width * B.height);
+      if ((w * h) / smaller < 0.2) continue;
+      const name = (el) => `${el.tagName.toLowerCase()}"${(el.textContent || el.getAttribute('aria-label') || el.getAttribute('placeholder') || '').trim().slice(0, 18)}"`;
+      found.push(`${name(a)} × ${name(b)}`);
+      if (found.length > 10) return found;
+    }
+  }
+  return found;
+};
+
+
 export const ROUTES = [
   '/', '/hub/operations', '/hub/ipm', '/dashboard', '/daily-brief', '/summary', '/notifications',
   '/ecph-entry', '/fertigation/entry', '/irrigation/entry', '/harvest/entry', '/pump-room', '/templates',
@@ -101,6 +158,9 @@ for (const vp of VIEWPORTS) {
 
         expect(errors, 'no uncaught errors').toEqual([]);
         await expect(page.getByText('Something went wrong')).toHaveCount(0);
+
+        // Nothing on the page overlaps anything else (controls, labels, text).
+        expect(await page.evaluate(OVERLAP_PROBE), 'no overlapping elements').toEqual([]);
 
         // One page title for assistive tech, and a descriptive browser-tab title.
         await expect(page.locator('main h1')).toHaveCount(1);
@@ -225,6 +285,7 @@ test.describe('populated data', () => {
         await settle(page);
         expect(errors).toEqual([]);
         expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
+        expect(await page.evaluate(OVERLAP_PROBE), 'no overlapping elements with data').toEqual([]);
         const axe = await new AxeBuilder({ page })
           .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
           .exclude('.leaflet-control-container')
@@ -504,6 +565,7 @@ test.describe('core usability', () => {
     expect(outline).toBe(true);
   });
 });
+
 
 
 

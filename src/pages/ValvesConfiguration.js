@@ -178,7 +178,7 @@ function ValvesConfiguration() {
 
   return (
     <Container maxWidth="lg">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <PageTitle>Valves Configuration</PageTitle>
           <Button
@@ -387,7 +387,7 @@ function ValvesConfiguration() {
             </TableContainer>
           </>
         )}
-      </Paper>
+      </Box>
       {confirmDialog}
     </Container>
   );

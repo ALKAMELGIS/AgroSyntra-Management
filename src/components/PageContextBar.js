@@ -50,8 +50,10 @@ export default function PageContextBar() {
     return () => { mo.disconnect(); cancelAnimationFrame(frame); };
   }, [pathname]);
 
+  // Pixel strings on purpose: in sx a bare 1 means 100%, which made this an
+  // invisible page-sized box lying over the content.
   const srOnly = {
-    position: 'absolute', width: 1, height: 1, p: 0, m: -1, overflow: 'hidden',
+    position: 'absolute', width: '1px', height: '1px', p: 0, m: '-1px', overflow: 'hidden',
     clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0,
   };
   const hiddenHeading = needsH1 && pageTitle ? (

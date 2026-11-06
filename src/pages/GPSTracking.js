@@ -221,7 +221,8 @@ export default function GPSTracking() {
 
   return (
     <Container maxWidth="xl">
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 1 }}>
+      {/* rowGap leaves room for the date field's floating label when the row wraps on phones. */}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', columnGap: 1, rowGap: 4 }}>
         <PageTitle>
           GPS Tracking
         </PageTitle>

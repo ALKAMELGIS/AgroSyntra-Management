@@ -4,14 +4,12 @@ import {
   Box,
   Typography,
   Card,
-  CardContent,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   IconButton,
   Chip,
   Dialog,
@@ -395,9 +393,9 @@ function UserManagement() {
         </Button>
       </Box>
 
-      <Card>
-        <CardContent>
-          <TableContainer component={Paper} elevation={0}>
+      {/* One frame: the card itself; the table runs edge to edge inside it. */}
+      <Card sx={{ overflow: 'hidden' }}>
+        <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
@@ -498,8 +496,7 @@ function UserManagement() {
                 ))}
               </TableBody>
             </Table>
-          </TableContainer>
-        </CardContent>
+        </TableContainer>
       </Card>
 
       {/* Edit Dialog */}

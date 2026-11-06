@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   Container,
-  Paper,
   Typography,
   Box,
   Stepper,
@@ -137,7 +136,7 @@ export default function ReportBuilder() {
 
   return (
     <Container maxWidth="lg">
-      <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
           <PageTitle>Report Builder</PageTitle>
         </Box>
@@ -267,7 +266,7 @@ export default function ReportBuilder() {
             {activeStep === 0 ? 'Fetch Data' : 'Next'}
           </Button>
         </Box>
-      </Paper>
+      </Box>
     </Container>
   );
 }

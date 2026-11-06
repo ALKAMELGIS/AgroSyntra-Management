@@ -1,4 +1,14 @@
-import { translateUi } from './pageLabels';
+// The Arabic wording (~100 KB) is loaded only when Arabic is switched on, so
+// English users never download it.
+let translateUi = null;
+let loadingLabels = null;
+function loadLabels() {
+  if (!loadingLabels) {
+    loadingLabels = import('./pageLabels').then((m) => { translateUi = m.translateUi; });
+  }
+  return loadingLabels;
+}
+let wanted = false;
 
 /**
  * Applies the Arabic interface wording (pageLabels.js) to page text that is
@@ -98,8 +108,15 @@ function onMutations(records) {
   }
 }
 
+/** Starts translating (after the wording has loaded). Returns a promise for tests. */
 export function enableAutoTranslate() {
-  if (observer || typeof document === 'undefined' || typeof MutationObserver === 'undefined') return;
+  wanted = true;
+  if (typeof document === 'undefined' || typeof MutationObserver === 'undefined') return Promise.resolve();
+  return loadLabels().then(() => { if (wanted) startObserver(); });
+}
+
+function startObserver() {
+  if (observer) return;
   translateTree(document.body);
   observer = new MutationObserver(onMutations);
   observer.observe(document.body, {
@@ -112,7 +129,9 @@ export function enableAutoTranslate() {
 }
 
 export function disableAutoTranslate() {
+  wanted = false;
   if (observer) { observer.disconnect(); observer = null; }
+  if (!translateUi) return;
   originalText.forEach((en, node) => {
     if (node.isConnected && translateUi(en) === node.nodeValue) node.nodeValue = en;
   });

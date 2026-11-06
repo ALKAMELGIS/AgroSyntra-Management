@@ -266,7 +266,7 @@ function ECPHReports() {
 
   return (
     <Container maxWidth="lg">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <PageTitle sx={{ mb: 1 }}>
           EC/PH Reports
         </PageTitle>
@@ -419,7 +419,7 @@ function ECPHReports() {
             </Box>
           </>
         )}
-      </Paper>
+      </Box>
     </Container>
   );
 }

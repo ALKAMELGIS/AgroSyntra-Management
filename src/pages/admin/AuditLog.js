@@ -146,7 +146,7 @@ function AuditLog() {
 
   return (
     <Container maxWidth="xl">
-      <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
           <HistoryIcon color="primary" sx={{ fontSize: 32 }} />
           <PageTitle>
@@ -312,7 +312,7 @@ function AuditLog() {
           rowsPerPageOptions={[25, 50, 100]}
           labelRowsPerPage="Rows per page:"
         />
-      </Paper>
+      </Box>
     </Container>
   );
 }

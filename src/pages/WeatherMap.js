@@ -235,7 +235,7 @@ function WeatherMap() {
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
           <PageTitle>Field Map</PageTitle>
           <Box sx={{ display: 'flex', gap: 2 }}>
@@ -351,7 +351,7 @@ function WeatherMap() {
             No fields with coordinates found for this site. Add latitude/longitude to fields in Master Data.
           </Alert>
         )}
-      </Paper>
+      </Box>
 
       {/* Map Container */}
       {selectedSite && availableFields.length > 0 && (

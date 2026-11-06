@@ -254,23 +254,26 @@ export default function Inventory() {
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
       {/* Filters */}
-      <Paper sx={{ mb: 2 }}>
-        <Tabs value={catIndex >= 0 ? catIndex : 0} onChange={(_, v) => { setCatFilter(CATEGORIES[v].value); setPage(1); }}>
-          {CATEGORIES.map((c) => <Tab key={c.value} label={c.label} />)}
-        </Tabs>
-      </Paper>
+      {/* Filters: plain rows above the table (one frame per group — the table). */}
+      <Tabs
+        value={catIndex >= 0 ? catIndex : 0}
+        onChange={(_, v) => { setCatFilter(CATEGORIES[v].value); setPage(1); }}
+        sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}
+      >
+        {CATEGORIES.map((c) => <Tab key={c.value} label={c.label} />)}
+      </Tabs>
 
-      <Paper sx={{ p: 2, mb: 2, display: 'flex', gap: 2, alignItems: 'center' }}>
+      <Box sx={{ mb: 2, display: 'flex', gap: 3, alignItems: 'center' }}>
         <TextField
           size="small" placeholder="Search items or supplier..."
           value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           InputProps={{ startAdornment: <InputAdornment position="start"><Search /></InputAdornment> }}
-          sx={{ width: 300 }}
+          sx={{ flex: { xs: 1, sm: '0 1 320px' }, minWidth: 0 }}
         />
-        <Typography variant="body2" color="text.secondary" sx={{ ml: 'auto' }}>
+        <Typography variant="body2" color="text.secondary" sx={{ ml: 'auto', whiteSpace: 'nowrap' }}>
           {`${meta.total} ${meta.total === 1 ? 'item' : 'items'}`}
         </Typography>
-      </Paper>
+      </Box>
 
       {/* Table */}
       {loading ? (
@@ -410,7 +413,7 @@ export default function Inventory() {
 
       {/* Pagination */}
       {!loading && meta.total > 0 && (
-        <Paper sx={{ p: 1.5, mt: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={{ pt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
           <Typography variant="body2" color="text.secondary">
             Showing {Math.min((page - 1) * 50 + 1, meta.total)}–{Math.min(page * 50, meta.total)} of {meta.total}
           </Typography>
@@ -419,7 +422,7 @@ export default function Inventory() {
             <Chip label={`Page ${page} / ${meta.totalPages || 1}`} size="small" variant="outlined" />
             <Button size="small" disabled={page * 50 >= meta.total} onClick={() => setPage((p) => p + 1)}>Next</Button>
           </Box>
-        </Paper>
+        </Box>
       )}
 
       {/* ─── Add / Edit Item Dialog ─────────────────────────── */}

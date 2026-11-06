@@ -266,7 +266,7 @@ function FertigationReports() {
 
   return (
     <Container maxWidth="lg">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <PageTitle sx={{ mb: 1 }}>
           Fertigation Reports
         </PageTitle>
@@ -418,7 +418,7 @@ function FertigationReports() {
             </Box>
           </>
         )}
-      </Paper>
+      </Box>
     </Container>
   );
 }

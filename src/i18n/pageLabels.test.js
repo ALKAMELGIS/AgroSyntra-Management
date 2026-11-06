@@ -32,7 +32,7 @@ describe('translateUi', () => {
 describe('auto translate', () => {
   it('translates page text, skips inputs and restores English', async () => {
     document.body.innerHTML = '<main><button>Save</button><span data-no-translate>Save</span><input placeholder="Search..." value="Save"/><p>North Block A</p></main>';
-    enableAutoTranslate();
+    await enableAutoTranslate();
     expect(document.querySelector('button').textContent).toBe('حفظ');
     expect(document.querySelector('span').textContent).toBe('Save');
     expect(document.querySelector('input').getAttribute('placeholder')).toBe('بحث…');
@@ -59,9 +59,9 @@ describe('units and table data', () => {
     expect(translateUi('0.0 m³')).toBe('0.0 م³');
     expect(translateUi('12 Ton')).toBe('12 طن');
   });
-  it('keeps names in table cells but translates status chips and words', () => {
+  it('keeps names in table cells but translates status chips and words', async () => {
     document.body.innerHTML = '<table><tbody><tr><td>Active</td><td>Inventory</td><td><span class="MuiChip-label">Pending</span></td></tr><tr><td colspan="3">No data</td></tr></tbody></table>';
-    enableAutoTranslate();
+    await enableAutoTranslate();
     const tds = document.querySelectorAll('td');
     expect(tds[0].textContent).toBe('نشط');
     expect(tds[1].textContent).toBe('Inventory'); // a name typed by staff stays as typed

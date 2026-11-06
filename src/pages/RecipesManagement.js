@@ -229,17 +229,17 @@ function RecipesManagement() {
   if (loading) {
     return (
       <Container maxWidth="xl">
-        <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+        <Box>
           <PageTitle sx={{ mb: 3 }}>Recipes Management</PageTitle>
           <TableSkeleton rows={5} columns={6} />
-        </Paper>
+        </Box>
       </Container>
     );
   }
 
   return (
     <Container maxWidth="xl">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <PageTitle>Recipes Management</PageTitle>
           {canEdit && (
@@ -323,7 +323,7 @@ function RecipesManagement() {
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper>
+      </Box>
 
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="lg" fullWidth>
         <DialogTitle>{editing ? 'Edit Recipe' : 'Add Recipe'}</DialogTitle>

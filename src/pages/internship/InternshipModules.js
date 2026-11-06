@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import {
   Box, Typography, Grid, Card, CardContent, CardActionArea,
-  LinearProgress, Chip, Button, Paper,
-} from '@mui/material';
+  LinearProgress, Chip, Button, } from '@mui/material';
 import {
   ScienceOutlined, AgricultureOutlined, BugReportOutlined,
   OpacityOutlined, Inventory2Outlined, BuildOutlined, SchoolOutlined,

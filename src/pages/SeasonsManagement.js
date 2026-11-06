@@ -213,17 +213,17 @@ function SeasonsManagement() {
   if (!isLoaded) {
     return (
       <Container maxWidth="xl">
-        <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+        <Box>
           <PageTitle sx={{ mb: 3 }}>Seasons</PageTitle>
           <TableSkeleton rows={5} columns={6} />
-        </Paper>
+        </Box>
       </Container>
     );
   }
 
   return (
     <Container maxWidth="xl">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, gap: 2, flexWrap: 'wrap' }}>
           <PageTitle>Seasons{siteLabel ? ` — ${siteLabel}` : ''}</PageTitle>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
@@ -321,7 +321,7 @@ function SeasonsManagement() {
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper>
+      </Box>
 
       <Dialog open={dialogOpen} onClose={() => !saving && setDialogOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>Add past season</DialogTitle>

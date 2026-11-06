@@ -224,10 +224,10 @@ function CountriesSitesManagement() {
   if (loading) {
     return (
       <Container maxWidth="lg">
-        <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+        <Box>
           <PageTitle sx={{ mb: 3 }}>{t('zoneAccess.title')}</PageTitle>
           <TableSkeleton rows={5} columns={4} />
-        </Paper>
+        </Box>
       </Container>
     );
   }
@@ -241,7 +241,7 @@ function CountriesSitesManagement() {
 
   return (
     <Container maxWidth="lg">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, gap: 2, flexWrap: 'wrap' }}>
           <PageTitle>{t('zoneAccess.title')}</PageTitle>
           <Button variant="contained" color="primary" onClick={handleExport}>
@@ -548,7 +548,7 @@ function CountriesSitesManagement() {
             </Button>
           </DialogActions>
         </Dialog>
-      </Paper>
+      </Box>
       {confirmDialog}
     </Container>
   );

@@ -4,7 +4,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { ListSkeleton } from '../components/LoadingSkeleton';
 import {
   Container,
-  Paper,
   Typography,
   Box,
   List,
@@ -79,7 +78,7 @@ export default function Notifications() {
 
   return (
     <Container maxWidth="md">
-      <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <PageTitle>
@@ -162,7 +161,7 @@ export default function Notifications() {
             ))}
           </List>
         )}
-      </Paper>
+      </Box>
     </Container>
   );
 }

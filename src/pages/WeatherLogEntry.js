@@ -637,7 +637,7 @@ function WeatherLogEntry() {
       )}
 
       {/* Weather Entry Form Section */}
-      <Paper elevation={3} sx={{ p: 4 }}>
+      <Box>
         <PageTitle sx={{ mb: 1 }}>
           Weather & Soil Data Entry
         </PageTitle>
@@ -1008,7 +1008,7 @@ function WeatherLogEntry() {
           );
           }}
         </Formik>
-      </Paper>
+      </Box>
     </Container>
   );
 }

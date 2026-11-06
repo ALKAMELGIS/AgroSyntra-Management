@@ -151,7 +151,8 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true });
+  const isDesktop = !isMobile;
   const L = useShellLabel();
   const { user } = useAuth();
   const notify = useNotification();
@@ -502,13 +503,17 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
     </Box>
   );
 
+  // Only the drawer for the current screen size is rendered (the menu used to be
+  // built twice — phone drawer and desktop panel — on every device). The phone
+  // drawer builds its contents when first opened.
   return (
     <>
+      {!isDesktop && (
       <Drawer
         variant="temporary"
         open={mobileOpen}
         onClose={onMobileClose}
-        ModalProps={{ keepMounted: true }}
+        ModalProps={{ keepMounted: false }}
         sx={{
           display: { xs: 'block', md: 'none' },
           '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
@@ -516,7 +521,9 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
       >
         {drawerContent}
       </Drawer>
+      )}
 
+      {isDesktop && (
       <Drawer
         variant="persistent"
         open={open}
@@ -544,6 +551,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
       >
         {drawerContent}
       </Drawer>
+      )}
 
       <Dialog open={endSeasonOpen} onClose={() => !endingSeason && setEndSeasonOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>End {activeSeason?.name || 'this season'}?</DialogTitle>

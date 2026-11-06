@@ -27,10 +27,10 @@ function HubTile({ tile, onOpen, L }) {
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-        gap: 4,
+        gap: 3,
         width: '100%',
-        minHeight: { xs: 112, sm: 124 },
-        p: { xs: 3.5, sm: 4.5 },
+        minHeight: { xs: 96, sm: 108 },
+        p: { xs: 3, sm: 4 },
         textAlign: 'start',
         borderRadius: 4,
         bgcolor: 'background.paper',
@@ -94,7 +94,7 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
 
   return (
     <Box sx={{ maxWidth: 1240, mx: 'auto', pt: { xs: 2, md: 4 }, pb: 4 }}>
-      <Box component="header" sx={{ mb: { xs: 7, md: 10 } }}>
+      <Box component="header" sx={{ mb: { xs: 5, md: 7 } }}>
         <Typography
           variant="overline"
           component="p"
@@ -116,7 +116,7 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
       </Box>
 
       {recent.length > 0 && (
-        <Box component="section" aria-label="Recently opened" sx={{ mb: { xs: 7, md: 9 } }}>
+        <Box component="section" aria-label="Recently opened" sx={{ mb: { xs: 5, md: 6 } }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
             <RecentIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
             <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600 }}>
@@ -184,8 +184,8 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
       )}
 
       {sections.map((section) => (
-        <Box component="section" key={section.title} sx={{ mb: { xs: 7, md: 9 } }} aria-label={section.title}>
-          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 3, mb: 3.5 }}>
+        <Box component="section" key={section.title} sx={{ mb: { xs: 5, md: 6 } }} aria-label={section.title}>
+          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 3, mb: 2.5 }}>
             <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
               {L(calmTitle(section.title))}
             </Typography>

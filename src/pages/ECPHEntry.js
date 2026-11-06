@@ -336,7 +336,7 @@ function ECPHEntry() {
 
   return (
     <Container maxWidth="lg">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, flexWrap: 'wrap', gap: 1 }}>
           <PageTitle>
             EC/PH Entry
@@ -932,7 +932,7 @@ function ECPHEntry() {
           masterData={masterData}
           refreshTrigger={entriesRefreshKey}
         />
-      </Paper>
+      </Box>
     </Container>
   );
 }

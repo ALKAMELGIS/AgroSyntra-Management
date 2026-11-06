@@ -267,17 +267,17 @@ function FarmAreasCropsManagement() {
   if (loading) {
     return (
       <Container maxWidth="lg">
-        <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+        <Box>
           <PageTitle sx={{ mb: 3 }}>Farm Areas & Crops Management</PageTitle>
           <TableSkeleton rows={5} columns={4} />
-        </Paper>
+        </Box>
       </Container>
     );
   }
 
   return (
     <Container maxWidth="lg">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <PageTitle>Farm Areas & Crops Management</PageTitle>
           <Button
@@ -813,7 +813,7 @@ function FarmAreasCropsManagement() {
             )}
           </Formik>
         </Dialog>
-      </Paper>
+      </Box>
       {confirmDialog}
     </Container>
   );

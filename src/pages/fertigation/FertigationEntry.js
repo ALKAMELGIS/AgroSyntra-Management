@@ -371,7 +371,7 @@ function FertigationEntry() {
 
   return (
     <Container maxWidth="xl">
-      <Paper elevation={3} sx={{ p: 4, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2, mb: 2 }}>
           <PageTitle>
             Fertigation Entry
@@ -901,7 +901,7 @@ function FertigationEntry() {
             refreshTrigger={entriesRefreshKey}
           />
         )}
-      </Paper>
+      </Box>
     </Container>
   );
 }

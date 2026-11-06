@@ -314,3 +314,24 @@ html.has-bottom-nav .ac-fixed-bottom {
 html[lang|='ar'] {
   --required-note: 'هذا الحقل مطلوب';
 }
+
+/* ---- One frame per group ----------------------------------------------------
+   A table that sits inside a card / panel uses that card as its frame: no second
+   border or rounded corner inside (dialogs keep their framed tables). */
+main :is(.MuiCard-root, .MuiPaper-root:not(.MuiTableContainer-root)) .MuiTableContainer-root.MuiPaper-outlined,
+main :is(.MuiCard-root, .MuiPaper-root:not(.MuiTableContainer-root)) .MuiTableContainer-root.MuiPaper-elevation:not(.MuiPaper-elevation0) {
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Phones: table rows stay one line high; the table scrolls sideways inside its
+   frame instead of wrapping names and stacking action icons into tall rows. */
+@media (max-width: 599.95px) {
+  main .MuiTableCell-body {
+    white-space: nowrap;
+  }
+  main .MuiTableCell-body .MuiTypography-root {
+    white-space: nowrap;
+  }
+}

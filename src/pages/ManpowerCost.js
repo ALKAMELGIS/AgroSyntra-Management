@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Box, Button, CircularProgress, Container, MenuItem, Paper, Tab, Tabs, TextField, Typography,
+  Box, Button, CircularProgress, Container, MenuItem, Tab, Tabs, TextField, Typography,
 } from '@mui/material';
 import { FileDownloadOutlined as FileDownload } from '@mui/icons-material';
 import { useApiQuery } from '../hooks/useApiQuery';
@@ -85,7 +85,7 @@ export default function ManpowerCost() {
 
   return (
     <Container maxWidth="xl">
-      <Paper elevation={3} sx={{ p: { xs: 2, md: 4 }, mt: 2 }}>
+      <Box>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'flex-end', mb: 2 }}>
           <Box sx={{ flexGrow: 1, minWidth: 220 }}>
             <PageTitle>{t('manpowerCost.title')}</PageTitle>
@@ -167,7 +167,7 @@ export default function ManpowerCost() {
           />
         )}
         {tab === 'rates' && <ManpowerRatesPanel siteId={siteId} sites={siteOptions} />}
-      </Paper>
+      </Box>
     </Container>
   );
 }

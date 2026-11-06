@@ -153,3 +153,24 @@ Fixed through it:
 - Pesticide Applications (which now loads in tests) had ~35 untranslated labels — tabs, filters, columns, dialog fields — now in Arabic.
 - Gate: Summary and System Health are no longer exempt — every screen must render without errors with empty and with sample data. New tests: required-field feedback, table data not translated, units, empty-site loading.
 - Totals: **589 Playwright tests, all passing** (phone / tablet / desktop, Arabic, dark mode, accessibility, fonts, forms); **677 unit tests** passing.
+
+## Round 19 — clean & compact, no overlaps, faster
+- **One frame per group.** An audit of every screen found 50 nested frames on 12 screens (a page-wide card around the whole page, a section card inside it, and a framed table or small cards inside that). Removed:
+  - the legacy page-wide wrapper card (`Paper elevation={3}` with 32 px padding) on 18 pages — reports, management pages, entry pages, notifications, report builder, audit log, weather;
+  - User Management: card › padding › framed table → one card with the table edge to edge;
+  - a framed table inside a card or panel now uses that card as its only frame (CSS rule in App.css; dialogs keep framed tables).
+  Remaining: the field tiles inside the Farm Monitor card (a group of items, by design).
+- **Spacing.** No frame on any screen has more than 24 px padding (was up to 32 px). Home / hub section gaps 36–40 → 24 px; hub tiles more compact (min height 124 → 108 px).
+- **No overlapping elements.** New overlap check (controls, labels, text) runs on every screen at phone, tablet and desktop, with and without data. It found and fixed:
+  - the screen-reader page heading was meant to be 1 × 1 px but `sx={{ width: 1 }}` means 100 %, so an invisible page-sized box lay over the content on 7 screens;
+  - Remote Sensing: the "Start / End" date labels overlapped the "Time-Series Analysis" heading;
+  - GPS Tracking (phone): the date field's label overlapped the page title when the header wrapped.
+- **Faster.**
+  - The side menu was built twice on every device (phone drawer + desktop panel, one hidden by CSS); now only the one for the screen is built, and the phone drawer builds when opened.
+  - The Arabic page wording (~100 KB) loads only when Arabic is switched on; main bundle 337 → 320 KB gzipped.
+  - "Today in Dubai" built a new date formatter on every call (11 call sites, every render); the formatter is now created once.
+  - Result on a mid-range phone simulation (4× slower CPU, 4G): main-thread blocking during start-up ≈ 2.3 s → 1.5–1.65 s (English), page ready ≈ 350 ms sooner.
+- **Phones: compact tables.** Table rows stay one line high and the table scrolls sideways inside its card (names used to wrap and action icons stacked, making rows ~100 px tall).
+- Inventory: the category tabs, the search box and the pagination each had their own frame → plain rows above / below the one table frame; the search fills the width on phones.
+- Report top-lists showed "undefined" for an item without a name → "Unnamed / بدون اسم"; the list divider was a fixed light colour (now follows dark mode).
+- Gate: **589 Playwright tests, all passing** — now including the overlap check on every screen at phone / tablet / desktop with and without data; **677 unit tests** passing.

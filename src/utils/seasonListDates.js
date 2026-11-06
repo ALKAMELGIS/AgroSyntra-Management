@@ -1,11 +1,18 @@
-/** Farm calendar day in Asia/Dubai (not the browser or Railway local zone). */
-export function farmTodayYmd(now = new Date()) {
-  const parts = new Intl.DateTimeFormat('en-GB', {
+// Building an Intl formatter is slow; it is created once and reused.
+let dubaiYmdFormat = null;
+function DUBAI_YMD_FORMAT() {
+  if (!dubaiYmdFormat) dubaiYmdFormat = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Asia/Dubai',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-  }).formatToParts(now);
+  });
+  return dubaiYmdFormat;
+}
+
+/** Farm calendar day in Asia/Dubai (not the browser or Railway local zone). */
+export function farmTodayYmd(now = new Date()) {
+  const parts = DUBAI_YMD_FORMAT().formatToParts(now);
   const lookup = (type) => parts.find((part) => part.type === type)?.value || '';
   return `${lookup('year')}-${lookup('month')}-${lookup('day')}`;
 }

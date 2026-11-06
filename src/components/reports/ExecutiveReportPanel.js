@@ -140,14 +140,14 @@ export default function ExecutiveReportPanel({
                   ) : (
                     <List dense disablePadding>
                       {section.items.map((item, idx) => (
-                        <ListItem key={item.label} disableGutters sx={{ py: 0.75, borderBottom: idx < section.items.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
+                        <ListItem key={`${item.label}-${idx}`} disableGutters sx={{ py: 0.75, borderBottom: idx < section.items.length - 1 ? 1 : 0, borderColor: 'divider' }}>
                           <Chip
                             label={idx + 1}
                             size="small"
                             sx={{ mr: 1.5, minWidth: 28, height: 24, fontWeight: 700, bgcolor: idx === 0 ? 'primary.main' : 'background.muted', color: idx === 0 ? 'primary.contrastText' : 'text.primary' }}
                           />
                           <ListItemText
-                            primary={item.label}
+                            primary={item.label == null || item.label === '' || item.label === 'undefined' ? 'Unnamed' : item.label}
                             secondary={item.subtitle}
                             primaryTypographyProps={{ fontWeight: 600, fontSize: '0.875rem' }}
                             secondaryTypographyProps={{ fontSize: '0.75rem' }}
