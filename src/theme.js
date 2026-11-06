@@ -12,6 +12,13 @@ import { createTheme, alpha } from '@mui/material/styles';
 
 export const FONT_SANS =
   "'Inter', 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+/**
+ * Arabic interface font: IBM Plex Sans Arabic leads for everything on screen in
+ * Arabic, including numbers and Latin words, so a mixed line keeps one typeface.
+ * Inter stays as the fallback.
+ */
+export const FONT_SANS_AR =
+  "'IBM Plex Sans Arabic', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
 export const FONT_MONO =
   "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace";
 
@@ -181,7 +188,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
     palette: { mode, ...palette },
     breakpoints: { values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 } },
     typography: {
-      fontFamily: FONT_SANS,
+      fontFamily: direction === 'rtl' ? FONT_SANS_AR : FONT_SANS,
       htmlFontSize: 16,
       fontWeightLight: 300,
       fontWeightRegular: 400,
@@ -245,6 +252,8 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       MuiCssBaseline: {
         styleOverrides: {
           ':root': cssTokens(mode),
+          // Arabic: IBM Plex Sans Arabic for every text that reads var(--font-sans).
+          'html[lang|="ar"]': { '--font-sans': FONT_SANS_AR },
           html: {
             scrollBehavior: 'smooth',
             colorScheme: mode,

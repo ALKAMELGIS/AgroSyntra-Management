@@ -741,7 +741,7 @@ export const PAGE_AR = {
   'Water and cycles from Irrigation Entry (RC-108) plus separately entered pivot irrigation.': 'المياه والدورات من إدخال الري (RC-108) إضافةً إلى ري المحاور المدخل بشكل منفصل.',
   'Fields blocked (PHI)': 'حقول محظورة للحصاد',
   'Pest alerts': 'تنبيهات الآفات',
-  'System alerts (48h)': 'تنبيهات النظام (48س)',
+  'System alerts (48h)': 'تنبيهات آخر 48 ساعة',
   'Change requests': 'طلبات التعديل',
   'Open work orders': 'أوامر العمل المفتوحة',
   'Pending IPM Change Requests': 'طلبات تعديل المكافحة المعلّقة',

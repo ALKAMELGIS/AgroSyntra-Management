@@ -240,25 +240,39 @@ test.describe('populated data', () => {
 
 test.describe('typography', () => {
   test.use({ viewport: { width: 1366, height: 860 } });
-  for (const route of ROUTES.filter((r) => !NEEDS_REAL_DATA.has(r))) {
-    test(`${route} uses only the app fonts`, async ({ page }) => {
-      await prepare(page, { rich: true });
-      await page.goto(route);
-      await settle(page);
-      const stray = await page.evaluate(() => {
-        const bad = new Set<string>();
-        document.querySelectorAll('body *').forEach((el) => {
-          if (el.closest('.leaflet-container, svg')) return;
-          const hasText = Array.from(el.childNodes).some((n) => n.nodeType === 3 && (n.textContent || '').trim());
-          if (!hasText || !(el as HTMLElement).offsetParent) return;
-          const first = getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '').trim();
-          if (!['Inter', 'IBM Plex Sans Arabic', 'JetBrains Mono'].includes(first)) bad.add(`${first} <${el.tagName.toLowerCase()}>`);
-        });
-        return Array.from(bad);
+  for (const lang of ['en', 'ar'] as const) {
+    // English: Inter leads; Arabic: IBM Plex Sans Arabic leads for every text (numbers and Latin too).
+    const expected = lang === 'ar' ? 'IBM Plex Sans Arabic' : 'Inter';
+    for (const route of ROUTES.filter((r) => !NEEDS_REAL_DATA.has(r))) {
+      test(`${route} uses ${expected} (${lang})`, async ({ page }) => {
+        await prepare(page, { rich: true, lang });
+        await page.goto(route);
+        await settle(page);
+        const stray = await page.evaluate((want) => {
+          const bad = new Set<string>();
+          document.querySelectorAll('body *').forEach((el) => {
+            if (el.closest('.leaflet-container, svg')) return;
+            const hasText = Array.from(el.childNodes).some((n) => n.nodeType === 3 && (n.textContent || '').trim());
+            if (!hasText || !(el as HTMLElement).offsetParent) return;
+            const first = getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '').trim();
+            if (first !== want && first !== 'JetBrains Mono') bad.add(`${first} <${el.tagName.toLowerCase()}>`);
+          });
+          return Array.from(bad);
+        }, expected);
+        expect(stray, `every visible text uses ${expected} (or JetBrains Mono for codes)`).toEqual([]);
       });
-      expect(stray, 'every visible text uses Inter (or JetBrains Mono for codes)').toEqual([]);
-    });
+    }
   }
+  test('IBM Plex Sans Arabic is loaded and used for Arabic text', async ({ page }) => {
+    await prepare(page, { lang: 'ar' });
+    await page.goto('/');
+    await settle(page);
+    const loaded = await page.evaluate(async () => {
+      await document.fonts.ready;
+      return ['400', '500', '600', '700'].map((w) => document.fonts.check(`${w} 16px "IBM Plex Sans Arabic"`, 'مرحبا'));
+    });
+    expect(loaded).toEqual([true, true, true, true]);
+  });
 });
 
 test.describe('add / create forms', () => {

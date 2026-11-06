@@ -129,3 +129,10 @@ Fixed through it:
 - **Daily Brief** rebuilt for the space: the five "at a glance" numbers are large tappable tiles in one row (tinted and clickable when non-zero), and the sections sit in a two-column grid on desktop instead of a long single column. The weather card shows its "no data" note instead of an empty box.
 - **Harvest Dashboard**: the chart and its three-column table sit side by side on wide screens (table scrolls with a sticky header), stacked on tablets and phones.
 - Gate: **523 Playwright tests, all passing** on every screen at phone / tablet / desktop (no overflow, accessibility, Arabic, dark mode); **674 unit tests** passing.
+
+## Round 17 — Arabic font: IBM Plex Sans Arabic
+- In Arabic, **IBM Plex Sans Arabic now leads for every text on screen** — Arabic words, numbers, dates and Latin words such as "EC/pH" or "API" — so a mixed line uses one typeface. Before, Inter led and Arabic only fell back to Plex, so numbers and Latin words inside Arabic lines appeared in a different font.
+- How: `FONT_SANS_AR` in `theme.js` (theme typography in RTL) and `--font-sans` switched on `html[lang="ar"]`, so every component that reads the variable (entry sheets, pivot tables, maps, native inputs) follows. English is unchanged (Inter).
+- All four weights used (400 / 500 / 600 / 700) are loaded; a test checks they are available.
+- Gate: the font check now runs on every screen in **both languages** — English must be Inter, Arabic must be IBM Plex Sans Arabic (JetBrains Mono only for codes).
+- Gate: **572 Playwright tests, all passing** (49 new font checks); **674 unit tests** passing.

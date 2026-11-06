@@ -66,3 +66,7 @@ it crashes the RTL emotion cache. Put such rules in `App.css`.
 - Don't add side padding inside pages: the main area already pads (`CONTENT_PADDING`).
 - Summary numbers go in a row of tiles; independent sections go in a 2-column grid from `lg`; a chart and its short table sit side by side from `lg` (3fr / 2fr).
 - Table headers wrap to two lines (min 88–96 px); keep body cells short and give long values a `title`.
+
+## Fonts by language
+- English: Inter (`FONT_SANS`). Arabic: IBM Plex Sans Arabic leads for all text, including numbers and Latin words (`FONT_SANS_AR`, switched on `html[lang="ar"]`). Codes: JetBrains Mono.
+- Never hard-code a font: use `var(--font-sans)` or the theme typography.
