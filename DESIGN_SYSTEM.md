@@ -96,3 +96,4 @@ it crashes the RTL emotion cache. Put such rules in `App.css`.
 ## Map screens
 - Use `useFillHeight` for the map box; panels beside the map on desktop, in a drawer / below on phones.
 - Legends and floating panels stay above the map credits (bottom ≥ 30 px) and never cover each other.
+- Map pages: use `MapWorkspace` — tool bar · docked panel · map, full bleed (`mx/mb: contentBleed`, `useFillHeight({ bleed: true })`). Lists, legend and basemaps are panel tools; "add" actions are a + icon on the tool bar. No floating cards over the map (only Leaflet zoom in the opposite top corner and the credits).

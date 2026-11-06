@@ -593,7 +593,7 @@ test.describe('map screens', () => {
         const overlaps = await page.evaluate(() => {
           const m = document.querySelector('.leaflet-container')!; const wrap = m.parentElement!;
           const items = Array.from(wrap.querySelectorAll('.leaflet-control, .MuiPaper-root, .MuiToggleButtonGroup-root, button'))
-            .filter((e) => { const b = e.getBoundingClientRect(); return b.width > 4 && b.height > 4; });
+            .filter((e) => { const b = e.getBoundingClientRect(); return b.width > 4 && b.height > 4 && getComputedStyle(e).visibility !== 'hidden'; });
           const top = items.filter((e) => !items.some((o) => o !== e && o.contains(e)));
           const out: string[] = [];
           for (let i = 0; i < top.length; i++) for (let j = i + 1; j < top.length; j++) {
@@ -606,4 +606,49 @@ test.describe('map screens', () => {
       });
     }
   }
+});
+
+test.describe('map workspace (docked panel)', () => {
+  test('GIS Map: tools open a docked panel beside the map; legend follows visible layers; basemaps; add data', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.addInitScript(() => localStorage.setItem('gis.workspace', ''));
+    await prepare(page);
+    const layers = [
+      { id: 'l1', name: 'Al Maha fields', sourceType: 'file', featureCount: 4, isVisible: true, style: { color: '#1f7a4d' } },
+      { id: 'l2', name: 'Drainage lines', sourceType: 'file', featureCount: 2, isVisible: false, style: { color: '#b8523a' } },
+    ];
+    await page.route(/\/api\/v1\/.*layer/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: layers }) }));
+    await page.goto('/gis-map');
+    await settle(page);
+    const map = page.locator('.leaflet-container').first();
+    const full = (await map.boundingBox())!.width;
+    const tools = page.getByRole('navigation', { name: 'Map tools' });
+
+    // Layers: a docked panel — the map narrows to make room, nothing floats over it.
+    const layersBtn = tools.getByRole('button', { name: 'Layers' });
+    await layersBtn.click();
+    await expect(page.getByRole('region', { name: 'GIS Layers' })).toBeVisible();
+    await expect(layersBtn).toHaveAttribute('aria-expanded', 'true');
+    await expect.poll(async () => (await map.boundingBox())!.width).toBeLessThan(full - 200);
+
+    // Legend: only the layers that are switched on.
+    await tools.getByRole('button', { name: 'Legend' }).click();
+    const legend = page.getByRole('region', { name: 'Legend' });
+    await expect(legend.getByText('Al Maha fields')).toBeVisible();
+    await expect(legend.getByText('Drainage lines')).toHaveCount(0);
+
+    // Basemaps: a radio list.
+    await tools.getByRole('button', { name: 'Basemaps' }).click();
+    const satellite = page.getByRole('radio', { name: 'Satellite' });
+    await satellite.click();
+    await expect(satellite).toHaveAttribute('aria-checked', 'true');
+
+    // Esc closes the panel and the map takes the full width again.
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('region', { name: 'Basemaps' })).toHaveCount(0);
+    await expect.poll(async () => (await map.boundingBox())!.width).toBeGreaterThan(full - 2);
+
+    await tools.getByRole('button', { name: 'Add data' }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+  });
 });

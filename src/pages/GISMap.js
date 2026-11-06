@@ -19,7 +19,7 @@ import {
   BugReportOutlined as BugIcon, WarningOutlined as WarningIcon,
   AgricultureOutlined as HarvestIcon, ShieldOutlined as ShieldIcon,
 } from '@mui/icons-material';
-import { MapContainer, TileLayer, GeoJSON, Popup, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, Popup, Marker, ZoomControl } from 'react-leaflet';
 import { MapLifecycle, SafeFitLatLngBounds } from '../utils/leafletSafe';
 import { API_BASE, getAuthHeaders } from '../config/api';
 import 'leaflet/dist/leaflet.css';
@@ -29,6 +29,10 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { canEditGis } from '../utils/roleAccess';
 import InfoNote from '../components/InfoNote';
+import { MapWorkspace, MapLegend, BasemapList, useMapWorkspace, useBasemap, mapZoomPosition } from '../components/map/MapPanel';
+import { BASEMAPS } from '../utils/mapBasemaps';
+import { LegendToggleOutlined as LegendIcon, MapOutlined as BasemapIcon } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
 
 function sanitizeUrlInput(raw) {
   return raw.replace(/[^\x20-\x7E]/g, '').trim();
@@ -91,7 +95,10 @@ export default function GISMap() {
   // CEO and operation manager manage GIS layers; everyone else (incl. farm manager) views only.
   const canEdit = canEditGis(useAuth().user);
   const mapHeight = `calc(100dvh - ${topBarHeight + padPx + bottomChrome + CONTEXT_BAR_HEIGHT}px)`;
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const workspace = useMapWorkspace('gis.workspace', 'layers');
+  const closeWorkspace = workspace.close;
+  const [basemap, setBasemap] = useBasemap('gis.basemap', 'osm');
+  const theme = useTheme();
   const [layers, setLayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [featureData, setFeatureData] = useState({});
@@ -200,8 +207,8 @@ export default function GISMap() {
   }, [loadLayers, loadPhiStatus, loadOrphans]);
 
   useEffect(() => {
-    if (isMobile) setDrawerOpen(false);
-  }, [isMobile]);
+    if (isMobile) closeWorkspace();
+  }, [isMobile, closeWorkspace]);
 
   useEffect(() => {
     layers.filter((l) => l.isVisible).forEach((l) => {
@@ -597,52 +604,14 @@ export default function GISMap() {
   // Layers panel: narrower on laptops so the map stays the main workspace.
   const drawerWidth = isLargeScreen ? 340 : 300;
 
-  return (
-    <Box sx={{
-      display: 'flex',
-      height: mapHeight,
-      position: 'relative',
-      mx: contentBleed,
-      mb: contentBleed,
-    }}>
-      {/* Side Panel */}
-      <Drawer
-        variant={isMobile ? 'temporary' : 'persistent'}
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        ModalProps={{ keepMounted: true }}
-        sx={{
-          width: isMobile ? 'auto' : (drawerOpen ? drawerWidth : 0),
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: isMobile ? 'min(360px, calc(100vw - 16px))' : drawerWidth,
-            position: isMobile ? 'fixed' : 'relative',
-            boxSizing: 'border-box',
-          },
-        }}
-      >
-        <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <LayersIcon /> GIS Layers
-          </Typography>
-          <IconButton size="small" onClick={() => setDrawerOpen(false)} aria-label="Close"><CloseIcon /></IconButton>
-        </Box>
-        <Divider />
-
-        <Box sx={{ p: 1 }}>
-          {canEdit ? (
-            <Button
-              fullWidth
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={() => { setAddDialog(true); setAddTab(0); }}
-            >
-              Add Layer
-            </Button>
-          ) : (
+  // Docked panel contents.
+  const layersPanel = (
+    <>
+        {!canEdit && (
+          <Box sx={{ px: 3, pt: 2 }}>
             <InfoNote severity="info">{t('adminAccess.gisViewOnly')}</InfoNote>
-          )}
-        </Box>
+          </Box>
+        )}
 
         {loading ? (
           <Box sx={{ p: 3, textAlign: 'center' }}><CircularProgress /></Box>
@@ -651,7 +620,7 @@ export default function GISMap() {
             <Typography color="text.secondary">No layers yet. Add an ArcGIS connection or upload a file.</Typography>
           </Box>
         ) : (
-          <List sx={{ overflow: 'auto', flex: 1 }}>
+          <List disablePadding>
             {layers.map((layer) => (
               <ListItem
                 key={layer.id}
@@ -729,18 +698,38 @@ export default function GISMap() {
             ))}
           </List>
         )}
-      </Drawer>
+    </>
+  );
+  const visibleLayers = layers.filter((l) => l.isVisible);
+  // Legend follows what is switched on: one swatch per visible layer, plus the PHI colours fields are painted with.
+  const legendSections = [
+    { title: 'Layers', items: visibleLayers.map((l) => ({ color: l.style?.color || '#3388ff', label: l.name, shape: 'fill' })) },
+    visibleLayers.length > 0 && {
+      title: 'PHI status',
+      items: [
+        { color: '#f44336', label: 'Active PHI (>1 day left)' },
+        { color: '#ff9800', label: 'Last PHI day' },
+        { color: '#4caf50', label: 'Clear' },
+        { color: '#3388ff', label: 'Not linked' },
+      ],
+    },
+  ].filter(Boolean);
 
-      {/* Map */}
-      <Box sx={{ flex: 1, position: 'relative' }}>
-        {!drawerOpen && (
-          <IconButton
-            onClick={() => setDrawerOpen(true)}
-            sx={{ position: 'absolute', top: 10, right: 10, zIndex: 1000, bgcolor: 'background.paper', boxShadow: 2, '&:hover': { bgcolor: 'background.paper' } }}
-           aria-label="Layers">
-            <LayersIcon />
-          </IconButton>
-        )}
+  return (
+    <Box sx={{ mx: contentBleed, mb: contentBleed }}>
+      {/* Docked workspace: tool bar · docked panel (Layers / Legend / Basemaps) · map. */}
+      <MapWorkspace
+        id="gis"
+        workspace={workspace}
+        height={mapHeight}
+        panelWidth={drawerWidth}
+        tools={[
+          { key: 'layers', label: 'Layers', title: 'GIS Layers', icon: <LayersIcon />, badge: layers.length || undefined, content: layersPanel },
+          { key: 'legend', label: 'Legend', icon: <LegendIcon />, badge: visibleLayers.length || undefined, content: <MapLegend sections={legendSections} /> },
+          { key: 'basemaps', label: 'Basemaps', icon: <BasemapIcon />, content: <BasemapList value={basemap} onChange={setBasemap} /> },
+          canEdit && { key: 'add', label: 'Add data', icon: <AddIcon />, onClick: () => { setAddDialog(true); setAddTab(0); } },
+        ]}
+      >
 
         {orphans.length > 0 && (
           <Alert
@@ -750,8 +739,8 @@ export default function GISMap() {
             sx={{
               position: 'absolute',
               top: 10,
-              left: 56,
-              right: drawerOpen ? 10 : 64,
+              insetInlineStart: 10,
+              insetInlineEnd: 64,
               zIndex: 1000,
             }}
             action={
@@ -774,14 +763,13 @@ export default function GISMap() {
         <MapContainer
           center={DEFAULT_CENTER}
           zoom={DEFAULT_ZOOM}
+          zoomControl={false}
           style={{ width: '100%', height: '100%' }}
           ref={mapRef}
         >
+          <ZoomControl position={mapZoomPosition(theme)} />
           <MapLifecycle />
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; OpenStreetMap contributors'
-          />
+          <TileLayer key={basemap} url={BASEMAPS[basemap].url} attribution={BASEMAPS[basemap].attribution} />
 
           {allBounds && <SafeFitLatLngBounds bounds={allBounds} options={{ padding: [50, 50], maxZoom: 16 }} />}
 
@@ -809,36 +797,13 @@ export default function GISMap() {
         </MapContainer>
 
         {/* PHI Legend */}
-        {/* Phones: the legend steps aside while a feature's details are open, so the two never cover each other. */}
-        <Paper
-          component="aside"
-          aria-label="PHI legend"
-          elevation={3}
-          sx={{
-            position: 'absolute', bottom: { xs: 30, sm: 12 }, left: 12, zIndex: 1000, p: 1.5, opacity: 0.94,
-            display: { xs: selectedFeature && !fieldInfoOpen ? 'none' : 'block', sm: 'block' },
-          }}
-        >
-          <Typography variant="caption" fontWeight={600} sx={{ mb: 0.5, display: 'block' }}>PHI Status</Typography>
-          {[
-            { color: '#f44336', label: 'Active PHI (>1 day left)' },
-            { color: '#ff9800', label: 'Last PHI day' },
-            { color: '#4caf50', label: 'Clear' },
-            { color: '#3388ff', label: 'Not linked' },
-          ].map((item) => (
-            <Box key={item.label} sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.3 }}>
-              <Box sx={{ width: 14, height: 14, borderRadius: '2px', bgcolor: item.color }} />
-              <Typography variant="caption">{item.label}</Typography>
-            </Box>
-          ))}
-        </Paper>
 
         {/* Feature Info Panel */}
         {selectedFeature && !fieldInfoOpen && (
           <Paper
             elevation={4}
             sx={{
-              position: 'absolute', bottom: 12, right: 12, zIndex: 1000,
+              position: 'absolute', bottom: 30, insetInlineEnd: 12, zIndex: 1000,
               width: { xs: 'calc(100% - 24px)', sm: 320 }, maxHeight: { xs: '45%', sm: 350 }, overflow: 'auto', p: 2,
             }}
           >
@@ -1074,7 +1039,7 @@ export default function GISMap() {
             </Box>
           ) : null}
         </Drawer>
-      </Box>
+      </MapWorkspace>
 
       {/* ── Add Layer Dialog ── */}
       <Dialog open={addDialog} onClose={() => setAddDialog(false)} maxWidth="sm" fullWidth>

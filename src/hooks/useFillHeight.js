@@ -10,9 +10,10 @@ import { useCallback, useLayoutEffect, useRef, useState } from 'react';
  *   <Box ref={mapRef} sx={{ height: mapHeight }}>…map…</Box>
  *
  * min: never smaller than this (short landscape phones scroll instead).
+ * bleed: the element extends to the bottom edge (pages that cancel the main padding).
  * deps: re-measure when something above the element changes height.
  */
-export default function useFillHeight({ min = 360, bottomGap = 16, deps = [] } = {}) {
+export default function useFillHeight({ min = 360, bottomGap = 16, bleed = false, deps = [] } = {}) {
   const ref = useRef(null);
   const [height, setHeight] = useState(min);
 
@@ -24,7 +25,8 @@ export default function useFillHeight({ min = 360, bottomGap = 16, deps = [] } =
     // Leave the main area's own bottom padding (which on phones may already include the nav bar).
     const main = document.querySelector('main');
     const pad = main ? parseFloat(getComputedStyle(main).paddingBottom) || 0 : 0;
-    const reserve = Math.max(pad, nav + bottomGap, bottomGap);
+    // bleed: the element runs to the very bottom of the work area (only the phone nav bar stays clear).
+    const reserve = bleed ? nav : Math.max(pad, nav + bottomGap, bottomGap);
     const next = Math.max(min, Math.floor(window.innerHeight - top - reserve));
     setHeight((h) => (Math.abs(h - next) > 1 ? next : h));
   }, [min, bottomGap]);

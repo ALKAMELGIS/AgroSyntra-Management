@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import {
-  Container, Paper, Typography, Box, Grid, Card, CardContent, Button, TextField,
+  Typography, Box, Card, Tooltip, CardContent, Button, TextField,
   MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, Chip, IconButton,
   Alert,
 } from '@mui/material';
 import { AddOutlined as AddIcon, DeleteOutlined as DeleteIcon,
   MyLocationOutlined as PositionIcon, RefreshOutlined as RefreshIcon, ContentCopyOutlined as CopyIcon,
 } from '@mui/icons-material';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap, ZoomControl } from 'react-leaflet';
 import L from 'leaflet';
 import { MapLifecycle, MapResizeInvalidator, safeFitBounds, safeFlyTo } from '../utils/leafletSafe';
 import { apiRequest } from '../utils/api';
@@ -23,8 +23,12 @@ import {
 } from '../utils/gpsTracking';
 import { useAuth } from '../contexts/AuthContext';
 import { canWriteOpsStock } from '../utils/roleAccess';
-import PageTitle from '../components/PageTitle';
 import useFillHeight from '../hooks/useFillHeight';
+import { useTheme } from '@mui/material/styles';
+import { ViewListOutlined as ListIcon, MapOutlined as BasemapIcon } from '@mui/icons-material';
+import { MapWorkspace, BasemapList, useMapWorkspace, useBasemap, mapZoomPosition } from '../components/map/MapPanel';
+import { BASEMAPS } from '../utils/mapBasemaps';
+import useAppLayout from '../hooks/useAppLayout';
 import 'leaflet/dist/leaflet.css';
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -57,6 +61,9 @@ export default function GPSTracking() {
   const canWrite = canWriteOpsStock(useAuth().user);
   const [equipment, setEquipment] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
+  const workspace = useMapWorkspace('gps.workspace', 'equipment');
+  const [basemap, setBasemap] = useBasemap('gps.basemap', 'osm');
+  const theme = useTheme();
   const [positions, setPositions] = useState([]);
   const [trackDate, setTrackDate] = useState(() => dubaiTodayYmd());
   const [createOpen, setCreateOpen] = useState(false);
@@ -220,161 +227,169 @@ export default function GPSTracking() {
   const onFitted = useCallback(() => setShouldFit(false), []);
   const viewingToday = trackDate === dubaiTodayYmd();
   // The map fills the rest of the screen on every size (was a fixed 500 px).
-  const [mapBoxRef, mapHeight] = useFillHeight({ min: 360, bottomGap: 24 });
+  const [mapBoxRef, mapHeight] = useFillHeight({ min: 360, bleed: true });
+  const { contentBleed } = useAppLayout();
+
+  const equipmentPanel = (
+    <>
+            <Box sx={{ p: 2 }}>
+              {equipment.map((eq) => {
+                const recent = isRecentPing(eq.last_position?.recorded_at);
+                return (
+                  <Card
+                    key={eq.id}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={selectedId === eq.id}
+                    aria-label={`Show day track for ${eq.name}`}
+                    sx={{
+                      mb: 1, cursor: 'pointer', boxShadow: 'none',
+                      border: selectedId === eq.id ? '2px solid' : '1px solid',
+                      borderColor: selectedId === eq.id ? 'primary.main' : 'divider',
+                      '&:hover': { borderColor: 'primary.main' },
+                      '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 },
+                    }}
+                    onClick={() => setSelectedId(eq.id)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedId(eq.id); } }}
+                  >
+                    <CardContent sx={{ py: 1.5, '&:last-child': { pb: 1.5 } }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Typography fontSize={24}>{TYPE_ICONS[eq.type] || '📍'}</Typography>
+                          <Box>
+                            <Typography variant="subtitle2" fontWeight={600}>{eq.name}</Typography>
+                            <Typography variant="caption" color="text.secondary">
+                              {eq.identifier || eq.type} •{' '}
+                              {eq.last_position?.recorded_at
+                                ? formatDistanceToNow(new Date(eq.last_position.recorded_at), { addSuffix: true })
+                                : 'No position data'}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        {canWrite && <IconButton size="small" onClick={(e) => { e.stopPropagation(); handleDelete(eq.id); }} aria-label="Delete">
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>}
+                      </Box>
+                      {eq.last_position && (
+                        <Box sx={{ mt: 0.5, display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+                          {eq.last_position.speed > 0 && <Chip label={`${parseFloat(eq.last_position.speed).toFixed(1)} km/h`} size="small" />}
+                          <Chip
+                            icon={<PositionIcon sx={{ fontSize: 14 }} />}
+                            label={recent ? 'Live' : 'Last seen'}
+                            size="small"
+                            color={recent ? 'success' : 'default'}
+                          />
+                        </Box>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+              {equipment.length === 0 && (
+                <Typography color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>No equipment registered</Typography>
+              )}
+            </Box>
+
+            {selectedEquipment && (
+              <Alert
+                severity="info"
+                sx={{ mx: 2, mb: 2 }}
+                action={<IconButton size="small" onClick={copyIngest} aria-label="Copy"><CopyIcon fontSize="small" /></IconButton>}
+              >
+                <Typography variant="subtitle2">Send this tractor into the map</Typography>
+                <Typography variant="caption" display="block" sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', wordBreak: 'break-all' }}>
+                  POST {API_BASE}/gps/position
+                </Typography>
+                <Typography variant="caption" display="block">
+                  Header X-API-Key (from Admin → API Keys). Body can use identifier
+                  {selectedEquipment.identifier ? ` "${selectedEquipment.identifier}"` : ''} or equipment_id.
+                </Typography>
+                {canWrite && <Button size="small" sx={{ mt: 1, textTransform: 'none' }} onClick={openTestPoint}>
+                  Drop test point
+                </Button>}
+              </Alert>
+            )}
+    </>
+  );
 
   return (
-    <Container maxWidth="xl">
-      {/* rowGap leaves room for the date field's floating label when the row wraps on phones. */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', columnGap: 1, rowGap: 4 }}>
-        <PageTitle>
-          GPS Tracking
-        </PageTitle>
-        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center' }}>
+    // Full work area: edge to edge and down to the bottom, like GIS Map.
+    <Box sx={{ mx: contentBleed, mb: contentBleed }}>
+      {/* Map-first: no separate title row (the page name is in the breadcrumb and read by screen
+          readers). One slim bar above the map: what is shown · track date · refresh. */}
+      <Box sx={{ borderTop: 1, borderColor: 'divider', bgcolor: 'background.paper' }}>
+        <Box sx={{ px: 2, py: 1, borderBottom: 1, borderColor: 'divider', display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
+          <Box sx={{ flex: '1 1 0', minWidth: 0 }}>
+            <Typography variant="body2" color="text.secondary" noWrap>
+              {selectedEquipment
+                ? `${TYPE_ICONS[selectedEquipment.type] || ''} ${selectedEquipment.name} — ${viewingToday ? 'today' : trackDate} (${positions.length} points)`
+                : 'Select a tractor to see its day track'}
+            </Typography>
+            {selectedEquipment && positions.length === 0 && (
+              <Typography variant="caption" color="text.secondary" noWrap component="p">
+                No GPS points for this day. Drop a test point or POST to /gps/position.
+              </Typography>
+            )}
+          </Box>
           <TextField
-            label="Track date"
             type="date"
             size="small"
             value={trackDate}
             onChange={(e) => setTrackDate(e.target.value || dubaiTodayYmd())}
-            InputLabelProps={{ shrink: true }}
+            inputProps={{ 'aria-label': 'Track date' }}
+            sx={{ width: { xs: 152, sm: 164 }, flexShrink: 0, '& .MuiInputBase-input': { py: 0.75, px: 1.5 } }}
           />
-          <Button variant="outlined" startIcon={<RefreshIcon />} onClick={() => { loadEquipment(); if (selectedId) loadPositions(selectedId, trackDate, { fit: true }); }}>
-            Refresh
-          </Button>
-          {canWrite && <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateOpen(true)}>Add Equipment</Button>}
+          <Tooltip title="Refresh">
+            <IconButton size="small" aria-label="Refresh" sx={{ flexShrink: 0 }} onClick={() => { loadEquipment(); if (selectedId) loadPositions(selectedId, trackDate, { fit: true }); }}>
+              <RefreshIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Box ref={mapBoxRef}>
+          {/* Docked workspace: tool bar · docked panel (Equipment / Basemaps) · map. */}
+          <MapWorkspace
+            id="gps"
+            workspace={workspace}
+            height={mapHeight}
+            tools={[
+              { key: 'equipment', label: 'Equipment', title: `Equipment (${equipment.length})`, icon: <ListIcon />, badge: equipment.length || undefined, content: equipmentPanel },
+              { key: 'basemaps', label: 'Basemaps', icon: <BasemapIcon />, content: <BasemapList value={basemap} onChange={setBasemap} /> },
+              canWrite && { key: 'add', label: 'Add equipment', icon: <AddIcon />, onClick: () => setCreateOpen(true) },
+            ]}
+          >
+          <MapContainer center={DEFAULT_CENTER} zoom={12} zoomControl={false} style={{ height: '100%', width: '100%' }}>
+            <ZoomControl position={mapZoomPosition(theme)} />
+            <MapLifecycle />
+            <MapResizeInvalidator revision={`${selectedId || ''}:${trackDate}`} />
+            <GpsMapFocus
+              shouldFit={shouldFit}
+              onFitted={onFitted}
+              trailCoords={trailCoords}
+              focusLatLng={focusLatLng && Number.isFinite(focusLatLng[0]) && Number.isFinite(focusLatLng[1]) ? focusLatLng : null}
+            />
+            <TileLayer key={basemap} url={BASEMAPS[basemap].url} attribution={BASEMAPS[basemap].attribution} />
+
+            {equipment.filter((eq) => eq.last_position).map((eq) => (
+              <Marker
+                key={eq.id}
+                position={[parseFloat(eq.last_position.latitude), parseFloat(eq.last_position.longitude)]}
+                eventHandlers={{ click: () => setSelectedId(eq.id) }}
+              >
+                <Popup>
+                  <strong>{TYPE_ICONS[eq.type]} {eq.name}</strong><br />
+                  {eq.last_position.speed > 0 && <>Speed: {parseFloat(eq.last_position.speed).toFixed(1)} km/h<br /></>}
+                  Last seen: {eq.last_position.recorded_at ? formatDistanceToNow(new Date(eq.last_position.recorded_at), { addSuffix: true }) : 'Unknown'}
+                </Popup>
+              </Marker>
+            ))}
+
+            {trailCoords.length > 1 && (
+              <Polyline positions={trailCoords} color="#1976d2" weight={3} opacity={0.7} />
+            )}
+          </MapContainer>
+          </MapWorkspace>
         </Box>
       </Box>
-
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Paper variant="outlined" sx={{ p: 2, maxHeight: { md: mapHeight + 56 }, overflow: 'auto' }}>
-            <Typography variant="h6" gutterBottom>Equipment ({equipment.length})</Typography>
-            {equipment.map((eq) => {
-              const recent = isRecentPing(eq.last_position?.recorded_at);
-              return (
-                <Card
-                  key={eq.id}
-                  role="button"
-                  tabIndex={0}
-                  aria-pressed={selectedId === eq.id}
-                  aria-label={`Show day track for ${eq.name}`}
-                  sx={{
-                    mb: 1, cursor: 'pointer', boxShadow: 'none',
-                    border: selectedId === eq.id ? '2px solid' : '1px solid',
-                    borderColor: selectedId === eq.id ? 'primary.main' : 'divider',
-                    '&:hover': { borderColor: 'primary.main' },
-                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: 2 },
-                  }}
-                  onClick={() => setSelectedId(eq.id)}
-                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedId(eq.id); } }}
-                >
-                  <CardContent sx={{ py: 1.5, '&:last-child': { pb: 1.5 } }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Typography fontSize={24}>{TYPE_ICONS[eq.type] || '📍'}</Typography>
-                        <Box>
-                          <Typography variant="subtitle2" fontWeight={600}>{eq.name}</Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            {eq.identifier || eq.type} •{' '}
-                            {eq.last_position?.recorded_at
-                              ? formatDistanceToNow(new Date(eq.last_position.recorded_at), { addSuffix: true })
-                              : 'No position data'}
-                          </Typography>
-                        </Box>
-                      </Box>
-                      {canWrite && <IconButton size="small" onClick={(e) => { e.stopPropagation(); handleDelete(eq.id); }} aria-label="Delete">
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>}
-                    </Box>
-                    {eq.last_position && (
-                      <Box sx={{ mt: 0.5, display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
-                        {eq.last_position.speed > 0 && <Chip label={`${parseFloat(eq.last_position.speed).toFixed(1)} km/h`} size="small" />}
-                        <Chip
-                          icon={<PositionIcon sx={{ fontSize: 14 }} />}
-                          label={recent ? 'Live' : 'Last seen'}
-                          size="small"
-                          color={recent ? 'success' : 'default'}
-                        />
-                      </Box>
-                    )}
-                  </CardContent>
-                </Card>
-              );
-            })}
-            {equipment.length === 0 && (
-              <Typography color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>No equipment registered</Typography>
-            )}
-          </Paper>
-
-          {selectedEquipment && (
-            <Alert
-              severity="info"
-              sx={{ mt: 2 }}
-              action={<IconButton size="small" onClick={copyIngest} aria-label="Copy"><CopyIcon fontSize="small" /></IconButton>}
-            >
-              <Typography variant="subtitle2">Send this tractor into the map</Typography>
-              <Typography variant="caption" display="block" sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', wordBreak: 'break-all' }}>
-                POST {API_BASE}/gps/position
-              </Typography>
-              <Typography variant="caption" display="block">
-                Header X-API-Key (from Admin → API Keys). Body can use identifier
-                {selectedEquipment.identifier ? ` "${selectedEquipment.identifier}"` : ''} or equipment_id.
-              </Typography>
-              {canWrite && <Button size="small" sx={{ mt: 1, textTransform: 'none' }} onClick={openTestPoint}>
-                Drop test point
-              </Button>}
-            </Alert>
-          )}
-        </Grid>
-
-        <Grid size={{ xs: 12, md: 8 }}>
-          <Paper variant="outlined" sx={{ p: 0, overflow: 'hidden' }}>
-            <Box sx={{ px: 2, py: 1, borderBottom: '1px solid #eee' }}>
-              <Typography variant="body2" color="text.secondary">
-                {selectedEquipment
-                  ? `${TYPE_ICONS[selectedEquipment.type] || ''} ${selectedEquipment.name} — ${viewingToday ? 'today' : trackDate} (${positions.length} points)`
-                  : 'Select a tractor to see its day track'}
-              </Typography>
-              {selectedEquipment && positions.length === 0 && (
-                <Typography variant="caption" color="text.secondary">
-                  No GPS points for this day. Drop a test point or POST to /gps/position.
-                </Typography>
-              )}
-            </Box>
-            <Box ref={mapBoxRef} sx={{ height: mapHeight }}>
-              <MapContainer center={DEFAULT_CENTER} zoom={12} style={{ height: '100%', width: '100%' }}>
-                <MapLifecycle />
-                <MapResizeInvalidator revision={`${selectedId || ''}:${trackDate}`} />
-                <GpsMapFocus
-                  shouldFit={shouldFit}
-                  onFitted={onFitted}
-                  trailCoords={trailCoords}
-                  focusLatLng={focusLatLng && Number.isFinite(focusLatLng[0]) && Number.isFinite(focusLatLng[1]) ? focusLatLng : null}
-                />
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-                {equipment.filter((eq) => eq.last_position).map((eq) => (
-                  <Marker
-                    key={eq.id}
-                    position={[parseFloat(eq.last_position.latitude), parseFloat(eq.last_position.longitude)]}
-                    eventHandlers={{ click: () => setSelectedId(eq.id) }}
-                  >
-                    <Popup>
-                      <strong>{TYPE_ICONS[eq.type]} {eq.name}</strong><br />
-                      {eq.last_position.speed > 0 && <>Speed: {parseFloat(eq.last_position.speed).toFixed(1)} km/h<br /></>}
-                      Last seen: {eq.last_position.recorded_at ? formatDistanceToNow(new Date(eq.last_position.recorded_at), { addSuffix: true }) : 'Unknown'}
-                    </Popup>
-                  </Marker>
-                ))}
-
-                {trailCoords.length > 1 && (
-                  <Polyline positions={trailCoords} color="#1976d2" weight={3} opacity={0.7} />
-                )}
-              </MapContainer>
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
 
       <Dialog open={createOpen} onClose={() => setCreateOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>Add Equipment</DialogTitle>
@@ -420,6 +435,6 @@ export default function GPSTracking() {
         </DialogActions>
       </Dialog>
       {confirmDialog}
-    </Container>
+    </Box>
   );
 }

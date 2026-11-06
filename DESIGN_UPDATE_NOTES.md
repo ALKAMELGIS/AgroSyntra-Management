@@ -202,3 +202,19 @@ Audit of all 50 screens at 390 / 820 / 1280 / 1920 px (buttons, icons, type, rad
 - GPS equipment cards: brand colours instead of Material blue / fixed light grey (dark mode), and keyboard-operable (Enter / Space, focus ring).
 - New permanent tests: 12 map checks (3 screens × 360 / 820 / 1280 / 1920 px) — map visible and filling the height, no page scroll past it, legends / controls / panels never overlap.
 - Gate: **601 Playwright tests, all passing** (incl. 12 new map-screen checks and the overlap check on every screen); **677 unit tests** passing.
+
+## Round 21 — map takes the whole workspace: docked tool bar + panel, legend, basemaps
+- New `components/map/MapPanel.js` → **MapWorkspace**, used by **GIS Map** and **GPS Tracking**:
+
+      [ tool bar | docked panel (opens / closes, pushes the map) | map ]
+
+  - **Tool bar** (48 px, on the start edge): GIS Map → **Layers** (count) · **Legend** (count of visible layers) · **Basemaps** · **+ Add data**; GPS Tracking → **Equipment** (count) · **Basemaps** · **+ Add equipment**. Tooltips, accessible names, pressed / expanded state, a thin bar marks the open tool.
+  - **Docked panel** — part of the layout, not a floating card: opening it narrows the map, closing it (button, the same icon, or Esc) gives the full width back; Leaflet re-measures automatically. On phones it covers the map area while open. The open tool is remembered per page (Layers / Equipment open the first time on screens ≥ 1280 px).
+  - **Legend** follows what is switched on: one swatch per visible layer plus the PHI colours; nothing floats over the map any more (the old floating PHI legend is gone), so nothing can overlap.
+  - **Basemaps**: Light map · Street map · Satellite · Topographic (new), remembered per page.
+  - Zoom buttons in the opposite top corner; everything mirrors in Arabic.
+- GIS Map: the persistent layers drawer and the big "Add Layer" button replaced by the tool bar + docked panel.
+- **GPS Tracking fills the whole work area**: no separate title row (the page name is in the breadcrumb and read by screen readers); one slim bar above the map (what is shown · track date · refresh); edge to edge and down to the bottom of the screen like GIS Map. The map now starts 123 px higher on desktop (214 vs 337 px) and is 686 px tall on 1440 × 900 (was 500 px fixed two rounds ago).
+- `useFillHeight({ bleed: true })` for full-bleed pages.
+- Tests: new workspace test — Layers opens a docked panel and the map narrows; Legend lists only visible layers; Basemaps is a radio list; Esc closes and the map regains full width; Add data opens the dialog. Map overlap check ignores closed panels.
+- Gate: **602 Playwright tests, all passing**; **677 unit tests** passing.
