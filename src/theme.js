@@ -16,6 +16,8 @@ export const FONT_MONO =
   "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace";
 
 export const RADIUS = { xs: 6, sm: 8, md: 12, lg: 16, xl: 20, pill: 999 };
+/** Widest the page content gets on very large screens (keeps tables and lines readable). */
+export const PAGE_MAX_WIDTH = 1760;
 
 const lightPalette = {
   primary: { main: '#1f7a4d', light: '#3a9a68', dark: '#165c3a', contrastText: '#ffffff' },
@@ -229,6 +231,17 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       h5: { [breakpoints.down('sm')]: { fontSize: '1.0625rem' } },
     },
     components: {
+      // One page width for the whole app: the main area already has its own padding,
+      // so containers add none; data pages (lg / xl) use the full content area up to
+      // a comfortable cap on very wide screens; md stays for reading lists.
+      MuiContainer: {
+        defaultProps: { disableGutters: true },
+        styleOverrides: {
+          maxWidthLg: { [breakpoints.up('lg')]: { maxWidth: PAGE_MAX_WIDTH } },
+          maxWidthXl: { [breakpoints.up('xl')]: { maxWidth: PAGE_MAX_WIDTH } },
+          maxWidthMd: { [breakpoints.up('md')]: { maxWidth: 1040 } },
+        },
+      },
       MuiCssBaseline: {
         styleOverrides: {
           ':root': cssTokens(mode),
@@ -696,7 +709,12 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
               backgroundColor: palette.background.muted,
               borderBottom: `1px solid ${palette.border.subtle}`,
               padding: '11px 16px',
-              whiteSpace: 'nowrap',
+              // Long titles wrap to a second line rather than widening the column.
+              whiteSpace: 'normal',
+              minWidth: 88,
+              lineHeight: 1.35,
+              verticalAlign: 'bottom',
+              '&:empty, &.MuiTableCell-paddingCheckbox': { minWidth: 0 },
             },
           },
         },

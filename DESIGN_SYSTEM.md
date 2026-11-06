@@ -60,3 +60,9 @@ it crashes the RTL emotion cache. Put such rules in `App.css`.
 - Interface words on pages are translated through `src/i18n/pageLabels.js` (keys = exact English on screen). Adding a word is one line there.
 - Wrap any element that shows user data that could match an interface word (e.g. a field named "Nursery") in `data-no-translate` if it must stay as typed.
 - Build counted text as one string (`${n} items`), not `{n} item{s}`, so it can be translated as a whole.
+
+## Page width & space
+- Data/report pages: `<Container maxWidth="xl">` (or `lg`) — fills the content area up to `PAGE_MAX_WIDTH` (1760 px). Reading pages: `maxWidth="md"` (1040 px).
+- Don't add side padding inside pages: the main area already pads (`CONTENT_PADDING`).
+- Summary numbers go in a row of tiles; independent sections go in a 2-column grid from `lg`; a chart and its short table sit side by side from `lg` (3fr / 2fr).
+- Table headers wrap to two lines (min 88–96 px); keep body cells short and give long values a `title`.

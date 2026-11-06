@@ -54,7 +54,7 @@ export default function Enrollment() {
   if (isLoading) return <LinearProgress />;
 
   return (
-    <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
+    <Box sx={{ p: 3, maxWidth: 1760, mx: 'auto' }}>
       <Typography variant="h4" gutterBottom>
         Internship Enrollment
       </Typography>

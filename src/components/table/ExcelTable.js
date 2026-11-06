@@ -48,7 +48,14 @@ export const excelTableSx = (theme) => ({
     fontWeight: 600,
     textTransform: 'none',
     letterSpacing: 0,
-    whiteSpace: 'nowrap',
+    // Long titles wrap onto a second line instead of forcing a wide column, so
+    // more columns fit on screen; minWidth keeps short columns from squeezing
+    // titles into a tall stack.
+    whiteSpace: 'normal',
+    minWidth: 96,
+    lineHeight: 1.3,
+    verticalAlign: 'bottom',
+    '&:empty, &.MuiTableCell-paddingCheckbox': { minWidth: 0 },
     borderBottom: 'none !important',
     borderRight: 0,
     boxShadow: 'inset -1px 0 0 rgba(255,255,255,0.22)',
@@ -76,6 +83,7 @@ export const excelTableSx = (theme) => ({
   // Declared after the gutter rule so it wins the tie for that one cell.
   '&& .MuiTableCell-head.table-gutter': {
     zIndex: 4,
+    minWidth: GUTTER_WIDTH,
     backgroundColor: `${theme.palette.table.headerBg} !important`,
     borderRight: 0,
   },
@@ -151,7 +159,7 @@ export function freezeColumnsSx(widths, startLeft = 0) {
       };
       // These header cells are sticky on both axes at once, so they have to
       // clear the header band as well as the frozen columns.
-      rules[`&& .MuiTableCell-head.col-frozen-${i}`] = { zIndex: 4, ...edge };
+      rules[`&& .MuiTableCell-head.col-frozen-${i}`] = { zIndex: 4, minWidth: width, ...edge };
       left += width;
     });
     // Native date pickers in frozen cells cannot open when overflow is hidden.

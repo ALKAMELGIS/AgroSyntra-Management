@@ -88,7 +88,7 @@ export default function ManpowerEntry() {
         </Toolbar>
       </AppBar>
 
-      <Box sx={{ p: { xs: 1, sm: 2, md: 3 }, maxWidth: 1400, mx: 'auto' }}>
+      <Box sx={{ p: { xs: 1, sm: 2, md: 3 }, maxWidth: 1760, mx: 'auto' }}>
         {error && (
           <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>
         )}

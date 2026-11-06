@@ -239,7 +239,7 @@ export default function HistoricalImport() {
   };
 
   return (
-    <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1100, mx: 'auto' }}>
+    <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1760, mx: 'auto' }}>
       <Typography variant="h5" sx={{ mb: 0.5, display: 'flex', alignItems: 'center', gap: 1 }}>
         <HistoryIcon /> Historical data import
       </Typography>
