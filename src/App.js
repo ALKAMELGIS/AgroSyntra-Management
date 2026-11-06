@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { MenuOutlined as MenuIcon, LogoutOutlined as LogoutIcon, DarkModeOutlined as DarkModeIcon, LightModeOutlined as LightModeIcon, SettingsBrightnessOutlined as SystemModeIcon, SearchOutlined as SearchIcon } from '@mui/icons-material';
 import i18n from './i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import { enableAutoTranslate, disableAutoTranslate } from './i18n/autoTranslate';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AppThemeProvider, useThemeMode } from './contexts/ThemeContext';
 import { NotificationProvider } from './contexts/NotificationContext';
@@ -603,7 +604,18 @@ function AuthenticatedLayout() {
   );
 }
 
+/** Arabic wording for page-level interface text (see i18n/pageLabels.js). */
+function usePageArabic() {
+  useEffect(() => {
+    const apply = (lng) => ((lng || '').startsWith('ar') ? enableAutoTranslate() : disableAutoTranslate());
+    apply(i18n.language);
+    i18n.on('languageChanged', apply);
+    return () => { i18n.off('languageChanged', apply); disableAutoTranslate(); };
+  }, []);
+}
+
 function App() {
+  usePageArabic();
   return (
     <AppQueryProvider>
       <AppThemeProvider>

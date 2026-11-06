@@ -114,3 +114,11 @@ Fixed through it:
 - **Placement**: bottom inline-end corner (mirrors in Arabic), full width above the phone navigation bar on phones.
 - Errors are announced assertively, others politely, to screen readers.
 - Gate: **526 Playwright tests, all passing** (new: toast appears above the phone bar and closes); **667 unit tests** passing.
+
+## Round 15 — page content in Arabic for staff
+- Until now only the app shell (menus, breadcrumb, phone bar) switched to Arabic; page content (buttons, column headers, field labels, filters, status chips, empty states, report KPIs, toast messages) stayed English.
+- New `i18n/pageLabels.js`: about 800 Arabic interface strings plus patterns for counted and sentence text ("12 rows", "Field saved successfully!", "Failed to load fields", report interpretation lines).
+- New `i18n/autoTranslate.js`: in Arabic, exact known interface strings are replaced on screen (text, placeholders, aria-labels, tooltips) as pages render; switching back to English restores every original string. Names, numbers and anything staff typed are never translated; inputs, code and `data-no-translate` areas are skipped.
+- Sweep across all 50 routes in Arabic: English interface strings dropped from **448 to ~100**; what remains is data (field/user names, dates, codes), units, and a few long help paragraphs.
+- Bugs found by the sweep and fixed: Product Catalog showed "undefinedd" / "undefined days" when a product had no PHI (now "-"); Inventory showed "NaN" for missing stock, cost and minimum values (now "—"); the Inventory stock chip said "OK" (now "In Stock" / "متوفر"), and item counts were split into two text parts.
+- Gate: **523 Playwright tests, all passing**, including a new test that switches to Arabic on a data-entry screen, checks the labels, then switches back and checks English is restored. Unit tests: 7 new for the translator (**674 total, all passing**).

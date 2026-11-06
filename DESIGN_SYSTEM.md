@@ -55,3 +55,8 @@ Radius: 6 · 8 · 12 · 16 (cards) · 20 (dialogs) · pill (buttons, chips, sear
 ## RTL note
 Do not put `::placeholder` (or other selectors the stylis prefixer expands) in theme `styleOverrides`;
 it crashes the RTL emotion cache. Put such rules in `App.css`.
+
+## Arabic page wording
+- Interface words on pages are translated through `src/i18n/pageLabels.js` (keys = exact English on screen). Adding a word is one line there.
+- Wrap any element that shows user data that could match an interface word (e.g. a field named "Nursery") in `data-no-translate` if it must stay as typed.
+- Build counted text as one string (`${n} items`), not `{n} item{s}`, so it can be translated as a whole.

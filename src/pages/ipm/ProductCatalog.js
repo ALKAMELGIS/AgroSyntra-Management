@@ -422,6 +422,7 @@ export default function ProductCatalog() {
                   <TableCell>{p.growth_stage || '-'}</TableCell>
                   <TableCell>{p.spray_interval || '-'}</TableCell>
                   <TableCell>
+                    {p.phi_text || p.phi_days != null ? (
                     <Tooltip title={p.phi_text || `${p.phi_days} days`}>
                       <Chip
                         label={p.phi_text || `${p.phi_days}d`}
@@ -430,6 +431,7 @@ export default function ProductCatalog() {
                         sx={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis' }}
                       />
                     </Tooltip>
+                    ) : '-'}
                   </TableCell>
                   <TableCell>{p.re_entry_interval || '-'}</TableCell>
                   <TableCell>{p.bumble_bee_interval || '-'}</TableCell>

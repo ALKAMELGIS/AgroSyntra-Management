@@ -20,6 +20,9 @@ import { canWriteOpsStock } from '../utils/roleAccess';
 import { API_BASE, getAuthHeaders } from '../config/api';
 import InfoNote from '../components/InfoNote';
 
+/** Missing numbers show as an em dash instead of NaN. */
+const fmtNum = (v, digits) => (v === null || v === undefined || v === '' || !Number.isFinite(Number(v)) ? '—' : Number(v).toFixed(digits));
+
 const API = API_BASE;
 const headers = () => ({
   'Content-Type': 'application/json',
@@ -41,7 +44,7 @@ const UNITS = ['kg', 'L', 'units', 'sachets', 'bottles', 'bags', 'pcs'];
 function stockStatus(current, min) {
   if (current <= 0) return { label: 'Out of Stock', color: 'error' };
   if (current <= min) return { label: 'Low', color: 'warning' };
-  return { label: 'OK', color: 'success' };
+  return { label: 'In Stock', color: 'success' };
 }
 
 const emptyForm = {
@@ -244,7 +247,7 @@ export default function Inventory() {
           }
           sx={{ mb: 2 }}
         >
-          {lowStockCount} item{lowStockCount > 1 ? 's' : ''} below minimum stock level
+          {`${lowStockCount} ${lowStockCount === 1 ? 'item' : 'items'} below minimum stock level`}
         </Alert>
       )}
 
@@ -265,7 +268,7 @@ export default function Inventory() {
           sx={{ width: 300 }}
         />
         <Typography variant="body2" color="text.secondary" sx={{ ml: 'auto' }}>
-          {meta.total} item{meta.total !== 1 ? 's' : ''}
+          {`${meta.total} ${meta.total === 1 ? 'item' : 'items'}`}
         </Typography>
       </Paper>
 
@@ -308,12 +311,12 @@ export default function Inventory() {
                       <TableCell>{item.unit}</TableCell>
                       <TableCell align="right">
                         <Typography fontWeight={600} color={status.color === 'error' ? 'error' : status.color === 'warning' ? 'warning.main' : 'text.primary'}>
-                          {Number(item.current_stock).toFixed(1)}
+                          {fmtNum(item.current_stock, 1)}
                         </Typography>
                       </TableCell>
-                      <TableCell align="right">{Number(item.min_stock_level).toFixed(1)}</TableCell>
+                      <TableCell align="right">{fmtNum(item.min_stock_level, 1)}</TableCell>
                       <TableCell><Chip label={status.label} color={status.color} size="small" /></TableCell>
-                      <TableCell align="right">{Number(item.cost_per_unit).toFixed(2)} {item.currency}</TableCell>
+                      <TableCell align="right">{fmtNum(item.cost_per_unit, 2)} {item.currency}</TableCell>
                       <TableCell>{item.supplier || '—'}</TableCell>
                       <TableCell align="center">
                         {canWrite && (<>
@@ -371,9 +374,9 @@ export default function Inventory() {
                                           />
                                         </TableCell>
                                         <TableCell align="right" sx={{ color: Number(tx.quantity) >= 0 ? 'success.main' : 'error.main', fontWeight: 600 }}>
-                                          {Number(tx.quantity) >= 0 ? '+' : ''}{Number(tx.quantity).toFixed(1)}
+                                          {Number(tx.quantity) > 0 ? '+' : ''}{fmtNum(tx.quantity, 1)}
                                         </TableCell>
-                                        <TableCell align="right">{Number(tx.balance_after).toFixed(1)}</TableCell>
+                                        <TableCell align="right">{fmtNum(tx.balance_after, 1)}</TableCell>
                                         <TableCell>
                                           <Chip label={tx.reference_type || 'manual'} size="small" variant="outlined" />
                                         </TableCell>
@@ -478,7 +481,7 @@ export default function Inventory() {
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
             <Typography variant="body2" color="text.secondary">
-              Current stock: {Number(receiveDialog.item?.current_stock || 0).toFixed(1)} {receiveDialog.item?.unit}
+              Current stock: {fmtNum(receiveDialog.item?.current_stock || 0, 1)} {receiveDialog.item?.unit}
             </Typography>
             <TextField
               label="Quantity Received" type="number" fullWidth autoFocus

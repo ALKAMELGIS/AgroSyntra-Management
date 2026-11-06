@@ -365,10 +365,34 @@ test.describe('core usability', () => {
     await prepare(page, { lang: 'ar' });
     await page.goto('/ipm/scouting-reports');
     await settle(page);
-    const crumbs = page.getByRole('navigation', { name: 'Breadcrumb' });
+    const crumbs = page.getByRole('navigation', { name: 'مسار التنقل' });
     await expect(crumbs.getByText('تقارير الكشف')).toBeVisible();
-    const bar = page.getByRole('navigation', { name: 'Quick navigation' });
+    const bar = page.getByRole('navigation', { name: 'التنقل السريع' });
     await expect(bar.getByText('الرئيسية')).toBeVisible();
+  });
+
+  test('page content (labels, buttons, headers) is translated in Arabic and restored in English', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await prepare(page, { rich: true });
+    await page.goto('/harvest/entry');
+    await settle(page);
+    const main = page.locator('main');
+    await expect(main.getByText('Filters', { exact: true }).first()).toBeVisible();
+    await page.getByRole('button', { name: 'Account menu' }).click();
+    await page.getByRole('button', { name: 'العربية' }).click();
+    await page.keyboard.press('Escape');
+    await expect(main.getByText('عوامل التصفية', { exact: true }).first()).toBeVisible();
+    await expect(main.getByText('الحصاد اليومي', { exact: true }).first()).toBeVisible();
+    // Common interface words no longer appear in English.
+    for (const en of ['Filters', 'Daily Harvest', 'Summary', 'Field', 'Crop']) {
+      await expect(main.getByText(en, { exact: true })).toHaveCount(0);
+    }
+    // Switching back to English restores the original wording.
+    await page.getByRole('button', { name: 'قائمة الحساب' }).click();
+    await page.getByRole('button', { name: 'English' }).click();
+    await page.keyboard.press('Escape');
+    await expect(main.getByText('Filters', { exact: true }).first()).toBeVisible();
+    await expect(main.getByText('عوامل التصفية', { exact: true })).toHaveCount(0);
   });
 
   test('help notes show only an icon and open the text on click', async ({ page }) => {
@@ -442,3 +466,4 @@ test.describe('core usability', () => {
     expect(outline).toBe(true);
   });
 });
+
