@@ -16,6 +16,7 @@ import { OPS_EXPORT } from '../../utils/companyExcelExport';
 import { safeExportFilename } from '../../utils/excelSheetName';
 import { buildScoutingSummarySheets } from '../../utils/scoutingSummaryExcelExport';
 import InfoNote from '../../components/InfoNote';
+import ExportButton from '../../components/ExportButton';
 
 const cellBorder = '1px solid #c8c8c8';
 const SCOUTING_HEADER_BG = '#E8A598';
@@ -225,15 +226,7 @@ export default function ScoutingSummaryPanel({ activeSiteId, onOpenReport }) {
           <Button startIcon={<RefreshIcon />} variant="outlined" size="small" onClick={loadSummary}>
             Refresh
           </Button>
-          <Button
-            startIcon={<ExportIcon />}
-            variant="contained"
-            size="small"
-            onClick={handleExport}
-            disabled={!visibleFields.length || exporting}
-          >
-            {exporting ? 'Exporting…' : 'Export Excel'}
-          </Button>
+          <ExportButton label="Export to Excel" onClick={handleExport} disabled={!visibleFields.length || exporting} loading={exporting} />
         </Box>
       </Stack>
 

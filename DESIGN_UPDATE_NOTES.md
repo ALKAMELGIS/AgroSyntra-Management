@@ -236,3 +236,8 @@ Audit of all 50 screens at 390 / 820 / 1280 / 1920 px (buttons, icons, type, rad
 - **Harvest dashboard:** KPI tiles use the shared stat card (no curved coloured edge); filters 2 per row on phones; KPIs 2 + 1 on phones; chart and table no longer stretch to equal height.
 - **PHI cards (Pesticide applications):** full outline in the status colour instead of a curved side bar.
 - **Charts in Arabic:** legend swatch spaced from its label.
+
+## Round 24 — export is an icon everywhere
+- New shared `components/ExportButton.js`: a 40 px square icon button (download arrow, brand green) with a small file-type tag — **XLS** / **CSV** (green) or **PDF** (red) — plus a tooltip and an accessible name ("Export to Excel" / "تصدير إلى Excel"). Print uses the printer icon. Shows a spinner while exporting; disabled state keeps its tooltip.
+- Replaced 37 wide text buttons ("Export to Excel", "Export Excel", "Export", "Export CSV", "Export period as PDF/Excel", "Print / Export", …) across dashboards, reports, IPM, manpower, admin and setup pages. Confirm buttons inside export dialogs keep their text.
+- Arabic labels for all export names; e2e check that export controls are ≤ 40 px, named, tagged and have a tooltip.

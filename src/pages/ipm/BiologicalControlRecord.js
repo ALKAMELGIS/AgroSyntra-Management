@@ -21,7 +21,6 @@ import {
   ContentCopyOutlined as CopyIcon,
   HomeOutlined as MySiteIcon,
   PublicOutlined as BrowseIcon,
-  FileDownloadOutlined as DownloadIcon,
   TaskAltOutlined as ApproveIcon,
   UndoOutlined as RejectIcon,
 } from '@mui/icons-material';
@@ -71,6 +70,7 @@ import {
   resolvedSitePrice,
 } from '../../utils/bioControlWeeks';
 import InfoNote from '../../components/InfoNote';
+import ExportButton from '../../components/ExportButton';
 
 function UomPicker({ options, value, onChange, label = 'UOM', variant = 'outlined', sx }) {
   const selected = typeof value === 'object' && value
@@ -1480,9 +1480,7 @@ export default function BiologicalControlRecord() {
           <ToggleButton value="summary" sx={{ px: 1.5, fontSize: '0.75rem' }}><SummaryIcon sx={{ mr: 0.5, fontSize: 16 }} />Summary</ToggleButton>
           <ToggleButton value="catalog" sx={{ px: 1.5, fontSize: '0.75rem' }}><CatalogIcon sx={{ mr: 0.5, fontSize: 16 }} />Catalog</ToggleButton>
         </ToggleButtonGroup>
-        <Button size="small" variant="outlined" startIcon={<DownloadIcon />} onClick={openExportDialog}
-          disabled={!fieldSetups.length || exporting}
-          sx={{ fontSize: '0.75rem', height: 30, textTransform: 'none' }}>Export</Button>
+        <ExportButton label="Export to Excel" onClick={openExportDialog} disabled={!fieldSetups.length || exporting} />
         {canImportBio(user) && (
           <Button size="small" variant="outlined" startIcon={<UploadIcon />} onClick={() => setImportOpen(true)}
             disabled={!canImportNow}

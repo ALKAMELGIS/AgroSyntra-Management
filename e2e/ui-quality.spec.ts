@@ -745,3 +745,25 @@ test.describe('John Deere Operations Center', () => {
     await expect(page.locator('.MuiStepper-root').getByRole('button', { name: 'Sign in', exact: true })).toBeDisabled();
   });
 });
+
+test.describe('export controls', () => {
+  test('export is a compact icon with a file-type tag, a name and a tooltip (en + ar)', async ({ page }) => {
+    for (const lang of ['en', 'ar'] as const) {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await prepare(page, { lang, rich: true });
+      await page.goto('/harvest/dashboard');
+      await settle(page);
+      const btn = page.locator('[data-export-button]').first();
+      await expect(btn).toBeVisible();
+      const box = (await btn.boundingBox())!;
+      expect(box.width).toBeLessThanOrEqual(40);
+      expect(box.height).toBeLessThanOrEqual(40);
+      await expect(btn).toHaveAccessibleName(lang === 'en' ? 'Export to Excel' : 'تصدير إلى Excel');
+      await expect(btn.getByText('XLS')).toBeVisible();
+      await btn.locator('..').hover();
+      await expect(page.getByRole('tooltip')).toContainText(lang === 'en' ? 'Export to Excel' : 'تصدير إلى Excel');
+      // No wide text "Export" buttons left on the page.
+      await expect(page.getByRole('button', { name: /^export/i }).and(page.locator(':not([data-export-button])'))).toHaveCount(0);
+    }
+  });
+});

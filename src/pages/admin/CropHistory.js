@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import {
   EditOutlined as Edit, DeleteOutlined as Delete, FileUploadOutlined as FileUpload,
-  SaveOutlined as SaveIcon, SpaOutlined as NurseryIcon, AddCircleOutlineOutlined as AddCircleOutline, SwapHorizOutlined as SwapHoriz, FileDownloadOutlined as FileDownload,
+  SaveOutlined as SaveIcon, SpaOutlined as NurseryIcon, AddCircleOutlineOutlined as AddCircleOutline, SwapHorizOutlined as SwapHoriz,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
@@ -49,6 +49,7 @@ import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { isReadOnlyOnPage, PAGE_KEYS } from '../../utils/roleAccess';
 import InfoNote from '../../components/InfoNote';
 import PageTitle from '../../components/PageTitle';
+import ExportButton from '../../components/ExportButton';
 
 /** When true, every planting grid cell renders disabled (view-only roles, closed season). */
 const CellReadOnlyContext = createContext(false);
@@ -1149,9 +1150,7 @@ export default function CropHistory() {
             {dirtyCount > 0 && (
               <Chip label={`${dirtyCount} unsaved`} size="small" color="warning" />
             )}
-            <Button variant="outlined" startIcon={<FileDownload />} onClick={handleExportPlanting}>
-              Export
-            </Button>
+            <ExportButton label="Export to Excel" onClick={handleExportPlanting} />
             <Button variant="outlined" startIcon={<FileUpload />} onClick={() => setPlantingImporterOpen(true)} disabled={plantingReadOnly}>
               Import Excel
             </Button>

@@ -48,6 +48,7 @@ import { TableSkeleton } from '../components/LoadingSkeleton';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
 
 const FIELD_FROZEN_WIDTHS = [160];
 
@@ -474,22 +475,8 @@ function FieldTypesNamesManagement() {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <PageTitle>Field Types & Names Management</PageTitle>
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={handleExportHistory}
-              disabled={!selectedFarmAreaData}
-            >
-              Export Crop History
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleExport}
-              disabled={!selectedFarmAreaData}
-            >
-              Export to Excel
-            </Button>
+            <ExportButton label="Export crop history" onClick={handleExportHistory} disabled={!selectedFarmAreaData} />
+            <ExportButton label="Export to Excel" onClick={handleExport} disabled={!selectedFarmAreaData} />
           </Box>
         </Box>
 

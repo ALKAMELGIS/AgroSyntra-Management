@@ -7,7 +7,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useConfirmDialog } from '../../components/ConfirmDialog';
 import {
-  DeleteOutlined as Delete, SaveOutlined as SaveIcon, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload, AddCircleOutlineOutlined as AddCircleOutline,
+  DeleteOutlined as Delete, SaveOutlined as SaveIcon, FileUploadOutlined as FileUpload, AddCircleOutlineOutlined as AddCircleOutline,
   CheckCircleOutlined as CheckCircle, CheckCircleOutlineOutlined as CheckCircleOutline,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
@@ -28,6 +28,7 @@ import useOpsExcelExport from '../../hooks/useOpsExcelExport';
 import { OPS_EXPORT } from '../../utils/companyExcelExport';
 import { buildPlantationExportSheets } from '../../utils/cropHistoryExcelExport';
 import InfoNote from '../../components/InfoNote';
+import ExportButton from '../../components/ExportButton';
 
 const CREATE_NEW_VALUE = '__CREATE_NEW__';
 const PWB_CHECK_WIDTH = 42;
@@ -1049,9 +1050,7 @@ export default function PlantationWorkbook({
             Save
           </Button>
         )}
-        <Button variant="outlined" size="small" startIcon={<FileDownload />} onClick={handleExportExcel}>
-          Export
-        </Button>
+        <ExportButton label="Export to Excel" onClick={handleExportExcel} />
         {!sheetReadOnly && (
           <Button variant="outlined" size="small" startIcon={<FileUpload />} onClick={() => setImportOpen(true)}>
             Import workbook

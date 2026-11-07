@@ -6,7 +6,7 @@ import {
   CircularProgress, Alert, Checkbox, FormControlLabel,
 } from '@mui/material';
 import {
-  AddOutlined as Add, CloseOutlined as Close, DeleteOutlined as Delete, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload,
+  AddOutlined as Add, CloseOutlined as Close, DeleteOutlined as Delete, FileUploadOutlined as FileUpload,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { getFriendlyError } from '../utils/errorMessages';
@@ -24,6 +24,7 @@ import { buildPumpExportSheets, pumpExportFilename } from '../utils/pumpRoomExce
 import { computePumpTotals, parsePumpsFromRow, pumpCellUsage } from '../utils/pumpRoomMath';
 import * as XLSX from 'xlsx';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
 
 const PUMP_FROZEN_WIDTHS = [160, 140, 110];
 
@@ -549,9 +550,7 @@ function PumpUsageTab({
             Add Pump
           </Button>
         )}
-        <Button size="small" variant="outlined" startIcon={<FileDownload />} onClick={openExportDialog}>
-          Export
-        </Button>
+        <ExportButton label="Export to Excel" onClick={openExportDialog} />
         {canWrite && (
           <Button size="small" variant="outlined" startIcon={<FileUpload />} onClick={() => setImportOpen(true)}>
             Import Excel

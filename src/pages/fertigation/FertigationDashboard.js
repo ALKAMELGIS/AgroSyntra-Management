@@ -44,7 +44,7 @@ import {
   Pie,
   Cell,
 } from 'recharts';
-import { DownloadOutlined as Download, PrintOutlined as Print, FilterListOutlined as FilterList } from '@mui/icons-material';
+import { PrintOutlined as Print, FilterListOutlined as FilterList } from '@mui/icons-material';
 import { loadMasterData } from '../../utils/masterDataUtils';
 import useOpsExcelExport from '../../hooks/useOpsExcelExport';
 import { OPS_EXPORT } from '../../utils/companyExcelExport';
@@ -54,6 +54,7 @@ import { listRecipesAll } from '../../utils/backendApi';
 import { fertigationRecipeName } from '../../utils/fertigationEntryLabels';
 import InfoNote from '../../components/InfoNote';
 import PageTitle from '../../components/PageTitle';
+import ExportButton from '../../components/ExportButton';
 
 const toNumber = (value) => {
   const num = Number(value);
@@ -432,9 +433,7 @@ function FertigationDashboard() {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <PageTitle>Fertigation Dashboard</PageTitle>
           <Box>
-            <Button variant="outlined" startIcon={<Download />} onClick={exportToExcel} sx={{ mr: 1 }}>
-              Export Excel
-            </Button>
+            <ExportButton label="Export to Excel" onClick={exportToExcel} />
             <Button variant="outlined" startIcon={<Print />} onClick={() => window.print()}>
               Print
             </Button>

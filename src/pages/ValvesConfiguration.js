@@ -26,6 +26,7 @@ import { loadMasterData, exportToExcel } from '../utils/masterDataUtils';
 import { fetchFieldValves, replaceFieldValves } from '../utils/backendApi';
 import { excelTableSx, GutterCell } from '../components/table/ExcelTable';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
 
 function ValvesConfiguration() {
   const notify = useNotification();
@@ -181,14 +182,7 @@ function ValvesConfiguration() {
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <PageTitle>Valves Configuration</PageTitle>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleExport}
-            disabled={!selectedFarmAreaData}
-          >
-            Export to Excel
-          </Button>
+          <ExportButton label="Export to Excel" onClick={handleExport} disabled={!selectedFarmAreaData} />
         </Box>
 
         <Grid container spacing={2} sx={{ mb: 3 }}>

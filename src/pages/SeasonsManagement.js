@@ -19,7 +19,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit, FileDownloadOutlined as FileDownload, PlayArrow } from '@mui/icons-material';
+import { AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit, PlayArrow } from '@mui/icons-material';
 import { TableSkeleton } from '../components/LoadingSkeleton';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
 import { useAuth } from '../contexts/AuthContext';
@@ -37,6 +37,7 @@ import {
 } from '../utils/seasonListDates';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
 
 const SEASON_FROZEN_WIDTHS = [160];
 
@@ -227,9 +228,7 @@ function SeasonsManagement() {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, gap: 2, flexWrap: 'wrap' }}>
           <PageTitle>Seasons{siteLabel ? ` — ${siteLabel}` : ''}</PageTitle>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-            <Button variant="outlined" startIcon={<FileDownload />} onClick={handleExport} disabled={!seasons.length}>
-              Export CSV
-            </Button>
+            <ExportButton label="Export CSV" format="csv" onClick={handleExport} disabled={!seasons.length} />
             {canManage && !hasOpenSeason ? (
               <Button
                 variant="contained"

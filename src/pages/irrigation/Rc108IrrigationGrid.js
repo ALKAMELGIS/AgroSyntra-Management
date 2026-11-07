@@ -4,7 +4,7 @@ import {
   DialogContent, DialogTitle, FormControlLabel, IconButton, Paper, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow, Typography,
 } from '@mui/material';
-import { AddCircleOutlineOutlined as AddCircleOutline, DeleteOutlined as Delete, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload, SaveOutlined as SaveIcon } from '@mui/icons-material';
+import { AddCircleOutlineOutlined as AddCircleOutline, DeleteOutlined as Delete, FileUploadOutlined as FileUpload, SaveOutlined as SaveIcon } from '@mui/icons-material';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useNotification } from '../../contexts/NotificationContext';
 import { apiRequest } from '../../utils/api';
@@ -25,6 +25,7 @@ import {
   RC108_STRUCTURE_LABELS,
 } from '../../utils/irrigationExcelExport';
 import InfoNote from '../../components/InfoNote';
+import ExportButton from '../../components/ExportButton';
 
 const FLOW_KEY = (siteId) => `rc108-flow-rate-${siteId}`;
 const FROZEN_COLS = [
@@ -555,9 +556,7 @@ export default function Rc108IrrigationGrid({
         </Typography>
         <Box sx={{ flex: 1 }} />
         <DeleteSelectedButton count={selection.size} onClick={removeSelectedRows} disabled={readOnly} />
-        <Button size="small" startIcon={<FileDownload />} onClick={openExportDialog} sx={{ textTransform: 'none' }}>
-          Export
-        </Button>
+        <ExportButton label="Export to Excel" onClick={openExportDialog} />
         {!readOnly && (
           <>
             <Button size="small" startIcon={<FileUpload />} onClick={() => setImportOpen(true)} sx={{ textTransform: 'none' }}>

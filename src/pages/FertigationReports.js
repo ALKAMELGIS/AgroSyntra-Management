@@ -11,7 +11,6 @@ import {
   TextField,
   MenuItem,
 } from '@mui/material';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import TableChartIcon from '@mui/icons-material/TableChartOutlined';
 import AssessmentIcon from '@mui/icons-material/AssessmentOutlined';
 import { loadMasterData } from '../utils/masterDataUtils';
@@ -27,6 +26,7 @@ import ExecutiveReportPanel from '../components/reports/ExecutiveReportPanel';
 import { getDefaultDateRange } from '../utils/executiveReportUtils';
 import { buildFertigationExecutiveReport } from '../utils/executiveReports/fertigationExecutive';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
 
 function FertigationReports() {
   const notify = useNotification();
@@ -355,23 +355,8 @@ function FertigationReports() {
               </Grid>
             </Grid>
             <Box sx={{ mb: 4 }}>
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<PictureAsPdfIcon />}
-                onClick={exportToPDF}
-                sx={{ mr: 2, mb: 1 }}
-              >
-                Export Period as PDF
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<TableChartIcon />}
-                onClick={exportRangeExcel}
-                sx={{ mb: 1 }}
-              >
-                Export Period as Excel
-              </Button>
+              <ExportButton label="Export period as PDF" format="pdf" onClick={exportToPDF} />
+              <ExportButton label="Export period as Excel" onClick={exportRangeExcel} />
             </Box>
 
             <Grid container spacing={3}>

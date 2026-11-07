@@ -46,6 +46,7 @@ import { TableSkeleton } from '../components/LoadingSkeleton';
 import { useNotification } from '../contexts/NotificationContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
 
 const AREA_FROZEN_WIDTHS = [180];
 const CROP_FROZEN_WIDTHS = [44, 160];
@@ -280,14 +281,7 @@ function FarmAreasCropsManagement() {
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
           <PageTitle>Farm Areas & Crops Management</PageTitle>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleExport}
-            disabled={!selectedSiteData}
-          >
-            Export to Excel
-          </Button>
+          <ExportButton label="Export to Excel" onClick={handleExport} disabled={!selectedSiteData} />
         </Box>
 
         <Grid container spacing={2} sx={{ mb: 3 }}>

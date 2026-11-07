@@ -25,6 +25,7 @@ import useSeasonListDates from '../../hooks/useSeasonListDates';
 import { DeleteSelectedButton, RowCheckbox, RowSelectCell, SelectAllHeadCell, deleteIdsSequentially } from '../../components/table/BulkSelect';
 import { useRowSelection } from '../../hooks/useRowSelection';
 import PageTitle from '../../components/PageTitle';
+import ExportButton from '../../components/ExportButton';
 
 const SEVERITY_COLORS = {
   none: 'default',
@@ -829,18 +830,11 @@ function ReportDetail({ report, detail, onOpenPhoto }) {
       {/* Quick actions — available to anyone who can see the report */}
       <Grid size={12}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, flexWrap: 'wrap' }}>
-          <Button
-            size="small"
-            variant="outlined"
-            startIcon={<Print fontSize="small" />}
-            onClick={() => {
+          <ExportButton label="Print / Save PDF" format="print" onClick={() => {
               // New tab so the existing session stays put and the
               // browser's print dialog can't steal focus from the list.
               window.open(`/ipm/scouting-reports/${report.id}/print`, '_blank', 'noopener');
-            }}
-          >
-            Print / Save PDF
-          </Button>
+            }} />
         </Box>
       </Grid>
 

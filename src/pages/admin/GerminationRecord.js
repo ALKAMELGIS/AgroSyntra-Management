@@ -5,7 +5,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress, Alert,
 } from '@mui/material';
 import {
-  AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload, SaveOutlined as SaveIcon,
+  AddOutlined as Add, DeleteOutlined as Delete, EditOutlined as Edit, FileUploadOutlined as FileUpload, SaveOutlined as SaveIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
@@ -25,6 +25,7 @@ import useReadOnlyMode from '../../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { isReadOnlyOnPage, PAGE_KEYS } from '../../utils/roleAccess';
 import InfoNote from '../../components/InfoNote';
+import ExportButton from '../../components/ExportButton';
 
 const GERM_FROZEN_WIDTHS = [140];
 const twoRowHeadSx = {
@@ -300,9 +301,7 @@ export default function GerminationRecord({ siteFilter }) {
             label="Select all germination tables"
           />
           <DeleteSelectedButton count={sectionSelection.size} onClick={handleBulkDeleteSections} label="Delete selected tables" disabled={readOnly} />
-          <Button size="small" variant="outlined" startIcon={<FileDownload />} onClick={handleExportExcel}>
-            Export
-          </Button>
+          <ExportButton label="Export to Excel" onClick={handleExportExcel} />
           <Button size="small" variant="outlined" startIcon={<FileUpload />} onClick={() => setImportOpen(true)} disabled={readOnly}>
             Import Excel
           </Button>

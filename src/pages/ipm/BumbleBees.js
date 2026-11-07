@@ -7,7 +7,7 @@ import {
   CircularProgress, Grid, FormControl, Select, Tabs, Tab, Alert, Card, CardContent,
   IconButton, Tooltip, Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
-import { CheckOutlined as Check, DeleteOutlined as Delete, AddCircleOutlineOutlined as AddCircleOutline, FileDownloadOutlined as FileDownload } from '@mui/icons-material';
+import { CheckOutlined as Check, DeleteOutlined as Delete, AddCircleOutlineOutlined as AddCircleOutline,} from '@mui/icons-material';
 import api from '../../utils/api';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import { useNotification } from '../../contexts/NotificationContext';
@@ -34,6 +34,7 @@ import { DeleteSelectedButton, RowCheckbox, SelectAllCheckbox, deleteIdsSequenti
 import { useRowSelection } from '../../hooks/useRowSelection';
 import InfoNote from '../../components/InfoNote';
 import PageTitle from '../../components/PageTitle';
+import ExportButton from '../../components/ExportButton';
 
 function TabPanel({ children, value, index }) {
   if (value !== index) return null;
@@ -967,15 +968,7 @@ export default function BumbleBees() {
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, gap: 1, flexWrap: 'wrap' }}>
         <PageTitle>Bumble Bee Deployments</PageTitle>
-        <Button
-          startIcon={<FileDownload />}
-          variant="outlined"
-          size="small"
-          onClick={handleExportExcel}
-          disabled={exporting}
-        >
-          {exporting ? 'Exporting…' : 'Export'}
-        </Button>
+        <ExportButton label="Export to Excel" onClick={handleExportExcel} disabled={exporting} loading={exporting} />
       </Box>
 
       {readOnly && <ReadOnlyBanner message="View only — bumble bee deployments cannot be modified." />}

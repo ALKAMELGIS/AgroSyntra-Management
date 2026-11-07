@@ -19,7 +19,6 @@ import {
 } from '@mui/material';
 import {
   SearchOutlined as SearchIcon,
-  PrintOutlined as PrintIcon,
   AgricultureOutlined as AgricultureIcon,
   GroupsOutlined as GroupsIcon,
   PestControlOutlined as PestControlIcon,
@@ -29,6 +28,7 @@ import api from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
 import InfoNote from '../../components/InfoNote';
 import PageTitle from '../../components/PageTitle';
+import ExportButton from '../../components/ExportButton';
 
 // Unified with the app font (theme FONT_SANS via CSS variable).
 const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
@@ -366,9 +366,7 @@ export default function BatchTrace() {
             Search
           </Button>
           {matches.length > 0 && (
-            <Button variant="outlined" startIcon={<PrintIcon />} onClick={handlePrint}>
-              Print / Export
-            </Button>
+            <ExportButton label="Print / Export" format="print" onClick={handlePrint} />
           )}
         </Stack>
       </Box>

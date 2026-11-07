@@ -15,15 +15,15 @@ import {
   Card,
   TextField,
   MenuItem,
-  Button,
 } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
-import { DownloadOutlined as Download } from '@mui/icons-material';
+import {} from '@mui/icons-material';
 import { listHarvestsAll } from '../../utils/backendApi';
 import useSeasonListDates from '../../hooks/useSeasonListDates';
 import useOpsExcelExport from '../../hooks/useOpsExcelExport';
 import { OPS_EXPORT } from '../../utils/companyExcelExport';
 import PageTitle from '../../components/PageTitle';
+import ExportButton from '../../components/ExportButton';
 
 // Color scheme for crops
 const CROP_COLORS = {
@@ -253,15 +253,7 @@ function HarvestDashboard() {
           <PageTitle>
             Harvest Dashboard
           </PageTitle>
-          <Button
-            variant="contained"
-            disableElevation
-            startIcon={<Download />}
-            onClick={exportToExcel}
-            disabled={tableData.length === 0}
-          >
-            Export to Excel
-          </Button>
+          <ExportButton label="Export to Excel" onClick={exportToExcel} disabled={tableData.length === 0} />
         </Box>
 
         {/* Filters Section */}

@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Box, Button, CircularProgress, Container, MenuItem, Tab, Tabs, TextField, Typography,
+  Box, Container, MenuItem, Tab, Tabs, TextField, Typography,
 } from '@mui/material';
-import { FileDownloadOutlined as FileDownload } from '@mui/icons-material';
+import {} from '@mui/icons-material';
 import { useApiQuery } from '../hooks/useApiQuery';
 import useOpsExcelExport from '../hooks/useOpsExcelExport';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
@@ -17,6 +17,7 @@ import ManpowerCostDashboard from '../components/manpower/ManpowerCostDashboard'
 import ManpowerRatesPanel from '../components/manpower/ManpowerRatesPanel';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
 
 const TABS = ['cost', 'dashboard', 'rates'];
 
@@ -129,14 +130,7 @@ export default function ManpowerCost() {
             ))}
           </TextField>
           {tab !== 'rates' && (
-            <Button
-              variant="outlined"
-              onClick={handleExport}
-              disabled={!validPeriod || exporting}
-              startIcon={exporting ? <CircularProgress size={16} /> : <FileDownload />}
-            >
-              {exporting ? t('manpowerCost.exporting') : t('manpowerCost.export')}
-            </Button>
+            <ExportButton label={t('manpowerCost.export')} onClick={handleExport} disabled={!validPeriod || exporting} loading={exporting} />
           )}
         </Box>
 

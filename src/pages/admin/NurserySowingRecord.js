@@ -5,7 +5,7 @@ import {
   CircularProgress, IconButton, Tooltip,
 } from '@mui/material';
 import {
-  SaveOutlined as SaveIcon, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload, AddCircleOutlineOutlined as AddCircleOutline, DeleteOutlined as Delete, LocalFloristOutlined as LocalFlorist,
+  SaveOutlined as SaveIcon, FileUploadOutlined as FileUpload, AddCircleOutlineOutlined as AddCircleOutline, DeleteOutlined as Delete, LocalFloristOutlined as LocalFlorist,
 } from '@mui/icons-material';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
@@ -21,6 +21,7 @@ import useReadOnlyMode from '../../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { isReadOnlyOnPage, PAGE_KEYS } from '../../utils/roleAccess';
 import InfoNote from '../../components/InfoNote';
+import ExportButton from '../../components/ExportButton';
 
 /** When true, every sowing grid cell renders disabled (view-only roles, closed season). */
 const CellReadOnlyContext = createContext(false);
@@ -385,9 +386,7 @@ export default function NurserySowingRecord({
           onClick={() => removeRowsByKeys([...rowSelection.selectedIds])}
           disabled={readOnly}
         />
-        <Button variant="outlined" startIcon={<FileDownload />} onClick={handleExportExcel} disabled={!siteFilter}>
-          Export
-        </Button>
+        <ExportButton label="Export to Excel" onClick={handleExportExcel} disabled={!siteFilter} />
         <Button variant="outlined" startIcon={<FileUpload />} onClick={() => setImporterOpen(true)} disabled={readOnly}>
           Import Excel
         </Button>

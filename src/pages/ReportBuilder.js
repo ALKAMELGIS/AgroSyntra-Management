@@ -22,8 +22,6 @@ import {
   Checkbox,
 } from '@mui/material';
 import {
-  DownloadOutlined as DownloadIcon,
-  PictureAsPdfOutlined as PdfIcon,
 } from '@mui/icons-material';
 import { apiRequest } from '../utils/api';
 import { useNotification } from '../contexts/NotificationContext';
@@ -31,6 +29,7 @@ import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { generateHarvestReport, generateFertigationReport, generateECPHReport, downloadPDF } from '../utils/pdfExport';
 import { exportToExcel } from '../utils/masterDataUtils';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
 
 const ENTITY_OPTIONS = [
   { value: 'harvest', label: 'Harvest', endpoint: '/harvests' },
@@ -215,12 +214,8 @@ export default function ReportBuilder() {
         {activeStep === 2 && (
           <Box>
             <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-              <Button variant="contained" startIcon={<DownloadIcon />} onClick={exportExcel}>
-                Export Excel
-              </Button>
-              <Button variant="outlined" startIcon={<PdfIcon />} onClick={exportPdf} color="error">
-                Export PDF
-              </Button>
+              <ExportButton label="Export to Excel" onClick={exportExcel} />
+              <ExportButton label="Export to PDF" format="pdf" onClick={exportPdf} />
               <Chip label={`${data.length} records`} />
             </Box>
 

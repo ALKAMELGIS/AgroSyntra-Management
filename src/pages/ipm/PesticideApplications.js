@@ -76,6 +76,7 @@ import useAppLayout from '../../hooks/useAppLayout';
 import { fetchOrganizationLogoDataUrl } from '../../utils/organizationLogo';
 import InfoNote from '../../components/InfoNote';
 import PageTitle from '../../components/PageTitle';
+import ExportButton from '../../components/ExportButton';
 
 // ─── Constants ────────────────────────────────────────────────────
 
@@ -1619,9 +1620,7 @@ export default function PesticideApplications() {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          <Button variant="outlined" startIcon={<FileDownload />} onClick={() => setExportDialogOpen(true)} size={isMobile ? 'small' : 'medium'}>
-            Export Excel
-          </Button>
+          <ExportButton label="Export to Excel" onClick={() => setExportDialogOpen(true)} />
           {tabValue === 0 && canCreate && (
             <Button
               variant="outlined"
@@ -2257,16 +2256,8 @@ export default function PesticideApplications() {
                 IPM COSTING REPORT
               </Typography>
               <Box sx={{ display: 'flex', gap: 1 }}>
-                <Button size="small" variant="contained" startIcon={<FileDownload />}
-                  sx={{ textTransform: 'none', fontSize: '0.6875rem', bgcolor: hdr.background, '&:hover': { bgcolor: '#165c3a' } }}
-                  onClick={() => setCostingExportDialogOpen(true)}>
-                  Export Excel
-                </Button>
-                <Button size="small" variant="contained" startIcon={<PdfIcon />}
-                  sx={{ textTransform: 'none', fontSize: '0.6875rem', bgcolor: '#c0392b', '&:hover': { bgcolor: '#a93226' } }}
-                  onClick={() => setCostingExportDialogOpen(true)}>
-                  Generate Report
-                </Button>
+                <ExportButton label="Export to Excel" onClick={() => setCostingExportDialogOpen(true)} />
+                <ExportButton label="Generate PDF report" format="pdf" onClick={() => setCostingExportDialogOpen(true)} />
               </Box>
             </Box>
 

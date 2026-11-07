@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import {
-  EditOutlined as Edit, DeleteOutlined as Delete, AddOutlined as Add, SearchOutlined as Search, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload,
+  EditOutlined as Edit, DeleteOutlined as Delete, AddOutlined as Add, SearchOutlined as Search, FileUploadOutlined as FileUpload,
   Star, StarBorder, Lock, FilterListOutlined as FilterList, PeopleOutlined as People, AssignmentOutlined as Assignment, TodayOutlined as Today, TableChartOutlined as TableChart, HowToRegOutlined as HowToReg, AccessTimeOutlined as AccessTime, MenuBookOutlined as MenuBook, InsightsOutlined as Insights,
 } from '@mui/icons-material';
 import { apiRequest, apiRequestWithMeta } from '../utils/api';
@@ -69,6 +69,7 @@ import { DeleteSelectedButton, RowCheckbox, SelectAllCheckbox, deleteIdsSequenti
 import { useRowSelection } from '../hooks/useRowSelection';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
 
 const MAX_BLOCKS = 8;
 const BLOCK_COLS = ['Activity', 'Unit', 'Variety', 'Location', 'Section', 'Start', 'End', 'Target', 'Actual', 'Hours'];
@@ -1249,7 +1250,7 @@ export default function ManpowerRecord() {
             {showRecordActions && (
               <DeleteSelectedButton count={recordSelection.size} onClick={handleBulkDeleteRecords} />
             )}
-            <Button size="small" startIcon={<FileDownload />} onClick={exportRecordsExcel}>Export</Button>
+            <ExportButton label="Export to Excel" onClick={exportRecordsExcel} />
             {canImport && (
               <Button size="small" startIcon={<FileUpload />} component="label">
                 Zip
@@ -1336,7 +1337,7 @@ export default function ManpowerRecord() {
               InputLabelProps={{ shrink: true }} sx={{ width: 170 }} />
             <Chip label={`${dailyGroupedRecords.length} workers (${dailyRecords.length} records)`} color="primary" variant="outlined" size="small" />
             <Box sx={{ flexGrow: 1 }} />
-            <Button size="small" startIcon={<FileDownload />} onClick={exportDailyExcel}>Export</Button>
+            <ExportButton label="Export to Excel" onClick={exportDailyExcel} />
           </Paper>
 
           {dailyLoading ? (
@@ -1549,10 +1550,7 @@ export default function ManpowerRecord() {
               Refresh
             </Button>
             <Box sx={{ flexGrow: 1 }} />
-            <Button variant="contained" startIcon={<FileDownload />} onClick={exportPivotExcel}
-              disabled={pivotLoading || !pivotData?.dates?.length || !workersCountRowOrder.length}>
-              Export workers count (Excel)
-            </Button>
+            <ExportButton label="Export workers count (Excel)" onClick={exportPivotExcel} disabled={pivotLoading || !pivotData?.dates?.length || !workersCountRowOrder.length} />
           </Paper>
 
           <InfoNote severity="info" sx={{ mb: 2 }}>
@@ -1650,10 +1648,7 @@ export default function ManpowerRecord() {
             <Button variant="outlined" onClick={loadHoursSummary} disabled={hoursLoading || !activeSiteId}>
               Refresh
             </Button>
-            <Button variant="contained" startIcon={<FileDownload />} onClick={exportWorkHoursExcel}
-              disabled={hoursLoading || !hoursData?.dates?.length || !workHoursRowOrder.length}>
-              Export Work Hours (Excel)
-            </Button>
+            <ExportButton label="Export work hours (Excel)" onClick={exportWorkHoursExcel} disabled={hoursLoading || !hoursData?.dates?.length || !workHoursRowOrder.length} />
           </Paper>
 
           <InfoNote severity="info" sx={{ mb: 2 }}>

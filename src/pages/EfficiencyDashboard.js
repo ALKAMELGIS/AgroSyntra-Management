@@ -6,7 +6,6 @@ import {
   Grid,
   TextField,
   MenuItem,
-  Button,
   Box,
   Card,
   CardContent,
@@ -21,7 +20,6 @@ import {
   TrendingUpOutlined as TrendingUp,
   TrendingDownOutlined as TrendingDown,
   RemoveOutlined as Remove,
-  DownloadOutlined as Download,
   CheckCircleOutlined as CheckCircle,
   WarningOutlined as Warning,
   ErrorOutlined as ErrorIcon,
@@ -33,6 +31,7 @@ import { listEcphAll, listHarvestsAll, listWeatherLogsAll } from '../utils/backe
 import * as XLSX from 'xlsx';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
 
 // Helper: Get week number from date
 const getWeekNumber = (date) => {
@@ -698,15 +697,7 @@ function EfficiencyDashboard() {
           <PageTitle>
             Climate-Contextual Water Use Efficiency
           </PageTitle>
-          <Button
-            variant="contained"
-            disableElevation
-            startIcon={<Download />}
-            onClick={handleExport}
-            disabled={weeklyMetrics.length === 0}
-          >
-            Export to Excel
-          </Button>
+          <ExportButton label="Export to Excel" onClick={handleExport} disabled={weeklyMetrics.length === 0} />
         </Box>
 
         <Card variant="outlined" sx={{ mb: 3 }}>

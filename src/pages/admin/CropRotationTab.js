@@ -5,7 +5,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Tooltip,
   FormControl, InputLabel, Select, CircularProgress, Stack, Tabs, Tab,
 } from '@mui/material';
-import { AddOutlined as Add, EditOutlined as Edit, DeleteOutlined as Delete, FileDownloadOutlined as FileDownload, FileUploadOutlined as FileUpload } from '@mui/icons-material';
+import { AddOutlined as Add, EditOutlined as Edit, DeleteOutlined as Delete, FileUploadOutlined as FileUpload } from '@mui/icons-material';
 import * as XLSX from 'xlsx';
 import { apiRequest } from '../../utils/api';
 import { useNotification } from '../../contexts/NotificationContext';
@@ -34,6 +34,7 @@ import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { useAuth } from '../../contexts/AuthContext';
 import { isReadOnlyOnPage, PAGE_KEYS } from '../../utils/roleAccess';
 import InfoNote from '../../components/InfoNote';
+import ExportButton from '../../components/ExportButton';
 
 const EMPTY_FORM = { fieldId: '', cropId: '', varietyId: '', startDate: '', endDate: '' };
 const ROTATION_FROZEN_WIDTHS = [160];
@@ -414,9 +415,7 @@ export default function CropRotationTab({
           size="small"
         />
         <Box sx={{ flexGrow: 1 }} />
-        <Button variant="outlined" startIcon={<FileDownload />} onClick={handleExportExcel}>
-          Export
-        </Button>
+        <ExportButton label="Export to Excel" onClick={handleExportExcel} />
         {sheet === 'history' && (
           <>
             <DeleteSelectedButton count={historySelection.size} onClick={handleBulkDelete} disabled={readOnly} />
