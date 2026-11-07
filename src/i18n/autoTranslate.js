@@ -55,7 +55,7 @@ const CELL_STATUS = new Set([
 function isTableData(node, parent) {
   const cell = parent.closest('tbody td, tbody th');
   if (!cell) return false;
-  if (parent.closest('.MuiChip-label, button, a, [role="button"], .MuiAlert-message')) return false;
+  if (parent.closest('.MuiChip-label, button, a, [role="button"], .MuiAlert-message, [data-ui-text]')) return false;
   if (cell.hasAttribute('colspan')) return false; // empty-state / summary rows
   return !CELL_STATUS.has(node.nodeValue.trim());
 }

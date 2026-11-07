@@ -6,6 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import { initSentry } from './utils/sentry';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { SW_UPDATE_EVENT } from './components/AppUpdateBanner';
+import installInvalidDateGuard from './utils/invalidDateGuard';
+
+installInvalidDateGuard();
 
 // Initialize Sentry error tracking
 initSentry();

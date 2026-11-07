@@ -4,11 +4,11 @@ import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip,
   IconButton, Alert, CircularProgress, LinearProgress, Card, CardContent, Grid, Tooltip, Select, InputLabel,
-  FormControl, FormControlLabel, Autocomplete, Tabs, Tab, InputAdornment, Divider, Checkbox, Stack,
+  FormControl, FormControlLabel, Autocomplete, Tabs, Tab, InputAdornment, Divider, Checkbox, Fab, Portal,
   Radio, RadioGroup,
 } from '@mui/material';
 import {
-  Check, Close, AddOutlined as Add, TimerOutlined as Timer, SearchOutlined as Search, FilterListOutlined as FilterList, FileDownloadOutlined as FileDownload,
+  Check, Close, AddOutlined as Add, TimerOutlined as Timer, SearchOutlined as Search, FileDownloadOutlined as FileDownload,
   AgricultureOutlined as Agriculture, ScienceOutlined as Science, CalendarMonthOutlined as CalendarMonth,
   InventoryOutlined as CatalogIcon,
   HomeOutlined as MySiteIcon,
@@ -24,7 +24,7 @@ import {
   AssignmentOutlined as WorkOrderIcon,
 } from '@mui/icons-material';
 import SprayApplicationIcon from '../../components/icons/SprayApplicationIcon';
-import { excelTableSx, freezeColumnsSx, GutterCell } from '../../components/table/ExcelTable';
+import { excelTableSx, GutterCell } from '../../components/table/ExcelTable';
 import api from '../../utils/api';
 import { listAllPesticideApplications } from '../../utils/listPesticideApplications';
 import { apiRequest } from '../../utils/api';
@@ -77,6 +77,8 @@ import { fetchOrganizationLogoDataUrl } from '../../utils/organizationLogo';
 import InfoNote from '../../components/InfoNote';
 import PageTitle from '../../components/PageTitle';
 import ExportButton from '../../components/ExportButton';
+import FilterBar from '../../components/FilterBar';
+import DataSheet from '../../components/table/DataSheet';
 
 // ─── Constants ────────────────────────────────────────────────────
 
@@ -142,10 +144,6 @@ function chunkArray(items, size) {
   for (let i = 0; i < items.length; i += size) chunks.push(items.slice(i, i + size));
   return chunks;
 }
-
-// Crop, Variety and Field ID stay pinned on the records table: it is 25 columns
-// wide, and once scrolled past Cost every row looks alike without them.
-const RECORD_FROZEN_WIDTHS = [48, 140, 110, 100];
 
 // A record opened from a notification link stays tinted while the mouse moves
 // over it, so this has to outrank the hover rule in excelTableSx, which matches
@@ -227,7 +225,7 @@ export default function PesticideApplications() {
   const openOnWorkOrders = !highlightAppId
     && (searchParams.get('tab') === 'work-orders' || user?.role === 'operator');
   const highlightRef = useRef(null);
-  const { isMobile, scrollRegionHeight } = useAppLayout();
+  const { isMobile, isPhone, isTablet, scrollRegionHeight } = useAppLayout();
   const sheetHeight = scrollRegionHeight(isMobile ? 200 : 252);
   const pivotSheetHeight = scrollRegionHeight(isMobile ? 168 : 220);
 
@@ -1521,12 +1519,9 @@ export default function PesticideApplications() {
     });
   };
 
-  const allRecordsSelected = applications.length > 0
-    && applications.every((app) => recordSelectedIds.has(app.id));
   const pendingSelectedCount = applications.filter(
     (app) => recordSelectedIds.has(app.id) && app.approval_status === 'pending',
   ).length;
-  const recordsColSpan = 26 + ((canApprove || canModifyExisting) ? 1 : 0);
 
   const handleReject = async () => {
     try {
@@ -1544,6 +1539,142 @@ export default function PesticideApplications() {
     if (status === 'approved') return 'success';
     if (status === 'rejected') return 'error';
     return 'warning';
+  };
+
+  // ─── Records sheet (desktop) / cards (phone) ─────────────────
+  const showDate = (v, opts) => {
+    if (!v) return null;
+    const d = new Date(v);
+    if (Number.isNaN(d.getTime())) return null;
+    return opts ? d.toLocaleDateString('en-GB', opts) : d.toLocaleDateString();
+  };
+  const showPhiEnd = (v) => {
+    if (!v) return null;
+    const d = new Date(v);
+    if (Number.isNaN(d.getTime())) return null;
+    const s = d.toLocaleDateString('en-GB');
+    return d.getHours() || d.getMinutes()
+      ? `${s}, ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+      : s;
+  };
+  const statusLabel = (s) => ({ approved: 'Approved', rejected: 'Rejected', pending: 'Pending' }[s] || s || '—');
+  const statusChip = (app) => (
+    <Chip label={statusLabel(app.approval_status)} color={getStatusColor(app.approval_status)} size="small" />
+  );
+  const numOrNull = (v) => (v === null || v === undefined || v === '' ? null : Number(v));
+
+  const recordColumns = [
+    { key: 'crop', label: 'Crop', frozen: true, width: 140, value: (a) => a.crop_name || a.field_crop_name || '' },
+    { key: 'variety', label: 'Variety', frozen: true, width: 110, value: (a) => a.variety || '' },
+    { key: 'field', label: 'Field ID', frozen: true, width: 100, value: (a) => a.field_name || '' },
+    { key: 'segment', label: 'Segment', group: 'Scouting', translate: true, minWidth: 100, value: (a) => (a.segment_id === 'ALL' ? 'Entire Field' : a.segment_id || '') },
+    { key: 'scouting_date', label: 'Scouting Date', group: 'Scouting', minWidth: 100, value: (a) => a.scouting_date || null, render: (a) => showDate(a.scouting_date) },
+    { key: 'justification', label: 'Justification', group: 'Scouting', minWidth: 140, value: (a) => pestJustification(a) || '' },
+    { key: 'percent_seen', label: '% Seen', group: 'Scouting', numeric: true, minWidth: 90, value: (a) => numOrNull(a.percent_seen), render: (a) => formatPercentSeen(a.percent_seen) },
+    { key: 'application_date', label: 'App. Date', group: 'Application details', minWidth: 110, value: (a) => a.application_date || null, render: (a) => showDate(a.application_date) },
+    { key: 'start', label: 'Start', group: 'Application details', minWidth: 80, value: (a) => a.application_start_time || '' },
+    { key: 'end', label: 'End', group: 'Application details', minWidth: 80, value: (a) => a.application_end_time || '' },
+    { key: 'machinery', label: 'Machinery', group: 'Application details', minWidth: 110, value: (a) => a.machinery_used || a.application_method || '' },
+    { key: 'weather', label: 'Weather', group: 'Application details', minWidth: 90, hidden: true, value: (a) => a.weather_conditions || '' },
+    { key: 'operator', label: 'Operator', group: 'Application details', minWidth: 110, value: (a) => a.operator_name || '' },
+    { key: 'product', label: 'Name of PPP', group: 'Product & cost', minWidth: 140, value: (a) => a.product_name || '', cellSx: { fontWeight: 600 } },
+    { key: 'ai', label: 'Active Ingredient', group: 'Product & cost', minWidth: 150, value: (a) => a.active_ingredient || a.product_active_ingredient || '', cellSx: { fontSize: '0.8125rem' } },
+    { key: 'dosage', label: 'Dose/L', group: 'Product & cost', numeric: true, minWidth: 80, value: (a) => numOrNull(a.dosage) },
+    { key: 'rate', label: 'Rate/Ha', group: 'Product & cost', numeric: true, minWidth: 90, value: (a) => numOrNull(a.rate_per_ha) },
+    { key: 'uom', label: 'UoM', group: 'Product & cost', minWidth: 60, value: (a) => a.uom || a.dosage_unit || '' },
+    { key: 'qty', label: 'Total Qty', group: 'Product & cost', numeric: true, minWidth: 90, total: 'sum', value: (a) => numOrNull(a.total_quantity_applied) },
+    { key: 'unit_price', label: 'Unit Price', group: 'Product & cost', numeric: true, minWidth: 90, hidden: true, value: (a) => numOrNull(a.unit_price) },
+    { key: 'cost', label: 'Cost', group: 'Product & cost', numeric: true, minWidth: 90, total: 'sum', value: (a) => numOrNull(a.cost),
+      render: (a) => (a.cost == null || a.cost === '' ? null : Number(a.cost).toLocaleString()), cellSx: { fontWeight: 600 } },
+    { key: 'phi', label: 'PHI', group: 'Pre-harvest interval', numeric: true, minWidth: 70, value: (a) => Number(a.phi_days || 0), cardLabel: 'PHI (days)' },
+    { key: 'clear_date', label: 'Safe to harvest from', group: 'Pre-harvest interval', minWidth: 110, value: (a) => a.phi_end_date || null, render: (a) => showPhiEnd(a.phi_end_date) },
+    { key: 'verified_by', label: 'Verified By', group: 'Approval', minWidth: 110, value: (a) => a.verified_by || '' },
+    { key: 'status', label: 'Status', group: 'Approval', minWidth: 100, value: (a) => statusLabel(a.approval_status), render: statusChip },
+  ];
+
+  const recordCard = {
+    title: (a) => a.product_name || '—',
+    subtitle: (a) => {
+      const parts = [
+        a.field_name && <bdi key="f" translate="no">{a.field_name}</bdi>,
+        a.segment_id && (a.segment_id === 'ALL' ? <span key="s">Entire Field</span> : <bdi key="s" translate="no">{a.segment_id}</bdi>),
+        (a.crop_name || a.field_crop_name) && <span key="c" translate="no">{a.crop_name || a.field_crop_name}</span>,
+      ].filter(Boolean);
+      return parts.flatMap((p, i) => (i ? [' · ', p] : [p]));
+    },
+    status: statusChip,
+    fields: ['application_date', 'clear_date', 'qty', 'cost', 'justification', 'operator'],
+  };
+
+  const renderRecordActions = (app, mode) => {
+    const pending = canApprove && app.approval_status === 'pending';
+    if (!pending && !canModifyExisting) return null;
+    if (mode === 'table') {
+      return (
+        <Box sx={{ display: 'flex', gap: 0.5 }}>
+          {pending && (
+            <>
+              <Tooltip title="Approve">
+                <IconButton color="success" size="small" aria-label="Approve" onClick={() => handleApprove(app.id)}>
+                  <Check />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Reject">
+                <IconButton color="error" size="small" aria-label="Reject" onClick={() => setRejectDialog({ open: true, id: app.id })}>
+                  <Close />
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
+          {canModifyExisting && (
+            <Tooltip title={canDirectEdit ? 'Delete' : 'Request deletion'}>
+              <IconButton color="error" size="small" aria-label={canDirectEdit ? 'Delete' : 'Request deletion'} onClick={() => handleRecordsDelete(app.id)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+        </Box>
+      );
+    }
+    return (
+      <>
+        {pending && (
+          <>
+            <Button size="small" color="success" variant="contained" startIcon={<Check />} onClick={() => handleApprove(app.id)} sx={{ minHeight: 40 }}>
+              Approve
+            </Button>
+            <Button size="small" color="error" variant="outlined" startIcon={<Close />} onClick={() => setRejectDialog({ open: true, id: app.id })} sx={{ minHeight: 40 }}>
+              Reject
+            </Button>
+          </>
+        )}
+        {canModifyExisting && (
+          <Button size="small" color="error" variant="text" startIcon={<DeleteIcon />} onClick={() => handleRecordsDelete(app.id)} sx={{ minHeight: 40, ml: 'auto' }}>
+            {canDirectEdit ? 'Delete' : 'Request Deletion'}
+          </Button>
+        )}
+      </>
+    );
+  };
+
+  const fieldNameById = (id) => (fields.find((f) => String(f.id) === String(id)) || {}).name || id;
+  const recordFilterChips = [
+    filterField !== 'all' && { key: 'field', label: fieldNameById(filterField), onDelete: () => setFilterField('all') },
+    (filterDateStart && seasonStart && filterDateStart !== seasonStart) && {
+      key: 'from', label: `≥ ${filterDateStart}`, onDelete: () => setFilterDateStart(seasonStart),
+    },
+    (filterDateEnd && seasonEnd && filterDateEnd !== seasonEnd) && {
+      key: 'to', label: `≤ ${filterDateEnd}`, onDelete: () => setFilterDateEnd(seasonEnd),
+    },
+    filterVariety && { key: 'variety', label: filterVariety, onDelete: () => setFilterVariety('') },
+    filterJustification && { key: 'just', label: filterJustification, onDelete: () => setFilterJustification('') },
+  ].filter(Boolean);
+  const clearRecordFilters = () => {
+    setFilterField('all');
+    setFilterVariety('');
+    setFilterJustification('');
+    if (seasonStart) setFilterDateStart(seasonStart);
+    if (seasonEnd) setFilterDateEnd(seasonEnd);
   };
 
   // ─── Excel Export ─────────────────────────────────────────────
@@ -1602,26 +1733,39 @@ export default function PesticideApplications() {
 
   return (
     <Box>
-      {/* Header */}
+      {/* Header: title and the actions share one row, even on a phone */}
       <Box sx={{
         display: 'flex',
-        flexDirection: { xs: 'column', sm: 'row' },
         justifyContent: 'space-between',
-        alignItems: { xs: 'stretch', sm: 'center' },
+        alignItems: 'flex-start',
         gap: 1.5,
         mb: 2,
       }}>
-        <Box>
+        <Box sx={{ minWidth: 0, flex: '1 1 auto' }}>
           <PageTitle>
             Plant Protection Application Record
           </PageTitle>
           <Typography variant="body2" color="text.secondary">
-            PPP Application Record - {meta.total || applications.length} records
+            {`PPP Application Record - ${meta.total || applications.length} records`}
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'flex-end', flexShrink: 0 }}>
           <ExportButton label="Export to Excel" onClick={() => setExportDialogOpen(true)} />
-          {tabValue === 0 && canCreate && (
+          {tabValue === 0 && canCreate && (isPhone ? (
+            <Tooltip title="Import from Excel">
+              <IconButton
+                aria-label="Import from Excel"
+                onClick={() => {
+                  setImporterTemplateId(null);
+                  setImporterTemplateName('Application Records');
+                  setImporterOpen(true);
+                }}
+                sx={{ width: 40, height: 40, border: 1, borderColor: 'divider', borderRadius: '10px', bgcolor: 'background.paper', color: 'primary.main' }}
+              >
+                <UploadIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          ) : (
             <Button
               variant="outlined"
               startIcon={<UploadIcon />}
@@ -1634,14 +1778,27 @@ export default function PesticideApplications() {
             >
               Import from Excel
             </Button>
-          )}
-          {canCreate && (
+          ))}
+          {canCreate && !isPhone && (
             <Button variant="contained" startIcon={<Add />} onClick={() => setShowCreate(true)} size={isMobile ? 'small' : 'medium'}>
               New Application
             </Button>
           )}
         </Box>
       </Box>
+
+      {/* Phone: the main action sits under the thumb, above the bottom navigation */}
+      {canCreate && isPhone && (
+        <Portal>
+        <Fab
+          variant="extended" color="primary" onClick={() => setShowCreate(true)}
+          sx={{ position: 'fixed', insetInlineEnd: 16, bottom: 'calc(64px + 16px + env(safe-area-inset-bottom))', zIndex: 1100 }}
+        >
+          <Add sx={{ mr: 1 }} />
+          New Application
+        </Fab>
+        </Portal>
+      )}
 
       {readOnly && <ReadOnlyBanner message="View only — you can browse records and export reports but cannot create or edit applications." />}
 
@@ -1670,9 +1827,59 @@ export default function PesticideApplications() {
       {/* Tab 0: Records View */}
       {tabValue === 0 && (
         <>
-          {/* Filter Bar */}
-          <Paper sx={{ p: { xs: 1.5, sm: 2 }, mb: 2, display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
-            <FilterList color="action" sx={{ display: { xs: 'none', sm: 'block' } }} />
+          {/* Filter Bar: inline on tablet/desktop, search + bottom sheet on a phone */}
+          <FilterBar
+            onClear={clearRecordFilters}
+            chips={recordFilterChips}
+            search={(
+              <TextField
+                size="small" placeholder="Search crop, operator..."
+                value={searchText} onChange={(e) => setSearchText(e.target.value)}
+                InputProps={{ startAdornment: <InputAdornment position="start"><Search /></InputAdornment> }}
+                inputProps={{ 'aria-label': 'Search crop, operator...' }}
+                sx={{ minWidth: { xs: 0, sm: 220 }, flex: { xs: '1 1 auto', sm: '1 1 220px' } }}
+              />
+            )}
+            actions={(
+              <>
+                {canDirectEdit && (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => handleDeleteAddedToday(null)}
+                    disabled={deletingAddedToday || !activeSiteId}
+                    sx={{ textTransform: 'none' }}
+                  >
+                    {deletingAddedToday ? 'Deleting…' : 'Delete added today'}
+                  </Button>
+                )}
+                {recordSelectedIds.size > 0 && (
+                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', ml: { sm: 'auto' } }}>
+                    {canApprove && pendingSelectedCount > 0 && (
+                      <Button size="small" variant="contained" color="success" startIcon={<Check />}
+                        onClick={handleBulkApproveSelected} sx={{ textTransform: 'none' }}>
+                        {`Approve Selected (${pendingSelectedCount})`}
+                      </Button>
+                    )}
+                    {canDirectEdit && (
+                      <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}
+                        onClick={handleRecordsBulkDelete} sx={{ textTransform: 'none' }}>
+                        {`Delete Selected (${recordSelectedIds.size})`}
+                      </Button>
+                    )}
+                    {canRequestChange && !canDirectEdit && (
+                      <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}
+                        onClick={handleRecordsBulkDelete} sx={{ textTransform: 'none' }}>
+                        {`Request Deletion (${recordSelectedIds.size})`}
+                      </Button>
+                    )}
+                  </Box>
+                )}
+              </>
+            )}
+          >
             <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 200 }, flex: { xs: '1 1 100%', sm: '0 0 auto' } }}>
               <InputLabel id="pesticideapplications-field-label-1">Field</InputLabel>
               <Select labelId="pesticideapplications-field-label-1" value={filterField} label="Field" onChange={(e) => setFilterField(e.target.value)}>
@@ -1695,279 +1902,43 @@ export default function PesticideApplications() {
               inputProps={{ min: seasonStart || undefined, max: seasonEnd || undefined }}
             />
             <TextField
-              size="small" placeholder="Variety..."
+              size="small" placeholder="Variety..." label={isPhone ? 'Variety' : undefined}
               value={filterVariety} onChange={(e) => setFilterVariety(e.target.value)}
+              inputProps={{ 'aria-label': 'Variety' }}
               sx={{ width: { xs: '100%', sm: 140 } }}
             />
             <TextField
-              size="small" placeholder="Justification..."
+              size="small" placeholder="Justification..." label={isPhone ? 'Justification' : undefined}
               value={filterJustification} onChange={(e) => setFilterJustification(e.target.value)}
+              inputProps={{ 'aria-label': 'Justification' }}
               sx={{ width: { xs: '100%', sm: 160 } }}
             />
-            <TextField
-              size="small" placeholder="Search crop, operator..."
-              value={searchText} onChange={(e) => setSearchText(e.target.value)}
-              InputProps={{ startAdornment: <InputAdornment position="start"><Search /></InputAdornment> }}
-              sx={{ minWidth: { xs: '100%', sm: 220 }, flex: { xs: '1 1 100%', sm: '1 1 220px' } }}
-            />
-            <Chip
-              label={`${applications.length} records`}
-              color="primary" variant="outlined" size="small"
-            />
-            {canDirectEdit && (
-              <Button
-                size="small"
-                variant="outlined"
-                color="error"
-                startIcon={<DeleteIcon />}
-                onClick={() => handleDeleteAddedToday(null)}
-                disabled={deletingAddedToday || !activeSiteId}
-                sx={{ textTransform: 'none' }}
-              >
-                {deletingAddedToday ? 'Deleting…' : 'Delete added today'}
-              </Button>
-            )}
-            {recordSelectedIds.size > 0 && (
-              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', ml: { sm: 'auto' } }}>
-                {canApprove && pendingSelectedCount > 0 && (
-                  <Button size="small" variant="contained" color="success" startIcon={<Check />}
-                    onClick={handleBulkApproveSelected} sx={{ textTransform: 'none' }}>
-                    Approve Selected ({pendingSelectedCount})
-                  </Button>
-                )}
-                {canDirectEdit && (
-                  <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}
-                    onClick={handleRecordsBulkDelete} sx={{ textTransform: 'none' }}>
-                    Delete Selected ({recordSelectedIds.size})
-                  </Button>
-                )}
-                {canRequestChange && !canDirectEdit && (
-                  <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}
-                    onClick={handleRecordsBulkDelete} sx={{ textTransform: 'none' }}>
-                    Request Deletion ({recordSelectedIds.size})
-                  </Button>
-                )}
-              </Box>
-            )}
-          </Paper>
+          </FilterBar>
 
           {applicationsLoading && <LinearProgress sx={{ mb: 0.5, height: 3 }} />}
 
-          {/* Records: cards on phone, table on tablet+ */}
-          {isMobile ? (
-            <Stack spacing={1.5} sx={{ pb: 1 }}>
-              {applicationsLoading && applications.length === 0 ? (
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5, py: 4 }}>
-                  <CircularProgress size={28} />
-                  <Typography color="text.secondary">Loading records…</Typography>
-                </Box>
-              ) : applications.length === 0 && (
-                <Typography color="text.secondary" align="center" py={4}>No application records found</Typography>
-              )}
-              {applications.map((app) => (
-                <Card
-                  key={app.id}
-                  variant="outlined"
-                  ref={app.id === highlightAppId ? highlightRef : undefined}
-                  sx={app.id === highlightAppId ? { borderColor: 'warning.main', bgcolor: '#fff3e0' } : undefined}
-                >
-                  <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1, mb: 1 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-                        {(canApprove || canModifyExisting) && (
-                          <Checkbox slotProps={{ input: { 'aria-label': 'Select' } }} size="small" sx={{ p: 0.25, mt: 0.25 }}
-                            checked={recordSelectedIds.has(app.id)}
-                            onChange={() => toggleRecordSelected(app.id)} />
-                        )}
-                        <Box>
-                          <Typography fontWeight={700}>{app.product_name}</Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {app.field_name} · {app.segment_id === 'ALL' ? 'Entire Field' : (app.segment_id || '—')}
-                          </Typography>
-                        </Box>
-                      </Box>
-                      <Chip label={app.approval_status} color={getStatusColor(app.approval_status)} size="small" />
-                    </Box>
-                    <Typography variant="body2">
-                      {new Date(app.application_date).toLocaleDateString()}
-                      {app.crop_name || app.field_crop_name ? ` · ${app.crop_name || app.field_crop_name}` : ''}
-                      {app.variety ? ` · ${app.variety}` : ''}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
-                      {pestJustification(app) || '—'}
-                      {app.operator_name ? ` · Op: ${app.operator_name}` : ''}
-                    </Typography>
-                    {(canApprove && app.approval_status === 'pending') || canModifyExisting ? (
-                      <Box sx={{ display: 'flex', gap: 0.5, mt: 1.5 }}>
-                        {canApprove && app.approval_status === 'pending' && (
-                          <>
-                            <Button size="small" color="success" variant="outlined" startIcon={<Check />} onClick={() => handleApprove(app.id)}>
-                              Approve
-                            </Button>
-                            <Button size="small" color="error" variant="outlined" startIcon={<Close />} onClick={() => setRejectDialog({ open: true, id: app.id })}>
-                              Reject
-                            </Button>
-                          </>
-                        )}
-                        {canModifyExisting && (
-                          <Button size="small" color="error" variant="outlined" startIcon={<DeleteIcon />} onClick={() => handleRecordsDelete(app.id)}>
-                            {canDirectEdit ? 'Delete' : 'Request Deletion'}
-                          </Button>
-                        )}
-                      </Box>
-                    ) : null}
-                  </CardContent>
-                </Card>
-              ))}
-            </Stack>
-          ) : (
-          <TableContainer component={Paper} variant="outlined"
-            sx={{ height: scrollRegionHeight(320), borderRadius: 1 }}>
-            <Table stickyHeader size="small"
-              sx={[excelTableSx, freezeColumnsSx(RECORD_FROZEN_WIDTHS), highlightedRowSx]}>
-              <TableHead>
-                <TableRow>
-                  <TableCell className="col-frozen-0" padding="checkbox" sx={{ width: 48 }}>
-                    <Checkbox slotProps={{ input: { 'aria-label': 'Select all rows' } }}
-                      size="small"
-                      checked={allRecordsSelected}
-                      indeterminate={recordSelectedIds.size > 0 && !allRecordsSelected}
-                      onChange={() => {
-                        if (allRecordsSelected) setRecordSelectedIds(new Set());
-                        else setRecordSelectedIds(new Set(applications.map((a) => a.id)));
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell className="col-frozen-1">Crop</TableCell>
-                  <TableCell className="col-frozen-2">Variety</TableCell>
-                  <TableCell className="col-frozen-3">Field ID</TableCell>
-                  <TableCell sx={{ minWidth: 100 }}>Segment</TableCell>
-                  <TableCell sx={{ minWidth: 100 }}>Scouting Date</TableCell>
-                  <TableCell sx={{ minWidth: 140 }}>Justification</TableCell>
-                  <TableCell className="col-numeric" sx={{ minWidth: 100 }}>% Seen</TableCell>
-                  <TableCell sx={{ minWidth: 110 }}>App. Date</TableCell>
-                  <TableCell sx={{ minWidth: 80 }}>Start</TableCell>
-                  <TableCell sx={{ minWidth: 80 }}>End</TableCell>
-                  <TableCell sx={{ minWidth: 130 }}>Name of PPP</TableCell>
-                  <TableCell sx={{ minWidth: 150 }}>Active Ingredient</TableCell>
-                  <TableCell className="col-numeric" sx={{ minWidth: 80 }}>Dose/L</TableCell>
-                  <TableCell className="col-numeric" sx={{ minWidth: 90 }}>Rate/Ha</TableCell>
-                  <TableCell className="col-numeric" sx={{ minWidth: 80 }}>Unit Price</TableCell>
-                  <TableCell className="col-numeric" sx={{ minWidth: 80 }}>Cost</TableCell>
-                  <TableCell sx={{ minWidth: 50 }}>UoM</TableCell>
-                  <TableCell className="col-numeric" sx={{ minWidth: 90 }}>Total Qty</TableCell>
-                  <TableCell sx={{ minWidth: 100 }}>Machinery</TableCell>
-                  <TableCell className="col-numeric" sx={{ minWidth: 60 }}>PHI</TableCell>
-                  <TableCell sx={{ minWidth: 100 }}>Clear Date</TableCell>
-                  <TableCell sx={{ minWidth: 80 }}>Weather</TableCell>
-                  <TableCell sx={{ minWidth: 100 }}>Operator</TableCell>
-                  <TableCell sx={{ minWidth: 100 }}>Verified By</TableCell>
-                  <TableCell sx={{ minWidth: 80 }}>Status</TableCell>
-                  {(canApprove || canModifyExisting) && <TableCell sx={{ minWidth: 80 }}>Actions</TableCell>}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {applications.map((app) => {
-                  const cropName = app.crop_name || app.field_crop_name || '';
-                  const isHighlighted = app.id === highlightAppId;
-                  return (
-                  <TableRow key={app.id} hover
-                    className={isHighlighted ? 'row-highlight' : undefined}
-                    ref={isHighlighted ? highlightRef : undefined}
-                  >
-                    {/* Frozen columns are ellipsized at a fixed width, so the full
-                        value has to stay reachable on hover. */}
-                    <TableCell className="col-frozen-0" padding="checkbox">
-                      <Checkbox slotProps={{ input: { 'aria-label': 'Select row' } }} size="small" checked={recordSelectedIds.has(app.id)}
-                        onChange={() => toggleRecordSelected(app.id)} />
-                    </TableCell>
-                    <TableCell className="col-frozen-1" title={cropName}>{cropName}</TableCell>
-                    <TableCell className="col-frozen-2" title={app.variety || ''}>{app.variety}</TableCell>
-                    <TableCell className="col-frozen-3" title={app.field_name || ''}>{app.field_name}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{app.segment_id === 'ALL' ? 'Entire Field' : app.segment_id}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
-                      {app.scouting_date ? new Date(app.scouting_date).toLocaleDateString() : null}
-                    </TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{pestJustification(app)}</TableCell>
-                    <TableCell className="col-numeric">{formatPercentSeen(app.percent_seen)}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
-                      {new Date(app.application_date).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{app.application_start_time}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{app.application_end_time}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap', fontWeight: 600 }}>{app.product_name}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap', fontSize: '0.8125rem' }}>
-                      {app.active_ingredient || app.product_active_ingredient}
-                    </TableCell>
-                    <TableCell className="col-numeric">{app.dosage}</TableCell>
-                    <TableCell className="col-numeric">{app.rate_per_ha}</TableCell>
-                    <TableCell className="col-numeric">{app.unit_price}</TableCell>
-                    <TableCell className="col-numeric" sx={{ fontWeight: 600 }}>
-                      {app.cost == null || app.cost === '' ? null : Number(app.cost).toLocaleString()}
-                    </TableCell>
-                    <TableCell>{app.uom || app.dosage_unit}</TableCell>
-                    <TableCell className="col-numeric">{app.total_quantity_applied}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{app.machinery_used || app.application_method}</TableCell>
-                    <TableCell className="col-numeric">{app.phi_days || 0}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
-                      {app.phi_end_date ? (() => { const _d = new Date(app.phi_end_date); const _s = _d.toLocaleDateString('en-GB'); return _d.getHours() || _d.getMinutes() ? `${_s}, ${String(_d.getHours()).padStart(2,'0')}:${String(_d.getMinutes()).padStart(2,'0')}` : _s; })() : null}
-                    </TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{app.weather_conditions}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{app.operator_name}</TableCell>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>{app.verified_by}</TableCell>
-                    <TableCell>
-                      <Chip label={app.approval_status} color={getStatusColor(app.approval_status)} size="small" />
-                    </TableCell>
-                    {(canApprove || canModifyExisting) && (
-                      <TableCell>
-                        <Box sx={{ display: 'flex', gap: 0.5 }}>
-                          {canApprove && app.approval_status === 'pending' && (
-                            <>
-                              <Tooltip title="Approve">
-                                <IconButton color="success" size="small" onClick={() => handleApprove(app.id)}>
-                                  <Check />
-                                </IconButton>
-                              </Tooltip>
-                              <Tooltip title="Reject">
-                                <IconButton color="error" size="small" onClick={() => setRejectDialog({ open: true, id: app.id })}>
-                                  <Close />
-                                </IconButton>
-                              </Tooltip>
-                            </>
-                          )}
-                          {canModifyExisting && (
-                            <Tooltip title={canDirectEdit ? 'Delete' : 'Request deletion'}>
-                              <IconButton color="error" size="small" onClick={() => handleRecordsDelete(app.id)}>
-                                <DeleteIcon />
-                              </IconButton>
-                            </Tooltip>
-                          )}
-                        </Box>
-                      </TableCell>
-                    )}
-                  </TableRow>
-                  );
-                })}
-                {applicationsLoading && applications.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={recordsColSpan} align="center" sx={{ py: 4 }}>
-                      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
-                        <CircularProgress size={28} />
-                        <Typography color="text.secondary">Loading records…</Typography>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ) : applications.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={recordsColSpan} align="center">
-                      <Typography color="text.secondary" py={4}>No application records found</Typography>
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          )}
+          {/* Records: Excel-style sheet on desktop/tablet landscape, cards on phone/tablet portrait */}
+          <DataSheet
+            storageKey="pesticide-applications"
+            ariaLabel="Application records"
+            columns={recordColumns}
+            rows={applications}
+            loading={applicationsLoading}
+            emptyText="No application records found"
+            height={scrollRegionHeight(isTablet ? 150 : 170)}
+            selection={(canApprove || canModifyExisting) ? {
+              selected: recordSelectedIds,
+              onToggle: toggleRecordSelected,
+              onToggleAll: (ids, select) => setRecordSelectedIds(select ? new Set(ids) : new Set()),
+            } : null}
+            actions={(canApprove || canModifyExisting) ? renderRecordActions : null}
+            card={recordCard}
+            rowClassName={(app) => (String(app.id) === String(highlightAppId) ? 'row-highlight' : '')}
+            rowHighlighted={(app) => String(app.id) === String(highlightAppId)}
+            rowRef={(app) => (String(app.id) === String(highlightAppId) ? highlightRef : undefined)}
+            tableSx={highlightedRowSx}
+          />
+          {canCreate && isPhone && <Box sx={{ height: 72 }} aria-hidden />}
         </>
       )}
 

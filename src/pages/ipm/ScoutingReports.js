@@ -494,7 +494,7 @@ export default function ScoutingReports() {
                       )}
                     </Box>
                     <Typography variant="caption" color="text.secondary" display="block">
-                      Scout: {report.scout_name || '—'}
+                      <span>Scout</span>{': '}<span translate="no">{report.scout_name || '—'}</span>
                     </Typography>
                     {canEdit(report) && (
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 1.5 }}>

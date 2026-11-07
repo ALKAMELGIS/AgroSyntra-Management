@@ -241,3 +241,15 @@ Audit of all 50 screens at 390 / 820 / 1280 / 1920 px (buttons, icons, type, rad
 - New shared `components/ExportButton.js`: a 40 px square icon button (download arrow, brand green) with a small file-type tag — **XLS** / **CSV** (green) or **PDF** (red) — plus a tooltip and an accessible name ("Export to Excel" / "تصدير إلى Excel"). Print uses the printer icon. Shows a spinner while exporting; disabled state keeps its tooltip.
 - Replaced 37 wide text buttons ("Export to Excel", "Export Excel", "Export", "Export CSV", "Export period as PDF/Excel", "Print / Export", …) across dashboards, reports, IPM, manpower, admin and setup pages. Confirm buttons inside export dialogs keep their text.
 - Arabic labels for all export names; e2e check that export controls are ≤ 40 px, named, tagged and have a tooltip.
+
+## Round 25 — comfortable for every user: field collector, data entry, manager
+Reviewed the pesticide records screen as a user on phone (390), tablet portrait (820), tablet landscape (1180), laptop (1280) and desktop (1440).
+- **New `components/table/DataSheet.js`** — one records view per device:
+  - *Desktop / tablet landscape* — behaves like Excel: row numbers, frozen identifying columns, column-group band, sort and AutoFilter (value checklist with search) in every header, sticky totals row (Σ), show/hide columns (remembered per browser), click-drag / Shift+click / Shift+arrows cell selection with a Count · Sum · Average bar, Ctrl+C copies as tab-separated text that pastes straight into Excel (header row included when whole columns are selected), Ctrl+A, Esc, arrow/Enter/Tab navigation (RTL-aware).
+  - *Phone / tablet portrait* — cards (1 column on phone, 2 on tablet) with the fields checked in the field (date, safe-to-harvest date, quantity, cost, justification, operator), status chip in Arabic, approve/reject buttons sized for a thumb; tapping a card opens a bottom sheet with every column grouped; a "Sort by" control and totals chips.
+- **New `components/FilterBar.js`** — on a phone only the search box and a "Filters" button stay on screen; the other filters open in a bottom sheet; active filters show as removable chips. Records now start right under the search (was ~665 px down).
+- Pesticide applications page uses both; phone header keeps title and icon actions on one row; "New Application" is a floating button above the bottom navigation.
+- Tablet landscape (900–1199 px): the sidebar starts collapsed so tables get the width (menu button opens it).
+- Touch screens: inputs ≥ 44 px, small buttons/icon buttons ≥ 40 px, larger checkboxes and chip delete targets.
+- "Invalid Date" no longer appears anywhere: invalid dates render empty (valid date formats unchanged).
+- Arabic: approval statuses, "% Seen", record count subtitle, scouting summary labels, all sheet controls; staff-entered values (e.g. weather "Clear") are no longer machine-translated in cards.

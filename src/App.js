@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Box, useTheme, useMediaQuery, Menu, MenuItem, Avatar, Divider, CircularProgress, Tooltip, Alert } from '@mui/material';
-import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
+import { useState, useEffect, useMemo, useRef, lazy, Suspense } from 'react';
 import { MenuOutlined as MenuIcon, LogoutOutlined as LogoutIcon, DarkModeOutlined as DarkModeIcon, LightModeOutlined as LightModeIcon, SettingsBrightnessOutlined as SystemModeIcon, SearchOutlined as SearchIcon } from '@mui/icons-material';
 import i18n from './i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
@@ -359,7 +359,9 @@ function UserMenu() {
 // Authenticated layout with sidebar
 function AuthenticatedLayout() {
   const L = useShellLabel();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // Tablets in landscape (900–1199px) start with the sidebar closed so tables
+  // and sheets get the full width; the menu button opens it on demand.
+  const [sidebarOpen, setSidebarOpen] = useState(() => typeof window === 'undefined' || window.innerWidth >= 1200);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [navArea, setNavArea] = useState(DEFAULT_NAV_AREA);
   const location = useLocation();
@@ -369,8 +371,13 @@ function AuthenticatedLayout() {
   const themeMUI = useTheme();
   const visibleNavAreas = getVisibleNavAreas(user);
   const showNavTabs = visibleNavAreas.length > 1;
-  const { isMobile, isPhone, topBarHeight, contentPadding, contentMinHeight } = useAppLayout({ showNavTabs });
+  const { isMobile, isTablet, isPhone, topBarHeight, contentPadding, contentMinHeight } = useAppLayout({ showNavTabs });
   const chromeValue = useMemo(() => ({ showNavTabs }), [showNavTabs]);
+  const prevTablet = useRef(isTablet);
+  useEffect(() => {
+    if (prevTablet.current !== isTablet) setSidebarOpen(!isTablet);
+    prevTablet.current = isTablet;
+  }, [isTablet]);
 
   useEffect(() => {
     setNavArea((current) => resolveNavArea(location.pathname, user, current));

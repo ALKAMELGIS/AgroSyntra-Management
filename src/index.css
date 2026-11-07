@@ -88,3 +88,14 @@ a:hover {
   margin-right: 0 !important;
   margin-left: 6px !important;
 }
+
+/* Touch screens (phones, tablets): controls big enough for a thumb, including
+   for staff entering data in the field with gloves on. Desktop mice keep the
+   compact sizes. */
+@media (pointer: coarse) {
+  .MuiInputBase-root.MuiInputBase-sizeSmall:not(.MuiInputBase-multiline) { min-height: 44px; }
+  .MuiButton-sizeSmall { min-height: 40px; }
+  .MuiIconButton-sizeSmall { min-width: 40px; min-height: 40px; }
+  .MuiCheckbox-sizeSmall { padding: 10px; }
+  .MuiChip-deleteIcon { font-size: 22px; }
+}
