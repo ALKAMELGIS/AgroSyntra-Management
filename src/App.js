@@ -485,6 +485,8 @@ function AuthenticatedLayout() {
           zIndex: 1,
           minWidth: 0,
           p: contentPadding,
+          // Less air above the breadcrumb than at the sides.
+          pt: { xs: 3, sm: 4, md: 4, lg: 5 },
           pb: {
             xs: `calc(${themeMUI.spacing(contentPadding.xs)} + ${MOBILE_NAV_HEIGHT}px + env(safe-area-inset-bottom, 0px))`,
             sm: `calc(${themeMUI.spacing(contentPadding.sm)} + env(safe-area-inset-bottom, 0px))`,

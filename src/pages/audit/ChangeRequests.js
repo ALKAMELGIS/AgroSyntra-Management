@@ -541,14 +541,14 @@ export default function ChangeRequests() {
 
   if (!allowed) {
     return (
-      <Box sx={{ p: 3 }}>
+      <Box>
         <Alert severity="warning">You do not have permission to view change requests.</Alert>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ p: { xs: 2, md: 3 } }}>
+    <Box>
       <PageTitle sx={{ mb: 1 }}>
         Change Requests
       </PageTitle>

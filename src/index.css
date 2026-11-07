@@ -82,3 +82,9 @@ a:hover {
 .status-warning { color: #c4761a; }
 .status-error { color: #c23b2b; }
 .status-info { color: #2f6aa8; }
+
+/* Chart legends in Arabic: keep the swatch spaced from its label (Recharts sets margin-right only). */
+[dir='rtl'] .recharts-default-legend .recharts-legend-item .recharts-surface {
+  margin-right: 0 !important;
+  margin-left: 6px !important;
+}

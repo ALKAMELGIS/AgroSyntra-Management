@@ -371,7 +371,7 @@ function UserManagement() {
   const canManageRoles = ['ceo', 'farm_manager', 'operation_manager'].includes(currentUser?.role);
   if (!canManageRoles) {
     return (
-      <Box sx={{ p: 3 }}>
+      <Box>
         <Alert severity="error">You don't have permission to access this page.</Alert>
       </Box>
     );

@@ -1600,7 +1600,7 @@ export default function PesticideApplications() {
   );
 
   return (
-    <Box sx={{ p: { xs: 0, md: 0 } }}>
+    <Box>
       {/* Header */}
       <Box sx={{
         display: 'flex',
@@ -1983,7 +1983,7 @@ export default function PesticideApplications() {
             <Grid container spacing={2}>
               {phiStatus.map((phi) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4 }} key={phi.id}>
-                  <Card sx={{ borderLeft: 4, borderColor: phi.days_remaining <= 1 ? 'warning.main' : 'error.main' }}>
+                  <Card variant="outlined" sx={{ boxShadow: 'none', borderColor: phi.days_remaining <= 1 ? 'warning.main' : 'error.main' }}>
                     <CardContent>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>

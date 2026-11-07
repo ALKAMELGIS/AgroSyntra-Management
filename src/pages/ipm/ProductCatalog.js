@@ -1,3 +1,4 @@
+import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { Fragment, useState, useEffect, useCallback, useMemo } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -354,7 +355,7 @@ export default function ProductCatalog() {
   );
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
           <PageTitle>Product Catalog</PageTitle>
@@ -378,7 +379,7 @@ export default function ProductCatalog() {
       </Tabs>
 
       {!canEdit && tab !== 4 && (
-        <InfoNote severity="info" sx={{ mb: 2 }}>{t('ipmCatalogAccess.productViewOnly')}</InfoNote>
+        <ReadOnlyBanner message={t('ipmCatalogAccess.productViewOnly')} />
       )}
 
       {/* ─── Pesticide Products Table (Excel column order) ─── */}

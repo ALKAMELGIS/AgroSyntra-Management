@@ -193,7 +193,7 @@ export default function PhiAuditLog() {
   const filteredData = useMemo(() => data, [data]);
 
   return (
-    <Box sx={{ p: { xs: 1, md: 3 } }}>
+    <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap" gap={1}>
         <Box>
           <PageTitle>PHI Audit Log</PageTitle>

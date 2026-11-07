@@ -1,3 +1,4 @@
+import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { useEffect, useMemo, useState } from 'react';
 import { useConfirmDialog } from '../components/ConfirmDialog';
 import {
@@ -30,7 +31,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { canApproveRecipes, isRecipeApproved } from '../utils/recipeApproval';
 import { canEditRecipes } from '../utils/roleAccess';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
-import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
 
 const RECIPE_FROZEN_WIDTHS = [180];
@@ -249,7 +249,7 @@ function RecipesManagement() {
           )}
         </Box>
         {!canEdit && (
-          <InfoNote severity="info" sx={{ mb: 2 }}>{t('adminAccess.recipesViewOnly')}</InfoNote>
+          <ReadOnlyBanner message={t('adminAccess.recipesViewOnly')} />
         )}
 
         <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 280px)' }}>

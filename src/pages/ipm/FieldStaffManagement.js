@@ -118,7 +118,7 @@ export default function FieldStaffManagement() {
 
   if (!canManageFieldStaff(user)) {
     return (
-      <Box sx={{ p: 3 }}>
+      <Box>
         <Alert severity="error">{t('fieldStaffAccess.noPermission')}</Alert>
       </Box>
     );
@@ -203,7 +203,7 @@ export default function FieldStaffManagement() {
     : 'Will become / remain a team leader';
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
           <PageTitle>Field Staff</PageTitle>

@@ -91,7 +91,7 @@ export default function FertigationHarvestCorrelation() {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box>
       <PageTitle sx={{ mb: 1 }}>
         Fertigation vs Harvest Correlation
       </PageTitle>

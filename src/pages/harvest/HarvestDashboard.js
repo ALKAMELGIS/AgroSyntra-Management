@@ -1,3 +1,4 @@
+import DashboardStatCard from '../../components/dashboard/DashboardStatCard';
 import { useState, useEffect, useCallback } from 'react';
 import { useNotification } from '../../contexts/NotificationContext';
 import {
@@ -12,7 +13,6 @@ import {
   TableRow,
   Box,
   Card,
-  CardContent,
   TextField,
   MenuItem,
   Button,
@@ -270,7 +270,7 @@ function HarvestDashboard() {
             Filters
           </Typography>
           <Grid container spacing={3}>
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Grid size={{ xs: 6, md: 3 }}>
               <TextField
                 fullWidth
                 type="date"
@@ -281,7 +281,7 @@ function HarvestDashboard() {
                 inputProps={{ min: seasonStart || undefined, max: seasonEnd || undefined }}
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Grid size={{ xs: 6, md: 3 }}>
               <TextField
                 fullWidth
                 type="date"
@@ -292,7 +292,7 @@ function HarvestDashboard() {
                 inputProps={{ min: seasonStart || undefined, max: seasonEnd || undefined }}
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Grid size={{ xs: 6, md: 3 }}>
               <TextField
                 fullWidth
                 select
@@ -307,7 +307,7 @@ function HarvestDashboard() {
                 ))}
               </TextField>
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Grid size={{ xs: 6, md: 3 }}>
               <TextField
                 fullWidth
                 select
@@ -324,57 +324,17 @@ function HarvestDashboard() {
           </Grid>
         </Card>
 
-        {/* Summary Cards */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <Card
-              variant="outlined"
-              sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', borderLeft: '3px solid', borderLeftColor: 'primary.main' }}
-            >
-              <CardContent>
-                <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 1 }}>
-                  Total Plantations
-                </Typography>
-                <Typography variant="h4">
-                  {summary.totalPlantations}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <Card
-              variant="outlined"
-              sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', borderLeft: '3px solid', borderLeftColor: 'success.main' }}
-            >
-              <CardContent>
-                <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 1 }}>
-                  Total Yield
-                </Typography>
-                <Typography variant="h4">
-                  {summary.totalYield} Ton
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
-            <Card
-              variant="outlined"
-              sx={{ boxShadow: 'none', border: '1px solid', borderColor: 'divider', borderLeft: '3px solid', borderLeftColor: 'warning.main' }}
-            >
-              <CardContent>
-                <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 1 }}>
-                  Average per Plantation
-                </Typography>
-                <Typography variant="h4">
-                  {summary.averagePerPlantation} Ton
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+        {/* Summary */}
+        <Box sx={{ display: 'grid', gap: 3, mb: 4, gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', sm: 'repeat(3, minmax(0, 1fr))' } }}>
+          <DashboardStatCard title="Total Plantations" value={summary.totalPlantations} />
+          <DashboardStatCard title="Total Yield" value={<>{summary.totalYield} Ton</>} color="success.main" />
+          <Box sx={{ gridColumn: { xs: '1 / -1', sm: 'auto' } }}>
+            <DashboardStatCard title="Average per Plantation" value={<>{summary.averagePerPlantation} Ton</>} color="warning.main" />
+          </Box>
+        </Box>
 
         {/* Chart and its table side by side on wide screens, stacked below that. */}
-        <Box sx={{ display: 'grid', gap: 4, alignItems: 'stretch', gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 3fr) minmax(0, 2fr)' } }}>
+        <Box sx={{ display: 'grid', gap: 4, alignItems: 'start', gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 3fr) minmax(0, 2fr)' } }}>
         {/* Bar Chart Section */}
         <Card variant="outlined" sx={{ p: 3, boxShadow: 'none' }}>
           <Typography variant="subtitle2" sx={{ mb: 2, textTransform: 'uppercase', letterSpacing: 0.5, color: 'text.secondary' }}>

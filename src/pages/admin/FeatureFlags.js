@@ -59,7 +59,7 @@ export default function FeatureFlags() {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
         <PageTitle>Feature Flags</PageTitle>
         <Button variant="contained" startIcon={<Add />} onClick={() => setAddOpen(true)}>

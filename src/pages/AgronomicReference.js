@@ -1,3 +1,4 @@
+import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { useState, useEffect, useCallback } from 'react';
 import {
   Box, Paper, Typography, Table, TableHead, TableRow, TableCell, TableBody, TableContainer,
@@ -121,7 +122,7 @@ export default function AgronomicReference() {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
           <PageTitle>
@@ -138,7 +139,7 @@ export default function AgronomicReference() {
         )}
       </Box>
       {!canEdit && (
-        <InfoNote severity="info" sx={{ mb: 2 }}>{tr('adminAccess.thresholdsViewOnly')}</InfoNote>
+        <ReadOnlyBanner message={tr('adminAccess.thresholdsViewOnly')} />
       )}
 
       <Box sx={{ mb: 2, display: 'flex', gap: 2, alignItems: 'center' }}>

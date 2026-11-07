@@ -211,7 +211,7 @@ export default function JohnDeereIntegration() {
   const linkedCount = Object.values(mapping).filter(Boolean).length;
 
   return (
-    <Box sx={{ p: { xs: 2, md: 3 } }}>
+    <Box>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} justifyContent="space-between" alignItems={{ sm: 'center' }} sx={{ mb: 2 }}>
         <Box sx={{ minWidth: 0 }}>
           <PageTitle>John Deere Operations Center</PageTitle>

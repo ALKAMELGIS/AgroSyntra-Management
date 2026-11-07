@@ -10,6 +10,7 @@ export default function ReadOnlyBanner({ message }) {
       severity="info"
       label={isAr ? 'للعرض فقط' : 'View only'}
       icon={<Visibility fontSize="small" />}
+      showLabel
       sx={{ mb: 2 }}
     >
       {message || 'View only — you cannot submit or modify records on this page.'}

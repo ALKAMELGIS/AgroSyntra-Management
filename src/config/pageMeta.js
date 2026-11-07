@@ -37,10 +37,15 @@ export function findPageMeta(pathname) {
     return { title: extra.text, path: extra.path, exact: extra.path === pathname, section: extra.section, areaId: null, areaLabel: null };
   }
   let best = null;
+  const routeArea = getNavAreaForPath(pathname);
   ALL_ENTRIES.forEach((entry) => {
     const p = entry.path;
     const matches = p === '/' ? pathname === '/' : (pathname === p || pathname.startsWith(`${p}/`));
-    if (matches && (!best || p.length > best.path.length)) best = entry;
+    if (!matches) return;
+    // Same path listed in two places (e.g. Inventory for workers and managers): prefer the one in the route's own area.
+    const better = !best || p.length > best.path.length
+      || (p.length === best.path.length && entry.areaId === routeArea && best.areaId !== routeArea);
+    if (better) best = entry;
   });
   if (!best) return null;
   const areaId = best.areaId || getNavAreaForPath(pathname);

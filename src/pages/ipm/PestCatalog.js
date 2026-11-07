@@ -1,3 +1,4 @@
+import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { useState, useEffect } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -292,7 +293,7 @@ export default function PestCatalog() {
       </Tabs>
 
       {!canEdit && (
-        <InfoNote severity="info" sx={{ mb: 2 }}>{t('ipmCatalogAccess.pestViewOnly')}</InfoNote>
+        <ReadOnlyBanner message={t('ipmCatalogAccess.pestViewOnly')} />
       )}
 
       {pageTab === 'sampling' ? (

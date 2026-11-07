@@ -21,10 +21,10 @@ import { useIsArabic } from '../i18n/shellLabels';
  */
 export default function InfoNote({ mode = 'icon', ...props }) {
   if (mode === 'line') return <InfoLine {...props} />;
-  return <InfoIcon_ {...props} />;
+  return <InfoIconNote {...props} />;
 }
 
-function InfoIcon_({ children, sx, icon, label, severity = 'info' }) {
+function InfoIconNote({ children, sx, icon, label, severity = 'info', showLabel = false }) {
   const [anchor, setAnchor] = useState(null);
   const isAr = useIsArabic();
   const popId = useId();
@@ -33,7 +33,33 @@ function InfoIcon_({ children, sx, icon, label, severity = 'info' }) {
 
   return (
     <Box sx={{ display: 'flex', mb: 1, ...sx, '@media print': { display: 'none' } }}>
-      <IconButton
+      {showLabel ? (
+        <ButtonBase
+          onClick={(e) => setAnchor(open ? null : e.currentTarget)}
+          aria-expanded={open}
+          aria-controls={open ? popId : undefined}
+          aria-haspopup="dialog"
+          data-info-note=""
+          sx={(t) => ({
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 1.5,
+            height: 28,
+            px: 2.5,
+            borderRadius: 999,
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            color: 'text.secondary',
+            bgcolor: open ? alpha(t.palette.text.primary, 0.1) : alpha(t.palette.text.primary, 0.06),
+            '&:hover': { bgcolor: alpha(t.palette.text.primary, 0.1) },
+            '& .MuiSvgIcon-root': { fontSize: 16 },
+          })}
+        >
+          {icon || <InfoIcon />}
+          {name}
+        </ButtonBase>
+      ) : (
+        <IconButton
         size="small"
         onClick={(e) => setAnchor(open ? null : e.currentTarget)}
         aria-label={name}
@@ -53,6 +79,7 @@ function InfoIcon_({ children, sx, icon, label, severity = 'info' }) {
       >
         {icon || <InfoIcon />}
       </IconButton>
+      )}
       <Popover
         id={popId}
         open={open}

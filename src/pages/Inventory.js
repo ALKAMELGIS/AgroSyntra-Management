@@ -1,3 +1,4 @@
+import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { useState, useEffect, useCallback, Fragment } from 'react';
 import {
   Box, Typography, Paper, Button, TextField, Tabs, Tab, Chip,
@@ -18,7 +19,6 @@ import { useTranslation } from 'react-i18next';
 import { canWriteOpsStock } from '../utils/roleAccess';
 
 import { API_BASE, getAuthHeaders } from '../config/api';
-import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
 
 /** Missing numbers show as an em dash instead of NaN. */
@@ -224,7 +224,7 @@ export default function Inventory() {
   const catIndex = CATEGORIES.findIndex((c) => c.value === catFilter);
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <PageTitle>Inventory</PageTitle>
@@ -232,7 +232,7 @@ export default function Inventory() {
         {canWrite && <Button variant="contained" startIcon={<Add />} onClick={openAdd}>Add Item</Button>}
       </Box>
       {!canWrite && (
-        <InfoNote severity="info" sx={{ mb: 2 }}>{t('adminAccess.inventoryViewOnly')}</InfoNote>
+        <ReadOnlyBanner message={t('adminAccess.inventoryViewOnly')} />
       )}
 
       {/* Low stock alert */}

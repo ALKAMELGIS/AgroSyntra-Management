@@ -1414,7 +1414,7 @@ export default function BiologicalControlRecord() {
 
   if (!activeSiteId) {
     return (
-      <Box sx={{ p: 4 }}>
+      <Box>
         <InfoNote mode="line" severity="info">Select a site from Organization Settings to use Biological Control Records.</InfoNote>
       </Box>
     );
@@ -1422,7 +1422,7 @@ export default function BiologicalControlRecord() {
 
   if (!seasonReady) {
     return (
-      <Box sx={{ p: 4 }}>
+      <Box>
         <InfoNote mode="line" severity="info">Select a season in the sidebar to use Biological Control Records.</InfoNote>
       </Box>
     );

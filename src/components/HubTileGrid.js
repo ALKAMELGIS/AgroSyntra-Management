@@ -24,13 +24,12 @@ function HubTile({ tile, onOpen, L }) {
       sx={(t) => ({
         position: 'relative',
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
+        alignItems: 'center',
         gap: 3,
         width: '100%',
-        minHeight: { xs: 96, sm: 108 },
-        p: { xs: 3, sm: 4 },
+        minHeight: { xs: 60, sm: 64 },
+        px: { xs: 3, sm: 3.5 },
+        py: 2.5,
         textAlign: 'start',
         borderRadius: 2,
         bgcolor: 'background.paper',
@@ -54,12 +53,12 @@ function HubTile({ tile, onOpen, L }) {
         '@media (hover: none)': { '& .hub-arrow': { opacity: 0.6, transform: 'none' } },
       })}
     >
-      <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-        <Box
+      <Box
           className="hub-icon"
           sx={(t) => ({
-            width: 40,
-            height: 40,
+            width: 36,
+            height: 36,
+            flexShrink: 0,
             borderRadius: 1.5,
             display: 'grid',
             placeItems: 'center',
@@ -69,15 +68,14 @@ function HubTile({ tile, onOpen, L }) {
           })}
         >
           <Icon sx={{ fontSize: 20 }} />
-        </Box>
-        <ArrowIcon className="hub-arrow" sx={{ fontSize: 18, color: 'text.secondary', mt: 0.5 }} />
       </Box>
       <Typography
         component="span"
-        sx={{ fontWeight: 600, fontSize: { xs: '0.875rem', sm: '0.9375rem' }, color: 'text.primary', lineHeight: 1.3, letterSpacing: '-0.01em' }}
+        sx={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: { xs: '0.875rem', sm: '0.9375rem' }, color: 'text.primary', lineHeight: 1.3, letterSpacing: '-0.01em' }}
       >
         {L(tile.label)}
       </Typography>
+      <ArrowIcon className="hub-arrow" sx={{ fontSize: 18, color: 'text.secondary', flexShrink: 0, display: { xs: 'none', sm: 'block' } }} />
     </ButtonBase>
   );
 }
@@ -93,8 +91,8 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
   });
 
   return (
-    <Box sx={{ maxWidth: 1240, mx: 'auto', pt: { xs: 2, md: 4 }, pb: 4 }}>
-      <Box component="header" sx={{ mb: { xs: 5, md: 7 } }}>
+    <Box sx={{ maxWidth: 1240, mx: 'auto', pb: 4 }}>
+      <Box component="header" sx={{ mb: { xs: 4, md: 5 } }}>
         <Typography
           variant="overline"
           component="p"
@@ -106,11 +104,11 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
         <Typography
           variant="h2"
           component="h1"
-          sx={{ fontSize: { xs: '1.875rem', sm: '2.25rem', md: '2.625rem' }, fontWeight: 600, letterSpacing: '-0.035em' }}
+          sx={{ fontSize: { xs: '1.5rem', md: '1.875rem' }, fontWeight: 600, letterSpacing: '-0.025em' }}
         >
           {greeting}{isAr ? '، ' : ', '}{userName?.split(' ')[0] || ''}
         </Typography>
-        <Typography variant="body1" sx={{ mt: 2, color: 'text.secondary', maxWidth: 620, fontSize: { xs: '0.9375rem', md: '1.0625rem' } }}>
+        <Typography variant="body1" sx={{ mt: 2, color: 'text.secondary', maxWidth: 620, fontSize: { xs: '0.875rem', md: '0.9375rem' } }}>
           {subtitle || L('Everything happening across your fields today, one tap away.')}
         </Typography>
       </Box>
@@ -189,10 +187,10 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
             <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
               {L(calmTitle(section.title))}
             </Typography>
-            <Box sx={{ flex: 1, height: '1px', bgcolor: 'divider', alignSelf: 'center' }} />
-            <Typography variant="caption" sx={{ color: 'text.disabled', whiteSpace: 'nowrap' }}>
+            <Typography variant="caption" sx={{ color: 'text.secondary', whiteSpace: 'nowrap', px: 1.5, borderRadius: 999, bgcolor: 'action.hover', lineHeight: '20px' }}>
               {section.tiles.length}
             </Typography>
+            <Box sx={{ flex: 1, height: '1px', bgcolor: 'divider', alignSelf: 'center' }} />
           </Box>
           <Box
             sx={{
@@ -201,7 +199,7 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
               gridTemplateColumns: {
                 xs: 'repeat(2, minmax(0, 1fr))',
                 sm: 'repeat(3, minmax(0, 1fr))',
-                md: 'repeat(auto-fill, minmax(200px, 1fr))',
+                md: 'repeat(auto-fill, minmax(220px, 1fr))',
               },
             }}
           >

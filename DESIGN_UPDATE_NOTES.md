@@ -226,3 +226,13 @@ Audit of all 50 screens at 390 / 820 / 1280 / 1920 px (buttons, icons, type, rad
 - Holding table only — Deere data does not bypass AgroCloud's approval / PHI workflow.
 - Full Arabic labels; numbers with units isolated with `<bdi>` so "42.5 ha" reads correctly in RTL.
 - Fixed: "Due now" contrast on API Integrations (warning.dark). Guide: `docs/JOHN_DEERE_SETUP.md`.
+
+## Round 23 — design review pass
+- **Home / area hubs:** tiles are one compact row (icon · label · arrow), 64 px instead of 108 px — about twice as many destinations fit on screen. Section count sits beside its heading. Greeting follows the type scale (30 px max) with less air above it.
+- **Page top:** less padding above the breadcrumb (lg 20 px instead of 28 px).
+- **Alignment:** 14 pages had their own extra outer padding (Inventory, User Management, API Integrations, IPM records, Change Requests, …), so their titles sat 12 px inside the breadcrumb. Removed; every page now lines up with the shell.
+- **Breadcrumb:** pages listed in two areas (Inventory) show the path of the area they open in (Settings › Management › Inventory).
+- **View only:** the marker is a labelled pill ("View only" + eye) instead of a lone blue eye icon; the six pages that used a plain info icon for view-only now use the same pill.
+- **Harvest dashboard:** KPI tiles use the shared stat card (no curved coloured edge); filters 2 per row on phones; KPIs 2 + 1 on phones; chart and table no longer stretch to equal height.
+- **PHI cards (Pesticide applications):** full outline in the status colour instead of a curved side bar.
+- **Charts in Arabic:** legend swatch spaced from its label.

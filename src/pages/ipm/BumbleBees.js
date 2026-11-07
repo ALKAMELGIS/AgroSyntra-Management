@@ -934,7 +934,7 @@ export default function BumbleBees() {
 
   if (!activeSiteId) {
     return (
-      <Box sx={{ p: 3 }}>
+      <Box>
         <InfoNote mode="line" severity="info">Select a site to manage bumble bee deployments and inventory.</InfoNote>
       </Box>
     );
@@ -964,7 +964,7 @@ export default function BumbleBees() {
   });
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, gap: 1, flexWrap: 'wrap' }}>
         <PageTitle>Bumble Bee Deployments</PageTitle>
         <Button
