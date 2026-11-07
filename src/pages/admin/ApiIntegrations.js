@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Box, Typography, Paper, Button, TextField, Chip, Grid,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -386,7 +387,10 @@ export default function ApiIntegrations() {
           <Science color="primary" sx={{ fontSize: 32 }} />
           <PageTitle>API Integrations</PageTitle>
         </Box>
-        <Button variant="contained" startIcon={<Add />} onClick={openAdd}>Add Integration</Button>
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+          <Button variant="outlined" component={RouterLink} to="/admin/integrations/john-deere" startIcon={<LinkIcon />}>John Deere Operations Center</Button>
+          <Button variant="contained" startIcon={<Add />} onClick={openAdd}>Add Integration</Button>
+        </Box>
       </Box>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
@@ -441,7 +445,7 @@ export default function ApiIntegrations() {
                         onClick={() => openFieldDialog(item.id, item.name)} />
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" color={getNextSyncText(item) === 'Due now' ? 'warning.main' : 'text.secondary'}>
+                      <Typography variant="body2" color={getNextSyncText(item) === 'Due now' ? 'warning.dark' : 'text.secondary'}>
                         {getNextSyncText(item)}
                       </Typography>
                     </TableCell>

@@ -95,6 +95,7 @@ export const ROUTES = [
   '/tasks', '/shift-schedule', '/manpower-record', '/manpower-cost',
   '/manage/countries', '/manage/farm-areas', '/manage/field-types', '/manage/valves', '/manage/recipes',
   '/manage/seasons', '/inventory', '/admin/users', '/admin/organization', '/admin/crop-history', '/admin/health',
+  '/admin/api-integrations', '/admin/integrations/john-deere',
 ];
 
 /** Generic populated rows so tables, cards and charts render with content (shape is deliberately broad). */
@@ -650,5 +651,97 @@ test.describe('map workspace (docked panel)', () => {
 
     await tools.getByRole('button', { name: 'Add data' }).click();
     await expect(page.getByRole('dialog')).toBeVisible();
+  });
+});
+
+test.describe('John Deere Operations Center', () => {
+  const STATUS = {
+    environment: 'sandbox', clientId: 'jd-client', hasClientSecret: true,
+    redirectUri: 'https://api.farm.test/api/v1/integrations/john-deere/callback', signedIn: true,
+    organization: { id: '4455', name: 'Al Maha Farms' }, mappedFields: 1, lastSyncAt: null,
+  };
+  const OPS = [{
+    id: 'o1', jd_field_id: 'jf1', jd_field_name: 'North Pivot', field_name: 'Pivot 1', operation_type: 'HARVEST',
+    crop_season: '2026', crop_name: 'Wheat', start_date: '2026-05-10T06:00:00Z', end_date: '2026-05-11T16:00:00Z',
+    measurements: { area: { value: 42.5, unitId: 'ha' }, averageYield: { value: 6.2, unitId: 't1ha-1' }, averageMoisture: { value: 12.1, unitId: 'prcnt' } },
+  }];
+
+  async function mockJd(page: Page) {
+    const synced: unknown[] = [];
+    await page.route(/\/integrations\/john-deere\//, async (r) => {
+      const url = new URL(r.request().url());
+      const path = url.pathname.split('/john-deere')[1];
+      const ok = (data: unknown) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data }) });
+      if (path === '/status') return ok(STATUS);
+      if (path === '/operations') return ok(synced.length ? OPS : []);
+      if (path === '/organizations') return ok([
+        { id: '4455', name: 'Al Maha Farms', connectionsUri: null },
+        { id: '9911', name: 'Partner Farm', connectionsUri: 'https://connections.deere.com/connections/abc/select-organizations?redirect_uri=x' },
+      ]);
+      if (path === '/fields') return ok({
+        agrocloudFields: [{ id: 'f1', name: 'Pivot 1' }, { id: 'f2', name: 'Pivot 2' }],
+        fields: [
+          { jdFieldId: 'jf1', jdFieldName: 'North Pivot', fieldId: 'f1', suggestedFieldId: null },
+          { jdFieldId: 'jf2', jdFieldName: 'Pivot 2', fieldId: null, suggestedFieldId: 'f2' },
+        ],
+      });
+      if (path === '/field-mapping') return ok({ ...STATUS, mappedFields: 2 });
+      if (path === '/sync') { synced.push(r.request().postDataJSON()); return ok({ fieldsScanned: 2, operations: 1, byType: { HARVEST: 1 }, errors: [] }); }
+      return ok(STATUS);
+    });
+    return synced;
+  }
+
+  for (const width of [360, 1280]) {
+    test(`setup steps, field links and sync at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 860 });
+      await prepare(page);
+      const synced = await mockJd(page);
+      await page.goto('/admin/integrations/john-deere');
+      await settle(page);
+      await expect(page.getByRole('heading', { level: 1, name: 'John Deere Operations Center' })).toBeVisible();
+      expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
+
+      // Fully set up → opens on the Sync step.
+      await expect(page.getByRole('heading', { name: 'Sync field operations' })).toBeVisible();
+
+      // Organizations: one to share, one in use.
+      const steps = page.locator('.MuiStepper-root');
+      await steps.getByRole('button', { name: 'Organization' }).click();
+      await expect(page.getByRole('link', { name: 'Share with AgroCloud' })).toHaveAttribute('href', /connections\.deere\.com/);
+      await expect(page.getByText('In use')).toBeVisible();
+
+      // Fields: the name match is pre-filled.
+      await steps.getByRole('button', { name: 'Fields' }).click();
+      await expect(page.getByText('Suggested by name')).toBeVisible();
+      await page.getByRole('button', { name: /Save links \(2\)/ }).click();
+
+      // Sync → operations table fills in.
+      await expect(page.getByRole('heading', { name: 'Sync field operations' })).toBeVisible();
+      await page.getByRole('button', { name: 'Sync now' }).click();
+      await expect(page.getByText(/1 operations from 2 fields/)).toBeVisible();
+      expect((synced[0] as any).cropSeason).toBe(String(new Date().getFullYear()));
+      const table = page.getByRole('table', { name: 'John Deere operations' });
+      await expect(table.getByText('North Pivot')).toBeVisible();
+      await expect(table.getByText('42.5 ha')).toBeVisible();
+      expect(await page.evaluate(OVERLAP_PROBE)).toEqual([]);
+      expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
+    });
+  }
+
+  test('a new connection starts on app settings with the redirect URI to copy', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await prepare(page);
+    await page.route(/\/integrations\/john-deere\//, (r) => r.fulfill({ status: 200, contentType: 'application/json',
+      body: JSON.stringify({ success: true, data: r.request().url().includes('/operations') ? [] : {
+        environment: 'sandbox', clientId: '', hasClientSecret: false, signedIn: false, organization: null, mappedFields: 0,
+        redirectUri: 'https://api.farm.test/api/v1/integrations/john-deere/callback',
+      } }) }));
+    await page.goto('/admin/integrations/john-deere');
+    await settle(page);
+    await expect(page.getByRole('heading', { name: 'John Deere app settings' })).toBeVisible();
+    await expect(page.getByRole('textbox', { name: 'Redirect URI' })).toHaveValue(/\/integrations\/john-deere\/callback$/);
+    await expect(page.getByRole('button', { name: 'Sandbox' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.MuiStepper-root').getByRole('button', { name: 'Sign in', exact: true })).toBeDisabled();
   });
 });

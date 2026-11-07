@@ -129,6 +129,7 @@ const PATH_ICONS = {
   '/yield-predictions': AgricultureIcon,
   '/agronomic-reference': ScienceIcon,
   '/admin/api-integrations': SettingsIcon,
+  '/admin/integrations/john-deere': SettingsIcon,
   '/internship': SchoolIcon,
   '/internship/grades': AssessmentIcon,
   '/admin/users': UsersIcon,

@@ -56,6 +56,7 @@ const HistoricalImport = lazy(() => import('./pages/admin/HistoricalImport'));
 const CropHistory = lazy(() => import('./pages/admin/CropHistory'));
 const SystemHealth = lazy(() => import('./pages/admin/SystemHealth'));
 const ApiIntegrations = lazy(() => import('./pages/admin/ApiIntegrations'));
+const JohnDeereIntegration = lazy(() => import('./pages/admin/JohnDeereIntegration'));
 const ECPHEntry = lazy(() => import('./pages/ECPHEntry'));
 const HarvestEntry = lazy(() => import('./pages/HarvestEntry'));
 const HarvestDashboard = lazy(() => import('./pages/harvest/HarvestDashboard'));
@@ -551,6 +552,7 @@ function AuthenticatedLayout() {
             <Route path="/templates/:templateId/preview" element={guarded(TemplatePreview)} />
             <Route path="/admin/health" element={guarded(SystemHealth, MANAGERS)} />
             <Route path="/admin/api-integrations" element={guarded(ApiIntegrations, INTEGRATION_ADMIN_ROLES)} />
+            <Route path="/admin/integrations/john-deere" element={guarded(JohnDeereIntegration, INTEGRATION_ADMIN_ROLES)} />
             <Route path="/notifications" element={guarded(Notifications)} />
             <Route path="/tasks" element={guarded(Tasks, NON_PEST)} />
             <Route path="/report-builder" element={guarded(ReportBuilder)} />

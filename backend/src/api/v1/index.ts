@@ -49,6 +49,7 @@ import { manpowerRouter } from './manpower.routes';
 import { manpowerCostRouter } from './manpowerCost.routes';
 import { inventoryRouter } from './inventory.routes';
 import { apiIntegrationsRouter } from './api-integrations.routes';
+import { johnDeereRouter } from './johnDeere.routes';
 import { soilSensorRouter } from './soil-sensor.routes';
 import { gisRouter } from './gis.routes';
 import { permissionsRouter } from './permissions.routes';
@@ -189,6 +190,7 @@ router.use('/inventory', inventoryRouter);
 
 // API Integrations - requires auth (handled in router)
 router.use('/api-integrations', apiIntegrationsRouter);
+router.use('/integrations/john-deere', johnDeereRouter);
 
 // Soil sensor readings - requires auth (handled in router)
 router.use('/soil-sensor', soilSensorRouter);

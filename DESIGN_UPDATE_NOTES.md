@@ -218,3 +218,11 @@ Audit of all 50 screens at 390 / 820 / 1280 / 1920 px (buttons, icons, type, rad
 - `useFillHeight({ bleed: true })` for full-bleed pages.
 - Tests: new workspace test — Layers opens a docked panel and the map narrows; Legend lists only visible layers; Basemaps is a radio list; Esc closes and the map regains full width; Add data opens the dialog. Map overlap check ignores closed panels.
 - Gate: **602 Playwright tests, all passing**; **677 unit tests** passing.
+
+## Round 22 — John Deere Operations Center connection
+- New screen **Settings → John Deere** (`/admin/integrations/john-deere`): a 5-step connection (App settings → Sign in → Organization → Fields → Sync) plus an operations table. Opens on the first unfinished step; steps are clickable once reached. Phones use a compact horizontal stepper.
+- Sandbox / Production environments; redirect URI with copy button; "Share with AgroCloud" for organizations not yet shared; field links suggested by name; sync by season or date range and operation type.
+- Backend: migration 173, `external/johnDeere.client.ts` (OAuth 2, Accept `application/vnd.deere.axiom.v3+json`, `nextPage` paging, 7-day windows, measurement totals, refuses non-`*.deere.com` URLs), `services/johnDeere.service.ts`, routes, encrypted secrets (`utils/secretBox.ts`). 10 unit tests.
+- Holding table only — Deere data does not bypass AgroCloud's approval / PHI workflow.
+- Full Arabic labels; numbers with units isolated with `<bdi>` so "42.5 ha" reads correctly in RTL.
+- Fixed: "Due now" contrast on API Integrations (warning.dark). Guide: `docs/JOHN_DEERE_SETUP.md`.

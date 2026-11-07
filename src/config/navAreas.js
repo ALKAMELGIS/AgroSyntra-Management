@@ -136,6 +136,7 @@ const MANAGEMENT_SECTION = {
     { text: 'Yield Predictions', path: '/yield-predictions' },
     { text: 'Agronomic Reference', path: '/agronomic-reference' },
     { text: 'API Integrations', path: '/admin/api-integrations', requiresRole: INTEGRATION_ADMIN_ROLES },
+    { text: 'John Deere', path: '/admin/integrations/john-deere', requiresRole: INTEGRATION_ADMIN_ROLES },
   ],
 };
 

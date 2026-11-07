@@ -101,6 +101,7 @@ export const SHELL_AR = {
   'Yield Predictions': 'توقعات الإنتاج',
   'Agronomic Reference': 'المرجع الزراعي',
   'API Integrations': 'تكاملات API',
+  'John Deere': 'John Deere',
   'Training Modules': 'وحدات التدريب',
   'My Grades': 'درجاتي',
   'User Management': 'إدارة المستخدمين',

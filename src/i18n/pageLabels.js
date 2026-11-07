@@ -11,6 +11,80 @@ import { SHELL_AR } from './shellLabels';
  * Adding a word: one line here. Keep keys exactly as they appear on screen.
  */
 export const PAGE_AR = {
+  // ---- John Deere Operations Center ----------------------------------------
+  'John Deere Operations Center': 'مركز عمليات John Deere',
+  'John Deere': 'John Deere',
+  Copied: 'تم النسخ',
+  Disconnect: 'قطع الاتصال',
+  'Signed in': 'تم تسجيل الدخول',
+  'Not signed in': 'غير مسجل الدخول',
+  Sandbox: 'بيئة الاختبار (Sandbox)',
+  Production: 'بيئة الإنتاج (Production)',
+  'App settings': 'إعدادات التطبيق',
+  'Sign in': 'تسجيل الدخول',
+  Organization: 'المؤسسة',
+  Sync: 'المزامنة',
+  'Sync now': 'مزامنة الآن',
+  'Crop season': 'موسم المحصول',
+  'Operation types': 'أنواع العمليات',
+  Seeding: 'زراعة البذور',
+  Application: 'رش وتسميد',
+  Tillage: 'حراثة',
+  Carting: 'نقل',
+  'All types': 'كل الأنواع',
+  Season: 'الموسم',
+  'Yield / rate': 'الإنتاجية / المعدل',
+  Moisture: 'الرطوبة',
+  'John Deere field': 'حقل John Deere',
+  'AgroCloud field': 'حقل AgroCloud',
+  'Client ID': 'معرّف العميل (Client ID)',
+  'Client secret': 'المفتاح السري (Client secret)',
+  'Redirect URI': 'عنوان إعادة التوجيه (Redirect URI)',
+  'Save settings': 'حفظ الإعدادات',
+  'Sign in with John Deere': 'تسجيل الدخول عبر John Deere',
+  'Share with AgroCloud': 'المشاركة مع AgroCloud',
+  'In use': 'مستخدمة',
+  'Use this organization': 'استخدام هذه المؤسسة',
+  'Link fields': 'ربط الحقول',
+  'Suggested by name': 'مقترح حسب الاسم',
+  'Sync field operations': 'مزامنة العمليات الحقلية',
+  'Operations from John Deere': 'العمليات الواردة من John Deere',
+  'John Deere app settings': 'إعدادات تطبيق John Deere',
+  'Operations Center organization': 'مؤسسة مركز العمليات',
+  'Field Operations API': 'واجهة العمليات الحقلية',
+  'Saved — leave blank to keep': 'محفوظ — اتركه فارغاً للإبقاء عليه',
+  'Read field operations (seeding, application, harvest, tillage) from Operations Center into AgroCloud.':
+    'قراءة العمليات الحقلية (البذر، الرش والتسميد، الحصاد، الحراثة) من مركز العمليات إلى AgroCloud.',
+  'Create an application on developer.deere.com, add the redirect URI below to it, then paste its Client ID and secret here.':
+    'أنشئ تطبيقاً على developer.deere.com، وأضف إليه عنوان إعادة التوجيه أدناه، ثم الصق هنا معرّف العميل والمفتاح السري.',
+  'Sandbox: sandboxapi.deere.com — for testing with up to 5 organizations, before Deere approves the app.':
+    'بيئة الاختبار: sandboxapi.deere.com — للتجربة على 5 مؤسسات كحد أقصى قبل اعتماد John Deere للتطبيق.',
+  'Production: partnerapi.deere.com — real farm data. Use after John Deere approves the app for production.':
+    'بيئة الإنتاج: partnerapi.deere.com — بيانات المزرعة الفعلية. تُستخدم بعد اعتماد John Deere للتطبيق للإنتاج.',
+  "Add exactly this address to the app's redirect URIs on developer.deere.com.":
+    'أضف هذا العنوان كما هو إلى عناوين إعادة التوجيه للتطبيق على developer.deere.com.',
+  "You will be sent to John Deere's sign-in page and back here. AgroCloud asks for read access to agronomic data (ag1) and stays signed in (offline_access).":
+    'ستنتقل إلى صفحة تسجيل الدخول في John Deere ثم تعود إلى هنا. يطلب AgroCloud صلاحية قراءة البيانات الزراعية (ag1) والبقاء متصلاً (offline_access).',
+  "Organizations marked 'Share' must first allow AgroCloud to read their data on John Deere's connections page; you come back here afterwards.":
+    'المؤسسات التي يظهر لها زر «المشاركة» يجب أن تسمح أولاً لـ AgroCloud بقراءة بياناتها من صفحة الاتصالات في John Deere، ثم تعود إلى هنا.',
+  'Each John Deere field is linked to an AgroCloud field; names that match are suggested. Only linked fields are synced.':
+    'يُربط كل حقل في John Deere بحقل في AgroCloud، وتُقترح الحقول ذات الأسماء المتطابقة. تتم مزامنة الحقول المربوطة فقط.',
+  'Choose a crop season or a date range. Deere returns date ranges in 7-day windows; AgroCloud splits longer ranges automatically.':
+    'اختر موسم المحصول أو نطاقاً زمنياً. تُرجع John Deere البيانات على فترات من 7 أيام، ويقسّم AgroCloud الفترات الأطول تلقائياً.',
+  'No operations yet. Connect and sync to see them here.': 'لا توجد عمليات بعد. اربط الحساب وقم بالمزامنة لتظهر هنا.',
+  'No organizations found for this John Deere account.': 'لا توجد مؤسسات لحساب John Deere هذا.',
+  'No fields in this organization.': 'لا توجد حقول في هذه المؤسسة.',
+  'Signed in to John Deere. Choose the Operations Center organization to use.': 'تم تسجيل الدخول إلى John Deere. اختر مؤسسة مركز العمليات المطلوبة.',
+  'John Deere app settings saved': 'تم حفظ إعدادات تطبيق John Deere',
+  'Operation type filter': 'تصفية حسب نوع العملية',
+  'Connection steps': 'خطوات الربط',
+  'Copy redirect URI': 'نسخ عنوان إعادة التوجيه',
+  'Field links':  'ربط الحقول',
+  'John Deere operations': 'عمليات John Deere',
+  "Read-only: these operations are kept beside AgroCloud's own harvest and application records, which keep their approval and PHI checks.":
+    'للقراءة فقط: تُحفظ هذه العمليات بجانب سجلات الحصاد والتطبيقات في AgroCloud، والتي تحتفظ بإجراءات الاعتماد وفحص فترة ما قبل الحصاد (PHI).',
+  'Field links saved': 'تم حفظ ربط الحقول',
+  'Disconnected from John Deere': 'تم قطع الاتصال بـ John Deere',
   // ---- Actions --------------------------------------------------------------
   Cancel: 'إلغاء',
   Save: 'حفظ',
@@ -1053,6 +1127,10 @@ const PATTERNS = [
       if (m[2] && !s) return null;
       return `${verb}${s ? ` ${s}` : ''}${m[3] ? `: ${m[3]}` : ''}`;
     }],
+  [/^Save links \((\d+)\)$/, (m) => `حفظ الربط (${m[1]})`],
+  [/^(\d[\d,]*) linked fields?$/i, (m) => `${m[1]} حقل مربوط`],
+  [/^(\d[\d,]*) operations from (\d[\d,]*) fields?/i, (m) => `${m[1]} عملية من ${m[2]} حقل`],
+  [/^Using (.{1,80})$/, (m) => `يتم استخدام ${m[1]}`],
   [/^(\d[\d,]*) rows?$/i, (m) => `${m[1]} صف`],
   [/^(\d[\d,]*) records?$/i, (m) => `${m[1]} سجل`],
   [/^(\d[\d,]*) entries$|^(\d[\d,]*) entry$/i, (m) => `${m[1] || m[2]} إدخال`],
