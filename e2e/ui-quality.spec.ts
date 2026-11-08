@@ -800,11 +800,11 @@ test.describe('GIS configuration (Zones & Sites → Relationship Class)', () => 
       await settle(page);
       // The configuration is a tab of the existing settings screen, not a separate menu option.
       await page.getByRole('tab', { name: lang === 'en' ? 'GIS configuration' : 'إعداد GIS' }).click();
-      await expect(page.getByRole('heading', { name: lang === 'en' ? 'Relationship Class' : 'Relationship Class (علاقة الربط)', exact: true })).toBeVisible();
+      await expect(page.getByRole('heading', { name: lang === 'en' ? 'Relationship Class' : 'علاقة الربط (Relationship Class)', exact: true })).toBeVisible();
       const linkBox = page.getByRole('textbox', { name: lang === 'en' ? 'Layer link' : 'رابط الطبقة' });
       await linkBox.fill(REPORT.url);
       await page.getByRole('button', { name: lang === 'en' ? 'Check layer' : 'فحص الطبقة' }).click();
-      await expect(page.getByText(lang === 'en' ? '2. Layer check' : '2. نتيجة الفحص')).toBeVisible();
+      await expect(page.getByRole('heading', { name: lang === 'en' ? 'Keys' : 'المفاتيح', exact: true })).toBeVisible();
       // The link the user typed is what the server receives (nothing hard-coded).
       expect(inspectBody.url).toBe(REPORT.url);
       await expect(page.getByRole('combobox').first()).toBeVisible();
