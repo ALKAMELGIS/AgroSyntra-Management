@@ -1,4 +1,4 @@
-# AgroCloud AI Assistant (AI Agent, phases 1–2)
+# AgroCloud AI Assistant (AI Agent, phases 1–2 + field data)
 
 The assistant answers questions, builds reports and explains how to use the system. Every answer comes only from AgroCloud's own database, and it never changes data.
 
@@ -25,6 +25,9 @@ The model never connects to the database itself. It can only call these tools:
 | `aggregate_records` | Calculates `sum`, `avg`, `min`, `max`, `count` or `count_distinct`, grouped by zone, site, farm_area, field, field_type, day, week, month, year or any form field. |
 | `get_record` | Returns one record in full: values, lines, photos, attachments, comments, location and GIS features. |
 | `gis_feature_forms` | Returns the forms recorded on the field linked to an ArcGIS feature. |
+| `sensor_readings` | Soil sensor readings per field (moisture %, temperature, EC, pH, depth): the raw readings, or averages and min/max grouped by field, site, zone, day, week or month. Limited to the user's sites. |
+| `equipment_positions` | GPS tracking: the last known position and speed of each machine, or one machine's track on a given day. Available only to roles that can open GPS Tracking (CEO, farm manager, operations manager, agronomist, worker). |
+| `soil_properties` | Soil properties from the OpenLandMap global soil maps for a field or a point: pH, organic carbon, clay, sand, bulk density, water at field capacity and texture, at standard depths. **Open fields and pivots only.** Values are modelled, not lab results. |
 | `show_result` | Shows a result to the user as a table, with Excel / PDF export and an optional bar, line or pie chart. |
 | `app_guide` | Lists the screens and paths, so the assistant can answer "how do I…" questions. |
 
@@ -74,7 +77,8 @@ No business data is copied into them.
 
 ## Next phases (planned)
 - **3.** Guidance from form definitions and screen help texts.
-- **4.** GPS, sensors and satellite tools: `gps_positions`, `soil_sensor_readings`, remote sensing.
+- **4.** ~~GPS and soil sensors~~ (done: `equipment_positions`, `sensor_readings`; weather is read through the Weather Log form).
+  - Still to do: satellite NDVI, which needs the Sentinel Hub key and is called from the server.
 - **5.** Actions: write tools that call the existing services.
   - Each action is shown as a card the user confirms, under the user's own permissions.
   - Sensitive actions go through the change-request approval.

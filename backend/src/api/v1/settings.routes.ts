@@ -105,4 +105,49 @@ settingsRouter.post('/openweather/test', requireKeyAdmin, async (req: AuthReques
   } catch (e) { next(e); }
 });
 
+// ── Satellite imagery configuration (Sentinel Hub / Copernicus) ─────────────
+settingsRouter.get('/sentinelhub', async (_req: AuthRequest, res: Response, next) => {
+  try {
+    res.json({ success: true, data: await settings.getSentinelConfig() });
+  } catch (e) { next(e); }
+});
+
+const sentinelSchema = z.object({
+  instanceId: z.string().optional(),
+  service: z.enum(['sentinel-hub', 'copernicus']).default('sentinel-hub'),
+  label: z.string().max(120).optional(),
+});
+
+settingsRouter.post('/sentinelhub/test', requireKeyAdmin, async (req: AuthRequest, res: Response, next) => {
+  try {
+    const body = sentinelSchema.parse(req.body);
+    let id = (body.instanceId || '').trim();
+    if (!id || id === 'USE_SAVED') id = (await settings.resolveSentinel())?.instanceId || '';
+    res.json({ success: true, data: await settings.testSentinelConnection(id, body.service) });
+  } catch (e) { next(e); }
+});
+
+/** Saves only after a successful check, with the service that answered. */
+settingsRouter.put('/sentinelhub', requireKeyAdmin, async (req: AuthRequest, res: Response, next) => {
+  try {
+    const body = sentinelSchema.parse(req.body);
+    const id = (body.instanceId || '').trim();
+    if (!settings.isSentinelInstanceId(id)) {
+      res.status(400).json({ success: false, error: { message: 'The configuration ID must be a UUID (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' } });
+      return;
+    }
+    const test = await settings.testSentinelConnection(id, body.service);
+    if (!test.success) { res.status(400).json({ success: false, error: { message: test.message } }); return; }
+    await settings.setSentinelConfig(id, test.service, body.label ?? null, req.user!.userId, settings.pickBaseLayer(test.layers));
+    res.json({ success: true, data: { ...(await settings.getSentinelConfig()), layers: test.layers } });
+  } catch (e) { next(e); }
+});
+
+settingsRouter.delete('/sentinelhub', requireKeyAdmin, async (_req: AuthRequest, res: Response, next) => {
+  try {
+    await settings.remove('sentinelhub_instance_id');
+    res.json({ success: true });
+  } catch (e) { next(e); }
+});
+
 export { settingsRouter };

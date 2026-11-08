@@ -303,3 +303,32 @@ Reviewed the pesticide records screen as a user on phone (390), tablet portrait 
 - **Dashboard:** the same site and season selectors sit in the dashboard header and share the sidebar selection, so changing either updates both and the data.
   - Choosing All Sites now clears the site filter (before, the previous site stayed).
   - A field picked under the previous site is cleared.
+
+## Round 31 — Remote sensing on GIS Map, field data for the assistant
+- **GIS Map** has a second icon bar on the opposite edge (right in English, left in Arabic) with satellite tools, each opening its own docked panel:
+  - index layers with a gallery, groups, opacity, formula and legend;
+  - show / hide;
+  - imagery dates with a cloud filter and scene search;
+  - AOI: draw, upload GeoJSON / KML, pick a field, go to coordinates, clip / mask;
+  - change detection with a swipe handle;
+  - time series with a min–max band and CSV export;
+  - metadata;
+  - PNG download.
+- **Indices** (server scripts): NDVI, SAVI, NDWI, NDMI, NDII, MSI, BSI, true colour, colour infrared and SWIR.
+- **Settings → API Keys → Satellite imagery:**
+  - the configuration ID is tested, stored encrypted and used only by the server;
+  - tiles go through a server proxy with a signed key.
+- **Security:** the satellite routes now require sign-in (`/satellite/token` was reachable without it).
+- **AI assistant:** new read-only tools for soil sensors (`sensor_readings`) and equipment GPS (`equipment_positions`), with readable column names.
+- Docs: `docs/SATELLITE_IMAGERY.md`.
+- **Soil (OpenLandMap)**, see `docs/SOIL_DATA.md`:
+  - GIS Map soil icon switches the tool on directly (no side panel); a soil bar opens at the bottom of the map beside the legend.
+  - Index legend (NDVI etc.) is vertical in the map's top-left corner, below the zoom buttons / warning banner; the bottom docks start to its right so nothing overlaps.
+  - Open fields and pivots only; greenhouse, net house, glasshouse, tunnel and Cravo are refused, on the map, on the server and by the assistant.
+  - Saved field soil profiles (migration 177); assistant tool `soil_properties`.
+- **Time series** moved from the side panel to a wide panel across the bottom of the map (LandViewer style):
+  - index and period (3 months to 2 years, or the imagery dates);
+  - Apply;
+  - min–max band and mean;
+  - Figure (PNG) and Table (CSV) export.
+- Fixed: the soil panel could crash on an unexpected response; field clicks now reach the soil tool, and field popups stay closed while it is on.

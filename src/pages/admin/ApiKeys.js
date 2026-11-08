@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { canManageSystemSettings } from '../../utils/roleAccess';
 import InfoNote from '../../components/InfoNote';
+import SatelliteSettingsCard from '../../components/map/satellite/SatelliteSettingsCard';
 
 const AI_MODELS = {
   anthropic: [
@@ -456,6 +457,9 @@ export default function ApiKeys() {
 
           {/* OpenWeatherMap Configuration */}
           <WeatherMapApiKeyCard />
+
+          {/* Satellite imagery (Sentinel Hub / Copernicus) for GIS Map */}
+          <SatelliteSettingsCard />
         </>
       ) : (
         <InfoNote severity="info" sx={{ mb: 3 }}>{t('adminAccess.systemKeysCeoOnly')}</InfoNote>

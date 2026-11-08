@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+import { join } from 'path';
 /**
  * UI quality gate — runs every main screen on phone, tablet and desktop and fails on:
  *  - uncaught page errors
@@ -651,6 +653,126 @@ test.describe('map workspace (docked panel)', () => {
 
     await tools.getByRole('button', { name: 'Add data' }).click();
     await expect(page.getByRole('dialog')).toBeVisible();
+  });
+});
+
+test.describe('GIS Map: remote sensing tools', () => {
+  const INDICES = JSON.parse(readFileSync(join(__dirname, 'fixtures', 'satellite-indices.json'), 'utf8'));
+  const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
+  const AOI = { type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [[[51.49, 25.29], [51.515, 25.287], [51.52, 25.31], [51.495, 25.315], [51.49, 25.29]]] } };
+
+  async function setup(page: Page, configured: boolean, extra?: () => Promise<void>) {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.addInitScript(() => { localStorage.setItem('gis.workspace', ''); localStorage.setItem('gis.satellite', ''); localStorage.removeItem('agrocloud_gis_satellite'); });
+    await prepare(page);
+    await page.route(/\/api\/v1\/satellite\/status/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: { configured, service: 'sentinel-hub' } }) }));
+    await page.route(/\/api\/v1\/satellite\/indices/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: INDICES }) }));
+    await page.route(/\/api\/v1\/satellite\/tile-key/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: { key: 'test.key.sig', expiresAt: new Date(Date.now() + 3600e3).toISOString() } }) }));
+    const tiles: string[] = [];
+    await page.route(/\/api\/v1\/satellite\/wms/, (r) => { tiles.push(r.request().url()); return r.fulfill({ status: 200, contentType: 'image/png', body: PNG }); });
+    if (extra) await extra();
+    await page.goto('/gis-map');
+    await settle(page);
+    return { tiles, rail: page.getByRole('navigation', { name: 'Remote sensing tools' }) };
+  }
+
+  test('index layers show on the map through the server, AOI upload clips the image, panels pass accessibility', async ({ page }) => {
+    const { tiles, rail } = await setup(page, true);
+    for (const name of ['Satellite index layers', 'Imagery date & scenes', 'Area of interest (AOI)', 'Change detection (compare dates)', 'Time series', 'Image metadata', 'Download image (PNG)']) {
+      await expect(rail.getByRole('button', { name })).toBeVisible();
+    }
+    await rail.getByRole('button', { name: 'Satellite index layers' }).click();
+    const panel = page.getByRole('region', { name: 'Remote sensing · index layers' });
+    await expect(panel).toBeVisible();
+    await panel.getByRole('button', { name: /^NDMI/ }).click();
+    await expect(page.getByText('(B08 − B11) / (B08 + B11)')).toBeVisible();
+    await expect.poll(() => tiles.some((u) => /index=NDMI/i.test(u) && /[?&]k=test\.key\.sig/.test(u))).toBe(true);
+    expect(tiles.every((u) => !/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}/.test(u))).toBe(true);
+    const results = await new AxeBuilder({ page }).include('#gis-end-panel').withTags(['wcag2a', 'wcag2aa', 'wcag22aa']).analyze();
+    expect(results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')).toEqual([]);
+
+    await rail.getByRole('button', { name: 'Area of interest (AOI)' }).click();
+    await page.locator('#gis-end-panel input[type=file]').setInputFiles({ name: 'block-a.geojson', mimeType: 'application/geo+json', buffer: Buffer.from(JSON.stringify(AOI)) });
+    await expect(page.getByText('Current AOI')).toBeVisible();
+    await expect(page.getByText(/ha$/).first()).toBeVisible();
+    tiles.length = 0;
+    await page.getByLabel('Clip image to AOI (mask)').check();
+    await expect.poll(() => tiles.some((u) => /geometry=POLYGON/i.test(decodeURIComponent(u)))).toBe(true);
+    expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
+  });
+
+  test('soil: switched on from the tool bar, bottom bar beside the legend; open fields and pivots only', async ({ page }) => {
+    const sq = (x0: number, x1: number) => [[[x0, 25.0], [x1, 25.0], [x1, 25.2], [x0, 25.2], [x0, 25.0]]];
+    const features = { type: 'FeatureCollection', features: [
+      { type: 'Feature', properties: { Farm_Name: 'GH-07', Structure_Type: 'Greenhouse' }, geometry: { type: 'Polygon', coordinates: sq(55.0, 55.2) } },
+      { type: 'Feature', properties: { Farm_Name: 'OF-12', Structure_Type: 'Open Field' }, geometry: { type: 'Polygon', coordinates: sq(55.2, 55.4) } },
+    ] };
+    let asked = '';
+    const { rail } = await setup(page, false, async () => {
+      await page.route(/\/api\/v1\/gis\/layers(\?|$)/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: [{ id: 'l1', name: 'Agro structures', sourceType: 'arcgis', featureCount: 2, isVisible: true, style: { color: '#1f7a4d' } }] }) }));
+      await page.route(/\/api\/v1\/gis\/layers\/l1\/features/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: features }) }));
+      await page.route(/\/api\/v1\/soil-grids\/point/, (r) => {
+        asked = r.request().url();
+        return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: {
+          lat: 25.1, lon: 55.3, depths: [0, 30, 60], source: 'OpenLandMap (OpenGeoHub) · 250 m', field: null,
+          rows: [
+            { key: 'ph', property: 'Soil pH (H2O)', unit: 'pH', '0cm': 8.1, '30cm': 8.2, '60cm': 8.3 },
+            { key: 'texture', property: 'Texture class (USDA)', unit: '', '0cm': 'Loamy sand', '30cm': 'Loamy sand', '60cm': 'Sandy loam' },
+          ] } }) });
+      });
+    });
+    const soilBtn = rail.getByRole('button', { name: 'Soil properties (OpenLandMap)' });
+    await soilBtn.click();
+    await expect(soilBtn).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#gis-end-panel')).toBeHidden(); // no side panel
+    const bar = page.getByRole('region', { name: 'Soil properties' });
+    await expect(bar).toBeVisible();
+    const map = page.locator('.leaflet-container').first();
+    await expect(page.locator('.leaflet-overlay-pane path')).toHaveCount(2);
+    const gh = (await page.locator('.leaflet-overlay-pane path').nth(0).boundingBox())!;
+    const of = (await page.locator('.leaflet-overlay-pane path').nth(1).boundingBox())!;
+
+    // Greenhouse: refused, no request.
+    await page.mouse.click(gh.x + gh.width / 2, gh.y + gh.height / 2);
+    await expect(bar).toContainText('not protected structures');
+    expect(asked).toBe('');
+
+    // Open field: profile by depth.
+    await page.mouse.click(of.x + of.width / 2, of.y + of.height / 2);
+    const table = bar.getByRole('table', { name: 'Soil profile' });
+    await expect(table).toContainText('8.1');
+    await expect(table).toContainText('Sandy loam');
+    await expect(bar).toContainText('OF-12');
+    expect(asked).toMatch(/depths=0,30,60/);
+    const mapBox = (await map.boundingBox())!;
+    const barBox = (await bar.boundingBox())!;
+    expect(barBox.y + barBox.height).toBeLessThanOrEqual(mapBox.y + mapBox.height);
+    expect(barBox.y).toBeGreaterThan(mapBox.y + mapBox.height / 2); // bottom of the map
+    const results = await new AxeBuilder({ page }).include('[aria-label="Soil properties"]').withTags(['wcag2a', 'wcag2aa', 'wcag22aa']).analyze();
+    expect(results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')).toEqual([]);
+  });
+
+  test('time series opens across the bottom of the map from the tool bar', async ({ page }) => {
+    const { rail } = await setup(page, true, async () => {
+      await page.addInitScript(() => localStorage.setItem('agrocloud_gis_satellite', JSON.stringify({ aoi: { type: 'Feature', properties: { name: 'Block A' }, geometry: { type: 'Polygon', coordinates: [[[55.0, 25.0], [55.1, 25.0], [55.1, 25.1], [55.0, 25.1], [55.0, 25.0]]] } } })));
+      await page.route(/\/api\/v1\/satellite\/stats/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: [
+        { date: '2026-09-01', mean: 0.5, min: 0.2, max: 0.7 }, { date: '2026-10-01', mean: 0.6, min: 0.3, max: 0.8 },
+      ] }) }));
+    });
+    await rail.getByRole('button', { name: 'Time series' }).click();
+    const dock = page.getByRole('region', { name: 'Time series' });
+    await expect(dock).toBeVisible();
+    await dock.getByRole('button', { name: 'Apply' }).click();
+    await expect(dock.getByRole('button', { name: 'Figure' })).toBeVisible();
+    await expect(dock.getByRole('button', { name: 'Table' })).toBeVisible();
+    await expect(dock).toContainText('2 scenes');
+  });
+
+  test('without a configuration the tools say where to set it up', async ({ page }) => {
+    const { rail } = await setup(page, false);
+    await rail.getByRole('button', { name: 'Satellite index layers' }).click();
+    await expect(page.getByText('Satellite imagery is not set up yet.')).toBeVisible();
+    await expect(rail.getByRole('button', { name: 'Download image (PNG)' })).toBeDisabled();
   });
 });
 

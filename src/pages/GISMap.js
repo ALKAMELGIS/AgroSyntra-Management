@@ -33,6 +33,18 @@ import { MapWorkspace, MapLegend, BasemapList, useMapWorkspace, useBasemap, mapZ
 import { BASEMAPS } from '../utils/mapBasemaps';
 import { LegendToggleOutlined as LegendIcon, MapOutlined as BasemapIcon } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
+import {
+  SatelliteAltOutlined as SatelliteIcon, EventOutlined as DateIcon, PentagonOutlined as AoiIcon, CompareOutlined as CompareIcon,
+  TimelineOutlined as SeriesIcon, DownloadOutlined as DownloadIcon, VisibilityOutlined as ShowIcon, VisibilityOffOutlined as HideIcon,
+} from '@mui/icons-material';
+import 'leaflet-draw/dist/leaflet.draw.css';
+import useSatellite from '../components/map/satellite/useSatellite';
+import { SoilDock, SoilMapPicker } from '../components/map/soil/SoilPanel';
+import { TerrainOutlined as SoilIcon } from '@mui/icons-material';
+import SatelliteMapLayers from '../components/map/satellite/SatelliteMapLayers';
+import {
+  NotConfigured, LayersPanel, DatesPanel, AoiPanel, ComparePanel, TimeSeriesDock, MetadataPanel, MapIndexLegend, CompareSwipe, downloadImage,
+} from '../components/map/satellite/SatellitePanels';
 
 function sanitizeUrlInput(raw) {
   return raw.replace(/[^\x20-\x7E]/g, '').trim();
@@ -93,7 +105,19 @@ export default function GISMap() {
   const isLargeScreen = useMediaQuery('(min-width:1536px)');
   const { t } = useTranslation();
   // CEO and operation manager manage GIS layers; everyone else (incl. farm manager) views only.
-  const canEdit = canEditGis(useAuth().user);
+  const { user: authUser } = useAuth();
+  const canEdit = canEditGis(authUser);
+  // Remote sensing (Sentinel-2): second tool bar on the opposite edge of the map.
+  const sat = useSatellite();
+  const satWorkspace = useMapWorkspace('gis.satellite', null);
+  const [satError, setSatError] = useState(null);
+  // Soil (OpenLandMap) and time series: switched on from the tool bar and shown
+  // at the bottom of the map, beside the legend (no side panel).
+  const [soilOn, setSoilOn] = useState(false);
+  const [soilPoint, setSoilPoint] = useState(null);
+  const [seriesOn, setSeriesOn] = useState(false);
+  const soilOnRef = useRef(false);
+  soilOnRef.current = soilOn;
   const mapHeight = `calc(100dvh - ${topBarHeight + padPx + bottomChrome + CONTEXT_BAR_HEIGHT}px)`;
   const workspace = useMapWorkspace('gis.workspace', 'layers');
   const closeWorkspace = workspace.close;
@@ -594,6 +618,7 @@ export default function GISMap() {
     leafletLayer.bindPopup(popupContent);
 
     leafletLayer.on('click', () => {
+      if (soilOnRef.current) return; // the soil tool uses the click
       setSelectedFeature({ layerId, feature });
       if (props._linkedFieldId) {
         loadFieldSummary(props._linkedFieldId);
@@ -715,6 +740,38 @@ export default function GISMap() {
     },
   ].filter(Boolean);
 
+  // Polygons of the visible GIS layers, offered as AOI ("use a field").
+  const aoiFields = visibleLayers.flatMap((layer) => (featureData[layer.id]?.features || [])
+    .filter((f) => /Polygon$/.test(f?.geometry?.type || ''))
+    .map((f, i) => {
+      const p = f.properties || {};
+      const name = p.Farm_Name || p.Farm_Code || p.field_name || p.name || p.NAME || `${layer.name} ${i + 1}`;
+      return { key: `${layer.id}-${i}`, label: `${name} · ${layer.name}`, feature: f };
+    }))
+    .slice(0, 2000);
+  const soilFeatures = visibleLayers.flatMap((layer) => featureData[layer.id]?.features || []);
+  const satNeedsSetup = sat.status.loaded && !sat.status.configured;
+  const satPanel = (content) => (satNeedsSetup ? <NotConfigured isAdmin={authUser?.role === 'ceo'} /> : content);
+  const satTools = [
+    { key: 'sat-layers', label: 'Satellite index layers', title: 'Remote sensing · index layers', icon: <SatelliteIcon />, content: satPanel(<LayersPanel sat={sat} />) },
+    {
+      key: 'sat-show', label: sat.show ? 'Hide satellite image' : 'Show satellite image', icon: sat.show ? <ShowIcon /> : <HideIcon />,
+      pressed: sat.show, disabled: !sat.ready, onClick: () => sat.setShow(!sat.show),
+    },
+    { key: 'sat-div1', divider: true },
+    { key: 'sat-dates', label: 'Imagery date & scenes', icon: <DateIcon />, content: satPanel(<DatesPanel sat={sat} mapRef={mapRef} />) },
+    { key: 'sat-aoi', label: 'Area of interest (AOI)', icon: <AoiIcon />, badge: sat.aoi ? '1' : undefined, content: <AoiPanel sat={sat} mapRef={mapRef} fields={aoiFields} /> },
+    { key: 'sat-compare', label: 'Change detection (compare dates)', icon: <CompareIcon />, content: satPanel(<ComparePanel sat={sat} mapRef={mapRef} />) },
+    { key: 'sat-series', label: 'Time series', icon: <SeriesIcon />, pressed: seriesOn, onClick: () => setSeriesOn((v) => !v) },
+    { key: 'sat-meta', label: 'Image metadata', icon: <InfoIcon />, content: <MetadataPanel sat={sat} /> },
+    { key: 'sat-div2', divider: true },
+    { key: 'soil', label: 'Soil properties (OpenLandMap)', icon: <SoilIcon />, pressed: soilOn, onClick: () => { setSoilOn((v) => !v); setSoilPoint(null); } },
+    {
+      key: 'sat-download', label: 'Download image (PNG)', icon: <DownloadIcon />, disabled: !sat.ready,
+      onClick: () => downloadImage(sat, mapRef.current).catch((e) => setSatError(e.message)),
+    },
+  ];
+
   return (
     <Box sx={{ mx: contentBleed, mb: contentBleed }}>
       {/* Docked workspace: tool bar · docked panel (Layers / Legend / Basemaps) · map. */}
@@ -729,6 +786,10 @@ export default function GISMap() {
           { key: 'basemaps', label: 'Basemaps', icon: <BasemapIcon />, content: <BasemapList value={basemap} onChange={setBasemap} /> },
           canEdit && { key: 'add', label: 'Add data', icon: <AddIcon />, onClick: () => { setAddDialog(true); setAddTab(0); } },
         ]}
+        endTools={satTools}
+        endWorkspace={satWorkspace}
+        endPanelWidth={340}
+        endLabel="Remote sensing tools"
       >
 
         {orphans.length > 0 && (
@@ -793,8 +854,26 @@ export default function GISMap() {
             );
           })}
 
-          {/* basemap toggle handled by default OSM tile layer */}
+          <SatelliteMapLayers sat={sat} />
+          <SoilMapPicker active={soilOn} point={soilPoint} onPick={setSoilPoint} />
         </MapContainer>
+        <CompareSwipe sat={sat} />
+        {/* Index legend: vertical, top-left corner (below the zoom buttons in Arabic / the warning banner). */}
+        <MapIndexLegend sat={sat} top={theme.direction === 'rtl' || orphans.length > 0 ? 96 : 12} />
+        {/* Bottom dock: legend · soil bar, and the time series across the map. */}
+        <Box sx={{
+          position: 'absolute', insetInline: 12, bottom: 22, zIndex: 1000, display: 'flex', flexDirection: 'column', gap: 1,
+          pointerEvents: 'none', '& > *': { pointerEvents: 'auto' },
+        }}
+        // Keep the docks clear of the vertical index legend on the left edge.
+        style={sat.ready && sat.show && sat.current?.legend ? { left: 104 } : undefined}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 1, flexWrap: 'wrap', pointerEvents: 'none', '& > *': { pointerEvents: 'auto' } }}>
+            {soilOn && <SoilDock point={soilPoint} features={soilFeatures} onClose={() => { setSoilOn(false); setSoilPoint(null); }} />}
+          </Box>
+          {seriesOn && <TimeSeriesDock sat={sat} onClose={() => setSeriesOn(false)} onSetAoi={() => satWorkspace.setActive('sat-aoi')} />}
+        </Box>
+        <Snackbar open={Boolean(satError)} autoHideDuration={6000} onClose={() => setSatError(null)} message={satError || ''} />
 
         {/* PHI Legend */}
 

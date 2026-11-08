@@ -13,13 +13,29 @@ import { excelTableSx } from '../table/ExcelTable';
 const FN_AR = { sum: 'مجموع', avg: 'متوسط', min: 'أدنى', max: 'أعلى', count: 'عدد', count_distinct: 'عدد مختلف' };
 const DIM_AR = { zone: 'المنطقة', site: 'الموقع', farm_area: 'منطقة المزرعة', field: 'الحقل', field_type: 'نوع الحقل', day: 'اليوم', week: 'الأسبوع', month: 'الشهر', year: 'السنة', record_date: 'التاريخ', records: 'عدد السجلات', record_id: 'رقم السجل' };
 const FN_EN = { sum: 'Sum', avg: 'Average', min: 'Min', max: 'Max', count: 'Count', count_distinct: 'Distinct' };
+// Sensor, weather and GPS columns returned by the assistant's data tools.
+const FIELD_AR = {
+  moisture_pct: 'الرطوبة %', temperature_c: 'الحرارة °م', ec_dsm: 'EC (dS/m)', ph: 'pH', depth_cm: 'العمق (سم)',
+  readings: 'عدد القراءات', source: 'المصدر', date: 'التاريخ', equipment: 'المعدّة', type: 'النوع', identifier: 'المعرّف',
+  active: 'نشطة', last_seen: 'آخر ظهور', latitude: 'خط العرض', longitude: 'خط الطول', speed: 'السرعة (كم/س)', heading: 'الاتجاه', time: 'الوقت',
+  total_quantity: 'الكمية', property: 'الخاصية', unit: 'الوحدة',
+};
+const FIELD_EN = {
+  moisture_pct: 'Moisture %', temperature_c: 'Temperature °C', ec_dsm: 'EC (dS/m)', ph: 'pH', depth_cm: 'Depth (cm)',
+  readings: 'Readings', last_seen: 'Last seen', speed: 'Speed (km/h)',
+};
+const fieldName = (col, ar) => {
+  const depth = /^(\d+)cm$/.exec(col);
+  if (depth) return ar ? `${depth[1]} سم` : `${depth[1]} cm`;
+  return (ar ? FIELD_AR[col] : FIELD_EN[col]) || col.replace(/_/g, ' ');
+};
 
 /** Column keys from the database made readable ("sum_total_quantity" → "Sum · total quantity"). */
 export function columnLabel(key, ar) {
   if (ar && DIM_AR[key]) return DIM_AR[key];
   const m = String(key).match(/^(sum|avg|min|max|count_distinct|count)_(.+)$/);
-  if (m) return `${(ar ? FN_AR : FN_EN)[m[1]]} · ${m[2].replace(/_/g, ' ')}`;
-  return String(key).replace(/_/g, ' ');
+  if (m) return `${(ar ? FN_AR : FN_EN)[m[1]]} · ${fieldName(m[2], ar)}`;
+  return fieldName(String(key), ar);
 }
 
 const fmt = (v) => {
@@ -151,8 +167,9 @@ export default function ArtifactView({ artifact }) {
               // eslint-disable-next-line react/no-array-index-key
               <TableRow key={i}>
                 {artifact.columns.map((c) => (
-                  <TableCell key={c} className={typeof r[c] === 'number' ? 'col-numeric' : undefined} sx={{ whiteSpace: 'nowrap', maxWidth: 260, overflow: 'hidden', textOverflow: 'ellipsis' }} translate="no">
-                    {fmt(r[c])}
+                  <TableCell key={c} className={typeof r[c] === 'number' ? 'col-numeric' : undefined} sx={{ whiteSpace: 'nowrap', maxWidth: 260, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {/* Fixed vocabulary from the tools (soil property names, texture classes) is translated; data stays as is. */}
+                    {typeof r[c] === 'string' && (c === 'property' || /^\d+cm$/.test(c)) ? <span data-ui-text="">{r[c]}</span> : <span translate="no">{fmt(r[c])}</span>}
                   </TableCell>
                 ))}
               </TableRow>

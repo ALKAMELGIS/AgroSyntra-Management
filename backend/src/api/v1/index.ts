@@ -16,6 +16,7 @@ import { fieldsRouter } from './fields.routes';
 import { harvestsRouter } from './harvests.routes';
 import { recipesRouter } from './recipes.routes';
 import { satelliteRouter } from './satellite.routes';
+import { soilGridsRouter } from './soil-grids.routes';
 import { sitesRouter } from './sites.routes';
 import { seasonsRouter } from './seasons.routes';
 import { weatherRouter } from './weather.routes';
@@ -115,6 +116,7 @@ router.use('/weather', optionalAuth, weatherRouter);
 // Weather logs - requires auth; writes limited to worker / operation manager (handled in router)
 router.use('/weather-logs', weatherLogsRouter);
 router.use('/satellite', optionalAuth, satelliteRouter);
+router.use('/soil-grids', auth, soilGridsRouter);
 router.use('/analytics', auth, analyticsRouter);
 
 // Audit log - requires manager role (handled in router)

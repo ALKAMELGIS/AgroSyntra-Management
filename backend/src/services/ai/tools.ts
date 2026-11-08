@@ -3,6 +3,7 @@ import { AppError } from '../../utils/errors';
 import * as forms from '../formRegistry.service';
 import { featureForms } from '../arcgisLink.service';
 import type { ToolDef } from './llm';
+import * as soilGrids from '../soilGrids.service';
 
 /**
  * Read-only tools the assistant uses to answer from the system's own database.
@@ -61,6 +62,8 @@ const LOCATION_DIMS: Record<string, string> = {
 const TIME_DIMS: Record<string, string> = {
   day: "r.record_date", week: "date_trunc('week', r.record_date)::date", month: "to_char(r.record_date, 'YYYY-MM')", year: "to_char(r.record_date, 'YYYY')",
 };
+/** Same roles that can open GPS Tracking in the app. */
+export const GPS_READER_ROLES = ['ceo', 'farm_manager', 'operation_manager', 'agronomist', 'worker'];
 const NUMERIC_TYPES = new Set(['integer', 'bigint', 'smallint', 'numeric', 'real', 'double precision']);
 const HIDDEN = new Set(['organization_id', 'password_hash', 'pin_hash', 'token', 'auth_token']);
 
@@ -261,6 +264,45 @@ export const TOOL_DEFS: ToolDef[] = [
     },
   },
   {
+    name: 'sensor_readings',
+    description: 'Soil sensor readings (moisture %, temperature °C, EC dS/m, pH, depth) per field. Without group_by it returns the readings; with group_by it returns averages, min and max per field / site / zone / day / week / month.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        field: { type: 'string', description: 'Field name or code (optional). Use find_locations if unsure.' },
+        site: { type: 'string', description: 'Site name (optional)' },
+        from: { type: 'string', description: 'YYYY-MM-DD' },
+        to: { type: 'string', description: 'YYYY-MM-DD' },
+        group_by: { type: 'array', items: { type: 'string', enum: ['field', 'site', 'zone', 'day', 'week', 'month'] }, maxItems: 2 },
+        limit: { type: 'integer', minimum: 1, maximum: 1000 },
+      },
+    },
+  },
+  {
+    name: 'equipment_positions',
+    description: 'GPS tracking of equipment: the last known position, speed and time of each machine, or the track of one machine on a day (when equipment and date are given).',
+    input_schema: {
+      type: 'object',
+      properties: {
+        equipment: { type: 'string', description: 'Equipment name or identifier (optional)' },
+        date: { type: 'string', description: 'YYYY-MM-DD: return the track of that day instead of the last positions' },
+      },
+    },
+  },
+  {
+    name: 'soil_properties',
+    description: 'Only for open fields and pivots (not greenhouses, net houses, glasshouses, tunnels or Cravo). Soil properties from the global OpenLandMap soil maps (250 m): pH, organic carbon, clay, sand, bulk density, water at field capacity and USDA texture class, at standard depths (0, 10, 30, 60, 100 cm). Give a field name/code (uses the saved field profile, or reads the maps at the field) or a latitude/longitude. Modelled values, not lab results.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        field: { type: 'string', description: 'Field name or code' },
+        lat: { type: 'number' },
+        lon: { type: 'number' },
+        depths: { type: 'array', items: { type: 'integer', enum: [0, 10, 30, 60, 100] } },
+      },
+    },
+  },
+  {
     name: 'app_guide',
     description: 'Screens of the system and where each form is entered, to explain how to do something in the app.',
     input_schema: { type: 'object', properties: { topic: { type: 'string' } } },
@@ -288,6 +330,8 @@ const SCREENS: Array<[string, string, string]> = [
   ['Seasons', '/manage/seasons', 'Open and close seasons'],
   ['Reports', '/report-builder', 'Report builder and exports'],
   ['GIS Map', '/gis-map', 'Map of fields and layers'],
+  ['GPS Tracking', '/gps-tracking', 'Equipment positions and tracks'],
+  ['Remote Sensing', '/remote-sensing', 'Satellite imagery and NDVI per field'],
   ['Change Requests', '/audit/change-requests', 'Approve edit / delete requests'],
 ];
 
@@ -443,6 +487,121 @@ export async function runTool(name: string, input: any, ctx: ToolContext, state:
       }
       state.artifacts.push({ kind: 'table', title: String(args.title || '').slice(0, 160), columns: rs.columns, rows: rs.rows, total: rs.total, chart, form: rs.form });
       return { shown: true, rows: rs.rows.length };
+    }
+
+    case 'sensor_readings': {
+      const params: any[] = [ctx.orgId];
+      const where = ['s.organization_id = $1', 'NOT l.is_deleted'];
+      if (ctx.siteIds !== null) { params.push(ctx.siteIds); where.push(`l.site_id = ANY($${params.length}::uuid[])`); }
+      if (args.field) { params.push(`%${String(args.field)}%`); where.push(`(l.field_name ILIKE $${params.length} OR l.gis_farm_code ILIKE $${params.length})`); }
+      if (args.site) { params.push(`%${String(args.site)}%`); where.push(`l.site_name ILIKE $${params.length}`); }
+      for (const [k, op] of [['from', '>='], ['to', '<=']] as const) {
+        if (!args[k]) continue;
+        if (!isoDate.test(String(args[k]))) throw new AppError(`${k} must be YYYY-MM-DD`, 'VALIDATION_ERROR', 400);
+        params.push(args[k]); where.push(`s.date ${op} $${params.length}::date`);
+      }
+      const GROUPS: Record<string, string> = {
+        field: 'l.field_name', site: 'l.site_name', zone: 'l.zone_code',
+        day: 's.date', week: "date_trunc('week', s.date)::date", month: "to_char(s.date, 'YYYY-MM')",
+      };
+      const groups = (Array.isArray(args.group_by) ? args.group_by : []).filter((g: string) => GROUPS[g]).slice(0, 2);
+      const limit = Math.min(Math.max(Number(args.limit) || 300, 1), 1000);
+      const from = 'FROM public.soil_sensor_readings s JOIN bi.dim_location l ON l.field_id = s.field_id';
+      let columns: string[];
+      let sql: string;
+      if (groups.length) {
+        const sel = groups.map((g: string) => `${GROUPS[g]} AS ${q(g)}`);
+        const m = ['moisture_pct', 'temperature_c', 'ec_dsm', 'ph'].flatMap((c) => [
+          `ROUND(AVG(s.${c})::numeric, 2) AS ${q(`avg_${c}`)}`,
+        ]);
+        columns = [...groups, 'readings', 'avg_moisture_pct', 'avg_temperature_c', 'avg_ec_dsm', 'avg_ph', 'min_moisture_pct', 'max_moisture_pct'];
+        sql = `SELECT ${[...sel, 'COUNT(*)::int AS readings', ...m, 'ROUND(MIN(s.moisture_pct)::numeric, 2) AS min_moisture_pct', 'ROUND(MAX(s.moisture_pct)::numeric, 2) AS max_moisture_pct'].join(', ')}
+          ${from} WHERE ${where.join(' AND ')} GROUP BY ${groups.map((_: string, i: number) => i + 1).join(', ')} ORDER BY 1 LIMIT ${limit}`;
+      } else {
+        columns = ['date', 'zone', 'site', 'field', 'depth_cm', 'moisture_pct', 'temperature_c', 'ec_dsm', 'ph', 'source'];
+        sql = `SELECT s.date, l.zone_code AS zone, l.site_name AS site, l.field_name AS field, s.depth_cm, s.moisture_pct, s.temperature_c, s.ec_dsm, s.ph, s.source
+          ${from} WHERE ${where.join(' AND ')} ORDER BY s.date DESC, l.field_name LIMIT ${limit}`;
+      }
+      const res = await readOnly((c) => c.query(sql, params));
+      const rows = tidy(res.rows).map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k, typeof v === 'string' && /^-?\d+(\.\d+)?$/.test(v) ? Number(v) : v])));
+      const rs = register(state, { title: 'Soil sensor readings', columns, rows, total: rows.length });
+      return forModel(rs, 60);
+    }
+
+    case 'equipment_positions': {
+      if (!GPS_READER_ROLES.includes(ctx.role)) throw new AppError('Your role cannot view equipment tracking.', 'FORBIDDEN', 403);
+      const params: any[] = [ctx.orgId];
+      const where = ['e.organization_id = $1'];
+      if (args.equipment) { params.push(`%${String(args.equipment)}%`); where.push(`(e.name ILIKE $${params.length} OR e.identifier ILIKE $${params.length})`); }
+      let sql: string;
+      let columns: string[];
+      if (args.date) {
+        if (!isoDate.test(String(args.date))) throw new AppError('date must be YYYY-MM-DD', 'VALIDATION_ERROR', 400);
+        params.push(args.date);
+        columns = ['equipment', 'time', 'latitude', 'longitude', 'speed', 'heading'];
+        sql = `SELECT e.name AS equipment, to_char(p.recorded_at, 'HH24:MI') AS time, p.latitude, p.longitude, p.speed, p.heading
+          FROM public.gps_positions p JOIN public.equipment e ON e.id = p.equipment_id
+          WHERE ${where.join(' AND ')} AND p.recorded_at::date = $${params.length}::date
+          ORDER BY e.name, p.recorded_at LIMIT 1000`;
+      } else {
+        columns = ['equipment', 'type', 'identifier', 'active', 'last_seen', 'latitude', 'longitude', 'speed'];
+        sql = `SELECT e.name AS equipment, e.type, e.identifier, e.is_active AS active,
+                 to_char(p.recorded_at, 'YYYY-MM-DD HH24:MI') AS last_seen, p.latitude, p.longitude, p.speed
+          FROM public.equipment e
+          LEFT JOIN LATERAL (SELECT * FROM public.gps_positions g WHERE g.equipment_id = e.id ORDER BY g.recorded_at DESC LIMIT 1) p ON true
+          WHERE ${where.join(' AND ')} ORDER BY e.name LIMIT 300`;
+      }
+      const res = await readOnly((c) => c.query(sql, params));
+      const rows = tidy(res.rows).map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k, typeof v === 'string' && /^-?\d+(\.\d+)?$/.test(v) ? Number(v) : v])));
+      const rs = register(state, { title: 'Equipment tracking', columns, rows, total: rows.length });
+      return forModel(rs, 60);
+    }
+
+    case 'soil_properties': {
+      const depths: number[] = (Array.isArray(args.depths) && args.depths.length ? args.depths : [0, 30, 60]).map(Number);
+      let title = 'Soil properties';
+      let profile: any;
+      if (args.field) {
+        const params: any[] = [ctx.orgId, `%${String(args.field)}%`];
+        let siteClause = '';
+        if (ctx.siteIds !== null) { params.push(ctx.siteIds); siteClause = ` AND l.site_id = ANY($${params.length}::uuid[])`; }
+        const found = await readOnly((c) => c.query(
+          `SELECT l.field_id, l.field_name, l.site_name, l.field_type FROM bi.dim_location l
+            WHERE l.organization_id = $1 AND NOT l.is_deleted${siteClause} AND (l.field_name ILIKE $2 OR l.gis_farm_code ILIKE $2)
+            ORDER BY l.field_name LIMIT 1`, params,
+        ));
+        const f = found.rows[0];
+        if (!f) throw new AppError(`No field matches "${args.field}" among the fields you can see.`, 'NOT_FOUND', 404);
+        const applies = soilGrids.soilApplies(f.field_type);
+        if (!applies.allowed) return { not_applicable: true, field: f.field_name, field_type: f.field_type, message: applies.reason };
+        title = `Soil properties · ${f.field_name}`;
+        const stored = await readOnly((c) => c.query(
+          `SELECT dataset, depth_cm, value_num, value_text, unit FROM field_soil_properties WHERE organization_id = $1 AND field_id = $2`, [ctx.orgId, f.field_id],
+        ));
+        if (stored.rows.length) {
+          const byKey = new Map<string, any>();
+          stored.rows.forEach((r: any) => {
+            const d = soilGrids.getDataset(r.dataset);
+            const row = byKey.get(r.dataset) || { property: d?.label || r.dataset, unit: r.unit || '' };
+            if (depths.includes(Number(r.depth_cm))) row[`${r.depth_cm}cm`] = r.value_text ?? (r.value_num === null ? null : Number(r.value_num));
+            byKey.set(r.dataset, row);
+          });
+          profile = { rows: [...byKey.values()], source: 'OpenLandMap (saved field profile)' };
+        } else {
+          const c = await soilGrids.fieldCentroid(ctx.orgId, f.field_id);
+          if (!c) throw new AppError(`${f.field_name} has no polygon yet, so its soil cannot be read from the maps.`, 'NOT_FOUND', 404);
+          profile = await soilGrids.pointProfile(c.lon, c.lat, undefined, depths);
+        }
+      } else if (Number.isFinite(Number(args.lat)) && Number.isFinite(Number(args.lon))) {
+        profile = await soilGrids.pointProfile(Number(args.lon), Number(args.lat), undefined, depths);
+        title = `Soil properties · ${Number(args.lat).toFixed(4)}, ${Number(args.lon).toFixed(4)}`;
+      } else {
+        throw new AppError('Give a field or a latitude and longitude.', 'VALIDATION_ERROR', 400);
+      }
+      const columns = ['property', 'unit', ...depths.map((d) => `${d}cm`)];
+      const rows = profile.rows.map((r: any) => Object.fromEntries(columns.map((k) => [k, r[k] ?? null])));
+      const rs = register(state, { title, columns, rows, total: rows.length });
+      return { ...forModel(rs, 20), source: profile.source, note: 'Modelled from global soil maps at 250 m; confirm with a lab test before fertiliser decisions.' };
     }
 
     case 'app_guide': {

@@ -49,112 +49,152 @@ export function useMapWorkspace(storageKey, initial = null) {
 }
 
 /**
- * tools: [{ key, label, icon, badge?, title?, content? , onClick? }]
+ * tools: [{ key, label, icon, badge?, title?, content? , onClick?, actions? }]
  *   – with `content`: a panel tool (toggles the docked panel);
  *   – with `onClick`: an action (e.g. Add data).
+ *
+ * endTools / endWorkspace: an optional second tool bar on the opposite edge
+ * (e.g. satellite tools on GIS Map) with its own docked panel:
+ *
+ *   [ tools | panel | map | end panel | end tools ]
  */
-export function MapWorkspace({ id, workspace, tools, height, panelWidth = 320, children, label = 'Map tools' }) {
+function ToolRail({ tools, workspace, panelId, label, side }) {
   const theme = useTheme();
   const rtl = theme.direction === 'rtl';
-  const list = tools.filter(Boolean);
-  const current = list.find((t) => t.content && t.key === workspace.active) || null;
-  const open = Boolean(current);
-  const panelId = `${id}-panel`;
-
-  useEffect(() => {
-    if (!open) return undefined;
-    const onKey = (e) => { if (e.key === 'Escape') workspace.close(); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open, workspace]);
-
+  const end = side === 'end';
+  const tipSide = (rtl !== end) ? 'left' : 'right';
   return (
-    <Box sx={{ display: 'flex', height, position: 'relative', minHeight: 0, bgcolor: 'background.paper' }}>
-      {/* Tool bar */}
-      <Box
-        component="nav"
-        aria-label={label}
-        sx={{
-          width: RAIL_WIDTH, flexShrink: 0, py: 1.5,
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1,
-          borderInlineEnd: '1px solid', borderColor: 'divider', bgcolor: 'background.paper', zIndex: 2,
-        }}
-      >
-        {list.map((tool) => {
-          const isPanel = Boolean(tool.content);
-          const pressed = isPanel && workspace.active === tool.key;
-          const iconEl = tool.badge ? <Badge badgeContent={tool.badge} color="primary" max={99}>{tool.icon}</Badge> : tool.icon;
-          return (
-            <Tooltip key={tool.key} title={tool.label} placement={rtl ? 'left' : 'right'}>
+    <Box
+      component="nav"
+      aria-label={label}
+      sx={{
+        width: RAIL_WIDTH, flexShrink: 0, py: 1.5,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, overflowY: 'auto',
+        [end ? 'borderInlineStart' : 'borderInlineEnd']: '1px solid', borderColor: 'divider', bgcolor: 'background.paper', zIndex: 2,
+      }}
+    >
+      {tools.map((tool) => {
+        if (tool.divider) return <Box key={tool.key} sx={{ width: 24, height: '1px', bgcolor: 'divider', my: 0.5, flexShrink: 0 }} />;
+        const isPanel = Boolean(tool.content);
+        const pressed = isPanel ? workspace.active === tool.key : Boolean(tool.pressed);
+        const iconEl = tool.badge ? <Badge badgeContent={tool.badge} color="primary" max={99}>{tool.icon}</Badge> : tool.icon;
+        return (
+          <Tooltip key={tool.key} title={tool.label} placement={tipSide}>
+            <span>
               <IconButton
                 size="small"
                 aria-label={tool.label}
-                aria-pressed={isPanel ? pressed : undefined}
+                aria-pressed={isPanel || tool.pressed !== undefined ? pressed : undefined}
                 aria-controls={isPanel ? panelId : undefined}
                 aria-expanded={isPanel ? pressed : undefined}
+                disabled={tool.disabled}
                 onClick={isPanel ? () => workspace.toggle(tool.key) : tool.onClick}
                 sx={{
+                  flexShrink: 0,
                   color: pressed ? 'primary.main' : 'text.secondary',
                   bgcolor: pressed ? 'action.selected' : 'transparent',
-                  // A thin bar on the start edge marks the open tool.
+                  // A thin bar on the outer edge marks the open tool.
                   position: 'relative',
                   '&::before': pressed ? {
-                    content: '""', position: 'absolute', insetInlineStart: -8, top: 6, bottom: 6, width: 3, borderRadius: 2, bgcolor: 'primary.main',
+                    content: '""', position: 'absolute', [end ? 'insetInlineEnd' : 'insetInlineStart']: -8, top: 6, bottom: 6, width: 3, borderRadius: 2, bgcolor: 'primary.main',
                   } : undefined,
                 }}
               >
                 {iconEl}
               </IconButton>
-            </Tooltip>
-          );
-        })}
-      </Box>
-
-      {/* Docked panel: part of the layout (pushes the map), not a floating card. */}
-      <Box
-        id={panelId}
-        component="section"
-        aria-label={current ? current.title || current.label : undefined}
-        hidden={!open}
-        sx={{
-          display: open ? 'flex' : 'none',
-          flexDirection: 'column',
-          width: { xs: `calc(100% - ${RAIL_WIDTH}px)`, sm: panelWidth },
-          flexShrink: 0,
-          minHeight: 0,
-          bgcolor: 'background.paper',
-          borderInlineEnd: '1px solid',
-          borderColor: 'divider',
-          // Phones: cover the map area while open (docked to the tool bar, full height).
-          position: { xs: 'absolute', sm: 'relative' },
-          insetInlineStart: { xs: RAIL_WIDTH, sm: 'auto' },
-          top: 0,
-          bottom: 0,
-          zIndex: { xs: 1100, sm: 1 },
-        }}
-      >
-        {current && (
-          <>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, minHeight: 48, borderBottom: '1px solid', borderColor: 'divider', flexShrink: 0 }}>
-              <Box sx={{ color: 'text.secondary', display: 'flex', '& .MuiSvgIcon-root': { fontSize: 20 } }}>{current.icon}</Box>
-              <Typography component="h2" noWrap sx={{ fontSize: '0.9375rem', fontWeight: 600, flex: 1, minWidth: 0 }}>
-                {current.title || current.label}
-              </Typography>
-              {current.actions}
-              <IconButton size="small" onClick={workspace.close} aria-label={`Close ${current.title || current.label}`}><CloseIcon /></IconButton>
-            </Box>
-            <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>{current.content}</Box>
-          </>
-        )}
-      </Box>
-
-      {/* Map area */}
-      <Box sx={{ flex: 1, minWidth: 0, position: 'relative' }}>{children}</Box>
+            </span>
+          </Tooltip>
+        );
+      })}
     </Box>
   );
 }
 
-/** Basemap state remembered per page. */
+function DockedPanel({ current, workspace, panelId, panelWidth, side }) {
+  const open = Boolean(current);
+  const end = side === 'end';
+  return (
+    <Box
+      id={panelId}
+      component="section"
+      aria-label={current ? current.title || current.label : undefined}
+      hidden={!open}
+      sx={{
+        display: open ? 'flex' : 'none',
+        flexDirection: 'column',
+        width: { xs: `calc(100% - ${RAIL_WIDTH}px)`, sm: panelWidth },
+        flexShrink: 0,
+        minHeight: 0,
+        bgcolor: 'background.paper',
+        [end ? 'borderInlineStart' : 'borderInlineEnd']: '1px solid',
+        borderColor: 'divider',
+        // Phones: cover the map area while open (docked to the tool bar, full height).
+        position: { xs: 'absolute', sm: 'relative' },
+        [end ? 'insetInlineEnd' : 'insetInlineStart']: { xs: RAIL_WIDTH, sm: 'auto' },
+        top: 0,
+        bottom: 0,
+        zIndex: { xs: 1100, sm: 1 },
+      }}
+    >
+      {current && (
+        <>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, minHeight: 48, borderBottom: '1px solid', borderColor: 'divider', flexShrink: 0 }}>
+            <Box sx={{ color: 'text.secondary', display: 'flex', '& .MuiSvgIcon-root': { fontSize: 20 } }}>{current.icon}</Box>
+            <Typography component="h2" noWrap sx={{ fontSize: '0.9375rem', fontWeight: 600, flex: 1, minWidth: 0 }}>
+              {current.title || current.label}
+            </Typography>
+            {current.actions}
+            <IconButton size="small" onClick={workspace.close} aria-label={`Close ${current.title || current.label}`}><CloseIcon /></IconButton>
+          </Box>
+          <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>{current.content}</Box>
+        </>
+      )}
+    </Box>
+  );
+}
+
+const NO_WORKSPACE = { active: null, toggle: () => {}, close: () => {} };
+
+export function MapWorkspace({
+  id, workspace, tools, height, panelWidth = 320, children, label = 'Map tools',
+  endTools, endWorkspace = NO_WORKSPACE, endPanelWidth = 340, endLabel = 'More map tools',
+}) {
+  const list = tools.filter(Boolean);
+  const endList = (endTools || []).filter(Boolean);
+  const current = list.find((t) => t.content && t.key === workspace.active) || null;
+  const endCurrent = endList.find((t) => t.content && t.key === endWorkspace.active) || null;
+  const open = Boolean(current);
+  const endOpen = Boolean(endCurrent);
+
+  useEffect(() => {
+    if (!open && !endOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      if (endOpen) endWorkspace.close(); else workspace.close();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open, endOpen, workspace, endWorkspace]);
+
+  return (
+    <Box sx={{ display: 'flex', height, position: 'relative', minHeight: 0, bgcolor: 'background.paper' }}>
+      <ToolRail tools={list} workspace={workspace} panelId={`${id}-panel`} label={label} side="start" />
+      {/* Docked panel: part of the layout (pushes the map), not a floating card. */}
+      <DockedPanel current={current} workspace={workspace} panelId={`${id}-panel`} panelWidth={panelWidth} side="start" />
+
+      {/* Map area */}
+      <Box sx={{ flex: 1, minWidth: 0, position: 'relative' }}>{children}</Box>
+
+      {endList.length > 0 && (
+        <>
+          <DockedPanel current={endCurrent} workspace={endWorkspace} panelId={`${id}-end-panel`} panelWidth={endPanelWidth} side="end" />
+          <ToolRail tools={endList} workspace={endWorkspace} panelId={`${id}-end-panel`} label={endLabel} side="end" />
+        </>
+      )}
+    </Box>
+  );
+}
+
 export function useBasemap(storageKey, initial = 'osm') {
   const [basemap, setBasemap] = useState(() => {
     try { const v = window.localStorage.getItem(storageKey); if (v && BASEMAPS[v]) return v; } catch { /* ignore */ }

@@ -5,6 +5,10 @@ module.exports = {
   roots: ['<rootDir>/src'],
   testMatch: ['**/__tests__/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
   moduleFileExtensions: ['ts', 'js', 'json'],
+  // geotiff: use its CommonJS build (the default ESM build and quick-lru are not transformed by ts-jest).
+  moduleNameMapper: { '^geotiff$': '<rootDir>/node_modules/geotiff/dist-node/geotiff.js' },
+  transformIgnorePatterns: ['/node_modules/(?!(quick-lru)/)'],
+  transform: { '^.+\\.ts$': 'ts-jest', '^.+quick-lru.+\\.js$': ['ts-jest', { tsconfig: { allowJs: true, module: 'commonjs' } }] },
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/**/*.d.ts',

@@ -31,7 +31,7 @@ beforeEach(() => {
 
 test('every tool is read only (no write tool is offered)', () => {
   expect(TOOL_DEFS.map((t) => t.name).sort()).toEqual(
-    ['aggregate_records', 'app_guide', 'describe_form', 'find_locations', 'get_record', 'gis_feature_forms', 'list_forms', 'query_records', 'show_result'],
+    ['aggregate_records', 'app_guide', 'describe_form', 'equipment_positions', 'find_locations', 'get_record', 'gis_feature_forms', 'list_forms', 'query_records', 'sensor_readings', 'show_result', 'soil_properties'],
   );
 });
 
@@ -74,4 +74,53 @@ test('the system prompt keeps the assistant on the database and read only', () =
   expect(p).toMatch(/read only/i);
   expect(p).toMatch(/Arabic/);
   expect(p).toMatch(/2 site/);
+});
+
+test('soil sensor readings are read only and limited to the user\'s sites; values stay parameters', async () => {
+  await runTool('sensor_readings', { field: "GH' OR 1=1", group_by: ['field', 'bogus'] }, ctx(), state());
+  const sqls = query.mock.calls.map((c) => String(c[0]));
+  expect(sqls).toContain('BEGIN READ ONLY');
+  const main = query.mock.calls.find((c) => /soil_sensor_readings/.test(String(c[0])))!;
+  expect(String(main[0])).toMatch(/s\.organization_id = \$1/);
+  expect(String(main[0])).toMatch(/l\.site_id = ANY\(\$2::uuid\[\]\)/);
+  expect(String(main[0])).not.toContain('OR 1=1');
+  expect(String(main[0])).not.toContain('bogus');
+  expect(main[1]).toEqual(['org', ['s1'], "%GH' OR 1=1%"]);
+  await expect(runTool('sensor_readings', { from: '1/11/2026' }, ctx(), state())).rejects.toThrow(/YYYY-MM-DD/);
+});
+
+test('equipment tracking follows the GPS page roles', async () => {
+  await expect(runTool('equipment_positions', {}, ctx({ role: 'pest_control_supervisor' }), state())).rejects.toThrow(/cannot view equipment/);
+  await runTool('equipment_positions', { equipment: 'JD', date: '2026-11-05' }, ctx({ role: 'operation_manager' }), state());
+  const main = query.mock.calls.find((c) => /gps_positions/.test(String(c[0])))!;
+  expect(String(main[0])).toMatch(/e\.organization_id = \$1/);
+  expect(main[1]).toEqual(['org', '%JD%', '2026-11-05']);
+});
+
+test('soil properties: field lookup is limited to the user\'s sites and saved profiles are pivoted by depth', async () => {
+  query.mockImplementation(async (sql: string) => {
+    if (/FROM bi\.dim_location l/.test(sql)) return { rows: [{ field_id: 'f1', field_name: 'OF-01', site_name: 'Site 1', field_type: (globalThis as any).__ft || 'Open Field' }] };
+    if (/FROM field_soil_properties/.test(sql)) return { rows: [
+      { dataset: 'ph', depth_cm: 0, value_num: '7.8', value_text: null, unit: 'pH' },
+      { dataset: 'ph', depth_cm: 30, value_num: '8.1', value_text: null, unit: 'pH' },
+      { dataset: 'texture', depth_cm: 0, value_num: null, value_text: 'Sandy loam', unit: '' },
+    ] };
+    return { rows: [] };
+  });
+  const s = state();
+  const out = await runTool('soil_properties', { field: 'OF-01', depths: [0, 30] }, ctx(), s);
+  const lookup = query.mock.calls.find((c) => /FROM bi\.dim_location l/.test(String(c[0])))!;
+  expect(String(lookup[0])).toMatch(/l\.site_id = ANY\(\$3::uuid\[\]\)/);
+  expect(lookup[1]).toEqual(['org', '%OF-01%', ['s1']]);
+  expect(out.columns).toEqual(['property', 'unit', '0cm', '30cm']);
+  expect(out.rows).toEqual([
+    { property: 'Soil pH (H2O)', unit: 'pH', '0cm': 7.8, '30cm': 8.1 },
+    { property: 'Texture class (USDA)', unit: '', '0cm': 'Sandy loam', '30cm': null },
+  ]);
+  expect(out.note).toMatch(/lab test/);
+  await expect(runTool('soil_properties', {}, ctx(), state())).rejects.toThrow(/field or a latitude/);
+  (globalThis as any).__ft = 'Greenhouse';
+  const gh = await runTool('soil_properties', { field: 'GH-01' }, ctx(), state());
+  expect(gh).toEqual(expect.objectContaining({ not_applicable: true, field_type: 'Greenhouse' }));
+  delete (globalThis as any).__ft;
 });

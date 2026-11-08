@@ -155,3 +155,92 @@ export async function testAIConnection(provider: string, model: string, apiKey: 
     return { success: false, message: `Connection failed: ${err.message}` };
   }
 }
+
+// ── Satellite imagery (Sentinel Hub / Copernicus Data Space) ───────────────
+// The configuration (instance) ID stays on the server: the browser only gets
+// map tiles through /satellite/wms, never the ID itself.
+
+export type SentinelService = 'sentinel-hub' | 'copernicus';
+const SENTINEL_HOSTS: Record<SentinelService, string> = {
+  'sentinel-hub': 'https://services.sentinel-hub.com/ogc/wms/',
+  copernicus: 'https://sh.dataspace.copernicus.eu/ogc/wms/',
+};
+const INSTANCE_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export function isSentinelInstanceId(id: string): boolean {
+  return INSTANCE_ID.test(String(id || '').trim());
+}
+
+export function sentinelWmsBase(instanceId: string, service: SentinelService = 'sentinel-hub'): string {
+  return `${SENTINEL_HOSTS[service] || SENTINEL_HOSTS['sentinel-hub']}${instanceId}`;
+}
+
+/** Saved settings first, then the server environment. */
+export async function resolveSentinel(): Promise<{ instanceId: string; service: SentinelService; wmsBase: string; ogcBase: string; baseLayer: string } | null> {
+  const service = ((await get('sentinelhub_service')) as SentinelService) || 'sentinel-hub';
+  const instanceId = (await get('sentinelhub_instance_id')) || process.env.SENTINELHUB_INSTANCE_ID || '';
+  if (!isSentinelInstanceId(instanceId)) return null;
+  const envUrl = !((await get('sentinelhub_instance_id'))) && process.env.SENTINELHUB_WMS_URL;
+  const wmsBase = envUrl || sentinelWmsBase(instanceId, service);
+  // ogcBase + '/wfs/<id>' or '/fis/<id>' for scenes and statistics.
+  const ogcBase = wmsBase.replace(/\/wms\/[^/?]+.*$/, '');
+  return { instanceId, service, wmsBase, ogcBase, baseLayer: (await get('sentinelhub_base_layer')) || 'TRUE_COLOR' };
+}
+
+export async function getSentinelConfig(): Promise<{ configured: boolean; idMasked: string | null; service: SentinelService; label: string | null }> {
+  const cfg = await resolveSentinel();
+  return {
+    configured: Boolean(cfg),
+    idMasked: cfg ? `${cfg.instanceId.slice(0, 4)}••••-••••-${cfg.instanceId.slice(-4)}` : null,
+    service: cfg?.service || ((await get('sentinelhub_service')) as SentinelService) || 'sentinel-hub',
+    label: await get('sentinelhub_label'),
+  };
+}
+
+/** The configuration layer used as data source for our own index scripts (a Sentinel-2 L2A layer). */
+export function pickBaseLayer(layers: Array<{ id: string; title: string }>): string {
+  const ids = layers.map((l) => l.id);
+  return ids.find((id) => /^TRUE[_-]?COLOR$/i.test(id))
+    || ids.find((id) => /TRUE|NATURAL|L2A|NDVI/i.test(id))
+    || ids[0] || 'TRUE_COLOR';
+}
+
+export async function setSentinelConfig(instanceId: string, service: SentinelService, label: string | null, userId?: string, baseLayer?: string): Promise<void> {
+  await set('sentinelhub_instance_id', instanceId.trim(), true, userId);
+  await set('sentinelhub_service', service, false, userId);
+  if (baseLayer) await set('sentinelhub_base_layer', baseLayer, false, userId);
+  if (label !== null) await set('sentinelhub_label', label.slice(0, 120), false, userId);
+}
+
+/** Layer names from WMS GetCapabilities, e.g. TRUE_COLOR, NDVI. */
+export function parseWmsLayers(xml: string): Array<{ id: string; title: string }> {
+  const out: Array<{ id: string; title: string }> = [];
+  const re = /<Layer[^>]*>\s*<Name>([^<]+)<\/Name>\s*<Title>([^<]*)<\/Title>/g;
+  let m: RegExpExecArray | null;
+  // eslint-disable-next-line no-cond-assign
+  while ((m = re.exec(xml))) out.push({ id: m[1].trim(), title: m[2].trim() || m[1].trim() });
+  return out;
+}
+
+export async function testSentinelConnection(instanceId: string, service: SentinelService): Promise<{ success: boolean; message: string; layers: Array<{ id: string; title: string }>; service: SentinelService }> {
+  if (!isSentinelInstanceId(instanceId)) {
+    return { success: false, message: 'The configuration ID must be a UUID (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)', layers: [], service };
+  }
+  // Try the chosen service first, then the other one (the same ID works on only one of them).
+  const order: SentinelService[] = service === 'copernicus' ? ['copernicus', 'sentinel-hub'] : ['sentinel-hub', 'copernicus'];
+  let last = '';
+  for (const svc of order) {
+    try {
+      const res = await fetch(`${sentinelWmsBase(instanceId, svc)}?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0`, { signal: AbortSignal.timeout(15000) });
+      const text = await res.text();
+      if (res.ok && /<WMS_Capabilities|<WMT_MS_Capabilities/.test(text)) {
+        const layers = parseWmsLayers(text);
+        return { success: true, message: `Connected (${svc === 'copernicus' ? 'Copernicus Data Space' : 'Sentinel Hub'}) · ${layers.length} layers`, layers, service: svc };
+      }
+      last = `${svc}: HTTP ${res.status}`;
+    } catch (err: any) {
+      last = `${svc}: ${err.message}`;
+    }
+  }
+  return { success: false, message: `Could not read the configuration (${last}).`, layers: [], service };
+}
