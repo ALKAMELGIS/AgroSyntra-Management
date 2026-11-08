@@ -102,6 +102,7 @@ export const SHELL_AR = {
   'Agronomic Reference': 'المرجع الزراعي',
   'API Integrations': 'تكاملات API',
   'John Deere': 'John Deere',
+  'ArcGIS Link': 'ربط ArcGIS',
   'Training Modules': 'وحدات التدريب',
   'My Grades': 'درجاتي',
   'User Management': 'إدارة المستخدمين',

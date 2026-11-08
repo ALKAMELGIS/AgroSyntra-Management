@@ -1,5 +1,7 @@
 import https from 'https';
 import http from 'http';
+import { lookup } from 'dns/promises';
+import net from 'net';
 import { logger } from '../utils/logger';
 import { AppError } from '../utils/errors';
 
@@ -31,15 +33,81 @@ export function parseFeatureServiceUrl(raw: string): { baseUrl: string; layerInd
   return { baseUrl: url, layerIndex: null };
 }
 
+
+/**
+ * The layer URL is typed by a user, and the server fetches it. Only public
+ * http(s) ArcGIS REST endpoints are allowed: never localhost, private,
+ * link-local or metadata addresses (SSRF protection), never other schemes.
+ */
+function isPrivateAddress(ip: string): boolean {
+  if (net.isIPv4(ip)) {
+    const [a, b] = ip.split('.').map(Number);
+    return a === 10 || a === 127 || a === 0 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31)
+      || (a === 192 && b === 168) || (a === 100 && b >= 64 && b <= 127) || a >= 224;
+  }
+  const v6 = ip.toLowerCase();
+  if (v6.startsWith('::ffff:')) return isPrivateAddress(v6.slice(7));
+  return v6 === '::1' || v6 === '::' || v6.startsWith('fc') || v6.startsWith('fd') || v6.startsWith('fe80');
+}
+
+export async function assertSafeArcgisUrl(rawUrl: string): Promise<URL> {
+  let u: URL;
+  try {
+    u = new URL(sanitizeUrl(rawUrl));
+  } catch {
+    throw new AppError('The layer link is not a valid URL', 'VALIDATION_ERROR', 400);
+  }
+  if (u.protocol !== 'https:' && u.protocol !== 'http:') {
+    throw new AppError('The layer link must start with https://', 'VALIDATION_ERROR', 400);
+  }
+  if (u.username || u.password) {
+    throw new AppError('Put the token in the token box, not in the link', 'VALIDATION_ERROR', 400);
+  }
+  if (!/\/rest\/services\//i.test(u.pathname) && !/\/(Feature|Map)Server(\/|$)/i.test(u.pathname)) {
+    throw new AppError('This is not an ArcGIS REST service link (…/rest/services/…/FeatureServer/<layer>)', 'VALIDATION_ERROR', 400);
+  }
+  const host = u.hostname.replace(/^\[|\]$/g, '');
+  if (host === 'localhost' || host.endsWith('.localhost') || host.endsWith('.internal') || host.endsWith('.local')) {
+    throw new AppError('Local or internal addresses are not allowed', 'VALIDATION_ERROR', 400);
+  }
+  let addresses: string[] = [];
+  if (net.isIP(host)) {
+    addresses = [host];
+  } else {
+    try {
+      addresses = (await lookup(host, { all: true })).map((a) => a.address);
+    } catch {
+      throw new AppError(`Cannot resolve ${host}`, 'EXTERNAL_SERVICE_ERROR', 502);
+    }
+  }
+  if (!addresses.length || addresses.some(isPrivateAddress)) {
+    throw new AppError('Local or internal addresses are not allowed', 'VALIDATION_ERROR', 400);
+  }
+  return u;
+}
+
 async function safeFetch(rawUrl: string): Promise<{ ok: boolean; status: number; text: () => Promise<string> }> {
   const url = sanitizeUrl(rawUrl);
-  logger.info({ url, urlLength: url.length }, 'safeFetch URL (sanitized)');
+  await assertSafeArcgisUrl(url);
+  logger.info({ host: new URL(url).host }, 'ArcGIS request');
 
   try {
-    const res = await fetch(url);
-    return res;
+    // Redirects are followed by hand so each hop passes the same address check.
+    let current = url;
+    for (let hop = 0; hop < 4; hop += 1) {
+      const res = await fetch(current, { redirect: 'manual', headers: { 'User-Agent': 'AgroCloud/1.0' } });
+      const location = res.headers.get('location');
+      if (res.status >= 300 && res.status < 400 && location) {
+        current = new URL(location, current).href;
+        await assertSafeArcgisUrl(current);
+        continue;
+      }
+      return res;
+    }
+    throw new AppError('Too many redirects from ArcGIS', 'EXTERNAL_SERVICE_ERROR', 502);
   } catch (fetchErr: any) {
-    logger.warn({ url, error: fetchErr?.message }, 'Native fetch failed, falling back to https module');
+    if (fetchErr instanceof AppError) throw fetchErr;
+    logger.warn({ host: new URL(url).host, error: fetchErr?.message }, 'Native fetch failed, falling back to https module');
 
     const parsed = new URL(url);
     const mod = parsed.protocol === 'https:' ? https : http;
@@ -50,7 +118,7 @@ async function safeFetch(rawUrl: string): Promise<{ ok: boolean; status: number;
       method: 'GET' as const,
       headers: { 'User-Agent': 'AlMahaFarm/1.0' },
     };
-    logger.info({ hostname: options.hostname, path: options.path }, 'https fallback options');
+    logger.info({ hostname: options.hostname }, 'https fallback');
 
     return new Promise((resolve, reject) => {
       mod.get(options, (res) => {
@@ -98,6 +166,9 @@ export interface ArcGISFeatureResult {
   }>;
 }
 
+/** Never write a token into the logs. */
+const redact = (u: string) => u.replace(/([?&]token=)[^&]*/i, '$1***');
+
 function buildUrl(base: string, path: string, params: Record<string, string>): string {
   const cleanBase = base.replace(/\/+$/, '');
   const fullPath = path ? `${cleanBase}/${path}` : cleanBase;
@@ -115,7 +186,7 @@ export async function fetchLayerMetadata(
   if (token) params.token = token;
 
   const url = buildUrl(sanitizeUrl(serviceUrl), `${layerIndex}`, params);
-  logger.info({ url }, 'Fetching ArcGIS layer metadata');
+  logger.info({ url: redact(url) }, 'Fetching ArcGIS layer metadata');
 
   const res = await safeFetch(url);
 
@@ -156,7 +227,7 @@ export async function fetchServiceInfo(
   if (token) params.token = token;
 
   const url = buildUrl(sanitizeUrl(serviceUrl), '', params);
-  logger.info({ url }, 'Fetching ArcGIS service info');
+  logger.info({ url: redact(url) }, 'Fetching ArcGIS service info');
 
   const res = await safeFetch(url);
 
@@ -208,7 +279,7 @@ export async function queryFeatures(
     if (token) params.token = token;
 
     const url = buildUrl(sanitizeUrl(serviceUrl), `${layerIndex}/query`, params);
-    logger.info({ url, offset: resultOffset }, 'Querying ArcGIS features');
+    logger.info({ url: redact(url), offset: resultOffset }, 'Querying ArcGIS features');
 
     const res = await safeFetch(url);
 
@@ -251,4 +322,42 @@ export async function testConnection(
   } catch (err: any) {
     return { success: false, message: err.message || 'Connection failed' };
   }
+}
+
+/** Raw layer description (fields with domains, types/subtypes, GlobalID field, relationships…). */
+export async function fetchLayerJson(serviceUrl: string, layerIndex: number, token?: string | null): Promise<any> {
+  const params: Record<string, string> = { f: 'json' };
+  if (token) params.token = token;
+  const url = buildUrl(sanitizeUrl(serviceUrl), `${layerIndex}`, params);
+  const res = await safeFetch(url);
+  if (!res.ok) throw new AppError(`ArcGIS returned HTTP ${res.status}`, 'EXTERNAL_SERVICE_ERROR', 502);
+  let data: any;
+  try {
+    data = JSON.parse(await res.text());
+  } catch {
+    throw new AppError('ArcGIS returned a non-JSON response — is this a layer link?', 'EXTERNAL_SERVICE_ERROR', 502);
+  }
+  if (data.error) {
+    const msg = data.error.message || JSON.stringify(data.error);
+    const code = Number(data.error.code);
+    throw new AppError(
+      code === 499 || code === 498 || code === 403 ? `ArcGIS refused access (${msg}). This layer needs a token.` : `ArcGIS error: ${msg}`,
+      'EXTERNAL_SERVICE_ERROR', 502,
+    );
+  }
+  return data;
+}
+
+/** Read-only attribute query (f=json). Never used with applyEdits / addFeatures. */
+export async function queryJson(
+  serviceUrl: string, layerIndex: number, params: Record<string, string>, token?: string | null,
+): Promise<any> {
+  const p: Record<string, string> = { f: 'json', ...params };
+  if (token) p.token = token;
+  const url = buildUrl(sanitizeUrl(serviceUrl), `${layerIndex}/query`, p);
+  const res = await safeFetch(url);
+  if (!res.ok) throw new AppError(`ArcGIS query failed: HTTP ${res.status}`, 'EXTERNAL_SERVICE_ERROR', 502);
+  const data = JSON.parse(await res.text());
+  if (data.error) throw new AppError(`ArcGIS query error: ${data.error.message || JSON.stringify(data.error)}`, 'EXTERNAL_SERVICE_ERROR', 502);
+  return data;
 }

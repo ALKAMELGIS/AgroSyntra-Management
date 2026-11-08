@@ -453,6 +453,27 @@ function extractExternalId(props: Record<string, any>): string | null {
   return null;
 }
 
+/**
+ * Key fields of a layer may be named differently from Agro_Structures. The
+ * layer's attribute_mapping (set on the ArcGIS connection page) names them;
+ * values are copied onto the canonical names the linking code reads.
+ */
+const CANONICAL_KEYS: Record<string, string> = {
+  globalId: 'GlobalID', zoneId: 'ZONE_ID', site: 'SITE', siteCode: 'Site_Code',
+  farmCode: 'Farm_Code', farmName: 'Farm_Name', structureType: 'Structure_Type',
+};
+export function applyKeyMapping(props: Record<string, any>, mapping?: Record<string, string> | null): Record<string, any> {
+  if (!mapping) return props;
+  const out = { ...props };
+  Object.entries(CANONICAL_KEYS).forEach(([role, canonical]) => {
+    const source = mapping[role];
+    if (source && source !== canonical && props[source] !== undefined && props[source] !== null) {
+      out[canonical] = props[source];
+    }
+  });
+  return out;
+}
+
 function extractFeatureProps(props: Record<string, any>) {
   const rawSite = (
     props.SITE || props.site || props.Site || props.site_name ||
@@ -475,6 +496,9 @@ function extractFeatureProps(props: Record<string, any>) {
     zoneId: (
       props.ZONE_ID || props.zone_id || props.ZoneID || props.Zone ||
       props.zone || props.ZONE || ''
+    ).toString().trim(),
+    siteCode: (
+      props.Site_Code || props.site_code || props.SITE_CODE || props.SiteCode || ''
     ).toString().trim(),
     siteName: rawSite && /^\d+$/.test(rawSite) ? `Site ${rawSite}` : rawSite,
     structureType: STRUCTURE_TYPE_CODES[rawStructure] || rawStructure || (
@@ -999,7 +1023,7 @@ export async function autoLinkFeatures(
   // Load existing fields for matching. Include gis_external_id so we can
   // match by stable ArcGIS ObjectID first (rename-safe).
   const fieldsResult = await dbPool.query(
-    `SELECT f.id, f.name, f.gis_external_id,
+    `SELECT f.id, f.name, f.gis_external_id, f.gis_zone_id, f.gis_farm_code,
             fa.name AS farm_area_name, fa.id AS farm_area_id,
             s.name AS site_name, s.id AS site_id, c.name AS country_name, c.code AS country_code
      FROM fields f
@@ -1016,6 +1040,13 @@ export async function autoLinkFeatures(
   for (const f of fields) {
     if (f.gis_external_id) fieldsByExternalId.set(f.gis_external_id, f);
   }
+  // Business key ZONE_ID + Farm_Code (stored on the field since migration 175).
+  const gisKey = (zone: string, code: string) => `${normalizeStr(zone)}|${normalizeStr(code)}`;
+  const fieldsByGisKey = new Map<string, any>();
+  for (const f of fields) {
+    if (f.gis_zone_id && f.gis_farm_code) fieldsByGisKey.set(gisKey(f.gis_zone_id, f.gis_farm_code), f);
+  }
+  const keyMapping = (layer as any).attributeMapping || null;
 
   const zonesBefore = await dbPool.query(`SELECT COUNT(*)::int AS cnt FROM countries WHERE deleted_at IS NULL`);
   const zonesCountBefore = zonesBefore.rows[0]?.cnt ?? 0;
@@ -1154,6 +1185,15 @@ export async function autoLinkFeatures(
       }
     }
 
+    // 2. Business-key match: same ZONE_ID + Farm_Code as a field linked before.
+    if (extracted.zoneId && extracted.farmCode) {
+      const byKey = fieldsByGisKey.get(gisKey(extracted.zoneId, extracted.farmCode));
+      if (byKey && !matchedFieldIds.has(byKey.id)) {
+        matchedFieldIds.add(byKey.id);
+        return { fieldId: byKey.id, farmAreaId: byKey.farm_area_id, wasCreated: false };
+      }
+    }
+
     const { match, score } = matchFeatureToField(props, fields, matchedFieldIds);
 
     if (match && score >= 3) {
@@ -1228,6 +1268,39 @@ export async function autoLinkFeatures(
          WHERE id = $2 AND (gis_external_id IS NULL OR gis_external_id = $1)`,
         [externalId, fieldId],
       );
+      const { zoneId, farmCode, siteCode } = extractFeatureProps(props);
+      if (zoneId || farmCode || siteCode) {
+        try {
+          await dbPool.query(
+            `UPDATE fields
+                SET gis_zone_id   = COALESCE(NULLIF($1, ''), gis_zone_id),
+                    gis_farm_code = COALESCE(NULLIF($2, ''), gis_farm_code),
+                    gis_site_code = COALESCE(NULLIF($3, ''), gis_site_code),
+                    gis_synced_at = NOW()
+              WHERE id = $4`,
+            [zoneId, farmCode, siteCode, fieldId],
+          );
+          if (siteCode) {
+            await dbPool.query(
+              `UPDATE sites SET gis_site_code = $1
+                WHERE id = (SELECT fa.site_id FROM fields f JOIN farm_areas fa ON fa.id = f.farm_area_id WHERE f.id = $2)
+                  AND gis_site_code IS NULL`,
+              [siteCode, fieldId],
+            );
+          }
+          if (zoneId && farmCode) {
+            const cachedField = fields.find((f: any) => f.id === fieldId);
+            if (cachedField) fieldsByGisKey.set(gisKey(zoneId, farmCode), cachedField);
+          }
+        } catch (err: any) {
+          logger.warn(
+            { err: err.message, fieldId, zoneId, farmCode },
+            err?.code === '23505'
+              ? 'Another field already has this ZONE_ID + Farm_Code — see bi.gis_link_issues'
+              : 'Failed to stamp GIS keys',
+          );
+        }
+      }
       // Keep the in-memory cache fresh so subsequent features in the same
       // run can benefit from the id.
       const cached = fields.find((f: any) => f.id === fieldId);
@@ -1271,7 +1344,7 @@ export async function autoLinkFeatures(
     }
 
     for (const feature of featuresResult.rows) {
-      const props = feature.properties || {};
+      const props = applyKeyMapping(feature.properties || {}, keyMapping);
       const extracted = extractFeatureProps(props);
 
       // If this feature was previously linked to a field and the GIS name
@@ -1360,7 +1433,7 @@ export async function autoLinkFeatures(
     }
 
     for (const feature of geojson.features) {
-      const props = feature.properties || {};
+      const props = applyKeyMapping(feature.properties || {}, keyMapping);
       const { fieldId, farmAreaId, wasCreated } = await processFeature(props);
 
       if (fieldId && !wasCreated) {

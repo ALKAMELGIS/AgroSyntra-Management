@@ -95,7 +95,7 @@ export const ROUTES = [
   '/tasks', '/shift-schedule', '/manpower-record', '/manpower-cost',
   '/manage/countries', '/manage/farm-areas', '/manage/field-types', '/manage/valves', '/manage/recipes',
   '/manage/seasons', '/inventory', '/admin/users', '/admin/organization', '/admin/crop-history', '/admin/health',
-  '/admin/api-integrations', '/admin/integrations/john-deere',
+  '/admin/api-integrations', '/admin/integrations/john-deere', '/admin/integrations/arcgis',
 ];
 
 /** Generic populated rows so tables, cards and charts render with content (shape is deliberately broad). */
@@ -766,4 +766,49 @@ test.describe('export controls', () => {
       await expect(page.getByRole('button', { name: /^export/i }).and(page.locator(':not([data-export-button])'))).toHaveCount(0);
     }
   });
+});
+
+test.describe('ArcGIS layer link', () => {
+  const REPORT = {
+    url: 'https://gis.example.com/arcgis/rest/services/Agro_Structures/FeatureServer/21',
+    layer: { name: 'Agro_Structures', featureCount: 3, geometryType: 'esriGeometryPolygon', globalIdField: 'GlobalID', editable: false,
+      fields: ['OBJECTID', 'ZONE_ID', 'SITE', 'Site_Code', 'Farm_Code', 'Farm_Name', 'Structure_Type', 'GlobalID'].map((n) => ({ name: n, alias: n, type: n === 'OBJECTID' ? 'OID' : 'String' })),
+      types: [] },
+    mapping: { globalId: 'GlobalID', zoneId: 'ZONE_ID', farmCode: 'Farm_Code', farmName: 'Farm_Name', site: 'SITE', siteCode: 'Site_Code', structureType: 'Structure_Type' },
+    keyRoles: [
+      { role: 'globalId', label: 'Global ID (stable feature id)', required: true },
+      { role: 'zoneId', label: 'Zone', required: true },
+      { role: 'farmCode', label: 'Farm code', required: true },
+      { role: 'farmName', label: 'Farm / structure name', required: false },
+    ],
+    keys: { duplicates: [], uniqueKeys: 3, zones: [{ value: 'MH', count: 2 }, { value: 'AD', count: 1 }], sites: [{ value: '1 · Site 1', count: 2 }], structureTypes: [{ value: 'Greenhouse', count: 3 }] },
+    agroCloud: { matchedByGlobalId: 1, matchedByKey: 1, unmatched: 1 },
+    checks: [{ id: 'reachable', status: 'ok', message: 'Layer "Agro_Structures" (ID 21) is reachable' }, { id: 'zones_new', status: 'warn', message: 'Zones in the layer but not in AgroCloud: AD' }],
+    ok: true, inspectedAt: '2026-11-08T08:00:00Z',
+  };
+
+  for (const lang of ['en', 'ar'] as const) {
+    test(`user enters the layer link, checks it and sees the key fields (${lang})`, async ({ page }) => {
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await prepare(page, { lang });
+      let inspectBody: any = null;
+      await page.route(/\/api\/v1\/gis\/arcgis\/inspect/, async (route) => {
+        inspectBody = route.request().postDataJSON();
+        await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: REPORT }) });
+      });
+      await page.goto('/admin/integrations/arcgis');
+      await settle(page);
+      const linkBox = page.getByRole('textbox', { name: lang === 'en' ? 'Layer link' : 'رابط الطبقة' });
+      await linkBox.fill(REPORT.url);
+      await page.getByRole('button', { name: lang === 'en' ? 'Check layer' : 'فحص الطبقة' }).click();
+      await expect(page.getByText(lang === 'en' ? '2. Layer check' : '2. نتيجة الفحص')).toBeVisible();
+      // The link the user typed is what the server receives (nothing hard-coded).
+      expect(inspectBody.url).toBe(REPORT.url);
+      await expect(page.getByRole('combobox').first()).toBeVisible();
+      await expect(page.getByText('Agro_Structures').first()).toBeVisible();
+      expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
+      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag22aa']).analyze();
+      expect(results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')).toEqual([]);
+    });
+  }
 });

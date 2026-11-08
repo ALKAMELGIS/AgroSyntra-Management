@@ -8,7 +8,9 @@ import { asyncHandler } from '../../utils/asyncHandler';
 import { AppError } from '../../utils/errors';
 import { logger } from '../../utils/logger';
 import * as gisService from '../../services/gisLayer.service';
-import { parseFeatureServiceUrl } from '../../services/arcgis.service';
+import { parseFeatureServiceUrl, assertSafeArcgisUrl } from '../../services/arcgis.service';
+import * as arcgisLink from '../../services/arcgisLink.service';
+import { dbPool } from '../../db/client';
 import { logAuditEvent } from '../../services/auditLog.service';
 
 const gisRouter = Router();
@@ -189,6 +191,111 @@ gisRouter.post('/layers/:id/auto-link',
     res.json({ success: true, data: result });
   }),
 );
+
+// ── ArcGIS ↔ forms link (FORM_ID) ──
+// The layer link is always supplied by the user; nothing about the layer is hard-coded.
+
+const keyMappingSchema = z.object({
+  globalId: z.string().max(100).optional(),
+  zoneId: z.string().max(100).optional(),
+  site: z.string().max(100).optional(),
+  siteCode: z.string().max(100).optional(),
+  farmCode: z.string().max(100).optional(),
+  farmName: z.string().max(100).optional(),
+  structureType: z.string().max(100).optional(),
+}).strict();
+
+const inspectSchema = z.object({
+  url: z.string().min(10).max(2000),
+  token: z.string().max(4000).optional().nullable(),
+  mapping: keyMappingSchema.optional(),
+  layerId: z.string().uuid().optional(),
+});
+
+const connectionSchema = z.object({
+  name: z.string().min(1).max(255).optional(),
+  url: z.string().min(10).max(2000),
+  token: z.string().max(4000).optional().nullable(),
+  mapping: keyMappingSchema,
+  syncIntervalMinutes: z.number().int().min(5).max(10080).optional(),
+});
+
+const featureFormsQuery = z.object({
+  layer_id: z.string().uuid().optional(),
+  feature_id: z.string().uuid().optional(),
+  global_id: z.string().max(64).optional(),
+  object_id: z.string().max(32).optional(),
+  zone_id: z.string().max(100).optional(),
+  farm_code: z.string().max(255).optional(),
+  records: z.coerce.number().int().min(0).max(200).optional(),
+});
+
+/** Who may read form records through the map (same roles as the forms API). */
+const requireFormsReader = authorize('ceo', 'operation_manager', 'farm_manager', 'agronomist', 'pest_agronomist');
+
+gisRouter.get('/arcgis/connections', requireGisWriter, asyncHandler(async (req: AuthRequest, res: Response) => {
+  res.json({ success: true, data: await arcgisLink.listConnections(requireOrgId(req)) });
+}));
+
+gisRouter.post('/arcgis/inspect', requireGisWriter, validate({ body: inspectSchema }), asyncHandler(async (req: AuthRequest, res: Response) => {
+  const report = await arcgisLink.inspectLayer(requireOrgId(req), req.body);
+  res.json({ success: true, data: report });
+}));
+
+/** Save (create or update) a connection: link, optional token and key fields. Same link = same connection. */
+gisRouter.post('/arcgis/connections', requireGisWriter, validate({ body: connectionSchema }), asyncHandler(async (req: AuthRequest, res: Response) => {
+  const orgId = requireOrgId(req);
+  const { baseUrl, layerIndex } = parseFeatureServiceUrl(req.body.url);
+  if (layerIndex === null) throw new AppError('Add the layer number at the end of the link, e.g. …/FeatureServer/21', 'VALIDATION_ERROR', 400);
+  await assertSafeArcgisUrl(baseUrl);
+  const mapping = Object.fromEntries(Object.entries(req.body.mapping).filter(([, v]) => v)) as Record<string, string>;
+  const existing = await dbPool.query(
+    `SELECT id FROM gis_layers WHERE organization_id = $1 AND source_type = 'arcgis_feature_service'
+        AND RTRIM(source_url, '/') = RTRIM($2, '/') AND layer_index = $3 LIMIT 1`,
+    [orgId, baseUrl, layerIndex],
+  );
+  let layer;
+  if (existing.rows.length) {
+    layer = await gisService.updateLayer(existing.rows[0].id, {
+      ...(req.body.name ? { name: req.body.name } : {}),
+      attributeMapping: mapping,
+      ...(req.body.token !== undefined ? { authToken: req.body.token || null } : {}),
+      ...(req.body.syncIntervalMinutes ? { syncIntervalMinutes: req.body.syncIntervalMinutes } : {}),
+    });
+  } else {
+    layer = await gisService.createLayer({
+      name: req.body.name || `ArcGIS layer ${layerIndex}`,
+      sourceType: 'arcgis_feature_service',
+      sourceUrl: baseUrl,
+      layerIndex,
+      attributeMapping: mapping,
+      authToken: req.body.token || undefined,
+      syncIntervalMinutes: req.body.syncIntervalMinutes,
+      createdBy: req.user!.userId,
+      organizationId: orgId,
+    });
+  }
+  const { authToken: _hidden, ...safe } = layer as any;
+  res.status(existing.rows.length ? 200 : 201).json({ success: true, data: { ...safe, created: !existing.rows.length } });
+}));
+
+gisRouter.get('/arcgis/link-issues', requireGisWriter, asyncHandler(async (req: AuthRequest, res: Response) => {
+  res.json({ success: true, data: await arcgisLink.linkIssues(requireOrgId(req)) });
+}));
+
+/** All form data for one feature: by global_id, object_id, feature_id or zone_id + farm_code. */
+gisRouter.get('/features/forms', requireFormsReader, validate({ query: featureFormsQuery }), asyncHandler(async (req: AuthRequest, res: Response) => {
+  const q = req.query as any;
+  const data = await arcgisLink.featureForms(requireOrgId(req), {
+    layerId: q.layer_id, featureId: q.feature_id, globalId: q.global_id, objectId: q.object_id,
+    zoneId: q.zone_id, farmCode: q.farm_code, recordsPerForm: q.records,
+  });
+  res.json({ success: true, data });
+}));
+
+gisRouter.get('/layers/:id/form-summary', requireFormsReader, validate({ params: idSchema }), asyncHandler(async (req: AuthRequest, res: Response) => {
+  res.json({ success: true, data: await arcgisLink.layerFormSummary(requireOrgId(req), req.params.id) });
+}));
 
 // ── Service discovery (no layer needed) ──
 

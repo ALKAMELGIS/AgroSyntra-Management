@@ -253,3 +253,11 @@ Reviewed the pesticide records screen as a user on phone (390), tablet portrait 
 - Touch screens: inputs ≥ 44 px, small buttons/icon buttons ≥ 40 px, larger checkboxes and chip delete targets.
 - "Invalid Date" no longer appears anywhere: invalid dates render empty (valid date formats unchanged).
 - Arabic: approval statuses, "% Seen", record count subtitle, scouting summary labels, all sheet controls; staff-entered values (e.g. weather "Clear") are no longer machine-translated in cards.
+
+## Round 26 — Persistent Form Identity, Power BI layer and ArcGIS link
+- **Form identity (migration 174):** `form_registry` (30 system forms) with permanent `FORM_ID` (UUID v5 of the form key, same in every environment), `FORM_KEY`, `FORM_PATH`; edits/deletes of identity refused by trigger; templates linked (`form_templates.form_id`), staff-made templates registered automatically; duplicate built-in templates prevented.
+- **Power BI read models:** schema `bi` (views only): forms, form_fields, form_records, form_record_values, form_lines, form_attachments, dim_location, gis_feature_forms, gis_key_forms, gis_link_issues.
+- **Unified API** `/api/v1/forms`: list, definition (by FORM_ID / key / path), keyset-paged records with `updated_since`, full record (values, lines, photos, attachments, comments, location, GIS features), CSV/NDJSON export; session or API key.
+- **ArcGIS link (migration 175 + Settings → ArcGIS Link):** user enters the layer link (nothing hard-coded) and optional token; read-only inspection (keys found, duplicates, missing keys, SITE / structure-type values, what already links, zones missing); editable key mapping; save + sync + link by GlobalID then ZONE_ID + Farm_Code (stored on fields); feature → forms lookup by keys or GlobalID; link issues list. SSRF guard on layer URLs, tokens masked in logs.
+- Review finding left for a decision: `SITE = 3` ("Not Applicable") currently becomes a site named "Site 3".
+- Details: `docs/FORM_REGISTRY_AND_ARCGIS.md`.
