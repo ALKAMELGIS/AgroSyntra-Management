@@ -127,6 +127,13 @@ export default function GISMap() {
   const [loading, setLoading] = useState(true);
   const [featureData, setFeatureData] = useState({});
   const [selectedFeature, setSelectedFeature] = useState(null);
+  // Esc closes the feature card, like other popups.
+  useEffect(() => {
+    if (!selectedFeature) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') setSelectedFeature(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [selectedFeature]);
   const [snack, setSnack] = useState({ open: false, message: '', severity: 'success' });
   const [fields, setFields] = useState([]);
   const [farmAreas, setFarmAreas] = useState([]);
@@ -677,7 +684,7 @@ export default function GISMap() {
                     secondary={
                       <>
                         {layer.sourceType === 'arcgis_feature_service' ? 'ArcGIS' : 'File'}
-                        {layer.featureCount !== undefined ? ` - ${layer.featureCount} features` : ''}
+                        {layer.featureCount !== undefined ? ` - ${layer.featureCount} ${Number(layer.featureCount) === 1 ? 'feature' : 'features'}` : ''}
                       </>
                     }
                     primaryTypographyProps={{ noWrap: true, variant: 'body2', fontWeight: 600 }}
@@ -881,6 +888,8 @@ export default function GISMap() {
         {selectedFeature && !fieldInfoOpen && (
           <Paper
             elevation={4}
+            role="region"
+            aria-label="Feature Info"
             sx={{
               position: 'absolute', bottom: 30, insetInlineEnd: 12, zIndex: 1000,
               width: { xs: 'calc(100% - 24px)', sm: 320 }, maxHeight: { xs: '45%', sm: 350 }, overflow: 'auto', p: 2,
@@ -893,7 +902,7 @@ export default function GISMap() {
             <Divider sx={{ mb: 1 }} />
             {Object.entries(selectedFeature.feature.properties || {}).filter(([k]) => !k.startsWith('_')).map(([key, value]) => (
               <Typography key={key} variant="body2" sx={{ mb: 0.5 }}>
-                <strong>{key}:</strong> {value ?? 'N/A'}
+                <strong translate="no">{key}:</strong> <bdi>{value === null || value === undefined || value === '' ? 'N/A' : (typeof value === 'object' ? JSON.stringify(value) : String(value))}</bdi>
               </Typography>
             ))}
             {selectedFeature.feature.properties?._linkedFieldId ? (

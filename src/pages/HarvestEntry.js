@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { confirmAction } from '../components/ConfirmDialog';
 import { useSearchParams } from 'react-router-dom';
 import {
   Box,
@@ -275,7 +276,7 @@ function FieldTab({
     if (readOnly) return;
     const ids = [...selection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} harvest ${ids.length === 1 ? 'record' : 'records'}?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} harvest ${ids.length === 1 ? 'record' : 'records'}?`))) return;
     const deleted = await deleteIdsSequentially(ids, deleteHarvest);
     selection.clear();
     loadRecords();
@@ -846,7 +847,7 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
   const handleBulkDelete = async () => {
     const ids = [...selection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} harvest ${ids.length === 1 ? 'record' : 'records'}?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} harvest ${ids.length === 1 ? 'record' : 'records'}?`))) return;
     const deleted = await deleteIdsSequentially(ids, deleteHarvest);
     selection.clear();
     loadRecords();
@@ -1177,7 +1178,7 @@ function OpenFieldTab({
   const handleBulkDelete = async () => {
     const ids = [...selection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} harvest ${ids.length === 1 ? 'record' : 'records'}?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} harvest ${ids.length === 1 ? 'record' : 'records'}?`))) return;
     const deleted = await deleteIdsSequentially(ids, deleteHarvest);
     selection.clear();
     loadRecords();
@@ -1683,7 +1684,7 @@ function HarvestEntry() {
         {!readOnly && (
         <Button size="small" startIcon={<FileUpload sx={{ fontSize: '13px !important' }} />}
           onClick={() => setImporterOpen(true)}
-          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: HEADER_FILL, border: '1px solid var(--sheet-border, #B0B0B0)', backgroundColor: 'var(--sheet-bg, #fff)' }}>
+          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, '@media (pointer: coarse)': { minHeight: 36, height: 36, fontSize: '12px' }, color: HEADER_FILL, border: '1px solid var(--sheet-border, #B0B0B0)', backgroundColor: 'var(--sheet-bg, #fff)' }}>
           Import Excel
         </Button>
         )}
@@ -1695,6 +1696,8 @@ function HarvestEntry() {
                                 sx={{
             minHeight: 26,
             '& .MuiTabs-indicator': { display: 'none' },
+            // Finger-sized sheet tabs on phones / tablets (the Excel look stays on desktop).
+            '@media (pointer: coarse)': { '& .MuiTab-root': { minHeight: '36px !important', height: '36px !important', fontSize: '12.5px !important', px: '14px !important' } },
             '& .MuiTabs-flexContainer': { alignItems: 'flex-end' },
             '& .MuiTab-root': {
               textTransform: 'none',

@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { confirmAction } from './ConfirmDialog';
 import {
   Box, IconButton, Tooltip, Typography, Button, Chip, Checkbox, CircularProgress, LinearProgress,
   useTheme, useMediaQuery,
@@ -571,7 +572,7 @@ function SpreadsheetGrid({
     }
 
     const count = members.length;
-    if (!window.confirm(`Delete this application and its ${count} mixture${count === 1 ? '' : 's'}?`)) return;
+    if (!(await confirmAction(`Delete this application and its ${count} mixture${count === 1 ? '' : 's'}?`))) return;
     const groupRows = [row, ...members.map((i) => editRows[i])];
     const savedIds = groupRows.filter((r) => r._saved && r.id).map((r) => r.id);
     try {
@@ -604,7 +605,7 @@ function SpreadsheetGrid({
     const extra = deleteIdx.size - selectedIdx.length;
     if (!skipBulkDeleteConfirm) {
       const withMix = extra > 0 ? ` and ${extra} mixture row${extra === 1 ? '' : 's'} with them` : '';
-      if (!window.confirm(`Delete ${selectedRows.size} selected record${selectedRows.size === 1 ? '' : 's'}${withMix}?`)) return;
+      if (!(await confirmAction(`Delete ${selectedRows.size} selected record${selectedRows.size === 1 ? '' : 's'}${withMix}?`))) return;
     }
     const toDelete = editRows.filter((_, i) => deleteIdx.has(i));
     const savedIds = toDelete.filter((r) => r._saved && r.id).map((r) => r.id);
@@ -838,7 +839,7 @@ function SpreadsheetGrid({
 
         {hasAnyFilter && (
           <Tooltip title="Clear all filters">
-            <IconButton size="small" onClick={clearFilters} sx={{ p: 0.3 }}>
+            <IconButton size="small" onClick={clearFilters} sx={{ p: 0.3 }} aria-label="Clear filters">
               <ClearFilterIcon sx={{ fontSize: 16 }} />
             </IconButton>
           </Tooltip>

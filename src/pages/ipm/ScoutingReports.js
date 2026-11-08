@@ -1,4 +1,5 @@
 import { useState, useEffect, Fragment } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import { useSearchParams } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -235,7 +236,7 @@ export default function ScoutingReports() {
   const handleBulkDelete = async () => {
     const ids = [...selection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} selected scouting report(s)? This cannot be undone.`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} selected scouting report(s)? This cannot be undone.`))) return;
     const deleted = await deleteIdsSequentially(ids, (id) => api.delete(`/scouting/reports/${id}`));
     selection.clear();
     setExpandedRow(null);

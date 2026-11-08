@@ -3,6 +3,7 @@ import { Alert, Box, ButtonBase, IconButton, Popover, Typography } from '@mui/ma
 import { alpha } from '@mui/material/styles';
 import { InfoOutlined as InfoIcon, HelpOutlineRounded as HelpIcon, ExpandMoreRounded as MoreIcon } from '@mui/icons-material';
 import { useIsArabic } from '../i18n/shellLabels';
+import { touchHitArea } from '../utils/touchTarget';
 
 /**
  * Icon-only informational note.
@@ -41,6 +42,7 @@ function InfoIconNote({ children, sx, icon, label, severity = 'info', showLabel 
           aria-haspopup="dialog"
           data-info-note=""
           sx={(t) => ({
+            ...touchHitArea,
             display: 'inline-flex',
             alignItems: 'center',
             gap: 1.5,
@@ -68,6 +70,7 @@ function InfoIconNote({ children, sx, icon, label, severity = 'info', showLabel 
         aria-haspopup="dialog"
         data-info-note=""
         sx={(t) => ({
+          ...touchHitArea,
           width: 26,
           height: 26,
           p: 0,
@@ -181,6 +184,7 @@ function InfoLine({ children, sx, icon, severity = 'info', ...rest }) {
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           sx={{
+            ...touchHitArea,
             flexShrink: 0,
             display: 'inline-flex',
             alignItems: 'center',

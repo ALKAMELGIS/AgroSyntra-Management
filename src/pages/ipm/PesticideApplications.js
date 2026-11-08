@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import { useSearchParams } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -1231,7 +1232,7 @@ export default function PesticideApplications() {
         notify.warning('No records added today on this tab');
         return;
       }
-      if (!window.confirm(`Delete ${count} record${count === 1 ? '' : 's'} added today on this tab?`)) {
+      if (!(await confirmAction(`Delete ${count} record${count === 1 ? '' : 's'} added today on this tab?`))) {
         return;
       }
       const res = await api.post('/ipm/pesticide-applications/delete-created-today', {
@@ -1293,7 +1294,7 @@ export default function PesticideApplications() {
   };
 
   const handlePestRemove = async (productId, name) => {
-    if (!window.confirm(`Remove "${name}" from this site?`)) return;
+    if (!(await confirmAction(`Remove "${name}" from this site?`))) return;
     try {
       await apiRequest(`/ipm/pesticide-products/site/${activeSiteId}/${productId}`, { method: 'DELETE' });
       setPestCatalogItems(prev => prev.filter(p => p.id !== productId));
@@ -1487,7 +1488,7 @@ export default function PesticideApplications() {
   };
 
   const handleRecordsDelete = async (id) => {
-    if (canDirectEdit && !window.confirm('Delete this application record?')) return;
+    if (canDirectEdit && !(await confirmAction('Delete this application record?'))) return;
     try {
       await handleSpreadsheetDelete(id);
     } catch (err) {
@@ -1502,7 +1503,7 @@ export default function PesticideApplications() {
       setChangeRequestDialog({ open: true, action: 'delete', entityId: ids[0], entityIds: ids, payload: null });
       return;
     }
-    if (!window.confirm(`Delete ${ids.length} selected record${ids.length === 1 ? '' : 's'}?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} selected record${ids.length === 1 ? '' : 's'}?`))) return;
     try {
       await handleSpreadsheetBulkDelete(ids);
     } catch (err) {

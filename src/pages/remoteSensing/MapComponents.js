@@ -27,6 +27,7 @@ import {
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { BASEMAPS } from '../../utils/mapBasemaps';
+import { toLatLngRing } from '../../utils/polygonRing';
 import {
   isMapAlive,
   safeMapOp,
@@ -63,7 +64,8 @@ export function FitBounds({ fields }) {
     if (fields.length === 0) return;
     const bounds = fields
       .map((field) => {
-        if (field.polygon && field.polygon.length > 0) return field.polygon;
+        const ring = toLatLngRing(field.polygon);
+        if (ring) return ring;
         if (field.latitude && field.longitude) return [[field.latitude, field.longitude]];
         return null;
       })
@@ -84,6 +86,10 @@ export function DrawingTool({ drawingMode, onPolygonDrawn }) {
   const map = useMap();
   const polygonHandlerRef = useRef(null);
   const handleDrawCreatedRef = useRef(null);
+  // Latest callback in a ref: the parent passes a new function on every render,
+  // and restarting the draw handler then would throw away the points placed so far.
+  const onDrawnRef = useRef(onPolygonDrawn);
+  onDrawnRef.current = onPolygonDrawn;
 
   useEffect(() => {
     if (!drawingMode) {
@@ -124,7 +130,7 @@ export function DrawingTool({ drawingMode, onPolygonDrawn }) {
         handler.disable();
         polygonHandlerRef.current = null;
         handleDrawCreatedRef.current = null;
-        onPolygonDrawn(coords);
+        onDrawnRef.current?.(coords);
       };
 
       handleDrawCreatedRef.current = handleDrawCreated;
@@ -145,7 +151,7 @@ export function DrawingTool({ drawingMode, onPolygonDrawn }) {
         polygonHandlerRef.current = null;
       }
     };
-  }, [drawingMode, map, onPolygonDrawn]);
+  }, [drawingMode, map]);
 
   return null;
 }
@@ -153,6 +159,50 @@ export function DrawingTool({ drawingMode, onPolygonDrawn }) {
 // ─── MapWidgets ─────────────────────────────────────────────────────
 
 /** Overlay controls: search bar, GPS, home button, basemap switcher, Sentinel toggle. */
+// ─── PolygonEditor ──────────────────────────────────────────────────
+
+/**
+ * Edits an existing boundary in place: drag the corner handles, click a
+ * middle handle to add a corner, click a corner to remove it. The current
+ * shape is reported through onChange; saving is up to the parent.
+ */
+export function PolygonEditor({ positions, onChange }) {
+  const map = useMap();
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
+  useEffect(() => {
+    if (!positions || positions.length < 3) return undefined;
+    let layer = null;
+    let cancelled = false;
+    const report = () => {
+      if (!layer) return;
+      const ring = layer.getLatLngs()[0] || [];
+      onChangeRef.current?.(ring.map((ll) => [ll.lat, ll.lng]));
+    };
+    (async () => {
+      if (typeof window !== 'undefined') window.L = L;
+      try { await import('leaflet-draw'); } catch { return; }
+      if (cancelled) return;
+      layer = L.polygon(positions, { color: '#ffb300', weight: 3, fillOpacity: 0.15, dashArray: '6 4' }).addTo(map);
+      if (layer.editing) layer.editing.enable();
+      layer.on('edit', report);
+      map.on('draw:editvertex', report);
+      try { map.fitBounds(layer.getBounds(), { padding: [40, 40], maxZoom: 18 }); } catch { /* empty map */ }
+      report();
+    })();
+    return () => {
+      cancelled = true;
+      map.off('draw:editvertex', report);
+      if (layer) { if (layer.editing) layer.editing.disable(); layer.off('edit', report); map.removeLayer(layer); }
+    };
+    // positions are the starting shape only; edits live in the Leaflet layer.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map]);
+
+  return null;
+}
+
 export function MapWidgets({
   fields,
   baseMap,
@@ -225,7 +275,8 @@ export function MapWidgets({
     if (fields.length === 0) return;
     const bounds = fields
       .map((f) => {
-        if (f.polygon && f.polygon.length > 0) return f.polygon;
+        const ring = toLatLngRing(f.polygon);
+        if (ring) return ring;
         if (f.latitude != null && f.longitude != null) return [[f.latitude, f.longitude]];
         return null;
       })

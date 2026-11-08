@@ -5,6 +5,7 @@
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
+import { toLatLngRing } from './polygonRing';
 import 'leaflet/dist/leaflet.css';
 
 let patchApplied = false;
@@ -99,7 +100,8 @@ export function SafeFitBounds({ fields, options = {} }) {
     if (fields.length === 0) return;
     const bounds = fields
       .map((field) => {
-        if (field.polygon?.length > 0) return field.polygon;
+        const ring = toLatLngRing(field.polygon);
+        if (ring) return ring;
         if (field.latitude != null && field.longitude != null) {
           return [[field.latitude, field.longitude]];
         }

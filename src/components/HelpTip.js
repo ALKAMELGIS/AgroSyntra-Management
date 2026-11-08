@@ -3,6 +3,7 @@ import { IconButton, Popover, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { HelpOutlineRounded as HelpIcon } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
+import { touchHitArea } from '../utils/touchTarget';
 
 /**
  * A small "?" that opens a short explanation. Screens show options, not
@@ -34,6 +35,7 @@ export default function HelpTip({ children, label, size = 22, sx }) {
           minHeight: size,
           p: 0,
           flexShrink: 0,
+          ...touchHitArea,
           verticalAlign: 'middle',
           color: open ? 'primary.main' : 'text.secondary',
           bgcolor: open ? alpha(t.palette.primary.main, 0.1) : 'transparent',

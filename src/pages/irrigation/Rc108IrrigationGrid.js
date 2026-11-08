@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Button, Checkbox, CircularProgress, Dialog, DialogActions,
   DialogContent, DialogTitle, FormControlLabel, IconButton, Paper, Table, TableBody,
@@ -400,7 +401,7 @@ export default function Rc108IrrigationGrid({
   const removeSelectedRows = async () => {
     const keys = [...selection.selectedIds];
     if (!keys.length) return;
-    if (!window.confirm(`Delete ${keys.length} irrigation ${keys.length === 1 ? 'row' : 'rows'}?`)) return;
+    if (!(await confirmAction(`Delete ${keys.length} irrigation ${keys.length === 1 ? 'row' : 'rows'}?`))) return;
     const chosen = rows.filter((r) => keys.includes(r._key));
     for (const row of chosen) {
       if (row.date && !String(row._key).startsWith('new-')) {

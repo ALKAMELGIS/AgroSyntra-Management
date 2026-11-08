@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -623,7 +624,7 @@ export default function CropHistory() {
 
   const removePRowsByKeys = useCallback(async (keys) => {
     if (!keys.length) return;
-    if (!window.confirm(`Delete ${keys.length} planting ${keys.length === 1 ? 'record' : 'records'}?`)) return;
+    if (!(await confirmAction(`Delete ${keys.length} planting ${keys.length === 1 ? 'record' : 'records'}?`))) return;
     const keySet = new Set(keys);
     const rows = pRows.filter((r) => keySet.has(r._key));
     await deleteIdsSequentially(

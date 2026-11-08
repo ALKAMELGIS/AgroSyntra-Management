@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Typography, Paper, Button, TextField, IconButton, Tooltip,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -170,7 +171,7 @@ export default function GerminationRecord({ siteFilter }) {
   };
 
   const handleDeleteSection = async (id) => {
-    if (!window.confirm('Delete this entire table and all its records?')) return;
+    if (!(await confirmAction('Delete this entire table and all its records?'))) return;
     try {
       await apiRequest(`/germination/sections/${id}`, { method: 'DELETE' });
       setSections(prev => prev.filter(s => s.id !== id));
@@ -182,7 +183,7 @@ export default function GerminationRecord({ siteFilter }) {
   const handleBulkDeleteSections = async () => {
     const ids = [...sectionSelection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} germination ${ids.length === 1 ? 'table' : 'tables'} and all their records?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} germination ${ids.length === 1 ? 'table' : 'tables'} and all their records?`))) return;
     await deleteIdsSequentially(ids, (id) => apiRequest(`/germination/sections/${id}`, { method: 'DELETE' }));
     setSections((prev) => prev.filter((s) => !sectionSelection.selectedIds.has(s.id)));
     sectionSelection.clear();
@@ -358,7 +359,7 @@ function SectionTable({ section, records, maxCounting, editingName, tempName, se
   const handleBulkDeleteRecords = async () => {
     const ids = [...recordSelection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} germination ${ids.length === 1 ? 'row' : 'rows'}?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} germination ${ids.length === 1 ? 'row' : 'rows'}?`))) return;
     await deleteIdsSequentially(ids, (id) => onDeleteRecord(section.id, id));
     recordSelection.clear();
   };

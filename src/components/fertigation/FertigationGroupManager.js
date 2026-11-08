@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { confirmAction } from '../ConfirmDialog';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField,
   Box, Typography, Checkbox, FormControlLabel, FormGroup, Divider, List, ListItemButton, ListItemText, IconButton, MenuItem,
@@ -113,7 +114,7 @@ export default function FertigationGroupManager({
   };
 
   const handleDelete = async (group) => {
-    if (!window.confirm(`Delete group "${group.name}"?`)) return;
+    if (!(await confirmAction(`Delete group "${group.name}"?`))) return;
     try {
       await deleteFertigationGroup(group.id);
       notify.success('Group deleted');

@@ -20,6 +20,7 @@ import OfflineQueueBanner from './components/OfflineQueueBanner';
 import AppUpdateBanner from './components/AppUpdateBanner';
 import CommandPalette from './components/CommandPalette';
 import NotificationCenter from './components/NotificationCenter';
+import { ConfirmHost } from './components/ConfirmDialog';
 import AssistantPanel from './components/assistant/AssistantPanel';
 import InsightsMenu from './components/InsightsMenu';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -647,6 +648,7 @@ function App() {
             <InstallPrompt />
             <AppUpdateBanner />
             <OfflineQueueBanner />
+            <ConfirmHost />
             <ErrorBoundary>
               <Suspense fallback={<PageLoader />}>
                 <Routes>

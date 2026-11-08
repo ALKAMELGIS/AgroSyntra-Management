@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import { confirmAction } from '../ConfirmDialog';
 import {
   Box, Table, TableHead, TableBody, TableRow, TableCell, TableContainer,
   Button, MenuItem, Typography, IconButton, Select, CircularProgress, TextField, Autocomplete,
@@ -298,7 +299,7 @@ export default function PivotFertigationTab({ readOnly = false }) {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this record?')) return;
+    if (!(await confirmAction('Delete this record?'))) return;
     try {
       await deleteFertAppRecord(id);
       handleRefresh();
@@ -310,7 +311,7 @@ export default function PivotFertigationTab({ readOnly = false }) {
   const handleBulkDelete = async () => {
     const ids = [...selection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} fertigation ${ids.length === 1 ? 'record' : 'records'}?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} fertigation ${ids.length === 1 ? 'record' : 'records'}?`))) return;
     const deleted = await deleteIdsSequentially(ids, deleteFertAppRecord);
     selection.clear();
     handleRefresh();
@@ -453,7 +454,7 @@ export default function PivotFertigationTab({ readOnly = false }) {
         {RC132_COLS.map((col) => renderCell(col, row, rowSetter))}
         <TableCell sx={{ ...dCell, p: 0, width: 52, position: 'sticky', right: 0, backgroundColor: 'var(--sheet-bg, #fff)', zIndex: 1 }}>
           {readOnly ? null : isNew ? (
-            <IconButton size="small" onClick={handleSaveNew} disabled={savingId === 'new'} sx={{ p: '2px' }}>
+            <IconButton size="small" onClick={handleSaveNew} disabled={savingId === 'new'} sx={{ p: '2px' }} aria-label="Save">
               {savingId === 'new' ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 16, color: 'var(--sheet-accent, #165c3a)' }} />}
             </IconButton>
           ) : (

@@ -101,6 +101,41 @@ let nextId = 1;
 const uid = () => `col_${nextId++}`;
 const suid = () => `sec_${nextId++}`;
 
+/** ASCII slug for keys; Arabic or symbol-only labels give '' so a fallback is used. */
+const slug = (str) => String(str || '').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+
+/**
+ * One unique, stable key per item: its own key, else a slug of its label, else
+ * `${prefix}_${n}`. Duplicates get _2, _3… so two columns never share a key
+ * (they would overwrite each other's data) and sections point at the right ones.
+ */
+export function assignKeys(items, prefix) {
+  const used = new Set();
+  const out = new Map();
+  items.forEach((it, i) => {
+    let base = (/[a-z0-9]/i.test(String(it.key || '')) ? String(it.key).trim() : '') || slug(it.label) || `${prefix}_${i + 1}`;
+    let key = base;
+    for (let n = 2; used.has(key); n += 1) key = `${base}_${n}`;
+    used.add(key);
+    out.set(it._id, key);
+  });
+  return out;
+}
+
+/** First problem that stops the template from being saved, or null. */
+export function templateProblem({ name, category, columns }) {
+  if (!String(name || '').trim()) return 'Template name is required';
+  if (!category) return 'Category is required';
+  if (!columns.length) return 'Add at least one column';
+  const idx = columns.findIndex((c) => !String(c.label || '').trim());
+  if (idx >= 0) return `Column ${idx + 1} needs a label`;
+  const dd = columns.find((c) => c.type === 'dropdown' && !String(c.options || '').split(',').some((o) => o.trim()));
+  if (dd) return `Add options for the dropdown column "${dd.label}"`;
+  const calc = columns.find((c) => c.type === 'calculated' && !String(c.formula || '').trim());
+  if (calc) return `Add a formula for the calculated column "${calc.label}"`;
+  return null;
+}
+
 function makeColumn(overrides = {}) {
   return {
     _id: uid(),
@@ -159,9 +194,13 @@ export default function TemplateEditor() {
       setDescription(tpl.description || '');
       if (tpl.columns_config) {
         const config = typeof tpl.columns_config === 'string' ? JSON.parse(tpl.columns_config) : tpl.columns_config;
-        if (config.sections) {
-          setSections(config.sections.map((s) => makeSection(s)));
-        }
+        // Saved columns point at a section by its key; in the editor they point at
+        // the section's _id, so translate (otherwise sections are lost on edit).
+        const loadedSections = (config.sections || []).map((sec) => makeSection(sec));
+        const secIdByKey = new Map(loadedSections.map((sec) => [sec.key, sec._id]));
+        const secIdByColumn = new Map();
+        (config.sections || []).forEach((sec, i) => (sec.columns || []).forEach((k) => secIdByColumn.set(k, loadedSections[i]._id)));
+        setSections(loadedSections);
         if (config.columns) {
           setColumns(config.columns.map((c) => makeColumn({
             key: c.key,
@@ -171,7 +210,7 @@ export default function TemplateEditor() {
             width: c.width || 100,
             options: Array.isArray(c.options) ? c.options.join(', ') : '',
             formula: c.formula || '',
-            sectionId: c.sectionId || null,
+            sectionId: (c.sectionId && secIdByKey.get(c.sectionId)) || secIdByColumn.get(c.key) || null,
           })));
         }
       }
@@ -247,7 +286,7 @@ export default function TemplateEditor() {
   // ---------- Section operations ----------
   const addSection = () => {
     if (!newSectionLabel.trim()) return;
-    const key = newSectionLabel.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_');
+    const key = slug(newSectionLabel);
     setSections((prev) => [...prev, makeSection({ key, label: newSectionLabel.trim() })]);
     setNewSectionLabel('');
     setSectionDialog(false);
@@ -259,30 +298,28 @@ export default function TemplateEditor() {
 
   // ---------- Save ----------
   const handleSave = async () => {
-    if (!name.trim()) { notify.warning('Template name is required'); return; }
-    if (!category) { notify.warning('Category is required'); return; }
-    if (columns.length === 0) { notify.warning('Add at least one column'); return; }
+    const problem = templateProblem({ name, category, columns });
+    if (problem) { notify.warning(problem); return; }
 
     setSaving(true);
     try {
+      const colKeys = assignKeys(columns, 'col');
+      const secKeys = assignKeys(sections, 'section');
       const columnsConfig = {
         sections: sections.map((s) => ({
-          key: s.key,
+          key: secKeys.get(s._id),
           label: s.label,
-          columns: columns.filter((c) => c.sectionId === s._id).map((c) => c.key || c._id),
+          columns: columns.filter((c) => c.sectionId === s._id).map((c) => colKeys.get(c._id)),
         })),
         columns: columns.map((c) => {
           const col = {
-            key: c.key || c.label.toLowerCase().replace(/[^a-z0-9]+/g, '_'),
-            label: c.label,
+            key: colKeys.get(c._id),
+            label: c.label.trim(),
             type: c.type,
             required: c.required,
             width: c.width,
           };
-          if (c.sectionId) {
-            const sec = sections.find((s) => s._id === c.sectionId);
-            if (sec) col.sectionId = sec.key;
-          }
+          if (c.sectionId && secKeys.has(c.sectionId)) col.sectionId = secKeys.get(c.sectionId);
           if (c.type === 'dropdown' && c.options) {
             col.options = c.options.split(',').map((o) => o.trim()).filter(Boolean);
           }
@@ -436,8 +473,10 @@ export default function TemplateEditor() {
                       fullWidth label="Label" value={col.label} size="small"
                       onChange={(e) => {
                         updateColumn(col._id, 'label', e.target.value);
-                        if (!col.key || col.key === col.label.toLowerCase().replace(/[^a-z0-9]+/g, '_')) {
-                          updateColumn(col._id, 'key', e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '_'));
+                        // The key follows the label until it is set by hand (Arabic gives '', and
+                        // a unique fallback key is chosen when saving).
+                        if (!col.key || col.key === slug(col.label)) {
+                          updateColumn(col._id, 'key', slug(e.target.value));
                         }
                       }}
                     />

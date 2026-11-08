@@ -332,3 +332,28 @@ Reviewed the pesticide records screen as a user on phone (390), tablet portrait 
   - min–max band and mean;
   - Figure (PNG) and Table (CSV) export.
 - Fixed: the soil panel could crash on an unexpected response; field clicks now reach the soil tool, and field popups stay closed while it is on.
+
+## Round 32 — full review: behaviour, saving, touch, RTL/LTR
+
+How it was checked: an exploratory sweep (`e2e/tools/explore.js`, the ARTEMIS observe → act → record loop run in a browser) over every page × phone / tablet / desktop × Arabic / English, about 600 button clicks, plus scripted flows against the real API and database (not only mock data). Guidelines: UI UX Pro Max (touch ≥ 44 px, no horizontal scroll, labels, contrast) and Anthropic's webapp-testing skill.
+
+Bugs fixed (found by running them, confirmed in the database):
+- **Field boundaries never showed** on Remote Sensing and Weather Map: the API returns GeoJSON, the pages only read `[lat, lng]` arrays. New `utils/polygonRing.js` reads every stored shape.
+- **Drawing lost its points** when the page re-rendered mid-drawing (the draw handler restarted on every render).
+- **Edit did not edit the shape**, and field type / valve count in the dialog were never saved. Now: *Edit boundary* (drag corners, click a middle handle to add one, Save / Cancel bar), *Details* saves type and valves; crop is read-only there (changed in Crop History).
+- **Templates (form builder):** Arabic labels gave every column the key `_` (data of different columns overwrote each other), sections were lost when an existing template was opened for editing, and empty labels / dropdowns without options / calculated columns without a formula could be saved. Now unique keys, sections kept, clear messages.
+- **Inventory:** stock, minimum and cost entered in *Add Item* were saved as 0 (API schema stripped them). Deactivate used the browser's native confirm and reported success even when it failed.
+- **Shift Schedule:** creating a shift always failed (schema expected `shift_date`, the page sends `date`; `shift_type` was dropped).
+- **Soil sensor readings (API):** every POST lost the field and the readings (snake_case body passed to a camelCase service).
+- **Inventory opening stock was counted twice** once the value reached the server (12 became 24): the item is now created at 0 and the opening amount booked once as a ledger line.
+- Crashes on partial data: Users → Permissions, Labour cost → Dashboard, Agronomic thresholds, Biological Control (product list).
+- Zoom-to-fields (Remote Sensing home button, Weather Map) also reads GeoJSON boundaries.
+- GIS Map: Esc closes the feature card; property values of any type render safely; "1 feature" grammar.
+
+Touch and layout:
+- Invisible 44 × 44 px hit areas on touch screens for breadcrumb links, help (?) icons, "View only" / "More" chips (`utils/touchTarget.js`); layout unchanged on desktop.
+- Map zoom buttons 40 px on touch; Excel-style sheet tabs in Harvest / Irrigation 36 px on touch.
+- Export file tag text 8 → 9 px.
+- Arabic labels for the template editor and the boundary tools.
+- **Confirmations:** the browser's own `window.confirm` (English-only, unstyled, awkward on phones) is replaced in 47 places by one in-app dialog (`confirmAction()` + `<ConfirmHost />` in `ConfirmDialog.js`): button wording follows the question (Delete / Remove / Deactivate / Yes, cancel), red for destructive actions, Arabic texts for the common questions. 4 calls inside non-async code still use the browser dialog.
+- Icon-only buttons named for screen readers (webhooks expand, save/export/clear filters/use my location in tables and forms).

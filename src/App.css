@@ -149,6 +149,15 @@ html[data-theme='dark'] .leaflet-container {
   color: var(--text-primary) !important;
   border-color: var(--border-subtle) !important;
 }
+/* Finger-sized zoom buttons on touch screens (Leaflet's default is 30 px). */
+@media (pointer: coarse) {
+  .leaflet-touch .leaflet-bar a {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+  }
+}
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   border-radius: 12px;

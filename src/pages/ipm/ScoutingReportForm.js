@@ -850,7 +850,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
                 endAdornment: (
                   <InputAdornment position="end">
                     <Tooltip title="Use my location">
-                      <IconButton size="small" onClick={handleUseMyLocation}>
+                      <IconButton size="small" onClick={handleUseMyLocation} aria-label="Use my location">
                         <MyLocation fontSize="small" />
                       </IconButton>
                     </Tooltip>

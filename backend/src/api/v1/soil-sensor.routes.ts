@@ -51,7 +51,20 @@ soilSensorRouter.post('/', validate({ body: createSoilReadingSchema }), async (r
   try {
     // Manual soil readings are data entry: worker and agronomist only.
     assertCanOperateDataEntry(req.user!);
-    const item = await soilService.create(req.body);
+    // The body is validated in snake_case; the service takes camelCase. Passing the
+    // body straight through left fieldId and every reading undefined.
+    const b = req.body as z.infer<typeof createSoilReadingSchema>;
+    const item = await soilService.create({
+      fieldId: b.field_id,
+      date: b.date,
+      moisturePct: b.moisture_pct ?? null,
+      temperatureC: b.temperature_c ?? null,
+      ecDsm: b.ec_dsm ?? null,
+      ph: b.ph ?? null,
+      depthCm: b.depth_cm ?? null,
+      source: b.source,
+      notes: b.notes,
+    });
     res.status(201).json({ success: true, data: item });
   } catch (err) { next(err); }
 });

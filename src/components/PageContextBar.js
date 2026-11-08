@@ -7,6 +7,7 @@ import { getHubPathForArea } from '../config/navAreas';
 import { recordRecentPage } from '../utils/recentPages';
 import { useShellLabel } from '../i18n/shellLabels';
 import { clearMissingRequired } from '../utils/requiredFields';
+import { touchHitArea } from '../utils/touchTarget';
 
 /**
  * Quiet "where am I" trail shown above every page: Home › Area › Section.
@@ -73,6 +74,7 @@ export default function PageContextBar() {
     />
   );
   const crumbSx = {
+    ...touchHitArea,
     fontSize: '0.8125rem',
     color: 'text.secondary',
     fontWeight: 500,
@@ -91,6 +93,8 @@ export default function PageContextBar() {
         display: 'flex',
         alignItems: 'center',
         minHeight: 24,
+        // Room for the finger-sized hit areas of the links on touch screens.
+        '@media (pointer: coarse)': { minHeight: 32, overflow: 'visible' },
         mb: { xs: 3, md: 4 },
         overflow: 'hidden',
         '@media print': { display: 'none' },

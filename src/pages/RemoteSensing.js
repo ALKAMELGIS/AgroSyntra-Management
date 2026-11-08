@@ -80,7 +80,8 @@ import {
   getWMSLayersFromCapabilities,
   generateTimeSeriesDates,
 } from '../utils/sentinelhubService';
-import { FitBounds, DrawingTool, MapWidgets, BasemapLayer, MapLifecycle, MapResizeInvalidator } from './remoteSensing/MapComponents';
+import { toLatLngRing } from '../utils/polygonRing';
+import { FitBounds, DrawingTool, PolygonEditor, MapWidgets, BasemapLayer, MapLifecycle, MapResizeInvalidator } from './remoteSensing/MapComponents';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import L from 'leaflet';
@@ -153,6 +154,8 @@ function RemoteSensing() {
   const [drawnPolygon, setDrawnPolygon] = useState(null);
   const [fieldAssignmentDialog, setFieldAssignmentDialog] = useState(false);
   const [editingField, setEditingField] = useState(null);
+  // Boundary being reshaped on the map: { field, coords, saving }.
+  const [shapeEdit, setShapeEdit] = useState(null);
   const [baseMap, setBaseMap] = useState('satellite');
   const [showSentinelOverlay, setShowSentinelOverlay] = useState(true);
   const [searchResultLatLng, setSearchResultLatLng] = useState(null);
@@ -215,7 +218,7 @@ function RemoteSensing() {
       for (const site of country.sites || []) {
         for (const farmArea of site.farmAreas || []) {
           for (const field of farmArea.fields || []) {
-            const hasPolygon = field.polygon && Array.isArray(field.polygon) && field.polygon.length > 0;
+            const hasPolygon = !!toLatLngRing(field.polygon);
             const hasPoint = field.latitude && field.longitude;
             if (!hasPolygon && !hasPoint) continue;
             allFields.push({
@@ -315,17 +318,7 @@ function RemoteSensing() {
     return [Math.min(...lngs), Math.min(...lats), Math.max(...lngs), Math.max(...lats)];
   };
 
-  const getPolygonCoordinates = (field) => {
-    if (field.polygon && Array.isArray(field.polygon)) {
-      if (field.polygon[0] && Array.isArray(field.polygon[0])) {
-        return field.polygon;
-      }
-      if (field.polygon.coordinates) {
-        return field.polygon.coordinates[0].map((coord) => [coord[1], coord[0]]);
-      }
-    }
-    return null;
-  };
+  const getPolygonCoordinates = (field) => toLatLngRing(field.polygon);
 
   const getNDVIColor = (ndviValue) => {
     if (!ndviValue || ndviValue < 0) return '#8B4513';
@@ -413,6 +406,39 @@ function RemoteSensing() {
     setDrawingMode(false);
   };
 
+  // Returns a copy of the master data with one field changed (no in-place mutation,
+  // so every memo that reads the fields sees the new value).
+  const withFieldPatched = (data, fieldId, patch) => ({
+    ...data,
+    countries: (data.countries || []).map((c) => ({
+      ...c,
+      sites: (c.sites || []).map((site) => ({
+        ...site,
+        farmAreas: (site.farmAreas || []).map((fa) => ({
+          ...fa,
+          fields: (fa.fields || []).map((f) => (f.id === fieldId ? patch(f) : f)),
+        })),
+      })),
+    })),
+  });
+
+  const saveShapeEdit = async () => {
+    if (!shapeEdit || (shapeEdit.coords || []).length < 3) return;
+    const { field, coords } = shapeEdit;
+    setShapeEdit((s) => ({ ...s, saving: true }));
+    try {
+      await updateField(field.id, { polygon: coords });
+      const updated = withFieldPatched(masterDataState, field.id, (f) => ({ ...f, polygon: coords }));
+      setMasterDataState(updated);
+      saveMasterData(updated);
+      notify.success(`Boundary of ${field.name} saved`);
+      setShapeEdit(null);
+    } catch (err) {
+      notify.error(`Failed to save boundary: ${err.message}`);
+      setShapeEdit((s) => (s ? { ...s, saving: false } : s));
+    }
+  };
+
   const saveDrawnField = async (values) => {
     if (!drawnPolygon) return;
 
@@ -422,28 +448,29 @@ function RemoteSensing() {
       return;
     }
 
-    try {
-      await updateField(selectedFieldData.id, { polygon: drawnPolygon });
+    // Field type and valve count are saved too; the crop is changed in Crop History only.
+    const payload = { polygon: drawnPolygon };
+    const typeRow = (masterDataState.fieldTypes || []).find((ft) => ft.name === values.fieldType);
+    if (typeRow?.id && values.fieldType !== selectedFieldData.type) payload.fieldTypeId = typeRow.id;
+    const valves = Number(values.valveCount);
+    if (Number.isInteger(valves) && valves >= 0 && valves !== Number(selectedFieldData.valveCount ?? selectedFieldData.valves ?? 0)) payload.valveCount = valves;
 
-      const updatedData = { ...masterDataState };
-      for (const country of updatedData.countries || []) {
-        for (const site of country.sites || []) {
-          for (const farmArea of site.farmAreas || []) {
-            for (const field of farmArea.fields || []) {
-              if (field.id === selectedFieldData.id) {
-                field.polygon = drawnPolygon;
-              }
-            }
-          }
-        }
-      }
+    try {
+      await updateField(selectedFieldData.id, payload);
+
+      const updatedData = withFieldPatched(masterDataState, selectedFieldData.id, (f) => ({
+        ...f,
+        polygon: drawnPolygon,
+        ...(payload.fieldTypeId ? { type: values.fieldType } : {}),
+        ...(payload.valveCount !== undefined ? { valveCount: payload.valveCount, valves: payload.valveCount } : {}),
+      }));
       setMasterDataState(updatedData);
       saveMasterData(updatedData);
 
       notify.success(`Field ${selectedFieldData.name} updated with polygon boundary!`);
       setFieldAssignmentDialog(false);
       setDrawnPolygon(null);
-      setFields(availableFields);
+      setEditingField(null);
     } catch (err) {
       notify.error(`Failed to save polygon: ${err.message}`);
     }
@@ -457,22 +484,14 @@ function RemoteSensing() {
     try {
       await updateField(field.id, { polygon: [] });
 
-      const updatedData = { ...masterDataState };
-      for (const country of updatedData.countries || []) {
-        for (const site of country.sites || []) {
-          for (const farmArea of site.farmAreas || []) {
-            for (const f of farmArea.fields || []) {
-              if (f.id === field.id) {
-                delete f.polygon;
-              }
-            }
-          }
-        }
-      }
+      const updatedData = withFieldPatched(masterDataState, field.id, (f) => {
+        const { polygon, ...rest } = f;
+        return rest;
+      });
       setMasterDataState(updatedData);
       saveMasterData(updatedData);
       notify.success(`Polygon boundary removed for ${field.name}`);
-      setFields(availableFields);
+      if (selectedField?.id === field.id) setSelectedField(null);
     } catch (err) {
       notify.error(`Failed to remove polygon: ${err.message}`);
     }
@@ -558,6 +577,7 @@ function RemoteSensing() {
                 variant={drawingMode ? 'contained' : 'outlined'}
                 color={drawingMode ? 'error' : 'primary'}
                 startIcon={drawingMode ? <CancelIcon /> : <DrawIcon />}
+                disabled={!!shapeEdit}
                 onClick={() => {
                   if (drawingMode) {
                     setDrawingMode(false);
@@ -607,8 +627,8 @@ function RemoteSensing() {
               )}
               <MapContainer
                 center={
-                  availableFields[0]?.polygon && availableFields[0]?.polygon.length > 0
-                    ? availableFields[0].polygon[0]
+                  toLatLngRing(availableFields[0]?.polygon)
+                    ? toLatLngRing(availableFields[0].polygon)[0]
                     : availableFields[0]?.latitude && availableFields[0]?.longitude
                     ? [availableFields[0].latitude, availableFields[0].longitude]
                     : [24.45, 54.38]
@@ -659,6 +679,14 @@ function RemoteSensing() {
 
                 {availableFields.length > 0 && <FitBounds fields={availableFields} />}
 
+                {shapeEdit && (
+                  <PolygonEditor
+                    key={shapeEdit.field.id}
+                    positions={shapeEdit.coords}
+                    onChange={(coords) => setShapeEdit((s) => (s ? { ...s, coords } : s))}
+                  />
+                )}
+
                 {/* Drawing Tool */}
                 {drawingMode && (
                   <DrawingTool
@@ -673,6 +701,8 @@ function RemoteSensing() {
                   const vegData = vegetationData[field.id || field.name];
                   const ndviValue = vegData?.ndvi;
 
+                  if (shapeEdit?.field?.id === field.id) return null;
+                  const isSelected = selectedField && (selectedField.id || selectedField.name) === (field.id || field.name);
                   return (
                     polygonCoords && (
                       <Polygon
@@ -689,7 +719,8 @@ function RemoteSensing() {
                               ? getNDVIColor(ndviValue)
                               : '#3388ff',
                           fillOpacity: showFieldBoundaries ? 0.4 : 0,
-                          weight: 2,
+                          weight: isSelected ? 4 : 2,
+                          dashArray: isSelected ? '6 4' : undefined,
                         }}
                         eventHandlers={{
                           click: () => setSelectedField(field),
@@ -702,7 +733,21 @@ function RemoteSensing() {
                               {field.farmAreaName} • {typeof field.currentCrop === 'object' && field.currentCrop !== null ? field.currentCrop.name : (field.currentCrop || 'No crop')}
                             </Typography>
                             {canSavePolygons ? (
-                              <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+                              <Box sx={{ display: 'flex', gap: 1, mt: 1, flexWrap: 'wrap' }}>
+                                <Button
+                                  size="small"
+                                  variant="contained"
+                                  startIcon={<DrawIcon />}
+                                  disabled={drawingMode || !!shapeEdit}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.currentTarget.closest('.leaflet-popup')?.querySelector('.leaflet-popup-close-button')?.click();
+                                    setSelectedField(field);
+                                    setShapeEdit({ field, coords: polygonCoords, saving: false });
+                                  }}
+                                >
+                                  Edit boundary
+                                </Button>
                                 <Button
                                   size="small"
                                   variant="outlined"
@@ -713,7 +758,7 @@ function RemoteSensing() {
                                     setFieldAssignmentDialog(true);
                                   }}
                                 >
-                                  Edit
+                                  Details
                                 </Button>
                                 <Button
                                   size="small"
@@ -737,6 +782,36 @@ function RemoteSensing() {
                   );
                 })}
               </MapContainer>
+
+              {shapeEdit && (
+                <Paper
+                  elevation={4}
+                  role="toolbar"
+                  aria-label="Edit boundary"
+                  sx={{
+                    position: 'absolute', top: 12, insetInlineStart: '50%', transform: 'translateX(-50%)', zIndex: 1000,
+                    display: 'flex', alignItems: 'center', gap: 1, px: 1.5, py: 1, borderRadius: 2,
+                    maxWidth: 'calc(100% - 24px)', flexWrap: 'wrap', justifyContent: 'center',
+                  }}
+                >
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                    <bdi>{shapeEdit.field.name}</bdi> · {shapeEdit.coords.length} points
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: { xs: 'none', sm: 'block' } }}>
+                    Drag a corner to move it; click a middle point to add one.
+                  </Typography>
+                  <Button size="small" onClick={() => setShapeEdit(null)} disabled={shapeEdit.saving}>Cancel</Button>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={shapeEdit.saving ? <CircularProgress size={14} color="inherit" /> : <SaveIcon />}
+                    onClick={saveShapeEdit}
+                    disabled={shapeEdit.saving || shapeEdit.coords.length < 3}
+                  >
+                    Save
+                  </Button>
+                </Paper>
+              )}
 
               {/* Legend: bottom right above the map credits; on phones top right, clear of the base-map buttons. */}
               <Paper
@@ -1125,7 +1200,7 @@ function RemoteSensing() {
             currentCrop: typeof editingField?.currentCrop === 'object' && editingField?.currentCrop !== null 
               ? editingField.currentCrop.name 
               : (editingField?.currentCrop || ''),
-            valveCount: editingField?.valves || 0,
+            valveCount: editingField?.valveCount ?? editingField?.valves ?? 0,
           }}
           validationSchema={fieldAssignmentSchema}
           onSubmit={(values) => {
@@ -1189,10 +1264,12 @@ function RemoteSensing() {
                         <InputLabel id="remotesensing-current-crop-label-4">Current Crop</InputLabel>
                         <Select labelId="remotesensing-current-crop-label-4"
                           name="currentCrop"
-                          value={values.currentCrop}
+                          value={getAllCrops.includes(values.currentCrop) ? values.currentCrop : ''}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           label="Current Crop"
+                          disabled
+                          aria-describedby="remotesensing-crop-help"
                         >
                           {getAllCrops.map((crop) => (
                             <MenuItem key={String(crop)} value={String(crop)}>
@@ -1200,6 +1277,9 @@ function RemoteSensing() {
                             </MenuItem>
                           ))}
                         </Select>
+                        <Typography id="remotesensing-crop-help" variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
+                          Change crops in Crop History.
+                        </Typography>
                       </FormControl>
                     </Grid>
 

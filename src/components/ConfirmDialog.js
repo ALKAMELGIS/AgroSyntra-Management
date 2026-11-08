@@ -81,3 +81,48 @@ export function useConfirmDialog() {
 
   return [confirm, dialog];
 }
+
+/* ------------------------------------------------------------------ *
+ * App-wide confirm (replaces the browser's window.confirm):
+ *   if (!(await confirmAction('Delete this record?'))) return;
+ * <ConfirmHost /> is mounted once in App. The browser dialog could not be
+ * styled, translated to Arabic or used comfortably on phones.
+ * ------------------------------------------------------------------ */
+let hostListener = null;
+
+/** Wording of the confirm button from the question itself. */
+function guessAction(message) {
+  const m = String(message || '').trim();
+  if (/^(delete|remove|drop|deactivate)\b/i.test(m)) return { label: m.split(/\s/)[0].replace(/^\w/, (c) => c.toUpperCase()), severity: 'error' };
+  if (/^cancel\b/i.test(m)) return { label: 'Yes, cancel', severity: 'warning' };
+  return { label: 'Confirm', severity: 'warning' };
+}
+
+export function confirmAction(message, options = {}) {
+  if (!hostListener) {
+    // No host mounted (tests, print views): fall back to the browser dialog.
+    // eslint-disable-next-line no-alert
+    return Promise.resolve(typeof window !== 'undefined' && window.confirm ? window.confirm(message) : false);
+  }
+  return new Promise((resolve) => hostListener({ message, options, resolve }));
+}
+
+export function ConfirmHost() {
+  const [req, setReq] = useState(null);
+  const [open, setOpen] = useState(false);
+  hostListener = useCallback((r) => { setReq(r); setOpen(true); }, []);
+  const done = (ok) => { setOpen(false); req?.resolve(ok); };
+  const guess = guessAction(req?.message);
+  return (
+    <ConfirmDialogComponent
+      open={open}
+      title={req?.options.title || 'Please confirm'}
+      message={req?.message || ''}
+      severity={req?.options.severity || guess.severity}
+      confirmLabel={req?.options.confirmLabel || guess.label}
+      cancelLabel={req?.options.cancelLabel || 'Cancel'}
+      onConfirm={() => done(true)}
+      onCancel={() => done(false)}
+    />
+  );
+}

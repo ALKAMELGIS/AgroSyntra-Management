@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import { useNavigate } from 'react-router-dom';
 import { computeBumbleBeeSummary, formatLastDeployDate } from '../../utils/bumbleBeeSummary';
 import {
@@ -611,7 +612,7 @@ export default function BumbleBees() {
   };
 
   const deleteInspectionDirect = async (insp) => {
-    if (!window.confirm('Delete this inspection row?')) return;
+    if (!(await confirmAction('Delete this inspection row?'))) return;
     try {
       await api.delete(`/ipm/bumble-bees/inspections/${insp.id}`);
       setSaveToast('Inspection deleted');
@@ -625,7 +626,7 @@ export default function BumbleBees() {
   const handleBulkDeleteInspections = async () => {
     const ids = [...inspectionSelection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} selected inspection(s)?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} selected inspection(s)?`))) return;
     const deleted = await deleteIdsSequentially(ids, (id) => api.delete(`/ipm/bumble-bees/inspections/${id}`));
     inspectionSelection.clear();
     setSaveToast(`Deleted ${deleted} inspection(s)`);
@@ -694,10 +695,10 @@ export default function BumbleBees() {
       }
       const deployTotal = inspectionEditDraft.deployTotal;
       if (deployTotal != null && total !== deployTotal) {
-        const ok = window.confirm(
+        const ok = (await confirmAction(
           `Proposed total (${total}) differs from last deployment (${deployTotal}). `
           + 'The pest agronomist will review this drift. Submit anyway?',
-        );
+        ));
         if (!ok) return;
       }
       proposedPayload = buildInspectionPayloadFromDraft(inspectionEditDraft);
@@ -837,7 +838,7 @@ export default function BumbleBees() {
 
   const cancelOrder = async (id, resubmitOf = null) => {
     if (readOnly) return;
-    if (!window.confirm(canLiveEdit ? 'Cancel this order?' : 'Send a request to cancel this order?')) return;
+    if (!(await confirmAction(canLiveEdit ? 'Cancel this order?' : 'Send a request to cancel this order?'))) return;
     try {
       const res = await api.put(`/ipm/bumble-bees/incoming-orders/${id}`, {
         status: 'cancelled',
@@ -1388,7 +1389,7 @@ export default function BumbleBees() {
                         <TableCell {...CELL} align="center">
                           {isLiveEdit ? (
                             <>
-                              <IconButton size="small" color="primary" disabled={inspectionEditDraft.saving || total !== deployTotal} onClick={saveInspectionEdit}>
+                              <IconButton size="small" color="primary" disabled={inspectionEditDraft.saving || total !== deployTotal} onClick={saveInspectionEdit} aria-label="Save">
                                 {inspectionEditDraft.saving ? <CircularProgress size={18} /> : <Check fontSize="small" />}
                               </IconButton>
                               <Button size="small" onClick={cancelInspectionEdit}>Cancel</Button>

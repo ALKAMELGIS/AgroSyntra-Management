@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { confirmAction } from '../components/ConfirmDialog';
 import { useSearchParams } from 'react-router-dom';
 import { TableSkeleton } from '../components/LoadingSkeleton';
 import {
@@ -897,7 +898,7 @@ export default function ManpowerRecord() {
       setChangeRequestReason('');
       return;
     }
-    if (!window.confirm('Delete this record?')) return;
+    if (!(await confirmAction('Delete this record?'))) return;
     try {
       await apiRequest(`/manpower/records/${id}`, { method: 'DELETE' });
       notify.success('Record deleted');
@@ -910,7 +911,7 @@ export default function ManpowerRecord() {
   const handleBulkDeleteRecords = async () => {
     const ids = [...recordSelection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} selected activity block(s)?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} selected activity block(s)?`))) return;
     const deleted = await deleteIdsSequentially(ids, (id) => apiRequest(`/manpower/records/${id}`, { method: 'DELETE' }));
     recordSelection.clear();
     notify.success(`Deleted ${deleted} record(s)`);
@@ -1037,7 +1038,7 @@ export default function ManpowerRecord() {
   };
 
   const handleDeactivateWorker = async (id) => {
-    if (!window.confirm('Deactivate this worker?')) return;
+    if (!(await confirmAction('Deactivate this worker?'))) return;
     try {
       await apiRequest(`/manpower/workers/${id}`, { method: 'DELETE' });
       notify.success('Worker deactivated');

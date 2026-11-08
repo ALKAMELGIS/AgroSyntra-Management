@@ -1,4 +1,5 @@
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
+import { confirmAction } from '../../components/ConfirmDialog';
 import { Fragment, useState, useEffect, useCallback, useMemo } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -196,7 +197,7 @@ export default function ProductCatalog() {
   };
 
   const handleDeletePesticide = async (id) => {
-    if (!window.confirm('Remove this product from your organization\'s active list?')) return;
+    if (!(await confirmAction('Remove this product from your organization\'s active list?'))) return;
     try {
       await api.delete(`/ipm/pesticide-products/${id}`);
       notify.success('Product removed from active list');

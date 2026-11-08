@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Tabs, Tab, Table, TableHead, TableBody, TableRow, TableCell, TableContainer,
   Button, MenuItem, Typography, IconButton, Select, Dialog, DialogTitle,
@@ -331,7 +332,7 @@ function PivotIrrigationMonthTab({ sheet, pivotFields, farmName, onRefresh, read
   const handleBulkDelete = async () => {
     const ids = [...selection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} irrigation ${ids.length === 1 ? 'record' : 'records'}?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} irrigation ${ids.length === 1 ? 'record' : 'records'}?`))) return;
     const deleted = await deleteIdsSequentially(ids, deleteIrrigationRecord);
     selection.clear();
     loadRecords();
@@ -751,12 +752,12 @@ export default function IrrigationEntry() {
         <>
         <Button size="small" startIcon={<FileUpload sx={{ fontSize: '13px !important' }} />}
           onClick={() => setImporterOpen(true)}
-          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: 'var(--sheet-accent, #165c3a)', border: '1px solid var(--sheet-border, #B0B0B0)', backgroundColor: 'var(--sheet-bg, #fff)' }}>
+          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, '@media (pointer: coarse)': { minHeight: 36, height: 36, fontSize: '12px' }, color: 'var(--sheet-accent, #165c3a)', border: '1px solid var(--sheet-border, #B0B0B0)', backgroundColor: 'var(--sheet-bg, #fff)' }}>
           Import Excel
         </Button>
         <Button size="small" startIcon={<Add sx={{ fontSize: '13px !important' }} />}
           onClick={() => setAddOpen(true)}
-          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, color: 'var(--sheet-accent, #165c3a)', border: '1px solid var(--sheet-border, #B0B0B0)', backgroundColor: 'var(--sheet-bg, #fff)' }}>
+          sx={{ fontFamily: FONT, fontSize: '10px', textTransform: 'none', minHeight: 24, height: 24, px: '8px', mr: 1, borderRadius: 1, '@media (pointer: coarse)': { minHeight: 36, height: 36, fontSize: '12px' }, color: 'var(--sheet-accent, #165c3a)', border: '1px solid var(--sheet-border, #B0B0B0)', backgroundColor: 'var(--sheet-bg, #fff)' }}>
           Add Month
         </Button>
         </>
@@ -769,6 +770,8 @@ export default function IrrigationEntry() {
           sx={{
             minHeight: 26,
             '& .MuiTabs-indicator': { display: 'none' },
+            // Finger-sized sheet tabs on phones / tablets (the Excel look stays on desktop).
+            '@media (pointer: coarse)': { '& .MuiTab-root': { minHeight: '36px !important', height: '36px !important', fontSize: '12.5px !important', px: '14px !important' } },
             '& .MuiTab-root': {
               fontFamily: FONT,
               fontSize: '10px',

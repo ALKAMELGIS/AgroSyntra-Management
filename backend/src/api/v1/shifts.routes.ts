@@ -7,15 +7,29 @@ import { validate } from '../middleware/validate';
 import { listShifts, createShift, updateShift, deleteShift } from '../../services/shift.service';
 import { assertCanOperateWorkforce } from '../../utils/roleAccess';
 
-const createShiftSchema = z.object({
-  user_id: z.string().uuid(),
-  field_id: z.string().uuid().optional(),
-  shift_date: z.string(),
-  start_time: z.string(),
-  end_time: z.string(),
-  break_minutes: z.number().min(0).optional(),
-  notes: z.string().optional(),
-});
+// Matches what the Shift Schedule page sends and what the service inserts
+// (date + shift_type). The old schema required `shift_date` and dropped
+// `date` / `shift_type`, so every new shift was rejected or failed in the DB.
+const emptyToUndefined = (v: unknown) => (v === '' || v === null ? undefined : v);
+const createShiftSchema = z.preprocess(
+  (raw) => {
+    if (!raw || typeof raw !== 'object') return raw;
+    const b = { ...(raw as Record<string, unknown>) };
+    if (b.date === undefined && b.shift_date !== undefined) b.date = b.shift_date;
+    delete b.shift_date;
+    return b;
+  },
+  z.object({
+    user_id: z.string().uuid(),
+    field_id: z.preprocess(emptyToUndefined, z.string().uuid().optional()),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'date must be YYYY-MM-DD'),
+    shift_type: z.string().min(1).max(40).default('morning'),
+    start_time: z.string().min(1),
+    end_time: z.string().min(1),
+    break_minutes: z.number().min(0).optional(),
+    notes: z.preprocess(emptyToUndefined, z.string().max(2000).optional()),
+  }),
+);
 
 const shiftsRouter = Router();
 shiftsRouter.use(auth);

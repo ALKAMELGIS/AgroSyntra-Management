@@ -715,7 +715,7 @@ function UserManagement() {
               onChange={(e) => setPermForm({ ...permForm, module: e.target.value })}
             >
               {permModules.map((m) => (
-                <MenuItem key={m} value={m}>{m.replace(/_/g, ' ')}</MenuItem>
+                <MenuItem key={m} value={m}>{String(m).replace(/_/g, ' ')}</MenuItem>
               ))}
             </TextField>
             <TextField
@@ -738,7 +738,7 @@ function UserManagement() {
               {permList.map((p) => (
                 <ListItem key={p.id}>
                   <ListItemText
-                    primary={`${p.module.replace(/_/g, ' ')} — ${p.permission}`}
+                    primary={`${String(p.module ?? '').replace(/_/g, ' ')} — ${p.permission ?? ''}`}
                     secondary={`Granted by ${p.granted_by_name || 'Unknown'}`}
                   />
                   <ListItemSecondaryAction>

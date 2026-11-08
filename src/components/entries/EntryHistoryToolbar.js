@@ -106,7 +106,7 @@ export default function EntryHistoryToolbar({
 
       {onExport && (
         <Tooltip title="Export to Excel">
-          <IconButton size="small" onClick={onExport} sx={{ mr: 1 }}>
+          <IconButton size="small" onClick={onExport} sx={{ mr: 1 }} aria-label="Export">
             <ExportIcon />
           </IconButton>
         </Tooltip>

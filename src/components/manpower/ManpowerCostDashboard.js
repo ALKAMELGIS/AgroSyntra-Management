@@ -52,23 +52,23 @@ export default function ManpowerCostDashboard({ data, loading, error }) {
   if (error) {
     return <Alert severity="error">{error.message || t('manpowerCost.loadFailed')}</Alert>;
   }
-  if (!data || data.totals.hours === 0) {
+  if (!data?.totals || !data.totals.hours) {
     return <Box sx={{ p: 4, textAlign: 'center' }}><Typography color="text.secondary">{t('manpowerCost.noData')}</Typography></Box>;
   }
 
   const { totals } = data;
   const avgRate = totals.costedHours > 0 ? totals.cost / totals.costedHours : null;
 
-  const categoryData = data.byCategory.map((b, i) => ({
+  const categoryData = (data.byCategory || []).map((b, i) => ({
     ...b,
     label: t(`manpowerCost.category.${b.key}`, { defaultValue: b.label }),
     color: CHART_COLORS[i % CHART_COLORS.length],
   }));
-  const activityData = data.byActivity.slice(0, MAX_ACTIVITY_BARS).map((b) => ({
+  const activityData = (data.byActivity || []).slice(0, MAX_ACTIVITY_BARS).map((b) => ({
     ...b,
     label: b.label || t('manpowerCost.dashboard.unassigned'),
   }));
-  const siteData = data.bySite.map((b, i) => ({
+  const siteData = (data.bySite || []).map((b, i) => ({
     ...b,
     label: b.label || t('manpowerCost.noSite'),
     color: CHART_COLORS[i % CHART_COLORS.length],

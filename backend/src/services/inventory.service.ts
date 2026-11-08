@@ -85,7 +85,9 @@ export async function createItem(data: {
      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
     [
       data.name, data.category, data.unit || 'kg',
-      data.minStockLevel || 0, data.currentStock || 0,
+      // Stock starts at 0; the opening amount is booked below as a ledger entry
+      // (recordTransaction adds it), so it is counted once and has a history line.
+      data.minStockLevel || 0, 0,
       data.costPerUnit || 0, data.currency || 'AED',
       data.supplier || null, data.createdBy || null,
     ],
@@ -94,7 +96,8 @@ export async function createItem(data: {
   const item = result.rows[0];
 
   if ((data.currentStock || 0) > 0) {
-    await recordTransaction(item.id, 'adjustment', data.currentStock!, 'manual', null, 'Initial stock', data.createdBy);
+    const tx: any = await recordTransaction(item.id, 'adjustment', data.currentStock!, 'manual', null, 'Initial stock', data.createdBy);
+    if (tx?.balance_after !== undefined) item.current_stock = tx.balance_after;
   }
 
   return item;

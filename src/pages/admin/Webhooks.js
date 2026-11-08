@@ -104,7 +104,7 @@ export default function Webhooks() {
                   <TableCell><Chip label={wh.is_active ? 'Active' : 'Inactive'} color={wh.is_active ? 'success' : 'default'} size="small" /></TableCell>
                   <TableCell>{wh.created_at ? format(new Date(wh.created_at), 'MMM d, yyyy') : ''}</TableCell>
                   <TableCell align="center">
-                    <IconButton size="small" onClick={(e) => { e.stopPropagation(); toggleExpand(wh.id); }}>
+                    <IconButton size="small" onClick={(e) => { e.stopPropagation(); toggleExpand(wh.id); }} aria-label={expandedId === wh.id ? 'Hide deliveries' : 'Show deliveries'} aria-expanded={expandedId === wh.id}>
                       {expandedId === wh.id ? <CollapseIcon /> : <ExpandIcon />}
                     </IconButton>
                     <IconButton size="small" color="error" onClick={(e) => { e.stopPropagation(); handleDelete(wh.id); }} aria-label="Delete">

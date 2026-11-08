@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Autocomplete, Box, Button, Chip, CircularProgress, Dialog, DialogActions,
   DialogContent, DialogTitle, IconButton, Paper, Table, TableBody, TableCell,
@@ -254,7 +255,7 @@ export default function PppMsdsTab({ canManage }) {
 
   const handleDelete = async (row) => {
     if (!row.pdfId) return;
-    if (!window.confirm(`Delete ${row.filename}?`)) return;
+    if (!(await confirmAction(`Delete ${row.filename}?`))) return;
     try {
       await api.delete(`/ipm/product-catalog/gap-pdfs/${row.pdfId}`);
       notify.success('PDF deleted');

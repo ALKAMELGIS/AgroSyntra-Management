@@ -1,4 +1,5 @@
 import ReadOnlyBanner from '../components/ReadOnlyBanner';
+import { useConfirmDialog } from '../components/ConfirmDialog';
 import { useState, useEffect, useCallback, Fragment } from 'react';
 import {
   Box, Typography, Paper, Button, TextField, Tabs, Tab, Chip,
@@ -55,6 +56,7 @@ const emptyForm = {
 
 export default function Inventory() {
   const notify = useNotification();
+  const [confirm, confirmDialog] = useConfirmDialog();
   const { user } = useAuth();
   const { t } = useTranslation();
   // Operation manager and data entry worker add items and record stock; others view only.
@@ -190,10 +192,12 @@ export default function Inventory() {
   };
 
   // Delete item
-  const handleDelete = async (id) => {
-    if (!window.confirm('Deactivate this inventory item?')) return;
+  const handleDelete = async (item) => {
+    if (!(await confirm(`Deactivate "${item.name}"? It disappears from the list; its history is kept.`, { title: 'Deactivate item', confirmLabel: 'Deactivate' }))) return;
     try {
-      await fetch(`${API}/inventory/${id}`, { method: 'DELETE', headers: headers() });
+      const res = await fetch(`${API}/inventory/${item.id}`, { method: 'DELETE', headers: headers() });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === false) throw new Error(data.error?.message || `Failed (${res.status})`);
       notify.success('Item deactivated');
       loadItems();
       loadLowStockCount();
@@ -335,7 +339,7 @@ export default function Inventory() {
                           <IconButton size="small" onClick={() => openEdit(item)}><Edit fontSize="small" /></IconButton>
                         </Tooltip>
                         <Tooltip title="Deactivate">
-                          <IconButton size="small" color="error" onClick={() => handleDelete(item.id)}><Delete fontSize="small" /></IconButton>
+                          <IconButton size="small" color="error" onClick={() => handleDelete(item)} aria-label={`Deactivate ${item.name}`}><Delete fontSize="small" /></IconButton>
                         </Tooltip>
                         </>)}
                       </TableCell>
@@ -506,6 +510,7 @@ export default function Inventory() {
           </Button>
         </DialogActions>
       </Dialog>
+      {confirmDialog}
     </Box>
   );
 }

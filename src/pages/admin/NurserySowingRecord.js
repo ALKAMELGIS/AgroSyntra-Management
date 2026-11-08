@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo, Fragment } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 import {
   Box, Typography, Paper, Button, TextField, Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -293,7 +294,7 @@ export default function NurserySowingRecord({
 
   const removeRowsByKeys = async (keys) => {
     if (!keys.length) return;
-    if (!window.confirm(`Delete ${keys.length} sowing ${keys.length === 1 ? 'record' : 'records'}?`)) return;
+    if (!(await confirmAction(`Delete ${keys.length} sowing ${keys.length === 1 ? 'record' : 'records'}?`))) return;
     const keySet = new Set(keys);
     const chosen = rows.filter((r) => keySet.has(r._key));
     await deleteIdsSequentially(

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Button, Dialog, DialogActions, TextField, MenuItem, Chip,
@@ -300,7 +301,7 @@ export default function WorkOrders() {
 
   const handleOperatorSubmit = async () => {
     if (!operatorRowsReady()) return;
-    if (!window.confirm('Complete this work order and send it to the pest agronomist for approval?')) return;
+    if (!(await confirmAction('Complete this work order and send it to the pest agronomist for approval?'))) return;
     setSubmitting(true);
     try {
       await api.put(`/ipm/work-orders/${detailDialog.wo.id}/operator-submit`, operatorPayload());
@@ -331,7 +332,7 @@ export default function WorkOrders() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this work order?')) return;
+    if (!(await confirmAction('Delete this work order?'))) return;
     try { await api.delete(`/ipm/work-orders/${id}`); notify.success('Work order deleted'); loadWorkOrders(); }
     catch (err) { notify.error(err.message || 'Failed to delete'); }
   };
@@ -339,7 +340,7 @@ export default function WorkOrders() {
   const handleBulkDelete = async () => {
     const ids = [...selection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} selected work order(s)?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} selected work order(s)?`))) return;
     const deleted = await deleteIdsSequentially(ids, (id) => api.delete(`/ipm/work-orders/${id}`));
     selection.clear();
     notify.success(`Deleted ${deleted} work order(s)`);

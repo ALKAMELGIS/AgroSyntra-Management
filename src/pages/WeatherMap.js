@@ -15,6 +15,7 @@ import L from 'leaflet';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
 import useFillHeight from '../hooks/useFillHeight';
+import { toLatLngRing } from '../utils/polygonRing';
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -147,11 +148,12 @@ function WeatherMap() {
           if (agroAvailable) {
             let polygonId = polygonMap[field.id || field.name];
 
-            if (!polygonId && field.polygon && Array.isArray(field.polygon) && field.polygon.length > 0) {
+            const ring = toLatLngRing(field.polygon);
+            if (!polygonId && ring) {
               try {
                 const registered = await createAgroPolygon(
                   field.name,
-                  field.polygon,
+                  ring,
                   field.currentCrop || ''
                 );
                 if (registered?.id) {
@@ -218,19 +220,8 @@ function WeatherMap() {
   };
 
   // Get polygon coordinates in Leaflet format [lat, lng]
-  const getPolygonCoordinates = (field) => {
-    if (field.polygon && Array.isArray(field.polygon)) {
-      // If polygon is array of [lat, lng] pairs
-      if (field.polygon[0] && Array.isArray(field.polygon[0])) {
-        return field.polygon;
-      }
-      // If polygon is GeoJSON format
-      if (field.polygon.coordinates) {
-        return field.polygon.coordinates[0].map((coord) => [coord[1], coord[0]]); // GeoJSON is [lng, lat]
-      }
-    }
-    return null;
-  };
+  // Leaflet [lat, lng] ring from any stored shape (array or GeoJSON from the API).
+  const getPolygonCoordinates = (field) => toLatLngRing(field.polygon);
 
   const selectedCountryData = masterData.countries.find((c) => c.id === selectedCountry);
 

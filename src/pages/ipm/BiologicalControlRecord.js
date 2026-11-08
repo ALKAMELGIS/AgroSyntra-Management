@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Typography, Button, IconButton, TextField, Alert, Skeleton,
   Dialog, DialogTitle, DialogContent, DialogActions, Grid,
@@ -351,7 +352,7 @@ export default function BiologicalControlRecord() {
     try {
       const data = await apiRequest(`/bio-records/field-setup/${setupId}`);
       setSetup(data.setup);
-      setProducts(data.products);
+      setProducts(Array.isArray(data.products) ? data.products : []);
       setServerCells(buildServerCellMap(data.entries));
       setDrafts({});
     } catch (err) {
@@ -582,7 +583,7 @@ export default function BiologicalControlRecord() {
   };
 
   const handleCatalogDelete = async (id, name) => {
-    if (!window.confirm(`Remove "${name}" from this site's catalog?`)) return;
+    if (!(await confirmAction(`Remove "${name}" from this site's catalog?`))) return;
     try {
       await deleteCatalogItem(id);
       setCatalogItems(prev => prev.filter(p => p.id !== id));
@@ -595,7 +596,7 @@ export default function BiologicalControlRecord() {
   const handleBulkCatalogDelete = async () => {
     const ids = [...catalogSelection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Remove ${ids.length} selected catalog product(s) from this site?`)) return;
+    if (!(await confirmAction(`Remove ${ids.length} selected catalog product(s) from this site?`))) return;
     const deleted = await deleteIdsSequentially(ids, deleteCatalogItem);
     catalogSelection.clear();
     await loadCatalog();
@@ -697,7 +698,7 @@ export default function BiologicalControlRecord() {
 
   const reviewCells = async (decision, cells, reason) => {
     if (!setup || !canEditSetup) return false;
-    if (hasUnsavedChanges && !window.confirm('You have unsaved changes on this table. Continue without saving them?')) {
+    if (hasUnsavedChanges && !(await confirmAction('You have unsaved changes on this table. Continue without saving them?'))) {
       return false;
     }
     setReviewing(true);
@@ -923,7 +924,7 @@ export default function BiologicalControlRecord() {
           uomId: await resolveUomId(newProductUom),
         }),
       });
-      setProducts(result.products);
+      setProducts(Array.isArray(result.products) ? result.products : []);
       setAddProductOpen(false);
       setNewProductName(''); setNewProductCode(''); setNewProductPerPkg(''); setNewProductPrice('');
       setNewProductCatalogId(null);
@@ -939,14 +940,14 @@ export default function BiologicalControlRecord() {
     const prefix = `${productId}_`;
     const hasValues = Object.keys(serverCells).some((key) => key.startsWith(prefix));
     const product = products.find((p) => p.id === productId);
-    if (hasValues && !window.confirm(
+    if (hasValues && !(await confirmAction(
       `Remove "${product?.product_name || 'this product'}" and every value entered in its column (approved and pending)?`,
-    )) return;
+    ))) return;
     try {
       const result = await apiRequest(`/bio-records/field-setup/${setup.id}/products/${productId}`, {
         method: 'DELETE',
       });
-      setProducts(result.products);
+      setProducts(Array.isArray(result.products) ? result.products : []);
       const dropColumn = (map) => Object.fromEntries(Object.entries(map).filter(([key]) => !key.startsWith(prefix)));
       setServerCells(dropColumn);
       setDrafts(dropColumn);
@@ -962,7 +963,7 @@ export default function BiologicalControlRecord() {
       if (canRequestDeleteNow) setDeleteRequest({ open: true, setupId, name: fieldName, reason: '', sending: false });
       return;
     }
-    if (!window.confirm(`Delete "${fieldName}" and all its data? This cannot be undone.`)) return;
+    if (!(await confirmAction(`Delete "${fieldName}" and all its data? This cannot be undone.`))) return;
     try {
       await apiRequest(`/bio-records/field-setup/${setupId}`, { method: 'DELETE' });
       notify.success(`"${fieldName}" deleted`);
@@ -1000,7 +1001,7 @@ export default function BiologicalControlRecord() {
     if (!canEditSetup) return;
     const ids = [...fieldSetupSelection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} selected field table(s) and all their data? This cannot be undone.`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} selected field table(s) and all their data? This cannot be undone.`))) return;
     const deleted = await deleteIdsSequentially(ids, (id) => apiRequest(`/bio-records/field-setup/${id}`, { method: 'DELETE' }));
     fieldSetupSelection.clear();
     notify.success(`Deleted ${deleted} field table(s)`);

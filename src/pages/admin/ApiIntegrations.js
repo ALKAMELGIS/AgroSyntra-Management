@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Box, Typography, Paper, Button, TextField, Chip, Grid,
@@ -170,7 +171,7 @@ export default function ApiIntegrations() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this integration?')) return;
+    if (!(await confirmAction('Delete this integration?'))) return;
     try {
       await fetch(`${API}/api-integrations/${id}`, { method: 'DELETE', headers: hdrs() });
       notify.success('Integration deleted');

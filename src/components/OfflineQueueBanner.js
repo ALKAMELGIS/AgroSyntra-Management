@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
+import { confirmAction } from './ConfirmDialog';
 import {
   Snackbar, Alert, Button, Box, Typography, Chip, Dialog,
   DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText,
@@ -208,7 +209,7 @@ export default function OfflineQueueBanner() {
                       size="small"
                       color="error"
                       onClick={async () => {
-                        if (window.confirm('Drop this queued item? Any unsaved data in it will be lost.')) {
+                        if ((await confirmAction('Drop this queued item? Any unsaved data in it will be lost.'))) {
                           await deleteQueueItem(e.id);
                         }
                       }}

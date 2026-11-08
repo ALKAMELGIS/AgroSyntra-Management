@@ -1,4 +1,5 @@
 import ReadOnlyBanner from '../components/ReadOnlyBanner';
+import { confirmAction } from '../components/ConfirmDialog';
 import { useState, useEffect, useCallback } from 'react';
 import {
   Box, Paper, Typography, Table, TableHead, TableRow, TableCell, TableBody, TableContainer,
@@ -55,7 +56,9 @@ export default function AgronomicReference() {
       ]);
       setThresholds(Array.isArray(thRes) ? thRes : thRes.data || []);
       setCrops(Array.isArray(cropsRes) ? cropsRes : cropsRes.data || []);
-      setParameters(Array.isArray(paramsRes) ? paramsRes : paramsRes.data || []);
+      // Parameter keys are strings; tolerate { key } / { name } objects from other API versions.
+      const rawParams = Array.isArray(paramsRes) ? paramsRes : paramsRes.data || [];
+      setParameters(rawParams.map((p) => (typeof p === 'string' ? p : p?.key || p?.name || p?.code)).filter(Boolean));
     } catch (err) {
       notify(err.message || 'Failed to load', 'error');
     } finally {
@@ -88,7 +91,7 @@ export default function AgronomicReference() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this threshold?')) return;
+    if (!(await confirmAction('Delete this threshold?'))) return;
     try {
       await apiRequest(`/agronomic/thresholds/${id}`, { method: 'DELETE' });
       notify('Deleted');

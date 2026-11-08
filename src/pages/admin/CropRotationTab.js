@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Typography, Paper, Button, TextField, MenuItem, Chip, Alert,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -267,7 +268,7 @@ export default function CropRotationTab({
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this crop rotation entry?')) return;
+    if (!(await confirmAction('Delete this crop rotation entry?'))) return;
     try {
       await apiRequest(`/crop-history/${id}`, { method: 'DELETE' });
       notify.success('Deleted');
@@ -280,7 +281,7 @@ export default function CropRotationTab({
   const handleBulkDelete = async () => {
     const ids = [...historySelection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} crop rotation ${ids.length === 1 ? 'entry' : 'entries'}?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} crop rotation ${ids.length === 1 ? 'entry' : 'entries'}?`))) return;
     const deleted = await deleteIdsSequentially(ids, (id) => apiRequest(`/crop-history/${id}`, { method: 'DELETE' }));
     historySelection.clear();
     loadHistory();

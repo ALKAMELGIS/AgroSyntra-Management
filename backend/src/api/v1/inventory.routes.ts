@@ -4,16 +4,35 @@ import { auth, AuthRequest, authorize } from '../middleware/auth';
 import { validate } from '../middleware/validate';
 import * as inventoryService from '../../services/inventory.service';
 
-const createItemSchema = z.object({
-  name: z.string().min(1).max(300),
-  category: z.string().min(1),
-  unit: z.string().min(1),
-  current_stock: z.number().min(0).optional(),
-  min_stock_level: z.number().min(0).optional(),
-  cost_per_unit: z.number().min(0).optional(),
-  supplier: z.string().optional(),
-  notes: z.string().optional(),
-});
+// The service reads camelCase (minStockLevel, currentStock, costPerUnit). The form
+// sends camelCase too; snake_case is still accepted for older clients. Before this,
+// the schema only listed snake_case keys, so stock / minimum / cost from the form
+// were stripped by validation and every new item was saved with 0.
+const SNAKE_TO_CAMEL: Record<string, string> = {
+  current_stock: 'currentStock', min_stock_level: 'minStockLevel', cost_per_unit: 'costPerUnit',
+};
+const createItemSchema = z.preprocess(
+  (raw) => {
+    if (!raw || typeof raw !== 'object') return raw;
+    const out: Record<string, unknown> = { ...(raw as Record<string, unknown>) };
+    for (const [snake, camel] of Object.entries(SNAKE_TO_CAMEL)) {
+      if (out[camel] === undefined && out[snake] !== undefined) out[camel] = out[snake];
+      delete out[snake];
+    }
+    return out;
+  },
+  z.object({
+    name: z.string().trim().min(1).max(300),
+    category: z.string().min(1),
+    unit: z.string().min(1),
+    currentStock: z.coerce.number().min(0).optional(),
+    minStockLevel: z.coerce.number().min(0).optional(),
+    costPerUnit: z.coerce.number().min(0).optional(),
+    currency: z.string().max(10).optional(),
+    supplier: z.string().optional(),
+    notes: z.string().optional(),
+  }),
+);
 
 const txSchema = z.object({
   type: z.enum(['purchase', 'usage', 'adjustment', 'return']),

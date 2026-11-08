@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { confirmAction } from '../components/ConfirmDialog';
 import {
   Box, Typography, Paper, Button, TextField, IconButton,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -536,7 +537,7 @@ function PumpUsageTab({
   const handleBulkDelete = async () => {
     const ids = [...selection.selectedIds];
     if (!ids.length) return;
-    if (!window.confirm(`Delete ${ids.length} pump ${ids.length === 1 ? 'row' : 'rows'}?`)) return;
+    if (!(await confirmAction(`Delete ${ids.length} pump ${ids.length === 1 ? 'row' : 'rows'}?`))) return;
     await deleteIdsSequentially(ids, handleDeleteRow);
     selection.clear();
   };

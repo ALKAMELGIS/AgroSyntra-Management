@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { confirmAction } from '../ConfirmDialog';
 import {
   Alert, Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle,
   Divider, IconButton, Menu, MenuItem, Paper, Tab, Table, TableBody, TableCell,
@@ -284,7 +285,7 @@ export default function ManpowerActivityReferenceTable({
       setRows((prev) => prev.filter((r) => r.localId !== row.localId));
       return;
     }
-    if (!window.confirm('Delete this reference row?')) return;
+    if (!(await confirmAction('Delete this reference row?'))) return;
     try {
       await apiRequest(`/manpower/activity-references/${row.id}`, { method: 'DELETE' });
       setRows((prev) => prev.filter((r) => r.localId !== row.localId));

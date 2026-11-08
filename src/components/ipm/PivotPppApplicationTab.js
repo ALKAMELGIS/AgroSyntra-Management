@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import { confirmAction } from '../ConfirmDialog';
 import {
   Box, Table, TableHead, TableBody, TableRow, TableCell, TableContainer,
   Button, MenuItem, Typography, IconButton, Select, CircularProgress, Alert,
@@ -367,7 +368,7 @@ export default function PivotPppApplicationTab({
     }
     try {
       if (canDirectEdit) {
-        if (!window.confirm('Delete this application record?')) return;
+        if (!(await confirmAction('Delete this application record?'))) return;
         await api.delete(`/ipm/pesticide-applications/${id}`);
         notify.success('Record deleted');
         await loadRows();
@@ -383,7 +384,7 @@ export default function PivotPppApplicationTab({
     const ids = [...selection.selectedIds];
     if (!ids.length) return;
     if (canDirectEdit) {
-      if (!window.confirm(`Delete ${ids.length} selected application record(s)?`)) return;
+      if (!(await confirmAction(`Delete ${ids.length} selected application record(s)?`))) return;
       const deleted = await deleteIdsSequentially(ids, (id) => api.delete(`/ipm/pesticide-applications/${id}`));
       selection.clear();
       notify.success(`Deleted ${deleted} record(s)`);
@@ -568,7 +569,7 @@ export default function PivotPppApplicationTab({
         {PIVOT_RC109_COLS.map((col) => renderCell(col, row, rowSetter))}
         <TableCell sx={{ ...dCell, p: 0, width: 52, position: 'sticky', right: 0, backgroundColor: 'var(--sheet-bg, #fff)', zIndex: 1 }}>
           {isNew ? (
-            <IconButton size="small" onClick={handleSaveNew} disabled={savingId === 'new'} sx={{ p: '2px' }}>
+            <IconButton size="small" onClick={handleSaveNew} disabled={savingId === 'new'} sx={{ p: '2px' }} aria-label="Save">
               {savingId === 'new' ? <CircularProgress size={14} /> : <Check sx={{ fontSize: 14, color: 'var(--sheet-accent, #1f7a4d)' }} />}
             </IconButton>
           ) : canModifyExisting ? (
