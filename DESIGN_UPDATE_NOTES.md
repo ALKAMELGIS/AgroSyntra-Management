@@ -295,3 +295,11 @@ Reviewed the pesticide records screen as a user on phone (390), tablet portrait 
   - Chart axes are kept LTR, so numbers are no longer clipped in Arabic.
 - **Home and area hubs:** the date, greeting and subtitle block was removed, so the tiles start at the top. Section spacing is tighter. A screen-reader-only h1 keeps one heading per page.
 - **Sidebar:** the Site and Season selectors have more room around their labels.
+- **Overview menu:** a "?" icon in the top bar opens Summary & Contents and Daily Brief. Both were removed from the side menu.
+- **Site picker:** opens directly under its field and uses the Farm Monitor style:
+  - a green header with one connected zone group (All | AD | AF | …);
+  - site cards below, with a ✓ on the chosen site;
+  - search when there are many sites.
+- **Dashboard:** the same site and season selectors sit in the dashboard header and share the sidebar selection, so changing either updates both and the data.
+  - Choosing All Sites now clears the site filter (before, the previous site stayed).
+  - A field picked under the previous site is cleared.

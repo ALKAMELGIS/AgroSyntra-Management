@@ -21,6 +21,7 @@ import AppUpdateBanner from './components/AppUpdateBanner';
 import CommandPalette from './components/CommandPalette';
 import NotificationCenter from './components/NotificationCenter';
 import AssistantPanel from './components/assistant/AssistantPanel';
+import InsightsMenu from './components/InsightsMenu';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sidebar from './components/Sidebar';
 import NavAreaTabs from './components/NavAreaTabs';
@@ -457,6 +458,7 @@ function AuthenticatedLayout() {
           <SearchBar />
 
           <Box sx={{ flexGrow: 1 }} />
+          <InsightsMenu />
           <AssistantPanel />
           <NotificationCenter />
           <UserMenu />

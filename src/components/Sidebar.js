@@ -72,6 +72,7 @@ import { useActiveSeason } from '../contexts/ActiveSeasonContext';
 import { useActAsOrg } from '../contexts/ActAsOrgContext';
 import { drawerWidth, getSidebarSections } from '../config/navAreas';
 import SiteZoneSelect from './SiteZoneSelect';
+import { INSIGHT_PATHS } from './InsightsMenu';
 import usePhiAuditBadgeCount from '../hooks/usePhiAuditBadgeCount';
 import useOperatorWorkOrderBadgeCount from '../hooks/useOperatorWorkOrderBadgeCount';
 import useChangeRequestBadgeCount from '../hooks/useChangeRequestBadgeCount';
@@ -235,7 +236,10 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
     || (seasonStartDate && endDate < seasonStartDate)
     || endDate > farmToday;
 
-  const sections = getSidebarSections(user, activeNavArea);
+  // Summary & Contents and Daily Brief live behind the top-bar "?" menu.
+  const sections = getSidebarSections(user, activeNavArea)
+    .map((section) => ({ ...section, items: section.items.filter((item) => !INSIGHT_PATHS.has(item.path)) }))
+    .filter((section) => section.items.length > 0);
   const phiAuditBadgeCount = usePhiAuditBadgeCount();
   const changeRequestBadgeCount = useChangeRequestBadgeCount();
   const manpowerApprovalBadgeCount = useManpowerApprovalBadgeCount();
@@ -381,7 +385,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
       )}
 
       {(countries || []).some((c) => c.sites?.length) || !hasSiteAssignment ? (
-        <Box sx={{ px: 3, pt: 4, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Box sx={{ px: 3, pt: 3, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
           <SiteZoneSelect
             countries={countries}
             value={activeSiteId}
@@ -391,19 +395,20 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
           />
           {activeSiteId ? (
             <>
+            <Typography component="span" sx={{ display: 'block', fontSize: '0.6875rem', color: 'text.secondary', mt: 1.5, mb: 0.5, px: 0.25 }}>
+              Season
+            </Typography>
             <TextField
               select
               size="small"
               fullWidth
-              label="Season"
               value={seasonLoaded ? (activeSeasonId || '') : ''}
               onChange={(e) => setActiveSeasonId(e.target.value)}
               disabled={!seasonLoaded || seasons.length === 0}
-              InputLabelProps={{ shrink: true }}
+              SelectProps={{ inputProps: { 'aria-label': 'Season' } }}
               sx={{
-                mt: 2.5,
-                '& .MuiOutlinedInput-root': { bgcolor: 'background.muted' },
-                '& .MuiSelect-select': { py: 1, fontSize: '0.8125rem', fontWeight: 600 },
+                '& .MuiOutlinedInput-root': { bgcolor: 'background.muted', height: 36, borderRadius: 1.25 },
+                '& .MuiSelect-select': { py: 0.75, fontSize: '0.8125rem', fontWeight: 600 },
               }}
             >
               {seasons.length === 0 ? (

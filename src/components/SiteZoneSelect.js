@@ -1,6 +1,11 @@
-import { useMemo } from 'react';
-import { TextField, MenuItem, ListSubheader, Box, Typography } from '@mui/material';
-import { ChevronRightOutlined as ChevronRight, LocationOnOutlined } from '@mui/icons-material';
+import { useCallback, useId, useMemo, useRef, useState } from 'react';
+import {
+  Box, ButtonBase, InputAdornment, InputBase, Popover, ToggleButton, ToggleButtonGroup, Typography,
+} from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
+import {
+  CheckRounded as CheckIcon, LocationOnOutlined as SiteIcon, SearchRounded as SearchIcon, UnfoldMoreRounded as OpenIcon,
+} from '@mui/icons-material';
 
 function findSiteWithZone(countries, siteId) {
   if (!siteId) return null;
@@ -13,31 +18,49 @@ function findSiteWithZone(countries, siteId) {
   return null;
 }
 
+const SEARCH_FROM = 7;
+
+/**
+ * Site picker. The list opens as its own floating panel beside the sidebar
+ * (a bottom sheet on phones), never on top of the navigation menu, so the
+ * two can't be confused. Zones are small group labels; only sites are choices.
+ */
 export default function SiteZoneSelect({
   countries = [],
   value,
   onChange,
   label = 'Site',
-  size = 'small',
-  fullWidth = true,
   allowAllSites = true,
   noAssignmentMessage,
+  variant = 'field',
   sx,
 }) {
-  const hasSites = countries.some((c) => c.sites?.length);
+  const chip = variant === 'chip';
+  const theme = useTheme();
+  const rtl = theme.direction === 'rtl';
+  const anchorRef = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [zoneFilter, setZoneFilter] = useState('all');
+  const labelId = useId();
+  // When the list opens, bring the chosen site into view.
+  const revealSelected = useCallback((el) => {
+    if (el) requestAnimationFrame(() => el.querySelector('.Mui-selected')?.scrollIntoView({ block: 'center' }));
+  }, []);
 
-  const renderValue = useMemo(() => {
-    return (selected) => {
-      if (!selected) {
-        return allowAllSites ? <em>All Sites</em> : '';
-      }
-      const match = findSiteWithZone(countries, selected);
-      if (match) {
-        return `${match.zoneName} · ${match.site.name}`;
-      }
-      return selected;
-    };
-  }, [countries, allowAllSites]);
+  const zones = useMemo(() => (countries || []).filter((c) => c.sites?.length), [countries]);
+  const siteCount = zones.reduce((n, z) => n + z.sites.length, 0);
+  const current = findSiteWithZone(countries, value);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return zones;
+    return zones
+      .map((z) => (String(z.name).toLowerCase().includes(q)
+        ? z
+        : { ...z, sites: z.sites.filter((s) => String(s.name).toLowerCase().includes(q)) }))
+      .filter((z) => z.sites.length);
+  }, [zones, query]);
 
   if (noAssignmentMessage) {
     return (
@@ -46,86 +69,196 @@ export default function SiteZoneSelect({
       </Typography>
     );
   }
+  if (siteCount === 0) return null;
 
-  if (!hasSites) return null;
+  const close = () => { setOpen(false); setQuery(''); };
+  const pick = (id) => { onChange(id); close(); };
+  const openPanel = () => { setZoneFilter(current?.zoneId ?? 'all'); setOpen(true); };
+
+  const shownZones = zoneFilter === 'all' ? filtered : filtered.filter((z) => z.id === zoneFilter);
+
+  const siteButtonSx = (selected) => (t) => ({
+    display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-start', textAlign: 'start',
+    minHeight: 44, px: 1.25, py: 0.75, borderRadius: 1.5, border: 1,
+    borderColor: selected ? 'primary.main' : 'divider',
+    bgcolor: selected ? alpha(t.palette.primary.main, 0.08) : 'background.paper',
+    color: selected ? 'primary.main' : 'text.primary',
+    fontFamily: 'inherit', fontSize: '0.8125rem', fontWeight: selected ? 600 : 500,
+    transition: 'border-color .15s, background-color .15s',
+    '&:hover': { borderColor: alpha(t.palette.primary.main, 0.5) },
+    '&.Mui-focusVisible': { outline: `2px solid ${t.palette.primary.main}`, outlineOffset: 1 },
+  });
+
+  // Same look as the Farm Monitor header: green bar + segmented filter, cards below.
+  const panel = (
+    <Box sx={{ display: 'flex', flexDirection: 'column', maxHeight: 'min(480px, 70dvh)', width: '100%' }}>
+      <Box sx={{ bgcolor: 'primary.main', color: 'common.white', px: 1.75, pt: 1.25, pb: 1.25, flexShrink: 0 }}>
+        <Typography id={labelId} sx={{ fontSize: '0.875rem', fontWeight: 700, mb: 1, color: 'common.white' }}>{label}</Typography>
+        <ToggleButtonGroup
+          ref={(el) => { if (el) requestAnimationFrame(() => el.querySelector('.Mui-selected')?.scrollIntoView({ block: 'nearest', inline: 'nearest' })); }}
+          value={zoneFilter}
+          exclusive
+          size="small"
+          aria-label="Zone"
+          onChange={(_, v) => { if (v !== null) setZoneFilter(v); }}
+          sx={{
+            display: 'flex',
+            maxWidth: '100%',
+            overflowX: 'auto',
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            bgcolor: 'transparent',
+            p: 0,
+            border: '1px solid rgba(255,255,255,0.35) !important',
+            borderRadius: '8px !important',
+            '& .MuiToggleButton-root': {
+              flexShrink: 0,
+              m: 0,
+              color: 'common.white',
+              bgcolor: 'transparent',
+              border: '0 !important',
+              borderRadius: '0 !important',
+              borderInlineStart: '1px solid rgba(255,255,255,0.35) !important',
+              textTransform: 'none',
+              px: 1.25,
+              py: 0.25,
+              minHeight: 26,
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              lineHeight: 1.6,
+              '&:first-of-type': { borderInlineStart: '0 !important' },
+              '&:hover': { bgcolor: 'rgba(255,255,255,0.12)' },
+              '&.Mui-selected': {
+                bgcolor: 'rgba(255,255,255,0.22)',
+                color: 'common.white',
+                '&:hover': { bgcolor: 'rgba(255,255,255,0.28)' },
+              },
+            },
+          }}
+        >
+          <ToggleButton value="all">All</ToggleButton>
+          {zones.map((z) => <ToggleButton key={z.id} value={z.id}><span translate="no">{z.name}</span></ToggleButton>)}
+        </ToggleButtonGroup>
+      </Box>
+
+      {siteCount >= SEARCH_FROM && (
+        <Box sx={{ px: 1.5, pt: 1.25, flexShrink: 0 }}>
+          <InputBase
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search sites"
+            inputProps={{ 'aria-label': 'Search sites' }}
+            startAdornment={<InputAdornment position="start"><SearchIcon sx={{ fontSize: 18, color: 'text.secondary' }} /></InputAdornment>}
+            sx={(t) => ({
+              width: '100%', height: 34, px: 1, borderRadius: 1.25, fontSize: '0.8125rem',
+              bgcolor: alpha(t.palette.text.primary, 0.04), border: 1, borderColor: 'divider',
+            })}
+          />
+        </Box>
+      )}
+
+      <Box ref={revealSelected} sx={{ overflowY: 'auto', px: 1.5, pt: 1.25, pb: 1.5 }}>
+        {allowAllSites && zoneFilter === 'all' && !query && (
+          <ButtonBase onClick={() => pick('')} aria-pressed={!value} className={!value ? 'Mui-selected' : undefined}
+            sx={[siteButtonSx(!value), { width: '100%', mb: 1.25 }]}>
+            <Box component="span" sx={{ flex: 1 }}>All Sites</Box>
+            {!value && <CheckIcon sx={{ fontSize: 16 }} />}
+          </ButtonBase>
+        )}
+        {shownZones.map((zone) => (
+          <Box key={zone.id} sx={{ mb: 1.25 }}>
+            {zoneFilter === 'all' && (
+              <Typography sx={{ fontSize: '0.6875rem', fontWeight: 600, color: 'text.secondary', mb: 0.5, px: 0.25 }} translate="no">
+                {zone.name}
+              </Typography>
+            )}
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 0.75 }}>
+              {zone.sites.map((s) => {
+                const selected = s.id === value;
+                return (
+                  <ButtonBase key={s.id} onClick={() => pick(s.id)} aria-pressed={selected}
+                    className={selected ? 'Mui-selected' : undefined} sx={siteButtonSx(selected)}>
+                    <SiteIcon sx={{ fontSize: 16, color: selected ? 'primary.main' : 'text.disabled', flexShrink: 0 }} />
+                    <Box component="span" sx={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.name}</Box>
+                    {selected && <CheckIcon sx={{ fontSize: 16, flexShrink: 0 }} />}
+                  </ButtonBase>
+                );
+              })}
+            </Box>
+          </Box>
+        ))}
+        {shownZones.length === 0 && (
+          <Typography variant="body2" color="text.secondary" sx={{ py: 1 }}>No sites found</Typography>
+        )}
+      </Box>
+    </Box>
+  );
 
   return (
-    <TextField
-      select
-      size={size}
-      fullWidth={fullWidth}
-      label={label}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      SelectProps={{
-        displayEmpty: true,
-        renderValue,
-      }}
-      InputLabelProps={{ shrink: true }}
-      sx={{
-        '& .MuiOutlinedInput-root': { bgcolor: 'background.muted' },
-        '& .MuiSelect-select': { py: 1, fontSize: '0.8125rem', fontWeight: 600 },
-        ...sx,
-      }}
-    >
-      {allowAllSites && (
-        <MenuItem value="" sx={{ fontSize: '0.8125rem' }}>
-          <em>All Sites</em>
-        </MenuItem>
-      )}
-      {countries.flatMap((country) => {
-        const sites = country.sites || [];
-        if (sites.length === 0) return [];
-        return [
-          <ListSubheader
-            key={`zone-${country.id}`}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 0.75,
-              fontWeight: 700,
-              fontSize: '0.75rem',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              bgcolor: 'rgba(22, 163, 74, 0.08)',
-              color: 'text.primary',
-              lineHeight: '32px',
-              pointerEvents: 'none',
-              borderTop: '1px solid',
+    <>
+      <Box sx={{ position: 'relative', display: chip ? 'inline-flex' : 'block', ...sx }}>
+        {!chip && (
+          <Typography component="span" sx={{ display: 'block', fontSize: '0.6875rem', color: 'text.secondary', mb: 0.5, px: 0.25 }}>
+            {label}
+          </Typography>
+        )}
+        <ButtonBase
+          ref={anchorRef}
+          onClick={openPanel}
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          aria-label={`${label}: ${current ? `${current.zoneName} · ${current.site.name}` : 'All Sites'}`}
+          sx={(t) => ({
+            width: chip ? 'auto' : '100%', maxWidth: chip ? 280 : 'none', height: 36, px: 1.25, gap: 1, justifyContent: 'flex-start',
+            borderRadius: chip ? 999 : 1.25,
+            bgcolor: chip ? 'background.paper' : 'background.muted', border: 1, borderColor: open ? 'primary.main' : 'divider',
+            fontFamily: 'inherit', fontSize: '0.8125rem', fontWeight: 600, color: 'text.primary', textAlign: 'start',
+            transition: 'border-color .15s',
+            '&:hover': { borderColor: alpha(t.palette.primary.main, 0.5) },
+            '&.Mui-focusVisible': { outline: `2px solid ${t.palette.primary.main}`, outlineOffset: 1 },
+          })}
+        >
+          <SiteIcon sx={{ fontSize: 16, color: 'primary.main' }} />
+          <Box component="span" sx={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {current ? (
+              <>
+                <Box component="span" sx={{ color: 'text.secondary', fontWeight: 500 }}>{current.zoneName}</Box>
+                {' · '}
+                {current.site.name}
+              </>
+            ) : 'All Sites'}
+          </Box>
+          <OpenIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+        </ButtonBase>
+      </Box>
+
+      <Popover
+        open={open}
+        onClose={close}
+        // Drops down right under the field it was opened from.
+        anchorEl={anchorRef.current}
+        anchorOrigin={{ vertical: 'bottom', horizontal: rtl ? 'right' : 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: rtl ? 'right' : 'left' }}
+        slotProps={{
+          paper: {
+            role: 'dialog',
+            'aria-labelledby': labelId,
+            sx: (t) => ({
+              mt: 0.5,
+              width: Math.max(anchorRef.current?.offsetWidth || 0, 300),
+              maxWidth: 'calc(100vw - 16px)',
+              overflow: 'hidden',
+              borderRadius: 2,
+              border: 1,
               borderColor: 'divider',
-            }}
-          >
-            <ChevronRight sx={{ fontSize: 16, color: 'primary.main' }} />
-            <Box component="span" sx={{ flex: 1 }}>
-              {country.name}
-            </Box>
-            <Typography
-              component="span"
-              sx={{ fontSize: '0.6875rem', fontWeight: 600, color: 'text.secondary', letterSpacing: '0.04em' }}
-            >
-              ZONE
-            </Typography>
-          </ListSubheader>,
-          ...sites.map((s) => (
-            <MenuItem
-              key={s.id}
-              value={s.id}
-              sx={{
-                pl: 4.5,
-                fontWeight: 500,
-                fontSize: '0.8125rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-              }}
-            >
-              <LocationOnOutlined sx={{ fontSize: 14, color: 'text.disabled', flexShrink: 0 }} />
-              {s.name}
-            </MenuItem>
-          )),
-        ];
-      })}
-    </TextField>
+              boxShadow: t.shadows[8],
+            }),
+          },
+        }}
+      >
+        {panel}
+      </Popover>
+    </>
   );
 }
 

@@ -488,6 +488,8 @@ export const PAGE_AR = {
   'Site (required)': 'الموقع (مطلوب)',
   'Select Site': 'اختر الموقع',
   'All Sites': 'كل المواقع',
+  'Search sites': 'ابحث عن موقع',
+  'No sites found': 'لا توجد مواقع مطابقة',
   'My Site': 'موقعي',
   'In your site': 'في موقعك',
   'Filter by site': 'تصفية حسب الموقع',

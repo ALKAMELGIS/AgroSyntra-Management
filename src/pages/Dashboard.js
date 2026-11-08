@@ -8,12 +8,15 @@ import {
   Tab,
   Paper,
   TextField,
+  MenuItem,
 } from '@mui/material';
 import { CloseOutlined as CloseIcon } from '@mui/icons-material';
 import { DashboardSkeleton } from '../components/LoadingSkeleton';
 import FarmMonitor from './dashboard/FarmMonitor';
 import useDashboardData from './dashboard/useDashboardData';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
+import { useActiveSeason } from '../contexts/ActiveSeasonContext';
+import SiteZoneSelect from '../components/SiteZoneSelect';
 import useReadOnlyMode from '../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../utils/roleAccess';
@@ -54,12 +57,16 @@ function Dashboard() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [activeTab, setActiveTab] = useState(0);
   const [selectedFieldObj, setSelectedFieldObj] = useState(null);
-  const { activeSiteId } = useActiveSite();
+  const { activeSiteId, setActiveSiteId, countries, allowAllSites, hasSiteAssignment } = useActiveSite();
+  const { activeSeasonId, setActiveSeasonId, seasons, isLoaded: seasonLoaded } = useActiveSeason();
 
+  // The dashboard follows the site chosen in the sidebar or in its own header
+  // (both use the same selection). "All Sites" clears the site, and a field
+  // picked under the previous site is cleared too.
   useEffect(() => {
-    if (activeSiteId) {
-      setFilters((prev) => (prev.site !== activeSiteId ? { ...prev, site: activeSiteId } : prev));
-    }
+    const site = activeSiteId || '';
+    setFilters((prev) => (prev.site === site ? prev : { ...prev, site, field: '', farmArea: '' }));
+    setSelectedFieldObj(null);
   }, [activeSiteId]);
 
   const handleFieldSelect = (field) => {
@@ -104,9 +111,33 @@ function Dashboard() {
 
   return (
     <Box>
-      <PageTitle sx={{ mb: 3 }}>
-        Analytics Dashboard
-      </PageTitle>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', mb: 2.5 }}>
+        <PageTitle>Analytics Dashboard</PageTitle>
+        <Box sx={{ flex: 1 }} />
+        {hasSiteAssignment && (
+          <SiteZoneSelect
+            variant="chip"
+            countries={countries}
+            value={activeSiteId}
+            onChange={setActiveSiteId}
+            allowAllSites={allowAllSites}
+          />
+        )}
+        {activeSiteId && seasonLoaded && seasons.length > 0 && (
+          <TextField
+            select
+            size="small"
+            value={activeSeasonId || ''}
+            onChange={(e) => setActiveSeasonId(e.target.value)}
+            SelectProps={{ inputProps: { 'aria-label': 'Season' } }}
+            sx={{ '& .MuiOutlinedInput-root': { height: 36, borderRadius: 999, fontSize: '0.8125rem', fontWeight: 600 } }}
+          >
+            {seasons.map((season) => (
+              <MenuItem key={season.id} value={season.id} sx={{ fontSize: '0.8125rem' }}>{season.name}</MenuItem>
+            ))}
+          </TextField>
+        )}
+      </Box>
 
       {readOnly && <ReadOnlyBanner message="View only — dashboard data is read-only for your role." />}
 
