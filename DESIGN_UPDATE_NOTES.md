@@ -261,3 +261,8 @@ Reviewed the pesticide records screen as a user on phone (390), tablet portrait 
 - **ArcGIS link (migration 175 + Settings → ArcGIS Link):** user enters the layer link (nothing hard-coded) and optional token; read-only inspection (keys found, duplicates, missing keys, SITE / structure-type values, what already links, zones missing); editable key mapping; save + sync + link by GlobalID then ZONE_ID + Farm_Code (stored on fields); feature → forms lookup by keys or GlobalID; link issues list. SSRF guard on layer URLs, tokens masked in logs.
 - Review finding left for a decision: `SITE = 3` ("Not Applicable") currently becomes a site named "Site 3".
 - Details: `docs/FORM_REGISTRY_AND_ARCGIS.md`.
+
+## Round 27 — GIS configuration inside Settings (no extra menu option)
+- Removed the separate "ArcGIS Link" menu item, hub tile and API Integrations button. The configuration is now a **GIS configuration** tab in **Settings → Zones & Sites**, shown to the CEO and operations manager. The old link redirects to it.
+- The tab opens with a **Relationship Class** card: origin layer and keys (GlobalID · ZONE_ID + Farm_Code), destination (fields → form records), foreign keys on the field, cardinality (1 feature : 1 field : M form records), and read-only type. The saved connection opens automatically, and the layer link, check, key fields, sync and feature → forms lookup follow below.
+- Zones & Sites: the wide "Export to Excel" button became the standard export icon.

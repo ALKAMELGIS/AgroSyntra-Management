@@ -102,7 +102,6 @@ export const TILE_META_BY_PATH = {
   '/agronomic-reference': { icon: ScienceIcon, color: '#00838f', bg: 'rgba(0,131,143,0.08)' },
   '/admin/api-integrations': { icon: SettingsIcon, color: '#546e7a', bg: 'rgba(84,110,122,0.08)' },
   '/admin/integrations/john-deere': { icon: SettingsIcon, color: '#367c2b', bg: 'rgba(54,124,43,0.08)' },
-  '/admin/integrations/arcgis': { icon: MapIcon, color: '#2e6da4', bg: 'rgba(46,109,164,0.08)' },
   '/internship': { icon: SchoolIcon, color: '#3949ab', bg: 'rgba(57,73,171,0.08)' },
   '/internship/grades': { icon: GradeIcon, color: '#5e35b1', bg: 'rgba(94,53,177,0.08)' },
   '/admin/users': { icon: PeopleIcon, color: '#1565c0', bg: 'rgba(21,101,192,0.08)' },

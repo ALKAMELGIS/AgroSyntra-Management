@@ -389,7 +389,6 @@ export default function ApiIntegrations() {
         </Box>
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
           <Button variant="outlined" component={RouterLink} to="/admin/integrations/john-deere" startIcon={<LinkIcon />}>John Deere Operations Center</Button>
-          <Button variant="outlined" component={RouterLink} to="/admin/integrations/arcgis" startIcon={<LinkIcon />}>ArcGIS layer link</Button>
           <Button variant="contained" startIcon={<Add />} onClick={openAdd}>Add Integration</Button>
         </Box>
       </Box>

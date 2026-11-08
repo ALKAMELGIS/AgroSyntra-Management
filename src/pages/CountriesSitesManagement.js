@@ -42,6 +42,11 @@ import { useAuth } from '../contexts/AuthContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import ExportButton from '../components/ExportButton';
+import GisRelationshipConfig from '../components/gis/GisRelationshipConfig';
+import { useSearchParams } from 'react-router-dom';
+import { Tabs, Tab } from '@mui/material';
+import { INTEGRATION_ADMIN_ROLES } from '../utils/roleAccess';
 
 const ZONE_FROZEN_WIDTHS = [220];
 const SITE_FROZEN_WIDTHS = [180];
@@ -68,6 +73,15 @@ function CountriesSitesManagement() {
   const [renaming, setRenaming] = useState(false);
   const [expandedCountries, setExpandedCountries] = useState({});
   const [managedZoneIds, setManagedZoneIds] = useState([]);
+  // Settings tab: the zones/sites themselves, or the GIS layer configuration that builds them.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const canConfigureGis = INTEGRATION_ADMIN_ROLES.includes(user?.role);
+  const tab = canConfigureGis && searchParams.get('tab') === 'gis' ? 'gis' : 'zones';
+  const setTab = (v) => {
+    const next = new URLSearchParams(searchParams);
+    if (v === 'gis') next.set('tab', 'gis'); else next.delete('tab');
+    setSearchParams(next, { replace: true });
+  };
 
   const role = user?.role;
   const isCeo = role === 'ceo';
@@ -240,14 +254,21 @@ function CountriesSitesManagement() {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth={tab === 'gis' ? false : 'lg'} disableGutters={tab === 'gis'}>
       <Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, gap: 2, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: canConfigureGis ? 1.5 : 3, gap: 2, flexWrap: 'wrap' }}>
           <PageTitle>{t('zoneAccess.title')}</PageTitle>
-          <Button variant="contained" color="primary" onClick={handleExport}>
-            {t('zoneAccess.exportExcel')}
-          </Button>
+          {tab === 'zones' && <ExportButton label={t('zoneAccess.exportExcel')} onClick={handleExport} />}
         </Box>
+
+        {canConfigureGis && (
+          <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 2.5, borderBottom: 1, borderColor: 'divider' }}>
+            <Tab value="zones" label="Zones & Sites" />
+            <Tab value="gis" label="GIS configuration" />
+          </Tabs>
+        )}
+
+        {tab === 'gis' ? <GisRelationshipConfig /> : (<>
 
         {scopeNote ? (
           <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>{scopeNote}</InfoNote>
@@ -402,6 +423,7 @@ function CountriesSitesManagement() {
             </TableBody>
           </Table>
         </TableContainer>
+        </>)}
 
         {/* Add Zone Dialog */}
         <Dialog open={countryDialog} onClose={() => setCountryDialog(false)} maxWidth="sm" fullWidth>

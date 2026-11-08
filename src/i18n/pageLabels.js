@@ -12,6 +12,20 @@ import { SHELL_AR } from './shellLabels';
  */
 export const PAGE_AR = {
   // ---- ArcGIS layer link (FORM_ID) ------------------------------------------
+  'GIS configuration': 'إعداد GIS',
+  'Relationship Class': 'Relationship Class (علاقة الربط)',
+  'Relationship class': 'اسم العلاقة',
+  'Simple (read only — the layer is never edited)': 'بسيطة (قراءة فقط — لا تُعدَّل الطبقة)',
+  'Origin (ArcGIS layer)': 'الأصل (طبقة ArcGIS)',
+  'Destination (AgroCloud)': 'الوجهة (AgroCloud)',
+  'Fields → form records': 'الحقول ← سجلات الاستمارات',
+  'Origin primary key': 'المفتاح الأساسي في الأصل',
+  'Destination foreign key': 'المفتاح المرتبط في الوجهة',
+  Cardinality: 'نوع العلاقة',
+  'One feature to one field; one field to many form records': 'معلم واحد لحقل واحد؛ حقل واحد لسجلات استمارات متعددة',
+  Forms: 'الاستمارات',
+  'How each feature of the layer reaches its field and its forms.': 'كيف يصل كل معلم في الطبقة إلى حقله واستماراته.',
+  'Not configured yet — add the layer link below.': 'لم يُعدّ بعد — أضف رابط الطبقة أدناه.',
   'ArcGIS layer link': 'ربط طبقة ArcGIS',
   'Link the structures layer in ArcGIS to AgroCloud fields and forms. AgroCloud only reads the layer; it never edits it or creates layers.':
     'اربط طبقة المنشآت في ArcGIS بحقول واستمارات AgroCloud. يقرأ AgroCloud الطبقة فقط، ولا يعدّلها ولا ينشئ طبقات.',

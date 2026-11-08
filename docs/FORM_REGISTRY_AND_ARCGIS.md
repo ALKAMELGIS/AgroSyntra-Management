@@ -2,7 +2,7 @@
 
 Migrations `174_form_registry.sql` and `175_gis_link_keys.sql`, services
 `formRegistry.service.ts`, `arcgisLink.service.ts`, routes `/api/v1/forms` and
-`/api/v1/gis/arcgis/*`, screen **Settings → ArcGIS Link** (`/admin/integrations/arcgis`).
+`/api/v1/gis/arcgis/*`, and the **GIS configuration** tab of **Settings → Zones & Sites** (`/manage/countries?tab=gis`, CEO and operations manager). It is not a separate menu option; the old `/admin/integrations/arcgis` link redirects there.
 
 Everything is additive. No existing table is rewritten and no save / edit path
 changed. ArcGIS is only read.
@@ -94,7 +94,13 @@ The linker tries three matches, in this order:
 
 When the keys are stamped, the business key is unique per organisation (`uq_fields_gis_zone_farm_code`). Conflicts are listed in `bi.gis_link_issues` and the migration does not fail.
 
-### Using the screen
+### Using the screen (Zones & Sites → GIS configuration)
+The tab opens with the **Relationship Class**, which describes the link the way ArcGIS does:
+- Origin: the layer, with primary keys `GlobalID` and `ZONE_ID + Farm_Code`.
+- Destination: AgroCloud fields, with foreign keys `gis_external_id` and `gis_zone_id + gis_farm_code`.
+- Cardinality: one feature to one field, and one field to many form records (`FORM_ID`).
+- Type: simple and read only.
+
 1. **Layer link.** Paste the layer URL, ending with the layer number. Add a token only if the layer is private. The link is never hard-coded; it is stored only in the connection (`gis_layers`).
 2. **Check layer** (read only). The check reports:
    - whether the layer is reachable, and its geometry;

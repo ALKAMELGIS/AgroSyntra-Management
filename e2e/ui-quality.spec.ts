@@ -95,7 +95,7 @@ export const ROUTES = [
   '/tasks', '/shift-schedule', '/manpower-record', '/manpower-cost',
   '/manage/countries', '/manage/farm-areas', '/manage/field-types', '/manage/valves', '/manage/recipes',
   '/manage/seasons', '/inventory', '/admin/users', '/admin/organization', '/admin/crop-history', '/admin/health',
-  '/admin/api-integrations', '/admin/integrations/john-deere', '/admin/integrations/arcgis',
+  '/admin/api-integrations', '/admin/integrations/john-deere', '/manage/countries?tab=gis',
 ];
 
 /** Generic populated rows so tables, cards and charts render with content (shape is deliberately broad). */
@@ -768,7 +768,7 @@ test.describe('export controls', () => {
   });
 });
 
-test.describe('ArcGIS layer link', () => {
+test.describe('GIS configuration (Zones & Sites → Relationship Class)', () => {
   const REPORT = {
     url: 'https://gis.example.com/arcgis/rest/services/Agro_Structures/FeatureServer/21',
     layer: { name: 'Agro_Structures', featureCount: 3, geometryType: 'esriGeometryPolygon', globalIdField: 'GlobalID', editable: false,
@@ -796,8 +796,11 @@ test.describe('ArcGIS layer link', () => {
         inspectBody = route.request().postDataJSON();
         await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: REPORT }) });
       });
-      await page.goto('/admin/integrations/arcgis');
+      await page.goto('/manage/countries');
       await settle(page);
+      // The configuration is a tab of the existing settings screen, not a separate menu option.
+      await page.getByRole('tab', { name: lang === 'en' ? 'GIS configuration' : 'إعداد GIS' }).click();
+      await expect(page.getByRole('heading', { name: lang === 'en' ? 'Relationship Class' : 'Relationship Class (علاقة الربط)', exact: true })).toBeVisible();
       const linkBox = page.getByRole('textbox', { name: lang === 'en' ? 'Layer link' : 'رابط الطبقة' });
       await linkBox.fill(REPORT.url);
       await page.getByRole('button', { name: lang === 'en' ? 'Check layer' : 'فحص الطبقة' }).click();

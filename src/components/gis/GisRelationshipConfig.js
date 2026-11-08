@@ -11,7 +11,6 @@ import {
 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
-import PageTitle from '../../components/PageTitle';
 import { useNotification } from '../../contexts/NotificationContext';
 import { API_BASE, getAuthHeaders } from '../../config/api';
 
@@ -86,6 +85,45 @@ function Card({ title, help, children, actions }) {
   );
 }
 
+/** The link written the way ArcGIS describes a Relationship Class. */
+function RelationshipClassCard({ layerName, mapping, connected }) {
+  const origin = layerName || 'Agro_Structures';
+  const pk = mapping.globalId || 'GlobalID';
+  const bk = `${mapping.zoneId || 'ZONE_ID'} + ${mapping.farmCode || 'Farm_Code'}`;
+  const rows = [
+    ['Relationship class', <bdi translate="no">{`${origin}_AgroCloud_Fields`}</bdi>],
+    ['Type', 'Simple (read only — the layer is never edited)'],
+    ['Origin (ArcGIS layer)', <bdi translate="no">{origin}</bdi>],
+    ['Destination (AgroCloud)', 'Fields → form records'],
+    ['Origin primary key', <bdi translate="no">{`${pk}  ·  ${bk}`}</bdi>],
+    ['Destination foreign key', <bdi translate="no">fields.gis_external_id  ·  fields.gis_zone_id + gis_farm_code</bdi>],
+    ['Cardinality', 'One feature to one field; one field to many form records'],
+    ['Forms', <bdi translate="no">field_id → form_records.form_id (FORM_ID)</bdi>],
+  ];
+  return (
+    <Card
+      title="Relationship Class"
+      help={connected ? 'How each feature of the layer reaches its field and its forms.' : 'Not configured yet — add the layer link below.'}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+        <Chip color="primary" variant="outlined" label={<bdi translate="no">{`ArcGIS · ${origin}`}</bdi>} />
+        <Typography variant="caption" color="text.secondary" translate="no">{`1 ─ 1  (${pk})`}</Typography>
+        <Chip color="primary" variant="outlined" label="Field" />
+        <Typography variant="caption" color="text.secondary" translate="no">1 ─ M  (field_id)</Typography>
+        <Chip color="primary" variant="outlined" label={<bdi translate="no">Form records · FORM_ID</bdi>} />
+      </Box>
+      <Box component="dl" sx={{ m: 0, display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'minmax(180px, 240px) 1fr' }, columnGap: 2, rowGap: 0.75 }}>
+        {rows.map(([k, v]) => (
+          <Box key={k} sx={{ display: 'contents' }}>
+            <Typography component="dt" variant="body2" color="text.secondary">{k}</Typography>
+            <Typography component="dd" variant="body2" sx={{ m: 0, fontWeight: 500, overflowWrap: 'anywhere' }}>{v}</Typography>
+          </Box>
+        ))}
+      </Box>
+    </Card>
+  );
+}
+
 function Stat({ label, value, color }) {
   return (
     <Box sx={{ minWidth: 120, flex: '1 1 120px', p: 1.5, borderRadius: 1.5, bgcolor: 'action.hover' }}>
@@ -110,7 +148,12 @@ function CopyId({ value }) {
   );
 }
 
-export default function ArcGISLink() {
+/**
+ * GIS configuration shown inside Settings → Zones & Sites (tab "GIS configuration").
+ * Defines the Relationship Class between the ArcGIS structures layer and AgroCloud:
+ *   Layer feature (GlobalID · ZONE_ID + Farm_Code)  1 ─ 1  Field  1 ─ M  Form records (FORM_ID)
+ */
+export default function GisRelationshipConfig() {
   const notify = useNotification();
   const theme = useTheme();
   const rtl = theme.direction === 'rtl';
@@ -130,14 +173,16 @@ export default function ArcGISLink() {
   const [found, setFound] = useState(null);
   const [openForm, setOpenForm] = useState(null);
 
-  const loadConnections = useCallback(async () => {
+  const loadConnections = useCallback(async (openFirst = false) => {
     try {
-      setConnections(await call('/gis/arcgis/connections'));
+      const list = await call('/gis/arcgis/connections');
+      setConnections(list);
+      if (openFirst && list.length) pickConnection(list[0]);
     } catch (e) {
       setError(e.message);
     }
-  }, []);
-  useEffect(() => { loadConnections(); }, [loadConnections]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { loadConnections(true); }, [loadConnections]);
 
   const pickConnection = (c) => {
     setLayerId(c.id);
@@ -230,14 +275,12 @@ export default function ArcGISLink() {
 
   return (
     <Box>
-      <Box sx={{ mb: 2.5 }}>
-        <PageTitle>ArcGIS layer link</PageTitle>
-        <Typography variant="body2" color="text.secondary">
-          Link the structures layer in ArcGIS to AgroCloud fields and forms. AgroCloud only reads the layer; it never edits it or creates layers.
-        </Typography>
-      </Box>
-
       <Stack spacing={2}>
+        <RelationshipClassCard
+          layerName={report?.layer?.name || connections.find((c) => c.id === layerId)?.name || null}
+          mapping={mapping}
+          connected={Boolean(layerId)}
+        />
         {connections.length > 0 && (
           <Card title="Saved connections" help="Choose one to check it again, change its key fields or sync it.">
             <Stack spacing={1}>

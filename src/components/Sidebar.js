@@ -130,7 +130,6 @@ const PATH_ICONS = {
   '/agronomic-reference': ScienceIcon,
   '/admin/api-integrations': SettingsIcon,
   '/admin/integrations/john-deere': SettingsIcon,
-  '/admin/integrations/arcgis': MapIcon,
   '/internship': SchoolIcon,
   '/internship/grades': AssessmentIcon,
   '/admin/users': UsersIcon,
