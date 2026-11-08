@@ -240,14 +240,9 @@ export default function HistoricalImport() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1760, mx: 'auto' }}>
-      <PageTitle sx={{ mb: 0.5 }}>
+      <PageTitle help="Upload a CSV or Excel file (.xlsx) from your old records and map its columns onto harvests, EC/pH, or fertigation entries. Crops are automatically resolved from your Crop Rotation history. Dry-run first — nothing is written until you click Execute." sx={{ mb: 3 }}>
         Historical data import
       </PageTitle>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Upload a CSV or Excel file (.xlsx) from your old records and map its columns onto
-        harvests, EC/pH, or fertigation entries. Crops are automatically resolved from your Crop Rotation history.
-        Dry-run first — nothing is written until you click Execute.
-      </Typography>
 
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
 

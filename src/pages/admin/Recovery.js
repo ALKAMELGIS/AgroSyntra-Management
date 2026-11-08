@@ -77,10 +77,7 @@ export default function Recovery() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <PageTitle>Recovery</PageTitle>
-          <Typography variant="body2" color="text.secondary">
-            Restore deleted Pump Room sheets. More modules will appear here over time.
-          </Typography>
+          <PageTitle help="Restore deleted Pump Room sheets. More modules will appear here over time.">Recovery</PageTitle>
         </Box>
         <Button startIcon={<RefreshIcon />} onClick={loadSheets} disabled={loading}>
           Refresh

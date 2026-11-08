@@ -125,12 +125,9 @@ export default function AgronomicReference() {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <PageTitle>
+          <PageTitle help="Set environmental thresholds per crop. Warning (yellow) and Critical (red) alerts fire when readings exceed these values.">
             Agronomic Reference
           </PageTitle>
-          <Typography variant="body2" color="text.secondary">
-            Set environmental thresholds per crop. Warning (yellow) and Critical (red) alerts fire when readings exceed these values.
-          </Typography>
         </Box>
         {canEdit && (
           <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd} disabled={crops.length === 0}>

@@ -1171,10 +1171,7 @@ export default function ManpowerRecord() {
         mb: 2,
       }}>
         <Box>
-          <PageTitle>Manpower Record</PageTitle>
-          <Typography variant="body2" color="text.secondary">
-            Daily work activity tracking and worker management
-          </Typography>
+          <PageTitle help="Daily work activity tracking and worker management">Manpower Record</PageTitle>
         </Box>
       </Box>
 

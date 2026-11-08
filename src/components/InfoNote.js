@@ -1,7 +1,7 @@
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { Alert, Box, ButtonBase, IconButton, Popover, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { InfoOutlined as InfoIcon, ExpandMoreRounded as MoreIcon } from '@mui/icons-material';
+import { InfoOutlined as InfoIcon, HelpOutlineRounded as HelpIcon, ExpandMoreRounded as MoreIcon } from '@mui/icons-material';
 import { useIsArabic } from '../i18n/shellLabels';
 
 /**
@@ -68,16 +68,16 @@ function InfoIconNote({ children, sx, icon, label, severity = 'info', showLabel 
         aria-haspopup="dialog"
         data-info-note=""
         sx={(t) => ({
-          width: 32,
-          height: 32,
+          width: 26,
+          height: 26,
           p: 0,
-          color: `${severity}.main`,
+          color: severity === 'info' ? 'text.secondary' : `${severity}.main`,
           bgcolor: open ? alpha(t.palette[severity]?.main || t.palette.info.main, 0.12) : 'transparent',
           '&:hover': { bgcolor: alpha(t.palette[severity]?.main || t.palette.info.main, 0.1), color: `${severity}.main` },
           '& .MuiSvgIcon-root': { fontSize: 18 },
         })}
       >
-        {icon || <InfoIcon />}
+        {icon || (severity === 'info' ? <HelpIcon /> : <InfoIcon />)}
       </IconButton>
       )}
       <Popover

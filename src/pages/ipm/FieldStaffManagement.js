@@ -206,10 +206,7 @@ export default function FieldStaffManagement() {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <PageTitle>Field Staff</PageTitle>
-          <Typography variant="body2" color="text.secondary">
-            Create or link scouters and operators with Employee ID + PIN. Link existing manpower workers without duplicating them.
-          </Typography>
+          <PageTitle help="Create or link scouters and operators with Employee ID + PIN. Link existing manpower workers without duplicating them.">Field Staff</PageTitle>
         </Box>
         <Button variant="contained" startIcon={<AddIcon />} onClick={openDialog}>
           Add Field Staff

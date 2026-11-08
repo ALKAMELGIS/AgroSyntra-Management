@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Box, Container, MenuItem, Tab, Tabs, TextField, Typography,
+  Box, Container, MenuItem, Tab, Tabs, TextField,
 } from '@mui/material';
 import {} from '@mui/icons-material';
 import { useApiQuery } from '../hooks/useApiQuery';
@@ -89,8 +89,7 @@ export default function ManpowerCost() {
       <Box>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'flex-end', mb: 2 }}>
           <Box sx={{ flexGrow: 1, minWidth: 220 }}>
-            <PageTitle>{t('manpowerCost.title')}</PageTitle>
-            <Typography variant="body2" color="text.secondary">{t('manpowerCost.subtitle')}</Typography>
+            <PageTitle help={t('manpowerCost.subtitle')}>{t('manpowerCost.title')}</PageTitle>
           </Box>
           {tab !== 'rates' && (
             <>

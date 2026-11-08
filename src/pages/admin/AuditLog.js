@@ -149,13 +149,10 @@ function AuditLog() {
       <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
           <HistoryIcon color="primary" sx={{ fontSize: 32 }} />
-          <PageTitle>
+          <PageTitle help="View activity history. Only managers and above can access this page." sx={{ mb: 3 }}>
             Audit Log
           </PageTitle>
         </Box>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-          View activity history. Only managers and above can access this page.
-        </Typography>
 
         {error && (
           <Alert severity="error" onClose={() => setError('')} sx={{ mb: 2 }}>

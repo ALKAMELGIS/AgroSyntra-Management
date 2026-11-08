@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography,
+  Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField,
 } from '@mui/material';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import useSeasonListDates from '../../hooks/useSeasonListDates';
@@ -18,10 +18,7 @@ export default function IrrigationDashboard() {
 
   return (
     <Box>
-      <PageTitle sx={{ mb: 1 }}>Irrigation Dashboard</PageTitle>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Water and cycles from Irrigation Entry (RC-108) plus separately entered pivot irrigation.
-      </Typography>
+      <PageTitle help="Water and cycles from Irrigation Entry (RC-108) plus separately entered pivot irrigation." sx={{ mb: 2 }}>Irrigation Dashboard</PageTitle>
 
       <Grid container spacing={2} sx={{ mb: 2 }}>
         <Grid size={{ xs: 12, sm: 4, md: 3 }}>

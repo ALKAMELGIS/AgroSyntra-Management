@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Drawer,
@@ -24,6 +24,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  ButtonBase,
+  Collapse,
 } from '@mui/material';
 import {
   HomeOutlined as HomeIcon,
@@ -60,6 +62,8 @@ import {
   SearchOutlined as TraceIcon,
   EditNoteOutlined as ChangeRequestIcon,
   EventNoteOutlined as ActivitySheetIcon,
+  ChevronRightRounded as ChevronIcon,
+  LogoutOutlined as LogoutIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
@@ -155,7 +159,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true });
   const isDesktop = !isMobile;
   const L = useShellLabel();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const notify = useNotification();
   const { logoUrl, refresh: refreshLogo } = useOrganizationLogo();
   const logoInputRef = useRef(null);
@@ -254,9 +258,22 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
 
   const sectionHasActive = (items) => items.some((item) => isActive(item.path));
 
+  // Section groups fold like the reference sidebar; the open/closed choice is remembered per browser.
+  const [collapsed, setCollapsed] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('agrocloud_nav_collapsed') || '{}') || {}; } catch { return {}; }
+  });
+  useEffect(() => {
+    try { localStorage.setItem('agrocloud_nav_collapsed', JSON.stringify(collapsed)); } catch { /* private mode */ }
+  }, [collapsed]);
+  const toggleSection = (label) => setCollapsed((c) => ({ ...c, [label]: !c[label] }));
+  const openSearch = () => {
+    if (isMobile) onMobileClose();
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true }));
+  };
+
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper' }}>
-      <Box sx={{ px: 5, height: 60, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 3 }}>
+      <Box sx={{ px: 4, height: 60, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 2.5 }}>
         <input
           ref={logoInputRef}
           type="file"
@@ -362,7 +379,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
       )}
 
       {(countries || []).some((c) => c.sites?.length) || !hasSiteAssignment ? (
-        <Box sx={{ px: 4, pt: 4, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Box sx={{ px: 3, pt: 3, pb: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
           <SiteZoneSelect
             countries={countries}
             value={activeSiteId}
@@ -461,27 +478,47 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
         </Box>
       ) : null}
 
-      <Box component="nav" aria-label="Main navigation" sx={{ flexGrow: 1, overflow: 'auto', py: 4, px: 3, overscrollBehavior: 'contain' }}>
+      <Box component="nav" aria-label="Main navigation" sx={{ flexGrow: 1, overflow: 'auto', pt: 2.5, pb: 3, px: 3, overscrollBehavior: 'contain', scrollbarWidth: 'thin' }}>
+        <ListItemButton
+          onClick={openSearch}
+          sx={{ minHeight: 34, borderRadius: 1.5, px: 2.5, py: 1.5, mb: 2, gap: 2.5, color: 'text.secondary', border: '1px solid', borderColor: 'divider' }}
+        >
+          <TraceIcon sx={{ fontSize: 16 }} />
+          <Typography sx={{ fontSize: '0.8125rem', flex: 1 }}>{L('Search')}</Typography>
+          <Box component="kbd" sx={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', px: 1.25, py: 0.25, borderRadius: 1, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default', color: 'text.secondary', direction: 'ltr' }}>Ctrl K</Box>
+        </ListItemButton>
         {sections.map((section) => {
           const hasActive = sectionHasActive(section.items);
+          const isOpen = hasActive || !collapsed[section.label];
 
           return (
-            <Box key={section.label} sx={{ mb: 4 }}>
-              <Typography
-                sx={{
-                  px: 3,
-                  pt: 1,
-                  pb: 1.5,
-                  fontSize: '0.6875rem',
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  color: hasActive ? 'text.primary' : 'text.secondary',
-                }}
+            <Box key={section.label} sx={{ mb: 2.5 }}>
+              <ButtonBase
+                onClick={() => toggleSection(section.label)}
+                aria-expanded={isOpen}
+                disabled={hasActive}
+                sx={{ width: '100%', justifyContent: 'flex-start', gap: 1, px: 2.5, py: 1, borderRadius: 1, '&:hover': { bgcolor: 'action.hover' } }}
               >
-                {L(section.label)}
-              </Typography>
-              <List disablePadding>
+                <Typography
+                  component="span"
+                  sx={{
+                    flex: 1,
+                    textAlign: 'start',
+                    fontSize: '0.6875rem',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    color: hasActive ? 'text.primary' : 'text.secondary',
+                  }}
+                >
+                  {L(section.label)}
+                </Typography>
+                {!hasActive && (
+                  <ChevronIcon sx={{ fontSize: 16, color: 'text.secondary', transition: 'transform 200ms', transform: isOpen ? 'rotate(90deg)' : (theme.direction === 'rtl' ? 'rotate(180deg)' : 'none') }} />
+                )}
+              </ButtonBase>
+              <Collapse in={isOpen} timeout={200}>
+              <List disablePadding sx={{ mt: 0.5 }}>
                 {section.items.map((item) => {
                   const ItemIcon = PATH_ICONS[item.path] || DashboardIcon;
                   const badge = pathToBadge[item.path];
@@ -497,9 +534,17 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
                   );
                 })}
               </List>
+              </Collapse>
             </Box>
           );
         })}
+      </Box>
+
+      <Box sx={{ px: 3, py: 2, borderTop: '1px solid', borderColor: 'divider' }}>
+        <ListItemButton onClick={() => logout && logout()} sx={{ minHeight: 34, borderRadius: 1.5, px: 2.5, py: 1.5, gap: 2.5, color: 'text.secondary' }}>
+          <LogoutIcon sx={{ fontSize: 16 }} />
+          <Typography sx={{ fontSize: '0.8125rem' }}>{L('Sign out')}</Typography>
+        </ListItemButton>
       </Box>
     </Box>
   );
@@ -640,16 +685,16 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
 
 function SidebarItem({ item, active, onNavigate, badgeCount = 0, badgeColor = 'error' }) {
   return (
-    <ListItem disablePadding sx={{ mb: 0.5 }}>
+    <ListItem disablePadding sx={{ mb: 0.25 }}>
       <ListItemButton
         onClick={() => onNavigate(item.path)}
         selected={active}
         aria-current={active ? 'page' : undefined}
         sx={{
           position: 'relative',
-          minHeight: 38,
-          borderRadius: 1.25,
-          px: 3,
+          minHeight: 34,
+          borderRadius: 1.5,
+          px: 2.5,
           py: 1.5,
           gap: 0.5,
           '&.Mui-selected': {
@@ -675,9 +720,9 @@ function SidebarItem({ item, active, onNavigate, badgeCount = 0, badgeColor = 'e
       >
         <ListItemIcon
           sx={{
-            minWidth: 30,
+            minWidth: 28,
             '& .MuiSvgIcon-root': {
-              fontSize: 18,
+              fontSize: 17,
               color: active ? 'primary.main' : 'text.secondary',
               transition: 'color 160ms ease',
             },
@@ -694,7 +739,7 @@ function SidebarItem({ item, active, onNavigate, badgeCount = 0, badgeColor = 'e
         <ListItemText
           primary={item.text}
           primaryTypographyProps={{
-            fontSize: '0.875rem',
+            fontSize: '0.8125rem',
             fontWeight: active ? 600 : 450,
             color: active ? 'text.primary' : 'text.secondary',
             letterSpacing: '-0.005em',

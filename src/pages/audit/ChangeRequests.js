@@ -549,13 +549,9 @@ export default function ChangeRequests() {
 
   return (
     <Box>
-      <PageTitle sx={{ mb: 1 }}>
+      <PageTitle help="Review edit and delete requests for IPM records and approved manpower activity records, and auditor reopen requests for closed seasons." sx={{ mb: 2 }}>
         Change Requests
       </PageTitle>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Review edit and delete requests for IPM records and approved manpower activity records,
-        and auditor reopen requests for closed seasons.
-      </Typography>
 
       {visibleTabCount > 1 && (
         <Tabs

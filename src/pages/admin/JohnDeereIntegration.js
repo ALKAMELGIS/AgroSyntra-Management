@@ -214,10 +214,7 @@ export default function JohnDeereIntegration() {
     <Box>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} justifyContent="space-between" alignItems={{ sm: 'center' }} sx={{ mb: 2 }}>
         <Box sx={{ minWidth: 0 }}>
-          <PageTitle>John Deere Operations Center</PageTitle>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-            Read field operations (seeding, application, harvest, tillage) from Operations Center into AgroCloud.
-          </Typography>
+          <PageTitle help="Read field operations (seeding, application, harvest, tillage) from Operations Center into AgroCloud.">John Deere Operations Center</PageTitle>
         </Box>
         <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
           <Chip size="small" label={envLabel} color={status?.environment === 'production' ? 'success' : 'warning'} variant="outlined" />

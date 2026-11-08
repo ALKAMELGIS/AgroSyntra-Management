@@ -1064,12 +1064,9 @@ export default function CropHistory() {
   /* ─── RENDER ─── */
   return (
     <Box sx={{ maxWidth: 1760, mx: 'auto' }}>
-      <PageTitle sx={{ mb: 0.5 }}>
+      <PageTitle help="Manage crop rotation history and planting/transplant records." sx={{ mb: 2 }}>
         Crop Rotation & Planting
       </PageTitle>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Manage crop rotation history and planting/transplant records.
-      </Typography>
 
       <Paper sx={{ p: 2, mb: 2, display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
         <TextField size="small" select label="Site" value={siteFilter}

@@ -196,10 +196,7 @@ export default function PhiAuditLog() {
     <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap" gap={1}>
         <Box>
-          <PageTitle>PHI Audit Log</PageTitle>
-          <Typography variant="body2" color="text.secondary">
-            Harvests that occurred while a spray PHI was still active on the same segment / field
-          </Typography>
+          <PageTitle help="Harvests that occurred while a spray PHI was still active on the same segment / field">PHI Audit Log</PageTitle>
         </Box>
         <Tooltip title="Refresh">
           <IconButton onClick={loadData}><RefreshIcon /></IconButton>

@@ -340,12 +340,9 @@ export default function BatchTrace() {
       `}</style>
 
       <Box className="no-print" sx={{ mb: 3 }}>
-        <PageTitle sx={{ mb: 0.5 }}>
+        <PageTitle help="Trace harvest, workforce, PHI, and scouting data from a batch number for complaint investigation." sx={{ mb: 2 }}>
           Batch Trace
         </PageTitle>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Trace harvest, workforce, PHI, and scouting data from a batch number for complaint investigation.
-        </Typography>
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ sm: 'center' }}>
           <TextField

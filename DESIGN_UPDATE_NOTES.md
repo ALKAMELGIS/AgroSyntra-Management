@@ -272,3 +272,8 @@ Reviewed the pesticide records screen as a user on phone (390), tablet portrait 
 - Check results are short coloured chips (features, duplicate keys, missing keys, SITE Not Applicable, new zones, read only); clicking the duplicate chip lists them.
 - Relationship Class is one line (layer ─1:1 GlobalID─ field ─1:M field_id─ FORM_ID) with the ArcGIS properties behind "Properties". The saved connection opens automatically.
 - Feature forms search kept as a compact card.
+
+## Round 29 — fewer words, "?" for explanations, compact sidebar
+- New `components/HelpTip.js`: a small "?" that opens a short explanation. `PageTitle` takes `help`; the explanation paragraphs under 17 page titles moved behind it (weather entry, field staff, PHI audit log, backup, John Deere, audit log, crop rotation, historical import, recovery, irrigation dashboard, change requests, batch trace, manpower cost / record / activity sheet, fertigation–harvest correlation, agronomic reference). Icon-only info notes now show "?" too.
+- GIS configuration: tighter spacing; each step and the Relationship Class have a "?" with one sentence; properties open from a small chevron.
+- Sidebar, following the reference dashboard sidebar (ported to the app's MUI design system — the project is React JS + MUI, not shadcn/Tailwind/TypeScript): a Search row with the Ctrl K hint at the top, collapsible section groups (remembered per browser; the group of the open page always stays open), compact 34 px rows with 13 px text, and Sign out at the bottom.

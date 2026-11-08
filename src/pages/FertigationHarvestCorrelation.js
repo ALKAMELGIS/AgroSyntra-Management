@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import {
-  Box, Paper, Typography, FormControl, InputLabel, Select, MenuItem,
-  TextField, Button, Alert, CircularProgress, ToggleButtonGroup, ToggleButton,
+  Box, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Button, Alert, CircularProgress, ToggleButtonGroup, ToggleButton,
 } from '@mui/material';
 import {
   ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
@@ -92,12 +91,9 @@ export default function FertigationHarvestCorrelation() {
 
   return (
     <Box>
-      <PageTitle sx={{ mb: 1 }}>
+      <PageTitle help="Compare water and fertilizer inputs against harvest outputs per field over time." sx={{ mb: 3 }}>
         Fertigation vs Harvest Correlation
       </PageTitle>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Compare water and fertilizer inputs against harvest outputs per field over time.
-      </Typography>
 
       <Paper sx={{ p: 2, mb: 3 }}>
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>

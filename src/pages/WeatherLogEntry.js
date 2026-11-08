@@ -638,12 +638,9 @@ function WeatherLogEntry() {
 
       {/* Weather Entry Form Section */}
       <Box>
-        <PageTitle sx={{ mb: 1 }}>
+        <PageTitle help="Enter daily weather data for climate-contextual efficiency analysis. You can manually enter data or auto-fetch from OpenWeatherMap API using field coordinates." sx={{ mb: 3 }}>
           Weather & Soil Data Entry
         </PageTitle>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-          Enter daily weather data for climate-contextual efficiency analysis. You can manually enter data or auto-fetch from OpenWeatherMap API using field coordinates.
-        </Typography>
 
         {!canWrite && <ReadOnlyBanner />}
 

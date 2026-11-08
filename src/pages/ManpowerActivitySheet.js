@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Typography, Alert, CircularProgress } from '@mui/material';
+import { Box, Alert, CircularProgress } from '@mui/material';
 import { apiRequest } from '../utils/api';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import DailyActivitySheet from '../components/manpower/DailyActivitySheet';
@@ -70,12 +70,9 @@ export default function ManpowerActivitySheet() {
 
   return (
     <Box sx={{ maxWidth: 1760, mx: 'auto' }}>
-      <PageTitle sx={{ mb: 0.5 }}>
+      <PageTitle help="Same sheet team leaders use. Submissions stay pending until an operation manager approves them." sx={{ mb: 2 }}>
         Daily Activity Sheet
       </PageTitle>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Same sheet team leaders use. Submissions stay pending until an operation manager approves them.
-      </Typography>
 
       {!activeSiteId && (
         <InfoNote mode="line" severity="info">Select an Active Site to load fields and workers.</InfoNote>

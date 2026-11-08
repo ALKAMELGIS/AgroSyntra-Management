@@ -192,10 +192,7 @@ export default function DataBackup() {
 
   return (
     <Box sx={{ p: 3, maxWidth: 800, mx: 'auto' }}>
-      <PageTitle sx={{ mb: 1 }}>Data Backup</PageTitle>
-      <Typography variant="body2" color="text.secondary" mb={3}>
-        Protect your farm data with multiple backup methods.
-      </Typography>
+      <PageTitle help="Protect your farm data with multiple backup methods." sx={{ mb: 3 }}>Data Backup</PageTitle>
 
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
       {success && <Alert severity="success" sx={{ mb: 2 }} onClose={() => setSuccess('')}>{success}</Alert>}

@@ -13,6 +13,7 @@ import {
 import { useTheme } from '@mui/material/styles';
 import { useNotification } from '../../contexts/NotificationContext';
 import { API_BASE, getAuthHeaders } from '../../config/api';
+import HelpTip from '../HelpTip';
 
 async function call(path, { method = 'GET', body } = {}) {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -55,17 +56,19 @@ function checkChips(r, ar) {
 const STATUS_ICON = { ok: OkIcon, warn: WarnIcon, error: ErrIcon };
 const STATUS_COLOR = { ok: 'success', warn: 'warning', error: 'error' };
 
-function Step({ n, title, done, disabled, children, actions }) {
+function Step({ n, title, help, done, disabled, children, actions }) {
   return (
-    <Paper variant="outlined" sx={{ p: { xs: 1.75, md: 2 }, borderRadius: 2, opacity: disabled ? 0.55 : 1 }} aria-disabled={disabled || undefined}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 1.5, flexWrap: 'wrap' }}>
+    <Paper variant="outlined" sx={{ px: { xs: 1.5, md: 2 }, py: 1.5, borderRadius: 2, opacity: disabled ? 0.55 : 1 }} aria-disabled={disabled || undefined}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.25, flexWrap: 'wrap', minHeight: 32 }}>
         <Box sx={{
-          width: 28, height: 28, borderRadius: '50%', display: 'grid', placeItems: 'center', flexShrink: 0,
-          bgcolor: done ? 'success.main' : 'primary.main', color: 'common.white', fontWeight: 700, fontSize: '0.875rem',
+          width: 24, height: 24, borderRadius: '50%', display: 'grid', placeItems: 'center', flexShrink: 0,
+          bgcolor: done ? 'success.main' : 'primary.main', color: 'common.white', fontWeight: 700, fontSize: '0.8125rem',
         }}>
-          {done ? <OkIcon sx={{ fontSize: 18 }} /> : n}
+          {done ? <OkIcon sx={{ fontSize: 16 }} /> : n}
         </Box>
-        <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600, flex: '1 1 auto' }}>{title}</Typography>
+        <Typography variant="h6" component="h2" sx={{ fontSize: '0.9375rem', fontWeight: 600 }}>{title}</Typography>
+        <HelpTip>{help}</HelpTip>
+        <Box sx={{ flex: '1 1 auto' }} />
         {actions && <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>{actions}</Box>}
       </Box>
       {children}
@@ -105,7 +108,7 @@ function RelationshipBar({ layerName, mapping, connected, rtl }) {
   const pk = mapping.globalId || 'GlobalID';
   const bk = `${mapping.zoneId || 'ZONE_ID'} + ${mapping.farmCode || 'Farm_Code'}`;
   const node = (label, primary) => (
-    <Box sx={{ px: 1.25, py: 0.75, borderRadius: 1.5, border: 1, borderColor: primary ? 'primary.main' : 'divider', bgcolor: primary ? 'action.hover' : 'background.paper', fontWeight: 600, fontSize: '0.875rem' }}>
+    <Box sx={{ px: 1, py: 0.25, borderRadius: 1.5, border: 1, borderColor: primary ? 'primary.main' : 'divider', bgcolor: primary ? 'action.hover' : 'background.paper', fontWeight: 600, fontSize: '0.875rem' }}>
       {label}
     </Box>
   );
@@ -124,21 +127,23 @@ function RelationshipBar({ layerName, mapping, connected, rtl }) {
     ['Type', 'Simple · read only'],
   ];
   return (
-    <Paper variant="outlined" sx={{ p: { xs: 1.75, md: 2 }, borderRadius: 2 }}>
+    <Paper variant="outlined" sx={{ px: { xs: 1.5, md: 2 }, py: 1.25, borderRadius: 2 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-        <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600 }}>Relationship Class</Typography>
+        <Typography variant="h6" component="h2" sx={{ fontSize: '0.9375rem', fontWeight: 600 }}>Relationship Class</Typography>
+        <HelpTip>Each layer feature links to one field (GlobalID, or ZONE_ID + Farm_Code). Every form recorded on that field carries its FORM_ID. The layer is only read.</HelpTip>
         <Chip size="small" color={connected ? 'success' : 'default'} variant={connected ? 'filled' : 'outlined'} label={connected ? 'Connected' : 'Not set'} />
-        <Box sx={{ flex: 1 }} />
-        <Button size="small" onClick={() => setOpen((v) => !v)} endIcon={open ? <CollapseIcon /> : <ExpandIcon />} aria-expanded={open}>
-          Properties
-        </Button>
-      </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap', mt: 1.5 }}>
-        {node(<bdi translate="no">{origin}</bdi>, true)}
-        {edge(`1:1 · ${pk}`)}
-        {node('Field')}
-        {edge('1:M · field_id')}
-        {node(<bdi translate="no">FORM_ID</bdi>, true)}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap', flex: '1 1 auto', justifyContent: { md: 'center' } }}>
+          {node(<bdi translate="no">{origin}</bdi>, true)}
+          {edge(`1:1 · ${pk}`)}
+          {node('Field')}
+          {edge('1:M · field_id')}
+          {node(<bdi translate="no">FORM_ID</bdi>, true)}
+        </Box>
+        <Tooltip title="Properties">
+          <IconButton size="small" onClick={() => setOpen((v) => !v)} aria-label="Properties" aria-expanded={open}>
+            {open ? <CollapseIcon /> : <ExpandIcon />}
+          </IconButton>
+        </Tooltip>
       </Box>
       <Collapse in={open} unmountOnExit>
         <Box component="dl" sx={{ m: 0, mt: 1.5, display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '200px 1fr' }, columnGap: 2, rowGap: 0.5 }}>
@@ -305,7 +310,7 @@ export default function GisRelationshipConfig() {
   );
 
   return (
-    <Stack spacing={1.5}>
+    <Stack spacing={1.25}>
       <RelationshipBar
         layerName={report?.layer?.name || current?.name || null}
         mapping={mapping}
@@ -316,6 +321,7 @@ export default function GisRelationshipConfig() {
       {/* 1. Layer */}
       <Step
         n={1} title="Layer" done={Boolean(report)}
+        help="Paste the feature layer link ending with its number (…/FeatureServer/21). Add a token only for a private layer. AgroCloud only reads the layer."
         actions={connections.length > 1 ? (
           <TextField select size="small" label="Connection" value={layerId || ''} sx={{ minWidth: 200 }}
             onChange={(e) => { const c = connections.find((x) => x.id === e.target.value); if (c) pickConnection(c); }}>
@@ -380,6 +386,7 @@ export default function GisRelationshipConfig() {
       {/* 2. Keys */}
       <Step
         n={2} title="Keys" done={Boolean(report) && !requiredMissing} disabled={!report}
+        help="GlobalID never changes in ArcGIS. ZONE_ID + Farm_Code must be unique; they are stored on each field for Power BI and ArcGIS joins."
         actions={report ? <Button size="small" onClick={() => inspect(mapping)} disabled={busy === 'inspect'} startIcon={<SearchIcon />}>Check again</Button> : null}
       >
         {report ? (
@@ -404,6 +411,7 @@ export default function GisRelationshipConfig() {
       {/* 3. Link */}
       <Step
         n={3} title="Link" done={linkedDone} disabled={!report && !layerId}
+        help="Reads the features and links each one to its field: by GlobalID first, then ZONE_ID + Farm_Code. Running it again keeps the same links."
         actions={(
           <>
             <Button variant="outlined" onClick={save} disabled={!report || busy === 'save' || requiredMissing} startIcon={<SaveIcon />}>Save</Button>
@@ -461,8 +469,11 @@ export default function GisRelationshipConfig() {
       </Step>
 
       {/* Feature → forms */}
-      <Paper variant="outlined" sx={{ p: { xs: 1.75, md: 2 }, borderRadius: 2 }}>
-        <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600, mb: 1.5 }}>Feature forms</Typography>
+      <Paper variant="outlined" sx={{ px: { xs: 1.5, md: 2 }, py: 1.5, borderRadius: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 1.25 }}>
+          <Typography variant="h6" component="h2" sx={{ fontSize: '0.9375rem', fontWeight: 600 }}>Feature forms</Typography>
+          <HelpTip>Every form recorded on the field linked to a feature, with its FORM_ID.</HelpTip>
+        </Box>
         <Box component="form" onSubmit={(e) => { e.preventDefault(); findFeature(); }}
           sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', md: '150px 200px minmax(0, 1fr) auto' }, gap: 1.25, alignItems: 'start' }}>
           <TextField size="small" label="ZONE_ID" value={lookup.zone} onChange={(e) => setLookup((l) => ({ ...l, zone: e.target.value }))} inputProps={{ dir: 'ltr', 'aria-label': 'ZONE_ID' }} />
