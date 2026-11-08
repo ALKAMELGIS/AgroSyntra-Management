@@ -29,6 +29,7 @@ export const GENERAL_SECTION = {
     { text: 'Summary & Contents', path: '/summary' },
     { text: 'Daily Brief', path: '/daily-brief' },
     { text: 'Dashboard', path: '/dashboard' },
+    { text: 'AI Assistant', path: '/assistant' },
   ],
 };
 
@@ -213,7 +214,7 @@ export function getAreaHubSections(user, areaId) {
     .filter((section) => section.tiles.length > 0);
 }
 
-const GENERAL_PATHS = new Set(['/', '/summary', '/daily-brief', '/dashboard', '/notifications']);
+const GENERAL_PATHS = new Set(['/', '/summary', '/daily-brief', '/dashboard', '/notifications', '/assistant']);
 
 /** Longest-prefix wins; order matters for overlapping prefixes. */
 const PATH_AREA_RULES = [

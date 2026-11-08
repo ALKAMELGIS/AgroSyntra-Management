@@ -1,6 +1,7 @@
 import {
   DashboardOutlined as DashboardIcon,
   AssessmentOutlined as AssessmentIcon,
+  AutoAwesomeOutlined as AssistantIcon,
   MapOutlined as MapIcon,
   NotificationsOutlined as NotificationsIcon,
   ScienceOutlined as ScienceIcon,
@@ -54,6 +55,7 @@ export const TILE_META_BY_PATH = {
   '/summary': { icon: MenuBookIcon, color: '#5d4037', bg: 'rgba(93,64,55,0.1)' },
   '/dashboard': { icon: DashboardIcon, color: '#1976d2', bg: 'rgba(25,118,210,0.08)' },
   '/daily-brief': { icon: AssessmentIcon, color: '#7b1fa2', bg: 'rgba(123,31,162,0.08)' },
+  '/assistant': { icon: AssistantIcon, color: '#1f7a4d', bg: 'rgba(31,122,77,0.08)' },
   '/notifications': { icon: NotificationsIcon, color: '#a84b07', bg: 'rgba(230,81,0,0.08)' },
   '/templates': { icon: DescriptionIcon, color: '#4527a0', bg: 'rgba(69,39,160,0.08)' },
   '/ecph-entry': { icon: ScienceIcon, color: '#00838f', bg: 'rgba(0,131,143,0.08)' },

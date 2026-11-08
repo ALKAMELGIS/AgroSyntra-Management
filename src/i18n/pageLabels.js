@@ -119,6 +119,24 @@ export const PAGE_AR = {
   'Same ZONE_ID + Farm_Code on several fields': 'نفس ZONE_ID + Farm_Code على أكثر من حقل',
   'Power BI reads the same links: the views in the database schema “bi” (forms, form_records, form_record_values, dim_location, gis_feature_forms, gis_key_forms) or the API /api/v1/forms with an API key.':
     'يقرأ Power BI الروابط نفسها: من views قاعدة البيانات في المخطط «bi» (forms وform_records وform_record_values وdim_location وgis_feature_forms وgis_key_forms) أو من الـ API ‏/api/v1/forms بمفتاح API.',
+  // ---- AI assistant -----------------------------------------------------------
+  'New chat': 'محادثة جديدة',
+  'Open full page': 'فتح في صفحة كاملة',
+  Chats: 'المحادثات',
+  'No chats yet.': 'لا توجد محادثات بعد.',
+  'AgroCloud Assistant': 'مساعد AgroCloud',
+  'Answers from your farm data, reports and Excel files.': 'إجابات من بيانات مزرعتك، وتقارير وملفات Excel.',
+  'Reading the data…': 'جارٍ قراءة البيانات…',
+  'How can I help?': 'كيف يمكنني المساعدة؟',
+  'Ask about your data…': 'اسأل عن بياناتك…',
+  Send: 'إرسال',
+  'The assistant is not set up yet. Ask your administrator.': 'المساعد غير مُعدّ بعد. تواصل مع مسؤول النظام.',
+  'The assistant needs an AI key.': 'يحتاج المساعد إلى مفتاح الذكاء الاصطناعي.',
+  'Settings → API Keys → AI Brain': 'الإعدادات ← مفاتيح API ← AI Brain',
+  'Too many questions in the last hour — please wait a little.': 'أسئلة كثيرة خلال الساعة الأخيرة — انتظر قليلاً.',
+  'The AI assistant is not set up yet: add the API key in Settings → API Keys → AI Brain.': 'المساعد غير مُعدّ بعد: أضف المفتاح في الإعدادات ← مفاتيح API ← AI Brain.',
+  "Answers come only from this system's database, limited to what you are allowed to see. Lists and reports open as tables you can export to Excel or PDF. The assistant reads only; it does not change data.":
+    'الإجابات من قاعدة بيانات النظام فقط، وفي حدود صلاحياتك. القوائم والتقارير تظهر كجداول يمكن تصديرها إلى Excel أو PDF. المساعد يقرأ فقط ولا يعدّل البيانات.',
   // ---- Records sheet (Excel-style) and phone filters ------------------------
   Columns: 'الأعمدة',
   'Show all': 'إظهار الكل',
@@ -1306,6 +1324,8 @@ const PATTERNS = [
   [/^(\d[\d,]*) rows? \((\d[\d,]*) records?\)$/i, (m) => `${m[1]} صف (${m[2]} سجل)`],
   [/^([A-Za-z &/]+) \((\d[\d,]*)\)$/, (m) => (PAGE_AR[m[1]] || SHELL_AR[m[1]] ? `${PAGE_AR[m[1]] || SHELL_AR[m[1]]} (${m[2]})` : null)],
   [/^Record (\d+)$/, (m) => `سجل ${m[1]}`],
+  [/^Show all \((\d[\d,]*)\)$/, (m) => `عرض الكل (${m[1]})`],
+  [/^The AI service returned an error \((\d+)\)\.$/, (m) => `خدمة الذكاء الاصطناعي أعادت خطأ (${m[1]}).`],
   [/^(\d[\d,]*) \/ (\d[\d,]*) linked$/, (m) => `${m[1]} / ${m[2]} مرتبطة`],
   [/^(\d[\d,]*) unique keys$/, (m) => `${m[1]} مفتاح فريد`],
   [/^(\d[\d,]*) link issue\(s\) — see the list below\.$/, (m) => `${m[1]} مشكلة ربط — انظر القائمة أدناه.`],

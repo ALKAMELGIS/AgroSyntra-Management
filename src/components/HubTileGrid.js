@@ -4,14 +4,7 @@ import { alpha } from '@mui/material/styles';
 import { ArrowForwardRounded as ArrowIcon, HistoryOutlined as RecentIcon } from '@mui/icons-material';
 import { calmLabel } from '../config/pageMeta';
 import { getTileMeta } from '../config/hubTiles';
-import { useShellLabel, useIsArabic } from '../i18n/shellLabels';
-
-function greetingFor(date) {
-  const hour = date.getHours();
-  if (hour < 12) return 'Good morning';
-  if (hour < 17) return 'Good afternoon';
-  return 'Good evening';
-}
+import { useShellLabel } from '../i18n/shellLabels';
 
 const calmTitle = calmLabel;
 
@@ -80,42 +73,26 @@ function HubTile({ tile, onOpen, L }) {
   );
 }
 
-export default function HubTileGrid({ sections, userName, subtitle, recent = [] }) {
+/** Visually hidden but read by screen readers (the page still has its one h1). */
+const srOnly = {
+  position: 'absolute', width: '1px', height: '1px', p: 0, m: '-1px', overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0,
+};
+
+/**
+ * Home and area hubs: the tiles start at the top of the page (no greeting
+ * block), so the destinations use the space.
+ */
+export default function HubTileGrid({ sections, title = 'Home', recent = [] }) {
   const navigate = useNavigate();
-  const now = new Date();
   const L = useShellLabel();
-  const isAr = useIsArabic();
-  const greeting = L(greetingFor(now));
-  const dateLabel = now.toLocaleDateString(isAr ? 'ar-AE' : 'en-US', {
-    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-  });
 
   return (
-    <Box sx={{ maxWidth: 1240, mx: 'auto', pb: 4 }}>
-      <Box component="header" sx={{ mb: { xs: 4, md: 5 } }}>
-        <Typography
-          variant="overline"
-          component="p"
-          sx={{ display: 'inline-flex', alignItems: 'center', gap: 2, mb: 2, color: 'text.secondary' }}
-        >
-          <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main' }} />
-          {dateLabel}
-        </Typography>
-        <Typography
-          variant="h2"
-          component="h1"
-          sx={{ fontSize: { xs: '1.5rem', md: '1.875rem' }, fontWeight: 600, letterSpacing: '-0.025em' }}
-        >
-          {greeting}{isAr ? '، ' : ', '}{userName?.split(' ')[0] || ''}
-        </Typography>
-        <Typography variant="body1" sx={{ mt: 2, color: 'text.secondary', maxWidth: 620, fontSize: { xs: '0.875rem', md: '0.9375rem' } }}>
-          {subtitle || L('Everything happening across your fields today, one tap away.')}
-        </Typography>
-      </Box>
+    <Box sx={{ pb: 3 }}>
+      <Typography component="h1" sx={srOnly}>{L(title)}</Typography>
 
       {recent.length > 0 && (
-        <Box component="section" aria-label="Recently opened" sx={{ mb: { xs: 5, md: 6 } }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+        <Box component="section" aria-label="Recently opened" sx={{ mb: { xs: 4, md: 4.5 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2.5 }}>
             <RecentIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
             <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600 }}>
               {L('Continue where you left off')}
@@ -182,7 +159,7 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
       )}
 
       {sections.map((section) => (
-        <Box component="section" key={section.title} sx={{ mb: { xs: 5, md: 6 } }} aria-label={section.title}>
+        <Box component="section" key={section.title} sx={{ mb: { xs: 4, md: 4.5 } }} aria-label={section.title}>
           <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 3, mb: 2.5 }}>
             <Typography variant="h6" component="h2" sx={{ fontSize: '1rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
               {L(calmTitle(section.title))}
@@ -195,11 +172,11 @@ export default function HubTileGrid({ sections, userName, subtitle, recent = [] 
           <Box
             sx={{
               display: 'grid',
-              gap: { xs: 2.5, sm: 3.5 },
+              gap: { xs: 2.5, sm: 3 },
               gridTemplateColumns: {
                 xs: 'repeat(2, minmax(0, 1fr))',
                 sm: 'repeat(3, minmax(0, 1fr))',
-                md: 'repeat(auto-fill, minmax(220px, 1fr))',
+                md: 'repeat(auto-fill, minmax(232px, 1fr))',
               },
             }}
           >

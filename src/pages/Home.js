@@ -120,7 +120,7 @@ function Home() {
   }, [role]);
 
   return (
-    <HubTileGrid sections={visibleSections} userName={user?.name} recent={recent} />
+    <HubTileGrid sections={visibleSections} recent={recent} />
   );
 }
 

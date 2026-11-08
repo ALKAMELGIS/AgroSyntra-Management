@@ -63,6 +63,7 @@ import {
   EditNoteOutlined as ChangeRequestIcon,
   EventNoteOutlined as ActivitySheetIcon,
   ChevronRightRounded as ChevronIcon,
+  AutoAwesomeOutlined as AssistantIcon,
   LogoutOutlined as LogoutIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
@@ -88,6 +89,7 @@ const PATH_ICONS = {
   '/': HomeIcon,
   '/summary': DescriptionIcon,
   '/daily-brief': AssessmentIcon,
+  '/assistant': AssistantIcon,
   '/dashboard': DashboardIcon,
   '/templates': TemplatesIcon,
   '/ecph-entry': ScienceIcon,
@@ -379,7 +381,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
       )}
 
       {(countries || []).some((c) => c.sites?.length) || !hasSiteAssignment ? (
-        <Box sx={{ px: 3, pt: 3, pb: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Box sx={{ px: 3, pt: 4, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
           <SiteZoneSelect
             countries={countries}
             value={activeSiteId}
@@ -399,7 +401,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
               disabled={!seasonLoaded || seasons.length === 0}
               InputLabelProps={{ shrink: true }}
               sx={{
-                mt: 1.5,
+                mt: 2.5,
                 '& .MuiOutlinedInput-root': { bgcolor: 'background.muted' },
                 '& .MuiSelect-select': { py: 1, fontSize: '0.8125rem', fontWeight: 600 },
               }}

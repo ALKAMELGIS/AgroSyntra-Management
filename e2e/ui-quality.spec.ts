@@ -85,7 +85,7 @@ const OVERLAP_PROBE = () => {
 
 
 export const ROUTES = [
-  '/', '/hub/operations', '/hub/ipm', '/dashboard', '/daily-brief', '/summary', '/notifications',
+  '/', '/hub/operations', '/hub/ipm', '/dashboard', '/daily-brief', '/assistant', '/summary', '/notifications',
   '/ecph-entry', '/fertigation/entry', '/irrigation/entry', '/harvest/entry', '/pump-room', '/templates',
   '/harvest/dashboard', '/fertigation/dashboard', '/irrigation/dashboard', '/efficiency-dashboard',
   '/ecph/reports', '/fertigation/reports', '/harvest/reports', '/report-builder',
@@ -814,4 +814,55 @@ test.describe('GIS configuration (Zones & Sites → Relationship Class)', () => 
       expect(results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')).toEqual([]);
     });
   }
+});
+
+test.describe('AI assistant', () => {
+  const ANSWER = {
+    conversationId: '0a0a0a0a-0000-4000-8000-000000000001',
+    message: {
+      id: 'm2', role: 'assistant', created_at: '2026-11-08T10:00:00Z',
+      content: 'إجمالي الحصاد في أكتوبر **1,250 كجم**، أعلاه في **GH-01**.',
+      artifacts: [{ kind: 'table', title: 'الحصاد لكل حقل — أكتوبر 2026', columns: ['field', 'sum_total_quantity'], total: 2,
+        rows: [{ field: 'GH-01', sum_total_quantity: 800 }, { field: 'GH-02', sum_total_quantity: 450 }],
+        chart: { type: 'bar', x: 'field', y: ['sum_total_quantity'] },
+        form: { form_id: '7c774b7b-8363-5887-b013-736ed63651b8', form_key: 'harvest.entry', title_en: 'Harvest Entry', title_ar: 'إدخال الحصاد' } }],
+      sources: [{ form_id: '7c774b7b-8363-5887-b013-736ed63651b8', form_key: 'harvest.entry', title_en: 'Harvest Entry', title_ar: 'إدخال الحصاد' }],
+    },
+  };
+
+  for (const vp of [{ w: 1280, h: 900 }, { w: 390, h: 844 }]) {
+    test(`ask a question, get a table with chart and exports (${vp.w}px)`, async ({ page }) => {
+      await page.setViewportSize({ width: vp.w, height: vp.h });
+      await prepare(page, { lang: 'ar' });
+      let asked: any = null;
+      await page.route(/\/api\/v1\/ai\/status/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: { configured: true } }) }));
+      await page.route(/\/api\/v1\/ai\/ask/, async (r) => { asked = r.request().postDataJSON(); await r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: ANSWER }) }); });
+      await page.goto('/assistant');
+      await settle(page);
+      const box = page.getByRole('textbox', { name: 'اسأل عن بياناتك…' });
+      await box.fill('كم الحصاد لكل حقل في أكتوبر؟');
+      await box.press('Enter');
+      await expect(page.getByText('الحصاد لكل حقل — أكتوبر 2026')).toBeVisible();
+      expect(asked.text).toBe('كم الحصاد لكل حقل في أكتوبر؟');
+      expect(asked.lang).toBe('ar');
+      await expect(page.getByRole('table', { name: 'الحصاد لكل حقل — أكتوبر 2026' })).toContainText('GH-01');
+      await expect(page.locator('[data-export-button="xlsx"]').first()).toBeVisible();
+      await expect(page.locator('[data-export-button="pdf"]').first()).toBeVisible();
+      await expect(page.getByText('إدخال الحصاد').first()).toBeVisible();
+      expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
+      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag22aa']).exclude('.recharts-wrapper').analyze();
+      expect(results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')).toEqual([]);
+    });
+  }
+
+  test('opens beside any page from the top bar', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await prepare(page, { lang: 'en' });
+    await page.route(/\/api\/v1\/ai\/status/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: { configured: true } }) }));
+    await page.goto('/harvest/dashboard');
+    await settle(page);
+    await page.getByRole('banner').getByRole('button', { name: 'AI Assistant' }).click();
+    await expect(page.getByRole('textbox', { name: 'Ask about your data…' })).toBeVisible();
+    await expect(page.getByText('Total harvest this month per field?')).toBeVisible();
+  });
 });

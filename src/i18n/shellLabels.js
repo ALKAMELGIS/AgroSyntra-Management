@@ -43,6 +43,7 @@ export const SHELL_AR = {
   Home: 'الرئيسية',
   'Summary & Contents': 'الملخص والمحتويات',
   'Daily Brief': 'الموجز اليومي',
+  'AI Assistant': 'المساعد الذكي',
   Dashboard: 'لوحة التحليلات',
   'Analytics Dashboard': 'لوحة التحليلات',
   Notifications: 'الإشعارات',

@@ -20,6 +20,7 @@ import OfflineQueueBanner from './components/OfflineQueueBanner';
 import AppUpdateBanner from './components/AppUpdateBanner';
 import CommandPalette from './components/CommandPalette';
 import NotificationCenter from './components/NotificationCenter';
+import AssistantPanel from './components/assistant/AssistantPanel';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sidebar from './components/Sidebar';
 import NavAreaTabs from './components/NavAreaTabs';
@@ -111,6 +112,7 @@ const GISMap = lazy(() => import('./pages/GISMap'));
 const AgronomicReference = lazy(() => import('./pages/AgronomicReference'));
 const DailyBrief = lazy(() => import('./pages/DailyBrief'));
 const SummaryContents = lazy(() => import('./pages/SummaryContents'));
+const Assistant = lazy(() => import('./pages/Assistant'));
 const FertigationHarvestCorrelation = lazy(() => import('./pages/FertigationHarvestCorrelation'));
 const ScanRedirect = lazy(() => import('./pages/ScanRedirect'));
 const FeatureFlags = lazy(() => import('./pages/admin/FeatureFlags'));
@@ -455,6 +457,7 @@ function AuthenticatedLayout() {
           <SearchBar />
 
           <Box sx={{ flexGrow: 1 }} />
+          <AssistantPanel />
           <NotificationCenter />
           <UserMenu />
         </Toolbar>
@@ -525,6 +528,7 @@ function AuthenticatedLayout() {
             <Route path="/" element={guarded(Home)} />
             <Route path="/hub/:areaId" element={guarded(AreaHub)} />
             <Route path="/summary" element={guarded(SummaryContents)} />
+            <Route path="/assistant" element={guarded(Assistant)} />
             <Route path="/ecph-entry" element={guarded(ECPHEntry, NON_PEST)} />
             <Route path="/harvest-entry" element={<Navigate to="/harvest/entry" replace />} />
             <Route path="/harvest/entry" element={guarded(HarvestEntry, NON_PEST)} />

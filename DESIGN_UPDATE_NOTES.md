@@ -277,3 +277,21 @@ Reviewed the pesticide records screen as a user on phone (390), tablet portrait 
 - New `components/HelpTip.js`: a small "?" that opens a short explanation. `PageTitle` takes `help`; the explanation paragraphs under 17 page titles moved behind it (weather entry, field staff, PHI audit log, backup, John Deere, audit log, crop rotation, historical import, recovery, irrigation dashboard, change requests, batch trace, manpower cost / record / activity sheet, fertigation–harvest correlation, agronomic reference). Icon-only info notes now show "?" too.
 - GIS configuration: tighter spacing; each step and the Relationship Class have a "?" with one sentence; properties open from a small chevron.
 - Sidebar, following the reference dashboard sidebar (ported to the app's MUI design system — the project is React JS + MUI, not shadcn/Tailwind/TypeScript): a Search row with the Ctrl K hint at the top, collapsible section groups (remembered per browser; the group of the open page always stays open), compact 34 px rows with 13 px text, and Sign out at the bottom.
+
+## Round 30 — AI Assistant (AI Agent, phases 1–2)
+- New **AI Assistant**:
+  - The ✦ button in the top bar opens it as a side panel beside any page.
+  - The full page `/assistant` (General section) lists your chats.
+- **Answers come only from the system database.** Server-side tools read `bi` views and form tables (FORM_ID), and every answer lists the forms it used.
+- **Same access as the user.** Answers are limited to the organisation and the user's assigned sites (the CEO sees all), and queries run read-only.
+- **Results.** Tables use the Excel style, with optional bar, line or pie charts and Excel (RTL) / PDF export. The assistant also answers "how do I…" questions about screens.
+- **Model.** Uses Settings → API Keys → AI Brain (Claude or OpenAI). There is no separate key.
+- Migration `176_ai_assistant.sql`; API `/api/v1/ai/*`; docs `docs/AI_ASSISTANT.md`.
+- **Assistant page design:**
+  - One workspace card fills the screen. The title is small (15 px) and shares a row with the "?" help icon and New chat.
+  - On desktop, a narrow chat-history rail sits beside a wide chat. The conversation sits in a centred reading column with a larger message box.
+  - The empty state shows "How can I help?" and four suggestion cards with icons.
+  - On tablet and phone, the chat uses the full width and the history opens from a clock icon. The phone page runs edge to edge.
+  - Chart axes are kept LTR, so numbers are no longer clipped in Arabic.
+- **Home and area hubs:** the date, greeting and subtitle block was removed, so the tiles start at the top. Section spacing is tighter. A screen-reader-only h1 keeps one heading per page.
+- **Sidebar:** the Site and Season selectors have more room around their labels.

@@ -8,12 +8,10 @@ import {
   getVisibleNavAreas,
   getHubPathForArea,
 } from '../config/navAreas';
-import { useShellLabel } from '../i18n/shellLabels';
 
 export default function AreaHub() {
   const { areaId } = useParams();
   const { user } = useAuth();
-  const L = useShellLabel();
 
   const visibleAreas = getVisibleNavAreas(user);
   const areaMeta = NAV_AREAS.find((a) => a.id === areaId);
@@ -39,8 +37,7 @@ export default function AreaHub() {
   return (
     <HubTileGrid
       sections={sections}
-      userName={user?.name}
-      subtitle={areaMeta ? `${L(areaMeta.label)} — ${L('choose a module')}` : undefined}
+      title={areaMeta?.label || 'Home'}
     />
   );
 }
