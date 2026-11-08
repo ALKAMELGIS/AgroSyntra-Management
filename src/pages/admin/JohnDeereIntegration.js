@@ -212,7 +212,8 @@ export default function JohnDeereIntegration() {
 
   return (
     <Box>
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} justifyContent="space-between" alignItems={{ sm: 'center' }} sx={{ mb: 2 }}>
+      {/* StepButton boxes reach 24px above the stepper, so the header keeps that much room below it. */}
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} justifyContent="space-between" alignItems={{ sm: 'center' }} sx={{ mb: 6 }}>
         <Box sx={{ minWidth: 0 }}>
           <PageTitle help="Read field operations (seeding, application, harvest, tillage) from Operations Center into AgroCloud.">John Deere Operations Center</PageTitle>
         </Box>
