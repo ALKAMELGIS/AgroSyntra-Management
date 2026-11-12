@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import {
   Box, Typography, Paper, Button, TextField, MenuItem, Table, TableBody, TableCell,
-  TableContainer, TableHead, TableRow, Chip, Dialog, DialogTitle, DialogContent,
+  TableHead, TableRow, Chip, Dialog, DialogTitle, DialogContent,
   DialogActions, Alert, CircularProgress, FormControl, InputLabel, Select,
   Autocomplete, ToggleButton, ToggleButtonGroup, Divider,
 } from '@mui/material';
@@ -218,7 +219,7 @@ export default function FieldStaffManagement() {
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}><CircularProgress /></Box>
       ) : (
-        <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 260px)' }}>
+        <FitTableContainer component={Paper} variant="outlined" >
           <Table size="small" sx={excelTableSx}>
             <TableHead>
               <TableRow>
@@ -254,7 +255,7 @@ export default function FieldStaffManagement() {
               )}
             </TableBody>
           </Table>
-        </TableContainer>
+        </FitTableContainer>
       )}
 
       <Dialog open={dialogOpen} onClose={closeDialog} maxWidth="sm" fullWidth>

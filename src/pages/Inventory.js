@@ -1,3 +1,4 @@
+import { visuallyHidden } from '@mui/utils';
 import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { useConfirmDialog } from '../components/ConfirmDialog';
 import { useState, useEffect, useCallback, Fragment } from 'react';
@@ -287,7 +288,7 @@ export default function Inventory() {
           <Table size="small">
             <TableHead>
               <TableRow>
-                <TableCell />
+                <TableCell padding="checkbox" sx={{ width: 48 }}><Box component="span" sx={visuallyHidden}>Details</Box></TableCell>
                 <TableCell><strong>Name</strong></TableCell>
                 <TableCell><strong>Category</strong></TableCell>
                 <TableCell><strong>Unit</strong></TableCell>
@@ -306,7 +307,7 @@ export default function Inventory() {
                 return (
                   <Fragment key={item.id}>
                     <TableRow hover sx={{ '& > *': { borderBottom: isExpanded ? 'none' : undefined } }}>
-                      <TableCell sx={{ width: 40 }}>
+                      <TableCell padding="checkbox" sx={{ width: 48 }}>
                         <IconButton size="small" onClick={() => toggleRow(item.id)} aria-label={isExpanded ? 'Collapse row' : 'Expand row'}>
                           {isExpanded ? <ExpandLess /> : <ExpandMore />}
                         </IconButton>

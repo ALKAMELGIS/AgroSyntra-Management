@@ -68,7 +68,7 @@ export default function InternshipQuiz() {
   const formatTime = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
   return (
-    <Box sx={{ p: 3, maxWidth: 800, mx: 'auto' }}>
+    <Box sx={{ maxWidth: 800, mx: 'auto' }}>
       <Button startIcon={<ArrowBack />} onClick={() => navigate(-1)} sx={{ mb: 2 }}>
         Back
       </Button>

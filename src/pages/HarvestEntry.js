@@ -1,3 +1,5 @@
+import { visuallyHidden } from '@mui/utils';
+import FitTableContainer from '../components/table/FitTableContainer';
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { confirmAction } from '../components/ConfirmDialog';
 import { useSearchParams } from 'react-router-dom';
@@ -74,7 +76,12 @@ const HARVEST_DATE_WIDTH = 110;
 // sits under the green band. Draft (Add Row) stays yellow under hover the same
 // way Bumble Bee drafts do.
 const harvestEntrySx = (theme) => ({
-  '&& thead tr:first-of-type .MuiTableCell-head': { top: 0 },
+  // Row 1 is one line at a fixed height so row 2 (TOTAL) can be pinned right
+  // under it. Wrapped titles made row 1 taller than 40px and the TOTAL row
+  // covered their second line ("Start Time" showed as "Time").
+  '&& thead tr:first-of-type .MuiTableCell-head': {
+    top: 0, height: 40, whiteSpace: 'nowrap', verticalAlign: 'middle', boxSizing: 'border-box',
+  },
   '&& thead tr:nth-of-type(2) .MuiTableCell-head': {
     top: 40,
     zIndex: 3,
@@ -325,11 +332,11 @@ function FieldTab({
         <DeleteSelectedButton count={selection.size} onClick={handleBulkDelete} disabled={readOnly} />
       </Box>
       <CompanyHeader fieldName={field.name} />
-      <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 480, borderRadius: 0, borderTop: 'none' }}>
+      <FitTableContainer bottom={64} component={Paper} variant="outlined" sx={{ borderRadius: 0, borderTop: 'none' }}>
         <Table size="small" sx={[excelTableSx, freezeColumnsSx([42, HARVEST_DATE_WIDTH]), harvestEntrySx]}>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox" rowSpan={2} className="col-frozen-0">
+              <TableCell padding="checkbox" className="col-frozen-0">
                 <SelectAllCheckbox
                   ids={visibleRecords.map((r) => r.id)}
                   selectedIds={selection.selectedIds}
@@ -350,12 +357,16 @@ function FieldTab({
               <TableCell className="col-numeric">Qty (Kg)</TableCell>
               <TableCell>Packhouse</TableCell>
               <TableCell>Auth. By</TableCell>
-              <TableCell />
+              <TableCell sx={{ width: 44, minWidth: '44px !important' }}><Box component="span" sx={visuallyHidden}>Actions</Box></TableCell>
             </TableRow>
-            <TableRow>
-              <TableCell colSpan={10} />
+            <TableRow className="row-total">
+              {/* TOTAL stays in the frozen Date column so it is visible while
+                  scrolling sideways; the sum sits under Qty (Kg). */}
+              <TableCell className="col-frozen-0" />
+              <TableCell className="col-frozen-1">TOTAL</TableCell>
+              <TableCell colSpan={9} />
               <TableCell className="col-numeric">{totalQty.toFixed(1)}</TableCell>
-              <TableCell colSpan={3} align="center">TOTAL</TableCell>
+              <TableCell colSpan={3} />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -475,7 +486,7 @@ function FieldTab({
             )}
           </TableBody>
         </Table>
-      </TableContainer>
+      </FitTableContainer>
       <DraftRowBar newRow={newRow} onAdd={handleAddRow} onSave={handleSaveRow} onCancel={() => setNewRow(null)}>
         <Button size="small" startIcon={<Add sx={{ fontSize: '13px !important' }} />} onClick={handleAddRow}
           sx={{ fontFamily: FONT, fontSize: '10.5px', textTransform: 'none', color: HEADER_FILL, border: GRID_BORDER, borderRadius: 0, px: 1, py: '2px', minHeight: 0 }}>
@@ -547,7 +558,7 @@ function DailyWorksheetTab({ siteId }) {
   if (loading) return <Box sx={{ p: 2, textAlign: 'center' }}><CircularProgress size={18} /></Box>;
 
   return (
-    <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 480 }}>
+    <FitTableContainer bottom={64} component={Paper} variant="outlined" >
       <Table size="small" sx={[excelTableSx, freezeColumnsSx([HARVEST_DATE_WIDTH])]}>
         <TableHead>
           <TableRow>
@@ -577,7 +588,7 @@ function DailyWorksheetTab({ siteId }) {
           )}
         </TableBody>
       </Table>
-    </TableContainer>
+    </FitTableContainer>
   );
 }
 
@@ -1225,11 +1236,11 @@ function OpenFieldTab({
         <DeleteSelectedButton count={selection.size} onClick={handleBulkDelete} disabled={readOnly} />
       </Box>
       <CompanyHeader fieldName="Open Field" />
-      <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 480, borderRadius: 0, borderTop: 'none' }}>
+      <FitTableContainer bottom={64} component={Paper} variant="outlined" sx={{ borderRadius: 0, borderTop: 'none' }}>
         <Table size="small" sx={[excelTableSx, freezeColumnsSx([42, HARVEST_DATE_WIDTH]), harvestEntrySx]}>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox" rowSpan={2} className="col-frozen-0">
+              <TableCell padding="checkbox" className="col-frozen-0">
                 <SelectAllCheckbox
                   ids={visibleRecords.map((r) => r.id)}
                   selectedIds={selection.selectedIds}
@@ -1251,12 +1262,16 @@ function OpenFieldTab({
               <TableCell className="col-numeric">Qty (Kg)</TableCell>
               <TableCell>Packhouse</TableCell>
               <TableCell>Auth. By</TableCell>
-              <TableCell />
+              <TableCell sx={{ width: 44, minWidth: '44px !important' }}><Box component="span" sx={visuallyHidden}>Actions</Box></TableCell>
             </TableRow>
-            <TableRow>
-              <TableCell colSpan={11} />
+            <TableRow className="row-total">
+              {/* TOTAL stays in the frozen Date column so it is visible while
+                  scrolling sideways; the sum sits under Qty (Kg). */}
+              <TableCell className="col-frozen-0" />
+              <TableCell className="col-frozen-1">TOTAL</TableCell>
+              <TableCell colSpan={10} />
               <TableCell className="col-numeric">{totalQty.toFixed(1)}</TableCell>
-              <TableCell colSpan={3} align="center">TOTAL</TableCell>
+              <TableCell colSpan={3} />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -1359,7 +1374,7 @@ function OpenFieldTab({
             )}
           </TableBody>
         </Table>
-      </TableContainer>
+      </FitTableContainer>
       <DraftRowBar newRow={newRow} onAdd={handleAddRow} onSave={handleSaveRow} onCancel={() => setNewRow(null)}>
         <Button size="small" startIcon={<Add sx={{ fontSize: '13px !important' }} />} onClick={handleAddRow}
           sx={{ fontFamily: FONT, fontSize: '10.5px', textTransform: 'none', color: HEADER_FILL, border: GRID_BORDER, borderRadius: 0, px: 1, py: '2px', minHeight: 0 }}>

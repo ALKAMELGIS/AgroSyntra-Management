@@ -324,7 +324,7 @@ export default function BatchTrace() {
   const matches = result?.matches ?? [];
 
   return (
-    <Box sx={{ p: { xs: 2, md: 3 }, fontFamily: FONT }}>
+    <Box sx={{ fontFamily: FONT }}>
       <style>{`
         @media print {
           body * { visibility: hidden; }

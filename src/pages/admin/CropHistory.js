@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { confirmAction } from '../../components/ConfirmDialog';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   Box, Typography, Paper, Button, TextField, MenuItem, Chip, Alert,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Table, TableBody, TableCell, TableHead, TableRow,
   Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Tooltip,
   FormControl, InputLabel, Select, CircularProgress, Stack, Tabs, Tab,
 } from '@mui/material';
@@ -1197,7 +1198,7 @@ export default function CropHistory() {
                 </Typography>
               </Box>
             )}
-            <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 320px)', overflow: 'auto', borderRadius: siteFilter ? '0 0 4px 4px' : undefined }}>
+            <FitTableContainer component={Paper} variant="outlined" sx={{ overflow: 'auto', borderRadius: siteFilter ? '0 0 4px 4px' : undefined }}>
               <Table
                 size="small"
                 sx={[
@@ -1464,7 +1465,7 @@ export default function CropHistory() {
                   })}
                 </TableBody>
               </Table>
-            </TableContainer>
+            </FitTableContainer>
             </>
           )}
 

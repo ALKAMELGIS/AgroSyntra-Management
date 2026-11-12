@@ -38,9 +38,17 @@ export const excelTableSx = (theme) => ({
     '&:last-of-type': { borderRight: 0 },
   },
 
-  '&& .MuiTableCell-head': {
+  // The whole header block is pinned, not each cell: rows 2 and 3 of a
+  // multi-row header then stay under row 1 whatever its height (per-cell
+  // top offsets went wrong as soon as a title wrapped). Frozen header cells
+  // stay sticky sideways via their own col-frozen / gutter rules.
+  '& .MuiTableHead-root': {
     position: 'sticky',
     top: 0,
+    zIndex: 3,
+  },
+  '&& .MuiTableCell-head': {
+    position: 'static',
     zIndex: 3,
     backgroundColor: `${theme.palette.table.headerBg} !important`,
     color: `${theme.palette.table.headerText} !important`,
@@ -82,6 +90,8 @@ export const excelTableSx = (theme) => ({
   // Corner cell is part of the header band and must sit above both sticky axes.
   // Declared after the gutter rule so it wins the tie for that one cell.
   '&& .MuiTableCell-head.table-gutter': {
+    position: 'sticky',
+    left: 0,
     zIndex: 4,
     minWidth: GUTTER_WIDTH,
     backgroundColor: `${theme.palette.table.headerBg} !important`,
@@ -95,6 +105,22 @@ export const excelTableSx = (theme) => ({
   },
   '&& .MuiTableCell-head .MuiTableSortLabel-icon': {
     color: 'inherit !important',
+  },
+
+  // Compact, one-line rows (sheet look): values do not wrap into tall rows;
+  // the table scrolls sideways instead.
+  '&& .MuiTableCell-body': {
+    whiteSpace: 'nowrap',
+    paddingTop: '5px',
+    paddingBottom: '5px',
+    lineHeight: 1.45,
+  },
+  // Checkbox columns: no "…" from the frozen-column ellipsis, tight padding.
+  '&& .MuiTableCell-paddingCheckbox': {
+    textOverflow: 'clip',
+    paddingLeft: '4px !important',
+    paddingRight: '4px !important',
+    '& .MuiCheckbox-root': { padding: '4px' },
   },
 
   '& .col-numeric': {
@@ -159,7 +185,7 @@ export function freezeColumnsSx(widths, startLeft = 0) {
       };
       // These header cells are sticky on both axes at once, so they have to
       // clear the header band as well as the frozen columns.
-      rules[`&& .MuiTableCell-head.col-frozen-${i}`] = { zIndex: 4, minWidth: width, ...edge };
+      rules[`&& .MuiTableCell-head.col-frozen-${i}`] = { position: 'sticky', left, zIndex: 4, minWidth: width, ...edge };
       left += width;
     });
     // Native date pickers in frozen cells cannot open when overflow is hidden.

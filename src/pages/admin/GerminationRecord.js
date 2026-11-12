@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Typography, Paper, Button, TextField, IconButton, Tooltip,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Table, TableBody, TableCell, TableHead, TableRow,
   Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress, Alert,
 } from '@mui/material';
 import {
@@ -406,7 +407,7 @@ function SectionTable({ section, records, maxCounting, editingName, tempName, se
         </Box>
       </Box>
 
-      <TableContainer sx={{ maxHeight: 480 }}>
+      <FitTableContainer >
         <Table size="small" sx={[excelTableSx, freezeColumnsSx(GERM_FROZEN_WIDTHS), twoRowHeadSx, germTintSx, germDenseSx]}>
           <TableHead>
             <TableRow>
@@ -529,7 +530,7 @@ function SectionTable({ section, records, maxCounting, editingName, tempName, se
             })}
           </TableBody>
         </Table>
-      </TableContainer>
+      </FitTableContainer>
 
       {!readOnly && (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 1, borderTop: '1px solid #e0e0e0' }}>

@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import {
   Box, Typography, TextField, MenuItem, Tabs, Tab, Button, IconButton, Tooltip,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+  Table, TableBody, TableCell, TableHead, TableRow, Paper,
   CircularProgress, Alert, Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
 import {
@@ -674,7 +675,7 @@ export default function SpreadsheetEcphEntry({ onEntrySaved, readOnly = false })
             </Alert>
           )}
 
-          <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: scrollRegionHeight(isMobile ? 340 : 380), overflow: 'auto', WebkitOverflowScrolling: 'touch' }}>
+          <FitTableContainer component={Paper} variant="outlined" sx={{ overflow: 'auto', WebkitOverflowScrolling: 'touch' }}>
             <Table size="small" stickyHeader sx={[excelTableSx, fieldFreezeSx, thresholdCellSx]}>
               <TableHead>
                 <TableRow>
@@ -825,7 +826,7 @@ export default function SpreadsheetEcphEntry({ onEntrySaved, readOnly = false })
                 })}
               </TableBody>
             </Table>
-          </TableContainer>
+          </FitTableContainer>
         </>
       )}
 

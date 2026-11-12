@@ -258,6 +258,9 @@ html.has-bottom-nav .ac-fixed-bottom {
 }
 
 /* --- Scrollbars -------------------------------------------------------- */
+/* Slim and quiet everywhere: a 6px rounded thumb on a transparent track that
+   darkens on hover. Boxes use overflow:auto, so bars only appear when the
+   content is larger than the box. */
 
 * {
   scrollbar-width: thin;
@@ -267,19 +270,39 @@ html.has-bottom-nav .ac-fixed-bottom {
   width: 10px;
   height: 10px;
 }
-::-webkit-scrollbar-track {
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--border-hover);
   border-radius: 999px;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  min-height: 32px;
+}
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  background: var(--text-disabled);
+  border: 2px solid transparent;
   background-clip: content-box;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-disabled);
-  border: 3px solid transparent;
-  background-clip: content-box;
+/* Touch screens scroll with the finger; keep the bar a hairline there. */
+@media (pointer: coarse) {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border: 0;
+  }
+}
+/* Smooth jumps for links and "back to top"; tables and grids keep instant
+   scrolling so keyboard navigation and virtualised rows never lag. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* --- Print ------------------------------------------------------------- */

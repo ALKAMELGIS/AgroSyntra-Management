@@ -1,7 +1,8 @@
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { useState, useEffect } from 'react';
 import {
-  Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Box, Typography, Paper, Table, TableBody, TableCell, TableHead, TableRow,
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip,
   IconButton, Alert, CircularProgress, Tabs, Tab, Tooltip, Switch, FormControlLabel, Autocomplete,
 } from '@mui/material';
@@ -315,7 +316,7 @@ export default function PestCatalog() {
               <CircularProgress />
             </Box>
           ) : (
-            <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: TABLE_MAX_HEIGHT }}>
+            <FitTableContainer component={Paper} variant="outlined" >
               <Table size="small" sx={excelTableSx}>
                 <TableHead>
                   <TableRow>
@@ -375,7 +376,7 @@ export default function PestCatalog() {
                   )}
                 </TableBody>
               </Table>
-            </TableContainer>
+            </FitTableContainer>
           ))}
         </>
       ) : (
@@ -419,7 +420,7 @@ export default function PestCatalog() {
         fullWidth
       />
 
-      <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: TABLE_MAX_HEIGHT }}>
+      <FitTableContainer component={Paper} variant="outlined" >
         <Table size="small" sx={[excelTableSx, freezeColumnsSx(NAME_FROZEN_WIDTHS, GUTTER_WIDTH)]}>
           <TableHead>
             <TableRow>
@@ -524,7 +525,7 @@ export default function PestCatalog() {
             )}
           </TableBody>
         </Table>
-      </TableContainer>
+      </FitTableContainer>
 
       {/* Add / Edit Dialog */}
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="sm" fullWidth>

@@ -449,7 +449,7 @@ export default function ApiKeys() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 3 }}>
+    <Container maxWidth="lg">
       {canEditSystemKeys ? (
         <>
           {/* AI Brain Configuration */}

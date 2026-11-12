@@ -55,7 +55,7 @@ export default function InternshipAITutor() {
   if (isLoading) return <LinearProgress />;
 
   return (
-    <Box sx={{ p: 3, maxWidth: 800, mx: 'auto', height: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ maxWidth: 800, mx: 'auto', height: 'calc(100dvh - 190px)', minHeight: 420, display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
         <Button startIcon={<ArrowBack />} onClick={() => navigate(`/internship/module/${moduleId}`)}>
           Back

@@ -92,7 +92,7 @@ export default function InternshipGrades() {
   const studentData = grades || { modules: [], attempts: [] };
 
   return (
-    <Box sx={{ p: 3, maxWidth: 900, mx: 'auto' }}>
+    <Box sx={{ maxWidth: 900, mx: 'auto' }}>
       <Typography variant="h4" gutterBottom>My Grades</Typography>
 
       <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 3 }}>

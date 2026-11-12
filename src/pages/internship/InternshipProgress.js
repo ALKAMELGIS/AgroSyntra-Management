@@ -33,7 +33,7 @@ export default function InternshipProgress() {
   const totalLessons = modules.reduce((sum, m) => sum + Number(m.lesson_count || 0), 0);
 
   return (
-    <Box sx={{ p: 3, maxWidth: 1000, mx: 'auto' }}>
+    <Box sx={{ maxWidth: 1000, mx: 'auto' }}>
       <Button startIcon={<ArrowBack />} onClick={() => navigate('/internship')} sx={{ mb: 2 }}>
         Back to Modules
       </Button>

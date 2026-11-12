@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import {
   Box, Typography, TextField, MenuItem, Tabs, Tab, Button, Tooltip,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+  Table, TableBody, TableCell, TableHead, TableRow, Paper,
   CircularProgress, Alert, Dialog, DialogTitle, DialogContent, DialogActions,
   Autocomplete,
 } from '@mui/material';
@@ -785,7 +786,7 @@ export default function SpreadsheetFertigationEntry({ onEntrySaved, readOnly = f
             </Alert>
           )}
 
-          <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: scrollRegionHeight(isMobile ? 340 : 380), overflow: 'auto', WebkitOverflowScrolling: 'touch' }}>
+          <FitTableContainer component={Paper} variant="outlined" sx={{ overflow: 'auto', WebkitOverflowScrolling: 'touch' }}>
             <Table size="small" stickyHeader sx={[excelTableSx, fieldFreezeSx, totalRowSx]}>
               <TableHead>
                 <TableRow>
@@ -947,7 +948,7 @@ export default function SpreadsheetFertigationEntry({ onEntrySaved, readOnly = f
                 )}
               </TableBody>
             </Table>
-          </TableContainer>
+          </FitTableContainer>
         </>
       )}
 

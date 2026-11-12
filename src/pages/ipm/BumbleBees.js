@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { confirmAction } from '../../components/ConfirmDialog';
 import { useNavigate } from 'react-router-dom';
 import { computeBumbleBeeSummary, formatLastDeployDate } from '../../utils/bumbleBeeSummary';
 import {
-  Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Box, Typography, Paper, Table, TableBody, TableCell, TableHead, TableRow,
   Button, TextField, MenuItem, Chip,
   CircularProgress, Grid, FormControl, Select, Tabs, Tab, Alert, Card, CardContent,
   IconButton, Tooltip, Dialog, DialogTitle, DialogContent, DialogActions,
@@ -1076,7 +1077,7 @@ export default function BumbleBees() {
           <Alert severity="success" sx={{ mb: 1 }} onClose={() => setSaveToast('')}>{saveToast}</Alert>
         )}
 
-        <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: TABLE_MAX_HEIGHT }}>
+        <FitTableContainer component={Paper} variant="outlined" >
           <Table size="small" sx={[excelTableSx, freezeColumnsSx(VISIT_FROZEN_WIDTHS, GUTTER_WIDTH), rowStateSx, { minWidth: 960 }]}>
               <TableHead>
                 <TableRow>
@@ -1265,7 +1266,7 @@ export default function BumbleBees() {
                 )}
               </TableBody>
             </Table>
-          </TableContainer>
+          </FitTableContainer>
 
         {!readOnly && (
           <Box sx={{ mt: 1.5, display: 'flex', gap: 1, alignItems: 'center' }}>
@@ -1297,7 +1298,7 @@ export default function BumbleBees() {
             <DeleteSelectedButton count={inspectionSelection.size} onClick={handleBulkDeleteInspections} />
           </Box>
         )}
-        <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: TABLE_MAX_HEIGHT }}>
+        <FitTableContainer component={Paper} variant="outlined" >
           <Table size="small" sx={[excelTableSx, freezeColumnsSx(VISIT_FROZEN_WIDTHS, GUTTER_WIDTH), rowStateSx, { minWidth: 1100 }]}>
               <TableHead>
                 <TableRow>
@@ -1604,7 +1605,7 @@ export default function BumbleBees() {
                 )}
               </TableBody>
             </Table>
-          </TableContainer>
+          </FitTableContainer>
         {canCreateInspection && (
           <Box sx={{ mt: 1.5, display: 'flex', gap: 1, alignItems: 'center' }}>
             <Button size="small" variant="outlined" startIcon={<AddCircleOutline />} onClick={addInspectionDraftRow}>
@@ -1675,7 +1676,7 @@ export default function BumbleBees() {
         )}
 
         <Typography variant="h6" gutterBottom>Delivery log</Typography>
-        <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: TABLE_MAX_HEIGHT }}>
+        <FitTableContainer component={Paper} variant="outlined" >
           <Table size="small" sx={[excelTableSx, rowStateSx, { minWidth: 1100 }]}>
               <TableHead>
                 <TableRow>
@@ -1922,7 +1923,7 @@ export default function BumbleBees() {
                 )}
               </TableBody>
             </Table>
-          </TableContainer>
+          </FitTableContainer>
 
         {!readOnly && (
           <Box sx={{ mt: 1.5, display: 'flex', gap: 1, alignItems: 'center' }}>

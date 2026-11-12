@@ -378,3 +378,22 @@ Fixed:
 Tools:
 - Outside production the API logs any submitted field that validation threw away (`[validate] body fields dropped by schema`) — the cause of the inventory / shift / soil bugs in round 32.
 - `e2e/tools/explore.js` also checks that every table row has the same column count as its header; `ACTIVE_SITE` picks the site for live runs.
+
+## Round 34 — tables, scrolling, space and screen sizes (all pages)
+
+Measured with `e2e/tools/layout-audit.js`: every page × 7 screen sizes (1920 large, 1440 desktop, 1280 laptop, tablet landscape 1180, tablet portrait 820, phone landscape 844×390, phone portrait 390), on the real API with realistic volumes (300+ irrigation rows, 120 inventory items, 70+ harvests). Result: 518 page views, no horizontal page overflow, no clipped tables, every scrolling table keeps its header, no nested scrollbars.
+
+System-wide (theme + shared sheet styles, so every page gets it):
+- **Pinned table headers**: the whole header block sticks to the top of its scroll box (multi-row headers stay together; per-cell offsets broke when a title wrapped).
+- **Table boxes scroll both ways inside themselves** and are never taller than the screen minus the app bars (`--table-max-height` to change); short tables show no scrollbar.
+- **Full-page sheets fill the screen** (`FitTableContainer` / `useFitHeight`): Harvest, Irrigation, Fertigation and EC/PH spreadsheets, Labour records, Pesticide applications, Bumble bees, Crop rotation & planting, Plantation workbook, Nursery / Germination, Product & Pest catalog, PHI log, Work orders, Field staff — replacing fixed 480 / 520 / 68vh heights.
+- **One-line titles and compact one-line rows in sheets**; columns size to content and the table scrolls sideways instead of wrapping into tall rows.
+- **Slim scrollbars**: 6 px rounded thumb, transparent track and corner, darker on hover, hairline on touch screens, smooth page scrolling (off with reduced motion).
+- **Less wasted space**: removed double padding on 19 pages; tighter dialog padding on phones.
+
+Fixed from the screenshots:
+- Irrigation (RC-108): fixed columns now span both header rows (titles centred, no empty cells under them); the actions column is labelled and narrow; wider Operator / Authorized columns; Arabic titles.
+- Harvest: the TOTAL row covered the second line of wrapped titles ("Start Time" showed as "Time") — titles are one line and TOTAL sits in the frozen Date column (visible when scrolling sideways); the checkbox no longer spills into the TOTAL row ("..").
+- Harvest on phones: filters fold into one "Filters" button (bottom sheet + chips), so the sheet starts at the top.
+- Empty header cells named (Inventory, Summary).
+- Spray calendar: today's column is dark green with white text (light green + grey text was 1.8:1 contrast).

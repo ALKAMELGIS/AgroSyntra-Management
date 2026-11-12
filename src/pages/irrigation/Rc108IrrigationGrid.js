@@ -1,9 +1,11 @@
+import { visuallyHidden } from '@mui/utils';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Button, Checkbox, CircularProgress, Dialog, DialogActions,
   DialogContent, DialogTitle, FormControlLabel, IconButton, Paper, Table, TableBody,
-  TableCell, TableContainer, TableHead, TableRow, Typography,
+  TableCell, TableHead, TableRow, Typography,
 } from '@mui/material';
 import { AddCircleOutlineOutlined as AddCircleOutline, DeleteOutlined as Delete, FileUploadOutlined as FileUpload, SaveOutlined as SaveIcon } from '@mui/icons-material';
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -37,7 +39,8 @@ const FROZEN_COLS = [
   { label: 'Operator\nName', title: 'Operator(s) Name' },
   { label: 'Authorized', title: 'Authorized and Verified By' },
 ];
-const FROZEN_WIDTHS = [56, 148, 72, 60, 70, 80];
+// Wide enough for the titles and typical values ("Operator 2", "Supervisor").
+const FROZEN_WIDTHS = [56, 148, 72, 60, 96, 96];
 const LOC_COLS = [
   { label: 'Water\nQty', title: 'Water Qty (M3)' },
   { label: 'Freq', title: 'Frequency' },
@@ -73,6 +76,10 @@ const locColSx = Object.fromEntries(LOC_COL_WIDTHS.flatMap((width, i) => [
   }],
 ]));
 const twoRowHeadSx = {
+  '&& thead .MuiTableCell-head': {
+    paddingLeft: '4px !important',
+    paddingRight: '4px !important',
+  },
   '&& thead tr:first-of-type .MuiTableCell-head': {
     top: 0,
     whiteSpace: 'pre-line',
@@ -577,14 +584,17 @@ export default function Rc108IrrigationGrid({
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}><CircularProgress size={28} /></Box>
       ) : (
-        <TableContainer ref={scrollRef} component={Paper} variant="outlined" sx={{ maxHeight: '68vh', overflow: 'auto' }}>
+        <FitTableContainer ref={scrollRef} component={Paper} variant="outlined" sx={{ overflow: 'auto' }}>
           <Table
             size="small"
             sx={[excelTableSx, freezeColumnsSx([42, ...FROZEN_WIDTHS], GUTTER_WIDTH), twoRowHeadSx, draftSx]}
           >
             <TableHead>
               <TableRow>
-                <TableCell className="table-gutter" />
+                {/* Columns without sub-columns span both header rows, so their
+                    titles sit centred next to the location groups instead of
+                    above an empty second-row cell. */}
+                <TableCell className="table-gutter" rowSpan={2} />
                 <TableCell padding="checkbox" rowSpan={2} className="col-frozen-0">
                   <SelectAllCheckbox
                     ids={rows.map((r) => r._key)}
@@ -594,24 +604,23 @@ export default function Rc108IrrigationGrid({
                   />
                 </TableCell>
                 {FROZEN_COLS.map((col, i) => (
-                  <TableCell key={col.title} className={`col-frozen-${i + 1}`} title={col.title}>{col.label}</TableCell>
+                  <TableCell key={col.title} rowSpan={2} className={`col-frozen-${i + 1}`} title={col.title}>{col.label}</TableCell>
                 ))}
                 {locations.map((loc) => (
                   <TableCell key={loc.label} colSpan={5} align="center">{loc.label}</TableCell>
                 ))}
-                {!readOnly && <TableCell />}
+                {!readOnly && (
+                  <TableCell rowSpan={2} className="col-actions" sx={{ width: 44, minWidth: '44px !important' }}>
+                    <Box component="span" sx={visuallyHidden}>Actions</Box>
+                  </TableCell>
+                )}
               </TableRow>
               <TableRow>
-                <TableCell className="table-gutter" />
-                {FROZEN_COLS.map((col, i) => (
-                  <TableCell key={`sp-${col.title}`} className={`col-frozen-${i + 1}`} />
-                ))}
                 {locations.map((loc) => (
                   LOC_COLS.map((h, i) => (
                     <TableCell key={`${loc.label}-${h.title}`} className={`loc-col-${i}`} title={h.title}>{h.label}</TableCell>
                   ))
                 ))}
-                {!readOnly && <TableCell />}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -697,7 +706,7 @@ export default function Rc108IrrigationGrid({
               )}
             </TableBody>
           </Table>
-        </TableContainer>
+        </FitTableContainer>
       )}
 
       <Rc108Importer

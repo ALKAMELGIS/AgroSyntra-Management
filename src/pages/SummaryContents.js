@@ -1,3 +1,4 @@
+import { visuallyHidden } from '@mui/utils';
 import { useMemo, useState, useCallback } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -254,7 +255,7 @@ export default function SummaryContents() {
                 <TableCell width={fieldEditable ? '16%' : '18%'}>Area</TableCell>
                 <TableCell width={fieldEditable ? '39%' : '41%'}>Today (Excel / paper)</TableCell>
                 <TableCell width={fieldEditable ? '39%' : '41%'}>With this app</TableCell>
-                {fieldEditable && <TableCell width="6%" />}
+                {fieldEditable && <TableCell width="6%"><Box component="span" sx={visuallyHidden}>Actions</Box></TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -434,7 +435,7 @@ export default function SummaryContents() {
                   <TableCell width="34%">What it does</TableCell>
                   <TableCell width="24%">Replaces</TableCell>
                   <TableCell width="14%">Path</TableCell>
-                  <TableCell width="8%" align="right" />
+                  <TableCell width="8%" align="right"><Box component="span" sx={visuallyHidden}>Open</Box></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

@@ -32,7 +32,7 @@ export default function InternshipModule() {
   const { lessons = [], quizzes = [], ...mod } = moduleData;
 
   return (
-    <Box sx={{ p: 3, maxWidth: 1000, mx: 'auto' }}>
+    <Box sx={{ maxWidth: 1000, mx: 'auto' }}>
       <Button startIcon={<ArrowBack />} onClick={() => navigate('/internship')} sx={{ mb: 2 }}>
         Back to Modules
       </Button>

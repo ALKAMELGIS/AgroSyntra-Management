@@ -800,7 +800,7 @@ export default function Templates() {
 
   if (loading) {
     return (
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container maxWidth="lg">
         <PageTitle sx={{ mb: 3 }}>Templates</PageTitle>
         <Grid container spacing={3}>
           {[1, 2, 3, 4, 5, 6].map((i) => (

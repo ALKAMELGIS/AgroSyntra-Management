@@ -34,7 +34,7 @@ export default function TeacherPanel() {
 
   if (!canAuthor) {
     return (
-      <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
+      <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
         <PageTitle sx={{ mb: 1 }}>
           Teacher Panel
         </PageTitle>

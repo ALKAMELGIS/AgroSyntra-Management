@@ -67,7 +67,7 @@ export default function Recovery() {
 
   if (!canManage) {
     return (
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container maxWidth="lg">
         <Typography color="text.secondary">{t('adminAccess.recoveryNoPermission')}</Typography>
       </Container>
     );

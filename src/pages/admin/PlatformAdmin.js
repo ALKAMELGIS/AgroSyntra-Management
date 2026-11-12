@@ -116,7 +116,7 @@ export default function PlatformAdmin() {
   };
 
   return (
-    <Box sx={{ py: 3, px: { xs: 2, md: 3 }, maxWidth: 1760, mx: 'auto' }}>
+    <Box sx={{ maxWidth: 1760, mx: 'auto' }}>
       <PageTitle sx={{ mb: 1 }}>
         Platform Admin
       </PageTitle>

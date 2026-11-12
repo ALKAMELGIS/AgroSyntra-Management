@@ -12,6 +12,16 @@ import { SHELL_AR } from './shellLabels';
  */
 export const PAGE_AR = {
   // Template editor and field boundary editing (round 32).
+  'Week\nNo': 'رقم\nالأسبوع',
+  'Flow\n(m3)': 'التدفق\n(م³)',
+  'Operator\nName': 'اسم\nالمشغل',
+  'Authorized': 'المعتمد',
+  'Water\nQty': 'كمية\nالمياه',
+  'Freq': 'التكرار',
+  'Daily\nm3': 'يومي\nم³',
+  'Fert.\nType': 'نوع\nالسماد',
+  'Fert.\nQty': 'كمية\nالسماد',
+  'Irrigation and Fertigation Record — Drip': 'سجل الري والتسميد — بالتنقيط',
   'Save row': 'حفظ الصف',
   'This site has no fields with a location yet': 'لا توجد حقول بموقع جغرافي في هذا الموقع بعد',
   'No crop planted': 'لا يوجد محصول مزروع',

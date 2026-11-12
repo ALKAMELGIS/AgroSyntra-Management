@@ -35,7 +35,7 @@ export default function YieldPredictions() {
   }, [selectedField]);
 
   return (
-    <Container maxWidth="xl" sx={{ py: 3 }}>
+    <Container maxWidth="xl">
       <PageTitle sx={{ mb: 1 }}>
         Yield Predictions
       </PageTitle>

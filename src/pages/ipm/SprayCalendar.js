@@ -125,7 +125,7 @@ export default function SprayCalendar() {
         </Typography>
         <IconButton onClick={() => navigateMonth(1)} aria-label="Next"><ChevronRight /></IconButton>
         <Tooltip title="Go to today">
-          <IconButton onClick={goToday}><Today /></IconButton>
+          <IconButton onClick={goToday} aria-label="Go to today"><Today /></IconButton>
         </Tooltip>
       </Box>
 
@@ -146,11 +146,13 @@ export default function SprayCalendar() {
                 <Box key={d} sx={{
                   width: 36, minWidth: 36, textAlign: 'center', p: 0.5,
                   borderRight: '1px solid', borderColor: 'divider',
-                  bgcolor: isToday ? 'primary.light' : 'action.hover',
+                  // Today: dark green with white text (the light green with grey
+                  // caption text was 1.8:1 contrast).
+                  bgcolor: isToday ? 'primary.main' : 'action.hover',
                   color: isToday ? 'primary.contrastText' : 'text.secondary',
                 }}>
-                  <Typography variant="caption" sx={{ fontSize: '0.6875rem' }}>{dayName}</Typography>
-                  <Typography variant="caption" sx={{ fontWeight: 600, display: 'block' }}>{d}</Typography>
+                  <Typography variant="caption" sx={{ fontSize: '0.6875rem', color: 'inherit' }}>{dayName}</Typography>
+                  <Typography variant="caption" sx={{ fontWeight: 600, display: 'block', color: 'inherit' }}>{d}</Typography>
                 </Box>
               );
             })}

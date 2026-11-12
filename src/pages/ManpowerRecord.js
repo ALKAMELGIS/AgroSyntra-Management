@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import FitTableContainer from '../components/table/FitTableContainer';
 import { confirmAction } from '../components/ConfirmDialog';
 import { useSearchParams } from 'react-router-dom';
 import { TableSkeleton } from '../components/LoadingSkeleton';
@@ -139,7 +140,7 @@ function ManpowerRecordsGrid({
     + (readOnly ? 0 : 80);
 
   return (
-    <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: tableHeight, overflow: 'auto', WebkitOverflowScrolling: 'touch' }}>
+    <FitTableContainer component={Paper} variant="outlined" sx={{ overflow: 'auto', WebkitOverflowScrolling: 'touch' }}>
       <Table
         stickyHeader
         size="small"
@@ -329,7 +330,7 @@ function ManpowerRecordsGrid({
           )}
         </TableBody>
       </Table>
-    </TableContainer>
+    </FitTableContainer>
   );
 }
 
@@ -352,7 +353,6 @@ export default function ManpowerRecord() {
   const theme = useTheme();
   const { isMobile, scrollRegionHeight } = useAppLayout();
   const recordsTableHeight = scrollRegionHeight(isMobile ? 300 : 320);
-  const workersTableHeight = scrollRegionHeight(isMobile ? 280 : 300);
   const workersCountGridHeight = scrollRegionHeight(isMobile ? 320 : 360);
   const workersCountSummaryHeight = scrollRegionHeight(isMobile ? 280 : 320);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -1388,7 +1388,7 @@ export default function ManpowerRecord() {
           {loadingWorkers ? (
             <TableSkeleton rows={5} columns={5} />
           ) : (
-            <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: workersTableHeight, overflow: 'auto', WebkitOverflowScrolling: 'touch' }}>
+            <FitTableContainer component={Paper} variant="outlined" sx={{ overflow: 'auto', WebkitOverflowScrolling: 'touch' }}>
               <Table stickyHeader size="small" sx={[excelTableSx, freezeColumnsSx(WORKER_FROZEN_WIDTHS, GUTTER_WIDTH)]}>
                 <TableHead>
                   <TableRow>
@@ -1462,7 +1462,7 @@ export default function ManpowerRecord() {
                   ))}
                 </TableBody>
               </Table>
-            </TableContainer>
+            </FitTableContainer>
           )}
 
           {canEditReference && activities.length > 0 && (

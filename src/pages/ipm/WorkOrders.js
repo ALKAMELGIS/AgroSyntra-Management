@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { confirmAction } from '../../components/ConfirmDialog';
 import {
-  Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Box, Typography, Paper, Table, TableBody, TableCell, TableHead, TableRow,
   Button, Dialog, DialogActions, TextField, MenuItem, Chip,
   IconButton, Alert, CircularProgress, Tooltip, Select,
   ToggleButtonGroup, ToggleButton, Checkbox,
@@ -415,7 +416,7 @@ export default function WorkOrders() {
       {loading ? <Box sx={{ textAlign: 'center', py: 4 }}><CircularProgress /></Box>
       : workOrders.length === 0 ? <Paper sx={{ p: 4, textAlign: 'center' }}><Typography color="text.secondary">No work orders found</Typography></Paper>
       : (
-        <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
+        <FitTableContainer component={Paper} >
           <Table stickyHeader size="small">
             <TableHead><TableRow>
               {canManage && (
@@ -469,7 +470,7 @@ export default function WorkOrders() {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
+        </FitTableContainer>
       )}
 
       {/* ═══════════════ CREATE DIALOG — Paper Template Style ═══════════════ */}

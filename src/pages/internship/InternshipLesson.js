@@ -163,7 +163,7 @@ export default function InternshipLesson() {
   const nextLesson = getNextLesson();
 
   return (
-    <Box sx={{ p: 3, maxWidth: 800, mx: 'auto' }}>
+    <Box sx={{ maxWidth: 800, mx: 'auto' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
         <Button startIcon={<ArrowBack />} onClick={() => lesson.module_id ? navigate(`/internship/module/${lesson.module_id}`) : navigate('/internship')}>
           Back to Module

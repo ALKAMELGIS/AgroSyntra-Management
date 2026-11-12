@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import {
-  Box, Typography, Paper, Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Box, Typography, Paper, Button, TextField, Table, TableBody, TableCell, TableHead, TableRow,
   Tabs, Tab, CircularProgress, IconButton, Tooltip, Checkbox,
   Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
@@ -283,7 +284,7 @@ function SpreadsheetGrid({
   const requestorStartIdx = fields.findIndex((f) => f.key === 'requestorName');
 
   return (
-    <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: '70vh', overflow: 'auto' }}>
+    <FitTableContainer component={Paper} variant="outlined" sx={{ overflow: 'auto' }}>
       <Table
         size="small"
         sx={[
@@ -532,7 +533,7 @@ function SpreadsheetGrid({
           </Button>
         )}
       </Box>
-    </TableContainer>
+    </FitTableContainer>
   );
 }
 

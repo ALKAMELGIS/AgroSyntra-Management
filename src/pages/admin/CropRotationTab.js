@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Typography, Paper, Button, TextField, MenuItem, Chip, Alert,
@@ -440,7 +441,7 @@ export default function CropRotationTab({
               : 'No vacant or partly free fields for this type.'}
           </InfoNote>
         ) : (
-          <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 340px)' }}>
+          <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 350 }}>
             <Table size="small" sx={[excelTableSx, freezeColumnsSx(ROTATION_FROZEN_WIDTHS)]}>
               <TableHead>
                 <TableRow>
@@ -507,7 +508,7 @@ export default function CropRotationTab({
               : 'No crop currently occupying these fields.'}
           </InfoNote>
         ) : (
-          <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 340px)' }}>
+          <FitTableContainer component={Paper} variant="outlined" >
             <Table size="small" sx={[excelTableSx, freezeColumnsSx(ROTATION_FROZEN_WIDTHS)]}>
               <TableHead>
                 <TableRow>
@@ -547,7 +548,7 @@ export default function CropRotationTab({
                 ))}
               </TableBody>
             </Table>
-          </TableContainer>
+          </FitTableContainer>
         )
       )}
 
@@ -580,7 +581,7 @@ export default function CropRotationTab({
       ) : visibleHistory.length === 0 ? (
         <InfoNote mode="line" severity="info">{history.length === 0 && !fieldFilterId && !structureFieldIds?.size ? 'No crop rotation history found.' : emptyCopy}</InfoNote>
       ) : (
-        <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 340px)' }}>
+        <FitTableContainer component={Paper} variant="outlined" >
           <Table size="small" sx={[excelTableSx, freezeColumnsSx(ROTATION_FROZEN_WIDTHS)]}>
             <TableHead>
               <TableRow>
@@ -641,7 +642,7 @@ export default function CropRotationTab({
               })}
             </TableBody>
           </Table>
-        </TableContainer>
+        </FitTableContainer>
       )}
         </>
       )}
@@ -764,7 +765,7 @@ export default function CropRotationTab({
                   color={bulkPreview.some((r) => !r.valid) ? 'error' : 'default'}
                 />
               </Stack>
-              <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 350 }}>
+              <FitTableContainer component={Paper} variant="outlined" >
                 <Table size="small" sx={[excelTableSx, bulkInvalidSx]}>
                   <TableHead>
                     <TableRow>
@@ -795,7 +796,7 @@ export default function CropRotationTab({
                     ))}
                   </TableBody>
                 </Table>
-              </TableContainer>
+              </FitTableContainer>
             </Box>
           )}
         </DialogContent>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -8,7 +9,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TableContainer,
   Paper,
   CircularProgress,
   TextField,
@@ -271,7 +271,7 @@ export default function PhiAuditLog() {
           <Typography color="text.secondary">No PHI conflicts found for the selected filters.</Typography>
         </Paper>
       ) : (
-        <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 320px)' }}>
+        <FitTableContainer component={Paper} variant="outlined" >
           <Table size="small" sx={[excelTableSx, freezeColumnsSx(AUDIT_FROZEN_WIDTHS, GUTTER_WIDTH), severityCellSx, { minWidth: 1100 }]}>
             <TableHead>
               <TableRow>
@@ -339,7 +339,7 @@ export default function PhiAuditLog() {
               })}
             </TableBody>
           </Table>
-        </TableContainer>
+        </FitTableContainer>
       )}
 
       <Box mt={1}>

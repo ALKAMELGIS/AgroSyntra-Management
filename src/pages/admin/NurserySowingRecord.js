@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef, useMemo, Fragment } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { confirmAction } from '../../components/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 import {
-  Box, Typography, Paper, Button, TextField, Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Box, Typography, Paper, Button, TextField, Chip, Table, TableBody, TableCell, TableHead, TableRow,
   CircularProgress, IconButton, Tooltip,
 } from '@mui/material';
 import {
@@ -412,7 +413,7 @@ export default function NurserySowingRecord({
         </Typography>
       </Box>
 
-      <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 320px)', overflow: 'auto', borderRadius: '0 0 4px 4px' }}>
+      <FitTableContainer component={Paper} variant="outlined" sx={{ overflow: 'auto', borderRadius: '0 0 4px 4px' }}>
         <Table size="small" sx={[excelTableSx, freezeColumnsSx(SOWING_FROZEN_WIDTHS, GUTTER_WIDTH), twoRowHeadSx, sowingDraftSx, { minWidth: 2200 }]}>
           <TableHead>
             <TableRow>
@@ -556,7 +557,7 @@ export default function NurserySowingRecord({
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </FitTableContainer>
 
       <NurserySowingImporter
         open={importerOpen}

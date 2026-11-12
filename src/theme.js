@@ -612,11 +612,11 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
         },
       },
       MuiDialogTitle: {
-        styleOverrides: { root: { fontSize: '1.125rem', fontWeight: 600, letterSpacing: '-0.015em', padding: '22px 24px 10px' } },
+        styleOverrides: { root: { fontSize: '1.125rem', fontWeight: 600, letterSpacing: '-0.015em', padding: '22px 24px 10px', [breakpoints.down('sm')]: { padding: '16px 16px 8px', fontSize: '1.0625rem' } } },
       },
-      MuiDialogContent: { styleOverrides: { root: { padding: '10px 24px' } } },
+      MuiDialogContent: { styleOverrides: { root: { padding: '10px 24px', [breakpoints.down('sm')]: { padding: '8px 16px' } } } },
       MuiDialogActions: {
-        styleOverrides: { root: { padding: '14px 24px 20px', gap: 8, '& > :not(style) ~ :not(style)': { marginLeft: 0 } } },
+        styleOverrides: { root: { padding: '14px 24px 20px', gap: 8, flexWrap: 'wrap', '& > :not(style) ~ :not(style)': { marginLeft: 0 }, [breakpoints.down('sm')]: { padding: '12px 16px 16px' } } },
       },
       MuiDrawer: {
         styleOverrides: {
@@ -722,7 +722,13 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
           root: {
             borderRadius: RADIUS.md,
             maxWidth: '100%',
-            overflowX: 'auto',
+            // Scrolls both ways inside its own box, and never taller than the
+            // screen minus the app bars, so the pinned header stays in view.
+            // Short tables are unaffected (no scrollbar until needed). A page
+            // can set --table-max-height, or its own maxHeight, to change it.
+            overflow: 'auto',
+            maxHeight: 'var(--table-max-height, max(300px, calc(100dvh - 190px)))',
+            overscrollBehavior: 'contain',
             WebkitOverflowScrolling: 'touch',
           },
         },
@@ -730,6 +736,11 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       MuiTableHead: {
         styleOverrides: {
           root: {
+            // Header pinned to the top of its scroll box (whole block, so
+            // multi-row headers stay together).
+            position: 'sticky',
+            top: 0,
+            zIndex: 2,
             '& .MuiTableCell-head': {
               fontWeight: 600,
               fontSize: '0.6875rem',
@@ -739,9 +750,9 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
               backgroundColor: palette.background.muted,
               borderBottom: `1px solid ${palette.border.subtle}`,
               padding: '11px 16px',
-              // Long titles wrap to a second line rather than widening the column.
-              whiteSpace: 'normal',
-              minWidth: 88,
+              // One line per title; the table scrolls sideways instead of
+              // stacking words. Columns size to the longer of title or content.
+              whiteSpace: 'nowrap',
               lineHeight: 1.35,
               verticalAlign: 'bottom',
               '&:empty, &.MuiTableCell-paddingCheckbox': { minWidth: 0 },

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Typography, Paper, Button, TextField, MenuItem, Chip,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Table, TableBody, TableCell, TableHead, TableRow,
   Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Tooltip,
   CircularProgress,
 } from '@mui/material';
@@ -409,7 +410,7 @@ export default function OpenFieldPlanting({ siteFilter, fields = [], crops = [],
         onUprootSuccess={() => { loadRecords(); reloadOccupancy(); }}
       />
 
-      <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 'calc(100vh - 280px)', overflow: 'auto' }}>
+      <FitTableContainer component={Paper} variant="outlined" sx={{ overflow: 'auto' }}>
         <Table size="small" sx={[excelTableSx, freezeColumnsSx(OF_FROZEN_WIDTHS, GUTTER_WIDTH), ofDraftSx, { minWidth: 1400 }]}>
           <TableHead>
             <TableRow>
@@ -548,7 +549,7 @@ export default function OpenFieldPlanting({ siteFilter, fields = [], crops = [],
             })}
           </TableBody>
         </Table>
-      </TableContainer>
+      </FitTableContainer>
 
       <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
         <Button size="small" startIcon={<Add />} onClick={addRow} disabled={isSeasonReadOnly}>Add Row</Button>

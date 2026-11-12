@@ -304,7 +304,7 @@ export default function TemplatePreview() {
     ));
 
   return (
-    <Container maxWidth={false} sx={{ py: 3, px: { xs: 2, md: 4 } }}>
+    <Container maxWidth={false}>
       {/* Preview banner */}
       <Alert
         severity="info"

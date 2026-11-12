@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { confirmAction } from '../../components/ConfirmDialog';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -2009,8 +2010,8 @@ export default function PesticideApplications() {
           {/* My Site sub-tab */}
           {pestCatalogTab === 0 && (
             <>
-              <TableContainer component={Paper} variant="outlined"
-                sx={{ maxHeight: 'calc(100vh - 320px)', borderRadius: 1 }}>
+              <FitTableContainer component={Paper} variant="outlined"
+                sx={{ borderRadius: 1 }}>
                 <Table size="small" sx={excelTableSx}>
                   <TableHead>
                     <TableRow>
@@ -2092,7 +2093,7 @@ export default function PesticideApplications() {
                     )}
                   </TableBody>
                 </Table>
-              </TableContainer>
+              </FitTableContainer>
               <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
                 {pestCatalogItems.length} product{pestCatalogItems.length !== 1 ? 's' : ''} in this site's catalog.
               </Typography>
@@ -2116,8 +2117,8 @@ export default function PesticideApplications() {
                   </Button>
                 </Box>
               )}
-              <TableContainer component={Paper} variant="outlined"
-                sx={{ maxHeight: 'calc(100vh - 320px)', borderRadius: 1 }}>
+              <FitTableContainer component={Paper} variant="outlined"
+                sx={{ borderRadius: 1 }}>
                 <Table size="small" sx={excelTableSx}>
                   <TableHead>
                     <TableRow>
@@ -2195,7 +2196,7 @@ export default function PesticideApplications() {
                     )}
                   </TableBody>
                 </Table>
-              </TableContainer>
+              </FitTableContainer>
               <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
                 {pestCatalogBrowse.length} product{pestCatalogBrowse.length !== 1 ? 's' : ''} in master catalog.
               </Typography>

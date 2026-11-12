@@ -1,5 +1,7 @@
 import { Toolbar, TextField, MenuItem, IconButton, Tooltip, Typography } from '@mui/material';
 import { FileDownloadOutlined as ExportIcon } from '@mui/icons-material';
+import FilterBar from '../FilterBar';
+import useAppLayout from '../../hooks/useAppLayout';
 
 export default function HarvestEntryToolbar({
   farmAreas = [],
@@ -20,19 +22,10 @@ export default function HarvestEntryToolbar({
   onDateToChange,
   onExport,
 }) {
-  return (
-    <Toolbar
-      sx={{
-        px: 0,
-        minHeight: '40px !important',
-        flexWrap: 'wrap',
-        gap: 1,
-        mb: 1,
-      }}
-    >
-      <Typography variant="body2" sx={{ fontWeight: 600, mr: 0.5 }}>
-        Filters
-      </Typography>
+  const { isPhone } = useAppLayout();
+
+  const filterFields = (
+    <>
       <TextField
         select
         size="small"
@@ -103,13 +96,64 @@ export default function HarvestEntryToolbar({
         InputLabelProps={{ shrink: true }}
         sx={{ minWidth: 140 }}
       />
-      {onExport && (
-        <Tooltip title="Export to Excel">
-          <IconButton size="small" onClick={onExport} aria-label="Export to Excel">
-            <ExportIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+    </>
+  );
+
+  const exportButton = onExport ? (
+    <Tooltip title="Export to Excel">
+      <IconButton size="small" onClick={onExport} aria-label="Export to Excel">
+        <ExportIcon />
+      </IconButton>
+    </Tooltip>
+  ) : null;
+
+  // Phone: one "Filters" button (bottom sheet) plus a chip per active filter,
+  // so the harvest sheet starts right away instead of below four rows of inputs.
+  if (isPhone) {
+    const nameOf = (list, id) => list.find((x) => x.id === id)?.name || id;
+    const chips = [
+      farmAreaId && { key: 'fa', label: nameOf(farmAreas, farmAreaId), onDelete: () => onFarmAreaChange?.('') },
+      fieldId && { key: 'f', label: nameOf(fields, fieldId), onDelete: () => onFieldChange?.('') },
+      cropName && { key: 'c', label: cropName, onDelete: () => onCropChange?.('') },
+      variety && { key: 'v', label: variety, onDelete: () => onVarietyChange?.('') },
+    ].filter(Boolean);
+    const clearAll = () => {
+      onFarmAreaChange?.('');
+      onFieldChange?.('');
+      onCropChange?.('');
+      onVarietyChange?.('');
+    };
+    return (
+      <FilterBar
+        chips={chips}
+        onClear={clearAll}
+        actions={exportButton}
+        search={(
+          <Typography variant="body2" sx={{ alignSelf: 'center', flex: 1, color: 'text.secondary', fontVariantNumeric: 'tabular-nums' }}>
+            <bdi>{dateFrom}</bdi> → <bdi>{dateTo}</bdi>
+          </Typography>
+        )}
+      >
+        {filterFields}
+      </FilterBar>
+    );
+  }
+
+  return (
+    <Toolbar
+      sx={{
+        px: 0,
+        minHeight: '40px !important',
+        flexWrap: 'wrap',
+        gap: 1,
+        mb: 1,
+      }}
+    >
+      <Typography variant="body2" sx={{ fontWeight: 600, mr: 0.5 }}>
+        Filters
+      </Typography>
+      {filterFields}
+      {exportButton}
     </Toolbar>
   );
 }

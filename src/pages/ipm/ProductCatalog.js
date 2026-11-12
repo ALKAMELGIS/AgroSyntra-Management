@@ -1,8 +1,9 @@
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
+import FitTableContainer from '../../components/table/FitTableContainer';
 import { confirmAction } from '../../components/ConfirmDialog';
 import { Fragment, useState, useEffect, useCallback, useMemo } from 'react';
 import {
-  Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Box, Typography, Paper, Table, TableBody, TableCell, TableHead, TableRow,
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Tabs, Tab,
   CircularProgress, Grid, FormControl, InputLabel, Select, IconButton, Tooltip, Switch,
   FormControlLabel, Divider, Alert, Autocomplete, Checkbox,
@@ -385,7 +386,7 @@ export default function ProductCatalog() {
 
       {/* ─── Pesticide Products Table (Excel column order) ─── */}
       {tab === 0 && (
-        <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: TABLE_MAX_HEIGHT }}>
+        <FitTableContainer component={Paper} variant="outlined" >
           <Table size="small" sx={[excelTableSx, freezeColumnsSx(PRODUCT_FROZEN_WIDTHS, GUTTER_WIDTH)]}>
             <TableHead>
               <TableRow>
@@ -468,7 +469,7 @@ export default function ProductCatalog() {
               )}
             </TableBody>
           </Table>
-        </TableContainer>
+        </FitTableContainer>
       )}
 
       {/* ─── Foundation Catalog (read-only reference) ─── */}
@@ -477,7 +478,7 @@ export default function ProductCatalog() {
           <InfoNote severity="info" sx={{ mb: 2 }}>
             Reference catalog — platform-maintained PPP data sheets. Add items to your active product list; changes here do not affect other organizations.
           </InfoNote>
-          <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: PHI_TABLE_MAX_HEIGHT }}>
+          <FitTableContainer component={Paper} variant="outlined" >
             <Table size="small" sx={[excelTableSx, freezeColumnsSx(PRODUCT_FROZEN_WIDTHS, GUTTER_WIDTH)]}>
               <TableHead>
                 <TableRow>
@@ -525,13 +526,13 @@ export default function ProductCatalog() {
                 )}
               </TableBody>
             </Table>
-          </TableContainer>
+          </FitTableContainer>
         </Box>
       )}
 
       {/* ─── Biological Products Table ─── */}
       {tab === 2 && (
-        <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: TABLE_MAX_HEIGHT }}>
+        <FitTableContainer component={Paper} variant="outlined" >
           <Table size="small" sx={excelTableSx}>
             <TableHead>
               <TableRow>
@@ -563,7 +564,7 @@ export default function ProductCatalog() {
               )}
             </TableBody>
           </Table>
-        </TableContainer>
+        </FitTableContainer>
       )}
 
       {/* ─── PHI Table Tab ─── */}
@@ -583,7 +584,7 @@ export default function ProductCatalog() {
           {phiLoading ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}><CircularProgress /></Box>
           ) : (
-            <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: PHI_TABLE_MAX_HEIGHT }}>
+            <FitTableContainer component={Paper} variant="outlined" >
               <Table size="small" sx={[excelTableSx, phiRowSx]}>
                 <TableHead>
                   <TableRow>
@@ -711,7 +712,7 @@ export default function ProductCatalog() {
                   )}
                 </TableBody>
               </Table>
-            </TableContainer>
+            </FitTableContainer>
           )}
         </Box>
       )}

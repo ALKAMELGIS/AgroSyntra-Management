@@ -191,7 +191,7 @@ export default function DataBackup() {
   const csvOverdue = csvAgeDays === null || csvAgeDays >= CSV_REMINDER_THRESHOLD_DAYS;
 
   return (
-    <Box sx={{ p: 3, maxWidth: 800, mx: 'auto' }}>
+    <Box sx={{ maxWidth: 800, mx: 'auto' }}>
       <PageTitle help="Protect your farm data with multiple backup methods." sx={{ mb: 3 }}>Data Backup</PageTitle>
 
       {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}

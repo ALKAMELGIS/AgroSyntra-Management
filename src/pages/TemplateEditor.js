@@ -373,7 +373,7 @@ export default function TemplateEditor() {
 
   // ---------- Render ----------
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
+    <Container maxWidth="xl">
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
         <IconButton onClick={() => navigate('/templates')} aria-label="Back"><BackIcon /></IconButton>
         <Typography variant="h4">
