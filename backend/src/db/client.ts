@@ -1,4 +1,11 @@
-import { Pool, QueryConfig, QueryResult, QueryResultRow } from 'pg';
+import { Pool, QueryConfig, QueryResult, QueryResultRow, types } from 'pg';
+
+// DATE columns come back as the plain 'YYYY-MM-DD' text. By default node-pg turns
+// them into a JS Date at local midnight, which on a server set to UTC+4 (Dubai)
+// serialises as the previous day (2026-11-12 → "2026-11-11T20:00:00.000Z").
+// Code that reads dates already accepts both strings and Date objects.
+export const PG_DATE_OID = 1082;
+types.setTypeParser(PG_DATE_OID, (value: string) => value);
 import * as Sentry from '@sentry/node';
 import { databaseConfig } from '../config/database';
 import { logger } from '../utils/logger';

@@ -12,6 +12,17 @@ import { SHELL_AR } from './shellLabels';
  */
 export const PAGE_AR = {
   // Template editor and field boundary editing (round 32).
+  'Save row': 'حفظ الصف',
+  'This site has no fields with a location yet': 'لا توجد حقول بموقع جغرافي في هذا الموقع بعد',
+  'No crop planted': 'لا يوجد محصول مزروع',
+  'Enter also saves the row.': 'زر Enter يحفظ الصف أيضًا.',
+  'Choose a site in the side menu to start entering fertigation data.': 'اختر موقعًا من القائمة الجانبية لبدء إدخال بيانات التسميد.',
+  'Choose a site in the side menu to start entering irrigation data.': 'اختر موقعًا من القائمة الجانبية لبدء إدخال بيانات الري.',
+  'Delete this sowing record?': 'حذف سجل الزراعة هذا؟',
+  'Delete this planting record?': 'حذف سجل الغرس هذا؟',
+  'Write these rows to the database? This cannot be easily undone.': 'كتابة هذه الصفوف في قاعدة البيانات؟ لا يمكن التراجع عن ذلك بسهولة.',
+  'Delete failed': 'فشل الحذف',
+  'Some columns in this template share the same key, so their values overwrite each other. Saving gives each column its own key; data already entered under the shared key stays with the first column.': 'بعض أعمدة هذا القالب تشترك في المفتاح نفسه، فتكتب قيمها فوق بعضها. الحفظ يعطي كل عمود مفتاحًا خاصًا به؛ البيانات المدخلة سابقًا تبقى مع العمود الأول.',
   'Please confirm': 'يرجى التأكيد',
   'Yes, cancel': 'نعم، إلغاء',
   'Drop': 'حذف',
@@ -423,7 +434,6 @@ export const PAGE_AR = {
   Cancel: 'إلغاء',
   Save: 'حفظ',
   'Save All': 'حفظ الكل',
-  'Save row': 'حفظ الصف',
   'Save Anyway': 'حفظ على أي حال',
   'Save changes': 'حفظ التغييرات',
   'Save Changes': 'حفظ التغييرات',
@@ -1513,6 +1523,7 @@ const PATTERNS = [
   [/^Add options for the dropdown column "(.+)"$/, (m) => `أضف خيارات لعمود القائمة "${m[1]}"`],
   [/^Add a formula for the calculated column "(.+)"$/, (m) => `أضف معادلة للعمود المحسوب "${m[1]}"`],
   [/^Boundary of (.+) saved$/, (m) => `تم حفظ حدود ${m[1]}`],
+  [/^No crop is planted in (.+)\. Record the planting in Crop Rotation first\.$/, (m) => `لا يوجد محصول مزروع في ${m[1]}. سجّل الزراعة من الدورة الزراعية أولًا.`],
   [/^Show all \((\d[\d,]*)\)$/, (m) => `عرض الكل (${m[1]})`],
   [/^The AI service returned an error \((\d+)\)\.$/, (m) => `خدمة الذكاء الاصطناعي أعادت خطأ (${m[1]}).`],
   [/^(\d[\d,]*) \/ (\d[\d,]*) linked$/, (m) => `${m[1]} / ${m[2]} مرتبطة`],

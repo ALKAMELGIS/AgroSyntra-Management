@@ -910,7 +910,11 @@ export default function SpreadsheetFertigationEntry({ onEntrySaved, readOnly = f
                 {/* Totals row */}
                 {rows.length > 0 && (
                   <TableRow className="row-total">
+                    {/* One empty cell per header column so the sums sit under
+                        Daily Total and the fertilizers (Operator, Crop, Recipe,
+                        Valves, Flow Rate on wide screens, Water Qty, Frequency). */}
                     <TableCell className="col-frozen-0">TOTAL</TableCell>
+                    <TableCell {...CELL} />
                     <TableCell {...CELL} />
                     <TableCell {...CELL} />
                     <TableCell {...CELL} />

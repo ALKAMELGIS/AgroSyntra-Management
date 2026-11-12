@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import FormikSubmitFeedback from '../../components/FormikSubmitFeedback';
 import {
   Container,
   Paper,
@@ -417,7 +418,7 @@ function FertigationEntry() {
 
         {availableStructureTabs.length === 0 && (
           <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
-            No fields configured for this site. Add fields in Management to enable fertigation entry.
+            {defaultSiteId ? 'No fields configured for this site. Add fields in Management to enable fertigation entry.' : 'Choose a site in the side menu to start entering fertigation data.'}
           </InfoNote>
         )}
 
@@ -482,6 +483,7 @@ function FertigationEntry() {
 
             return (
               <Form>
+                <FormikSubmitFeedback />
                 {/* Show validation errors if any */}
                 {hasErrors && allFieldsTouched && (
                   <Alert severity="error" sx={{ mb: 2 }}>

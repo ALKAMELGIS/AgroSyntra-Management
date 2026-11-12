@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, Fragment } from 'react';
+import FormikSubmitFeedback from '../components/FormikSubmitFeedback';
 import { useConfirmDialog } from '../components/ConfirmDialog';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { useTranslation } from 'react-i18next';
@@ -439,6 +440,7 @@ function FarmAreasCropsManagement() {
           >
             {({ values, errors, touched, handleChange, handleBlur, setFieldValue, resetForm }) => (
               <Form>
+                <FormikSubmitFeedback />
                 <DialogContent>
                   <Grid container spacing={2}>
                     <Grid size={12}>
@@ -734,6 +736,7 @@ function FarmAreasCropsManagement() {
           >
             {({ values, errors, touched, handleChange, handleBlur, resetForm }) => (
               <Form>
+                <FormikSubmitFeedback />
                 <DialogContent>
                   <Grid container spacing={2}>
                     <Grid size={12}>

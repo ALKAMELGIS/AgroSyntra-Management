@@ -94,6 +94,7 @@ export default function ScoutingObservationTable({
                       value={row.samplingUnit || ''}
                       onChange={(e) => onUpdateRow(idx, { samplingUnit: e.target.value })}
                       disabled={!hasSegments}
+                      inputProps={{ 'aria-label': `${row.label} segment` }}
                     >
                       <MenuItem value="">
                         <em>{hasSegments ? 'Select…' : 'Select bays/valves above'}</em>
@@ -109,6 +110,7 @@ export default function ScoutingObservationTable({
                     <Select
                       value={row.samplingMethod || 'plant'}
                       onChange={(e) => onUpdateRow(idx, { samplingMethod: e.target.value })}
+                      inputProps={{ 'aria-label': `${row.label} count basis` }}
                     >
                       {COUNT_BASIS_OPTIONS.map((m) => (
                         <MenuItem key={m} value={m}>{m}</MenuItem>
@@ -124,7 +126,7 @@ export default function ScoutingObservationTable({
                       type="number"
                       value={row[`count${n}`]}
                       onChange={(e) => onUpdateRow(idx, { [`count${n}`]: e.target.value })}
-                      inputProps={{ style: { textAlign: 'center', width: 52 } }}
+                      inputProps={{ style: { textAlign: 'center', width: 52 }, 'aria-label': `${row.label} sample ${n}`, inputMode: 'numeric', min: 0 }}
                     />
                   </TableCell>
                 ))}
@@ -144,7 +146,7 @@ export default function ScoutingObservationTable({
                 <TableCell align="center" sx={{ verticalAlign: 'top' }}>
                   {!row.isBase && (
                     <Tooltip title="Remove this row">
-                      <IconButton size="small" onClick={() => onRemoveRow(idx)} color="error">
+                      <IconButton size="small" onClick={() => onRemoveRow(idx)} color="error" aria-label={`Remove ${row.label} row`}>
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>

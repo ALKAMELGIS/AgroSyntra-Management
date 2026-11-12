@@ -22,3 +22,11 @@ test('save is blocked with a clear reason', () => {
   expect(templateProblem({ ...base, columns: [{ label: 'Sum', type: 'calculated', formula: '' }] })).toMatch(/formula/);
   expect(templateProblem({ ...base, columns: [{ label: 'Status', type: 'dropdown', options: 'Open, Closed' }] })).toBeNull();
 });
+
+test('a key already saved is kept even when it is not ASCII', () => {
+  const keys = assignKeys([
+    { _id: 'a', key: '_', savedKey: true, label: 'الكمية' },
+    { _id: 'b', key: '', label: 'الكمية' },
+  ], 'col');
+  expect([...keys.values()]).toEqual(['_', 'col_2']);
+});

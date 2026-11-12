@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import FormikSubmitFeedback from '../components/FormikSubmitFeedback';
 import { useConfirmDialog } from '../components/ConfirmDialog';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { useTranslation } from 'react-i18next';
@@ -707,6 +708,7 @@ function FieldTypesNamesManagement() {
 
               return (
                 <Form>
+                  <FormikSubmitFeedback />
                   <DialogContent>
                     <Grid container spacing={2}>
                       <Grid size={12}>
@@ -860,6 +862,7 @@ function FieldTypesNamesManagement() {
           >
             {({ values, errors, touched, handleChange, handleBlur, resetForm }) => (
               <Form>
+                <FormikSubmitFeedback />
                 <DialogContent>
                   <Grid container spacing={2}>
                     <Grid size={6}>
@@ -1038,6 +1041,7 @@ function FieldTypesNamesManagement() {
             >
               {({ values, errors, touched, handleChange, handleBlur, resetForm }) => (
                 <Form>
+                  <FormikSubmitFeedback />
                   <DialogContent>
                     <Grid container spacing={2}>
                       <Grid size={12}>

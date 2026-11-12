@@ -136,6 +136,29 @@ function useScrollDraftIntoView(hasDraft) {
   return draftRef;
 }
 
+/**
+ * Under a harvest sheet: "Add Row", or — while a new row is open — clear
+ * Save row / Cancel buttons. The only save control used to be a 14px tick at
+ * the far end of a wide row, off screen on most displays. Enter saves too.
+ */
+function DraftRowBar({ newRow, onSave, onCancel, saving = false, end = false, children }) {
+  return (
+    <Box sx={{ mt: '6px', display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap', justifyContent: end ? 'flex-end' : 'flex-start' }}>
+      {newRow ? (
+        <>
+          <Button size="small" variant="contained" startIcon={<Check sx={{ fontSize: 16 }} />} onClick={onSave} disabled={saving} sx={{ textTransform: 'none' }}>
+            Save row
+          </Button>
+          <Button size="small" onClick={onCancel} sx={{ textTransform: 'none' }}>Cancel</Button>
+          <Typography variant="caption" color="text.secondary" sx={{ display: { xs: 'none', sm: 'block' } }}>
+            Enter also saves the row.
+          </Typography>
+        </>
+      ) : children}
+    </Box>
+  );
+}
+
 function CompanyHeader({ fieldName }) {
   return (
     <Box sx={{ border: GRID_BORDER, mb: 0 }}>
@@ -234,6 +257,10 @@ function FieldTab({
 
   const handleSaveRow = async () => {
     if (readOnly) return;
+    if (!cropOptions.length) {
+      notify.warning(`No crop is planted in ${field.name}. Record the planting in Crop Rotation first.`);
+      return;
+    }
     if (!newRow.quantity || !newRow.variety) {
       notify.error('Variety and quantity are required');
       return;
@@ -366,7 +393,7 @@ function FieldTab({
                   </TableRow>
                 ))}
                 {newRow && (
-                  <TableRow className="row-draft" ref={draftRef}>
+                  <TableRow className="row-draft" ref={draftRef} onKeyDown={(e) => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); handleSaveRow(); } }}>
                     <TableCell padding="checkbox" className="col-frozen-0" />
                     <TableCell className="col-frozen-1" sx={{ p: 0 }}>
                       <input type="date" value={newRow.date} onChange={e => setNewRow(p => ({ ...p, date: e.target.value }))} style={inputSx} />
@@ -403,8 +430,8 @@ function FieldTab({
                           ))}
                         </Select>
                       ) : (
-                        <Box component="span" sx={{ display: 'block', px: '3px', py: '1px', fontFamily: FONT, fontSize: '11px', lineHeight: '22px' }}>
-                          {cropOptions[0]?.name || ''}
+                        <Box component="span" sx={{ display: 'block', px: '3px', py: '1px', fontFamily: FONT, fontSize: '11px', lineHeight: '22px', ...(cropOptions.length ? {} : { color: 'warning.dark', fontStyle: 'italic', whiteSpace: 'nowrap' }) }}>
+                          {cropOptions[0]?.name || 'No crop planted'}
                         </Box>
                       )}
                     </TableCell>
@@ -449,12 +476,12 @@ function FieldTab({
           </TableBody>
         </Table>
       </TableContainer>
-      <Box sx={{ mt: '4px' }}>
+      <DraftRowBar newRow={newRow} onAdd={handleAddRow} onSave={handleSaveRow} onCancel={() => setNewRow(null)}>
         <Button size="small" startIcon={<Add sx={{ fontSize: '13px !important' }} />} onClick={handleAddRow}
           sx={{ fontFamily: FONT, fontSize: '10.5px', textTransform: 'none', color: HEADER_FILL, border: GRID_BORDER, borderRadius: 0, px: 1, py: '2px', minHeight: 0 }}>
           Add Row
         </Button>
-      </Box>
+      </DraftRowBar>
       {phiDialog}
     </Box>
   );
@@ -981,7 +1008,7 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
                   );
                 })}
                 {newRow && (
-                  <TableRow sx={{ backgroundColor: 'var(--sheet-alt, #FAFAFA)' }}>
+                  <TableRow sx={{ backgroundColor: 'var(--sheet-alt, #FAFAFA)' }} onKeyDown={(e) => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); handleSaveRow(); } }}>
                     <TableCell sx={pivotDCell} />
                     <TableCell sx={{ ...pivotDCell, p: 0 }}>
                       <Select size="small" value={newRow.fieldId} sx={selectSx}
@@ -1053,13 +1080,13 @@ function PivotHarvestTab({ fields, siteId, crop, onRefresh, readOnly = false, da
           </TableBody>
         </Table>
       </TableContainer>
-      <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+      <DraftRowBar newRow={newRow} onAdd={handleAddRow} onSave={handleSaveRow} onCancel={() => setNewRow(null)} end>
         <Button size="small" variant="outlined" startIcon={<Add sx={{ fontSize: 14 }} />}
           onClick={handleAddRow} disabled={!!newRow}
           sx={{ fontFamily: FONT, fontSize: '11px', textTransform: 'none', borderColor: 'var(--sheet-border, #000)', color: 'var(--sheet-ink, #000)' }}>
           Add Row
         </Button>
-      </Box>
+      </DraftRowBar>
       {phiDialog}
     </Box>
   );
@@ -1268,7 +1295,7 @@ function OpenFieldTab({
                   </TableRow>
                 ))}
                 {newRow && (
-                  <TableRow className="row-draft" ref={draftRef}>
+                  <TableRow className="row-draft" ref={draftRef} onKeyDown={(e) => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); handleSaveRow(); } }}>
                     <TableCell padding="checkbox" className="col-frozen-0" />
                     <TableCell className="col-frozen-1" sx={{ p: 0 }}>
                       <input type="date" value={newRow.date} onChange={e => setNewRow(p => ({ ...p, date: e.target.value }))} style={inputSx} />
@@ -1333,12 +1360,12 @@ function OpenFieldTab({
           </TableBody>
         </Table>
       </TableContainer>
-      <Box sx={{ mt: '4px' }}>
+      <DraftRowBar newRow={newRow} onAdd={handleAddRow} onSave={handleSaveRow} onCancel={() => setNewRow(null)}>
         <Button size="small" startIcon={<Add sx={{ fontSize: '13px !important' }} />} onClick={handleAddRow}
           sx={{ fontFamily: FONT, fontSize: '10.5px', textTransform: 'none', color: HEADER_FILL, border: GRID_BORDER, borderRadius: 0, px: 1, py: '2px', minHeight: 0 }}>
           Add Row
         </Button>
-      </Box>
+      </DraftRowBar>
       {phiDialog}
     </Box>
   );

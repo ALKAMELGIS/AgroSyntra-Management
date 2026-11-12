@@ -1,4 +1,5 @@
 import { Fragment, useState, useEffect, useMemo, useCallback } from 'react';
+import FormikSubmitFeedback from '../components/FormikSubmitFeedback';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { useConfirmDialog } from '../components/ConfirmDialog';
@@ -435,6 +436,7 @@ function CountriesSitesManagement() {
           >
             {({ values, errors, touched, handleChange, handleBlur, resetForm }) => (
               <Form>
+                <FormikSubmitFeedback />
                 <DialogContent>
                   <Grid container spacing={2}>
                     <Grid size={12}>
@@ -486,6 +488,7 @@ function CountriesSitesManagement() {
           >
             {({ values, errors, touched, handleChange, handleBlur, resetForm }) => (
               <Form>
+                <FormikSubmitFeedback />
                 <DialogContent>
                   <Grid container spacing={2}>
                     <Grid size={12}>

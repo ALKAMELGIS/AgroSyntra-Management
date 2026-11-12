@@ -357,3 +357,24 @@ Touch and layout:
 - Arabic labels for the template editor and the boundary tools.
 - **Confirmations:** the browser's own `window.confirm` (English-only, unstyled, awkward on phones) is replaced in 47 places by one in-app dialog (`confirmAction()` + `<ConfirmHost />` in `ConfirmDialog.js`): button wording follows the question (Delete / Remove / Deactivate / Yes, cancel), red for destructive actions, Arabic texts for the common questions. 4 calls inside non-async code still use the browser dialog.
 - Icon-only buttons named for screen readers (webhooks expand, save/export/clear filters/use my location in tables and forms).
+
+## Round 33 — saving data: every entry form checked against the database
+
+Each form was filled and saved in a browser against the real API, and the stored row was read back from PostgreSQL: EC/PH, Weather Log, Irrigation, Harvest, Pesticide Application, Fertigation, Scouting, Inventory, Recipes, Templates, Shifts, Soil readings, field boundaries.
+
+Fixed:
+- **Weather Log could never be saved**: the form required `date` and `site`, which live outside the form, so validation always failed.
+- **Save looked dead when a field was missing** on every Formik form (EC/PH, Weather, Fertigation, Sites, Farm areas, Field types, Remote Sensing): new `FormikSubmitFeedback` says what is missing and moves to the first field. EC/PH Time now starts at the current time.
+- **Dates one day early** on servers set to UTC+4 (e.g. Dubai): PostgreSQL DATE columns are now returned as plain `YYYY-MM-DD` (`db/client.ts`) instead of local-midnight timestamps.
+- **Harvest:** the only save control for a new row was a 14 px tick at the far end of a wide table. Now *Save row / Cancel* under the sheet, and Enter saves. A field with nothing planted shows "No crop planted" and explains what to do.
+- **Fertigation totals row** was shifted one column (the sum sat under Frequency).
+- Fertigation / Irrigation with "All Sites" said "No fields configured"; they now ask to choose a site.
+- **Daily Brief weather** never loaded (asked by site; the API only took coordinates). The API now accepts `site_id` and uses the average position of the site's fields.
+- EC/PH labels showed raw codes (`M³`) instead of `M³` / `×`.
+- Scouting count grid: every sample cell, segment and count-basis select is named for screen readers.
+- The last 4 browser confirm dialogs (in code that ran inside state updates) use the in-app dialog; a failed delete keeps the row.
+- Templates saved before round 32 with a shared key: a warning on open, unique keys on save, existing data stays with the first column.
+
+Tools:
+- Outside production the API logs any submitted field that validation threw away (`[validate] body fields dropped by schema`) — the cause of the inventory / shift / soil bugs in round 32.
+- `e2e/tools/explore.js` also checks that every table row has the same column count as its header; `ACTIVE_SITE` picks the site for live runs.

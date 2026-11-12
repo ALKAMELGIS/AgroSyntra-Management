@@ -6,6 +6,7 @@ import {
   Box,
   Grid,
   Card,
+  Alert,
   Button,
   TextField,
   MenuItem,
@@ -113,7 +114,8 @@ export function assignKeys(items, prefix) {
   const used = new Set();
   const out = new Map();
   items.forEach((it, i) => {
-    let base = (/[a-z0-9]/i.test(String(it.key || '')) ? String(it.key).trim() : '') || slug(it.label) || `${prefix}_${i + 1}`;
+    // A key already saved in the template is kept as it is (entered data uses it).
+    let base = ((it.savedKey || /[a-z0-9]/i.test(String(it.key || ''))) ? String(it.key || '').trim() : '') || slug(it.label) || `${prefix}_${i + 1}`;
     let key = base;
     for (let n = 2; used.has(key); n += 1) key = `${base}_${n}`;
     used.add(key);
@@ -170,6 +172,7 @@ export default function TemplateEditor() {
   const [columns, setColumns] = useState([]);
   const [sections, setSections] = useState([]);
   const [saving, setSaving] = useState(false);
+  const [duplicateKeys, setDuplicateKeys] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [assignToSite, setAssignToSite] = useState(true);
   const [sectionDialog, setSectionDialog] = useState(false);
@@ -201,6 +204,12 @@ export default function TemplateEditor() {
         const secIdByColumn = new Map();
         (config.sections || []).forEach((sec, i) => (sec.columns || []).forEach((k) => secIdByColumn.set(k, loadedSections[i]._id)));
         setSections(loadedSections);
+        // Templates saved before round 32 could give several Arabic-labelled
+        // columns the same key ('_'). Say so; saving now assigns unique keys.
+        const savedKeys = (config.columns || []).map((c) => c.key);
+        if (new Set(savedKeys).size !== savedKeys.length) {
+          setDuplicateKeys(true);
+        }
         if (config.columns) {
           setColumns(config.columns.map((c) => makeColumn({
             key: c.key,
@@ -211,7 +220,7 @@ export default function TemplateEditor() {
             options: Array.isArray(c.options) ? c.options.join(', ') : '',
             formula: c.formula || '',
             sectionId: (c.sectionId && secIdByKey.get(c.sectionId)) || secIdByColumn.get(c.key) || null,
-          })));
+          })).map((col, i, all) => (all.findIndex((o) => o.key === col.key) < i ? { ...col, key: '' } : { ...col, savedKey: !!col.key })));
         }
       }
     } catch (err) {
@@ -371,6 +380,12 @@ export default function TemplateEditor() {
           {isEdit ? 'Edit Template' : 'Create Template'}
         </Typography>
       </Box>
+
+      {duplicateKeys && (
+        <Alert severity="warning" sx={{ mb: 2 }} onClose={() => setDuplicateKeys(false)}>
+          Some columns in this template share the same key, so their values overwrite each other. Saving gives each column its own key; data already entered under the shared key stays with the first column.
+        </Alert>
+      )}
 
       <Grid container spacing={3}>
         {/* Left panel: Editor */}

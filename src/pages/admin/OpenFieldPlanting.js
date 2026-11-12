@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import {
   Box, Typography, Paper, Button, TextField, MenuItem, Chip,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -221,16 +222,24 @@ export default function OpenFieldPlanting({ siteFilter, fields = [], crops = [],
     setRows((prev) => [...prev, emptyRow()]);
   }, []);
 
-  const removeRow = useCallback((idx) => {
-    setRows((prev) => {
-      const row = prev[idx];
-      if (row._serverId) {
-        if (!window.confirm('Delete this record?')) return prev;
-        apiRequest(`/open-field-planting/${row._serverId}`, { method: 'DELETE' }).catch(() => {});
+  // Rows mirrored in a ref: the confirm and the delete run outside the state
+  // updater (updaters can run twice), and the row stays if the delete fails.
+  const rowsRef = useRef(rows);
+  rowsRef.current = rows;
+  const removeRow = useCallback(async (idx) => {
+    const row = rowsRef.current[idx];
+    if (!row) return;
+    if (row._serverId) {
+      if (!(await confirmAction('Delete this record?'))) return;
+      try {
+        await apiRequest(`/open-field-planting/${row._serverId}`, { method: 'DELETE' });
+      } catch (err) {
+        notify.error(err?.message || 'Delete failed');
+        return;
       }
-      return prev.filter((_, i) => i !== idx);
-    });
-  }, []);
+    }
+    setRows((prev) => prev.filter((r) => r !== row));
+  }, [notify]);
 
   const handleVarietyChange = useCallback((idx, varietyId) => {
     setRows((prev) => {

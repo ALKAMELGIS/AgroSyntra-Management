@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { confirmAction } from '../../components/ConfirmDialog';
 import * as XLSX from 'xlsx';
 import {
   Box, Paper, Typography, Button, Alert, Card, CardContent, CardHeader, Divider,
@@ -497,8 +498,8 @@ export default function HistoricalImport() {
                   variant="contained"
                   color="primary"
                   startIcon={<ExecuteIcon />}
-                  onClick={() => {
-                    if (!window.confirm('Write these rows to the database? This cannot be easily undone.')) return;
+                  onClick={async () => {
+                    if (!(await confirmAction('Write these rows to the database? This cannot be easily undone.', { confirmLabel: 'Execute' }))) return;
                     runImport(false);
                   }}
                   disabled={busy}

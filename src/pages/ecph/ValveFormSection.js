@@ -282,7 +282,7 @@ export default function ValveFormSection({
           <TextField
             fullWidth
             type="number"
-            label="Qty Of Water (M\u00B3)"
+            label="Qty Of Water (M³)"
             name={`${prefix}.qtyOfWater`}
             value={v.qtyOfWater || ''}
             onChange={handleChange}
@@ -325,8 +325,8 @@ export default function ValveFormSection({
             fullWidth
             label={
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <span>Total Water QTY (M\u00B3)</span>
-                <Tooltip title="Total irrigation water = Qty Of Water \u00D7 Cycle" arrow>
+                <span>Total Water QTY (M³)</span>
+                <Tooltip title="Total irrigation water = Qty Of Water × Cycle" arrow>
                   <InfoIcon fontSize="small" color="action" sx={{ cursor: 'help' }} />
                 </Tooltip>
               </Box>
@@ -340,7 +340,7 @@ export default function ValveFormSection({
                 </InputAdornment>
               ),
             }}
-            helperText="Auto-calculated: Qty Of Water \u00D7 Cycle"
+            helperText="Auto-calculated: Qty Of Water × Cycle"
             sx={{ '& .MuiInputBase-input': { backgroundColor: 'action.hover' } }}
           />
         </Grid>
@@ -355,7 +355,7 @@ export default function ValveFormSection({
             label={
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 <span>{dripperCount && dripperCount > 0
-                  ? 'Total Water Based on Drip Volume (M\u00B3)'
+                  ? 'Total Water Based on Drip Volume (M³)'
                   : 'Total Water Based on Drip Volume (N/A)'}</span>
                 <Tooltip title={dripperCount && dripperCount > 0
                   ? `Field total water: (Drip Volume x ${dripperCount.toLocaleString()} drippers) / 1,000,000.`

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback, useMemo, Fragment } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useRef, useMemo, Fragment } from 'react';
 import { confirmAction } from '../../components/ConfirmDialog';
 import { useTranslation } from 'react-i18next';
 import {
@@ -281,15 +281,23 @@ export default function NurserySowingRecord({
 
   const addRow = () => setRows((prev) => [...prev, emptyRow()]);
 
-  const removeRow = (idx) => {
-    setRows((prev) => {
-      const row = prev[idx];
-      if (row._serverId) {
-        if (!window.confirm('Delete this sowing record?')) return prev;
-        apiRequest(`/nursery-sowing-records/${row._serverId}`, { method: 'DELETE' }).catch(() => {});
+  // Rows mirrored in a ref: the confirm and the delete run outside the state
+  // updater (updaters can run twice), and the row stays if the delete fails.
+  const rowsRef = useRef(rows);
+  rowsRef.current = rows;
+  const removeRow = async (idx) => {
+    const row = rowsRef.current[idx];
+    if (!row) return;
+    if (row._serverId) {
+      if (!(await confirmAction('Delete this sowing record?'))) return;
+      try {
+        await apiRequest(`/nursery-sowing-records/${row._serverId}`, { method: 'DELETE' });
+      } catch (err) {
+        notify.error(err?.message || 'Delete failed');
+        return;
       }
-      return prev.filter((_, i) => i !== idx);
-    });
+    }
+    setRows((prev) => prev.filter((r) => r !== row));
   };
 
   const removeRowsByKeys = async (keys) => {

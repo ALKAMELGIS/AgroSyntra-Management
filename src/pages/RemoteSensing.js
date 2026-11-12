@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import FormikSubmitFeedback from '../components/FormikSubmitFeedback';
 import { useConfirmDialog } from '../components/ConfirmDialog';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { useTranslation } from 'react-i18next';
@@ -1209,6 +1210,7 @@ function RemoteSensing() {
         >
           {({ values, errors, touched, handleChange, handleBlur, setFieldValue }) => (
             <Form>
+              <FormikSubmitFeedback />
               <DialogTitle>
                 {editingField ? `Edit Field: ${editingField.name}` : 'Assign Field to Drawn Polygon'}
               </DialogTitle>

@@ -691,7 +691,7 @@ export default function IrrigationEntry() {
         {readOnly && <Box sx={{ mb: 2 }}><ReadOnlyBanner /></Box>}
         {availableStructureTabs.length === 0 ? (
           <InfoNote mode="line" severity="info">
-            No fields configured for this site. Add fields in Management to enable irrigation entry.
+            {activeSiteId ? 'No fields configured for this site. Add fields in Management to enable irrigation entry.' : 'Choose a site in the side menu to start entering irrigation data.'}
           </InfoNote>
         ) : isPivot ? (
           currentTab?.type === 'summary' ? (

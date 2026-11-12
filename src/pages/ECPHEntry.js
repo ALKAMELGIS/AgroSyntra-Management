@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import FormikSubmitFeedback from '../components/FormikSubmitFeedback';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import {
   Container,
@@ -138,7 +139,8 @@ function ECPHEntry() {
     site: '',
     farmArea: '',
     field: '',
-    time: '',
+    // Prefilled with the current time (required; easy to miss above the fold).
+    time: new Date().toTimeString().slice(0, 5),
     weatherCondition: '',
     irrigationStatus: '',
     valve1: {
@@ -430,6 +432,7 @@ function ECPHEntry() {
 
             return (
               <Form>
+                <FormikSubmitFeedback />
                 <Grid container spacing={3}>
                   {/* Section 1: Basic Information */}
                   <Grid size={12}>

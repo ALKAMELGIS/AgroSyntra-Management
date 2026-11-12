@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
+import FormikSubmitFeedback from '../components/FormikSubmitFeedback';
 import { API_BASE, getAuthHeaders } from '../config/api';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { useActiveSeason } from '../contexts/ActiveSeasonContext';
@@ -54,9 +55,10 @@ import { canWriteWeatherLogs } from '../utils/weatherLogAccess';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
 
+// Date and site are chosen above the form (component state, not Formik values),
+// so they are checked in handleSubmit. Listing them here made every save fail
+// with "Date is required".
 const weatherSchema = Yup.object().shape({
-  date: Yup.string().required('Date is required'),
-  siteId: Yup.string().required('Site is required'),
   maxTemp: Yup.number().min(-50, 'Temperature too low').max(60, 'Temperature too high').required('Max temperature is required'),
   minTemp: Yup.number().min(-50, 'Temperature too low').max(60, 'Temperature too high').required('Min temperature is required'),
   avgRH: Yup.number().min(0, 'Humidity must be between 0 and 100').max(100, 'Humidity must be between 0 and 100').required('Average RH is required'),
@@ -469,6 +471,8 @@ function WeatherLogEntry() {
 
   const handleSubmit = async (values, { resetForm }) => {
     if (!canWrite) return;
+    if (!selectedSite) { notify.warning('Select a site first'); return; }
+    if (!selectedDate) { notify.warning('Date is required'); return; }
     const payload = {
       date: selectedDate,
       countryId: selectedCountry,
@@ -814,6 +818,7 @@ function WeatherLogEntry() {
             window._setFieldValue = setFieldValue;
             return (
             <Form>
+              <FormikSubmitFeedback />
               {/* Auto-fill from Weather Station Integration */}
               {selectedSite && canWrite && (
                 <Alert

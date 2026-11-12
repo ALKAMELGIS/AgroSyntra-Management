@@ -611,16 +611,24 @@ export default function CropHistory() {
     setPRows((prev) => [...prev, emptyPlantingRow()]);
   }, []);
 
-  const removePRow = useCallback((idx) => {
-    setPRows((prev) => {
-      const row = prev[idx];
-      if (row._serverId) {
-        if (!window.confirm('Delete this planting record?')) return prev;
-        apiRequest(`/planting-records/${row._serverId}`, { method: 'DELETE' }).catch(() => {});
+  // Rows mirrored in a ref: the confirm and the delete run outside the state
+  // updater (updaters can run twice), and the row stays if the delete fails.
+  const pRowsRef = useRef(pRows);
+  pRowsRef.current = pRows;
+  const removePRow = useCallback(async (idx) => {
+    const row = pRowsRef.current[idx];
+    if (!row) return;
+    if (row._serverId) {
+      if (!(await confirmAction('Delete this planting record?'))) return;
+      try {
+        await apiRequest(`/planting-records/${row._serverId}`, { method: 'DELETE' });
+      } catch (err) {
+        notify.error(err?.message || 'Delete failed');
+        return;
       }
-      return prev.filter((_, i) => i !== idx);
-    });
-  }, []);
+    }
+    setPRows((prev) => prev.filter((r) => r !== row));
+  }, [notify]);
 
   const removePRowsByKeys = useCallback(async (keys) => {
     if (!keys.length) return;
