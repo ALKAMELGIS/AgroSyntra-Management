@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>AgroSyntra</title>
+  <path d="M32 8L25.5 56.5M32 8L38.5 56.5" stroke="#3BCB7F" stroke-width="1.5" stroke-linecap="round" stroke-opacity=".35"/>
+  <path d="M32 8L51.5 56.5" stroke="#3BCB7F" stroke-width="3.4" stroke-linecap="round" stroke-opacity=".55"/>
+  <path d="M32 8L12.5 56.5" stroke="#3BCB7F" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M17.4 44.2C26 40.4 38 40.4 46.6 44.2" stroke="#3BCB7F" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+  <circle cx="32" cy="8" r="4" fill="#3BCB7F"/>
+</svg>

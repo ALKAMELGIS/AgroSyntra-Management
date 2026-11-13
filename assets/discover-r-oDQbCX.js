@@ -1,0 +1,7 @@
+const c=()=>location.hostname.endsWith(".github.io");async function i(){const t=await fetch("https://ntfy.sh/ags-4za4d51zripp41ageg35r15h/json?poll=1&since=12h",{cache:"no-store"}),e=[],r=[];for(const a of(await t.text()).split(`
+`))try{const n=JSON.parse(a),o=(n.message??"").trim();if(n.event!=="message"||!o.startsWith("https://"))continue;(n.title==="server"?e:r).unshift(o)}catch{}return[...e,...r]}async function s(t){try{return(await fetch(`${t}/api/v1/auth/me`,{signal:AbortSignal.timeout(12e3)})).status<500}catch{return!1}}async function h(){try{for(const t of await i())if(await s(t))return window.__AGS_API__=t.replace(/\/$/,""),!0}catch{}return!1}function l(t){const e=document.getElementById("root");e.innerHTML=`<div style="min-height:100vh;display:grid;place-items:center;padding:24px;font-family:system-ui,sans-serif;background:#fafafa;color:#171717">
+    <div style="max-width:420px">
+      <h1 style="font-weight:500;font-size:28px;margin:0 0 12px">AgroSyntra</h1>
+      <p style="color:#525252;line-height:1.55;margin:0 0 24px">The AgroSyntra server is not reachable right now. Open AgroSyntra on the computer (or wait for the cloud server to start), then try again.</p>
+      <button id="ags-retry" style="height:44px;padding:0 20px;border:0;border-radius:10px;background:#17824B;color:#fff;font-size:15px">Try again</button>
+    </div></div>`,document.getElementById("ags-retry").addEventListener("click",t)}export{h as discoverApi,c as isPagesHost,l as showOffline};

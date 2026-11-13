@@ -1,0 +1,37 @@
+{
+  "name": "AgroSyntra",
+  "short_name": "AgroSyntra",
+  "description": "Field monitoring, productivity zones and VRA from Sentinel-2.",
+  "start_url": "./fields",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0F1A14",
+  "theme_color": "#1B4329",
+  "icons": [
+    {
+      "src": "brand/agrosyntra-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "brand/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "brand/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "brand/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+.trial-layout{grid-template-columns:minmax(220px,300px) 1fr}@media (max-width: 860px){.trial-layout{grid-template-columns:1fr}}.trial-item-active{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
