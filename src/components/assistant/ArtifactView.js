@@ -105,6 +105,13 @@ export default function ArtifactView({ artifact }) {
   const [showAll, setShowAll] = useState(false);
   const rows = showAll ? artifact.rows : artifact.rows.slice(0, 25);
   const chart = artifact.chart;
+  // Compact tooltip with readable series names and formatted numbers (not raw keys like sum_total_quantity).
+  const tip = {
+    formatter: (v, name) => [fmt(v), columnLabel(name, ar)],
+    contentStyle: { fontSize: 12, padding: '6px 10px', borderRadius: 8, border: `1px solid ${theme.palette.divider}` },
+    itemStyle: { padding: 0 },
+    labelStyle: { fontWeight: 600, marginBottom: 2 },
+  };
   const chartData = useMemo(() => (chart ? artifact.rows.slice(0, 60).map((r) => ({ ...r, [chart.x]: fmt(r[chart.x]) })) : []), [artifact, chart]);
 
   return (
@@ -129,15 +136,15 @@ export default function ArtifactView({ artifact }) {
                 <Pie data={chartData} dataKey={chart.y[0]} nameKey={chart.x} outerRadius={80} label>
                   {chartData.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} stroke={theme.palette.background.paper} />)}
                 </Pie>
-                <Tooltip />
-                <Legend />
+                <Tooltip {...tip} formatter={(v) => [fmt(v), columnLabel(chart.y[0], ar)]} />
+                <Legend wrapperStyle={{ fontSize: 12 }} />
               </PieChart>
             ) : chart.type === 'line' ? (
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
                 <XAxis dataKey={chart.x} tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 11 }} width={48} />
-                <Tooltip />
+                <Tooltip {...tip} />
                 {chart.y.length > 1 && <Legend formatter={(v) => columnLabel(v, ar)} />}
                 {chart.y.map((y, i) => <Line key={y} dataKey={y} name={y} stroke={CHART_COLORS[i % CHART_COLORS.length]} strokeWidth={2} dot={false} />)}
               </LineChart>
@@ -146,7 +153,7 @@ export default function ArtifactView({ artifact }) {
                 <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} vertical={false} />
                 <XAxis dataKey={chart.x} tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 11 }} width={48} />
-                <Tooltip />
+                <Tooltip {...tip} cursor={{ fill: theme.palette.action.hover }} />
                 {chart.y.length > 1 && <Legend formatter={(v) => columnLabel(v, ar)} />}
                 {chart.y.map((y, i) => <Bar key={y} dataKey={y} name={y} fill={CHART_COLORS[i % CHART_COLORS.length]} radius={[3, 3, 0, 0]} />)}
               </BarChart>

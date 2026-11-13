@@ -437,3 +437,12 @@ Pages:
 - Field types & names (add and edit): type + name on one row, crop / variety / valve count on one row, name / valve count / area on one row in edit; the boundary JSON had the same explanation three times (heading, caption, helper) — now one hint on the label, 2–6 auto rows.
 - Pest catalog: "match to existing", "groups", "match pattern" and both thresholds explain themselves in a label hint instead of helper lines under every field.
 - Zones & sites: zone name + code, and site name + location + total area, each on one row.
+
+## Round 38 — phone pass (from on-device screenshots)
+
+- Top bar 52 px on phones (60 px elsewhere).
+- "View only" chip moved into the breadcrumb line (portal into `#page-flags-slot` in PageContextBar), saving a full row on every view-only page; breadcrumb margin smaller on phones.
+- Card view (DataSheet on phones): sort select is compact (200 px, shows "Default order") and shares one row with the totals chips.
+- GIS map: the large filled warning box over the map became one slim dismissible line at the bottom ("8 fields without a map shape" · Review · ×), in Arabic too.
+- Assistant charts: tooltips show readable column names and formatted numbers (not `sum_total_quantity`), compact style, neutral hover.
+- Demo/APK data: inventory has real-looking items with stock, minimum level and cost (low-stock count works); harvest rows have quantities (no more NaN).

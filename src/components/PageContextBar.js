@@ -95,7 +95,7 @@ export default function PageContextBar() {
         minHeight: 24,
         // Room for the finger-sized hit areas of the links on touch screens.
         '@media (pointer: coarse)': { minHeight: 32, overflow: 'visible' },
-        mb: { xs: 3, md: 4 },
+        mb: { xs: 2, md: 4 },
         overflow: 'hidden',
         '@media print': { display: 'none' },
       }}
@@ -128,6 +128,9 @@ export default function PageContextBar() {
       >
         {L(meta.title)}
       </Typography>
+      {/* Page flags (e.g. "View only") render here through a portal, so they share
+          the breadcrumb line instead of taking a row of their own. */}
+      <Box id="page-flags-slot" sx={{ marginInlineStart: 'auto', display: 'flex', alignItems: 'center', gap: 1, flexShrink: 0, paddingInlineStart: '8px', '&:empty': { display: 'none' } }} />
     </Box>
     </>
   );

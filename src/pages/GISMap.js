@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useIsArabic } from '../i18n/shellLabels';
 import {
   Box, Paper, Typography, IconButton, Drawer, List, ListItem, ListItemText,
   ListItemIcon, ListItemSecondaryAction, Switch, Button, TextField, Dialog,
@@ -169,6 +170,8 @@ export default function GISMap() {
   // ArcGIS source and can decide whether to re-sync or retire the field.
   const [orphans, setOrphans] = useState([]);
   const [orphansOpen, setOrphansOpen] = useState(false);
+  const [orphanBannerHidden, setOrphanBannerHidden] = useState(false);
+  const isAr = useIsArabic();
 
   const [fieldInfoOpen, setFieldInfoOpen] = useState(false);
   const [fieldSummary, setFieldSummary] = useState(null);
@@ -799,32 +802,46 @@ export default function GISMap() {
         endLabel="Remote sensing tools"
       >
 
-        {orphans.length > 0 && (
+        {orphans.length > 0 && !orphanBannerHidden && (
+          // One slim line at the bottom of the map; the full explanation is in the Review dialog.
           <Alert
             severity="warning"
-            variant="filled"
-            icon={<WarningIcon />}
+            variant="outlined"
+            icon={<WarningIcon fontSize="small" />}
             sx={{
               position: 'absolute',
-              top: 10,
-              insetInlineStart: 10,
-              insetInlineEnd: 64,
+              bottom: 28,
+              insetInlineStart: { xs: 8, sm: 12 },
+              insetInlineEnd: { xs: 8, sm: 64 },
+              maxWidth: 560,
+              mx: 'auto',
               zIndex: 1000,
+              py: 0,
+              px: 2,
+              alignItems: 'center',
+              bgcolor: 'background.paper',
+              boxShadow: 2,
+              '& .MuiAlert-message': { py: 1, fontSize: '0.8125rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 },
+              '& .MuiAlert-icon': { py: 1, mr: 2 },
+              '& .MuiAlert-action': { py: 0, mr: 0, pl: 1, alignItems: 'center', alignSelf: 'center' },
             }}
-            action={
-              <Button
-                size="small"
-                color="inherit"
-                onClick={() => setOrphansOpen(true)}
-              >
-                Review
-              </Button>
-            }
+            action={(
+              <>
+                <Button size="small" color="inherit" onClick={() => setOrphansOpen(true)} sx={{ minWidth: 0, fontWeight: 600 }}>
+                  {isAr ? 'مراجعة' : 'Review'}
+                </Button>
+                <IconButton size="small" aria-label={isAr ? 'إخفاء' : 'Dismiss'} onClick={() => setOrphanBannerHidden(true)}>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </>
+            )}
+            title={isAr
+              ? 'البيانات محفوظة، لكن لا يمكن عرضها على الخريطة حتى تتم إعادة المزامنة.'
+              : "Data is safe, but the map can't show them until re-synced."}
           >
-            {orphans.length === 1
-              ? '1 field has lost its GIS polygon on the source.'
-              : `${orphans.length} fields have lost their GIS polygon on the source.`}
-            {' '}Data is safe — but the map can't show them until re-synced.
+            {isAr
+              ? `${orphans.length} ${orphans.length === 1 ? 'حقل بلا حدود' : 'حقول بلا حدود'}`
+              : `${orphans.length} ${orphans.length === 1 ? 'field' : 'fields'} without a map shape`}
           </Alert>
         )}
 

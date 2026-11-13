@@ -35,7 +35,7 @@ import {
   resolveNavArea,
   getHubPathForArea,
 } from './config/navAreas';
-import useAppLayout, { APP_BAR_HEIGHT, AppChromeContext } from './hooks/useAppLayout';
+import useAppLayout, { AppChromeContext } from './hooks/useAppLayout';
 import {
   getRoleLabel, FIELD_STAFF_MANAGER_ROLES, SHEET_RESTORE_ROLES, INTEGRATION_ADMIN_ROLES, SYSTEM_ADMIN_ROLES,
   MANPOWER_COST_VIEW_ROLES,
@@ -375,7 +375,7 @@ function AuthenticatedLayout() {
   const themeMUI = useTheme();
   const visibleNavAreas = getVisibleNavAreas(user);
   const showNavTabs = visibleNavAreas.length > 1;
-  const { isMobile, isTablet, isPhone, topBarHeight, contentPadding, contentMinHeight } = useAppLayout({ showNavTabs });
+  const { isMobile, isTablet, isPhone, topBarHeight, appBarHeight, contentPadding, contentMinHeight } = useAppLayout({ showNavTabs });
   const chromeValue = useMemo(() => ({ showNavTabs }), [showNavTabs]);
   const prevTablet = useRef(isTablet);
   useEffect(() => {
@@ -446,7 +446,7 @@ function AuthenticatedLayout() {
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
       >
-        <Toolbar sx={{ minHeight: `${APP_BAR_HEIGHT}px !important`, gap: { xs: 1, sm: 2 }, px: { xs: 3, sm: 5, md: 6 } }}>
+        <Toolbar sx={{ minHeight: `${appBarHeight}px !important`, gap: { xs: 1, sm: 2 }, px: { xs: 3, sm: 5, md: 6 } }}>
           <IconButton
             aria-label={isMobile || !sidebarOpen ? 'Open navigation' : 'Collapse navigation'}
             edge="start"

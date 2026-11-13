@@ -12,6 +12,9 @@ import { SHELL_AR } from './shellLabels';
  */
 export const PAGE_AR = {
   // Compact entry forms (round 35).
+  'Pesticide': 'مبيد',
+  'Harvest Qty (Kg)': 'كمية الحصاد (كجم)',
+  'fields without a map shape': 'حقول بلا حدود',
   'End season': 'إنهاء الموسم',
   'Ending…': 'جارٍ الإنهاء…',
   'Total cost (AED)': 'إجمالي التكلفة (درهم)',

@@ -596,11 +596,12 @@ export default function DataSheet({
     const sortable = columns.filter((c) => !c.noSort);
     return (
       <Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, flexWrap: 'wrap' }}>
-          <FormControl size="small" sx={{ minWidth: 0, flex: '1 1 160px' }}>
-            <InputLabel id={`${storageKey || 'sheet'}-sort-label`}>Sort by</InputLabel>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3, pt: 2, flexWrap: 'wrap' }}>
+          <FormControl size="small" sx={{ minWidth: 0, flex: '0 1 200px' }}>
+            <InputLabel shrink id={`${storageKey || 'sheet'}-sort-label`}>Sort by</InputLabel>
             <Select
               labelId={`${storageKey || 'sheet'}-sort-label`} label="Sort by"
+              displayEmpty
               value={sort ? `${sort.key}:${sort.dir}` : ''}
               onChange={(e) => {
                 const [key, dir] = String(e.target.value).split(':');
@@ -615,18 +616,18 @@ export default function DataSheet({
             </Select>
           </FormControl>
           {toolbarExtra}
+          {hasTotals && viewRows.length > 0 && (
+            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center' }}>
+              {visible.filter((c) => c.total === 'sum').map((c) => (
+                <Chip
+                  key={c.key} size="small" variant="outlined"
+                  label={<span><Box component="span" sx={{ color: 'text.secondary' }}>{c.cardLabel || c.label}</Box>{' '}<bdi><b>{c.format ? c.format(totals[c.key]) : fmt(totals[c.key])}</b></bdi></span>}
+                  sx={{ bgcolor: 'table.totalBg', borderColor: 'transparent', color: 'table.totalText' }}
+                />
+              ))}
+            </Box>
+          )}
         </Box>
-        {hasTotals && viewRows.length > 0 && (
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1.5 }}>
-            {visible.filter((c) => c.total === 'sum').map((c) => (
-              <Chip
-                key={c.key} size="small" variant="outlined"
-                label={<span><Box component="span" sx={{ color: 'text.secondary' }}>{c.cardLabel || c.label}</Box>{' '}<bdi><b>{c.format ? c.format(totals[c.key]) : fmt(totals[c.key])}</b></bdi></span>}
-                sx={{ bgcolor: 'table.totalBg', borderColor: 'transparent', color: 'table.totalText' }}
-              />
-            ))}
-          </Box>
-        )}
         <RecordCards
           rows={viewRows} columns={columns} card={card} selection={selection} getRowId={getRowId}
           actions={actions} rowRef={rowRef} rowHighlighted={rowHighlighted} loading={loading} emptyText={emptyText}

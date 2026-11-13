@@ -42,7 +42,7 @@
     crop:CROPS[i],crop_name:CROPS[i],variety:'Standard',quantity:120+i*13,amount:40+i*3,value:12+i,total:300+i*20,
     product_name:['Movento 150 OD','Actara 25 WG','Confidor'][i%3],active_ingredient:'Spirotetramat',total_quantity_applied:7.5,cost:1350+i*40,
     dosage:0.5,rate_per_ha:750,uom:'L',phi_days:3,operator_name:'Ahmed Ali',approval_status:ST[i],status:ST[i],application_start_time:'06:30',application_end_time:'08:00',machinery_used:'Sprayer 2000L',
-    role:'worker',email:'user'+i+'@farm.test',ec_in:2.1,ph_in:6.1,ec_out:2.6,ph_out:6.4,drain:28+i,temperature:30+i,humidity:50+i,notes:'Routine check',unit:'kg',category:'Fertilizer',is_active:true,count:i+2};});
+    role:'worker',email:'user'+i+'@farm.test',ec_in:2.1,ph_in:6.1,ec_out:2.6,ph_out:6.4,drain:28+i,temperature:30+i,humidity:50+i,notes:'Routine check',unit:'kg',category:'Fertilizer',is_active:true,count:i+2,harvest_qty:120+i*13,total_quantity:120+i*13};});
   var SEASONS=[{id:'season1',name:'2025-2026',status:'open',start_date:'2025-09-01',end_date:'2026-12-31',startDate:'2025-09-01',endDate:'2026-12-31'}];
   var REPORT={url:'',layer:{name:'Agro_Structures',featureCount:412,geometryType:'esriGeometryPolygon',globalIdField:'GlobalID',editable:false,
     fields:['OBJECTID','ProjectCode','Country','ZONE_ID','SITE','Site_Code','Farm_Code','Farm_Name','Structure_Type','Category','Status','Area_ha','GlobalID'].map(function(n){return {name:n,alias:n,type:n==='OBJECTID'?'OID':'String'};}),types:[]},
@@ -59,6 +59,16 @@
   function body(url,method,reqBody){
     var path=url.replace(/^https?:\/\/[^/]+/,'').replace(/^.*\/api\/v1/,'').split('?')[0];
     var q={}; (url.split('?')[1]||'').split('&').forEach(function(p){var kv=p.split('='); if(kv[0]) q[decodeURIComponent(kv[0])]=decodeURIComponent(kv[1]||'');});
+    // Demo inventory: real-looking inputs with stock, minimum level and cost.
+    if(path==='/inventory'||path==='/inventory/low-stock'){
+      var INV=[['NPK 20-20-20','fertilizer','kg',420,200,6.5,'Yara'],['Calcium nitrate','fertilizer','kg',150,250,4.2,'Yara'],['Potassium sulphate','fertilizer','kg',90,120,5.8,'SQM'],
+        ['Magnesium sulphate','fertilizer','kg',310,100,3.1,'K+S'],['Movento 150 OD','pesticide','L',12,10,310,'Bayer'],['Actara 25 WG','pesticide','kg',2.5,4,420,'Syngenta'],
+        ['Confidor 200 SL','pesticide','L',6,5,185,'Bayer'],['Swirski-Mite','biological','unit',18,20,95,'Koppert'],['Phytoseiulus-System','biological','unit',9,10,120,'Koppert'],
+        ['Drip tape 16 mm','other','m',2400,1000,0.35,'Netafim']].map(function(a,i){return {id:'inv'+(i+1),name:a[0],category:a[1],unit:a[2],current_stock:a[3],min_stock_level:a[4],cost_per_unit:a[5],currency:'AED',supplier:a[6],is_active:true};});
+      var cat=q.category||'', srch=(q.search||'').toLowerCase();
+      var list=INV.filter(function(r){return (!cat||r.category===cat)&&(!srch||r.name.toLowerCase().indexOf(srch)>=0||r.supplier.toLowerCase().indexOf(srch)>=0)&&(path!=='/inventory/low-stock'&&q.low_stock!=='true'||r.current_stock<r.min_stock_level);});
+      return {success:true,data:list,meta:{total:list.length}};
+    }
     // Demo sign-in: email demo@agrocloud.test, password demo1234 (or the 4-digit PIN 1234).
     if(path==='/auth/login'||path==='/auth/pin-login'){
       var cred={}; try{ cred=typeof reqBody==='string'?JSON.parse(reqBody):(reqBody||{}); }catch(e){}

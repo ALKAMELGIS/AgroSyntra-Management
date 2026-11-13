@@ -2,6 +2,8 @@ import { createContext, useContext, useMemo } from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 
 export const APP_BAR_HEIGHT = 60;
+/** Phones get a slimmer top bar so more of the page fits above the fold. */
+export const APP_BAR_HEIGHT_PHONE = 52;
 export const NAV_TABS_HEIGHT = 44;
 /** Height of the phone bottom navigation (see components/MobileBottomNav). */
 export const MOBILE_NAV_HEIGHT = 64;
@@ -33,7 +35,8 @@ export default function useAppLayout(options = {}) {
   const isTablet = useMediaQuery(theme.breakpoints.between('md', 'lg'));
   const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const topBarHeight = APP_BAR_HEIGHT + (showNavTabs ? NAV_TABS_HEIGHT : 0);
+  const appBarHeight = isPhone ? APP_BAR_HEIGHT_PHONE : APP_BAR_HEIGHT;
+  const topBarHeight = appBarHeight + (showNavTabs ? NAV_TABS_HEIGHT : 0);
 
   return useMemo(() => {
     const tier = isPhone ? 'phone' : isMobile ? 'tablet' : isTablet ? 'laptop' : 'desktop';
@@ -49,6 +52,7 @@ export default function useAppLayout(options = {}) {
       isTablet,
       isPhone,
       topBarHeight,
+      appBarHeight,
       padPx,
       bottomChrome,
       contentPadding: CONTENT_PADDING,
@@ -63,5 +67,5 @@ export default function useAppLayout(options = {}) {
         minHeight: contentMinHeight,
       },
     };
-  }, [isMobile, isTablet, isPhone, topBarHeight]);
+  }, [isMobile, isTablet, isPhone, topBarHeight, appBarHeight]);
 }
