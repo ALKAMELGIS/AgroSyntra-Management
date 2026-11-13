@@ -260,7 +260,7 @@ export default function FarmMonitor({
                       <Box sx={{
                         position: 'absolute', top: -6, left: -6, zIndex: 1,
                         bgcolor: phiEndingSoon ? '#ff9800' : '#f44336',
-                        color: '#fff', borderRadius: '4px',
+                        color: '#fff', borderRadius: 0,
                         px: 0.7, py: 0.2, fontSize: '0.6875rem', fontWeight: 700,
                         lineHeight: 1.2, boxShadow: 1,
                       }}>
@@ -274,7 +274,7 @@ export default function FarmMonitor({
                       <Box sx={{
                         position: 'absolute', top: -6, left: -6, zIndex: 1,
                         bgcolor: phiEndingSoon ? '#ff9800' : '#f44336',
-                        color: '#fff', borderRadius: '4px',
+                        color: '#fff', borderRadius: 0,
                         px: 0.7, py: 0.2, fontSize: '0.6875rem', fontWeight: 700,
                         lineHeight: 1.2, boxShadow: 1,
                       }}>
@@ -290,7 +290,7 @@ export default function FarmMonitor({
                       {validDetails.map((d, idx) => (
                         <Box key={idx} sx={{
                           bgcolor: d.days <= 1 ? '#ff9800' : '#f44336',
-                          color: '#fff', borderRadius: '4px',
+                          color: '#fff', borderRadius: 0,
                           px: 0.7, py: 0.15, fontSize: '0.6875rem', fontWeight: 700,
                           lineHeight: 1.2, boxShadow: 1, whiteSpace: 'nowrap',
                         }}>

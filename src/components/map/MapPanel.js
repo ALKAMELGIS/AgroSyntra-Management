@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  Badge, Box, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Radio, Tooltip, Typography,
+  Badge, Box, ButtonBase, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Radio, Tooltip, Typography,
+  useMediaQuery,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { CloseRounded as CloseIcon } from '@mui/icons-material';
@@ -153,6 +154,84 @@ function DockedPanel({ current, workspace, panelId, panelWidth, side }) {
   );
 }
 
+/* ---- phones ---------------------------------------------------------------
+ * Two side rails would eat a quarter of a 390 px screen. On phones all tools sit
+ * in one labelled strip above the map (GIS group | satellite group), and a tool
+ * panel opens as a sheet over the lower part of the map, so the map stays in view.
+ */
+function PhoneToolStrip({ groups }) {
+  return (
+    <Box
+      component="nav"
+      aria-label="Map tools"
+      sx={{
+        display: 'flex', alignItems: 'stretch', gap: 0.5, px: 1, flexShrink: 0,
+        overflowX: 'auto', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' },
+        borderBottom: '1px solid', borderColor: 'divider', bgcolor: 'background.paper',
+      }}
+    >
+      {groups.map((g, gi) => (
+        <Box key={g.label} sx={{ display: 'flex', alignItems: 'stretch', gap: 0.5, flexShrink: 0 }}>
+          {gi > 0 && <Box aria-hidden sx={{ width: '1px', my: 2, mx: 1, bgcolor: 'divider', flexShrink: 0 }} />}
+          {g.tools.filter((t) => !t.divider).map((tool) => {
+            const isPanel = Boolean(tool.content);
+            const pressed = isPanel ? g.workspace.active === tool.key : Boolean(tool.pressed);
+            const iconEl = tool.badge ? <Badge badgeContent={tool.badge} color="primary" max={99}>{tool.icon}</Badge> : tool.icon;
+            return (
+              <ButtonBase
+                key={tool.key}
+                aria-label={tool.label}
+                aria-pressed={isPanel || tool.pressed !== undefined ? pressed : undefined}
+                disabled={tool.disabled}
+                onClick={isPanel ? () => g.open(tool.key) : tool.onClick}
+                sx={{
+                  flexDirection: 'column', gap: 0.5, minWidth: 64, maxWidth: 96, px: 1.5, py: 1.5,
+                  color: pressed ? 'primary.main' : 'text.secondary',
+                  bgcolor: pressed ? 'action.selected' : 'transparent',
+                  borderBottom: '2px solid', borderColor: pressed ? 'primary.main' : 'transparent',
+                  '& .MuiSvgIcon-root': { fontSize: 20 },
+                  '&.Mui-disabled': { opacity: 0.4 },
+                }}
+              >
+                {iconEl}
+                <Box component="span" sx={{ fontSize: '0.6875rem', lineHeight: 1.2, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
+                  {tool.label}
+                </Box>
+              </ButtonBase>
+            );
+          })}
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
+function PhoneSheet({ current, onClose, panelId }) {
+  if (!current) return null;
+  return (
+    <Box
+      id={panelId}
+      component="section"
+      aria-label={current.title || current.label}
+      sx={{
+        position: 'absolute', insetInline: 0, bottom: 0, height: '62%', zIndex: 1100,
+        display: 'flex', flexDirection: 'column', bgcolor: 'background.paper',
+        borderTop: '1px solid', borderColor: 'divider', boxShadow: '0 -4px 16px rgba(0,0,0,0.12)',
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 3, minHeight: 48, borderBottom: '1px solid', borderColor: 'divider', flexShrink: 0 }}>
+        <Box sx={{ color: 'text.secondary', display: 'flex', '& .MuiSvgIcon-root': { fontSize: 20 } }}>{current.icon}</Box>
+        <Typography component="h2" noWrap sx={{ fontSize: '0.9375rem', fontWeight: 600, flex: 1, minWidth: 0 }}>
+          {current.title || current.label}
+        </Typography>
+        {current.actions}
+        <IconButton size="small" onClick={onClose} aria-label={`Close ${current.title || current.label}`}><CloseIcon /></IconButton>
+      </Box>
+      <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>{current.content}</Box>
+    </Box>
+  );
+}
+
 const NO_WORKSPACE = { active: null, toggle: () => {}, close: () => {} };
 
 export function MapWorkspace({
@@ -175,6 +254,31 @@ export function MapWorkspace({
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [open, endOpen, workspace, endWorkspace]);
+
+  const theme = useTheme();
+  const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
+
+  if (isPhone) {
+    // Opening a tool of one group closes the other group's panel: one sheet at a time.
+    const groups = [
+      { label, tools: list, workspace, open: (k) => { endWorkspace.close(); workspace.toggle(k); } },
+      ...(endList.length ? [{ label: endLabel, tools: endList, workspace: endWorkspace, open: (k) => { workspace.close(); endWorkspace.toggle(k); } }] : []),
+    ];
+    const sheet = endCurrent || current;
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column', height, minHeight: 0, bgcolor: 'background.paper' }}>
+        <PhoneToolStrip groups={groups} />
+        <Box sx={{ flex: 1, minHeight: 0, position: 'relative' }}>
+          {children}
+          <PhoneSheet
+            current={sheet}
+            panelId={endCurrent ? `${id}-end-panel` : `${id}-panel`}
+            onClose={() => (endCurrent ? endWorkspace.close() : workspace.close())}
+          />
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ display: 'flex', height, position: 'relative', minHeight: 0, bgcolor: 'background.paper' }}>

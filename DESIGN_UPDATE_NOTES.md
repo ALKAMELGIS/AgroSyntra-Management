@@ -446,3 +446,8 @@ Pages:
 - GIS map: the large filled warning box over the map became one slim dismissible line at the bottom ("8 fields without a map shape" · Review · ×), in Arabic too.
 - Assistant charts: tooltips show readable column names and formatted numbers (not `sum_total_quantity`), compact style, neutral hover.
 - Demo/APK data: inventory has real-looking items with stock, minimum level and cost (low-stock count works); harvest rows have quantities (no more NaN).
+
+## Round 39 — square corners and GIS/RS map tools on phones
+
+- **Square corners everywhere** (owner decision): `RADIUS` tokens and `shape.borderRadius` are 0, so cards, panels, buttons, chips, inputs, dialogs, menus, alerts, map controls (Leaflet zoom, popups), tooltips and scrollbars are plain rectangles. Circles stay only for avatars, status dots and badges.
+- **Map tools on phones** (`MapWorkspace`): the two 48 px side rails (GIS / satellite) took a quarter of the screen. Phones now get one labelled tool strip above the map — GIS group | satellite (RS) group — and a tool's panel opens as a sheet over the lower 62% of the map, so the map stays visible; one sheet at a time. Desktop and tablet keep the two rails with docked panels.

@@ -1762,7 +1762,7 @@ export default function PesticideApplications() {
                   setImporterTemplateName('Application Records');
                   setImporterOpen(true);
                 }}
-                sx={{ width: 40, height: 40, border: 1, borderColor: 'divider', borderRadius: '10px', bgcolor: 'background.paper', color: 'primary.main' }}
+                sx={{ width: 40, height: 40, border: 1, borderColor: 'divider', borderRadius: 0, bgcolor: 'background.paper', color: 'primary.main' }}
               >
                 <UploadIcon fontSize="small" />
               </IconButton>
@@ -2438,7 +2438,7 @@ export default function PesticideApplications() {
             </Box>
             <Box sx={{
               height: sheetHeight, display: 'flex', flexDirection: 'column',
-              border: '1px solid #c8c8c8', borderRadius: '4px', overflow: 'hidden',
+              border: '1px solid #c8c8c8', borderRadius: 0, overflow: 'hidden',
             }}>
               <SpreadsheetGrid
                 columns={applyJustificationColumnOptions(colsConfig, justificationOptionString)}

@@ -1785,7 +1785,7 @@ export default function BiologicalControlRecord() {
                 {Number(fs.pending_count) > 0 && (
                   <Tooltip title={`${fs.pending_count} value${Number(fs.pending_count) === 1 ? '' : 's'} waiting for approval`}>
                     <Box component="span" sx={{
-                      px: 0.6, borderRadius: '8px', fontSize: '0.6875rem', fontWeight: 700, lineHeight: 1.5,
+                      px: 0.6, borderRadius: 0, fontSize: '0.6875rem', fontWeight: 700, lineHeight: 1.5,
                       bgcolor: '#ffe08a', color: pendingText,
                     }}>
                       {fs.pending_count}
@@ -1798,7 +1798,7 @@ export default function BiologicalControlRecord() {
                   title={canEditSetup ? 'Delete this table' : 'Request deleting this table'}
                   onClick={e => { e.stopPropagation(); handleDeleteFieldSetup(fs.id, fs.field_name || `Field ${i + 1}`); }}
                   sx={{
-                    ml: 0.5, px: 0.3, borderRadius: '3px', fontSize: '0.6875rem', lineHeight: 1,
+                    ml: 0.5, px: 0.3, borderRadius: 0, fontSize: '0.6875rem', lineHeight: 1,
                     color: 'var(--sheet-ink-3)', cursor: 'pointer',
                     '&:hover': { color: '#d32f2f', bgcolor: 'rgba(211,47,47,0.1)' },
                   }}>

@@ -81,7 +81,7 @@ html[lang='ar'] .MuiTypography-root {
 :focus-visible {
   outline: 2px solid var(--brand-green);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 0;
 }
 .MuiButtonBase-root:focus-visible,
 .MuiInputBase-input:focus-visible {
@@ -121,7 +121,7 @@ html[lang='ar'] .MuiTypography-root {
   font-size: 12px;
 }
 .recharts-default-tooltip {
-  border-radius: 10px !important;
+  border-radius: 0 !important;
   border: 1px solid var(--border-subtle) !important;
   background: var(--bg-surface) !important;
   box-shadow: var(--shadow-card);
@@ -160,7 +160,7 @@ html[data-theme='dark'] .leaflet-container {
 }
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  border-radius: 12px;
+  border-radius: 0;
   box-shadow: var(--shadow-card);
 }
 
@@ -183,7 +183,7 @@ tbody > tr:only-child > td[colspan]:only-child:not(:has(.MuiCircularProgress-roo
   width: 40px;
   height: 40px;
   margin: 0 auto 12px;
-  border-radius: 12px;
+  border-radius: 0;
   background-color: var(--brand-green-soft);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f7a4d' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 12h-6l-2 3h-4l-2-3H2'/%3E%3Cpath d='M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -276,7 +276,7 @@ html.has-bottom-nav .ac-fixed-bottom {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--border-hover);
-  border-radius: 999px;
+  border-radius: 0;
   border: 2px solid transparent;
   background-clip: content-box;
   min-height: 32px;
@@ -366,4 +366,12 @@ main :is(.MuiCard-root, .MuiPaper-root:not(.MuiTableContainer-root)) .MuiTableCo
   main .MuiTableCell-body .MuiTypography-root {
     white-space: nowrap;
   }
+}
+
+/* Square corners everywhere, including Leaflet's own controls. */
+.leaflet-bar,
+.leaflet-bar a,
+.leaflet-control-layers,
+.leaflet-control-attribution {
+  border-radius: 0 !important;
 }

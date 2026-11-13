@@ -22,7 +22,8 @@ export const FONT_SANS_AR =
 export const FONT_MONO =
   "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace";
 
-export const RADIUS = { xs: 6, sm: 8, md: 12, lg: 16, xl: 20, pill: 999 };
+// Square corners throughout (product decision): every surface, control and chip is a plain rectangle.
+export const RADIUS = { xs: 0, sm: 0, md: 0, lg: 0, xl: 0, pill: 0 };
 /** Widest the page content gets on very large screens (keeps tables and lines readable). */
 export const PAGE_MAX_WIDTH = 1760;
 
@@ -576,7 +577,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       MuiSwitch: {
         styleOverrides: {
           root: { padding: 8 },
-          track: { borderRadius: 11, opacity: 1, backgroundColor: isDark ? '#3a443e' : '#d3d9d3' },
+          track: { borderRadius: 0, opacity: 1, backgroundColor: isDark ? '#3a443e' : '#d3d9d3' },
           thumb: { boxShadow: '0 1px 2px rgba(0,0,0,0.2)' },
           switchBase: {
             '&.Mui-checked + .MuiSwitch-track': { opacity: 1, backgroundColor: palette.primary.main },

@@ -3,7 +3,7 @@ export const FARM_GREEN = '#1f7a4d';
 export const CHART_GRID = '#e3e7e2'; // App.css re-themes grid lines per mode
 export const CHART_TICK = '#58625c'; // App.css re-themes tick text per mode
 export const CHART_TOOLTIP = {
-  borderRadius: 10,
+  borderRadius: 0,
   border: '1px solid var(--border-subtle, #e3e7e2)',
   background: 'var(--bg-surface, #ffffff)',
   color: 'var(--text-primary, #121714)',
