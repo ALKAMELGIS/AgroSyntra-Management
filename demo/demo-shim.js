@@ -59,6 +59,14 @@
   function body(url,method,reqBody){
     var path=url.replace(/^https?:\/\/[^/]+/,'').replace(/^.*\/api\/v1/,'').split('?')[0];
     var q={}; (url.split('?')[1]||'').split('&').forEach(function(p){var kv=p.split('='); if(kv[0]) q[decodeURIComponent(kv[0])]=decodeURIComponent(kv[1]||'');});
+    // Demo sign-in: email demo@agrocloud.test, password demo1234 (or the 4-digit PIN 1234).
+    if(path==='/auth/login'||path==='/auth/pin-login'){
+      var cred={}; try{ cred=typeof reqBody==='string'?JSON.parse(reqBody):(reqBody||{}); }catch(e){}
+      var okLogin = path==='/auth/pin-login' ? String(cred.pin||'')==='1234'
+        : String(cred.email||'').trim().toLowerCase()==='demo@agrocloud.test' && String(cred.password||'')==='demo1234';
+      if(!okLogin) return {success:false,error:{message:'Demo sign-in: demo@agrocloud.test / demo1234'}};
+      return {success:true,data:{user:U,accessToken:'demo-token',refreshToken:'demo-refresh'}};
+    }
     if(/^\/auth\/(me|profile|refresh|verify)/.test(path)) return {success:true,data:U,user:U,accessToken:'demo-token',token:'demo-token'};
 
 
