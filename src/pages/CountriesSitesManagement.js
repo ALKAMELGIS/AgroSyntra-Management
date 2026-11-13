@@ -439,7 +439,7 @@ function CountriesSitesManagement() {
                 <FormikSubmitFeedback />
                 <DialogContent>
                   <Grid container spacing={2}>
-                    <Grid size={12}>
+                    <Grid size={{ xs: 12, sm: 7 }}>
                       <TextField
                         fullWidth
                         label={t('zoneAccess.zoneName')}
@@ -451,7 +451,7 @@ function CountriesSitesManagement() {
                         helperText={touched.name && errors.name}
                       />
                     </Grid>
-                    <Grid size={12}>
+                    <Grid size={{ xs: 12, sm: 5 }}>
                       <TextField
                         fullWidth
                         label={t('zoneAccess.codeHint')}
@@ -491,7 +491,7 @@ function CountriesSitesManagement() {
                 <FormikSubmitFeedback />
                 <DialogContent>
                   <Grid container spacing={2}>
-                    <Grid size={12}>
+                    <Grid size={{ xs: 12, sm: 5 }}>
                       <TextField
                         fullWidth
                         label={t('zoneAccess.siteName')}
@@ -503,7 +503,7 @@ function CountriesSitesManagement() {
                         helperText={touched.name && errors.name}
                       />
                     </Grid>
-                    <Grid size={12}>
+                    <Grid size={{ xs: 12, sm: 4 }}>
                       <TextField
                         fullWidth
                         label={t('zoneAccess.location')}
@@ -515,7 +515,7 @@ function CountriesSitesManagement() {
                         helperText={touched.location && errors.location}
                       />
                     </Grid>
-                    <Grid size={12}>
+                    <Grid size={{ xs: 12, sm: 3 }}>
                       <TextField
                         fullWidth
                         type="number"

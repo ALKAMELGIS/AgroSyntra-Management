@@ -14,6 +14,7 @@ import { canEditIpmCatalog } from '../../utils/ipmAccess';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../../components/table/ExcelTable';
 import InfoNote from '../../components/InfoNote';
+import { HintLabel } from '../../components/form/FormLayout';
 import PageTitle from '../../components/PageTitle';
 
 const CATEGORY_LABELS = {
@@ -555,8 +556,7 @@ export default function PestCatalog() {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Match to existing"
-                      helperText="Use for duplicates or spelling. Sprays keep the name you pick. Leave empty for spots and combos."
+                      label={<HintLabel hint="Use for duplicates or spelling. Sprays keep the name you pick. Leave empty for spots and combos.">Match to existing</HintLabel>}
                     />
                   )}
                 />
@@ -573,8 +573,7 @@ export default function PestCatalog() {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Groups (original pests)"
-                      helperText="Example: Thrips Spot → Thrips. A combo can belong to two groups."
+                      label={<HintLabel hint="Example: Thrips Spot → Thrips. A combo can belong to two groups.">Groups (original pests)</HintLabel>}
                     />
                   )}
                 />
@@ -585,10 +584,9 @@ export default function PestCatalog() {
             onChange={(e) => setForm({ ...form, description: e.target.value })} margin="normal" multiline rows={2} />
           {isBioForm ? (
             <>
-              <TextField fullWidth label="Match pattern" value={form.matchPattern}
+              <TextField fullWidth label={<HintLabel hint="Matches bio record product names">Match pattern</HintLabel>} value={form.matchPattern}
                 onChange={(e) => setForm({ ...form, matchPattern: e.target.value })}
-                margin="normal"
-                helperText="Matches bio record product names, e.g. SWIRSKI" />
+                margin="normal" placeholder="SWIRSKI" />
               <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
                 <TextField fullWidth label="Sort order" type="number"
                   value={form.sortOrder}
@@ -608,18 +606,16 @@ export default function PestCatalog() {
             </>
           ) : (
             <>
-              <TextField fullWidth label="Recommended Action" value={form.recommendedAction}
+              <TextField fullWidth label="Recommended action" value={form.recommendedAction}
                 onChange={(e) => setForm({ ...form, recommendedAction: e.target.value })} margin="normal" multiline rows={2} />
               <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
-                <TextField fullWidth label="Warning Threshold (%)" type="number"
+                <TextField fullWidth label={<HintLabel hint="Infestation % that sends a warning notification">Warning threshold (%)</HintLabel>} type="number"
                   value={form.warningThreshold}
                   onChange={(e) => setForm({ ...form, warningThreshold: e.target.value })}
-                  helperText="Triggers warning notification"
                   inputProps={{ min: 0, max: 100 }} />
-                <TextField fullWidth label="Critical Threshold (%)" type="number"
+                <TextField fullWidth label={<HintLabel hint="Infestation % that sends a critical notification">Critical threshold (%)</HintLabel>} type="number"
                   value={form.criticalThreshold}
                   onChange={(e) => setForm({ ...form, criticalThreshold: e.target.value })}
-                  helperText="Triggers critical notification"
                   inputProps={{ min: 0, max: 100 }} />
               </Box>
             </>

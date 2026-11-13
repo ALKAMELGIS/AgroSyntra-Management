@@ -431,3 +431,9 @@ Pages:
 - Scouting report: GPS lat/lng moved from "Environment" into "Location within field" (next to bays, valves and side); both sections are 4-column grids (2 on tablet, 1 on phone); section titles at weight 600.
 - Recipe dialog: name, description, tank volume and cycles on one row; product catalog MSDS switch no longer alone on phones.
 - Arabic: "End season", "N× drip volume (ml)".
+
+## Round 37 — management dialogs
+
+- Field types & names (add and edit): type + name on one row, crop / variety / valve count on one row, name / valve count / area on one row in edit; the boundary JSON had the same explanation three times (heading, caption, helper) — now one hint on the label, 2–6 auto rows.
+- Pest catalog: "match to existing", "groups", "match pattern" and both thresholds explain themselves in a label hint instead of helper lines under every field.
+- Zones & sites: zone name + code, and site name + location + total area, each on one row.

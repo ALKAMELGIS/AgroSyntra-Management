@@ -50,6 +50,7 @@ import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../comp
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
 import ExportButton from '../components/ExportButton';
+import { HintLabel } from '../components/form/FormLayout';
 
 const FIELD_FROZEN_WIDTHS = [160];
 
@@ -711,7 +712,7 @@ function FieldTypesNamesManagement() {
                   <FormikSubmitFeedback />
                   <DialogContent>
                     <Grid container spacing={2}>
-                      <Grid size={12}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                           fullWidth
                           select
@@ -735,7 +736,7 @@ function FieldTypesNamesManagement() {
                           ))}
                         </TextField>
                       </Grid>
-                      <Grid size={12}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                           fullWidth
                           label="Field Name"
@@ -748,7 +749,7 @@ function FieldTypesNamesManagement() {
                           placeholder={`e.g., ${fieldTypeInfo.namingPattern}`}
                         />
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }}>
+                      <Grid size={{ xs: 12, sm: 5 }}>
                         <TextField
                           fullWidth
                           select
@@ -775,7 +776,7 @@ function FieldTypesNamesManagement() {
                           })}
                         </TextField>
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }}>
+                      <Grid size={{ xs: 8, sm: 4 }}>
                         <TextField
                           fullWidth
                           select
@@ -793,7 +794,7 @@ function FieldTypesNamesManagement() {
                           ))}
                         </TextField>
                       </Grid>
-                      <Grid size={12}>
+                      <Grid size={{ xs: 4, sm: 3 }}>
                         <TextField
                           fullWidth
                           type="number"
@@ -808,26 +809,17 @@ function FieldTypesNamesManagement() {
                         />
                       </Grid>
                       <Grid size={12}>
-                        <Divider sx={{ my: 1 }} />
-                        <Typography variant="subtitle2" gutterBottom>
-                          Field Boundaries (Polygon) - Optional
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1 }}>
-                          Enter polygon coordinates as JSON array: [[lat1, lng1], [lat2, lng2], [lat3, lng3], ...]
-                          <br />
-                          Example: [[24.45, 54.38], [24.46, 54.38], [24.46, 54.39], [24.45, 54.39], [24.45, 54.38]]
-                        </Typography>
                         <TextField
                           fullWidth
                           multiline
-                          rows={4}
-                          label="Polygon Coordinates (JSON)"
+                          minRows={2}
+                          maxRows={6}
+                          label={<HintLabel hint="Optional. Field boundary for the map, as a JSON array of [lat, lng] points: [[lat1, lng1], [lat2, lng2], …]">Boundary coordinates (JSON)</HintLabel>}
                           name="polygon"
                           value={values.polygon || ''}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           placeholder='[[24.45, 54.38], [24.46, 54.38], [24.46, 54.39], [24.45, 54.39], [24.45, 54.38]]'
-                          helperText="Optional: Define field boundaries for map visualization"
                         />
                       </Grid>
                     </Grid>
@@ -1044,7 +1036,7 @@ function FieldTypesNamesManagement() {
                   <FormikSubmitFeedback />
                   <DialogContent>
                     <Grid container spacing={2}>
-                      <Grid size={12}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                           fullWidth
                           label={t('fieldsAccess.fieldName')}
@@ -1056,7 +1048,7 @@ function FieldTypesNamesManagement() {
                           helperText={touched.name && errors.name}
                         />
                       </Grid>
-                      <Grid size={12}>
+                      <Grid size={{ xs: 6, sm: 3 }}>
                         <TextField
                           fullWidth
                           type="number"
@@ -1070,7 +1062,7 @@ function FieldTypesNamesManagement() {
                           inputProps={{ min: 0, step: 1 }}
                         />
                       </Grid>
-                      <Grid size={12}>
+                      <Grid size={{ xs: 6, sm: 3 }}>
                         <TextField
                           fullWidth
                           type="number"
@@ -1113,24 +1105,17 @@ function FieldTypesNamesManagement() {
                         />
                       </Grid>
                       <Grid size={12}>
-                        <Divider sx={{ my: 1 }} />
-                        <Typography variant="subtitle2" gutterBottom>
-                          Field Boundaries (Polygon) - Optional
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1 }}>
-                          Enter polygon coordinates as JSON array: [[lat1, lng1], [lat2, lng2], [lat3, lng3], ...]
-                        </Typography>
                         <TextField
                           fullWidth
                           multiline
-                          rows={4}
-                          label="Polygon Coordinates (JSON)"
+                          minRows={2}
+                          maxRows={6}
+                          label={<HintLabel hint="Optional. Field boundary for the map, as a JSON array of [lat, lng] points: [[lat1, lng1], [lat2, lng2], …]">Boundary coordinates (JSON)</HintLabel>}
                           name="polygon"
                           value={values.polygon || ''}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           placeholder='[[24.45, 54.38], [24.46, 54.38], [24.46, 54.39], [24.45, 54.39], [24.45, 54.38]]'
-                          helperText="Optional: Define field boundaries for map visualization"
                         />
                       </Grid>
                     </Grid>
