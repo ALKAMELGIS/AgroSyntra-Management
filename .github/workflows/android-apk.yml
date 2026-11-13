@@ -1,12 +1,16 @@
 name: Android APK
 
 # Builds an installable Android APK of the demo app (built-in demo data, works offline)
-# and attaches it to the run as the artifact "AgroSyntra-apk".
+# and attaches it to the run as the artifact "AgroSyntra-apk"; the latest APK is also
+# kept on the "apk" branch (stable download link).
 # It does not create a GitHub Release (that would trigger deploy-production.yml).
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 concurrency:
   group: android-apk-${{ github.ref }}
@@ -63,3 +67,16 @@ jobs:
           name: AgroSyntra-apk
           path: apk-out/AgroSyntra.apk
           retention-days: 30
+
+      # Keep the latest APK on the "apk" branch so it has a stable download link:
+      # https://github.com/<owner>/<repo>/raw/apk/AgroSyntra.apk
+      - name: Publish APK to the apk branch
+        run: |
+          cd apk-out
+          git init -q -b apk
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          printf '# AgroSyntra APK\n\nBuilt from %s on %s.\n' "$GITHUB_SHA" "$(date -u +%Y-%m-%dT%H:%MZ)" > README.md
+          git add AgroSyntra.apk README.md
+          git commit -qm "APK from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" apk
