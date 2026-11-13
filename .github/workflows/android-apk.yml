@@ -59,9 +59,16 @@ jobs:
         run: |
           # Same signing key on every build, so a new APK installs over the previous one
           # (a fresh random debug key per build makes Android say "App not installed").
-          mkdir -p ~/.android && cp ../keystore/debug.keystore ~/.android/debug.keystore
+          cat >> app/build.gradle <<'GRADLE'
+
+          android.signingConfigs.debug.storeFile = file("$rootDir/../keystore/debug.keystore")
+          android.signingConfigs.debug.storePassword = "android"
+          android.signingConfigs.debug.keyAlias = "androiddebugkey"
+          android.signingConfigs.debug.keyPassword = "android"
+          GRADLE
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
+          "$ANDROID_HOME"/build-tools/$(ls "$ANDROID_HOME"/build-tools | sort -V | tail -1)/apksigner verify --print-certs app/build/outputs/apk/debug/app-debug.apk | head -3
           mkdir -p ../../apk-out
           cp app/build/outputs/apk/debug/app-debug.apk ../../apk-out/AgroSyntra.apk
 
