@@ -103,7 +103,7 @@ function FertigationEntry() {
     defaultStructureId,
   } = useActiveSiteStructures();
   const [activeStructure, setActiveStructure] = useState(null);
-  const [viewMode, setViewMode] = useState('spreadsheet');
+  const [viewMode, setViewMode] = useState('form');
   const [entriesRefreshKey, setEntriesRefreshKey] = useState(0);
   const refreshEntries = useCallback(() => setEntriesRefreshKey((k) => k + 1), []);
   const [recipes, setRecipes] = useState([]);
@@ -384,13 +384,13 @@ function FertigationEntry() {
             onChange={(_, v) => { if (v) setViewMode(v); }}
             size="small"
           >
-            <ToggleButton value="spreadsheet">
-              <Tooltip title="Spreadsheet View"><SpreadsheetIcon sx={{ mr: 0.5, fontSize: 18 }} /></Tooltip>
-              Spreadsheet
-            </ToggleButton>
             <ToggleButton value="form">
               <Tooltip title="Form View"><FormViewIcon sx={{ mr: 0.5, fontSize: 18 }} /></Tooltip>
               Form
+            </ToggleButton>
+            <ToggleButton value="spreadsheet">
+              <Tooltip title="Spreadsheet View"><SpreadsheetIcon sx={{ mr: 0.5, fontSize: 18 }} /></Tooltip>
+              Spreadsheet
             </ToggleButton>
           </ToggleButtonGroup>
           )}
