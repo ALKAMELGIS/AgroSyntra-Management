@@ -12,3 +12,9 @@ npm ci --legacy-peer-deps && bash scripts/build-demo.sh
 cd android-app && npm install && npx cap add android && npm run sync
 cd android && ./gradlew assembleDebug   # → app/build/outputs/apk/debug/app-debug.apk
 ```
+
+## Signing
+
+`keystore/debug.keystore` (alias `androiddebugkey`, password `android`) is a fixed **debug** key so every
+build has the same signature and updates install over the previous version. It is not a secret.
+For Google Play, create a private release key and keep it in repository secrets instead.
