@@ -1,0 +1,17 @@
+{
+  "name": "agrosyntra-android",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Android (APK) wrapper for the AgroSyntra demo build",
+  "scripts": {
+    "sync": "rm -rf www && cp -r ../build-demo www && npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "6.2.1",
+    "@capacitor/core": "6.2.1"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "3.0.5",
+    "@capacitor/cli": "6.2.1"
+  }
+}

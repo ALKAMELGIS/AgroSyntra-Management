@@ -28,3 +28,19 @@ yarn-error.log*
 
 # Database backups (contain sensitive data)
 backend/backups/
+
+# local builds and test output
+/build-demo
+/build-live
+/build-ui
+/test-results
+/playwright-report
+dump.rdb
+
+# Generated builds and local artifacts
+/build-demo
+/build-ui
+/build-live
+/test-results
+/playwright-report
+dump.rdb

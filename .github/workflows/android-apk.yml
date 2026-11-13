@@ -1,0 +1,65 @@
+name: Android APK
+
+# Builds an installable Android APK of the demo app (built-in demo data, works offline)
+# and attaches it to the run as the artifact "AgroSyntra-apk".
+# It does not create a GitHub Release (that would trigger deploy-production.yml).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install web dependencies
+        run: npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+
+      - name: Build demo web app
+        env:
+          CI: false
+        run: bash scripts/build-demo.sh
+
+      - name: Create Android project
+        working-directory: android-app
+        run: |
+          npm install --no-audit --no-fund
+          rm -rf www && cp -r ../build-demo www
+          npx cap add android
+          npx cap sync android
+
+      - name: App icon
+        working-directory: android-app
+        continue-on-error: true
+        run: npx @capacitor/assets generate --android --iconBackgroundColor '#1d5a3c' --splashBackgroundColor '#1d5a3c'
+
+      - name: Build APK
+        working-directory: android-app/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+          mkdir -p ../../apk-out
+          cp app/build/outputs/apk/debug/app-debug.apk ../../apk-out/AgroSyntra.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AgroSyntra-apk
+          path: apk-out/AgroSyntra.apk
+          retention-days: 30

@@ -1,0 +1,8 @@
+{
+  "appId": "com.agrosyntra.management",
+  "appName": "AgroSyntra",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": true
+  }
+}
