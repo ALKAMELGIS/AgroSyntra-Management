@@ -31,6 +31,7 @@ import {
 import ScoutingObservationTable from '../../components/ScoutingObservationTable';
 import CameraCaptureDialog from '../../components/CameraCaptureDialog';
 import { loadMasterData, getCropPlantCount } from '../../utils/masterDataUtils';
+import { FormGrid } from '../../components/form/FormLayout';
 import {
   computeInfestationByPest,
   pestGroupKey,
@@ -676,7 +677,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
 
         {/* Header — flex-wrap so each field gets its own minWidth and labels
             never truncate, even when devtools split the dialog narrow. */}
-        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 700 }}>Header</Typography>
+        <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>Header</Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 2 }}>
           <Box sx={{ flex: '1 1 150px', minWidth: 150 }}>
             <TextField fullWidth size="small" type="date" label="Date"
@@ -747,18 +748,18 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
         {/* Location codes — multi-value chips. Use flex-wrap with min-widths
             so inputs size to the dialog (not the viewport) and never clip their
             labels on narrow screens / side-by-side devtools. */}
-        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 700 }}>Location within field</Typography>
+        <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>Location within field</Typography>
         <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
           Select bays and valves from the list (from Crop History). Beds and columns: type a code and press Enter.
         </Typography>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 2 }}>
-          <Box sx={{ flex: '1 1 200px', minWidth: 200 }}>
+        <FormGrid columns={{ xs: 1, sm: 2, md: 4 }} sx={{ mb: 4 }}>
+          <Box>
             <ChipInput label="Bed(s)" placeholder="e.g. b1" value={bedCodes} onChange={setBedCodes} />
           </Box>
-          <Box sx={{ flex: '1 1 200px', minWidth: 200 }}>
+          <Box>
             <ChipInput label="Column(s)" placeholder="e.g. c1" value={columnCodes} onChange={setColumnCodes} />
           </Box>
-          <Box sx={{ flex: '1 1 200px', minWidth: 200 }}>
+          <Box>
             <LocationMultiSelect
               label="Bay(s)"
               value={bayCodes}
@@ -774,7 +775,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
               }
             />
           </Box>
-          <Box sx={{ flex: '1 1 200px', minWidth: 200 }}>
+          <Box>
             <LocationMultiSelect
               label="Valve(s)"
               value={valveCodes}
@@ -790,7 +791,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
               }
             />
           </Box>
-          <Box sx={{ flex: '1 1 200px', minWidth: 200 }}>
+          <Box>
             <FormControl fullWidth size="small">
               <InputLabel id="scoutingreportform-side-label-1">Side</InputLabel>
               <Select labelId="scoutingreportform-side-label-1" value={side} label="Side" onChange={(e) => setSide(e.target.value)}>
@@ -800,51 +801,12 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
               </Select>
             </FormControl>
           </Box>
-        </Box>
-
-        {/* Environment */}
-        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 700 }}>Environment</Typography>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 2 }}>
-          <Box sx={{ flex: '1 1 160px', minWidth: 160 }}>
-            <TextField fullWidth size="small" type="number" label="Crop Height (cm)"
-              value={cropHeight} onChange={(e) => setCropHeight(e.target.value)} />
-          </Box>
-          <Box sx={{ flex: '1 1 160px', minWidth: 160 }}>
-            <FormControl fullWidth size="small">
-              <InputLabel id="scoutingreportform-soil-condition-label-2">Soil Condition</InputLabel>
-              <Select labelId="scoutingreportform-soil-condition-label-2" value={soilCondition} label="Soil Condition" onChange={(e) => setSoilCondition(e.target.value)}>
-                <MenuItem value="">—</MenuItem>
-                <MenuItem value="wet">Wet</MenuItem>
-                <MenuItem value="dry">Dry</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box sx={{ flex: '1 1 160px', minWidth: 160 }}>
-            <FormControl fullWidth size="small">
-              <InputLabel id="scoutingreportform-weather-label-3">Weather</InputLabel>
-              <Select labelId="scoutingreportform-weather-label-3" value={weather} label="Weather" onChange={(e) => setWeather(e.target.value)}>
-                <MenuItem value="sunny">Sunny</MenuItem>
-                <MenuItem value="cloudy">Cloudy</MenuItem>
-                <MenuItem value="rainy">Rainy</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box sx={{ flex: '1 1 140px', minWidth: 140 }}>
-            <FormControl fullWidth size="small">
-              <InputLabel id="scoutingreportform-wind-label-4">Wind</InputLabel>
-              <Select labelId="scoutingreportform-wind-label-4" value={wind} label="Wind" onChange={(e) => setWind(e.target.value)}>
-                <MenuItem value="none">None</MenuItem>
-                <MenuItem value="light">Light</MenuItem>
-                <MenuItem value="strong">Strong</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box sx={{ flex: '1 1 140px', minWidth: 140 }}>
-            <TextField fullWidth size="small" label="GPS Lat"
+          <Box>
+            <TextField fullWidth size="small" label="GPS lat"
               value={gpsLat} onChange={(e) => setGpsLat(e.target.value)} />
           </Box>
-          <Box sx={{ flex: '1 1 160px', minWidth: 160 }}>
-            <TextField fullWidth size="small" label="GPS Lng"
+          <Box>
+            <TextField fullWidth size="small" label="GPS lng"
               value={gpsLng} onChange={(e) => setGpsLng(e.target.value)}
               InputProps={{
                 endAdornment: (
@@ -859,7 +821,46 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
               }}
             />
           </Box>
-        </Box>
+        </FormGrid>
+
+        {/* Environment */}
+        <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>Environment</Typography>
+        <FormGrid columns={{ xs: 1, sm: 2, md: 4 }} sx={{ mb: 4 }}>
+          <Box>
+            <TextField fullWidth size="small" type="number" label="Crop Height (cm)"
+              value={cropHeight} onChange={(e) => setCropHeight(e.target.value)} />
+          </Box>
+          <Box>
+            <FormControl fullWidth size="small">
+              <InputLabel id="scoutingreportform-soil-condition-label-2">Soil Condition</InputLabel>
+              <Select labelId="scoutingreportform-soil-condition-label-2" value={soilCondition} label="Soil Condition" onChange={(e) => setSoilCondition(e.target.value)}>
+                <MenuItem value="">—</MenuItem>
+                <MenuItem value="wet">Wet</MenuItem>
+                <MenuItem value="dry">Dry</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Box>
+            <FormControl fullWidth size="small">
+              <InputLabel id="scoutingreportform-weather-label-3">Weather</InputLabel>
+              <Select labelId="scoutingreportform-weather-label-3" value={weather} label="Weather" onChange={(e) => setWeather(e.target.value)}>
+                <MenuItem value="sunny">Sunny</MenuItem>
+                <MenuItem value="cloudy">Cloudy</MenuItem>
+                <MenuItem value="rainy">Rainy</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Box>
+            <FormControl fullWidth size="small">
+              <InputLabel id="scoutingreportform-wind-label-4">Wind</InputLabel>
+              <Select labelId="scoutingreportform-wind-label-4" value={wind} label="Wind" onChange={(e) => setWind(e.target.value)}>
+                <MenuItem value="none">None</MenuItem>
+                <MenuItem value="light">Light</MenuItem>
+                <MenuItem value="strong">Strong</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </FormGrid>
 
         <Divider sx={{ my: 2 }} />
 
@@ -911,7 +912,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
         <Divider sx={{ my: 3 }} />
 
         {/* Growth stage */}
-        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 700 }}>Growth stage</Typography>
+        <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>Growth stage</Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 2 }}>
           <Box sx={{ flex: '1 1 160px', minWidth: 160 }}>
             <TextField fullWidth size="small" type="number" label="# Trusses"
@@ -938,7 +939,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
         <Divider sx={{ my: 3 }} />
 
         {/* Trap cards */}
-        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 700 }}>Insect trap cards (weekly)</Typography>
+        <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>Insect trap cards (weekly)</Typography>
         <TableContainerScroll>
           <Table size="small" sx={{ minWidth: 820 }}>
             <TableHead>
@@ -992,7 +993,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
         <Divider sx={{ my: 3 }} />
 
         {/* Comments */}
-        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 700 }}>Comments</Typography>
+        <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>Comments</Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
           <Box sx={{ flex: '1 1 200px', minWidth: 200 }}>
             <FormControl fullWidth size="small">
@@ -1016,7 +1017,7 @@ export default function ScoutingReportForm({ open, onClose, fields, plantingReco
         <Divider sx={{ my: 3 }} />
 
         {/* Photos — separate camera vs library so scouts can capture in the field. */}
-        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 700 }}>
+        <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
           Photos
           <Typography component="span" variant="caption" color="text.secondary" sx={{ ml: 1, display: 'block', mt: 0.5 }}>
             Take a photo in the field or attach existing pictures.

@@ -175,6 +175,21 @@ export function cssTokens(mode = 'light') {
   };
 }
 
+// Touch screens: an invisible ::after layer grows small controls to a 44 × 44 px
+// hit area without changing their size or the layout (mouse users unaffected).
+const TOUCH_HIT = {
+  '@media (pointer: coarse)': {
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      top: 'min(0px, calc((100% - 44px) / 2))',
+      bottom: 'min(0px, calc((100% - 44px) / 2))',
+      left: 'min(0px, calc((100% - 44px) / 2))',
+      right: 'min(0px, calc((100% - 44px) / 2))',
+    },
+  },
+};
+
 export function createAppTheme(mode = 'light', direction = 'ltr') {
   const isDark = mode === 'dark';
   const palette = isDark ? darkPalette : lightPalette;
@@ -305,6 +320,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
           },
           sizeSmall: {
             padding: '2px 14px', minHeight: 32, fontSize: '0.8125rem',
+            ...TOUCH_HIT,
             '& .MuiButton-startIcon > *:nth-of-type(1), & .MuiButton-endIcon > *:nth-of-type(1)': { fontSize: 16 },
           },
           sizeMedium: {
@@ -393,6 +409,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
             transition: 'background-color 160ms ease, color 160ms ease',
             '&:hover': { backgroundColor: hoverBg, color: palette.text.primary },
             '&.Mui-focusVisible': { boxShadow: focusRing },
+            ...TOUCH_HIT,
           },
           // Icon-button scale: small 32 · medium 40 · large 48 px, icons 18 / 20 / 24.
           sizeSmall: { width: 32, height: 32, padding: 0, '& .MuiSvgIcon-root': { fontSize: 18 } },
@@ -414,6 +431,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
         styleOverrides: {
           sizeSmall: { minHeight: 32 },
           root: {
+            ...TOUCH_HIT,
             textTransform: 'none',
             fontWeight: 500,
             fontSize: '0.8125rem',
@@ -805,6 +823,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
           sizeSmall: { height: 22, fontSize: '0.6875rem' },
           label: { paddingLeft: 10, paddingRight: 10 },
           labelSmall: { paddingLeft: 8, paddingRight: 8 },
+          clickable: { position: 'relative', ...TOUCH_HIT },
           filled: { border: 'none' },
           outlined: { borderColor: palette.border.subtle, backgroundColor: palette.background.paper },
           colorDefault: { backgroundColor: palette.background.muted, color: palette.text.primary },

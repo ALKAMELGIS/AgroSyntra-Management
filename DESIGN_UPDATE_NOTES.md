@@ -424,3 +424,10 @@ Pages:
 - **Farm areas & crops dialogs**: name + size on one row; dripper / plants / drip-test counts on one row with hints.
 - **Dialog section titles** (pesticide application, etc.): neutral 600 weight instead of green 700.
 - Arabic for every new label.
+
+## Round 36 — touch targets and the scouting form
+
+- Touch screens: small icon buttons, small buttons, Form/Spreadsheet toggles and clickable chips get an invisible 44 × 44 px tap area (theme-wide; the visible size and the layout do not change, mouse users are unaffected).
+- Scouting report: GPS lat/lng moved from "Environment" into "Location within field" (next to bays, valves and side); both sections are 4-column grids (2 on tablet, 1 on phone); section titles at weight 600.
+- Recipe dialog: name, description, tank volume and cycles on one row; product catalog MSDS switch no longer alone on phones.
+- Arabic: "End season", "N× drip volume (ml)".
