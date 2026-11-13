@@ -451,3 +451,4 @@ Pages:
 
 - **Square corners everywhere** (owner decision): `RADIUS` tokens and `shape.borderRadius` are 0, so cards, panels, buttons, chips, inputs, dialogs, menus, alerts, map controls (Leaflet zoom, popups), tooltips and scrollbars are plain rectangles. Circles stay only for avatars, status dots and badges.
 - **Map tools on phones** (`MapWorkspace`): the two 48 px side rails (GIS / satellite) took a quarter of the screen. Phones now get one labelled tool strip above the map — GIS group | satellite (RS) group — and a tool's panel opens as a sheet over the lower 62% of the map, so the map stays visible; one sheet at a time. Desktop and tablet keep the two rails with docked panels.
+- Map tool counts no longer sit on top of the icons: phone strip shows the count next to the tool name, desktop rails show it under the icon (0 overlaps measured across 15 tools).

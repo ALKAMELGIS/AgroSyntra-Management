@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  Badge, Box, ButtonBase, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Radio, Tooltip, Typography,
+  Box, ButtonBase, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Radio, Tooltip, Typography,
   useMediaQuery,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -78,13 +78,20 @@ function ToolRail({ tools, workspace, panelId, label, side }) {
         if (tool.divider) return <Box key={tool.key} sx={{ width: 24, height: '1px', bgcolor: 'divider', my: 0.5, flexShrink: 0 }} />;
         const isPanel = Boolean(tool.content);
         const pressed = isPanel ? workspace.active === tool.key : Boolean(tool.pressed);
-        const iconEl = tool.badge ? <Badge badgeContent={tool.badge} color="primary" max={99}>{tool.icon}</Badge> : tool.icon;
+        // The count sits under the icon (its own line), never on top of it.
+        const count = tool.badge ? (tool.badge > 99 ? '99+' : tool.badge) : null;
+        const iconEl = count ? (
+          <Box component="span" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1 }}>
+            {tool.icon}
+            <Box component="span" aria-hidden sx={{ mt: 0.5, fontSize: '0.625rem', fontWeight: 700, lineHeight: 1, color: 'primary.main', fontVariantNumeric: 'tabular-nums' }}>{count}</Box>
+          </Box>
+        ) : tool.icon;
         return (
-          <Tooltip key={tool.key} title={tool.label} placement={tipSide}>
+          <Tooltip key={tool.key} title={count ? `${tool.label} (${count})` : tool.label} placement={tipSide}>
             <span>
               <IconButton
                 size="small"
-                aria-label={tool.label}
+                aria-label={count ? `${tool.label} (${count})` : tool.label}
                 aria-pressed={isPanel || tool.pressed !== undefined ? pressed : undefined}
                 aria-controls={isPanel ? panelId : undefined}
                 aria-expanded={isPanel ? pressed : undefined}
@@ -92,6 +99,7 @@ function ToolRail({ tools, workspace, panelId, label, side }) {
                 onClick={isPanel ? () => workspace.toggle(tool.key) : tool.onClick}
                 sx={{
                   flexShrink: 0,
+                  ...(count ? { height: 48 } : null),
                   color: pressed ? 'primary.main' : 'text.secondary',
                   bgcolor: pressed ? 'action.selected' : 'transparent',
                   // A thin bar on the outer edge marks the open tool.
@@ -176,11 +184,11 @@ function PhoneToolStrip({ groups }) {
           {g.tools.filter((t) => !t.divider).map((tool) => {
             const isPanel = Boolean(tool.content);
             const pressed = isPanel ? g.workspace.active === tool.key : Boolean(tool.pressed);
-            const iconEl = tool.badge ? <Badge badgeContent={tool.badge} color="primary" max={99}>{tool.icon}</Badge> : tool.icon;
+            const count = tool.badge ? (tool.badge > 99 ? '99+' : tool.badge) : null;
             return (
               <ButtonBase
                 key={tool.key}
-                aria-label={tool.label}
+                aria-label={count ? `${tool.label} (${count})` : tool.label}
                 aria-pressed={isPanel || tool.pressed !== undefined ? pressed : undefined}
                 disabled={tool.disabled}
                 onClick={isPanel ? () => g.open(tool.key) : tool.onClick}
@@ -193,9 +201,12 @@ function PhoneToolStrip({ groups }) {
                   '&.Mui-disabled': { opacity: 0.4 },
                 }}
               >
-                {iconEl}
-                <Box component="span" sx={{ fontSize: '0.6875rem', lineHeight: 1.2, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
-                  {tool.label}
+                {tool.icon}
+                <Box component="span" sx={{ display: 'flex', alignItems: 'center', gap: 1, maxWidth: '100%', fontSize: '0.6875rem', lineHeight: 1.2, fontWeight: 500 }}>
+                  <Box component="span" sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0 }}>{tool.label}</Box>
+                  {count && (
+                    <Box component="span" aria-hidden sx={{ flexShrink: 0, px: 1, minWidth: 16, textAlign: 'center', bgcolor: 'primary.main', color: 'primary.contrastText', fontWeight: 700, fontSize: '0.625rem', lineHeight: '16px', fontVariantNumeric: 'tabular-nums' }}>{count}</Box>
+                  )}
                 </Box>
               </ButtonBase>
             );
