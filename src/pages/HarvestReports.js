@@ -221,7 +221,7 @@ function HarvestReports() {
 
             <Grid container spacing={3}>
               <Grid size={{ xs: 12, md: 4 }}>
-                <Paper elevation={2} sx={{ p: 3, textAlign: 'center' }}>
+                <Paper elevation={2} sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
                   <Typography variant="h6" gutterBottom>Daily Report</Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                     Export today&apos;s harvest entries
@@ -232,7 +232,7 @@ function HarvestReports() {
                 </Paper>
               </Grid>
               <Grid size={{ xs: 12, md: 4 }}>
-                <Paper elevation={2} sx={{ p: 3, textAlign: 'center' }}>
+                <Paper elevation={2} sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
                   <Typography variant="h6" gutterBottom>Weekly Report</Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                     Export this week&apos;s harvest entries
@@ -243,7 +243,7 @@ function HarvestReports() {
                 </Paper>
               </Grid>
               <Grid size={{ xs: 12, md: 4 }}>
-                <Paper elevation={2} sx={{ p: 3, textAlign: 'center' }}>
+                <Paper elevation={2} sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
                   <Typography variant="h6" gutterBottom>Export All Data</Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                     Export complete harvest history

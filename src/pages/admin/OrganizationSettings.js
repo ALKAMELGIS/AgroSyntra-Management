@@ -66,7 +66,7 @@ export default function OrganizationSettings() {
 
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper sx={{ p: 3 }}>
+          <Paper sx={{ p: { xs: 3, sm: 4 } }}>
             <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <SettingsIcon /> General
             </Typography>
@@ -124,7 +124,7 @@ export default function OrganizationSettings() {
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Paper sx={{ p: 3 }}>
+          <Paper sx={{ p: { xs: 3, sm: 4 } }}>
             <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <UsersIcon /> Organization Info
             </Typography>
@@ -142,7 +142,7 @@ export default function OrganizationSettings() {
             )}
           </Paper>
 
-          <Paper sx={{ p: 3, mt: 2 }}>
+          <Paper sx={{ p: { xs: 3, sm: 4 }, mt: 2 }}>
             <Typography variant="h6" gutterBottom>Your Role</Typography>
             <Chip
               label={user?.role?.replace('_', ' ').toUpperCase() || 'Unknown'}

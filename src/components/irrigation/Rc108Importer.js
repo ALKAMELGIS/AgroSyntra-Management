@@ -14,7 +14,7 @@ const STRUCTURE_LABEL = {
 };
 
 const hdrStyle = {
-  bgcolor: '#1f7a4d',
+  bgcolor: 'var(--sheet-accent)',
   color: '#fff',
   fontWeight: 700,
   fontSize: '0.75rem',
@@ -117,7 +117,7 @@ export default function Rc108Importer({
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-      <DialogTitle sx={{ bgcolor: '#1f7a4d', color: '#fff', fontWeight: 700 }}>
+      <DialogTitle sx={{ bgcolor: 'var(--sheet-accent)', color: '#fff', fontWeight: 700 }}>
         Import RC-108 Excel
       </DialogTitle>
       <DialogContent sx={{ pt: 2 }}>

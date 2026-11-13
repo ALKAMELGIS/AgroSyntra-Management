@@ -140,6 +140,8 @@ export function cssTokens(mode = 'light') {
         '--sheet-ink-2': '#b5c0b8',
         '--sheet-ink-3': '#8c978f',
         '--sheet-accent': '#74c99c',
+        '--sheet-header': '#1d5a3c',
+        '--sheet-header-strong': '#164a31',
         '--sheet-danger': '#f19a8d',
         '--sheet-select': 'rgba(76,178,126,0.18)',
         '--sheet-select-strong': 'rgba(76,178,126,0.30)',
@@ -159,6 +161,8 @@ export function cssTokens(mode = 'light') {
         '--sheet-ink-2': '#555555',
         '--sheet-ink-3': '#767676',
         '--sheet-accent': '#1f7a4d',
+        '--sheet-header': '#1d5a3c',
+        '--sheet-header-strong': '#164a31',
         '--sheet-danger': '#c62828',
         '--sheet-select': '#d5e7d9',
         '--sheet-select-strong': '#c6dfcd',
@@ -205,9 +209,9 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       subtitle2: { fontSize: '0.8125rem', fontWeight: 600, lineHeight: 1.5, color: palette.text.secondary },
       body1: { fontSize: '0.9375rem', fontWeight: 400, lineHeight: 1.6, color: palette.text.primary },
       body2: { fontSize: '0.8125rem', fontWeight: 400, lineHeight: 1.55, color: palette.text.secondary },
-      caption: { fontSize: '0.75rem', fontWeight: 500, lineHeight: 1.5, color: palette.text.secondary, letterSpacing: '0.005em' },
+      caption: { fontSize: '0.75rem', fontWeight: 500, lineHeight: 1.5, color: palette.text.secondary, letterSpacing: 0 },
       button: { fontSize: '0.875rem', fontWeight: 500, lineHeight: 1.5, textTransform: 'none', letterSpacing: '-0.003em' },
-      overline: { fontSize: '0.6875rem', fontWeight: 600, lineHeight: 1.6, textTransform: 'uppercase', letterSpacing: '0.08em', color: palette.text.secondary },
+      overline: { fontSize: '0.75rem', fontWeight: 600, lineHeight: 1.6, textTransform: 'none', letterSpacing: 0, color: palette.text.secondary },
     },
     spacing: 4,
     shape: { borderRadius: RADIUS.sm },
@@ -489,7 +493,15 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       },
 
       /* ---------- Inputs ---------- */
-      MuiTextField: { defaultProps: { variant: 'outlined' } },
+      // Dense by default: every field is the small (≈38px) size on desktop; touch
+      // screens get a 44px target through the coarse-pointer rule below.
+      MuiTextField: { defaultProps: { variant: 'outlined', size: 'small' } },
+      MuiFormControl: { defaultProps: { size: 'small' } },
+      MuiInputAdornment: {
+        styleOverrides: {
+          root: { color: palette.text.secondary, '& .MuiSvgIcon-root': { fontSize: 18, color: palette.text.secondary } },
+        },
+      },
       MuiInputBase: {
         styleOverrides: {
           // Placeholder colour lives in App.css: a `::placeholder` rule here breaks the RTL
@@ -511,7 +523,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
             '&.Mui-disabled': { backgroundColor: palette.background.muted },
           },
           input: { padding: '11px 14px' },
-          inputSizeSmall: { padding: '8px 12px' },
+          inputSizeSmall: { padding: '9px 12px', '@media (pointer: coarse)': { paddingTop: 12, paddingBottom: 12 } },
         },
       },
       MuiInputLabel: {
@@ -525,12 +537,13 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
         styleOverrides: { asterisk: { color: palette.error.main, '&.Mui-error': { color: palette.error.main } } },
       },
       MuiFormHelperText: {
-        styleOverrides: { root: { fontSize: '0.75rem', marginLeft: 2, marginRight: 2, '&.Mui-disabled': { color: palette.text.secondary } } },
+        styleOverrides: { root: { fontSize: '0.75rem', lineHeight: 1.35, marginTop: 2, marginLeft: 2, marginRight: 2, '&.Mui-disabled': { color: palette.text.secondary } } },
       },
       MuiSelect: {
-        styleOverrides: { icon: { color: palette.text.secondary } },
+        styleOverrides: { icon: { color: palette.text.secondary }, select: { '& em': { fontStyle: 'normal', color: palette.text.secondary } } },
       },
       MuiAutocomplete: {
+        defaultProps: { size: 'small' },
         styleOverrides: {
           paper: { borderRadius: RADIUS.md, boxShadow: popShadow, border: `1px solid ${palette.border.subtle}` },
           option: { fontSize: '0.875rem', borderRadius: RADIUS.xs, margin: '1px 6px' },
@@ -579,6 +592,8 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
             minHeight: 36,
             padding: '7px 10px',
             gap: 6,
+            // "— optional —" style empty options read as quiet text, not italics.
+            '& em': { fontStyle: 'normal', color: palette.text.secondary },
             '&:hover': { backgroundColor: hoverBg },
             '&.Mui-selected': {
               backgroundColor: alpha(palette.primary.main, isDark ? 0.16 : 0.08),
@@ -743,9 +758,9 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
             zIndex: 2,
             '& .MuiTableCell-head': {
               fontWeight: 600,
-              fontSize: '0.6875rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
+              fontSize: '0.75rem',
+              textTransform: 'none',
+              letterSpacing: 0,
               color: palette.text.secondary,
               backgroundColor: palette.background.muted,
               borderBottom: `1px solid ${palette.border.subtle}`,

@@ -20,8 +20,8 @@ import { runBulkImportBatches } from '../utils/pppBulkImportBatches';
 import InfoNote from './InfoNote';
 
 // ─── Excel-like colour palette (matches SpreadsheetGrid) ──────────
-const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
-const bannerBg = '#1f3864';
+const headerBg = 'var(--sheet-header)'; // = theme palette.table.headerBg
+const bannerBg = 'var(--sheet-header-strong)';
 const bannerColor = '#fff';
 const altRowBg = 'rgba(31,122,77,0.06)';
 const cellBorder = '1px solid #c8c8c8';
@@ -554,7 +554,7 @@ export default function SpreadsheetImporter({
                               displayEmpty
                               sx={{ fontSize: '0.6875rem' }}
                             >
-                              <MenuItem value="" sx={{ fontSize: '0.6875rem', color: '#999' }}>(skip)</MenuItem>
+                              <MenuItem value="" sx={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-3)' }}>(skip)</MenuItem>
                               {TEMPLATE_FIELDS.map(f => (
                                 <MenuItem key={f.key} value={f.key} sx={{ fontSize: '0.6875rem' }}>{f.label}</MenuItem>
                               ))}
@@ -617,7 +617,7 @@ export default function SpreadsheetImporter({
                       <TableRow key={i} sx={{ background: bg }}>
                         <TableCell sx={{ ...cellStyle, textAlign: 'center', color: '#888' }}>{r._rowNum}</TableCell>
                         <TableCell sx={cellStyle}>
-                          {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: '#1f7a4d' }} />}
+                          {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: 'var(--sheet-accent)' }} />}
                           {r._status === 'warning' && <WarnIcon sx={{ fontSize: 16, color: '#a84b07' }} />}
                           {r._status === 'error' && <ErrIcon sx={{ fontSize: 16, color: '#c62828' }} />}
                         </TableCell>
@@ -634,7 +634,7 @@ export default function SpreadsheetImporter({
                                   displayEmpty
                                   sx={{ fontSize: '0.6875rem', minWidth: 140 }}
                                 >
-                                  <MenuItem value="" sx={{ fontSize: '0.6875rem', color: '#999' }}>
+                                  <MenuItem value="" sx={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-3)' }}>
                                     <em>Pick field</em>
                                   </MenuItem>
                                   {fieldPickerOptions.map((opt) => (
@@ -655,7 +655,7 @@ export default function SpreadsheetImporter({
                         <TableCell sx={cellStyle}>{r._resolvedProductName || r.productName}</TableCell>
                         <TableCell sx={{ ...cellStyle, textAlign: 'right' }}>{r.totalQuantityApplied}</TableCell>
                         <TableCell sx={{ ...cellStyle, textAlign: 'right' }}>{r.unitPrice}</TableCell>
-                        <TableCell sx={{ ...cellStyle, textAlign: 'right', fontWeight: 600, color: '#1f7a4d' }}>{r.cost}</TableCell>
+                        <TableCell sx={{ ...cellStyle, textAlign: 'right', fontWeight: 600, color: 'var(--sheet-accent)' }}>{r.cost}</TableCell>
                         <TableCell sx={{ ...cellStyle, fontSize: '0.6875rem', color: r._status === 'error' ? '#c62828' : '#e65100', maxWidth: 220 }}>
                           <Tooltip title={notes} describeChild><span>{notes.length > 60 ? notes.slice(0, 60) + '...' : notes}</span></Tooltip>
                         </TableCell>
@@ -704,7 +704,7 @@ export default function SpreadsheetImporter({
             variant="contained"
             onClick={applyMappingAndValidate}
             disabled={!columnMapping || Object.values(columnMapping).filter(Boolean).length === 0}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: 'var(--sheet-header-strong)' } }}
           >
             Continue — Validate {rawDataRows.length} rows
           </Button>
@@ -715,7 +715,7 @@ export default function SpreadsheetImporter({
             onClick={handleImport}
             disabled={importing || importableRows.length === 0}
             startIcon={importing ? <CircularProgress size={16} /> : <ImportIcon />}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: 'var(--sheet-header-strong)' } }}
           >
             {importing ? 'Importing...' : `Import ${importableRows.length} rows`}
           </Button>

@@ -181,7 +181,7 @@ export default function InternshipLesson() {
 
       {/* Reading Phase */}
       {phase === 'reading' && (
-        <Paper sx={{ p: 4, mb: 3 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, mb: 3 }}>
           <Typography variant="h5" gutterBottom>{lesson.title}</Typography>
           <Divider sx={{ mb: 3 }} />
           <Box
@@ -209,7 +209,7 @@ export default function InternshipLesson() {
 
       {/* Quiz Phase */}
       {phase === 'quiz' && quizQuestions.length > 0 && (
-        <Paper sx={{ p: 4 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 } }}>
           <Typography variant="h6" fontWeight={600} gutterBottom>Pop Quiz ({quizQuestions.length} questions)</Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
             Answer at least 3 out of 4 correctly to complete this lesson.
@@ -238,7 +238,7 @@ export default function InternshipLesson() {
 
       {/* Failed Phase */}
       {phase === 'failed' && quizResult && (
-        <Paper sx={{ p: 4 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 } }}>
           <Alert severity="warning" sx={{ mb: 3 }}>
             You scored {quizResult.correct}/{quizResult.total} ({quizResult.score}%). You need at least 75% to pass.
           </Alert>
@@ -253,7 +253,7 @@ export default function InternshipLesson() {
 
       {/* Passed Phase */}
       {phase === 'passed' && quizResult && (
-        <Paper sx={{ p: 4 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 } }}>
           <Box sx={{ textAlign: 'center', mb: 3 }}>
             <CheckCircle sx={{ fontSize: 64, color: 'success.main', mb: 2 }} />
             <Typography variant="h5" gutterBottom>Lesson Completed!</Typography>

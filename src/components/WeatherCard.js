@@ -70,24 +70,18 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
       sx={{
         height: '100%',
         borderRadius: 2,
-        background: 'linear-gradient(135deg, rgba(255, 248, 220, 0.9) 0%, rgba(255, 250, 240, 0.9) 100%)',
-        backdropFilter: 'blur(10px)',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        transition: 'transform 0.2s, box-shadow 0.2s',
-        '&:hover': {
-          transform: 'translateY(-2px)',
-          boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
-        },
+        // Quiet surface like every other panel; the readings carry the colour.
+        bgcolor: 'background.paper',
       }}
     >
-      <CardContent sx={{ p: 2.5 }}>
+      <CardContent sx={{ p: 2 }}>
         {/* Header: Field Name and Coordinates */}
         <Box sx={{ mb: 2 }}>
           <Typography
             variant="h6"
             sx={{
               fontWeight: 600,
-              color: '#2c3e50',
+              color: 'text.primary',
               mb: 0.5,
               fontSize: '1.125rem',
             }}
@@ -95,11 +89,11 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
             {fieldName}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <LocationOn sx={{ fontSize: 14, color: '#7f8c8d' }} />
+            <LocationOn sx={{ fontSize: 14, color: 'var(--sheet-ink-3)' }} />
             <Typography
               variant="caption"
               sx={{
-                color: '#7f8c8d',
+                color: 'var(--sheet-ink-3)',
                 fontSize: '0.75rem',
               }}
             >
@@ -114,7 +108,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
             variant="h3"
             sx={{
               fontWeight: 700,
-              color: '#2c3e50',
+              color: 'text.primary',
               fontSize: '2.5rem',
               lineHeight: 1.2,
             }}
@@ -141,7 +135,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
               <Typography
                 variant="body2"
                 sx={{
-                  color: '#2c3e50',
+                  color: 'text.primary',
                   fontSize: '0.875rem',
                   fontWeight: 500,
                 }}
@@ -167,7 +161,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
               <Typography
                 variant="body2"
                 sx={{
-                  color: '#2c3e50',
+                  color: 'text.primary',
                   fontSize: '0.875rem',
                   fontWeight: 500,
                 }}
@@ -203,7 +197,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
                 <Typography
                   variant="body2"
                   sx={{
-                    color: '#2c3e50',
+                    color: 'text.primary',
                     fontSize: '0.875rem',
                     fontWeight: 500,
                   }}
@@ -230,7 +224,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
               <Typography
                 variant="body2"
                 sx={{
-                  color: '#2c3e50',
+                  color: 'text.primary',
                   fontSize: '0.875rem',
                   fontWeight: 500,
                 }}
@@ -256,7 +250,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
               <Typography
                 variant="body2"
                 sx={{
-                  color: '#2c3e50',
+                  color: 'text.primary',
                   fontSize: '0.875rem',
                   fontWeight: 500,
                 }}
@@ -282,7 +276,7 @@ function WeatherCard({ fieldName, latitude, longitude, weatherData }) {
               <Typography
                 variant="body2"
                 sx={{
-                  color: '#2c3e50',
+                  color: 'text.primary',
                   fontSize: '0.875rem',
                   fontWeight: 500,
                 }}

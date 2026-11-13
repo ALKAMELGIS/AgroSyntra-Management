@@ -416,7 +416,7 @@ export default function DailyActivitySheet({
                         sx={{ width: 70 }}
                         InputProps={{ readOnly: true }}
                         error={Boolean(mErr.unit)}
-                        helperText={mErr.unit || ' '}
+                        helperText={mErr.unit || undefined}
                         FormHelperTextProps={{ sx: { minHeight: 20, mx: 0 } }}
                       />
                       <Autocomplete size="small" freeSolo sx={{ minWidth: 120, flex: 1 }}
@@ -428,7 +428,7 @@ export default function DailyActivitySheet({
                             {...params}
                             label="Location" required
                             error={Boolean(mErr.location)}
-                            helperText={mErr.location || ' '}
+                            helperText={mErr.location || undefined}
                             FormHelperTextProps={{ sx: { minHeight: 20, mx: 0 } }}
                           />
                         )}
@@ -473,7 +473,7 @@ export default function DailyActivitySheet({
                             {...params}
                             label="Section" required
                             error={Boolean(mErr.section)}
-                            helperText={mErr.section || ' '}
+                            helperText={mErr.section || undefined}
                             FormHelperTextProps={{ sx: { minHeight: 20, mx: 0 } }}
                           />
                         )}
@@ -482,14 +482,14 @@ export default function DailyActivitySheet({
                         onChange={(e) => updateBlock(rowIdx, blkIdx, 'startTime', e.target.value)}
                         InputLabelProps={{ shrink: true }} sx={{ width: 100 }} inputProps={{ step: 300 }}
                         error={Boolean(mErr.startTime)}
-                        helperText={mErr.startTime || ' '}
+                        helperText={mErr.startTime || undefined}
                         FormHelperTextProps={{ sx: { minHeight: 20, mx: 0 } }}
                       />
                       <TextField size="small" type="time" label="End" required value={blk.endTime}
                         onChange={(e) => updateBlock(rowIdx, blkIdx, 'endTime', e.target.value)}
                         InputLabelProps={{ shrink: true }} sx={{ width: 100 }} inputProps={{ step: 300 }}
                         error={Boolean(mErr.endTime)}
-                        helperText={mErr.endTime || ' '}
+                        helperText={mErr.endTime || undefined}
                         FormHelperTextProps={{ sx: { minHeight: 20, mx: 0 } }}
                       />
                       <Box sx={{ width: 70 }}>

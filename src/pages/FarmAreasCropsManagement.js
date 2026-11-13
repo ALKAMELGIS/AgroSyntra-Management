@@ -47,6 +47,7 @@ import { TableSkeleton } from '../components/LoadingSkeleton';
 import { useNotification } from '../contexts/NotificationContext';
 import { excelTableSx, freezeColumnsSx, GutterCell, GUTTER_WIDTH } from '../components/table/ExcelTable';
 import PageTitle from '../components/PageTitle';
+import { HintLabel } from '../components/form/FormLayout';
 import ExportButton from '../components/ExportButton';
 
 const AREA_FROZEN_WIDTHS = [180];
@@ -443,10 +444,10 @@ function FarmAreasCropsManagement() {
                 <FormikSubmitFeedback />
                 <DialogContent>
                   <Grid container spacing={2}>
-                    <Grid size={12}>
+                    <Grid size={{ xs: 12, sm: 8 }}>
                       <TextField
                         fullWidth
-                        label="Farm Area Name"
+                        label="Farm area name"
                         name="name"
                         value={values.name}
                         onChange={handleChange}
@@ -455,11 +456,11 @@ function FarmAreasCropsManagement() {
                         helperText={touched.name && errors.name}
                       />
                     </Grid>
-                    <Grid size={12}>
+                    <Grid size={{ xs: 12, sm: 4 }}>
                       <TextField
                         fullWidth
                         type="number"
-                        label="Size (hectares)"
+                        label="Size (ha)"
                         name="size"
                         value={values.size}
                         onChange={handleChange}
@@ -473,7 +474,8 @@ function FarmAreasCropsManagement() {
                       <TextField
                         fullWidth
                         multiline
-                        rows={3}
+                        minRows={2}
+                        maxRows={5}
                         label="Description"
                         name="description"
                         value={values.description}
@@ -534,7 +536,7 @@ function FarmAreasCropsManagement() {
         </Dialog>
 
         {/* Crops Management Section */}
-        <Paper elevation={2} sx={{ p: 3, mt: 4 }}>
+        <Paper elevation={2} sx={{ p: { xs: 3, sm: 4 }, mt: 4 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Typography variant="h6">Crops Management</Typography>
             {canEditCrops && (
@@ -742,7 +744,7 @@ function FarmAreasCropsManagement() {
                     <Grid size={12}>
                       <TextField
                         fullWidth
-                        label="Crop Name"
+                        label="Crop name"
                         name="cropName"
                         value={values.cropName}
                         onChange={handleChange}
@@ -751,49 +753,49 @@ function FarmAreasCropsManagement() {
                         helperText={touched.cropName && errors.cropName}
                       />
                     </Grid>
-                    <Grid size={6}>
+                    <Grid size={{ xs: 12, sm: 4 }}>
                       <TextField
                         fullWidth
                         type="number"
-                        label="Dripper Count"
+                        label={<HintLabel hint="Total drippers, used for the EC/pH water calculation">Dripper count</HintLabel>}
                         name="dripperCount"
                         value={values.dripperCount}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={touched.dripperCount && !!errors.dripperCount}
-                        helperText={touched.dripperCount && errors.dripperCount || 'Total drippers for EC/pH water calc'}
+                        helperText={touched.dripperCount && errors.dripperCount}
                         inputProps={{ min: 0, step: 1 }}
                         placeholder="e.g., 24000"
                       />
                     </Grid>
-                    <Grid size={6}>
+                    <Grid size={{ xs: 12, sm: 4 }}>
                       <TextField
                         fullWidth
                         type="number"
-                        label="Plants"
+                        label={<HintLabel hint="Total plants, used for scouting infestation %">Plants</HintLabel>}
                         name="plantCount"
                         value={values.plantCount}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={touched.plantCount && !!errors.plantCount}
-                        helperText={touched.plantCount && errors.plantCount || 'Total plants for scouting infestation %'}
+                        helperText={touched.plantCount && errors.plantCount}
                         inputProps={{ min: 0, step: 1 }}
                         placeholder="e.g., 30000"
                       />
                     </Grid>
-                    <Grid size={6}>
+                    <Grid size={{ xs: 12, sm: 4 }}>
                       <TextField
                         fullWidth
                         type="number"
-                        label="Drip Test Count"
+                        label={<HintLabel hint="Emitters per grow-bag test">Drip test count</HintLabel>}
                         name="dripTestCount"
                         value={values.dripTestCount}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={touched.dripTestCount && !!errors.dripTestCount}
-                        helperText={touched.dripTestCount && errors.dripTestCount || 'Emitters per grow bag test'}
+                        helperText={touched.dripTestCount && errors.dripTestCount}
                         inputProps={{ min: 0, step: 1 }}
-                        placeholder="e.g., 12 Tomato, 15 Capsicum"
+                        placeholder="12 tomato, 15 capsicum"
                       />
                     </Grid>
                   </Grid>

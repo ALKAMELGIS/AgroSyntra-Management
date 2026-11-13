@@ -1948,7 +1948,7 @@ export default function PesticideApplications() {
       {tabValue === 2 && (
         <Box>
           {phiStatus.length === 0 ? (
-            <Paper sx={{ p: 4, textAlign: 'center' }}>
+            <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
               <Typography color="text.secondary">No active PHI restrictions</Typography>
             </Paper>
           ) : (
@@ -2084,7 +2084,7 @@ export default function PesticideApplications() {
                     })}
                     {filteredPestCatalog.length === 0 && (
                       <TableRow>
-                        <TableCell colSpan={7} align="center" sx={{ py: 4, color: '#999' }}>
+                        <TableCell colSpan={7} align="center" sx={{ py: 4, color: 'var(--sheet-ink-3)' }}>
                           {pestCatalogItems.length === 0
                             ? 'No products assigned to this site yet. Browse other sites to copy products.'
                             : 'No products match your search.'}
@@ -2187,7 +2187,7 @@ export default function PesticideApplications() {
                     })}
                     {filteredPestBrowse.length === 0 && (
                       <TableRow>
-                        <TableCell colSpan={6} align="center" sx={{ py: 4, color: '#999' }}>
+                        <TableCell colSpan={6} align="center" sx={{ py: 4, color: 'var(--sheet-ink-3)' }}>
                           {pestCatalogBrowse.length === 0
                             ? 'No products in the master catalog.'
                             : 'No products match your search.'}
@@ -2212,13 +2212,13 @@ export default function PesticideApplications() {
         // the themed tables draw from. They are literals here because this report
         // paints with plain inline styles rather than MUI sx, so it has no theme
         // to read from.
-        const hdr = { background: '#1f7a4d', color: '#fff', fontWeight: 700, fontSize: '0.6875rem', padding: '6px 10px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap' };
+        const hdr = { background: 'var(--sheet-accent)', color: '#fff', fontWeight: 700, fontSize: '0.6875rem', padding: '6px 10px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap' };
         const cell = { fontSize: '0.6875rem', padding: '5px 10px', border: '1px solid #c8c8c8' };
         // Deliberately a warm neutral rather than a green. Cost cells are tinted
         // green, and a green stripe underneath them would swallow that signal.
         const altBg = '#eff1ed';
-        const calcCell = { ...cell, background: '#e8f5e9', fontWeight: 600, color: '#1f7a4d', textAlign: 'right' };
-        const bannerBg = '#1e4429';
+        const calcCell = { ...cell, background: '#e8f5e9', fontWeight: 600, color: 'var(--sheet-accent)', textAlign: 'right' };
+        const bannerBg = 'var(--sheet-header)';
         const bannerStyle = { background: bannerBg, color: '#fff', padding: '8px 16px', fontSize: '0.875rem', fontWeight: 700, borderBottom: `2px solid ${hdr.background}` };
 
         return (
@@ -2236,7 +2236,7 @@ export default function PesticideApplications() {
 
             {/* Filter Bar */}
             <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', alignItems: 'center', p: 1.5, background: '#e9e5e0', borderBottom: '1px solid #c8c8c8' }}>
-              <Typography sx={{ fontSize: '0.6875rem', fontWeight: 700, color: '#555', mr: 0.5 }}>Filter:</Typography>
+              <Typography sx={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--sheet-ink-2)', mr: 0.5 }}>Filter:</Typography>
               <TextField size="small" type="date" label="From" InputLabelProps={{ shrink: true }}
                 value={costDateStart} onChange={e => setCostDateStart(e.target.value)}
                 sx={{ width: 150, '& input': { fontSize: '0.6875rem', py: '5px' } }} />
@@ -2266,19 +2266,17 @@ export default function PesticideApplications() {
                 sx={{ width: 180, '& input': { fontSize: '0.6875rem', py: '5px' } }} />
             </Box>
 
-            {/* KPI Summary Cards */}
-            <Box sx={{ display: 'flex', gap: 2, p: 2, background: '#faf9f7', borderBottom: '1px solid #c8c8c8' }}>
+            {/* KPI summary: one neutral row, the cost (the figure that matters) in the accent */}
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', md: 'repeat(4, minmax(0, 1fr))' }, gap: 2, p: 3, background: 'var(--sheet-alt)', borderBottom: '1px solid var(--sheet-grid)' }}>
               {[
-                { label: 'Total Cost (AED)', value: totalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), color: '#1f7a4d', bg: '#e8f5e9' },
-                { label: 'Total Qty Applied', value: totalQty.toLocaleString(undefined, { maximumFractionDigits: 1 }), color: '#1565c0', bg: '#e3f2fd' },
-                { label: 'Applications', value: totalApps, color: '#a84b07', bg: '#fff3e0' },
-                { label: 'Products Used', value: uniqueProducts, color: '#6a1b9a', bg: '#f3e5f5' },
+                { label: 'Total cost (AED)', value: totalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), lead: true },
+                { label: 'Total qty applied', value: totalQty.toLocaleString(undefined, { maximumFractionDigits: 1 }) },
+                { label: 'Applications', value: totalApps },
+                { label: 'Products used', value: uniqueProducts },
               ].map((kpi) => (
-                <Box key={kpi.label} sx={{
-                  flex: 1, p: 1.5, borderRadius: 1, border: '1px solid #c8c8c8', background: kpi.bg, textAlign: 'center',
-                }}>
-                  <Typography sx={{ fontSize: '0.6875rem', fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{kpi.label}</Typography>
-                  <Typography sx={{ fontSize: '1.25rem', fontWeight: 800, color: kpi.color, mt: 0.3 }}>{kpi.value}</Typography>
+                <Box key={kpi.label} sx={{ px: 3, py: 2, borderRadius: 2, border: '1px solid var(--sheet-grid)', background: 'var(--sheet-bg)', minWidth: 0 }}>
+                  <Typography noWrap sx={{ fontSize: '0.75rem', color: 'var(--sheet-ink-2)' }}>{kpi.label}</Typography>
+                  <Typography noWrap sx={{ fontSize: '1.125rem', fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: kpi.lead ? 'var(--sheet-accent)' : 'var(--sheet-ink)' }}>{kpi.value}</Typography>
                 </Box>
               ))}
             </Box>
@@ -2432,7 +2430,7 @@ export default function PesticideApplications() {
                 variant="outlined"
                 startIcon={<UploadIcon />}
                 onClick={() => { setImporterTemplateId(tpl.id); setImporterTemplateName(tpl.name); setImporterOpen(true); }}
-                sx={{ textTransform: 'none', fontSize: '0.75rem', borderColor: '#1f7a4d', color: '#1f7a4d', '&:hover': { borderColor: '#165c3a', background: '#eef4ef' } }}
+                sx={{ textTransform: 'none', fontSize: '0.75rem', borderColor: 'var(--sheet-accent)', color: 'var(--sheet-accent)', '&:hover': { borderColor: 'var(--sheet-header)', background: '#eef4ef' } }}
                 disabled={!canCreate}
               >
                 Import from Excel
@@ -2480,7 +2478,7 @@ export default function PesticideApplications() {
           </InfoNote>
 
           {/* Section 1: Crop & Location */}
-          <Typography variant="subtitle2" color="primary" fontWeight={700} gutterBottom sx={{ mt: 1 }}>
+          <Typography variant="subtitle2" color="text.primary" fontWeight={600} gutterBottom sx={{ mt: 1 }}>
             <Agriculture sx={{ fontSize: 16, mr: 0.5, verticalAlign: 'text-bottom' }} />
             Crop & Location
           </Typography>
@@ -2521,7 +2519,7 @@ export default function PesticideApplications() {
           <Divider sx={{ my: 1.5 }} />
 
           {/* Section 2: Scouting & Justification */}
-          <Typography variant="subtitle2" color="primary" fontWeight={700} gutterBottom>
+          <Typography variant="subtitle2" color="text.primary" fontWeight={600} gutterBottom>
             <Search sx={{ fontSize: 16, mr: 0.5, verticalAlign: 'text-bottom' }} />
             Scouting & Justification
           </Typography>
@@ -2551,7 +2549,7 @@ export default function PesticideApplications() {
           <Divider sx={{ my: 1.5 }} />
 
           {/* Section 3: Application Details */}
-          <Typography variant="subtitle2" color="primary" fontWeight={700} gutterBottom>
+          <Typography variant="subtitle2" color="text.primary" fontWeight={600} gutterBottom>
             <CalendarMonth sx={{ fontSize: 16, mr: 0.5, verticalAlign: 'text-bottom' }} />
             Application Details
           </Typography>
@@ -2593,7 +2591,7 @@ export default function PesticideApplications() {
           <Divider sx={{ my: 1.5 }} />
 
           {/* Section 4: Dosage & Cost */}
-          <Typography variant="subtitle2" color="primary" fontWeight={700} gutterBottom>
+          <Typography variant="subtitle2" color="text.primary" fontWeight={600} gutterBottom>
             <Science sx={{ fontSize: 16, mr: 0.5, verticalAlign: 'text-bottom' }} />
             Dosage & Cost
           </Typography>
@@ -2642,7 +2640,7 @@ export default function PesticideApplications() {
           <Divider sx={{ my: 1.5 }} />
 
           {/* Section 5: Operations */}
-          <Typography variant="subtitle2" color="primary" fontWeight={700} gutterBottom>
+          <Typography variant="subtitle2" color="text.primary" fontWeight={600} gutterBottom>
             Operations & Verification
           </Typography>
           <Grid container spacing={2}>
@@ -2753,7 +2751,7 @@ export default function PesticideApplications() {
 
       {/* Costing Excel / PDF Filters Dialog */}
       <Dialog open={costingExportDialogOpen} onClose={() => !costingExportBusy && setCostingExportDialogOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ background: '#1e4429', color: '#fff', py: 1.5 }}>
+        <DialogTitle sx={{ background: 'var(--sheet-header)', color: '#fff', py: 1.5 }}>
           <Typography sx={{ fontSize: '0.9375rem', fontWeight: 700 }}>Export Costing Report</Typography>
         </DialogTitle>
         <DialogContent>

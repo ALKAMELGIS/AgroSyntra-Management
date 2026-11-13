@@ -19,7 +19,7 @@ export default function IrrigationStructurePlaceholder({
       <Typography sx={{ fontFamily: FONT, fontWeight: 700, fontSize: '12px', mb: 0.5 }}>
         {siteName || 'Site'} — {label} Irrigation {year}
       </Typography>
-      <Typography sx={{ fontFamily: FONT, fontSize: '12px', color: '#555', mb: 2 }}>
+      <Typography sx={{ fontFamily: FONT, fontSize: '12px', color: 'var(--sheet-ink-2)', mb: 2 }}>
         {label} irrigation cycle template — coming soon
       </Typography>
 

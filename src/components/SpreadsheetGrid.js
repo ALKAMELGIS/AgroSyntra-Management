@@ -28,11 +28,11 @@ import {
 // They are literals here because this grid draws with plain inline styles
 // rather than MUI sx, so it has no theme to read from.
 const cellBorder = '1px solid var(--sheet-grid, #c8c8c8)';
-const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
+const headerBg = 'var(--sheet-header)'; // = theme palette.table.headerBg
 const headerColor = '#fff';
 // The pinned Actions column sits darker so it reads as a separate band where it
 // meets the rest of the header.
-const headerPinnedBg = '#164a31';
+const headerPinnedBg = 'var(--sheet-header-strong)';
 const frozenBg = 'var(--sheet-muted, #f2f2f2)';
 const focusBg = 'var(--sheet-select, #d5e7d9)';
 // Deliberately a warm neutral rather than a green. Calculated cells are tinted
@@ -45,8 +45,8 @@ const activeRowBg = 'var(--sheet-select, #dfeee3)';
 const activeCellBg = 'var(--sheet-select-strong, #c6dfcd)';
 const bannerBg = '#143d29';
 const bannerColor = '#ffffff';
-const bannerSubBg = '#1d5a3c';
-const mixtureBorderColor = '#1f7a4d';
+const bannerSubBg = 'var(--sheet-header)';
+const mixtureBorderColor = 'var(--sheet-accent)';
 const mixtureChildBg = 'var(--sheet-tint-green, #eef4ef)';
 const filterBarBg = 'var(--sheet-muted, #e9e5e0)';
 

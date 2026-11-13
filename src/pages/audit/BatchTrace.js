@@ -71,11 +71,11 @@ function TraceMatchCard({ match, index, total }) {
         border: '1px solid #BDBDBD',
         borderRadius: 1,
         overflow: 'hidden',
-        mb: 3,
+        mb: 2,
         breakInside: 'avoid',
       }}
     >
-      <Box sx={{ bgcolor: '#165c3a', color: '#fff', px: 2, py: 1.5 }}>
+      <Box sx={{ bgcolor: 'var(--sheet-header)', color: '#fff', px: 2, py: 1.5 }}>
         <Typography variant="h6" sx={{ fontFamily: FONT, fontWeight: 700, color: '#fff' }}>
           {total > 1 ? `Match ${index + 1} of ${total}` : 'Batch Trace Report'}
         </Typography>

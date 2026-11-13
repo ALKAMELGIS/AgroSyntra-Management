@@ -126,7 +126,7 @@ export default function PlatformAdmin() {
 
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 5 }}>
-          <Paper sx={{ p: 3 }}>
+          <Paper sx={{ p: { xs: 3, sm: 4 } }}>
             <Typography variant="h6" gutterBottom>Create Organization</Typography>
             <Box component="form" onSubmit={handleCreate} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <TextField
@@ -183,7 +183,7 @@ export default function PlatformAdmin() {
           </Paper>
 
           {recentInvites.length > 0 && (
-            <Paper sx={{ p: 3, mt: 3 }}>
+            <Paper sx={{ p: { xs: 3, sm: 4 }, mt: 3 }}>
               <Typography variant="h6" gutterBottom>Recent Invites (this session)</Typography>
               {recentInvites.map((inv) => (
                 <Alert
@@ -207,7 +207,7 @@ export default function PlatformAdmin() {
         </Grid>
 
         <Grid size={{ xs: 12, md: 7 }}>
-          <Paper sx={{ p: 3 }}>
+          <Paper sx={{ p: { xs: 3, sm: 4 } }}>
             <Typography variant="h6" gutterBottom>All Organizations</Typography>
             {orgsLoading ? (
               <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>

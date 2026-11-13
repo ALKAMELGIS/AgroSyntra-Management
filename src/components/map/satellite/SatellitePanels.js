@@ -31,7 +31,7 @@ const VISUAL_SWATCH = {
 };
 
 const section = { px: 2.5, py: 1.75 };
-const label = { fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'text.secondary', mb: 1 };
+const label = { fontSize: '0.75rem', fontWeight: 700, letterSpacing: 0, textTransform: 'none', color: 'text.secondary', mb: 1 };
 
 export function NotConfigured({ isAdmin }) {
   return (

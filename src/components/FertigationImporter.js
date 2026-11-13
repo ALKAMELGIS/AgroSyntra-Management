@@ -34,8 +34,8 @@ import {
 } from '../utils/fertigationImportValidate';
 import InfoNote from './InfoNote';
 
-const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
-const bannerBg = '#164a31';
+const headerBg = 'var(--sheet-header)'; // = theme palette.table.headerBg
+const bannerBg = 'var(--sheet-header-strong)';
 const bannerColor = '#fff';
 const altRowBg = '#e8f5e9';
 const cellBorder = '1px solid #c8c8c8';
@@ -520,7 +520,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
                         <TableCell sx={{ ...cellStyle, fontWeight: 600 }}>{h}</TableCell>
                         <TableCell sx={cellStyle}>
                           {autoKgLabel ? (
-                            <Typography sx={{ fontSize: '0.6875rem', color: '#164a31', fontWeight: 600 }}>
+                            <Typography sx={{ fontSize: '0.6875rem', color: 'var(--sheet-header-strong)', fontWeight: 600 }}>
                               {autoKgLabel}
                             </Typography>
                           ) : (
@@ -531,7 +531,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
                                 displayEmpty
                                 sx={{ fontSize: '0.6875rem' }}
                               >
-                                <MenuItem value="" sx={{ fontSize: '0.6875rem', color: '#999' }}>(skip)</MenuItem>
+                                <MenuItem value="" sx={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-3)' }}>(skip)</MenuItem>
                                 {TEMPLATE_FIELDS.map(f => (
                                   <MenuItem key={f.key} value={f.key} sx={{ fontSize: '0.6875rem' }}>{f.label}</MenuItem>
                                 ))}
@@ -601,7 +601,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
                         <TableCell sx={{ ...cellStyle, textAlign: 'center', color: '#888' }}>{r._rowNum}</TableCell>
                         {showSheetColumn && <TableCell sx={cellStyle}>{r._sheet || ''}</TableCell>}
                         <TableCell sx={cellStyle}>
-                          {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: '#1f7a4d' }} />}
+                          {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: 'var(--sheet-accent)' }} />}
                           {r._status === 'warning' && <WarnIcon sx={{ fontSize: 16, color: '#a84b07' }} />}
                           {r._status === 'error' && <ErrIcon sx={{ fontSize: 16, color: '#c62828' }} />}
                         </TableCell>
@@ -677,7 +677,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
             variant="contained"
             onClick={() => prepareMapping(sheetInfos, selectedSheetNames)}
             disabled={selectedSheetNames.length === 0}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: 'var(--sheet-header-strong)' } }}
           >
             Continue — {selectedRowCount} rows
           </Button>
@@ -687,7 +687,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
             variant="contained"
             onClick={applyMappingAndValidate}
             disabled={!columnMapping || Object.values(columnMapping).filter(Boolean).length < 3}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: 'var(--sheet-header-strong)' } }}
           >
             Continue — Validate {rawDataRows.length} rows
           </Button>
@@ -698,7 +698,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
             onClick={handleImport}
             disabled={importing || importableRows.length === 0}
             startIcon={importing ? <CircularProgress size={16} /> : <ImportIcon />}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: 'var(--sheet-header-strong)' } }}
           >
             {importing ? 'Importing...' : `Import ${importableRows.length} rows`}
           </Button>

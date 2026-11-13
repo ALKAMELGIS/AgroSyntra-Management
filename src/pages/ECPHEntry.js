@@ -3,36 +3,22 @@ import FormikSubmitFeedback from '../components/FormikSubmitFeedback';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import {
   Container,
-  Paper,
   Typography,
-  Grid,
   TextField,
   MenuItem,
   Button,
   Box,
-  Card,
-  CardContent,
-  InputAdornment,
   Divider,
   Collapse,
   Tooltip,
-  IconButton,
   ToggleButtonGroup,
   ToggleButton,
 } from '@mui/material';
 import {
-  AccessTimeOutlined as ClockIcon,
-  WaterDropOutlined as WaterDropIcon,
-  ScienceOutlined as ScienceIcon,
-  CalculateOutlined as CalculateIcon,
-  LocationOnOutlined as LocationIcon,
-  SettingsOutlined as SettingsIcon,
   ClearOutlined as ClearIcon,
   SaveOutlined as SaveIcon,
   ExpandMoreOutlined as ExpandMoreIcon,
   ExpandLessOutlined as ExpandLessIcon,
-  InfoOutlined as InfoIcon,
-  HelpOutlineOutlined as HelpOutlineIcon,
   ViewListOutlined as FormViewIcon,
   GridOnOutlined as SpreadsheetIcon,
 } from '@mui/icons-material';
@@ -42,7 +28,7 @@ import { useMasterData } from '../utils/useMasterData';
 import { createEcph } from '../utils/backendApi';
 import { useNotification } from '../contexts/NotificationContext';
 import { queueEntry } from '../utils/offlineQueue';
-import { validationSchema, toNumber, calculateValveMetrics } from './ecph/ecphUtils';
+import { validationSchema, calculateValveMetrics } from './ecph/ecphUtils';
 import ValveFormSection from './ecph/ValveFormSection';
 import SpreadsheetEcphEntry from './ecph/SpreadsheetEcphEntry';
 import EcphEntriesTable from './ecph/EcphEntriesTable';
@@ -50,6 +36,9 @@ import useReadOnlyMode from '../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../utils/roleAccess';
 import PageTitle from '../components/PageTitle';
+import { FormSection, FormStack, FormGrid, FormActions, HintLabel, calcFieldSx, span } from '../components/form/FormLayout';
+
+const SELECT_SX = { '& .MuiSelect-select': { whiteSpace: 'nowrap' } };
 
 function ECPHEntry() {
   const readOnly = useReadOnlyMode(PAGE_KEYS.DATA_ENTRY);
@@ -433,498 +422,296 @@ function ECPHEntry() {
             return (
               <Form>
                 <FormikSubmitFeedback />
-                <Grid container spacing={3}>
-                  {/* Section 1: Basic Information */}
-                  <Grid size={12}>
-                    <Paper elevation={2} sx={{ p: 3 }}>
-                      <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
-                        <SettingsIcon color="primary" />
-                        Basic Information
+                <FormStack>
+                  <FormSection title="Reading">
+                    <FormGrid columns={{ xs: 2, md: 4 }}>
+                      <TextField
+                        fullWidth
+                        label="Date"
+                        name="date"
+                        value={values.date}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.date && !!errors.date}
+                        helperText={touched.date && errors.date}
+                        InputProps={{ readOnly: true }}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Time"
+                        name="time"
+                        value={values.time}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.time && !!errors.time}
+                        helperText={touched.time && errors.time}
+                        placeholder="3:00 PM"
+                      />
+                      <TextField
+                        fullWidth
+                        select
+                        label="Site"
+                        name="site"
+                        value={values.site}
+                        onChange={(e) => {
+                          setFieldValue('site', e.target.value);
+                          setFieldValue('farmArea', '');
+                          setFieldValue('field', '');
+                        }}
+                        onBlur={handleBlur}
+                        error={touched.site && !!errors.site}
+                        helperText={touched.site && errors.site}
+                        InputLabelProps={{ shrink: true }}
+                        SelectProps={{
+                          displayEmpty: true,
+                          renderValue: (selected) => {
+                            if (!selected) return <em>Select site</em>;
+                            const site = allSites.find((s) => s.id === selected);
+                            return site ? site.name : <em>Select site</em>;
+                          },
+                        }}
+                        sx={SELECT_SX}
+                      >
+                        {allSites.map((site) => (
+                          <MenuItem key={site.id} value={site.id}>{site.name}</MenuItem>
+                        ))}
+                        {allSites.length === 0 && <MenuItem value="" disabled>No sites yet</MenuItem>}
+                      </TextField>
+                      <TextField
+                        fullWidth
+                        select
+                        label="Farm area"
+                        name="farmArea"
+                        value={values.farmArea}
+                        onChange={(e) => {
+                          setFieldValue('farmArea', e.target.value);
+                          setFieldValue('field', '');
+                        }}
+                        onBlur={handleBlur}
+                        error={touched.farmArea && !!errors.farmArea}
+                        helperText={touched.farmArea && errors.farmArea}
+                        InputLabelProps={{ shrink: true }}
+                        SelectProps={{
+                          displayEmpty: true,
+                          renderValue: (selected) => {
+                            if (!selected) return <em>Select farm area</em>;
+                            const farmArea = allFarmAreas.find((fa) => fa.id === selected);
+                            return farmArea ? farmArea.name : <em>Select farm area</em>;
+                          },
+                        }}
+                        sx={SELECT_SX}
+                      >
+                        {allFarmAreas.filter(fa => !values.site || fa.siteId === values.site).map((farmArea) => (
+                          <MenuItem key={farmArea.id} value={farmArea.id}>{farmArea.name}</MenuItem>
+                        ))}
+                        {allFarmAreas.filter(fa => !values.site || fa.siteId === values.site).length === 0 && (
+                          <MenuItem value="" disabled>No farm areas yet</MenuItem>
+                        )}
+                      </TextField>
+                      <TextField
+                        fullWidth
+                        select
+                        label={<HintLabel hint="Individual growing area. NH = Net House, GH = Greenhouse, OF = Open Field">Field</HintLabel>}
+                        name="field"
+                        value={values.field}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.field && !!errors.field}
+                        helperText={touched.field && errors.field}
+                        InputLabelProps={{ shrink: true }}
+                        SelectProps={{
+                          displayEmpty: true,
+                          renderValue: (selected) => {
+                            if (!selected) return <em>Select field</em>;
+                            const field = allFields.find((f) => f.id === selected);
+                            return field ? `${field.name}${field.type ? ` · ${field.type}` : ''}` : <em>Select field</em>;
+                          },
+                        }}
+                        sx={{ ...SELECT_SX, ...span({ xs: 2, md: 2 }) }}
+                      >
+                        {allFields.filter(f => !values.farmArea || f.farmAreaId === values.farmArea).map((field) => (
+                          <MenuItem key={field.id} value={field.id}>
+                            <Box component="span" sx={{ flex: 1 }}>{field.name}</Box>
+                            <Box component="span" sx={{ color: 'text.secondary', fontSize: '0.8125rem' }}>{field.type || 'Unknown'}</Box>
+                          </MenuItem>
+                        ))}
+                        {allFields.filter(f => !values.farmArea || f.farmAreaId === values.farmArea).length === 0 && (
+                          <MenuItem value="" disabled>No fields yet</MenuItem>
+                        )}
+                      </TextField>
+                      <TextField
+                        fullWidth
+                        select
+                        label="Weather"
+                        name="weatherCondition"
+                        value={values.weatherCondition}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        InputLabelProps={{ shrink: true }}
+                        SelectProps={{ displayEmpty: true }}
+                      >
+                        <MenuItem value=""><em>Optional</em></MenuItem>
+                        {WEATHER_OPTIONS.map((w) => (
+                          <MenuItem key={w} value={w}>{w}</MenuItem>
+                        ))}
+                      </TextField>
+                      <TextField
+                        fullWidth
+                        select
+                        label="Irrigation status"
+                        name="irrigationStatus"
+                        value={values.irrigationStatus}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        InputLabelProps={{ shrink: true }}
+                        SelectProps={{ displayEmpty: true }}
+                      >
+                        <MenuItem value=""><em>Optional</em></MenuItem>
+                        {IRRIGATION_STATUS_OPTIONS.map((st) => (
+                          <MenuItem key={st} value={st}>{st}</MenuItem>
+                        ))}
+                      </TextField>
+                    </FormGrid>
+                    {selectedCrop && (
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
+                        Crop in this field: <Box component="span" sx={{ color: 'text.primary', fontWeight: 500 }}>{selectedCrop}</Box>
+                        {dripperCount && dripperCount > 0
+                          ? ` · ${dripperCount.toLocaleString()} drippers`
+                          : ' · no drip calculation, uses total water qty'}
                       </Typography>
-                      <Grid container spacing={2}>
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                          <TextField
-                            fullWidth
-                            label="Date"
-                            name="date"
-                            value={values.date}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.date && !!errors.date}
-                            helperText={touched.date && errors.date}
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                          />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                          <TextField
-                            fullWidth
-                            select
-                            label="Site"
-                            name="site"
-                            value={values.site}
-                            onChange={(e) => {
-                              setFieldValue('site', e.target.value);
-                              setFieldValue('farmArea', '');
-                              setFieldValue('field', '');
-                            }}
-                            onBlur={handleBlur}
-                            error={touched.site && !!errors.site}
-                            helperText={touched.site && errors.site}
-                            InputProps={{
-                              startAdornment: (
-                                <InputAdornment position="start">
-                                  <LocationIcon color="action" />
-                                </InputAdornment>
-                              ),
-                            }}
-                            InputLabelProps={{ shrink: true }}
-                            SelectProps={{
-                              displayEmpty: true,
-                              renderValue: (selected) => {
-                                if (!selected) return 'Select Site';
-                                const site = allSites.find((s) => s.id === selected);
-                                return site ? site.name : 'Select Site';
-                              },
-                            }}
-                            sx={{
-                              '& .MuiSelect-select': {
-                                overflow: 'visible',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'clip',
-                                maxWidth: 'none',
-                              },
-                            }}
-                          >
-                            {allSites.map((site) => (
-                              <MenuItem key={site.id} value={site.id}>
-                                {site.name}
-                              </MenuItem>
-                            ))}
-                            {allSites.length === 0 && (
-                              <MenuItem value="" disabled>
-                                No sites yet
-                              </MenuItem>
-                            )}
-                          </TextField>
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                          <TextField
-                            fullWidth
-                            select
-                            label="Farm Area"
-                            name="farmArea"
-                            value={values.farmArea}
-                            onChange={(e) => {
-                              setFieldValue('farmArea', e.target.value);
-                              setFieldValue('field', '');
-                            }}
-                            onBlur={handleBlur}
-                            error={touched.farmArea && !!errors.farmArea}
-                            helperText={touched.farmArea && errors.farmArea}
-                            InputProps={{
-                              startAdornment: (
-                                <InputAdornment position="start">
-                                  <LocationIcon color="action" />
-                                </InputAdornment>
-                              ),
-                            }}
-                            InputLabelProps={{ shrink: true }}
-                            SelectProps={{
-                              displayEmpty: true,
-                              renderValue: (selected) => {
-                                if (!selected) return 'Select Farm Area';
-                                const farmArea = allFarmAreas.find((fa) => fa.id === selected);
-                                return farmArea ? farmArea.name : 'Select Farm Area';
-                              },
-                            }}
-                            sx={{
-                              '& .MuiSelect-select': {
-                                overflow: 'visible',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'clip',
-                                maxWidth: 'none',
-                              },
-                            }}
-                          >
-                            {allFarmAreas.filter(fa => !values.site || fa.siteId === values.site).map((farmArea) => (
-                              <MenuItem key={farmArea.id} value={farmArea.id}>
-                                {farmArea.name}
-                              </MenuItem>
-                            ))}
-                            {allFarmAreas.filter(fa => !values.site || fa.siteId === values.site).length === 0 && (
-                              <MenuItem value="" disabled>
-                                No farm areas yet
-                              </MenuItem>
-                            )}
-                          </TextField>
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                          <TextField
-                            fullWidth
-                            select
-                            label={
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <span>Field</span>
-                                <Tooltip title="Individual growing area. NH=Net House, GH=Greenhouse, OF=Open Field" arrow>
-                                  <InfoIcon fontSize="small" color="action" sx={{ cursor: 'help' }} />
-                                </Tooltip>
-                              </Box>
-                            }
-                            name="field"
-                            value={values.field}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.field && !!errors.field}
-                            helperText={touched.field && errors.field}
-                            InputProps={{
-                              startAdornment: (
-                                <InputAdornment position="start">
-                                  <LocationIcon color="action" />
-                                </InputAdornment>
-                              ),
-                            }}
-                            InputLabelProps={{ shrink: true }}
-                            SelectProps={{
-                              displayEmpty: true,
-                              renderValue: (selected) => {
-                                if (!selected) return 'Select Field';
-                                const field = allFields.find((f) => f.id === selected);
-                                return field ? field.name : 'Select Field';
-                              },
-                            }}
-                            sx={{
-                              '& .MuiSelect-select': {
-                                overflow: 'visible',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'clip',
-                                maxWidth: 'none',
-                              },
-                            }}
-                          >
-                            {allFields.filter(f => !values.farmArea || f.farmAreaId === values.farmArea).map((field) => {
-                              const fieldTypeTooltip = field.type === 'NetHouse' 
-                                ? 'NH: Net House - partially climate-controlled structure with shade/netting'
-                                : field.type === 'Greenhouse'
-                                ? 'GH: Greenhouse - fully climate-controlled structure for year-round production'
-                                : field.type === 'Open Field'
-                                ? 'OF: Open Field - traditional farming with no climate control'
-                                : '';
-                              return (
-                                <MenuItem key={field.id} value={field.id}>
-                                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                                    <span>{field.name} ({field.type || 'Unknown'})</span>
-                                    {fieldTypeTooltip && (
-                                      <Tooltip title={fieldTypeTooltip} arrow>
-                                        <InfoIcon fontSize="small" sx={{ ml: 1, opacity: 0.6 }} />
-                                      </Tooltip>
-                                    )}
-                                  </Box>
-                                </MenuItem>
-                              );
-                            })}
-                            {allFields.filter(f => !values.farmArea || f.farmAreaId === values.farmArea).length === 0 && (
-                              <MenuItem value="" disabled>
-                                No fields yet
-                              </MenuItem>
-                            )}
-                          </TextField>
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                          <TextField
-                            fullWidth
-                            label="Time"
-                            name="time"
-                            value={values.time}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.time && !!errors.time}
-                            helperText={touched.time && errors.time || 'Enter time (e.g., 3:00 PM, 1:30 PM)'}
-                            placeholder="e.g., 3:00 PM"
-                            InputProps={{
-                              startAdornment: (
-                                <InputAdornment position="start">
-                                  <ClockIcon color="action" />
-                                </InputAdornment>
-                              ),
-                            }}
-                          />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                          <TextField
-                            fullWidth
-                            select
-                            label="Weather Condition"
-                            name="weatherCondition"
-                            value={values.weatherCondition}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            InputLabelProps={{ shrink: true }}
-                            SelectProps={{ displayEmpty: true }}
-                          >
-                            <MenuItem value=""><em>— optional —</em></MenuItem>
-                            {WEATHER_OPTIONS.map((w) => (
-                              <MenuItem key={w} value={w}>{w}</MenuItem>
-                            ))}
-                          </TextField>
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                          <TextField
-                            fullWidth
-                            select
-                            label="Irrigation Status"
-                            name="irrigationStatus"
-                            value={values.irrigationStatus}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            InputLabelProps={{ shrink: true }}
-                            SelectProps={{ displayEmpty: true }}
-                          >
-                            <MenuItem value=""><em>— optional —</em></MenuItem>
-                            {IRRIGATION_STATUS_OPTIONS.map((s) => (
-                              <MenuItem key={s} value={s}>{s}</MenuItem>
-                            ))}
-                          </TextField>
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                  </Grid>
+                    )}
+                  </FormSection>
 
-                  {/* Section 2: First Valve */}
-                  <Grid size={12}>
-                    <Paper elevation={2} sx={{ p: 3 }}>
+                  <FormSection title="Valve 1">
+                    <ValveFormSection
+                      prefix="valve1"
+                      values={values.valve1}
+                      errors={errors.valve1}
+                      touched={touched.valve1}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      dripTestCount={dripTestCount}
+                      dripperCount={dripperCount}
+                      selectedCrop={selectedCrop}
+                      metrics={valve1Metrics}
+                      placeholder="1, 3, V1"
+                      required
+                    />
+                  </FormSection>
+
+                  <FormSection
+                    title="Valve 2"
+                    action={(
+                      <Button
+                        size="small"
+                        variant="text"
+                        startIcon={valve2Expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                        aria-expanded={valve2Expanded}
+                        onClick={() => {
+                          setValve2Expanded(!valve2Expanded);
+                          if (!valve2Expanded && !values.valve2) {
+                            setFieldValue('valve2', {
+                              valveNumber: '',
+                              dripVolume: '',
+                              drainVolume: '',
+                              ecIn: '',
+                              ecOut: '',
+                              phIn: '',
+                              phOut: '',
+                              qtyOfWater: '',
+                              cycle: '',
+                            });
+                          }
+                        }}
+                      >
+                        {valve2Expanded ? 'Hide' : 'Add second valve'}
+                      </Button>
+                    )}
+                    sx={valve2Expanded ? undefined : { py: { xs: 2, sm: 2.5 }, '& > div:first-of-type': { mb: 0 } }}
+                  >
+                    <Collapse in={valve2Expanded} unmountOnExit>
                       <ValveFormSection
-                        prefix="valve1"
-                        values={values.valve1}
-                        errors={errors.valve1}
-                        touched={touched.valve1}
+                        prefix="valve2"
+                        values={values.valve2}
+                        errors={errors.valve2}
+                        touched={touched.valve2}
                         handleChange={handleChange}
                         handleBlur={handleBlur}
                         dripTestCount={dripTestCount}
                         dripperCount={dripperCount}
                         selectedCrop={selectedCrop}
-                        metrics={valve1Metrics}
-                        placeholder="1, 3, V1, etc."
-                        required
+                        metrics={valve2Metrics}
+                        placeholder="2, 4, V2"
                       />
-                    </Paper>
-                  </Grid>
+                    </Collapse>
+                  </FormSection>
 
-                  {/* Section 3: Second Valve (Optional) */}
-                  <Grid size={12}>
-                    <Paper elevation={2} sx={{ p: 3 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <SettingsIcon color="primary" />
-                          Second Valve (Optional)
-                        </Typography>
-                        <IconButton
-                          onClick={() => {
-                            setValve2Expanded(!valve2Expanded);
-                            if (!valve2Expanded && !values.valve2) {
-                              setFieldValue('valve2', {
-                                valveNumber: '',
-                                dripVolume: '',
-                                drainVolume: '',
-                                ecIn: '',
-                                ecOut: '',
-                                phIn: '',
-                                phOut: '',
-                                qtyOfWater: '',
-                                cycle: '',
-                              });
-                            }
-                          }}
-                          sx={{ color: 'primary.main' }}
-                         aria-label={valve2Expanded ? 'Collapse row' : 'Expand row'}>
-                          {valve2Expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                        </IconButton>
-                      </Box>
-                      <Collapse in={valve2Expanded}>
-                        <ValveFormSection
-                          prefix="valve2"
-                          values={values.valve2}
-                          errors={errors.valve2}
-                          touched={touched.valve2}
-                          handleChange={handleChange}
-                          handleBlur={handleBlur}
-                          dripTestCount={dripTestCount}
-                          dripperCount={dripperCount}
-                          selectedCrop={selectedCrop}
-                          metrics={valve2Metrics}
-                          placeholder="2, 4, V2, etc."
+                  <FormSection title="Field summary">
+                    <FormGrid columns={{ xs: 2, md: 4 }}>
+                      <TextField
+                        fullWidth
+                        label={<HintLabel hint="Valve 1: qty of water × cycle">V1 total water (m³)</HintLabel>}
+                        value={v1TotalWaterQty || '0.000'}
+                        InputProps={{ readOnly: true }}
+                        sx={calcFieldSx}
+                      />
+                      {valve2Expanded && (
+                        <TextField
+                          fullWidth
+                          label={<HintLabel hint="Valve 2: qty of water × cycle">V2 total water (m³)</HintLabel>}
+                          value={v2TotalWaterQty || '0.000'}
+                          InputProps={{ readOnly: true }}
+                          sx={calcFieldSx}
                         />
-                      </Collapse>
-                    </Paper>
-                  </Grid>
-
-                  {/* Section 4: Field-Level Summary */}
-                  <Grid size={12}>
-                    <Paper elevation={2} sx={{ p: 3 }}>
-                      <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
-                        <CalculateIcon color="primary" />
-                        Field-Level Summary
-                      </Typography>
-                      <Grid container spacing={2}>
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                          <TextField
-                            fullWidth
-                            label="V1 Total Water QTY (M³)"
-                            value={v1TotalWaterQty || '0.000'}
-                            InputProps={{
-                              readOnly: true,
-                              startAdornment: (
-                                <InputAdornment position="start">
-                                  <CalculateIcon color="action" fontSize="small" />
-                                </InputAdornment>
-                              ),
-                            }}
-                            helperText="Valve 1: Qty Of Water × Cycle"
-                            sx={{ '& .MuiInputBase-input': { backgroundColor: 'action.hover' } }}
-                          />
-                        </Grid>
-                        {valve2Expanded && (
-                          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                            <TextField
-                              fullWidth
-                              label="V2 Total Water QTY (M³)"
-                              value={v2TotalWaterQty || '0.000'}
-                              InputProps={{
-                                readOnly: true,
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <CalculateIcon color="action" fontSize="small" />
-                                  </InputAdornment>
-                                ),
-                              }}
-                              helperText="Valve 2: Qty Of Water × Cycle"
-                              sx={{ '& .MuiInputBase-input': { backgroundColor: 'action.hover' } }}
-                            />
-                          </Grid>
+                      )}
+                      <TextField
+                        fullWidth
+                        label={<HintLabel hint={hasV2Water ? 'Average of valve 1 and valve 2: (V1 + V2) ÷ 2' : 'Valve 1 only'}>Avg total water (m³)</HintLabel>}
+                        value={avgTotalWaterQty}
+                        InputProps={{ readOnly: true }}
+                        sx={{ ...calcFieldSx, '& .MuiInputBase-input': { fontWeight: 600, color: 'primary.dark', fontVariantNumeric: 'tabular-nums' } }}
+                      />
+                      <TextField
+                        fullWidth
+                        label={(
+                          <HintLabel hint={dripperCount && dripperCount > 0
+                            ? `(Drip volume × ${dripperCount.toLocaleString()} drippers) ÷ 1,000,000, averaged over the valves`
+                            : "This crop doesn't use drip calculation"}
+                          >
+                            Avg water from drip (m³)
+                          </HintLabel>
                         )}
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                          <TextField
-                            fullWidth
-                            label={
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <span>Avg Total Water QTY (M³)</span>
-                                <Tooltip title={hasV2Water
-                                  ? 'Average of Valve 1 and Valve 2 Total Water QTY: (V1 + V2) / 2'
-                                  : 'Valve 1 Total Water QTY (only one valve used)'} arrow>
-                                  <InfoIcon fontSize="small" color="action" sx={{ cursor: 'help' }} />
-                                </Tooltip>
-                              </Box>
-                            }
-                            value={avgTotalWaterQty}
-                            InputProps={{
-                              readOnly: true,
-                              startAdornment: (
-                                <InputAdornment position="start">
-                                  <CalculateIcon color="action" fontSize="small" />
-                                </InputAdornment>
-                              ),
-                            }}
-                            helperText={hasV2Water ? 'Auto-calculated: (V1 + V2) / 2' : 'From Valve 1 only'}
-                            sx={{
-                              '& .MuiInputBase-input': {
-                                fontWeight: 'bold',
-                                color: 'primary.main',
-                              },
-                            }}
-                          />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                          <TextField
-                            fullWidth
-                            label={
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <span>{dripperCount && dripperCount > 0 
-                                  ? `Avg Water Based on Drip (M³)` 
-                                  : `Avg Water Based on Drip (N/A)`}</span>
-                                <Tooltip title={dripperCount && dripperCount > 0
-                                  ? `Field total water from drip test: (Drip Volume × ${dripperCount.toLocaleString()} drippers) ÷ 1,000,000.`
-                                  : "This crop doesn't use drip calculation."} arrow>
-                                  <InfoIcon fontSize="small" color="action" sx={{ cursor: 'help' }} />
-                                </Tooltip>
-                              </Box>
-                            }
-                            value={fieldTotalWaterBasedOnDrip !== null ? fieldTotalWaterBasedOnDrip : 'N/A'}
-                            InputProps={{
-                              readOnly: true,
-                              startAdornment: (
-                                <InputAdornment position="start">
-                                  <CalculateIcon color="action" fontSize="small" />
-                                </InputAdornment>
-                              ),
-                            }}
-                            helperText={dripperCount && dripperCount > 0
-                              ? (valve2HasData && valve2BaseMetrics.totalWaterBasedOnDrip
-                                  ? `Average of V1 and V2 (${dripperCount.toLocaleString()} drippers)`
-                                  : `Valve 1 only (${dripperCount.toLocaleString()} drippers)`)
-                              : selectedCrop 
-                                ? `${selectedCrop} uses Total Water QTY only`
-                                : 'Select a field with a crop assigned'}
-                            disabled={!dripperCount || dripperCount === 0}
-                            sx={{
-                              '& .MuiInputBase-input': {
-                                fontWeight: 'bold',
-                                color: dripperCount && dripperCount > 0 ? 'primary.main' : 'text.disabled',
-                              },
-                            }}
-                          />
-                        </Grid>
-                        {selectedCrop && (
-                          <Grid size={12}>
-                            <Box sx={{ 
-                              p: 1.5, 
-                              bgcolor: 'info.light', 
-                              borderRadius: 1,
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: 1
-                            }}>
-                              <Typography variant="body2" sx={{ color: 'white', fontWeight: 600 }}>
-                                Selected Field Crop: {selectedCrop}
-                                {dripperCount && dripperCount > 0 
-                                  ? ` - ${dripperCount.toLocaleString()} drippers`
-                                  : ' - No drip calculation (uses Total Water QTY only)'}
-                              </Typography>
-                            </Box>
-                          </Grid>
-                        )}
-                      </Grid>
-                    </Paper>
-                  </Grid>
-
-                  {/* Action Buttons */}
-                  <Grid size={12}>
-                    <Paper elevation={2} sx={{ p: 3 }}>
-                      <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          startIcon={<ClearIcon />}
-                          onClick={() => handleClear(resetForm)}
-                          size="large"
-                          disabled={readOnly}
-                        >
-                          Clear Form
-                        </Button>
-                        <Button
-                          type="submit"
-                          variant="contained"
-                          color="primary"
-                          startIcon={<SaveIcon />}
-                          size="large"
-                          disabled={readOnly}
-                        >
-                          Save Entry
-                        </Button>
-                      </Box>
-                    </Paper>
-                  </Grid>
-                </Grid>
+                        value={fieldTotalWaterBasedOnDrip !== null ? fieldTotalWaterBasedOnDrip : ''}
+                        placeholder={dripperCount && dripperCount > 0 ? '' : 'Not drip based'}
+                        InputLabelProps={{ shrink: true }}
+                        InputProps={{ readOnly: true }}
+                        disabled={!dripperCount || dripperCount === 0}
+                        sx={{ ...calcFieldSx, '& .MuiInputBase-input': { fontWeight: 600, color: 'primary.dark', fontVariantNumeric: 'tabular-nums' } }}
+                      />
+                    </FormGrid>
+                    <Divider sx={{ my: 3 }} />
+                    <FormActions>
+                      <Button
+                        variant="outlined"
+                        color="inherit"
+                        startIcon={<ClearIcon />}
+                        onClick={() => handleClear(resetForm)}
+                        disabled={readOnly}
+                      >
+                        Clear
+                      </Button>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        startIcon={<SaveIcon />}
+                        disabled={readOnly}
+                      >
+                        Save entry
+                      </Button>
+                    </FormActions>
+                  </FormSection>
+                </FormStack>
               </Form>
             );
           }}

@@ -258,7 +258,7 @@ function HarvestDashboard() {
 
         {/* Filters Section */}
         <Card variant="outlined" sx={{ p: 3, mb: 3, boxShadow: 'none' }}>
-          <Typography variant="subtitle2" sx={{ mb: 2, textTransform: 'uppercase', letterSpacing: 0.5, color: 'text.secondary' }}>
+          <Typography variant="subtitle2" sx={{ mb: 2, textTransform: 'none', letterSpacing: 0, color: 'text.secondary' }}>
             Filters
           </Typography>
           <Grid container spacing={3}>
@@ -329,7 +329,7 @@ function HarvestDashboard() {
         <Box sx={{ display: 'grid', gap: 4, alignItems: 'start', gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 3fr) minmax(0, 2fr)' } }}>
         {/* Bar Chart Section */}
         <Card variant="outlined" sx={{ p: 3, boxShadow: 'none' }}>
-          <Typography variant="subtitle2" sx={{ mb: 2, textTransform: 'uppercase', letterSpacing: 0.5, color: 'text.secondary' }}>
+          <Typography variant="subtitle2" sx={{ mb: 2, textTransform: 'none', letterSpacing: 0, color: 'text.secondary' }}>
             Yield by Plantation (Tons)
           </Typography>
           {chartData.length > 0 ? (
@@ -389,7 +389,7 @@ function HarvestDashboard() {
 
         {/* Table Section */}
         <Card variant="outlined" sx={{ p: 3, boxShadow: 'none', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-          <Typography variant="subtitle2" sx={{ mb: 2, textTransform: 'uppercase', letterSpacing: 0.5, color: 'text.secondary' }}>
+          <Typography variant="subtitle2" sx={{ mb: 2, textTransform: 'none', letterSpacing: 0, color: 'text.secondary' }}>
             Harvest Yield by Plantation
           </Typography>
           <TableContainer sx={{ maxHeight: { lg: 440 } }}>

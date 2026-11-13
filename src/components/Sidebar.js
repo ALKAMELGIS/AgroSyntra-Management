@@ -511,10 +511,10 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
                   sx={{
                     flex: 1,
                     textAlign: 'start',
-                    fontSize: '0.6875rem',
+                    fontSize: '0.75rem',
                     fontWeight: 600,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
+                    textTransform: 'none',
+                    letterSpacing: 0,
                     color: hasActive ? 'text.primary' : 'text.secondary',
                   }}
                 >

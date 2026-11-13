@@ -95,7 +95,7 @@ export default function FertigationHarvestCorrelation() {
         Fertigation vs Harvest Correlation
       </PageTitle>
 
-      <Paper sx={{ p: 2, mb: 3 }}>
+      <Paper sx={{ p: 2, mb: 2 }}>
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
           <FormControl size="small" sx={{ minWidth: 140 }}>
             <InputLabel id="fertigationharvestcorrelation-zone-label-1">Zone</InputLabel>

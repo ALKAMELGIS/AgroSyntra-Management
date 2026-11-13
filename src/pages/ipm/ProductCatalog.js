@@ -872,7 +872,7 @@ export default function ProductCatalog() {
                     onChange={(e) => setPestForm({ ...pestForm, chemicalCategory: e.target.value })}
                     placeholder="e.g. 4A, Acaricide" />
                 </Grid>
-                <Grid size={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <FormControlLabel
                     control={
                       <Switch checked={pestForm.hasLabelMsds}

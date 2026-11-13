@@ -366,7 +366,7 @@ function SectionTable({ section, records, maxCounting, editingName, tempName, se
   };
 
   return (
-    <Paper sx={{ mb: 3, overflow: 'hidden' }} elevation={2}>
+    <Paper sx={{ mb: 2, overflow: 'hidden' }} elevation={2}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1, bgcolor: 'table.headerBg', color: 'table.headerText' }}>
         {editingName === section.id ? (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

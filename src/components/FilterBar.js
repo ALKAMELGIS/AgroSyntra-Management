@@ -23,7 +23,7 @@ export default function FilterBar({ search, children, chips = [], onClear, actio
 
   if (!isPhone) {
     return (
-      <Paper sx={{ p: { xs: 1.5, sm: 2 }, mb: 2, display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center', ...sx }}>
+      <Paper sx={{ p: { xs: 3, sm: 4 }, mb: 2, display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center', ...sx }}>
         <FilterIcon color="action" />
         {children}
         {search}

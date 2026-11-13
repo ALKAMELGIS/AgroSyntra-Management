@@ -26,7 +26,7 @@ import {
 } from '../utils/harvestImportParse';
 import InfoNote from './InfoNote';
 
-const HEADER_FILL = '#165c3a';
+const HEADER_FILL = 'var(--sheet-header)';
 const hdrStyle = {
   background: HEADER_FILL, color: '#fff', fontWeight: 700,
   fontSize: '0.6875rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
@@ -294,13 +294,13 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
 
         {step === 0 && (
           <Box sx={{ textAlign: 'center', py: 4 }}>
-            <Typography variant="body2" sx={{ mb: 2, color: '#555' }}>
+            <Typography variant="body2" sx={{ mb: 2, color: 'var(--sheet-ink-2)' }}>
               Upload an Excel harvest workbook. Greenhouse/net house sheets match by field name (e.g. &quot;NH 01&quot;).
               Pivot forage sheets (Alfalfa/Rhodes) use multi-field mode — field IDs come from the Field column.
             </Typography>
             {parseError && <Alert severity="error" sx={{ mb: 2 }}>{parseError}</Alert>}
             <Button variant="contained" component="label" startIcon={<UploadIcon />}
-              sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: '#1f7a4d' } }}>
+              sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: 'var(--sheet-accent)' } }}>
               Select Excel File
               <input type="file" hidden accept=".xlsx,.xls" ref={fileRef} onChange={handleFileUpload} />
             </Button>
@@ -385,7 +385,7 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
               <Chip icon={<OkIcon />} label={`${totalCounts.ok} OK`} color="success" size="small" />
               <Chip icon={<WarnIcon />} label={`${totalCounts.warn} Warnings`} color="warning" size="small" />
               <Chip icon={<ErrIcon />} label={`${totalCounts.err} Errors`} color="error" size="small" />
-              <Typography variant="body2" sx={{ ml: 'auto', color: '#555' }}>
+              <Typography variant="body2" sx={{ ml: 'auto', color: 'var(--sheet-ink-2)' }}>
                 Total: {totalCounts.total} rows from {validatedSheets.length} sheets
               </Typography>
             </Box>
@@ -426,7 +426,7 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
                                 : (s.field?.name || s.sheetName)}
                           </TableCell>
                           <TableCell sx={cellStyle}>{s.validatedRows.length}</TableCell>
-                          <TableCell sx={{ ...cellStyle, color: '#1f7a4d', fontWeight: 600 }}>{s.okCount}</TableCell>
+                          <TableCell sx={{ ...cellStyle, color: 'var(--sheet-accent)', fontWeight: 600 }}>{s.okCount}</TableCell>
                           <TableCell sx={{ ...cellStyle, color: '#F57C00', fontWeight: 600 }}>{s.warnCount}</TableCell>
                           <TableCell sx={{ ...cellStyle, color: '#C62828', fontWeight: 600 }}>{s.errCount}</TableCell>
                         </TableRow>
@@ -449,7 +449,7 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
                                     </Typography>
                                   ))}
                                   {issueRows.length > 20 && (
-                                    <Typography variant="caption" sx={{ color: '#999', mt: 0.5, display: 'block' }}>
+                                    <Typography variant="caption" sx={{ color: 'var(--sheet-ink-3)', mt: 0.5, display: 'block' }}>
                                       ...and {issueRows.length - 20} more
                                     </Typography>
                                   )}
@@ -509,7 +509,7 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
           <>
             <Button onClick={() => setStep(0)}>Back</Button>
             <Button variant="contained" disabled={matchedSheets.length === 0} onClick={() => setStep(2)}
-              sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: '#1f7a4d' } }}>
+              sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: 'var(--sheet-accent)' } }}>
               Validate ({matchedSheets.reduce((s, sh) => s + sh.rows.length, 0)} rows)
             </Button>
           </>
@@ -519,14 +519,14 @@ export default function HarvestImporter({ open, onClose, fields = [], onImportCo
             <Button onClick={() => setStep(1)}>Back</Button>
             <Button variant="contained" disabled={importing || (totalCounts.ok + totalCounts.warn) === 0} onClick={handleImport}
               startIcon={importing ? <CircularProgress size={16} color="inherit" /> : null}
-              sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: '#1f7a4d' } }}>
+              sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: 'var(--sheet-accent)' } }}>
               {importing ? 'Importing...' : `Import ${totalCounts.ok + totalCounts.warn} rows`}
             </Button>
           </>
         )}
         {step === 3 && (
           <Button variant="contained" onClick={handleClose}
-            sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: '#1f7a4d' } }}>
+            sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: 'var(--sheet-accent)' } }}>
             Done
           </Button>
         )}

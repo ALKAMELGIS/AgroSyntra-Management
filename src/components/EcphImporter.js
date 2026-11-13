@@ -16,8 +16,8 @@ import * as XLSX from 'xlsx';
 import { bulkCreateEcph } from '../utils/backendApi';
 import InfoNote from './InfoNote';
 
-const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
-const bannerBg = '#1f3864';
+const headerBg = 'var(--sheet-header)'; // = theme palette.table.headerBg
+const bannerBg = 'var(--sheet-header-strong)';
 const bannerColor = '#fff';
 const altRowBg = 'rgba(31,122,77,0.06)';
 const cellBorder = '1px solid #c8c8c8';
@@ -703,7 +703,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
                               displayEmpty
                               sx={{ fontSize: '0.6875rem' }}
                             >
-                              <MenuItem value="" sx={{ fontSize: '0.6875rem', color: '#999' }}>(skip)</MenuItem>
+                              <MenuItem value="" sx={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-3)' }}>(skip)</MenuItem>
                               {NH_TEMPLATE_FIELDS.map(f => (
                                 <MenuItem key={f.key} value={f.key} sx={{ fontSize: '0.6875rem' }}>{f.label}</MenuItem>
                               ))}
@@ -763,7 +763,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
                           if (col.key === '_status') {
                             return (
                               <TableCell key={col.key} sx={cellStyle}>
-                                {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: '#1f7a4d' }} />}
+                                {r._status === 'ok' && <OkIcon sx={{ fontSize: 16, color: 'var(--sheet-accent)' }} />}
                                 {r._status === 'warning' && <WarnIcon sx={{ fontSize: 16, color: '#a84b07' }} />}
                                 {r._status === 'error' && <ErrIcon sx={{ fontSize: 16, color: '#c62828' }} />}
                               </TableCell>
@@ -841,7 +841,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
             variant="contained"
             onClick={applyMappingAndValidate}
             disabled={!columnMapping || Object.values(columnMapping).filter(Boolean).length < 2}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: 'var(--sheet-header-strong)' } }}
           >
             Continue — Validate {rawDataRows.length} rows
           </Button>
@@ -852,7 +852,7 @@ export default function EcphImporter({ open, onClose, fields = [], onImportCompl
             onClick={handleImport}
             disabled={importing || importableRows.length === 0}
             startIcon={importing ? <CircularProgress size={16} /> : <ImportIcon />}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: '#164a31' } }}
+            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: 'var(--sheet-header-strong)' } }}
           >
             {importing ? 'Importing...' : `Import ${importableRows.length} rows`}
           </Button>

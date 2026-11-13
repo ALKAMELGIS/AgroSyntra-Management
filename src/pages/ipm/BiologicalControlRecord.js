@@ -1585,7 +1585,7 @@ export default function BiologicalControlRecord() {
                       {renderMetaCell('Week 1 starts', setup.start_date || week1Label, 'start_date', '', 'date')}
                       <td style={{ border: cellBorder, padding: '3px 8px', background: totalRowBg, minWidth: 100 }}>
                         <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Total Cost</div>
-                        <div style={{ fontWeight: 700, color: '#1f7a4d', fontSize: '0.875rem' }}>
+                        <div style={{ fontWeight: 700, color: 'var(--sheet-accent)', fontSize: '0.875rem' }}>
                           {grandTotalCost > 0
                             ? grandTotalCost.toFixed(2)
                             : (products.some((p) => productTotals[p.id]?.missingPrice) ? '—' : '0.00')}
@@ -1715,7 +1715,7 @@ export default function BiologicalControlRecord() {
                           COST
                         </td>
                         {products.map(p => (
-                          <td key={`${p.id}_c`} colSpan={2} style={{ border: cellBorder, padding: '2px 4px', fontWeight: 700, textAlign: 'right', background: costRowBg, color: '#1f7a4d', fontSize: '0.75rem' }}>
+                          <td key={`${p.id}_c`} colSpan={2} style={{ border: cellBorder, padding: '2px 4px', fontWeight: 700, textAlign: 'right', background: costRowBg, color: 'var(--sheet-accent)', fontSize: '0.75rem' }}>
                             {productTotals[p.id]?.costLabel || ''}
                           </td>
                         ))}
@@ -1799,7 +1799,7 @@ export default function BiologicalControlRecord() {
                   onClick={e => { e.stopPropagation(); handleDeleteFieldSetup(fs.id, fs.field_name || `Field ${i + 1}`); }}
                   sx={{
                     ml: 0.5, px: 0.3, borderRadius: '3px', fontSize: '0.6875rem', lineHeight: 1,
-                    color: '#999', cursor: 'pointer',
+                    color: 'var(--sheet-ink-3)', cursor: 'pointer',
                     '&:hover': { color: '#d32f2f', bgcolor: 'rgba(211,47,47,0.1)' },
                   }}>
                   ✕
@@ -1849,7 +1849,7 @@ export default function BiologicalControlRecord() {
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', background: totalRowBg, minWidth: 100 }}>
                         <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Total Cost</div>
-                        <div style={{ fontWeight: 700, color: '#1f7a4d', fontSize: '0.875rem' }}>{summaryFieldCost.toFixed(2)}</div>
+                        <div style={{ fontWeight: 700, color: 'var(--sheet-accent)', fontSize: '0.875rem' }}>{summaryFieldCost.toFixed(2)}</div>
                       </td>
                     </tr>
                   </tbody>
@@ -1877,8 +1877,8 @@ export default function BiologicalControlRecord() {
                         <td style={summaryBodyCell(i)}>{f.number_of_plants ? parseInt(f.number_of_plants, 10).toLocaleString() : '—'}</td>
                         <td style={summaryBodyCell(i)}>{f.plants_per_m2 || '—'}</td>
                         <td style={summaryBodyCell(i)}>{parseFloat(f.total_units).toFixed(0)}</td>
-                        <td style={{ ...summaryBodyCell(i), color: '#1f7a4d', fontWeight: 600 }}>{parseFloat(f.total_cost).toFixed(2)}</td>
-                        <td style={{ ...summaryBodyCell(i), color: '#1f7a4d' }}>
+                        <td style={{ ...summaryBodyCell(i), color: 'var(--sheet-accent)', fontWeight: 600 }}>{parseFloat(f.total_cost).toFixed(2)}</td>
+                        <td style={{ ...summaryBodyCell(i), color: 'var(--sheet-accent)' }}>
                           {f.surface_m2 ? (parseFloat(f.total_cost) / parseFloat(f.surface_m2)).toFixed(5) : '—'}
                         </td>
                       </tr>
@@ -1891,7 +1891,7 @@ export default function BiologicalControlRecord() {
                     </tr>
                     <tr>
                       <td colSpan={5} style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', fontSize: '0.75rem' }}>COST</td>
-                      <td style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', color: '#1f7a4d', fontSize: '0.75rem' }}>{summaryFieldCost.toFixed(2)}</td>
+                      <td style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', color: 'var(--sheet-accent)', fontSize: '0.75rem' }}>{summaryFieldCost.toFixed(2)}</td>
                       <td style={{ border: cellBorder, padding: '2px 6px', background: costRowBg }} />
                     </tr>
                   </tbody>
@@ -1917,7 +1917,7 @@ export default function BiologicalControlRecord() {
                         <td style={summaryBodyCell(i, 'left')}>{pt.item_code || '—'}</td>
                         <td style={summaryBodyCell(i)}>{pt.total_per_m2 ? parseFloat(pt.total_per_m2).toFixed(1) : '0'}</td>
                         <td style={summaryBodyCell(i)}>{pt.total_units ? parseFloat(pt.total_units).toFixed(0) : '0'}</td>
-                        <td style={{ ...summaryBodyCell(i), color: '#1f7a4d', fontWeight: 600 }}>{parseFloat(pt.total_cost).toFixed(2)}</td>
+                        <td style={{ ...summaryBodyCell(i), color: 'var(--sheet-accent)', fontWeight: 600 }}>{parseFloat(pt.total_cost).toFixed(2)}</td>
                       </tr>
                     ))}
                     <tr>
@@ -1928,7 +1928,7 @@ export default function BiologicalControlRecord() {
                     </tr>
                     <tr>
                       <td colSpan={4} style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', fontSize: '0.75rem' }}>COST</td>
-                      <td style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', color: '#1f7a4d', fontSize: '0.75rem' }}>{summaryProductCost.toFixed(2)}</td>
+                      <td style={{ border: cellBorder, padding: '2px 6px', fontWeight: 700, background: costRowBg, textAlign: 'right', color: 'var(--sheet-accent)', fontSize: '0.75rem' }}>{summaryProductCost.toFixed(2)}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -2019,7 +2019,7 @@ export default function BiologicalControlRecord() {
                             onToggle={catalogSelection.toggle}
                             label={`Select ${p.item_name}`}
                           />
-                          <TableCell sx={{ color: '#999', fontSize: '0.75rem' }}>{idx + 1}</TableCell>
+                          <TableCell sx={{ color: 'var(--sheet-ink-3)', fontSize: '0.75rem' }}>{idx + 1}</TableCell>
                           <TableCell>
                             {isEditing ? (
                               <TextField size="small" fullWidth variant="standard"
@@ -2102,7 +2102,7 @@ export default function BiologicalControlRecord() {
                     {catalogNewRow && (
                       <TableRow sx={{ bgcolor: '#f5f9f0' }}>
                         <TableCell padding="checkbox" />
-                        <TableCell sx={{ color: '#999', fontSize: '0.75rem' }}>new</TableCell>
+                        <TableCell sx={{ color: 'var(--sheet-ink-3)', fontSize: '0.75rem' }}>new</TableCell>
                         <TableCell>
                           <TextField size="small" fullWidth variant="standard" placeholder="Code *"
                             value={catalogNewRow.itemCode}
@@ -2152,7 +2152,7 @@ export default function BiologicalControlRecord() {
                     )}
                     {filteredCatalog.length === 0 && !catalogNewRow && (
                       <TableRow>
-                        <TableCell colSpan={7} align="center" sx={{ py: 4, color: '#999' }}>
+                        <TableCell colSpan={7} align="center" sx={{ py: 4, color: 'var(--sheet-ink-3)' }}>
                           {catalogItems.length === 0
                             ? 'No products assigned to this site yet. Add products or browse other sites to copy.'
                             : 'No products match your search.'}
@@ -2230,7 +2230,7 @@ export default function BiologicalControlRecord() {
                               />
                             )}
                           </TableCell>
-                          <TableCell sx={{ color: '#999', fontSize: '0.75rem' }}>{idx + 1}</TableCell>
+                          <TableCell sx={{ color: 'var(--sheet-ink-3)', fontSize: '0.75rem' }}>{idx + 1}</TableCell>
                           <TableCell>
                             <Typography variant="body2" sx={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontWeight: 500 }}>{p.item_code}</Typography>
                           </TableCell>
@@ -2253,7 +2253,7 @@ export default function BiologicalControlRecord() {
                     })}
                     {filteredBrowseCatalog.length === 0 && (
                       <TableRow>
-                        <TableCell colSpan={7} align="center" sx={{ py: 4, color: '#999' }}>
+                        <TableCell colSpan={7} align="center" sx={{ py: 4, color: 'var(--sheet-ink-3)' }}>
                           {catalogBrowseItems.length === 0}
                             ? 'No products in the master catalog.'
                             : 'No products match your search.'}

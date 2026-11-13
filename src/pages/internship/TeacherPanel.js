@@ -74,7 +74,7 @@ export default function TeacherPanel() {
       )}
 
       {!selectedModule && (
-        <Paper sx={{ p: 4, textAlign: 'center' }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
           <School sx={{ fontSize: 64, color: 'grey.300', mb: 2 }} />
           <Typography color="text.secondary">Select a module to manage its content</Typography>
         </Paper>
@@ -309,7 +309,7 @@ function LessonManager({ moduleId }) {
 
       {/* Step 1: Paste outline with questions */}
       {aiStep === 1 && (
-        <Paper sx={{ p: 3, mt: 2 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, mt: 2 }}>
           <Typography variant="subtitle1" fontWeight={600} gutterBottom>
             Paste your lessons with questions
           </Typography>
@@ -347,7 +347,7 @@ function LessonManager({ moduleId }) {
 
       {/* Step 2: Review suggestions & proposed plan */}
       {aiStep === 2 && analysis && (
-        <Paper sx={{ p: 3, mt: 2 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, mt: 2 }}>
           <Typography variant="subtitle1" fontWeight={600} gutterBottom>AI Suggestions</Typography>
 
           {analysis.suggestions?.length > 0 && (
@@ -407,7 +407,7 @@ function LessonManager({ moduleId }) {
 
       {/* Step 3: Review Q&A, edit answers, edit duration, then publish */}
       {aiStep === 3 && generatedLessons.length > 0 && (
-        <Paper sx={{ p: 3, mt: 2 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, mt: 2 }}>
           <Typography variant="subtitle1" fontWeight={600} gutterBottom>
             Review & Revise ({generatedLessons.length} lessons)
           </Typography>
@@ -714,7 +714,7 @@ function QuestionBankDialog({ lessonId, onClose }) {
         </Box>
 
         {questions.length > 0 && (
-          <Paper variant="outlined" sx={{ p: 2, mb: 3 }}>
+          <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
             <Typography variant="subtitle2" gutterBottom>Edit with AI</Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               Tell the AI what to change. Reference questions by number or say &quot;all&quot;.
@@ -940,7 +940,7 @@ function QuizManager({ moduleId }) {
 
         <Grid size={{ xs: 12, md: 8 }}>
           {selectedQuiz && quizDetail ? (
-            <Paper sx={{ p: 3 }}>
+            <Paper sx={{ p: { xs: 3, sm: 4 } }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, flexWrap: 'wrap', gap: 1 }}>
                 <Typography variant="h6">{quizDetail.title} — Questions</Typography>
                 <Box sx={{ display: 'flex', gap: 1 }}>
@@ -975,7 +975,7 @@ function QuizManager({ moduleId }) {
               ))}
             </Paper>
           ) : (
-            <Paper sx={{ p: 4, textAlign: 'center' }}>
+            <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
               <Typography color="text.secondary">Select a quiz to view its questions</Typography>
             </Paper>
           )}
@@ -1172,7 +1172,7 @@ function AIQuestionGenerator({ moduleId }) {
         Use AI to generate quiz questions on any topic within this module.
       </Typography>
 
-      <Paper sx={{ p: 3, mb: 3 }}>
+      <Paper sx={{ p: { xs: 3, sm: 4 }, mb: 3 }}>
         <Grid container spacing={2} alignItems="flex-end">
           <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
@@ -1271,7 +1271,7 @@ function GradeViewer() {
     <Box>
       <Typography variant="h6" gutterBottom>Student Progress</Typography>
       {students.length === 0 ? (
-        <Paper sx={{ p: 4, textAlign: 'center' }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
           <Typography color="text.secondary">No students enrolled yet.</Typography>
         </Paper>
       ) : (

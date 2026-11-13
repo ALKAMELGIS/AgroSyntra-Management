@@ -74,7 +74,7 @@ export default function InternshipProgress() {
 
       {/* Overall Progress */}
       {totalLessons > 0 && (
-        <Paper sx={{ p: 3, mb: 3 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, mb: 3 }}>
           <Typography variant="h6" gutterBottom>Overall Completion</Typography>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
             <Typography variant="body2">{stats.totalLessonsCompleted || 0} / {totalLessons} lessons</Typography>
@@ -85,7 +85,7 @@ export default function InternshipProgress() {
       )}
 
       {/* Module Breakdown */}
-      <Paper sx={{ p: 3, mb: 3 }}>
+      <Paper sx={{ p: { xs: 3, sm: 4 }, mb: 3 }}>
         <Typography variant="h6" gutterBottom>Module Progress</Typography>
         {modules.map((m) => {
           const pct = m.lesson_count > 0 ? Math.round(((m.completed_lessons || 0) / m.lesson_count) * 100) : 0;
@@ -103,7 +103,7 @@ export default function InternshipProgress() {
 
       {/* Completed Lessons */}
       {completedLessons.length > 0 && (
-        <Paper sx={{ p: 3, mb: 3 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, mb: 3 }}>
           <Typography variant="h6" gutterBottom>Completed Lessons</Typography>
           <Table size="small">
             <TableHead>
@@ -128,7 +128,7 @@ export default function InternshipProgress() {
 
       {/* Quiz History */}
       {attempts.length > 0 && (
-        <Paper sx={{ p: 3 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 } }}>
           <Typography variant="h6" gutterBottom>Quiz History</Typography>
           <Table size="small">
             <TableHead>

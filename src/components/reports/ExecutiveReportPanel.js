@@ -16,7 +16,7 @@ function KpiCard({ title, value, subtitle, delta, color = '#1f7a4d' }) {
   return (
     <Card variant="outlined" sx={{ height: '100%', boxShadow: 1 }}>
       <CardContent sx={{ py: 3.5, px: 4, '&:last-child': { pb: 3.5 } }}>
-        <Typography sx={{ fontSize: '0.6875rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: 'text.secondary', mb: 1.5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+        <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'none', letterSpacing: 0, color: 'text.secondary', mb: 1.5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: color, flexShrink: 0 }} />
           {title}
         </Typography>
@@ -103,7 +103,7 @@ export default function ExecutiveReportPanel({
             ))}
           </Grid>
 
-          <Paper elevation={0} sx={{ p: 3, mb: 3, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
+          <Paper elevation={0} sx={{ p: { xs: 3, sm: 4 }, mb: 3, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
             <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 700 }}>
               Interpretation
             </Typography>

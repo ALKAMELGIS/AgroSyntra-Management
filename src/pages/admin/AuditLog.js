@@ -137,7 +137,7 @@ function AuditLog() {
   if (!canView) {
     return (
       <Container maxWidth="md">
-        <Paper elevation={3} sx={{ p: 4, mt: 2, textAlign: 'center' }}>
+        <Paper elevation={3} sx={{ p: { xs: 3, sm: 4 }, mt: 2, textAlign: 'center' }}>
           <Typography color="error">You don&apos;t have permission to view the audit log.</Typography>
         </Paper>
       </Container>

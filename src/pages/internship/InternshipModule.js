@@ -72,7 +72,7 @@ export default function InternshipModule() {
         <Grid container spacing={2}>
           {lessons.length === 0 ? (
             <Grid size={12}>
-              <Paper sx={{ p: 4, textAlign: 'center' }}>
+              <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
                 <Typography color="text.secondary">No lessons yet. Teachers can add content.</Typography>
               </Paper>
             </Grid>
@@ -113,7 +113,7 @@ export default function InternshipModule() {
         <Grid container spacing={2}>
           {quizzes.length === 0 ? (
             <Grid size={12}>
-              <Paper sx={{ p: 4, textAlign: 'center' }}>
+              <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
                 <Typography color="text.secondary">No quizzes available yet.</Typography>
               </Paper>
             </Grid>
@@ -150,7 +150,7 @@ export default function InternshipModule() {
       )}
 
       {tab === 2 && (
-        <Paper sx={{ p: 4, textAlign: 'center' }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
           <SmartToy sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
           <Typography variant="h6" gutterBottom>AI Tutor</Typography>
           <Typography color="text.secondary" sx={{ mb: 3 }}>

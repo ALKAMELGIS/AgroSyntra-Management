@@ -233,7 +233,7 @@ export function MapLegend({ sections, empty = 'Turn on a layer to see its legend
     <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
       {shown.map((section) => (
         <Box key={section.title}>
-          <Typography sx={{ fontSize: '0.6875rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'text.secondary', mb: 1.5 }}>
+          <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'none', letterSpacing: 0, color: 'text.secondary', mb: 1.5 }}>
             {section.title}
           </Typography>
           {section.items.map((item) => (

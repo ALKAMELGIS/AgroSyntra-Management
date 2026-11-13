@@ -267,7 +267,7 @@ export default function PhiAuditLog() {
       {loading ? (
         <Box display="flex" justifyContent="center" py={6}><CircularProgress /></Box>
       ) : filteredData.length === 0 ? (
-        <Paper sx={{ p: 4, textAlign: 'center' }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
           <Typography color="text.secondary">No PHI conflicts found for the selected filters.</Typography>
         </Paper>
       ) : (

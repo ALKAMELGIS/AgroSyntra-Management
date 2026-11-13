@@ -2,16 +2,12 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import FormikSubmitFeedback from '../../components/FormikSubmitFeedback';
 import {
   Container,
-  Paper,
   Typography,
-  Grid,
   TextField,
   Button,
   MenuItem,
   Alert,
   Box,
-  Card,
-  CardContent,
   Table,
   TableBody,
   TableCell,
@@ -34,6 +30,7 @@ import * as Yup from 'yup';
 import { useMasterData } from '../../utils/useMasterData';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import LocationSelector from '../../components/LocationSelector';
+import { FormSection, FormStack, FormGrid, FormActions, HintLabel, calcFieldSx, span } from '../../components/form/FormLayout';
 import {
   createFertigation,
   listFertigationAll,
@@ -441,8 +438,8 @@ function FertigationEntry() {
 
         {isNethouseOrGh && viewMode === 'form' && (
         <>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Enter water parameters and select recipe. System will automatically calculate all fertilizer amounts.
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+          Enter the water and pick a recipe; fertilizer amounts are calculated for you.
         </Typography>
 
         <Formik
@@ -500,28 +497,23 @@ function FertigationEntry() {
                   </Alert>
                 )}
 
-                {/* Section 1: Basic Information */}
-                <Paper elevation={1} sx={{ p: 3, mb: 3 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Basic Information
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                      <TextField
-                        fullWidth
-                        type="date"
-                        label="Date"
-                        name="date"
-                        value={values.date}
-                        onChange={(e) => {
-                          setFieldValue('date', e.target.value);
-                          setSelectedDate(e.target.value);
-                        }}
-                        error={touched.date && !!errors.date}
-                        helperText={touched.date && errors.date}
-                        InputLabelProps={{ shrink: true }}
-                      />
-                    </Grid>
+                <FormStack>
+                <FormSection title="Where and when">
+                  <FormGrid columns={{ xs: 2, sm: 3, lg: 5 }} stretchLast>
+                    <TextField
+                      fullWidth
+                      type="date"
+                      label="Date"
+                      name="date"
+                      value={values.date}
+                      onChange={(e) => {
+                        setFieldValue('date', e.target.value);
+                        setSelectedDate(e.target.value);
+                      }}
+                      error={touched.date && !!errors.date}
+                      helperText={touched.date && errors.date}
+                      InputLabelProps={{ shrink: true }}
+                    />
                     <LocationSelector
                       countries={data.countries}
                       values={values}
@@ -530,190 +522,137 @@ function FertigationEntry() {
                       setFieldValue={setFieldValue}
                       onFieldChange={(field) => setSelectedField(field)}
                       defaultSiteId={defaultSiteId}
+                      fieldLabel="Field"
+                      gridSize={null}
                     />
-                    {selectedField && (
-                      <Grid size={12}>
-                        <Card sx={{ bgcolor: 'info.light', color: 'white' }}>
-                          <CardContent>
-                            <Typography variant="body1">
-                              <strong>Current Crop:</strong> {selectedField.currentCrop || selectedField.crop || 'Unknown'}
-                            </Typography>
-                            <Typography variant="body2" sx={{ mt: 1 }}>
-                              <strong>Valves Count:</strong> {selectedField.valves || 4} (auto-filled)
-                            </Typography>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    )}
-                    {existingEntry && (
-                      <Grid size={12}>
-                        <InfoNote mode="line" severity="info">
-                          Entry exists for this field and date. Saving will update it.
-                        </InfoNote>
-                      </Grid>
-                    )}
-                  </Grid>
-                </Paper>
+                  </FormGrid>
+                  {selectedField && (
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
+                      Crop: <Box component="span" sx={{ color: 'text.primary', fontWeight: 500 }}>{selectedField.currentCrop || selectedField.crop || 'Unknown'}</Box>
+                      {' · '}Valves: <Box component="span" sx={{ color: 'text.primary', fontWeight: 500 }}>{selectedField.valves || 4}</Box>
+                    </Typography>
+                  )}
+                  {existingEntry && (
+                    <InfoNote mode="line" severity="info" sx={{ mt: 2 }}>
+                      Entry exists for this field and date. Saving will update it.
+                    </InfoNote>
+                  )}
+                </FormSection>
 
-                {/* Section 2: Water Inputs */}
-                <Paper elevation={1} sx={{ p: 3, mb: 3 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Water Parameters
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                      <TextField
-                        fullWidth
-                        type="number"
-                        label={
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                            <span>Water Qty. (M³/Valve)</span>
-                            <Tooltip title="Water quantity per valve per cycle. Used to calculate total fertigation water." arrow>
-                              <InfoIcon fontSize="small" color="action" sx={{ cursor: 'help' }} />
-                            </Tooltip>
-                          </Box>
-                        }
-                        name="flowRate"
-                        value={values.flowRate}
-                        onChange={handleChange}
-                        error={touched.flowRate && !!errors.flowRate}
-                        helperText={touched.flowRate && errors.flowRate}
-                        inputProps={{ step: 0.01, min: 0 }}
-                      />
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                      <TextField
-                        fullWidth
-                        type="number"
-                        label={
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                            <span>Frequency</span>
-                            <Tooltip title="Number of fertigation cycles per day. Each cycle applies fertilizer solution." arrow>
-                              <InfoIcon fontSize="small" color="action" sx={{ cursor: 'help' }} />
-                            </Tooltip>
-                          </Box>
-                        }
-                        name="frequency"
-                        value={values.frequency}
-                        onChange={handleChange}
-                        error={touched.frequency && !!errors.frequency}
-                        helperText={touched.frequency && errors.frequency}
-                        inputProps={{ step: 1, min: 1 }}
-                      />
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                      <Card variant="outlined" sx={{ height: '100%', display: 'flex', alignItems: 'center', borderRadius: 2 }}>
-                        <CardContent sx={{ width: '100%' }}>
-                          <Tooltip title="Water volume containing fertilizer" arrow>
-                            <Typography variant="body2" sx={{ cursor: 'help', color: 'text.secondary' }}>
-                              Fertigation Water (m³)
-                            </Typography>
-                          </Tooltip>
-                            <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 700 }}>{toNumber(dailyWater).toFixed(2)} m³</Typography>
-                          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                            Formula: {flowRate || 0} × {frequency || 0} × {valvesCount} = {toNumber(dailyWater).toFixed(2)} m³
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  </Grid>
-                </Paper>
+                <FormSection title="Water">
+                  <FormGrid columns={{ xs: 2, md: 4 }}>
+                    <TextField
+                      fullWidth
+                      type="number"
+                      label={<HintLabel hint="Water quantity per valve per cycle. Used to calculate total fertigation water.">Water (m³/valve)</HintLabel>}
+                      name="flowRate"
+                      value={values.flowRate}
+                      onChange={handleChange}
+                      error={touched.flowRate && !!errors.flowRate}
+                      helperText={touched.flowRate && errors.flowRate}
+                      inputProps={{ step: 0.01, min: 0, inputMode: 'decimal' }}
+                    />
+                    <TextField
+                      fullWidth
+                      type="number"
+                      label={<HintLabel hint="Number of fertigation cycles per day. Each cycle applies fertilizer solution.">Frequency</HintLabel>}
+                      name="frequency"
+                      value={values.frequency}
+                      onChange={handleChange}
+                      error={touched.frequency && !!errors.frequency}
+                      helperText={touched.frequency && errors.frequency}
+                      inputProps={{ step: 1, min: 1, inputMode: 'numeric' }}
+                    />
+                    <TextField
+                      fullWidth
+                      label={<HintLabel hint="From the field set-up">Valves</HintLabel>}
+                      value={valvesCount}
+                      InputProps={{ readOnly: true }}
+                      sx={calcFieldSx}
+                    />
+                    <TextField
+                      fullWidth
+                      label={<HintLabel hint={`Water qty × frequency × valves = ${flowRate || 0} × ${frequency || 0} × ${valvesCount}`}>Fertigation water (m³)</HintLabel>}
+                      value={toNumber(dailyWater).toFixed(2)}
+                      InputProps={{ readOnly: true }}
+                      sx={{ ...calcFieldSx, '& .MuiInputBase-input': { fontWeight: 600, color: 'primary.dark', fontVariantNumeric: 'tabular-nums' } }}
+                    />
+                  </FormGrid>
+                </FormSection>
 
-                {/* Section 3: Recipe Selection */}
-                <Paper elevation={1} sx={{ p: 3, mb: 3 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Recipe Selection
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid size={{ xs: 12, md: 6 }}>
-                      <TextField
-                        fullWidth
-                        select
-                        label={
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                            <span>Recipe</span>
-                            <Tooltip title="Predefined fertilizer mixture. Each recipe has specific nutrient concentrations." arrow>
-                              <InfoIcon fontSize="small" color="action" sx={{ cursor: 'help' }} />
-                            </Tooltip>
-                          </Box>
-                        }
-                        name="recipeId"
-                        value={values.recipeId}
-                        placeholder="Select Recipe"
-                        onChange={(e) => {
-                          const recipe = recipes.find((r) => r.id === e.target.value);
-                          setFieldValue('recipeId', e.target.value);
-                          setSelectedRecipe(recipe);
-                        }}
-                        error={touched.recipeId && !!errors.recipeId}
-                        helperText={touched.recipeId && errors.recipeId}
-                        InputLabelProps={{ shrink: true }}
-                        SelectProps={{
-                          displayEmpty: true,
-                          renderValue: (selected) => {
-                            if (!selected) return 'Select Recipe';
-                            const recipe = recipes.find((r) => r.id === selected);
-                            return recipe ? `${recipeOptionLabel(recipe)} - ${recipe.description || ''}` : 'Select Recipe';
-                          },
-                        }}
-                        sx={{
-                          '& .MuiSelect-select': {
-                            overflow: 'visible',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'clip',
-                            maxWidth: 'none',
-                          },
-                        }}
-                      >
-                        {recipePickerOptions(recipes, values.recipeId).length > 0 ? (
-                          recipePickerOptions(recipes, values.recipeId).map((recipe) => (
-                            <MenuItem key={recipe.id} value={recipe.id} disabled={!isRecipeApproved(recipe)}>
-                              {recipeOptionLabel(recipe)} {recipe.description ? `- ${recipe.description}` : ''}
-                            </MenuItem>
-                          ))
-                        ) : (
-                          <MenuItem disabled>No approved recipes yet. Ask the operations manager to approve one.</MenuItem>
-                        )}
-                      </TextField>
-                    </Grid>
-                    {selectedRecipe && (
-                      <Grid size={{ xs: 12, md: 6 }}>
-                        <Card variant="outlined" sx={{ borderRadius: 2 }}>
-                          <CardContent>
-                            <Typography variant="body2" sx={{ color: 'text.primary' }}>
-                              <strong>Tank Volume:</strong> {selectedRecipe.tankVolume} L
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.primary' }}>
-                              <strong>Cycles:</strong> {selectedRecipe.cycles}
-                            </Typography>
-                            {selectedRecipe.elementPPM && (
-                              <Typography variant="body2" sx={{ mt: 1, color: 'text.primary' }}>
-                                <strong>Element PPM:</strong>{' '}
-                                {Object.entries(selectedRecipe.elementPPM)
-                                  .map(([el, ppm]) => `${el}:${ppm}`)
-                                  .join(', ')}
-                              </Typography>
-                            )}
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    )}
-                  </Grid>
-                </Paper>
+                <FormSection title="Recipe">
+                  <FormGrid columns={{ xs: 2, md: 4 }}>
+                    <TextField
+                      fullWidth
+                      select
+                      label={<HintLabel hint="Predefined fertilizer mixture. Each recipe has specific nutrient concentrations.">Recipe</HintLabel>}
+                      name="recipeId"
+                      value={values.recipeId}
+                      onChange={(e) => {
+                        const recipe = recipes.find((r) => r.id === e.target.value);
+                        setFieldValue('recipeId', e.target.value);
+                        setSelectedRecipe(recipe);
+                      }}
+                      error={touched.recipeId && !!errors.recipeId}
+                      helperText={touched.recipeId && errors.recipeId}
+                      InputLabelProps={{ shrink: true }}
+                      SelectProps={{
+                        displayEmpty: true,
+                        renderValue: (selected) => {
+                          if (!selected) return <em>Select recipe</em>;
+                          const recipe = recipes.find((r) => r.id === selected);
+                          return recipe ? `${recipeOptionLabel(recipe)}${recipe.description ? ` · ${recipe.description}` : ''}` : <em>Select recipe</em>;
+                        },
+                      }}
+                      sx={{ '& .MuiSelect-select': { whiteSpace: 'nowrap' }, ...span(2) }}
+                    >
+                      {recipePickerOptions(recipes, values.recipeId).length > 0 ? (
+                        recipePickerOptions(recipes, values.recipeId).map((recipe) => (
+                          <MenuItem key={recipe.id} value={recipe.id} disabled={!isRecipeApproved(recipe)}>
+                            {recipeOptionLabel(recipe)} {recipe.description ? `· ${recipe.description}` : ''}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        <MenuItem disabled>No approved recipes yet. Ask the operations manager to approve one.</MenuItem>
+                      )}
+                    </TextField>
+                    <TextField
+                      fullWidth
+                      label="Tank volume (L)"
+                      value={selectedRecipe ? selectedRecipe.tankVolume ?? '' : ''}
+                      InputLabelProps={{ shrink: true }}
+                      InputProps={{ readOnly: true }}
+                      sx={calcFieldSx}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Cycles"
+                      value={selectedRecipe ? selectedRecipe.cycles ?? '' : ''}
+                      InputLabelProps={{ shrink: true }}
+                      InputProps={{ readOnly: true }}
+                      sx={calcFieldSx}
+                    />
+                  </FormGrid>
+                  {selectedRecipe?.elementPPM && (
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 3, fontVariantNumeric: 'tabular-nums' }}>
+                      Element ppm:{' '}
+                      <Box component="span" sx={{ color: 'text.primary' }}>
+                        {Object.entries(selectedRecipe.elementPPM).map(([el, ppm]) => `${el} ${ppm}`).join(' · ')}
+                      </Box>
+                    </Typography>
+                  )}
+                </FormSection>
 
                 {/* Section 4: Auto-Calculated Fertilizer Display (Read-Only) */}
                 {selectedRecipe && dailyWater > 0 && Object.keys(calculatedFertilizers).length > 0 && (
-                  <Paper elevation={1} sx={{ p: 3, mb: 3 }}>
-                    <Typography variant="h6" gutterBottom>
-                      Calculated Fertilizer Amounts
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" gutterBottom>
-                      All amounts calculated automatically using: kgPerLiter × Daily Water (m³) (from KG/L column)
+                  <FormSection title="Calculated fertilizer amounts">
+                    <Typography variant="body2" color="text.secondary">
+                      Concentration (kg/L) × fertigation water (m³)
                     </Typography>
 
                     {/* All Fertilizers - Real-time Calculation Display */}
                     {allFertilizers.length > 0 && dailyWater > 0 && selectedRecipe && (
-                      <Box sx={{ mt: 3, mb: 3 }}>
+                      <Box sx={{ mt: 3 }}>
                         <TableContainer>
                           <Table size="small">
                             <TableHead>
@@ -752,7 +691,7 @@ function FertigationEntry() {
                                     hover
                                     sx={{
                                       bgcolor: isZero ? 'warning.light' : isUnusual ? 'info.light' : 'inherit',
-                                      '&:hover': { bgcolor: isZero ? 'warning.main' : isUnusual ? 'info.main' : 'action.hover' }
+                                      '&:hover': { bgcolor: 'action.hover' }
                                     }}
                                   >
                                     <TableCell>
@@ -817,76 +756,56 @@ function FertigationEntry() {
                       </Box>
                     )}
 
-                    {/* Summary Card - Only show if calculations are available */}
+                    {/* Summary - only when calculations are available */}
                     {selectedRecipe && dailyWater > 0 && Object.keys(calculatedFertilizers).length > 0 && (
-                      <Box sx={{ mt: 3, p: 2, bgcolor: 'background.muted', borderRadius: 1 }}>
-                        <Grid container spacing={2}>
-                          <Grid size={{ xs: 12, sm: 6 }}>
-                            <Typography variant="body2" color="text.secondary">
-                              Total Daily Fertilizer
+                      <Box
+                        sx={{
+                          mt: 3,
+                          display: 'grid',
+                          gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', md: 'repeat(4, minmax(0, 1fr))' },
+                          gap: 2,
+                        }}
+                      >
+                        {[
+                          ['Total daily fertilizer', `${toNumber(Object.values(calculatedFertilizers).reduce((sum, val) => sum + toNumber(val), 0)).toFixed(3)} kg`, true],
+                          ['Fertigation water', `${toNumber(dailyWater).toFixed(2)} m³`],
+                          ['Cumulative fertigation water', `${(toNumber(cumulativeData?.water) + toNumber(dailyWater)).toFixed(2)} m³`],
+                          ['Recipe', selectedRecipe.name],
+                        ].map(([label, value, lead]) => (
+                          <Box key={label} sx={{ px: 3, py: 2, borderRadius: 2, bgcolor: 'background.muted', minWidth: 0 }}>
+                            <Typography variant="caption" color="text.secondary" component="div" noWrap>{label}</Typography>
+                            <Typography noWrap sx={{ fontSize: '1rem', fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: lead ? 'primary.dark' : 'text.primary' }}>
+                              {value}
                             </Typography>
-                            <Typography variant="h6" sx={{ color: 'success.main' }}>
-                              {toNumber(
-                                Object.values(calculatedFertilizers).reduce(
-                                  (sum, val) => sum + toNumber(val),
-                                  0
-                                )
-                              ).toFixed(3)}{' '}
-                              kg
-                            </Typography>
-                          </Grid>
-                          <Grid size={{ xs: 12, sm: 6 }}>
-                            <Typography variant="body2" color="text.secondary">
-                              Fertigation Water Volume
-                            </Typography>
-                            <Typography variant="h6">
-                              {toNumber(dailyWater).toFixed(2)} m³
-                            </Typography>
-                          </Grid>
-                          <Grid size={{ xs: 12, sm: 6 }}>
-                            <Typography variant="body2" color="text.secondary">
-                              Cumulative Fertigation Water
-                            </Typography>
-                            <Typography variant="h6">
-                              {(toNumber(cumulativeData?.water) + toNumber(dailyWater)).toFixed(2)} m³
-                            </Typography>
-                          </Grid>
-                          <Grid size={{ xs: 12, sm: 6 }}>
-                            <Typography variant="body2" color="text.secondary">
-                              Selected Recipe
-                            </Typography>
-                            <Typography variant="h6">
-                              {selectedRecipe.name}
-                            </Typography>
-                          </Grid>
-                        </Grid>
+                          </Box>
+                        ))}
                       </Box>
                     )}
-                  </Paper>
+                  </FormSection>
                 )}
 
-                {/* Section 5: Save Button */}
-                <Paper elevation={1} sx={{ p: 3, mb: 3 }}>
-                  <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+                <Box>
+                  <FormActions>
                     <Button
                       variant="outlined"
+                      color="inherit"
                       startIcon={<Clear />}
                       onClick={() => handleClear(resetForm)}
                       disabled={readOnly}
                     >
-                      Clear Form
+                      Clear
                     </Button>
                     <Button
                       type="submit"
                       variant="contained"
-                      disabled={readOnly}
                       startIcon={<Save />}
-                      disabled={isSubmitting || !selectedField || !selectedRecipe || dailyWater === 0 || Object.keys(errors).length > 0}
+                      disabled={readOnly || isSubmitting || !selectedField || !selectedRecipe || dailyWater === 0 || Object.keys(errors).length > 0}
                     >
-                      {isSubmitting ? 'SAVING...' : existingEntry ? 'UPDATE ENTRY' : 'SAVE ENTRY'}
+                      {isSubmitting ? 'Saving…' : existingEntry ? 'Update entry' : 'Save entry'}
                     </Button>
-                  </Box>
-                </Paper>
+                  </FormActions>
+                </Box>
+                </FormStack>
               </Form>
             );
           }}

@@ -80,7 +80,7 @@ export default function SystemHealth() {
 
       {health && (
         <>
-          <Paper sx={{ p: 3, mb: 3 }}>
+          <Paper sx={{ p: { xs: 3, sm: 4 }, mb: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
               <Typography variant="h6">Overall Status</Typography>
               <StatusChip status={health.status} />
@@ -119,7 +119,7 @@ export default function SystemHealth() {
 
           <Grid container spacing={3} sx={{ mb: 3 }}>
             <Grid size={{ xs: 12, md: 6 }}>
-              <Paper sx={{ p: 3 }}>
+              <Paper sx={{ p: { xs: 3, sm: 4 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Storage color="primary" />
@@ -147,7 +147,7 @@ export default function SystemHealth() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
-              <Paper sx={{ p: 3 }}>
+              <Paper sx={{ p: { xs: 3, sm: 4 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Speed color="secondary" />
@@ -170,7 +170,7 @@ export default function SystemHealth() {
       )}
 
       {metrics && (
-        <Paper sx={{ p: 3 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 } }}>
           <Typography variant="h6" gutterBottom>Request Metrics</Typography>
           <Grid container spacing={2}>
             <Grid size={{ xs: 6, md: 3 }}>

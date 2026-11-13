@@ -397,3 +397,30 @@ Fixed from the screenshots:
 - Harvest on phones: filters fold into one "Filters" button (bottom sheet + chips), so the sheet starts at the top.
 - Empty header cells named (Inventory, Summary).
 - Spray calendar: today's column is dark green with white text (light green + grey text was 1.8:1 contrast).
+
+## Round 35 — compact, ordered entry forms and one colour system
+
+An advisor team (forms layout, colour consistency, responsive/usability on phone, tablet and desktop in English and Arabic) audited every data-entry page; the fixes below follow their ranked findings.
+
+Shared form building blocks (`src/components/form/FormLayout.js`):
+- `FormSection` (quiet outlined panel, one title line, optional action on the right), `FormStack`, `FormGrid` (CSS grid with a fixed column count per screen size: fields fill whole rows, no lonely field with 75% empty space), `GroupLabel`, `HintLabel` (the explanation moves from an always-visible helper line into a hover/focus hint on the label), `calcFieldSx` (read-only calculated fields: muted fill, tabular figures), `FormActions` (Clear / Save, full width on phones).
+- Order everywhere: **when → where → conditions → measurements → calculated → actions**.
+
+System-wide (theme):
+- Inputs are the dense size by default (≈38 px on desktop, 44 px touch targets on touch screens); Autocomplete and FormControl follow.
+- Adornment icons are small and muted; "— optional —" empty options are quiet grey text, not italics.
+- Helper text sits closer to its field. Blank `' '` helper lines that reserved space under every field (labour sheets) are gone.
+- Panel padding on 29 pages: 12 px phone / 16 px desktop (was 12–16 px everywhere, 24 px with `p:4`).
+- Sentence case for section and overline labels (sidebar groups, dashboard stat titles, map panels): no more uppercase tracked labels; table header cells in the default style too.
+- Sheet/table colours come from `--sheet-header`, `--sheet-header-strong`, `--sheet-accent`, `--sheet-ink-2/3` instead of five different header greens, navy banners and four greys (124 literals in 25 files). Chart, map and report colours were left alone on purpose.
+- Weather and soil cards: no pastel gradients, glass blur or lifting shadows; flat-UI status colours replaced by the theme's error / warning / success / info.
+- Pesticide costing KPIs: one neutral row (cost in the accent) instead of four differently coloured cards.
+
+Pages:
+- **EC/PH entry** (phone height 2572 → ~1800 px): Reading (date, time, site, farm area, field, weather, irrigation status), Valve 1 (valve, cycle, qty, total, then EC/pH, then drip & drainage, then total from drip), Valve 2 behind "Add second valve", Field summary with the actions. Ranges are placeholders (0.0 – 5.0), formulas are hints. Crop line is quiet text instead of white text on blue.
+- **Fertigation entry**: Where and when (date + zone/site/farm area/field in one row), Water (qty, frequency, valves, fertigation water calculated), Recipe (recipe, tank volume, cycles, element ppm). Calculated amounts table and a 4-figure summary. Fix: the view-only lock on Save was overridden by a duplicate `disabled` prop.
+- **Weather & soil entry**: the form is first (was below four explanation cards); conditions in one row (Max °C / Min °C / Avg °C / RH / rainfall / notes; short labels no longer clipped on phones). OpenWeatherMap status, fields with coordinates (Fetch per field) and the long explanation (collapsed) in one panel; current weather and soil cards in a two-column grid.
+- **EC/PH entries table**: fixed columns span both header rows; second-row titles stay on one line (header 107 → ~76 px).
+- **Farm areas & crops dialogs**: name + size on one row; dripper / plants / drip-test counts on one row with hints.
+- **Dialog section titles** (pesticide application, etc.): neutral 600 weight instead of green 700.
+- Arabic for every new label.

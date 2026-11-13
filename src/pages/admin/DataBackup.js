@@ -219,7 +219,7 @@ export default function DataBackup() {
       {/* Observability status card — CEO-only. Shows at a glance which
           production-safety integrations are live. */}
       {observability && (
-        <Paper sx={{ p: 3, mb: 3 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, mb: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             <BugReport color="primary" sx={{ fontSize: 40 }} />
             <Box>
@@ -278,7 +278,7 @@ export default function DataBackup() {
       )}
 
       {/* CSV ZIP export (available to admins/managers who see this page) */}
-      <Paper sx={{ p: 3, mb: 3 }}>
+      <Paper sx={{ p: { xs: 3, sm: 4 }, mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
           <Storage color="primary" sx={{ fontSize: 40 }} />
           <Box>
@@ -311,7 +311,7 @@ export default function DataBackup() {
 
       {/* Off-site pg_dump → S3 — CEO only */}
       {backupStatus && (
-        <Paper sx={{ p: 3, mb: 3 }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, mb: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             {offsiteConfigured
               ? <CloudUpload color="success" sx={{ fontSize: 40 }} />
@@ -399,7 +399,7 @@ export default function DataBackup() {
         </Paper>
       )}
 
-      <Paper sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+      <Paper sx={{ p: { xs: 3, sm: 4 }, display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
         <CloudDone color="success" />
         <Box>
           <Typography variant="body2" fontWeight={600}>Railway Database Snapshots</Typography>
@@ -413,7 +413,7 @@ export default function DataBackup() {
 
       {/* Short restore runbook — stored here so whoever has access to
           backups also has documented recovery steps right next to them. */}
-      <Paper sx={{ p: 3 }}>
+      <Paper sx={{ p: { xs: 3, sm: 4 } }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
           <Inventory color="primary" />
           <Typography variant="h6" fontWeight={600}>Restore runbook</Typography>
@@ -440,7 +440,7 @@ export default function DataBackup() {
       </Paper>
 
       {/* CSV backup import — disaster recovery tool. CEO-only on the backend. */}
-      <Paper sx={{ p: 3, mt: 3, borderTop: '3px solid', borderColor: 'warning.main' }}>
+      <Paper sx={{ p: { xs: 3, sm: 4 }, mt: 3, borderTop: '3px solid', borderColor: 'warning.main' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
           <Restore color="warning" sx={{ fontSize: 40 }} />
           <Box sx={{ flex: 1 }}>

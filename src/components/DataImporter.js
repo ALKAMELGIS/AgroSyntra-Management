@@ -162,7 +162,7 @@ export default function DataImporter({ open, onClose, entity = 'harvest', onComp
         {step === 0 && !importBlocked && (
           <Paper
             variant="outlined"
-            sx={{ p: 4, textAlign: 'center', borderStyle: 'dashed', cursor: 'pointer' }}
+            sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center', borderStyle: 'dashed', cursor: 'pointer' }}
             onClick={() => fileRef.current?.click()}
           >
             <UploadIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 1 }} />

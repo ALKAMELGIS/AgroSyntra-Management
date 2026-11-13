@@ -18,10 +18,10 @@ export default function DashboardStatCard({ title, value, subtitle, color }) {
         <Typography
           component="p"
           sx={{
-            fontSize: '0.6875rem',
+            fontSize: '0.75rem',
             fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '0.07em',
+            textTransform: 'none',
+            letterSpacing: 0,
             color: 'text.secondary',
             mb: 2,
             display: 'flex',

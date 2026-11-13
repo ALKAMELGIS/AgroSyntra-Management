@@ -8,23 +8,18 @@ import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import useSeasonListDates from '../hooks/useSeasonListDates';
 import {
   Container,
-  Paper,
   Typography,
-  Grid,
   TextField,
   Button,
   MenuItem,
-  Alert,
   Box,
-  Card,
-  CardContent,
   CircularProgress,
   Chip,
   Divider,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
+  Tooltip,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material';
 import { useNotification } from '../contexts/NotificationContext';
 import {
@@ -33,6 +28,7 @@ import {
   LocationOnOutlined as LocationOn,
   RefreshOutlined as Refresh,
   SensorsOutlined as Sensors,
+  ExpandMoreOutlined as ExpandMore,
 } from '@mui/icons-material';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -54,6 +50,7 @@ import SoilCard from '../components/SoilCard';
 import { canWriteWeatherLogs } from '../utils/weatherLogAccess';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import { FormSection, FormStack, FormGrid, FormActions, GroupLabel, HintLabel, calcFieldSx, span } from '../components/form/FormLayout';
 
 // Date and site are chosen above the form (component state, not Formik values),
 // so they are checked in handleSubmit. Listing them here made every save fail
@@ -586,227 +583,26 @@ function WeatherLogEntry() {
         notes: '',
       };
 
+  const avgTemp = (v) => (v.maxTemp !== '' && v.minTemp !== '' && v.maxTemp != null && v.minTemp != null
+    ? ((parseFloat(v.maxTemp) + parseFloat(v.minTemp)) / 2).toFixed(1)
+    : '');
+
   return (
     <Container maxWidth="xl">
-      {/* Weather Cards Display Section */}
-      {selectedSite && fieldsWithCoordinates.length > 0 && (
-        <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 3 }}>
-            <Typography variant="h5">
-              Current Weather by Field
-            </Typography>
-            {apiStatus.configured && (
-              <Button
-                variant="outlined"
-                startIcon={loadingCards ? <CircularProgress size={16} /> : <Refresh />}
-                onClick={handleRefreshAllCards}
-                disabled={loadingCards}
-              >
-                {loadingCards ? 'Refreshing...' : 'Refresh All'}
-              </Button>
-            )}
-          </Box>
-          {loadingCards && weatherCards.length === 0 ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-              <CircularProgress />
-            </Box>
-          ) : (
-            <Grid container spacing={3}>
-              {weatherCards.map((card) => {
-                const soilData = soilReadings.find((s) => s.field_name === card.fieldName) || null;
-                return (
-                  <Grid size={12} key={card.fieldName}>
-                    <Grid container spacing={2}>
-                      <Grid size={{ xs: 12, sm: 6 }}>
-                        <WeatherCard
-                          fieldName={card.fieldName}
-                          latitude={card.latitude}
-                          longitude={card.longitude}
-                          weatherData={card.weatherData}
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }}>
-                        <SoilCard
-                          fieldName={card.fieldName}
-                          soilData={soilData}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          )}
-        </Paper>
+      <PageTitle help="Enter daily weather data for climate-contextual efficiency analysis. You can manually enter data or auto-fetch from OpenWeatherMap API using field coordinates." sx={{ mb: 3 }}>
+        Weather & Soil Data Entry
+      </PageTitle>
+
+      {!canWrite && <ReadOnlyBanner />}
+
+      {existingEntry && (
+        <InfoNote mode="line" severity="info" sx={{ mb: 3 }}>
+          An entry already exists for this site and date. Updating will replace the existing entry.
+          {existingEntry.source === 'openweathermap' && ' This entry was auto-fetched from OpenWeatherMap.'}
+        </InfoNote>
       )}
 
-      {/* Weather Entry Form Section */}
-      <Box>
-        <PageTitle help="Enter daily weather data for climate-contextual efficiency analysis. You can manually enter data or auto-fetch from OpenWeatherMap API using field coordinates." sx={{ mb: 3 }}>
-          Weather & Soil Data Entry
-        </PageTitle>
-
-        {!canWrite && <ReadOnlyBanner />}
-
-        {/* How It Works Explanation */}
-        <InfoNote mode="line" severity="info" sx={{ mb: 3 }}>
-          <Typography variant="subtitle2" gutterBottom>
-            <strong>How OpenWeatherMap Gets Exact Weather for Your Area:</strong>
-          </Typography>
-          <Typography variant="body2" component="div">
-            <ul style={{ marginTop: 8, marginBottom: 8, paddingLeft: 20 }}>
-              <li>
-                <strong>GPS Coordinates = Exact Location:</strong> Each field's latitude/longitude (e.g., 24.45°N, 54.38°E) 
-                is a specific point on Earth. The API uses these coordinates to fetch weather from the nearest weather station.
-              </li>
-              <li>
-                <strong>Location-Specific Data:</strong> OpenWeatherMap has a global network of weather stations. 
-                When you provide coordinates, it returns weather data for that exact location, accounting for local 
-                microclimates, elevation, and proximity to water bodies.
-              </li>
-              <li>
-                <strong>Accuracy:</strong> Temperature accuracy is typically ±1-2°C, which is excellent for agricultural 
-                efficiency calculations. Each field gets its own weather data based on its unique coordinates.
-              </li>
-              <li>
-                <strong>Setup:</strong> Add latitude/longitude to your fields in <strong>Master Data → Field Types & Names</strong>, 
-                then add your OpenWeatherMap API key in <strong>Admin → API Keys → Weather Map API Key</strong>.
-              </li>
-            </ul>
-          </Typography>
-        </InfoNote>
-
-        {/* API Status */}
-        <Alert
-          severity={apiStatus.configured ? 'success' : 'warning'}
-          sx={{ mb: 3 }}
-          icon={apiStatus.configured ? <CloudQueue /> : <CloudQueue />}
-        >
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="body2">
-              {apiStatus.message}
-            </Typography>
-            {apiStatus.configured && fieldsWithCoordinates.length > 0 && (
-              <Chip
-                label={`${fieldsWithCoordinates.length} field(s) with coordinates`}
-                size="small"
-                color="success"
-              />
-            )}
-          </Box>
-        </Alert>
-
-        {existingEntry && (
-          <InfoNote mode="line" severity="info" sx={{ mb: 3 }}>
-            An entry already exists for this site and date. Updating will replace the existing entry.
-            {existingEntry.source === 'openweathermap' && (
-              <Typography variant="caption" display="block" sx={{ mt: 1 }}>
-                This entry was auto-fetched from OpenWeatherMap API.
-              </Typography>
-            )}
-          </InfoNote>
-        )}
-
-        {fieldsWithCoordinates.length > 0 && selectedSite && (
-          <Card variant="outlined" sx={{ mb: 3 }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Fields with Coordinates ({fieldsWithCoordinates.length})
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                These fields have GPS coordinates and can fetch location-specific weather:
-              </Typography>
-              <List dense>
-                {fieldsWithCoordinates.slice(0, 5).map((field) => (
-                  <ListItem key={field.id || field.name}>
-                    <ListItemIcon>
-                      <LocationOn color="primary" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={field.name}
-                      secondary={`${field.latitude}°N, ${field.longitude}°E • ${field.farmAreaName}`}
-                    />
-                    {apiStatus.configured && canWrite && (
-                      <Button
-                        size="small"
-                        startIcon={<Refresh />}
-                        onClick={() => handleFetchForSelectedField(field)}
-                        disabled={fetching}
-                      >
-                        Fetch
-                      </Button>
-                    )}
-                  </ListItem>
-                ))}
-                {fieldsWithCoordinates.length > 5 && (
-                  <ListItem>
-                    <ListItemText
-                      primary={`... and ${fieldsWithCoordinates.length - 5} more field(s)`}
-                      primaryTypographyProps={{ variant: 'caption', color: 'text.secondary' }}
-                    />
-                  </ListItem>
-                )}
-              </List>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Auto-fetch Section */}
-        {apiStatus.configured && selectedSite && canWrite && (
-          <Card variant="outlined" sx={{ mb: 3, bgcolor: 'action.hover' }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Auto-Fetch from OpenWeatherMap API
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Fetch current weather data automatically using field coordinates. The API provides location-specific weather based on the latitude/longitude you've set for each field.
-              </Typography>
-              {fieldsWithCoordinates.length > 0 ? (
-                <Box>
-                  <Typography variant="body2" sx={{ mb: 1, fontWeight: 600 }}>
-                    Fields with coordinates in this site:
-                  </Typography>
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-                    {fieldsWithCoordinates.map((field) => (
-                      <Chip
-                        key={field.id || field.name}
-                        label={`${field.name}: ${field.latitude}°N, ${field.longitude}°E`}
-                        size="small"
-                        variant="outlined"
-                      />
-                    ))}
-                  </Box>
-                  <Box sx={{ display: 'flex', gap: 2 }}>
-                    <Button
-                      variant="outlined"
-                      startIcon={fetching ? <CircularProgress size={16} /> : <CloudDownload />}
-                      onClick={handleAutoFetch}
-                      disabled={fetching || !selectedSite}
-                    >
-                      Fetch for First Field
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      startIcon={fetching ? <CircularProgress size={16} /> : <CloudDownload />}
-                      onClick={handleAutoFetchAllFields}
-                      disabled={fetching || !selectedSite}
-                    >
-                      Fetch for All Fields ({fieldsWithCoordinates.length})
-                    </Button>
-                  </Box>
-                </Box>
-              ) : (
-                <InfoNote mode="line" severity="info">
-                  No fields with coordinates for this site. GIS-linked fields get coordinates automatically on sync;
-                  re-run GIS auto-link or add latitude/longitude in Field Types & Names.
-                </InfoNote>
-              )}
-            </CardContent>
-          </Card>
-        )}
-
-        <Divider sx={{ my: 3 }} />
-
+      <FormStack>
         <Formik
           initialValues={initialValues}
           validationSchema={weatherSchema}
@@ -819,34 +615,30 @@ function WeatherLogEntry() {
             return (
             <Form>
               <FormikSubmitFeedback />
-              {/* Auto-fill from Weather Station Integration */}
-              {selectedSite && canWrite && (
-                <Alert
-                  severity="info"
-                  sx={{ mb: 3 }}
-                  icon={<Sensors />}
-                  action={
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      startIcon={loadingStationFill ? <CircularProgress size={14} /> : <Sensors />}
-                      onClick={() => handleStationAutoFill(setFieldValue)}
-                      disabled={loadingStationFill}
-                    >
-                      {loadingStationFill ? 'Loading...' : 'Auto-fill from Station'}
-                    </Button>
-                  }
-                >
-                  If this site has a connected weather station (Admin → API Integrations), use this to auto-fill from hardware — not OpenWeatherMap.
-                  {stationAutoFill && (
-                    <Typography variant="caption" display="block" sx={{ mt: 0.5 }}>
-                      Last filled from: <strong>{stationAutoFill.source}</strong> ({stationAutoFill.field_name})
-                    </Typography>
-                  )}
-                </Alert>
-              )}
-              <Grid container spacing={3}>
-                <Grid size={12}>
+              <FormSection
+                title="Daily weather"
+                action={selectedSite && canWrite ? (
+                  <Tooltip title="Fill from a connected weather station (Admin → API Integrations), not OpenWeatherMap" arrow>
+                    <span>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        startIcon={loadingStationFill ? <CircularProgress size={14} /> : <Sensors />}
+                        onClick={() => handleStationAutoFill(setFieldValue)}
+                        disabled={loadingStationFill}
+                      >
+                        {loadingStationFill ? 'Loading…' : 'Auto-fill from station'}
+                      </Button>
+                    </span>
+                  </Tooltip>
+                ) : null}
+              >
+                {stationAutoFill && (
+                  <Typography variant="caption" color="text.secondary" component="div" sx={{ mt: -1, mb: 3 }}>
+                    Last filled from <strong>{stationAutoFill.source}</strong> ({stationAutoFill.field_name})
+                  </Typography>
+                )}
+                <FormGrid columns={{ xs: 2, md: 4 }}>
                   <TextField
                     fullWidth
                     type="date"
@@ -859,9 +651,6 @@ function WeatherLogEntry() {
                     }}
                     InputLabelProps={{ shrink: true }}
                   />
-                </Grid>
-
-                <Grid size={12}>
                   <TextField
                     fullWidth
                     select
@@ -878,9 +667,6 @@ function WeatherLogEntry() {
                       </MenuItem>
                     ))}
                   </TextField>
-                </Grid>
-
-                <Grid size={12}>
                   <TextField
                     fullWidth
                     select
@@ -891,6 +677,7 @@ function WeatherLogEntry() {
                       checkExistingEntry();
                     }}
                     disabled={!selectedCountry}
+                    sx={span(2)}
                   >
                     {selectedCountryData?.sites.map((site) => (
                       <MenuItem key={site.id} value={site.id}>
@@ -898,71 +685,52 @@ function WeatherLogEntry() {
                       </MenuItem>
                     ))}
                   </TextField>
-                </Grid>
 
-                <Grid size={12}>
-                  <Card variant="outlined">
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        Temperature
-                      </Typography>
-                      <Grid container spacing={2}>
-                        <Grid size={6}>
-                          <TextField
-                            fullWidth
-                            type="number"
-                            label="Max Temperature (°C)"
-                            name="maxTemp"
-                            value={values.maxTemp}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.maxTemp && !!errors.maxTemp}
-                            helperText={touched.maxTemp && errors.maxTemp}
-                            inputProps={{ step: 0.1 }}
-                          />
-                        </Grid>
-                        <Grid size={6}>
-                          <TextField
-                            fullWidth
-                            type="number"
-                            label="Min Temperature (°C)"
-                            name="minTemp"
-                            value={values.minTemp}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.minTemp && !!errors.minTemp}
-                            helperText={touched.minTemp && errors.minTemp}
-                            inputProps={{ step: 0.1 }}
-                          />
-                        </Grid>
-                        {values.maxTemp && values.minTemp && (
-                          <Grid size={12}>
-                            <Typography variant="body2" color="text.secondary">
-                              Average Temperature: {((parseFloat(values.maxTemp) + parseFloat(values.minTemp)) / 2).toFixed(1)}°C
-                            </Typography>
-                          </Grid>
-                        )}
-                      </Grid>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid size={12}>
+                  <GroupLabel>Conditions</GroupLabel>
                   <TextField
                     fullWidth
                     type="number"
-                    label="Average Relative Humidity (%)"
+                    label="Max °C"
+                    name="maxTemp"
+                    value={values.maxTemp}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.maxTemp && !!errors.maxTemp}
+                    helperText={touched.maxTemp && errors.maxTemp}
+                    inputProps={{ step: 0.1, inputMode: 'decimal', 'aria-label': 'Max temperature (°C)' }}
+                  />
+                  <TextField
+                    fullWidth
+                    type="number"
+                    label="Min °C"
+                    name="minTemp"
+                    value={values.minTemp}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.minTemp && !!errors.minTemp}
+                    helperText={touched.minTemp && errors.minTemp}
+                    inputProps={{ step: 0.1, inputMode: 'decimal', 'aria-label': 'Min temperature (°C)' }}
+                  />
+                  <TextField
+                    fullWidth
+                    label={<HintLabel hint="(Max + Min) ÷ 2">Avg °C</HintLabel>}
+                    value={avgTemp(values)}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{ readOnly: true }}
+                    sx={calcFieldSx}
+                  />
+                  <TextField
+                    fullWidth
+                    type="number"
+                    label="Avg RH (%)"
                     name="avgRH"
                     value={values.avgRH}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.avgRH && !!errors.avgRH}
                     helperText={touched.avgRH && errors.avgRH}
-                    inputProps={{ min: 0, max: 100, step: 0.1 }}
+                    inputProps={{ min: 0, max: 100, step: 0.1, inputMode: 'decimal', 'aria-label': 'Average relative humidity (%)' }}
                   />
-                </Grid>
-
-                <Grid size={12}>
                   <TextField
                     fullWidth
                     type="number"
@@ -973,44 +741,170 @@ function WeatherLogEntry() {
                     onBlur={handleBlur}
                     error={touched.rainfall && !!errors.rainfall}
                     helperText={touched.rainfall && errors.rainfall}
-                    inputProps={{ min: 0, step: 0.1 }}
+                    inputProps={{ min: 0, step: 0.1, inputMode: 'decimal' }}
                   />
-                </Grid>
-
-                <Grid size={12}>
                   <TextField
                     fullWidth
                     multiline
-                    rows={3}
+                    minRows={1}
+                    maxRows={4}
                     label="Notes"
                     name="notes"
                     value={values.notes}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="e.g., 'windy', 'heat wave', 'cloudy day'"
-                    helperText="Optional: Add any relevant weather observations"
+                    placeholder="Windy, heat wave, cloudy…"
+                    sx={span({ xs: 2, md: 3 })}
                   />
-                </Grid>
-
-                <Grid size={12}>
-                  <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      size="large"
-                      disabled={!selectedSite || !canWrite}
-                    >
-                      {existingEntry ? 'Update Entry' : 'Save Entry'}
-                    </Button>
-                  </Box>
-                </Grid>
-              </Grid>
+                </FormGrid>
+                <Divider sx={{ my: 3 }} />
+                <FormActions>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={!selectedSite || !canWrite}
+                  >
+                    {existingEntry ? 'Update entry' : 'Save entry'}
+                  </Button>
+                </FormActions>
+              </FormSection>
             </Form>
           );
           }}
         </Formik>
-      </Box>
+
+        <FormSection
+          title="OpenWeatherMap"
+          action={(
+            <Chip
+              size="small"
+              variant="outlined"
+              color={apiStatus.configured ? 'success' : 'warning'}
+              icon={<CloudQueue />}
+              label={apiStatus.configured ? 'Connected' : 'Not set up'}
+            />
+          )}
+        >
+          <Typography variant="body2" color="text.secondary">{apiStatus.message}</Typography>
+          {selectedSite && fieldsWithCoordinates.length > 0 && (
+            <Box sx={{ mt: 3, display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))', xl: 'repeat(3, minmax(0, 1fr))' }, gap: 2 }}>
+              {fieldsWithCoordinates.map((field) => (
+                <Box
+                  key={field.id || field.name}
+                  sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 3, py: 1.5, border: 1, borderColor: 'divider', borderRadius: 2, minWidth: 0 }}
+                >
+                  <LocationOn sx={{ fontSize: 18, color: 'text.secondary' }} />
+                  <Box sx={{ minWidth: 0, flex: 1 }}>
+                    <Typography variant="body2" noWrap sx={{ fontWeight: 500 }}>{field.name}</Typography>
+                    <Typography variant="caption" color="text.secondary" noWrap component="div" sx={{ fontVariantNumeric: 'tabular-nums' }}>
+                      {field.latitude}°N, {field.longitude}°E{field.farmAreaName ? ` · ${field.farmAreaName}` : ''}
+                    </Typography>
+                  </Box>
+                  {apiStatus.configured && canWrite && (
+                    <Button size="small" startIcon={<Refresh />} onClick={() => handleFetchForSelectedField(field)} disabled={fetching}>
+                      Fetch
+                    </Button>
+                  )}
+                </Box>
+              ))}
+            </Box>
+          )}
+          {selectedSite && fieldsWithCoordinates.length === 0 && (
+            <InfoNote mode="line" severity="info" sx={{ mt: 3 }}>
+              No fields with coordinates for this site. GIS-linked fields get coordinates automatically on sync;
+              re-run GIS auto-link or add latitude/longitude in Field Types & Names.
+            </InfoNote>
+          )}
+          {apiStatus.configured && selectedSite && canWrite && fieldsWithCoordinates.length > 0 && (
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mt: 3 }}>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={fetching ? <CircularProgress size={14} /> : <CloudDownload />}
+                onClick={handleAutoFetch}
+                disabled={fetching || !selectedSite}
+              >
+                Fetch for first field
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={fetching ? <CircularProgress size={14} /> : <CloudDownload />}
+                onClick={handleAutoFetchAllFields}
+                disabled={fetching || !selectedSite}
+              >
+                Fetch for all fields ({fieldsWithCoordinates.length})
+              </Button>
+            </Box>
+          )}
+          <Accordion sx={{ mt: 3 }}>
+            <AccordionSummary expandIcon={<ExpandMore />} sx={{ minHeight: 40, '& .MuiAccordionSummary-content': { my: 2 } }}>
+              <Typography variant="body2" sx={{ fontWeight: 500 }}>How location-specific weather works</Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ pt: 0 }}>
+              <Typography variant="body2" component="div" color="text.secondary">
+                <ul style={{ margin: 0, paddingInlineStart: 20 }}>
+                  <li>
+                    <strong>GPS coordinates = exact location.</strong> Each field's latitude/longitude (e.g., 24.45°N, 54.38°E)
+                    is a specific point on Earth; the API fetches weather from the nearest station.
+                  </li>
+                  <li>
+                    <strong>Location-specific data.</strong> OpenWeatherMap returns data for that exact location, accounting for local
+                    microclimates, elevation and proximity to water.
+                  </li>
+                  <li>
+                    <strong>Accuracy.</strong> Temperature is typically within ±1–2 °C, enough for efficiency calculations.
+                  </li>
+                  <li>
+                    <strong>Setup.</strong> Add latitude/longitude in <strong>Master Data → Field Types & Names</strong>,
+                    then add the key in <strong>Admin → API Keys → Weather Map API Key</strong>.
+                  </li>
+                </ul>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </FormSection>
+
+        {selectedSite && fieldsWithCoordinates.length > 0 && (
+          <FormSection
+            title="Current weather by field"
+            action={apiStatus.configured ? (
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={loadingCards ? <CircularProgress size={14} /> : <Refresh />}
+                onClick={handleRefreshAllCards}
+                disabled={loadingCards}
+              >
+                {loadingCards ? 'Refreshing…' : 'Refresh all'}
+              </Button>
+            ) : null}
+          >
+            {loadingCards && weatherCards.length === 0 ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
+                <CircularProgress size={28} />
+              </Box>
+            ) : (
+              <Box sx={{ display: 'grid', gap: { xs: 3, md: 4 }, gridTemplateColumns: { xs: '1fr', md: 'repeat(2, minmax(0, 1fr))' } }}>
+                {weatherCards.map((card) => {
+                  const soilData = soilReadings.find((s) => s.field_name === card.fieldName) || null;
+                  return [
+                    <WeatherCard
+                      key={`w-${card.fieldName}`}
+                      fieldName={card.fieldName}
+                      latitude={card.latitude}
+                      longitude={card.longitude}
+                      weatherData={card.weatherData}
+                    />,
+                    <SoilCard key={`s-${card.fieldName}`} fieldName={card.fieldName} soilData={soilData} />,
+                  ];
+                })}
+              </Box>
+            )}
+          </FormSection>
+        )}
+      </FormStack>
     </Container>
   );
 }

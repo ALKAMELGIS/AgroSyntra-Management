@@ -33,7 +33,7 @@ import { rowToClosingPayload, rowToOpeningPayload } from '../utils/plantationWor
 import InfoNote from './InfoNote';
 
 const STEPS = ['Upload Excel', 'Map Columns', 'Review matches', 'Imported'];
-const headerBg = '#1d5a3c'; // = theme palette.table.headerBg
+const headerBg = 'var(--sheet-header)'; // = theme palette.table.headerBg
 const cellBorder = '1px solid #c8c8c8';
 const hdrStyle = {
   background: headerBg,

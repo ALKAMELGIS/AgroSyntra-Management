@@ -1621,7 +1621,7 @@ export default function BumbleBees() {
       <TabPanel value={tab} index={3}>
         <Grid container spacing={2} sx={{ mb: 3 }}>
           {[
-            { label: 'Boxes on hand', value: onHand, color: '#1f7a4d', bg: '#e8f5e9' },
+            { label: 'Boxes on hand', value: onHand, color: 'var(--sheet-accent)', bg: '#e8f5e9' },
             { label: 'Upcoming (not received)', value: inventory?.pendingIncomingTotal ?? 0, color: '#a84b07', bg: '#fff3e0' },
             { label: 'Projected total', value: inventory?.projectedTotal ?? onHand, color: '#1565c0', bg: '#e3f2fd' },
           ].map((kpi) => (
@@ -1629,7 +1629,7 @@ export default function BumbleBees() {
               <Box sx={{
                 p: 1.5, borderRadius: 1, border: '1px solid #c8c8c8', background: kpi.bg, textAlign: 'center',
               }}>
-                <Typography sx={{ fontSize: '0.6875rem', fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--sheet-ink-2)', textTransform: 'none', letterSpacing: 0 }}>
                   {kpi.label}
                 </Typography>
                 <Typography sx={{ fontSize: '1.25rem', fontWeight: 800, color: kpi.color, mt: 0.3 }}>

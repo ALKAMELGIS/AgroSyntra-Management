@@ -16,7 +16,7 @@ import { bulkImportFertApp, syncFertilizerProducts } from '../../utils/backendAp
 import { parseRc132Workbook } from '../../utils/pivotFertigationImportParser';
 
 const hdrStyle = {
-  background: '#165c3a', color: '#fff', fontWeight: 700,
+  background: 'var(--sheet-header)', color: '#fff', fontWeight: 700,
   fontSize: '0.6875rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
 };
 const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: '1px solid #c8c8c8' };
@@ -146,7 +146,7 @@ export default function PivotFertigationImporter({
           <Box sx={{ textAlign: 'center', py: 4 }}>
             <input ref={fileRef} type="file" accept=".xlsx,.xls" hidden onChange={handleFileUpload} />
             <Button variant="contained" startIcon={<UploadIcon />} onClick={() => fileRef.current?.click()}
-              sx={{ backgroundColor: '#165c3a' }}>
+              sx={{ backgroundColor: 'var(--sheet-header)' }}>
               Select Excel File
             </Button>
             <Typography sx={{ mt: 2, fontSize: '0.875rem', color: '#666' }}>
@@ -229,7 +229,7 @@ export default function PivotFertigationImporter({
         {step === 1 && (
           <Button variant="contained" onClick={handleImport}
             disabled={importing || (importableCount === 0 && fertilizerNameCount === 0)}
-            sx={{ backgroundColor: '#165c3a' }}>
+            sx={{ backgroundColor: 'var(--sheet-header)' }}>
             {importing ? <CircularProgress size={20} color="inherit" /> : (
               importableCount > 0
                 ? `Import ${importableCount} records`

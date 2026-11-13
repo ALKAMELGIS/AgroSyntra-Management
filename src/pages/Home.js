@@ -36,7 +36,7 @@ const SECTIONS = [
       { label: 'Summary & Contents', path: '/summary', icon: MenuBookIcon, color: '#5d4037', bg: 'rgba(93,64,55,0.1)' },
       { label: 'Analytics Dashboard', path: '/dashboard', icon: DashboardIcon, color: '#1976d2', bg: 'rgba(25,118,210,0.08)' },
       { label: 'Daily Brief', path: '/daily-brief', icon: AssessmentIcon, color: '#7b1fa2', bg: 'rgba(123,31,162,0.08)' },
-      { label: 'GIS Map', path: '/gis-map', icon: MapIcon, color: '#1f7a4d', bg: 'rgba(46,125,50,0.08)' },
+      { label: 'GIS Map', path: '/gis-map', icon: MapIcon, color: 'var(--sheet-accent)', bg: 'rgba(46,125,50,0.08)' },
       { label: 'Notifications', path: '/notifications', icon: NotificationsIcon, color: '#a84b07', bg: 'rgba(230,81,0,0.08)' },
     ],
   },
@@ -55,7 +55,7 @@ const SECTIONS = [
       { label: 'Pesticide Applications', path: '/ipm/pesticide-applications', icon: BugReportIcon, color: '#c62828', bg: 'rgba(198,40,40,0.08)' },
       { label: 'Scouting Reports', path: '/ipm/scouting-reports', icon: DescriptionIcon, color: '#ad1457', bg: 'rgba(173,20,87,0.08)' },
       { label: 'Spray Calendar', path: '/ipm/spray-calendar', icon: CalendarIcon, color: '#a84b07', bg: 'rgba(230,81,0,0.08)' },
-      { label: 'Biological Control', path: '/ipm/biological-control-record', icon: SpaIcon, color: '#1f7a4d', bg: 'rgba(46,125,50,0.08)' },
+      { label: 'Biological Control', path: '/ipm/biological-control-record', icon: SpaIcon, color: 'var(--sheet-accent)', bg: 'rgba(46,125,50,0.08)' },
     ],
   },
   {
@@ -80,7 +80,7 @@ const SECTIONS = [
     roles: MANAGERS,
     tiles: [
       { label: 'Field Types & Names', path: '/manage/field-types', icon: LabelIcon, color: '#37474f', bg: 'rgba(55,71,79,0.08)' },
-      { label: 'Farm Areas & Crops', path: '/manage/farm-areas', icon: ParkIcon, color: '#1f7a4d', bg: 'rgba(46,125,50,0.08)' },
+      { label: 'Farm Areas & Crops', path: '/manage/farm-areas', icon: ParkIcon, color: 'var(--sheet-accent)', bg: 'rgba(46,125,50,0.08)' },
       { label: 'Agronomic Reference', path: '/agronomic-reference', icon: ScienceIcon, color: '#00838f', bg: 'rgba(0,131,143,0.08)' },
       { label: 'Inventory', path: '/inventory', icon: InventoryIcon, color: '#f57c00', bg: 'rgba(245,124,0,0.08)' },
       { label: 'User Management', path: '/admin/users', icon: PeopleIcon, color: '#1565c0', bg: 'rgba(21,101,192,0.08)' },

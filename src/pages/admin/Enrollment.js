@@ -65,7 +65,7 @@ export default function Enrollment() {
 
       <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>Enrolled Interns ({internUsers.length})</Typography>
       {internUsers.length > 0 ? (
-        <Paper sx={{ mb: 4 }}>
+        <Paper sx={{ mb: 2 }}>
           <Table>
             <TableHead>
               <TableRow>

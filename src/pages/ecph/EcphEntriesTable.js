@@ -1,3 +1,4 @@
+import { visuallyHidden } from '@mui/utils';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useConfirmDialog } from '../../components/ConfirmDialog';
 import {
@@ -72,6 +73,8 @@ const headerCheckboxSx = (t) => ({
 const twoRowHeadSx = {
   '&& thead tr:first-of-type .MuiTableCell-head': { top: 0 },
   '&& thead tr:nth-of-type(2) .MuiTableCell-head': { top: 40 },
+  // Short headings stay on one line; the table scrolls sideways instead.
+  '&& thead .MuiTableCell-head': { whiteSpace: 'nowrap', minWidth: 'max-content' },
   '& .MuiTableSortLabel-root, & .MuiTableSortLabel-root:hover, & .MuiTableSortLabel-root.Mui-active': {
     color: 'inherit',
   },
@@ -549,7 +552,7 @@ export default function EcphEntriesTable({ siteId, masterData, refreshTrigger = 
               <Table size="small" sx={[excelTableSx, freezeColumnsSx(ENTRY_FROZEN_WIDTHS), twoRowHeadSx, { minWidth: 1100 }]}>
                 <TableHead>
                   <TableRow>
-                    <TableCell padding="checkbox" className="col-frozen-0">
+                    <TableCell padding="checkbox" rowSpan={2} className="col-frozen-0">
                       <Checkbox slotProps={{ input: { 'aria-label': 'Select all rows' } }}
                         size="small"
                         sx={headerCheckboxSx}
@@ -558,27 +561,27 @@ export default function EcphEntriesTable({ siteId, masterData, refreshTrigger = 
                         onChange={toggleSelectAll}
                       />
                     </TableCell>
-                    <TableCell className="col-frozen-1">
+                    <TableCell rowSpan={2} className="col-frozen-1">
                       <TableSortLabel active={orderBy === 'date'} direction={orderBy === 'date' ? order : 'asc'} onClick={() => handleSort('date')}>
                         Date
                       </TableSortLabel>
                     </TableCell>
-                    <TableCell className="col-frozen-2">
+                    <TableCell rowSpan={2} className="col-frozen-2">
                       <TableSortLabel active={orderBy === 'site'} direction={orderBy === 'site' ? order : 'asc'} onClick={() => handleSort('site')}>
                         Site
                       </TableSortLabel>
                     </TableCell>
-                    <TableCell className="col-frozen-3">
+                    <TableCell rowSpan={2} className="col-frozen-3">
                       <TableSortLabel active={orderBy === 'farmArea'} direction={orderBy === 'farmArea' ? order : 'asc'} onClick={() => handleSort('farmArea')}>
                         Farm Area
                       </TableSortLabel>
                     </TableCell>
-                    <TableCell className="col-frozen-4">
+                    <TableCell rowSpan={2} className="col-frozen-4">
                       <TableSortLabel active={orderBy === 'field'} direction={orderBy === 'field' ? order : 'asc'} onClick={() => handleSort('field')}>
                         Field
                       </TableSortLabel>
                     </TableCell>
-                    <TableCell>
+                    <TableCell rowSpan={2}>
                       <TableSortLabel active={orderBy === 'time'} direction={orderBy === 'time' ? order : 'asc'} onClick={() => handleSort('time')}>
                         Time
                       </TableSortLabel>
@@ -586,15 +589,9 @@ export default function EcphEntriesTable({ siteId, masterData, refreshTrigger = 
                     <TableCell align="center" colSpan={10}>First Valve</TableCell>
                     <TableCell align="center" colSpan={10}>Second Valve</TableCell>
                     <TableCell align="center" colSpan={6}>Field Total</TableCell>
-                    <TableCell>Actions</TableCell>
+                    <TableCell rowSpan={2} sx={{ width: 44 }}><Box component="span" sx={visuallyHidden}>Actions</Box></TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="col-frozen-0" />
-                    <TableCell className="col-frozen-1" />
-                    <TableCell className="col-frozen-2" />
-                    <TableCell className="col-frozen-3" />
-                    <TableCell className="col-frozen-4" />
-                    <TableCell />
                     {valveMetricLabels.map((lbl) => (
                       <TableCell key={`v1-${lbl}`} className="col-numeric">{lbl}</TableCell>
                     ))}
@@ -607,7 +604,6 @@ export default function EcphEntriesTable({ siteId, masterData, refreshTrigger = 
                     <TableCell className="col-numeric">Avg (M³)</TableCell>
                     <TableCell>Weather</TableCell>
                     <TableCell>Status</TableCell>
-                    <TableCell />
                   </TableRow>
                 </TableHead>
                 <TableBody>

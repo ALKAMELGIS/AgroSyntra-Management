@@ -15,10 +15,10 @@ import * as XLSX from 'xlsx';
 import { apiRequest } from '../utils/api';
 import InfoNote from './InfoNote';
 
-const bannerBg = '#1f7a4d';
+const bannerBg = 'var(--sheet-accent)';
 const bannerColor = '#fff';
 const hdrStyle = {
-  background: '#1f7a4d', color: '#fff', fontWeight: 700,
+  background: 'var(--sheet-accent)', color: '#fff', fontWeight: 700,
   fontSize: '0.6875rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
 };
 const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: '1px solid #c8c8c8' };

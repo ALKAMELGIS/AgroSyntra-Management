@@ -221,7 +221,7 @@ export default function SummaryContents() {
       <Typography variant="overline" color="primary" fontWeight={700}>
         Summary
       </Typography>
-      <Paper variant="outlined" sx={{ p: 2.5, mb: 3, bgcolor: 'background.paper' }}>
+      <Paper variant="outlined" sx={{ p: 2.5, mb: 2, bgcolor: 'background.paper' }}>
         <Box sx={{ fontSize: '1rem', lineHeight: 1.65, mb: 3 }}>
           <InlineEditableText
             value={display.introText}

@@ -48,7 +48,7 @@ function DashboardFilterBar({
   };
 
   return (
-    <Paper variant="outlined" sx={{ p: 2, mb: 3 }}>
+    <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
       <Grid container spacing={1.5} alignItems="center">
         {showDateRange && (
           <>

@@ -73,7 +73,7 @@ export default function InternshipQuiz() {
         Back
       </Button>
 
-      <Paper sx={{ p: 4 }}>
+      <Paper sx={{ p: { xs: 3, sm: 4 } }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
           <Typography variant="h5" sx={{ flexGrow: 1 }}>
             {quiz.title}

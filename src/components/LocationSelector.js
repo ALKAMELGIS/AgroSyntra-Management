@@ -10,6 +10,11 @@ const selectSx = {
   },
 };
 
+// Pass gridSize={null} to render the fields bare, e.g. inside a CSS-grid FormGrid.
+function Cell({ size, children }) {
+  return size ? <Grid size={size}>{children}</Grid> : children;
+}
+
 /**
  * Reusable cascading location selector: Country -> Site -> Farm Area -> Field.
  *
@@ -133,9 +138,9 @@ export default function LocationSelector({
 
   const countryDisplay = useCallback(
     (selected) => {
-      if (!selected) return 'Select Zone';
+      if (!selected) return 'Select zone';
       const c = countries.find((ct) => ct.id === selected);
-      if (!c) return 'Select Zone';
+      if (!c) return 'Select zone';
       return showCountryCode ? `${c.name} (${c.code})` : c.name;
     },
     [countries, showCountryCode]
@@ -143,7 +148,7 @@ export default function LocationSelector({
 
   return (
     <>
-      <Grid size={gridSize}>
+      <Cell size={gridSize}>
         <TextField
           fullWidth
           select
@@ -171,9 +176,9 @@ export default function LocationSelector({
             </MenuItem>
           ))}
         </TextField>
-      </Grid>
+      </Cell>
 
-      <Grid size={gridSize}>
+      <Cell size={gridSize}>
         <TextField
           fullWidth
           select
@@ -188,9 +193,9 @@ export default function LocationSelector({
           SelectProps={{
             displayEmpty: true,
             renderValue: (selected) => {
-              if (!selected) return 'Select Site';
+              if (!selected) return 'Select site';
               const s = selectedCountryData?.sites?.find((st) => st.id === selected);
-              return s ? s.name : 'Select Site';
+              return s ? s.name : 'Select site';
             },
           }}
           sx={selectSx}
@@ -206,13 +211,13 @@ export default function LocationSelector({
             </MenuItem>
           ))}
         </TextField>
-      </Grid>
+      </Cell>
 
-      <Grid size={gridSize}>
+      <Cell size={gridSize}>
         <TextField
           fullWidth
           select
-          label="Farm Area"
+          label="Farm area"
           name="farmArea"
           value={values.farmArea}
           onChange={handleFarmAreaChange}
@@ -223,9 +228,9 @@ export default function LocationSelector({
           SelectProps={{
             displayEmpty: true,
             renderValue: (selected) => {
-              if (!selected) return 'Select Farm Area';
+              if (!selected) return 'Select farm area';
               const fa = selectedSiteData?.farmAreas?.find((f) => f.id === selected);
-              return fa ? fa.name : 'Select Farm Area';
+              return fa ? fa.name : 'Select farm area';
             },
           }}
           sx={selectSx}
@@ -241,9 +246,9 @@ export default function LocationSelector({
             </MenuItem>
           ))}
         </TextField>
-      </Grid>
+      </Cell>
 
-      <Grid size={gridSize}>
+      <Cell size={gridSize}>
         <TextField
           fullWidth
           select
@@ -258,9 +263,9 @@ export default function LocationSelector({
           SelectProps={{
             displayEmpty: true,
             renderValue: (selected) => {
-              if (!selected) return `Select ${fieldLabel}`;
+              if (!selected) return `Select ${fieldLabel.toLowerCase()}`;
               const f = availableFields.find((fl) => fl.id === selected);
-              return f ? f.name : `Select ${fieldLabel}`;
+              return f ? f.name : `Select ${fieldLabel.toLowerCase()}`;
             },
           }}
           sx={selectSx}
@@ -276,7 +281,7 @@ export default function LocationSelector({
             </MenuItem>
           ))}
         </TextField>
-      </Grid>
+      </Cell>
     </>
   );
 }

@@ -93,7 +93,7 @@ export default function YieldPredictions() {
 
           {/* Monthly Prediction Chart */}
           {prediction.monthly_predictions?.length > 0 && (
-            <Paper sx={{ p: 2, mb: 3 }}>
+            <Paper sx={{ p: 2, mb: 2 }}>
               <Typography variant="h6" gutterBottom>6-Month Yield Forecast</Typography>
               <ResponsiveContainer width="100%" height={350}>
                 <ComposedChart data={prediction.monthly_predictions}>
@@ -137,7 +137,7 @@ export default function YieldPredictions() {
       )}
 
       {!selectedField && (
-        <Paper sx={{ p: 4, textAlign: 'center' }}>
+        <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
           <Typography color="text.secondary">Select a field to see yield predictions</Typography>
         </Paper>
       )}

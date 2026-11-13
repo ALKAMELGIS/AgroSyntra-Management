@@ -51,7 +51,7 @@ import PageTitle from '../components/PageTitle';
 const COLUMNS = [
   { id: 'todo', label: 'To Do', color: '#1976d2' },
   { id: 'in_progress', label: 'In Progress', color: '#f57c00' },
-  { id: 'done', label: 'Done', color: '#388e3c' },
+  { id: 'done', label: 'Done', color: 'var(--sheet-accent)' },
 ];
 
 const PRIORITIES = [

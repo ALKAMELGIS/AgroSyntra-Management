@@ -414,7 +414,7 @@ export default function WorkOrders() {
       </ToggleButtonGroup>
 
       {loading ? <Box sx={{ textAlign: 'center', py: 4 }}><CircularProgress /></Box>
-      : workOrders.length === 0 ? <Paper sx={{ p: 4, textAlign: 'center' }}><Typography color="text.secondary">No work orders found</Typography></Paper>
+      : workOrders.length === 0 ? <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}><Typography color="text.secondary">No work orders found</Typography></Paper>
       : (
         <FitTableContainer component={Paper} >
           <Table stickyHeader size="small">
@@ -488,7 +488,7 @@ export default function WorkOrders() {
           <Button onClick={closeCreate}>Cancel</Button>
           <Button variant="contained" onClick={handleCreate} disabled={creating}
             startIcon={creating ? <CircularProgress size={16} /> : <Send />}
-            sx={{ bgcolor: '#1f7a4d', '&:hover': { bgcolor: '#165c3a' } }}>
+            sx={{ bgcolor: 'var(--sheet-accent)', '&:hover': { bgcolor: 'var(--sheet-header)' } }}>
             {editingId ? 'Save Changes' : 'Issue Work Order'}
           </Button>
         </DialogActions>
@@ -632,8 +632,8 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
           )}
         </Box>
         <Box sx={{ flex: 1, p: '6px 10px', textAlign: 'right' }}>
-          <Typography sx={{ fontSize: 8, color: '#555' }}>EAG/AFO/IMS/RC-231</Typography>
-          <Typography sx={{ fontSize: 8, color: '#555' }}>Issue 03, 17-Sept-2020, Rev00</Typography>
+          <Typography sx={{ fontSize: 8, color: 'var(--sheet-ink-2)' }}>EAG/AFO/IMS/RC-231</Typography>
+          <Typography sx={{ fontSize: 8, color: 'var(--sheet-ink-2)' }}>Issue 03, 17-Sept-2020, Rev00</Typography>
           {wo?.status && <Chip label={STATUS_LABELS[wo.status]} size="small" color={STATUS_COLORS[wo.status]} sx={{ mt: 0.5, height: 18, fontSize: '9px' }} />}
         </Box>
       </Box>
@@ -664,7 +664,7 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
       <Box sx={{ bgcolor: headerBg, border: B, borderTop: 'none', p: '3px 8px' }}>
         <Typography sx={{ fontSize: 9, fontWeight: 700 }}>Work order - Authorization of application</Typography>
         {canEditPlan && (
-          <Typography sx={{ fontSize: 8, color: '#555' }}>
+          <Typography sx={{ fontSize: 8, color: 'var(--sheet-ink-2)' }}>
             {isCreate
               ? 'Start Time and End Time are optional — give the operator the date to spray.'
               : 'You can change the segment, pesticide, rate, date and justification before completing. Start Time and End Time are optional.'}
@@ -801,7 +801,7 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
                     {[...JUSTIFICATION_PRESETS, ...(isOpFill && justification && !JUSTIFICATION_PRESETS.includes(justification) ? [justification] : [])]
                       .map((j) => <MenuItem key={j} value={j} sx={{ fontSize: '10px' }}>{j}</MenuItem>)}
                   </Select>
-                ) : <Typography sx={{ fontSize: 9, color: '#999' }}>"</Typography>
+                ) : <Typography sx={{ fontSize: 9, color: 'var(--sheet-ink-3)' }}>"</Typography>
               ) : <Typography sx={{ fontSize: 9 }}>{idx === 0 ? justification : '"'}</Typography>}
             </DC>
 
@@ -1006,7 +1006,7 @@ function DC({ w, children, last, gray }) {
 function AuthLine({ label, children }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.8, borderBottom: '1px solid #bbb', pb: 0.5 }}>
-      <Typography sx={{ fontSize: 8, color: '#555', minWidth: 120, flexShrink: 0 }}>{label}:</Typography>
+      <Typography sx={{ fontSize: 8, color: 'var(--sheet-ink-2)', minWidth: 120, flexShrink: 0 }}>{label}:</Typography>
       <Box sx={{ flex: 1 }}>{children}</Box>
       <Box sx={{ width: 80, borderBottom: '1px solid #999', textAlign: 'center' }}>
         <Typography sx={{ fontSize: 7, color: '#888' }}>Signature</Typography>

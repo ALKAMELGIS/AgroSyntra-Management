@@ -24,7 +24,7 @@ function ChatList({ list, current, onOpen, onDelete, onNew }) {
           New chat
         </Button>
       </Box>
-      <Typography sx={{ px: 2, pt: 1.5, pb: 0.5, fontSize: '0.6875rem', fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+      <Typography sx={{ px: 2, pt: 1.5, pb: 0.5, fontSize: '0.75rem', fontWeight: 600, color: 'text.secondary', textTransform: 'none', letterSpacing: 0 }}>
         Chats
       </Typography>
       <Box sx={{ flex: 1, minHeight: 0, overflowY: 'auto', px: 0.75, pb: 1 }}>

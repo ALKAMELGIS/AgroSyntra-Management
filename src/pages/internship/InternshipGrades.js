@@ -33,7 +33,7 @@ export default function InternshipGrades() {
         </Typography>
 
         {grades.map((student) => (
-          <Paper key={student.id} sx={{ p: 3, mb: 3 }}>
+          <Paper key={student.id} sx={{ p: { xs: 3, sm: 4 }, mb: 3 }}>
             <Typography variant="h6" fontWeight={600}>{student.name}</Typography>
             <Typography variant="body2" color="text.secondary" gutterBottom>{student.email}</Typography>
 
@@ -81,7 +81,7 @@ export default function InternshipGrades() {
           </Paper>
         ))}
         {grades.length === 0 && (
-          <Paper sx={{ p: 4, textAlign: 'center' }}>
+          <Paper sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
             <Typography color="text.secondary">No students enrolled yet.</Typography>
           </Paper>
         )}

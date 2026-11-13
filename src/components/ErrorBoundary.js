@@ -62,7 +62,7 @@ class ErrorBoundary extends Component {
                 variant="outlined"
                 sx={{
                   p: 2,
-                  mb: 3,
+                  mb: 2,
                   bgcolor: 'background.muted',
                   textAlign: 'left',
                   maxHeight: 200,

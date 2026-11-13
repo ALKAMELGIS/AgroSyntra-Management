@@ -81,7 +81,7 @@ export default function ComparisonChart() {
   }, [loadComparison]);
 
   return (
-    <Paper elevation={3} sx={{ p: 3 }}>
+    <Paper elevation={3} sx={{ p: { xs: 3, sm: 4 } }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <CompareIcon color="primary" />
         <Typography variant="h6" fontWeight={600}>Field Comparison</Typography>

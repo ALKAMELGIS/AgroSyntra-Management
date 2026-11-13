@@ -1785,33 +1785,33 @@ export default function ManpowerRecord() {
               <TextField size="small" label={editForm.activity?.trim() ? 'Unit *' : 'Unit'} value={editForm.unit || ''} sx={{ width: 100 }}
                 onChange={(e) => setEditForm({ ...editForm, unit: e.target.value })}
                 error={Boolean(mErr.unit)}
-                helperText={mErr.unit || ' '} />
+                helperText={mErr.unit || undefined} />
             </Box>
             <Box sx={{ display: 'flex', gap: 2 }}>
               <TextField size="small" label="Variety" required value={editForm.variety || ''} fullWidth
                 onChange={(e) => setEditForm({ ...editForm, variety: e.target.value })}
                 error={Boolean(mErr.variety)}
-                helperText={mErr.variety || ' '} />
+                helperText={mErr.variety || undefined} />
               <TextField size="small" label="Location" required value={editForm.location || ''} fullWidth
                 onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
                 error={Boolean(mErr.location)}
-                helperText={mErr.location || ' '} />
+                helperText={mErr.location || undefined} />
               <TextField size="small" label="Section" required value={editForm.section || ''} sx={{ width: 120 }}
                 onChange={(e) => setEditForm({ ...editForm, section: e.target.value })}
                 error={Boolean(mErr.section)}
-                helperText={mErr.section || ' '} />
+                helperText={mErr.section || undefined} />
             </Box>
             <Box sx={{ display: 'flex', gap: 2 }}>
               <TextField size="small" type="time" label="Start" required value={editForm.startTime || ''}
                 onChange={(e) => setEditForm({ ...editForm, startTime: e.target.value })}
                 InputLabelProps={{ shrink: true }} fullWidth
                 error={Boolean(mErr.startTime)}
-                helperText={mErr.startTime || ' '} />
+                helperText={mErr.startTime || undefined} />
               <TextField size="small" type="time" label="End" required value={editForm.endTime || ''}
                 onChange={(e) => setEditForm({ ...editForm, endTime: e.target.value })}
                 InputLabelProps={{ shrink: true }} fullWidth
                 error={Boolean(mErr.endTime)}
-                helperText={mErr.endTime || ' '} />
+                helperText={mErr.endTime || undefined} />
             </Box>
             <Box sx={{ display: 'flex', gap: 2 }}>
               <TextField size="small" type="number" label="Target" value={editForm.target || ''} fullWidth

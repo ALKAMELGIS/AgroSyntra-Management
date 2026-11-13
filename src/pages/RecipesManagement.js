@@ -328,16 +328,16 @@ function RecipesManagement() {
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="lg" fullWidth>
         <DialogTitle>{editing ? 'Edit Recipe' : 'Add Recipe'}</DialogTitle>
         <DialogContent>
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid size={{ xs: 12, md: 4 }}>
+          <Grid container spacing={3} sx={{ mt: 1 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField
-                label="Recipe Name"
+                label="Recipe name"
                 fullWidth
                 value={form.name}
                 onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
               />
             </Grid>
-            <Grid size={{ xs: 12, md: 8 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 5 }}>
               <TextField
                 label="Description"
                 fullWidth
@@ -345,16 +345,16 @@ function RecipesManagement() {
                 onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}
               />
             </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
+            <Grid size={{ xs: 6, md: 2 }}>
               <TextField
-                label="Tank Volume (L)"
+                label="Tank volume (L)"
                 fullWidth
                 type="number"
                 value={form.tankVolume}
                 onChange={(e) => setForm((prev) => ({ ...prev, tankVolume: e.target.value }))}
               />
             </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
+            <Grid size={{ xs: 6, md: 2 }}>
               <TextField
                 label="Cycles"
                 fullWidth
