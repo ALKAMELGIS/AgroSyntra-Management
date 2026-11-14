@@ -225,6 +225,14 @@
     if(isApi(url)&&/\/gis\/layers\/demo-struct\/features(\?|$)/.test(url)){
       return liveLayer().then(function(fc){ return jsonRes(ok(fc)); });
     }
+    /* The layer list waits for the live read, so its name says where the polygons came from. */
+    if(isApi(url)&&/\/gis\/layers(\?|$)/.test(url)&&(!init||!init.method||init.method==='GET')){
+      return liveLayer().then(function(fc){
+        var live=fc&&fc._live;
+        return jsonRes(ok([{id:'demo-struct',name:live?'Agro_Structures (ArcGIS Online · live)':'Agro_Structures (sample, ArcGIS not reachable)',
+          sourceType:'arcgis_feature_service',featureCount:(fc&&fc.features||[]).length,isVisible:true,style:{color:'#1f7a4d',fillOpacity:0.25}}]));
+      });
+    }
     if(isApi(url)&&/\/gis\/layers\/demo-struct\/metadata(\?|$)/.test(url)){
       /* Live symbology only together with the live polygons; the sample polygons keep the sample legend. */
       return liveLayer().then(function(fc){ return fc&&fc._live?liveMeta():null; }).then(function(m){ return jsonRes(ok(m||DEMO_META)); });
