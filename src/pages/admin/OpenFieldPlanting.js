@@ -24,7 +24,7 @@ import { openNativeDatePicker } from '../../utils/openNativeDatePicker';
 const OF_FROZEN_WIDTHS = [120, 130];
 const ofDraftSx = {
   '&&& .MuiTableBody-root .MuiTableRow-root.row-draft .MuiTableCell-root:not(.table-gutter)': {
-    backgroundColor: '#fffde7',
+    backgroundColor: 'var(--sheet-tint-yellow)',
   },
 };
 

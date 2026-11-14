@@ -35,7 +35,7 @@ const twoRowHeadSx = {
 };
 const sowingDraftSx = {
   '&&& .MuiTableBody-root .MuiTableRow-root.row-draft .MuiTableCell-root:not(.table-gutter)': {
-    backgroundColor: '#fffde7',
+    backgroundColor: 'var(--sheet-tint-yellow)',
   },
 };
 

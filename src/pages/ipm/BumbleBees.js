@@ -57,10 +57,10 @@ const CELL = { sx: { verticalAlign: 'middle' } };
  */
 const rowStateSx = {
   '&&& .MuiTableBody-root .MuiTableRow-root.row-draft .MuiTableCell-root:not(.table-gutter)': {
-    backgroundColor: '#fffde7',
+    backgroundColor: 'var(--sheet-tint-yellow)',
   },
   '&&& .MuiTableBody-root .MuiTableRow-root.row-pending .MuiTableCell-root:not(.table-gutter)': {
-    backgroundColor: '#fff8e1',
+    backgroundColor: 'var(--sheet-tint-yellow)',
   },
 };
 
@@ -1621,13 +1621,13 @@ export default function BumbleBees() {
       <TabPanel value={tab} index={3}>
         <Grid container spacing={2} sx={{ mb: 3 }}>
           {[
-            { label: 'Boxes on hand', value: onHand, color: 'var(--sheet-accent)', bg: '#e8f5e9' },
-            { label: 'Upcoming (not received)', value: inventory?.pendingIncomingTotal ?? 0, color: '#a84b07', bg: '#fff3e0' },
-            { label: 'Projected total', value: inventory?.projectedTotal ?? onHand, color: '#1565c0', bg: '#e3f2fd' },
+            { label: 'Boxes on hand', value: onHand, color: 'var(--sheet-accent)', bg: 'var(--sheet-tint-green)' },
+            { label: 'Upcoming (not received)', value: inventory?.pendingIncomingTotal ?? 0, color: 'var(--sheet-warn)', bg: 'var(--sheet-tint-peach)' },
+            { label: 'Projected total', value: inventory?.projectedTotal ?? onHand, color: 'var(--sheet-info, #1d4670)', bg: 'var(--sheet-tint-blue)' },
           ].map((kpi) => (
             <Grid size={{ xs: 12, sm: 4 }} key={kpi.label}>
               <Box sx={{
-                p: 1.5, borderRadius: 1, border: '1px solid #c8c8c8', background: kpi.bg, textAlign: 'center',
+                p: 1.5, borderRadius: 1, border: '1px solid var(--sheet-grid)', background: kpi.bg, textAlign: 'center',
               }}>
                 <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--sheet-ink-2)', textTransform: 'none', letterSpacing: 0 }}>
                   {kpi.label}

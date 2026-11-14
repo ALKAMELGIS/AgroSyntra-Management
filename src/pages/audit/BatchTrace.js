@@ -187,7 +187,7 @@ function TraceMatchCard({ match, index, total }) {
           <TableContainer component={Paper} variant="outlined" sx={{ mb: 2 }}>
             <Table size="small">
               <TableHead>
-                <TableRow sx={{ bgcolor: '#ffebee' }}>
+                <TableRow sx={{ bgcolor: 'var(--sheet-tint-red)' }}>
                   <TableCell>Product</TableCell>
                   <TableCell>Spray Date</TableCell>
                   <TableCell>PHI Days</TableCell>

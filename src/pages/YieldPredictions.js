@@ -58,7 +58,7 @@ export default function YieldPredictions() {
         <>
           <Grid container spacing={2} sx={{ mb: 3 }}>
             <Grid size={{ xs: 6, sm: 3 }}>
-              <Card sx={{ bgcolor: '#e8f5e9' }}><CardContent>
+              <Card sx={{ bgcolor: 'var(--sheet-tint-green)' }}><CardContent>
                 <Typography variant="caption" color="text.secondary">Predicted Yield</Typography>
                 <Typography variant="h4">{prediction.predicted_yield.toFixed(1)}</Typography>
                 <Typography variant="caption">kg</Typography>

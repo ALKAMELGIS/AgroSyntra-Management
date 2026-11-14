@@ -99,16 +99,17 @@ function UomPicker({ options, value, onChange, label = 'UOM', variant = 'outline
   );
 }
 
-const cellBorder = '1px solid #c8c8c8';
-const headerBg = '#e8efd4';
-const subHeaderBg = '#f3f6ec';
-const frozenBg = '#fafcf6';
-const focusBg = '#d4e5f7';
-const altRowBg = '#fafcf7';
-const totalRowBg = '#e2e8d5';
-const costRowBg = '#d9e4cc';
-const tabActiveBg = '#ffffff';
-const tabInactiveBg = '#e0e0e0';
+const cellBorder = '1px solid var(--sheet-grid)';
+// Theme variables, so the sheet follows light and dark mode.
+const headerBg = 'var(--grid-head-bg)';
+const subHeaderBg = 'var(--sheet-muted)';
+const frozenBg = 'var(--sheet-bg)';
+const focusBg = 'var(--sheet-select)';
+const altRowBg = 'var(--sheet-alt)';
+const totalRowBg = 'var(--grid-band-bg)';
+const costRowBg = 'var(--grid-head-bg-strong)';
+const tabActiveBg = 'var(--sheet-bg)';
+const tabInactiveBg = 'var(--grid-head-bg-strong)';
 
 const headerCellStyle = {
   border: cellBorder,
@@ -117,7 +118,8 @@ const headerCellStyle = {
   lineHeight: 1.2,
   height: 28,
   background: headerBg,
-  fontWeight: 700,
+  color: 'var(--grid-head-fg)',
+  fontWeight: 600,
   textAlign: 'center',
   whiteSpace: 'nowrap',
 };
@@ -152,10 +154,10 @@ const inputStyle = {
 };
 
 // Pending (waiting for the pest agronomist) and rejected cell markers.
-const pendingCellBg = '#fff3cd';
-const pendingText = '#8a6d00';
+const pendingCellBg = 'var(--sheet-tint-yellow)';
+const pendingText = 'var(--sheet-warn)';
 const rejectedMark = '#d32f2f';
-const dirtyCellBg = '#e3f2fd';
+const dirtyCellBg = 'var(--sheet-tint-blue)';
 
 function fmtCellNum(value) {
   return value == null ? '—' : String(value);
@@ -1388,7 +1390,7 @@ export default function BiologicalControlRecord() {
     return (
       <td key={field} style={{ border: cellBorder, padding: '3px 8px', minWidth: 100, cursor: canEditSetup ? 'pointer' : 'default', background: isEditing ? focusBg : 'transparent' }}
         onClick={() => !isEditing && canEditSetup && startMetaEdit(field, inputType === 'date' ? toDateInputValue(value) : value)}>
-        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>{label}</div>
+        <div style={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 600 }}>{label}</div>
         {isEditing ? (
           <input
             ref={metaInputRef}
@@ -1453,7 +1455,7 @@ export default function BiologicalControlRecord() {
         </Box>
       )}
       {/* ── Toolbar ── */}
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1.5, px: 2, py: 1, borderBottom: cellBorder, bgcolor: '#f9f9f9', flexShrink: 0 }}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1.5, px: 2, py: 1, borderBottom: cellBorder, bgcolor: 'var(--sheet-muted)', flexShrink: 0 }}>
         <Typography variant="subtitle1" sx={{ fontWeight: 700, mr: 'auto' }}>
           Biological Control Record
         </Typography>
@@ -1521,7 +1523,7 @@ export default function BiologicalControlRecord() {
               </Button>
               <Button size="small" variant="outlined" color="error" startIcon={<RejectIcon />}
                 disabled={reviewing} onClick={() => openRejectDialog(null)}
-                sx={{ fontSize: '0.75rem', height: 28, textTransform: 'none', bgcolor: '#fff' }}>
+                sx={{ fontSize: '0.75rem', height: 28, textTransform: 'none', bgcolor: 'var(--sheet-bg)' }}>
                 Reject all…
               </Button>
             </Box>
@@ -1531,15 +1533,15 @@ export default function BiologicalControlRecord() {
 
       {/* ── Crop tabs ── */}
       {crops.length > 0 && (
-        <Box sx={{ display: 'flex', gap: 0, borderBottom: cellBorder, bgcolor: '#f2f2f2', flexShrink: 0, overflowX: 'auto', px: 1 }}>
+        <Box sx={{ display: 'flex', gap: 0, borderBottom: cellBorder, bgcolor: 'var(--sheet-muted)', flexShrink: 0, overflowX: 'auto', px: 1 }}>
           {crops.map(c => (
             <Box key={c.id}
               onClick={() => setSelectedCropId(c.id)}
               sx={{
                 px: 2, py: 0.75, cursor: 'pointer', fontSize: '0.8125rem', fontWeight: selectedCropId === c.id ? 700 : 400,
-                borderBottom: selectedCropId === c.id ? '3px solid #4a7c2e' : '3px solid transparent',
-                color: selectedCropId === c.id ? '#4a7c2e' : '#666',
-                '&:hover': { bgcolor: '#e8e8e8' },
+                borderBottom: selectedCropId === c.id ? '3px solid var(--sheet-accent)' : '3px solid transparent',
+                color: selectedCropId === c.id ? 'var(--sheet-accent)' : 'var(--sheet-ink-2)',
+                '&:hover': { bgcolor: 'var(--grid-head-bg-strong)' },
               }}>
               {c.name}
             </Box>
@@ -1568,15 +1570,15 @@ export default function BiologicalControlRecord() {
                   <tbody>
                     <tr>
                       <td style={{ border: cellBorder, padding: '3px 8px', fontWeight: 700, bgcolor: headerBg, background: headerBg, minWidth: 120 }}>
-                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Company</div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Company</div>
                         <div style={{ fontWeight: 700 }}>Al Maha</div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', minWidth: 120 }}>
-                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Crop</div>
-                        <div style={{ fontWeight: 700, color: '#4a7c2e' }}>{currentCropName}</div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Crop</div>
+                        <div style={{ fontWeight: 700, color: 'var(--sheet-accent)' }}>{currentCropName}</div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', minWidth: 120 }}>
-                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Field</div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Field</div>
                         <div style={{ fontWeight: 700 }}>{currentFieldName}</div>
                       </td>
                       {renderMetaCell('Surface (m²)', setup.surface_m2, 'surface_m2')}
@@ -1584,7 +1586,7 @@ export default function BiologicalControlRecord() {
                       {renderMetaCell('Total Plants', setup.number_of_plants, 'number_of_plants')}
                       {renderMetaCell('Week 1 starts', setup.start_date || week1Label, 'start_date', '', 'date')}
                       <td style={{ border: cellBorder, padding: '3px 8px', background: totalRowBg, minWidth: 100 }}>
-                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Total Cost</div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Total Cost</div>
                         <div style={{ fontWeight: 700, color: 'var(--sheet-accent)', fontSize: '0.875rem' }}>
                           {grandTotalCost > 0
                             ? grandTotalCost.toFixed(2)
@@ -1592,7 +1594,7 @@ export default function BiologicalControlRecord() {
                         </div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', background: headerBg, minWidth: 60 }}>
-                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Season</div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Season</div>
                         <div style={{ fontWeight: 700 }}>{activeSeason?.name || '—'}</div>
                       </td>
                     </tr>
@@ -1631,37 +1633,37 @@ export default function BiologicalControlRecord() {
                       </tr>
                       {/* Item code row */}
                       <tr>
-                        <th style={{ ...subHeaderBg && { background: subHeaderBg }, border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg }} />
+                        <th style={{ ...subHeaderBg && { background: subHeaderBg }, border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg }} />
                         {products.map(p => (
-                          <th key={`code_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
+                          <th key={`code_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', textAlign: 'center', background: subHeaderBg }}>
                             {p.item_code || '—'}
                           </th>
                         ))}
                       </tr>
                       <tr>
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>UOM</th>
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>UOM</th>
                         {products.map(p => (
-                          <th key={`uom_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
+                          <th key={`uom_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', textAlign: 'center', background: subHeaderBg }}>
                             {p.uom_name || '—'}
                           </th>
                         ))}
                       </tr>
                       <tr>
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>per pkg</th>
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>per pkg</th>
                         {products.map(p => (
-                          <th key={`pkg_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
+                          <th key={`pkg_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', textAlign: 'center', background: subHeaderBg }}>
                             {p.per_package || '—'}
                           </th>
                         ))}
                       </tr>
                       <tr>
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
-                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>site price</th>
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', position: 'sticky', left: 0, zIndex: 12, background: subHeaderBg }} />
+                        <th style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', position: 'sticky', left: 50, zIndex: 12, background: subHeaderBg, textAlign: 'center' }}>site price</th>
                         {products.map(p => (
-                          <th key={`price_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: '#888', textAlign: 'center', background: subHeaderBg }}>
+                          <th key={`price_${p.id}`} colSpan={2} style={{ border: cellBorder, padding: '1px 4px', fontSize: '0.6875rem', color: 'var(--sheet-ink-3)', textAlign: 'center', background: subHeaderBg }}>
                             {resolvedSitePrice(p.price_per_package) != null
                               ? Number(p.price_per_package).toFixed(2)
                               : '—'}
@@ -1742,10 +1744,10 @@ export default function BiologicalControlRecord() {
           {/* ── Excel-like bottom sheet tabs ── */}
           <Box sx={{
             display: 'flex', alignItems: 'stretch', borderTop: '2px solid #999',
-            bgcolor: '#d0d0d0', flexShrink: 0, overflowX: 'auto', minHeight: 32,
+            bgcolor: 'var(--grid-head-bg-strong)', flexShrink: 0, overflowX: 'auto', minHeight: 32,
           }}>
             {fieldSetups.length > 0 && canEditSetup && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, px: 1, bgcolor: '#d0d0d0' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, px: 1, bgcolor: 'var(--grid-head-bg-strong)' }}>
                 <SelectAllCheckbox
                   plain
                   ids={fieldSetups.map((fs) => fs.id)}
@@ -1763,12 +1765,12 @@ export default function BiologicalControlRecord() {
                   px: 1.5, py: 0.5, cursor: 'pointer', fontSize: '0.8125rem',
                   fontWeight: selectedFieldTab === i ? 700 : 400,
                   bgcolor: selectedFieldTab === i ? tabActiveBg : tabInactiveBg,
-                  color: selectedFieldTab === i ? '#333' : '#666',
+                  color: selectedFieldTab === i ? 'var(--sheet-ink)' : 'var(--sheet-ink-2)',
                   borderRight: '1px solid #bbb',
-                  borderTop: selectedFieldTab === i ? '2px solid #4a7c2e' : '2px solid transparent',
+                  borderTop: selectedFieldTab === i ? '2px solid var(--sheet-accent)' : '2px solid transparent',
                   mt: selectedFieldTab === i ? '-2px' : 0,
                   display: 'flex', alignItems: 'center', gap: 0.5,
-                  '&:hover': { bgcolor: selectedFieldTab === i ? tabActiveBg : '#e8e8e8' },
+                  '&:hover': { bgcolor: selectedFieldTab === i ? tabActiveBg : 'var(--sheet-muted)' },
                   whiteSpace: 'nowrap',
                 }}>
                 {canEditSetup && (
@@ -1812,8 +1814,8 @@ export default function BiologicalControlRecord() {
               onClick={openSetupDialog}
               sx={{
                 px: 1.5, py: 0.5, cursor: 'pointer', fontSize: '0.875rem',
-                color: '#666', display: 'flex', alignItems: 'center',
-                '&:hover': { bgcolor: '#c8c8c8', color: '#333' },
+                color: 'var(--sheet-ink-2)', display: 'flex', alignItems: 'center',
+                '&:hover': { bgcolor: 'var(--grid-head-bg-strong)', color: 'var(--sheet-ink)' },
               }}>
               +
             </Box>
@@ -1836,19 +1838,19 @@ export default function BiologicalControlRecord() {
                   <tbody>
                     <tr>
                       <td style={{ border: cellBorder, padding: '3px 8px', background: headerBg, minWidth: 120 }}>
-                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Company</div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Company</div>
                         <div style={{ fontWeight: 700 }}>Al Maha</div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', minWidth: 120 }}>
-                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Crop</div>
-                        <div style={{ fontWeight: 700, color: '#4a7c2e' }}>{currentCropName}</div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Crop</div>
+                        <div style={{ fontWeight: 700, color: 'var(--sheet-accent)' }}>{currentCropName}</div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', background: headerBg, minWidth: 80 }}>
-                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Season</div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Season</div>
                         <div style={{ fontWeight: 700 }}>{activeSeason?.name || '—'}</div>
                       </td>
                       <td style={{ border: cellBorder, padding: '3px 8px', background: totalRowBg, minWidth: 100 }}>
-                        <div style={{ fontSize: '0.6875rem', color: '#666', fontWeight: 600 }}>Total Cost</div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Total Cost</div>
                         <div style={{ fontWeight: 700, color: 'var(--sheet-accent)', fontSize: '0.875rem' }}>{summaryFieldCost.toFixed(2)}</div>
                       </td>
                     </tr>
@@ -2100,7 +2102,7 @@ export default function BiologicalControlRecord() {
                       );
                     })}
                     {catalogNewRow && (
-                      <TableRow sx={{ bgcolor: '#f5f9f0' }}>
+                      <TableRow sx={{ bgcolor: 'var(--sheet-tint-green)' }}>
                         <TableCell padding="checkbox" />
                         <TableCell sx={{ color: 'var(--sheet-ink-3)', fontSize: '0.75rem' }}>new</TableCell>
                         <TableCell>

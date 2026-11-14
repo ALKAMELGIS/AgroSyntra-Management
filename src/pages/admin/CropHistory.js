@@ -64,7 +64,7 @@ const PLANTING_FROZEN_WITH_SOWING = [180, 148, 130];
 
 const plantingRowSx = {
   '&&& .MuiTableBody-root .MuiTableRow-root.row-draft .MuiTableCell-root:not(.table-gutter)': {
-    backgroundColor: '#fffde7',
+    backgroundColor: 'var(--sheet-tint-yellow)',
   },
   '&&& .MuiTableBody-root .MuiTableRow-root.row-nursery .MuiTableCell-root:not(.table-gutter)': {
     backgroundColor: 'rgba(46, 125, 50, 0.10)',

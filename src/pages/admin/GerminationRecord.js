@@ -45,9 +45,9 @@ const germDenseSx = {
   },
 };
 const germTintSx = {
-  '&&& .MuiTableBody-root .MuiTableCell-root.cell-germ-high': { backgroundColor: '#e8f5e9' },
-  '&&& .MuiTableBody-root .MuiTableCell-root.cell-germ-mid': { backgroundColor: '#fff3e0' },
-  '&&& .MuiTableBody-root .MuiTableCell-root.cell-germ-low': { backgroundColor: '#fbe9e7' },
+  '&&& .MuiTableBody-root .MuiTableCell-root.cell-germ-high': { backgroundColor: 'var(--sheet-tint-green)' },
+  '&&& .MuiTableBody-root .MuiTableCell-root.cell-germ-mid': { backgroundColor: 'var(--sheet-tint-peach)' },
+  '&&& .MuiTableBody-root .MuiTableCell-root.cell-germ-low': { backgroundColor: 'var(--sheet-tint-red)' },
 };
 
 function getGermColor(pct) {

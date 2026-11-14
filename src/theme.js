@@ -164,6 +164,9 @@ export function cssTokens(mode = 'light') {
         '--sheet-tint-peach': 'rgba(229,162,79,0.14)',
         '--sheet-tint-yellow': 'rgba(229,190,79,0.14)',
         '--sheet-tint-lavender': 'rgba(160,140,210,0.16)',
+        '--sheet-tint-red': 'rgba(239,125,109,0.14)',
+        '--sheet-warn': '#f0c88e',
+        '--sheet-info': '#a9cbf2',
       }
       : {
         '--sheet-bg': '#ffffff',
@@ -191,6 +194,9 @@ export function cssTokens(mode = 'light') {
         '--sheet-tint-peach': '#fdeada',
         '--sheet-tint-yellow': '#fff8e1',
         '--sheet-tint-lavender': '#e6e0ec',
+        '--sheet-tint-red': '#fbe9e6',
+        '--sheet-warn': '#8a5a00',
+        '--sheet-info': '#1d4670',
       }),
   };
 }
@@ -294,14 +300,19 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
           ':root': cssTokens(mode),
           // Arabic: IBM Plex Sans Arabic for every text that reads var(--font-sans).
           'html[lang|="ar"]': { '--font-sans': FONT_SANS_AR },
+          // The page colour is painted on html, body and #root alike, so a host page
+          // that wraps the app (APK web view, preview frame) can never show its own
+          // light background around dark-mode content.
           html: {
+            backgroundColor: `${palette.background.default} !important`,
             scrollBehavior: 'smooth',
             colorScheme: mode,
             WebkitTextSizeAdjust: '100%',
             textRendering: 'optimizeLegibility',
           },
+          '#root': { backgroundColor: palette.background.default, minHeight: '100vh' },
           body: {
-            backgroundColor: palette.background.default,
+            backgroundColor: `${palette.background.default} !important`,
             color: palette.text.primary,
             fontFeatureSettings: '"cv11", "ss01", "ss03"',
             fontVariantNumeric: 'tabular-nums',
@@ -863,7 +874,11 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
         styleOverrides: { badge: { fontWeight: 600, fontSize: '0.6875rem', minWidth: 18, height: 18, padding: '0 5px' } },
       },
       MuiAvatar: {
-        styleOverrides: { root: { fontWeight: 600, fontSize: '0.875rem' } },
+        styleOverrides: {
+          root: { fontWeight: 600, fontSize: '0.875rem' },
+          // Letter avatars: green tint with dark green initials, readable in both modes.
+          colorDefault: { backgroundColor: isDark ? alpha('#4cb27e', 0.18) : '#e8f2ec', color: isDark ? '#9bdab8' : '#165c3a' },
+        },
       },
       MuiAlert: {
         styleOverrides: {

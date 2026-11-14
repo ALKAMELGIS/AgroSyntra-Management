@@ -95,7 +95,7 @@ export default function CropRecommendation({ fieldId }) {
                     <LinearProgress
                       variant="determinate"
                       value={rec.score}
-                      sx={{ mt: 1, height: 4, borderRadius: 2, bgcolor: '#e0e0e0', '& .MuiLinearProgress-bar': { bgcolor: getScoreColor(rec.score) } }}
+                      sx={{ mt: 1, height: 4, borderRadius: 2, bgcolor: 'var(--grid-head-bg-strong)', '& .MuiLinearProgress-bar': { bgcolor: getScoreColor(rec.score) } }}
                     />
                   </Box>
                 }

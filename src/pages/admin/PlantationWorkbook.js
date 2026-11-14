@@ -52,7 +52,7 @@ const pwbRowStateSx = (t) => ({
     backgroundColor: t.palette.table.errorBg,
   },
   '&&& .MuiTableBody-root .MuiTableRow-root.row-draft .MuiTableCell-root:not(.table-gutter)': {
-    backgroundColor: '#fffde7',
+    backgroundColor: 'var(--sheet-tint-yellow)',
   },
 });
 

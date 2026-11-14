@@ -62,7 +62,7 @@ function Step({ n, title, help, done, disabled, children, actions }) {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.25, flexWrap: 'wrap', minHeight: 32 }}>
         <Box sx={{
           width: 24, height: 24, borderRadius: '50%', display: 'grid', placeItems: 'center', flexShrink: 0,
-          bgcolor: done ? 'success.main' : 'primary.main', color: 'common.white', fontWeight: 700, fontSize: '0.8125rem',
+          bgcolor: done ? 'success.main' : 'primary.main', color: 'primary.contrastText', fontWeight: 700, fontSize: '0.8125rem',
         }}>
           {done ? <OkIcon sx={{ fontSize: 16 }} /> : n}
         </Box>

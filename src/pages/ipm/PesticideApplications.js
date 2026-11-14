@@ -153,7 +153,7 @@ function chunkArray(items, size) {
 // columns carry their own background and would otherwise stay white.
 const highlightedRowSx = {
   '&&& .MuiTableBody-root .MuiTableRow-root.row-highlight .MuiTableCell-root': {
-    backgroundColor: '#fff3e0',
+    backgroundColor: 'var(--sheet-tint-peach)',
     fontWeight: 600,
   },
 };
@@ -2217,7 +2217,7 @@ export default function PesticideApplications() {
         // Deliberately a warm neutral rather than a green. Cost cells are tinted
         // green, and a green stripe underneath them would swallow that signal.
         const altBg = '#eff1ed';
-        const calcCell = { ...cell, background: '#e8f5e9', fontWeight: 600, color: 'var(--sheet-accent)', textAlign: 'right' };
+        const calcCell = { ...cell, background: 'var(--sheet-tint-green)', fontWeight: 600, color: 'var(--sheet-accent)', textAlign: 'right' };
         const bannerBg = 'var(--sheet-header)';
         const bannerStyle = { background: bannerBg, color: '#fff', padding: '8px 16px', fontSize: '0.875rem', fontWeight: 700, borderBottom: `2px solid ${hdr.background}` };
 
@@ -2235,7 +2235,7 @@ export default function PesticideApplications() {
             </Box>
 
             {/* Filter Bar */}
-            <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', alignItems: 'center', p: 1.5, background: '#e9e5e0', borderBottom: '1px solid #c8c8c8' }}>
+            <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', alignItems: 'center', p: 1.5, background: 'var(--sheet-muted)', borderBottom: '1px solid #c8c8c8' }}>
               <Typography sx={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--sheet-ink-2)', mr: 0.5 }}>Filter:</Typography>
               <TextField size="small" type="date" label="From" InputLabelProps={{ shrink: true }}
                 value={costDateStart} onChange={e => setCostDateStart(e.target.value)}
@@ -2299,7 +2299,7 @@ export default function PesticideApplications() {
                       </TableCell>
                       <TableCell sx={cell}>{r.field}</TableCell>
                       <TableCell sx={{ ...cell, fontWeight: 600 }}>{r.product}</TableCell>
-                      <TableCell sx={{ ...cell, color: '#666' }}>{r.activeIngredient}</TableCell>
+                      <TableCell sx={{ ...cell, color: 'var(--sheet-ink-2)' }}>{r.activeIngredient}</TableCell>
                       <TableCell sx={cell}>
                         <Chip label={r.type} size="small"
                           sx={{ fontSize: '0.6875rem', height: 20, fontWeight: 600,

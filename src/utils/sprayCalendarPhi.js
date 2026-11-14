@@ -4,7 +4,7 @@ export const SPRAY_CALENDAR_COLORS = {
   spray: '#2f6aa8',
   phiActive: '#c23b2b',
   phiEnding: '#a35f0c',
-  clear: '#e8f5e9',
+  clear: 'var(--sheet-tint-green)',
 };
 
 export function formatCalendarDate(y, m, d) {

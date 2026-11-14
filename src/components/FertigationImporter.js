@@ -37,7 +37,7 @@ import InfoNote from './InfoNote';
 const headerBg = 'var(--sheet-header)'; // = theme palette.table.headerBg
 const bannerBg = 'var(--grid-band-bg)';
 const bannerColor = 'var(--grid-band-fg)';
-const altRowBg = '#e8f5e9';
+const altRowBg = 'var(--sheet-tint-green)';
 const cellBorder = '1px solid #c8c8c8';
 const warnBg = '#fff8e1';
 const errBg = '#ffebee';
@@ -461,7 +461,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
                         <TableCell sx={{ ...cellStyle, fontWeight: 600 }}>
                           {s.name}
                           {isInputFileSheet(s.name) && (
-                            <Typography component="span" sx={{ ml: 1, fontSize: '0.6875rem', color: '#666', fontWeight: 400 }}>
+                            <Typography component="span" sx={{ ml: 1, fontSize: '0.6875rem', color: 'var(--sheet-ink-2)', fontWeight: 400 }}>
                               all fields
                             </Typography>
                           )}
@@ -515,7 +515,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
                       ? `${fertName} (kg from Excel)`
                       : (totalFert ? 'Total Fert (kg from Excel)' : '');
                     return (
-                      <TableRow key={idx} sx={{ background: (mapped || autoKgLabel) ? '#e8f5e9' : (idx % 2 === 0 ? '#fff' : altRowBg) }}>
+                      <TableRow key={idx} sx={{ background: (mapped || autoKgLabel) ? 'var(--sheet-tint-green)' : (idx % 2 === 0 ? '#fff' : altRowBg) }}>
                         <TableCell sx={{ ...cellStyle, textAlign: 'center', color: '#888' }}>{idx + 1}</TableCell>
                         <TableCell sx={{ ...cellStyle, fontWeight: 600 }}>{h}</TableCell>
                         <TableCell sx={cellStyle}>
@@ -569,7 +569,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
               <Chip icon={<OkIcon />} label={`${counts.ok} Ready`} color="success" size="small" sx={{ fontWeight: 600 }} />
               <Chip icon={<WarnIcon />} label={`${counts.warn} Warnings`} color="warning" size="small" sx={{ fontWeight: 600 }} />
               <Chip icon={<ErrIcon />} label={`${counts.err} Errors`} color="error" size="small" sx={{ fontWeight: 600 }} />
-              <Typography sx={{ fontSize: '0.75rem', color: '#666', ml: 1 }}>
+              <Typography sx={{ fontSize: '0.75rem', color: 'var(--sheet-ink-2)', ml: 1 }}>
                 {counts.total} rows parsed — {importableRows.length} will be imported
                 {blockedRecipeCount > 0 ? `, ${blockedRecipeCount} blocked by unapproved recipe` : ''}
                 {counts.err > 0 ? ', errors skipped' : ''}

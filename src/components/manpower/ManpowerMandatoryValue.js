@@ -9,13 +9,13 @@ export function mandatoryRequiredChip() {
       icon={<ErrorIcon sx={{ fontSize: '16px !important' }} />}
       label="Required"
       sx={{
-        bgcolor: '#ffebee',
-        color: '#c62828',
+        bgcolor: 'var(--sheet-tint-red)',
+        color: 'var(--sheet-danger)',
         fontWeight: 600,
         fontSize: '0.6875rem',
         height: 24,
-        border: '1px solid #ef9a9a',
-        '& .MuiChip-icon': { color: '#d32f2f' },
+        border: '1px solid currentColor',
+        '& .MuiChip-icon': { color: 'inherit' },
       }}
     />
   );

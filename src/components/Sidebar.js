@@ -155,6 +155,18 @@ const PATH_ICONS = {
 
 const END_SEASON_CONFIRM = 'END SEASON';
 
+// Section names are stored in capitals (they are also lookup keys); show them in
+// sentence case ("Data entry"), keeping acronyms such as IPM.
+const KEEP_CAPS = new Set(['IPM', 'GIS', 'AI', 'EC', 'PH', 'PHI', 'API', 'KPI']);
+function sentenceCase(text) {
+  if (typeof text !== 'string' || text !== text.toUpperCase() || !/[A-Z]/.test(text)) return text;
+  return text.split(' ').map((w, i) => {
+    if (KEEP_CAPS.has(w)) return w;
+    const lower = w.toLowerCase();
+    return i === 0 ? lower.charAt(0).toUpperCase() + lower.slice(1) : lower;
+  }).join(' ');
+}
+
 function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -517,7 +529,7 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
                     color: hasActive ? 'text.primary' : 'text.secondary',
                   }}
                 >
-                  {L(section.label)}
+                  {sentenceCase(L(section.label))}
                 </Typography>
                 {!hasActive && (
                   <ChevronIcon sx={{ fontSize: 16, color: 'text.secondary', transition: 'transform 200ms', transform: isOpen ? 'rotate(90deg)' : (theme.direction === 'rtl' ? 'rotate(180deg)' : 'none') }} />

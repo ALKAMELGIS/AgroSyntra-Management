@@ -41,7 +41,7 @@ const phiRowSx = {
     fontWeight: 600,
   },
   '&&& .MuiTableBody-root .MuiTableRow-root.row-draft .MuiTableCell-root': {
-    backgroundColor: '#fffde7',
+    backgroundColor: 'var(--sheet-tint-yellow)',
   },
 };
 

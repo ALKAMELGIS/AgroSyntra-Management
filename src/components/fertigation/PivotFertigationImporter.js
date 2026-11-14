@@ -149,7 +149,7 @@ export default function PivotFertigationImporter({
               sx={{ backgroundColor: 'var(--sheet-header)' }}>
               Select Excel File
             </Button>
-            <Typography sx={{ mt: 2, fontSize: '0.875rem', color: '#666' }}>
+            <Typography sx={{ mt: 2, fontSize: '0.875rem', color: 'var(--sheet-ink-2)' }}>
               Upload your RC-132 workbook. All rows from the Fertilization sheet import into one continuous log — same as Excel.
             </Typography>
           </Box>

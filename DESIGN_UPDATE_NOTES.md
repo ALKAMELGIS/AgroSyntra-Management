@@ -503,3 +503,11 @@ Pages:
 - Every records table (`excelTableSx`, 36 pages, and the theme's table cells): 12 px text, about 30 px rows (40 px on touch screens), 8 px side padding, 12 px / 600 column titles on the light grey band, column groups (e.g. First valve / Second valve / Field total) on a light green band. Row actions and checkboxes fit inside the row.
 - Tables wider than their box show a real 12 px scrollbar (grey thumb, light track), also on macOS / Android where the system normally hides it until you scroll (Chrome and Safari use the `::-webkit-scrollbar` rules; the standard properties are reset to `auto` for them, Firefox gets `scrollbar-color`). Entry grids use the same bar (`.sheet-scroll`).
 - EC/pH records: identifying columns stay frozen at tighter widths (date fits in full), values are plain numbers with fixed decimals; only out-of-range readings are coloured (dark red text, amber for borderline) instead of red chips in every cell; missing readings show "—". Group and metric titles are translated.
+
+## Round 46 — light and dark theme consistency
+
+- The page colour is painted on `html`, `body` and `#root` (with priority), so a host page that wraps the app (APK web view, preview frame) cannot show a light background around dark-mode content (the light page with dark tiles in dark mode).
+- Hard-coded light colours replaced by theme variables that switch with the mode: biological control sheet (headers, rows, tabs, totals, pending/edited cells), pesticide, bumble bees, product catalog, planting / nursery / germination / crop history sheets, batch trace, manpower "Required" / "Missing" chips, spray calendar "Clear" chip, importer rows, internship panels, yield predictions. New variables: `--sheet-tint-red`, `--sheet-warn`, `--sheet-info`.
+- Grey `#666` / `#888` text in sheets and importers uses the theme's secondary text colour; GIS configuration step numbers use the primary contrast colour; letter avatars are a green tint with dark green initials in both modes.
+- Sidebar section names show in sentence case ("Data entry", "IPM control") in English.
+- Audited every main route in dark (English and Arabic) and light: no text under 3:1 contrast, no light surface left in dark mode.

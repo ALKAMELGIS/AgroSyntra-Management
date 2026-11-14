@@ -455,7 +455,7 @@ function LessonManager({ moduleId }) {
                       <TextField
                         fullWidth size="small" multiline minRows={2} maxRows={5}
                         value={qa.answer || ''} onChange={(e) => updateQA(i, qi, 'answer', e.target.value)}
-                        sx={{ '& .MuiOutlinedInput-root': { bgcolor: '#f8fffe' } }}
+                        sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'var(--sheet-muted)' } }}
                       />
                     </Box>
                   ))}
@@ -479,7 +479,7 @@ function LessonManager({ moduleId }) {
                   </Box>
 
                   {previewIdx === i && (
-                    <Paper variant="outlined" sx={{ p: 2, mt: 2, maxHeight: 300, overflow: 'auto', bgcolor: '#fafffe' }}>
+                    <Paper variant="outlined" sx={{ p: 2, mt: 2, maxHeight: 300, overflow: 'auto', bgcolor: 'var(--sheet-muted)' }}>
                       <Box
                         sx={{ '& h2': { mt: 2, mb: 1, fontSize: '1.125rem' }, '& p': { mb: 1.5, lineHeight: 1.7, fontSize: '0.875rem' }, '& ul,& ol': { pl: 3, mb: 1.5 }, '& li': { mb: 0.5, fontSize: '0.875rem' } }}
                         dangerouslySetInnerHTML={{ __html: l.content || '<p>No content yet.</p>' }}
@@ -575,7 +575,7 @@ function LessonManager({ moduleId }) {
               value={editForm.content} onChange={(e) => setEditForm(p => ({ ...p, content: e.target.value }))}
             />
           ) : (
-            <Paper variant="outlined" sx={{ p: 2, mt: 1, maxHeight: 300, overflow: 'auto', bgcolor: '#fafffe' }}>
+            <Paper variant="outlined" sx={{ p: 2, mt: 1, maxHeight: 300, overflow: 'auto', bgcolor: 'var(--sheet-muted)' }}>
               <Box
                 sx={{ '& h2': { mt: 2, mb: 1, fontSize: '1.125rem' }, '& p': { mb: 1.5, lineHeight: 1.7, fontSize: '0.875rem' }, '& ul,& ol': { pl: 3, mb: 1.5 }, '& li': { mb: 0.5, fontSize: '0.875rem' } }}
                 dangerouslySetInnerHTML={{ __html: editForm.content || '<p>No content yet.</p>' }}

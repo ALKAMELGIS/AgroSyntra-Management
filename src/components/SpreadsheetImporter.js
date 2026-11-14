@@ -587,7 +587,7 @@ export default function SpreadsheetImporter({
               <Chip icon={<OkIcon />} label={`${counts.ok} Ready`} color="success" size="small" sx={{ fontWeight: 600 }} />
               <Chip icon={<WarnIcon />} label={`${counts.warn} Warnings`} color="warning" size="small" sx={{ fontWeight: 600 }} />
               <Chip icon={<ErrIcon />} label={`${counts.err} Errors`} color="error" size="small" sx={{ fontWeight: 600 }} />
-              <Typography sx={{ fontSize: '0.75rem', color: '#666', ml: 1 }}>
+              <Typography sx={{ fontSize: '0.75rem', color: 'var(--sheet-ink-2)', ml: 1 }}>
                 {counts.total} rows parsed — {importableRows.length} will be imported (errors are skipped).
                 Unmatched Field IDs can be picked below.
               </Typography>

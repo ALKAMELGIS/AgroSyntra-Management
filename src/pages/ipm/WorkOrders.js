@@ -641,11 +641,11 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
       {/* ─── Meta Row ─────────────────────────────────────────────── */}
       <Box sx={{ display: 'flex', border: B, borderTop: 'none' }}>
         <Box sx={{ flex: 1, p: '4px 8px', borderRight: B }}>
-          <Typography sx={{ fontSize: 7, color: '#666', fontWeight: 600 }}>Work Order Number</Typography>
+          <Typography sx={{ fontSize: 7, color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Work Order Number</Typography>
           <Typography sx={{ fontSize: 12, fontWeight: 700 }}>{woNumber}</Typography>
         </Box>
         <Box sx={{ flex: 1, p: '4px 8px', borderRight: B }}>
-          <Typography sx={{ fontSize: 7, color: '#666', fontWeight: 600 }}>Date (work order issue date)</Typography>
+          <Typography sx={{ fontSize: 7, color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Date (work order issue date)</Typography>
           {isCreate ? (
             <TextField type="date" size="small" value={form.dateIssued}
               onChange={(e) => setForm((p) => ({ ...p, dateIssued: e.target.value }))}
@@ -655,7 +655,7 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
           )}
         </Box>
         <Box sx={{ flex: 2, p: '4px 8px' }}>
-          <Typography sx={{ fontSize: 7, color: '#666', fontWeight: 600 }}>Operation Site/Farm</Typography>
+          <Typography sx={{ fontSize: 7, color: 'var(--sheet-ink-2)', fontWeight: 600 }}>Operation Site/Farm</Typography>
           <Typography sx={{ fontSize: 11, fontWeight: 700 }}>{siteName || '-'}</Typography>
         </Box>
       </Box>
@@ -702,7 +702,7 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
         const liveValue = (key) => (isCreate ? item[key] : opItem?.[key]) || '';
         const lockedCell = (key) => (
           <Tooltip title="Same as the main row">
-            <Typography sx={{ fontSize: 9, color: '#666' }}>{liveValue(key) || '–'}</Typography>
+            <Typography sx={{ fontSize: 9, color: 'var(--sheet-ink-2)' }}>{liveValue(key) || '–'}</Typography>
           </Tooltip>
         );
         const isAddedRow = isOpFill ? !!opItem?.addedByOperator : !!item.added_by_operator;
@@ -970,10 +970,10 @@ function TemplateSheet({ mode, form, setForm, fields, products = [], operators =
           </AuthLine>
 
           {!isCreate && wo?.completed_at && (
-            <Typography sx={{ fontSize: 8, color: '#666', mt: 0.5 }}>Completed: {new Date(wo.completed_at).toLocaleString()}</Typography>
+            <Typography sx={{ fontSize: 8, color: 'var(--sheet-ink-2)', mt: 0.5 }}>Completed: {new Date(wo.completed_at).toLocaleString()}</Typography>
           )}
           {!isCreate && wo?.approved_by_name && (
-            <Typography sx={{ fontSize: 8, color: '#666', mt: 0.3 }}>Approved by: {wo.approved_by_name} ({new Date(wo.approved_at).toLocaleString()})</Typography>
+            <Typography sx={{ fontSize: 8, color: 'var(--sheet-ink-2)', mt: 0.3 }}>Approved by: {wo.approved_by_name} ({new Date(wo.approved_at).toLocaleString()})</Typography>
           )}
         </Box>
       </Box>
