@@ -151,7 +151,6 @@ export const excelTableSx = (theme) => ({
   '& .col-numeric': {
     textAlign: 'right',
     fontVariantNumeric: 'tabular-nums',
-    fontFamily: 'Inter, "IBM Plex Sans Arabic", sans-serif',
   },
   // Out-of-range readings: dark red text only, no coloured chips filling the grid.
   '& .val-bad': { color: theme.palette.mode === 'dark' ? '#f6a99e' : '#b42318', fontWeight: 600 },
