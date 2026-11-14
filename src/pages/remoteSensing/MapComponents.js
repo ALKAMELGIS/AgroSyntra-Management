@@ -295,6 +295,10 @@ export function MapWidgets({
   const sideSx = isRtl
     ? { right: 50, left: { xs: 10, sm: 'auto' } }
     : { left: 50, right: { xs: 10, sm: 'auto' } };
+  // Basemap switcher: physical right on wide screens (away from zoom + search), full width on phones.
+  const basemapSideSx = isRtl
+    ? { left: 10, right: { xs: 10, sm: 'auto' } }
+    : { right: 10, left: { xs: 10, sm: 'auto' } };
   const ctrlSx = {
     bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider', width: 36, height: 36,
     '&:hover': { bgcolor: 'background.paper' }, '&.Mui-disabled': { bgcolor: 'background.paper', opacity: 0.6 },
@@ -334,7 +338,7 @@ export function MapWidgets({
         </Box>
       </Box>
       {/* Top-right: basemap widget */}
-      <Box sx={{ position: 'absolute', top: { xs: 'auto', sm: 10 }, bottom: { xs: 28, sm: 'auto' }, right: 10, left: { xs: 10, sm: 'auto' }, zIndex: 1000 }}>
+      <Box sx={{ position: 'absolute', top: { xs: 'auto', sm: 10 }, bottom: { xs: 28, sm: 'auto' }, ...basemapSideSx, zIndex: 1000 }}>
         <Paper sx={{ p: 0.5, display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap' }}>
           <ToggleButtonGroup
             value={baseMap}

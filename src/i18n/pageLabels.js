@@ -12,6 +12,12 @@ import { SHELL_AR } from './shellLabels';
  */
 export const PAGE_AR = {
   // Compact entry forms (round 35).
+  'Field analysis': 'تحليل الحقل',
+  'Draw field': 'رسم حقل',
+  'Cancel drawing': 'إلغاء الرسم',
+  'Zone and site': 'المنطقة والموقع',
+  'Field map tools': 'أدوات خريطة الحقول',
+  'Choose a zone and site under Location to show their fields.': 'اختر المنطقة والموقع من «الموقع» لعرض حقولهما.',
   'No fields with coordinates found for this site. Add latitude/longitude to fields in Master Data.': 'لا توجد حقول لها إحداثيات في هذا الموقع. أضف خط العرض وخط الطول للحقول في البيانات الرئيسية.',
   'Pesticide': 'مبيد',
   'Harvest Qty (Kg)': 'كمية الحصاد (كجم)',

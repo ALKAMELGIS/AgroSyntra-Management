@@ -50,14 +50,13 @@ import {
   Marker,
 } from 'react-leaflet';
 import {
-  CloseOutlined as CloseIcon,
   LayersOutlined as LayersIcon,
   SatelliteOutlined as SatelliteIcon,
   TimelineOutlined as TimelineIcon,
   CompareArrowsOutlined as CompareIcon,
   DownloadOutlined as DownloadIcon,
   RefreshOutlined as RefreshIcon,
-  SettingsOutlined as SettingsIcon,
+  AnalyticsOutlined as AnalyticsIcon,
   EditOutlined as EditIcon,
   DeleteOutlined as DeleteIcon,
   DrawOutlined as DrawIcon,
@@ -89,6 +88,7 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import L from 'leaflet';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import { MapWorkspace, useMapWorkspace } from '../components/map/MapPanel';
 import useFillHeight from '../hooks/useFillHeight';
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -141,7 +141,8 @@ function RemoteSensing() {
   const [selectedField, setSelectedField] = useState(null);
   const [loading, setLoading] = useState(false);
   // Analysis panel: open beside the map on desktop, closed on phones / tablets so the map comes first.
-  const [drawerOpen, setDrawerOpen] = useState(() => typeof window === 'undefined' || window.innerWidth >= 900);
+  // Map tools (layer, field analysis) open as panels of the shared map workspace.
+  const rsWorkspace = useMapWorkspace('rs.workspace', 'analysis');
   // The map fills the rest of the screen (never a fixed 75vh box).
   const [mapBoxRef, mapHeight] = useFillHeight({ min: 360 });
   const [selectedLayer, setSelectedLayer] = useState('TRUE_COLOR');
@@ -543,10 +544,40 @@ function RemoteSensing() {
     <Container maxWidth="xl">
       {/* Header: title, layer and actions on one row (wraps on small screens). */}
       <Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', columnGap: 3, rowGap: 3, mb: 3 }}>
-          <PageTitle>Remote Sensing</PageTitle>
-          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
-            <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 220 } }}>
+        <PageTitle sx={{ mb: 3 }}>Remote Sensing</PageTitle>
+
+        {/* Status Alerts */}
+        {sentinelHubStatus && !sentinelHubStatus.configured && (
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            {sentinelHubStatus.message}
+          </Alert>
+        )}
+
+        {availableFields.length === 0 && (
+          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
+            No field boundaries found yet. Click <strong>Draw Field</strong> to draw a polygon and assign it to an existing Field ID.
+            Use the <strong>Satellite</strong> base map to trace boundaries from aerial imagery.
+          </InfoNote>
+        )}
+      </Box>
+
+      {/* Map workspace: labelled tool strip above the map (same layout as the GIS map). */}
+      <Paper ref={mapBoxRef} variant="outlined" sx={{ overflow: 'hidden' }}>
+        <MapWorkspace
+          id="rs"
+          workspace={rsWorkspace}
+          height={mapHeight}
+          panelWidth={340}
+          label="Remote sensing tools"
+          tools={[
+            {
+              key: 'layer',
+              label: 'Layer',
+              title: 'Layer / Vegetation Index',
+              icon: <LayersIcon />,
+              content: (
+                <Box sx={{ p: 3, display: 'grid', gap: 3 }}>
+            <FormControl size="small" fullWidth>
               <InputLabel id="remotesensing-layer-vegetation-index-label-1">Layer / Vegetation Index</InputLabel>
               <Select labelId="remotesensing-layer-vegetation-index-label-1"
                 value={effectiveSelectedLayer}
@@ -567,64 +598,267 @@ function RemoteSensing() {
                   : 'If the map is blank, add layers (e.g. NDVI) in Sentinel Hub Configurator.'}
               </InfoNote>
             )}
-            <Button
-              variant="outlined"
-              startIcon={loading ? <CircularProgress size={16} /> : <RefreshIcon />}
-              onClick={loadFieldData}
-              disabled={loading || availableFields.length === 0}
-            >
-              {loading ? 'Loading...' : 'Refresh'}
-            </Button>
-            {canSavePolygons && (
-              <Button
-                variant={drawingMode ? 'contained' : 'outlined'}
-                color={drawingMode ? 'error' : 'primary'}
-                startIcon={drawingMode ? <CancelIcon /> : <DrawIcon />}
-                disabled={!!shapeEdit}
-                onClick={() => {
-                  if (drawingMode) {
-                    setDrawingMode(false);
-                    setDrawnPolygon(null);
-                  } else {
-                    setBaseMap('satellite');
-                    setDrawingMode(true);
+                </Box>
+              ),
+            },
+            {
+              key: 'analysis',
+              label: 'Field analysis',
+              icon: <AnalyticsIcon />,
+              content: (
+                <Box sx={{ p: 3 }}>
+
+              {/* Date Selection */}
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle2" gutterBottom>
+                  Imagery Date
+                </Typography>
+                <TextField
+                  type="date"
+                  fullWidth
+                  size="small"
+                  inputProps={{ 'aria-label': 'Imagery date' }}
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={{ mb: 2 }}
+                />
+                <Typography variant="caption" color="text.secondary" display="block">
+                  Select date for satellite imagery (Sentinel-2 updates every 3-5 days)
+                </Typography>
+              </Box>
+
+              {/* Time-Series Analysis */}
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle2" sx={{ mb: 3 }}>
+                  Time-Series Analysis
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1, mb: 1.5 }}>
+                  <TextField
+                    type="date"
+                    size="small"
+                    label="Start"
+                    value={timeSeriesStartDate}
+                    onChange={(e) => setTimeSeriesStartDate(e.target.value)}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ flex: 1 }}
+                    disabled={timeSeriesSteps.length > 0}
+                  />
+                  <TextField
+                    type="date"
+                    size="small"
+                    label="End"
+                    value={timeSeriesEndDate}
+                    onChange={(e) => setTimeSeriesEndDate(e.target.value)}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ flex: 1 }}
+                    disabled={timeSeriesSteps.length > 0}
+                  />
+                </Box>
+                {timeSeriesSteps.length === 0 ? (
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    startIcon={<TimelineIcon />}
+                    onClick={handleGenerateTimeline}
+                    disabled={
+                      !timeSeriesStartDate ||
+                      !timeSeriesEndDate ||
+                      new Date(timeSeriesEndDate) <= new Date(timeSeriesStartDate)
+                    }
+                  >
+                    Generate Timeline
+                  </Button>
+                ) : (
+                  <Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                      <Chip
+                        icon={<TimelineIcon />}
+                        label={`${timeSeriesSteps.length} snapshots`}
+                        size="small"
+                        color="primary"
+                      />
+                      <Typography variant="caption" color="text.secondary" sx={{ flex: 1 }}>
+                        {timeSeriesSteps[timeSeriesIndex]?.date}
+                      </Typography>
+                    </Box>
+                    <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1 }}>
+                      Step {timeSeriesIndex + 1} of {timeSeriesSteps.length}
+                    </Typography>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      color="error"
+                      fullWidth
+                      onClick={handleStopTimeline}
+                    >
+                      Stop Timeline
+                    </Button>
+                  </Box>
+                )}
+                <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 1 }}>
+                  {timeSeriesSteps.length > 0
+                    ? 'Use playback controls at the bottom of the map to animate through dates.'
+                    : 'Browse satellite imagery changes over time. Select a date range and generate the timeline.'}
+                </Typography>
+              </Box>
+
+              {/* Display Options */}
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle2" gutterBottom>
+                  Display Options
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={showFieldBoundaries}
+                      onChange={(e) => setShowFieldBoundaries(e.target.checked)}
+                    />
                   }
-                }}
-              >
-                {drawingMode ? 'Cancel Drawing' : 'Draw Field'}
-              </Button>
-            )}
-            <Button
-              variant="outlined"
-              startIcon={<SettingsIcon />}
-              onClick={() => setDrawerOpen(!drawerOpen)}
-            >
-              Controls
-            </Button>
-          </Box>
-        </Box>
+                  label="Field Boundaries"
+                />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={showProductivityZones}
+                      onChange={(e) => setShowProductivityZones(e.target.checked)}
+                    />
+                  }
+                  label="Productivity Zones"
+                />
+              </Box>
 
-        {/* Status Alerts */}
-        {sentinelHubStatus && !sentinelHubStatus.configured && (
-          <Alert severity="warning" sx={{ mb: 2 }}>
-            {sentinelHubStatus.message}
-          </Alert>
-        )}
+              {/* Selected Field Details */}
+              {selectedField && (
+                <Box>
+                  <Typography variant="h6" gutterBottom>
+                    {selectedField.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    {selectedField.farmAreaName} • {typeof selectedField.currentCrop === 'object' && selectedField.currentCrop !== null ? selectedField.currentCrop.name : (selectedField.currentCrop || 'No crop')}
+                  </Typography>
 
-        {availableFields.length === 0 && (
-          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
-            No field boundaries found yet. Click <strong>Draw Field</strong> to draw a polygon and assign it to an existing Field ID.
-            Use the <strong>Satellite</strong> base map to trace boundaries from aerial imagery.
-          </InfoNote>
-        )}
-      </Box>
+                  <Divider sx={{ my: 2 }} />
 
-      {/* Main Content Area */}
-      <Grid container spacing={3}>
-        {/* Map Section */}
-        <Grid size={{ xs: 12, md: drawerOpen ? 8 : 12 }}>
-          <Paper variant="outlined" sx={{ overflow: 'hidden' }}>
-            <Box ref={mapBoxRef} sx={{ height: mapHeight, position: 'relative' }}>
+                  {/* Environment Indicators */}
+                  {environmentData[selectedField.id || selectedField.name] && (
+                    <Box sx={{ mb: 2 }}>
+                      <Typography variant="subtitle2" gutterBottom>
+                        Environment Indicators
+                      </Typography>
+                      <Grid container spacing={1}>
+                        <Grid size={6}>
+                          <Card variant="outlined" sx={{ p: 1 }}>
+                            <Typography variant="caption" color="text.secondary">
+                              Temperature
+                            </Typography>
+                            <Typography variant="h6">
+                              {environmentData[selectedField.id || selectedField.name].temperature?.toFixed(1)}°C
+                            </Typography>
+                          </Card>
+                        </Grid>
+                        <Grid size={6}>
+                          <Card variant="outlined" sx={{ p: 1 }}>
+                            <Typography variant="caption" color="text.secondary">
+                              Humidity
+                            </Typography>
+                            <Typography variant="h6">
+                              {environmentData[selectedField.id || selectedField.name].humidity}%
+                            </Typography>
+                          </Card>
+                        </Grid>
+                        <Grid size={6}>
+                          <Card variant="outlined" sx={{ p: 1 }}>
+                            <Typography variant="caption" color="text.secondary">
+                              Precipitation
+                            </Typography>
+                            <Typography variant="h6">
+                              {environmentData[selectedField.id || selectedField.name].precipitation?.toFixed(1)} mm
+                            </Typography>
+                          </Card>
+                        </Grid>
+                        <Grid size={6}>
+                          <Card variant="outlined" sx={{ p: 1 }}>
+                            <Typography variant="caption" color="text.secondary">
+                              Wind Speed
+                            </Typography>
+                            <Typography variant="h6">
+                              {environmentData[selectedField.id || selectedField.name].windSpeed?.toFixed(1)} m/s
+                            </Typography>
+                          </Card>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  )}
+
+                  {/* Vegetation Indices */}
+                  {vegetationData[selectedField.id || selectedField.name] && (
+                    <Box sx={{ mb: 2 }}>
+                      <Typography variant="subtitle2" gutterBottom>
+                        Vegetation Indices
+                      </Typography>
+                      <List dense>
+                        <ListItem>
+                          <ListItemText
+                            primary="NDVI"
+                            secondary={vegetationData[selectedField.id || selectedField.name].ndvi?.toFixed(3)}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            primary="NDMI"
+                            secondary={vegetationData[selectedField.id || selectedField.name].ndmi?.toFixed(3)}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemText
+                            primary="NDRE"
+                            secondary={vegetationData[selectedField.id || selectedField.name].ndre?.toFixed(3)}
+                          />
+                        </ListItem>
+                      </List>
+                    </Box>
+                  )}
+                </Box>
+              )}
+
+              {!selectedField && (
+                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mt: 4 }}>
+                  Click on a field to view details
+                </Typography>
+              )}
+                </Box>
+              ),
+            },
+            canSavePolygons && {
+              key: 'draw',
+              label: drawingMode ? 'Cancel drawing' : 'Draw field',
+              icon: drawingMode ? <CancelIcon /> : <DrawIcon />,
+              pressed: drawingMode,
+              disabled: !!shapeEdit,
+              onClick: () => {
+                if (drawingMode) {
+                  setDrawingMode(false);
+                  setDrawnPolygon(null);
+                } else {
+                  setBaseMap('satellite');
+                  setDrawingMode(true);
+                }
+              },
+            },
+            {
+              key: 'refresh',
+              label: loading ? 'Loading…' : 'Refresh',
+              icon: loading ? <CircularProgress size={18} /> : <RefreshIcon />,
+              disabled: loading || availableFields.length === 0,
+              onClick: loadFieldData,
+            },
+          ]}
+        >
+            <Box sx={{ height: '100%', position: 'relative' }}>
               {searchError && (
                 <Snackbar open autoHideDuration={4000} onClose={() => setSearchError(null)} message={searchError} sx={{ position: 'absolute', top: 8, left: '50%', transform: 'translateX(-50%)', zIndex: 1100 }} />
               )}
@@ -641,7 +875,7 @@ function RemoteSensing() {
                 zoomControl={false}
               >
                 <MapLifecycle />
-                <MapResizeInvalidator revision={drawerOpen} />
+                <MapResizeInvalidator revision={rsWorkspace.active} />
                 <BasemapLayer baseMap={baseMap} />
                 {sentinelHubStatus?.configured && sentinelHubStatus.hasWMS && getWMSBaseURL() && showSentinelOverlay && (
                   <Pane name="sentinel-wms-pane" style={{ zIndex: 350 }}>
@@ -945,248 +1179,8 @@ function RemoteSensing() {
                 </Paper>
               )}
             </Box>
-          </Paper>
-        </Grid>
-
-        {/* Side Panel */}
-        {drawerOpen && (
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper variant="outlined" sx={{ p: 2, height: { md: mapHeight }, maxHeight: { xs: 'none', md: mapHeight }, overflow: 'auto' }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6">Field Analysis</Typography>
-                <IconButton size="small" onClick={() => setDrawerOpen(false)} aria-label="Close">
-                  <CloseIcon />
-                </IconButton>
-              </Box>
-
-              <Divider sx={{ mb: 2 }} />
-
-              {/* Date Selection */}
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" gutterBottom>
-                  Imagery Date
-                </Typography>
-                <TextField
-                  type="date"
-                  fullWidth
-                  size="small"
-                  inputProps={{ 'aria-label': 'Imagery date' }}
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  sx={{ mb: 2 }}
-                />
-                <Typography variant="caption" color="text.secondary" display="block">
-                  Select date for satellite imagery (Sentinel-2 updates every 3-5 days)
-                </Typography>
-              </Box>
-
-              {/* Time-Series Analysis */}
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" sx={{ mb: 3 }}>
-                  Time-Series Analysis
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 1, mb: 1.5 }}>
-                  <TextField
-                    type="date"
-                    size="small"
-                    label="Start"
-                    value={timeSeriesStartDate}
-                    onChange={(e) => setTimeSeriesStartDate(e.target.value)}
-                    InputLabelProps={{ shrink: true }}
-                    sx={{ flex: 1 }}
-                    disabled={timeSeriesSteps.length > 0}
-                  />
-                  <TextField
-                    type="date"
-                    size="small"
-                    label="End"
-                    value={timeSeriesEndDate}
-                    onChange={(e) => setTimeSeriesEndDate(e.target.value)}
-                    InputLabelProps={{ shrink: true }}
-                    sx={{ flex: 1 }}
-                    disabled={timeSeriesSteps.length > 0}
-                  />
-                </Box>
-                {timeSeriesSteps.length === 0 ? (
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    startIcon={<TimelineIcon />}
-                    onClick={handleGenerateTimeline}
-                    disabled={
-                      !timeSeriesStartDate ||
-                      !timeSeriesEndDate ||
-                      new Date(timeSeriesEndDate) <= new Date(timeSeriesStartDate)
-                    }
-                  >
-                    Generate Timeline
-                  </Button>
-                ) : (
-                  <Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                      <Chip
-                        icon={<TimelineIcon />}
-                        label={`${timeSeriesSteps.length} snapshots`}
-                        size="small"
-                        color="primary"
-                      />
-                      <Typography variant="caption" color="text.secondary" sx={{ flex: 1 }}>
-                        {timeSeriesSteps[timeSeriesIndex]?.date}
-                      </Typography>
-                    </Box>
-                    <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1 }}>
-                      Step {timeSeriesIndex + 1} of {timeSeriesSteps.length}
-                    </Typography>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      color="error"
-                      fullWidth
-                      onClick={handleStopTimeline}
-                    >
-                      Stop Timeline
-                    </Button>
-                  </Box>
-                )}
-                <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 1 }}>
-                  {timeSeriesSteps.length > 0
-                    ? 'Use playback controls at the bottom of the map to animate through dates.'
-                    : 'Browse satellite imagery changes over time. Select a date range and generate the timeline.'}
-                </Typography>
-              </Box>
-
-              {/* Display Options */}
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" gutterBottom>
-                  Display Options
-                </Typography>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={showFieldBoundaries}
-                      onChange={(e) => setShowFieldBoundaries(e.target.checked)}
-                    />
-                  }
-                  label="Field Boundaries"
-                />
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={showProductivityZones}
-                      onChange={(e) => setShowProductivityZones(e.target.checked)}
-                    />
-                  }
-                  label="Productivity Zones"
-                />
-              </Box>
-
-              {/* Selected Field Details */}
-              {selectedField && (
-                <Box>
-                  <Typography variant="h6" gutterBottom>
-                    {selectedField.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
-                    {selectedField.farmAreaName} • {typeof selectedField.currentCrop === 'object' && selectedField.currentCrop !== null ? selectedField.currentCrop.name : (selectedField.currentCrop || 'No crop')}
-                  </Typography>
-
-                  <Divider sx={{ my: 2 }} />
-
-                  {/* Environment Indicators */}
-                  {environmentData[selectedField.id || selectedField.name] && (
-                    <Box sx={{ mb: 2 }}>
-                      <Typography variant="subtitle2" gutterBottom>
-                        Environment Indicators
-                      </Typography>
-                      <Grid container spacing={1}>
-                        <Grid size={6}>
-                          <Card variant="outlined" sx={{ p: 1 }}>
-                            <Typography variant="caption" color="text.secondary">
-                              Temperature
-                            </Typography>
-                            <Typography variant="h6">
-                              {environmentData[selectedField.id || selectedField.name].temperature?.toFixed(1)}°C
-                            </Typography>
-                          </Card>
-                        </Grid>
-                        <Grid size={6}>
-                          <Card variant="outlined" sx={{ p: 1 }}>
-                            <Typography variant="caption" color="text.secondary">
-                              Humidity
-                            </Typography>
-                            <Typography variant="h6">
-                              {environmentData[selectedField.id || selectedField.name].humidity}%
-                            </Typography>
-                          </Card>
-                        </Grid>
-                        <Grid size={6}>
-                          <Card variant="outlined" sx={{ p: 1 }}>
-                            <Typography variant="caption" color="text.secondary">
-                              Precipitation
-                            </Typography>
-                            <Typography variant="h6">
-                              {environmentData[selectedField.id || selectedField.name].precipitation?.toFixed(1)} mm
-                            </Typography>
-                          </Card>
-                        </Grid>
-                        <Grid size={6}>
-                          <Card variant="outlined" sx={{ p: 1 }}>
-                            <Typography variant="caption" color="text.secondary">
-                              Wind Speed
-                            </Typography>
-                            <Typography variant="h6">
-                              {environmentData[selectedField.id || selectedField.name].windSpeed?.toFixed(1)} m/s
-                            </Typography>
-                          </Card>
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  )}
-
-                  {/* Vegetation Indices */}
-                  {vegetationData[selectedField.id || selectedField.name] && (
-                    <Box sx={{ mb: 2 }}>
-                      <Typography variant="subtitle2" gutterBottom>
-                        Vegetation Indices
-                      </Typography>
-                      <List dense>
-                        <ListItem>
-                          <ListItemText
-                            primary="NDVI"
-                            secondary={vegetationData[selectedField.id || selectedField.name].ndvi?.toFixed(3)}
-                          />
-                        </ListItem>
-                        <ListItem>
-                          <ListItemText
-                            primary="NDMI"
-                            secondary={vegetationData[selectedField.id || selectedField.name].ndmi?.toFixed(3)}
-                          />
-                        </ListItem>
-                        <ListItem>
-                          <ListItemText
-                            primary="NDRE"
-                            secondary={vegetationData[selectedField.id || selectedField.name].ndre?.toFixed(3)}
-                          />
-                        </ListItem>
-                      </List>
-                    </Box>
-                  )}
-                </Box>
-              )}
-
-              {!selectedField && (
-                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mt: 4 }}>
-                  Click on a field to view details
-                </Typography>
-              )}
-            </Paper>
-          </Grid>
-        )}
-      </Grid>
+        </MapWorkspace>
+      </Paper>
 
       {/* Field Assignment Dialog */}
       <Dialog

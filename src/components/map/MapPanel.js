@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  Box, ButtonBase, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Radio, Tooltip, Typography,
+  Box, ButtonBase, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Radio, Typography,
   useMediaQuery,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -8,17 +8,17 @@ import { CloseRounded as CloseIcon } from '@mui/icons-material';
 import { BASEMAPS } from '../../utils/mapBasemaps';
 
 /**
- * Docked map workspace (GIS Map, GPS Tracking):
+ * Map workspace used by every map page (GIS Map, GPS Tracking, Remote Sensing, Weather Map):
  *
- *   [ tool bar | docked panel (opens / closes, pushes the map) | map ]
+ *   [ labelled tool strip: GIS tools | satellite / RS tools ]
+ *   [ docked panel (tablet / desktop) | full-width map ]
  *
- * - The tool bar is a slim column on the start edge: panel tools (Layers,
- *   Legend, Basemaps, Equipment …) and action tools (Add data …).
- * - One docked panel shows the selected tool. It is part of the layout, not a
- *   floating card: opening it narrows the map, closing it gives the width back.
- *   On phones the panel covers the map area while open (too narrow for both).
- * - Nothing floats over the map except Leaflet's own zoom buttons (opposite
- *   top corner) and map credits, so nothing can overlap.
+ * - One strip of icon + label buttons above the map on every screen size; panel
+ *   tools open a panel, action tools act at once; counts sit beside the label.
+ * - Tablet / desktop: the panel docks beside the map (the map narrows, nothing
+ *   covers it). Phones: the panel opens as a sheet over the lower 62% of the map.
+ * - Nothing floats over the map except Leaflet's zoom buttons (top corner opposite
+ *   the panel) and the map credits, so nothing overlaps. Square corners throughout.
  * - The selected tool is remembered per page; everything mirrors in Arabic.
  */
 
@@ -49,118 +49,7 @@ export function useMapWorkspace(storageKey, initial = null) {
   return { active, setActive, toggle, close };
 }
 
-/**
- * tools: [{ key, label, icon, badge?, title?, content? , onClick?, actions? }]
- *   – with `content`: a panel tool (toggles the docked panel);
- *   – with `onClick`: an action (e.g. Add data).
- *
- * endTools / endWorkspace: an optional second tool bar on the opposite edge
- * (e.g. satellite tools on GIS Map) with its own docked panel:
- *
- *   [ tools | panel | map | end panel | end tools ]
- */
-function ToolRail({ tools, workspace, panelId, label, side }) {
-  const theme = useTheme();
-  const rtl = theme.direction === 'rtl';
-  const end = side === 'end';
-  const tipSide = (rtl !== end) ? 'left' : 'right';
-  return (
-    <Box
-      component="nav"
-      aria-label={label}
-      sx={{
-        width: RAIL_WIDTH, flexShrink: 0, py: 1.5,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, overflowY: 'auto',
-        [end ? 'borderInlineStart' : 'borderInlineEnd']: '1px solid', borderColor: 'divider', bgcolor: 'background.paper', zIndex: 2,
-      }}
-    >
-      {tools.map((tool) => {
-        if (tool.divider) return <Box key={tool.key} sx={{ width: 24, height: '1px', bgcolor: 'divider', my: 0.5, flexShrink: 0 }} />;
-        const isPanel = Boolean(tool.content);
-        const pressed = isPanel ? workspace.active === tool.key : Boolean(tool.pressed);
-        // The count sits under the icon (its own line), never on top of it.
-        const count = tool.badge ? (tool.badge > 99 ? '99+' : tool.badge) : null;
-        const iconEl = count ? (
-          <Box component="span" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1 }}>
-            {tool.icon}
-            <Box component="span" aria-hidden sx={{ mt: 0.5, fontSize: '0.625rem', fontWeight: 700, lineHeight: 1, color: 'primary.main', fontVariantNumeric: 'tabular-nums' }}>{count}</Box>
-          </Box>
-        ) : tool.icon;
-        return (
-          <Tooltip key={tool.key} title={count ? `${tool.label} (${count})` : tool.label} placement={tipSide}>
-            <span>
-              <IconButton
-                size="small"
-                aria-label={count ? `${tool.label} (${count})` : tool.label}
-                aria-pressed={isPanel || tool.pressed !== undefined ? pressed : undefined}
-                aria-controls={isPanel ? panelId : undefined}
-                aria-expanded={isPanel ? pressed : undefined}
-                disabled={tool.disabled}
-                onClick={isPanel ? () => workspace.toggle(tool.key) : tool.onClick}
-                sx={{
-                  flexShrink: 0,
-                  ...(count ? { height: 48 } : null),
-                  color: pressed ? 'primary.main' : 'text.secondary',
-                  bgcolor: pressed ? 'action.selected' : 'transparent',
-                  // A thin bar on the outer edge marks the open tool.
-                  position: 'relative',
-                  '&::before': pressed ? {
-                    content: '""', position: 'absolute', [end ? 'insetInlineEnd' : 'insetInlineStart']: -8, top: 6, bottom: 6, width: 3, borderRadius: 2, bgcolor: 'primary.main',
-                  } : undefined,
-                }}
-              >
-                {iconEl}
-              </IconButton>
-            </span>
-          </Tooltip>
-        );
-      })}
-    </Box>
-  );
-}
 
-function DockedPanel({ current, workspace, panelId, panelWidth, side }) {
-  const open = Boolean(current);
-  const end = side === 'end';
-  return (
-    <Box
-      id={panelId}
-      component="section"
-      aria-label={current ? current.title || current.label : undefined}
-      hidden={!open}
-      sx={{
-        display: open ? 'flex' : 'none',
-        flexDirection: 'column',
-        width: { xs: `calc(100% - ${RAIL_WIDTH}px)`, sm: panelWidth },
-        flexShrink: 0,
-        minHeight: 0,
-        bgcolor: 'background.paper',
-        [end ? 'borderInlineStart' : 'borderInlineEnd']: '1px solid',
-        borderColor: 'divider',
-        // Phones: cover the map area while open (docked to the tool bar, full height).
-        position: { xs: 'absolute', sm: 'relative' },
-        [end ? 'insetInlineEnd' : 'insetInlineStart']: { xs: RAIL_WIDTH, sm: 'auto' },
-        top: 0,
-        bottom: 0,
-        zIndex: { xs: 1100, sm: 1 },
-      }}
-    >
-      {current && (
-        <>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, minHeight: 48, borderBottom: '1px solid', borderColor: 'divider', flexShrink: 0 }}>
-            <Box sx={{ color: 'text.secondary', display: 'flex', '& .MuiSvgIcon-root': { fontSize: 20 } }}>{current.icon}</Box>
-            <Typography component="h2" noWrap sx={{ fontSize: '0.9375rem', fontWeight: 600, flex: 1, minWidth: 0 }}>
-              {current.title || current.label}
-            </Typography>
-            {current.actions}
-            <IconButton size="small" onClick={workspace.close} aria-label={`Close ${current.title || current.label}`}><CloseIcon /></IconButton>
-          </Box>
-          <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>{current.content}</Box>
-        </>
-      )}
-    </Box>
-  );
-}
 
 /* ---- phones ---------------------------------------------------------------
  * Two side rails would eat a quarter of a 390 px screen. On phones all tools sit
@@ -181,7 +70,10 @@ function PhoneToolStrip({ groups }) {
       {groups.map((g, gi) => (
         <Box key={g.label} sx={{ display: 'flex', alignItems: 'stretch', gap: 0.5, flexShrink: 0 }}>
           {gi > 0 && <Box aria-hidden sx={{ width: '1px', my: 2, mx: 1, bgcolor: 'divider', flexShrink: 0 }} />}
-          {g.tools.filter((t) => !t.divider).map((tool) => {
+          {g.tools.map((tool, ti) => {
+            if (tool.divider) {
+              return <Box key={tool.key || `div-${ti}`} aria-hidden sx={{ width: '1px', my: 2, mx: 1, bgcolor: 'divider', flexShrink: 0 }} />;
+            }
             const isPanel = Boolean(tool.content);
             const pressed = isPanel ? g.workspace.active === tool.key : Boolean(tool.pressed);
             const count = tool.badge ? (tool.badge > 99 ? '99+' : tool.badge) : null;
@@ -193,7 +85,7 @@ function PhoneToolStrip({ groups }) {
                 disabled={tool.disabled}
                 onClick={isPanel ? () => g.open(tool.key) : tool.onClick}
                 sx={{
-                  flexDirection: 'column', gap: 0.5, minWidth: 64, maxWidth: 96, px: 1.5, py: 1.5,
+                  flexDirection: 'column', gap: 0.5, minWidth: 64, maxWidth: { xs: 96, sm: 180 }, px: 1.5, py: 1.5,
                   color: pressed ? 'primary.main' : 'text.secondary',
                   bgcolor: pressed ? 'action.selected' : 'transparent',
                   borderBottom: '2px solid', borderColor: pressed ? 'primary.main' : 'transparent',
@@ -217,18 +109,22 @@ function PhoneToolStrip({ groups }) {
   );
 }
 
-function PhoneSheet({ current, onClose, panelId }) {
+function PhoneSheet({ current, onClose, panelId, docked = false, width = 340 }) {
   if (!current) return null;
+  // Phones: a sheet over the lower part of the map. Tablet / desktop: a column docked
+  // beside the map (the map shrinks, nothing covers it).
+  const placement = docked
+    ? { width, flexShrink: 0, height: '100%', borderInlineEnd: '1px solid', borderColor: 'divider' }
+    : {
+      position: 'absolute', insetInline: 0, bottom: 0, height: '62%', zIndex: 1100,
+      borderTop: '1px solid', borderColor: 'divider', boxShadow: '0 -4px 16px rgba(0,0,0,0.12)',
+    };
   return (
     <Box
       id={panelId}
       component="section"
       aria-label={current.title || current.label}
-      sx={{
-        position: 'absolute', insetInline: 0, bottom: 0, height: '62%', zIndex: 1100,
-        display: 'flex', flexDirection: 'column', bgcolor: 'background.paper',
-        borderTop: '1px solid', borderColor: 'divider', boxShadow: '0 -4px 16px rgba(0,0,0,0.12)',
-      }}
+      sx={{ ...placement, display: 'flex', flexDirection: 'column', bgcolor: 'background.paper', minHeight: 0 }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 3, minHeight: 48, borderBottom: '1px solid', borderColor: 'divider', flexShrink: 0 }}>
         <Box sx={{ color: 'text.secondary', display: 'flex', '& .MuiSvgIcon-root': { fontSize: 20 } }}>{current.icon}</Box>
@@ -269,46 +165,34 @@ export function MapWorkspace({
   const theme = useTheme();
   const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
 
-  if (isPhone) {
-    // Opening a tool of one group closes the other group's panel: one sheet at a time.
-    const groups = [
-      { label, tools: list, workspace, open: (k) => { endWorkspace.close(); workspace.toggle(k); } },
-      ...(endList.length ? [{ label: endLabel, tools: endList, workspace: endWorkspace, open: (k) => { workspace.close(); endWorkspace.toggle(k); } }] : []),
-    ];
-    const sheet = endCurrent || current;
-    return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', height, minHeight: 0, bgcolor: 'background.paper' }}>
-        <PhoneToolStrip groups={groups} />
-        <Box sx={{ flex: 1, minHeight: 0, position: 'relative' }}>
+  // One layout on every screen: a labelled tool strip above a full-width map
+  // (GIS group | satellite group). Phones open a tool as a sheet over the lower map;
+  // tablet and desktop dock it beside the map. Opening a tool of one group closes the
+  // other group's panel, so only one panel is ever open.
+  const groups = [
+    { label, tools: list, workspace, open: (k) => { endWorkspace.close(); workspace.toggle(k); } },
+    ...(endList.length ? [{ label: endLabel, tools: endList, workspace: endWorkspace, open: (k) => { workspace.close(); endWorkspace.toggle(k); } }] : []),
+  ];
+  const sheet = endCurrent || current;
+  const sheetProps = {
+    current: sheet,
+    panelId: endCurrent ? `${id}-end-panel` : `${id}-panel`,
+    onClose: () => (endCurrent ? endWorkspace.close() : workspace.close()),
+  };
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', height, minHeight: 0, bgcolor: 'background.paper' }}>
+      <PhoneToolStrip groups={groups} />
+      <Box sx={{ flex: 1, minHeight: 0, position: 'relative', display: 'flex' }}>
+        {!isPhone && <PhoneSheet {...sheetProps} docked width={endCurrent ? endPanelWidth : panelWidth} />}
+        <Box sx={{ flex: 1, minWidth: 0, minHeight: 0, position: 'relative' }}>
           {children}
-          <PhoneSheet
-            current={sheet}
-            panelId={endCurrent ? `${id}-end-panel` : `${id}-panel`}
-            onClose={() => (endCurrent ? endWorkspace.close() : workspace.close())}
-          />
+          {isPhone && <PhoneSheet {...sheetProps} />}
         </Box>
       </Box>
-    );
-  }
-
-  return (
-    <Box sx={{ display: 'flex', height, position: 'relative', minHeight: 0, bgcolor: 'background.paper' }}>
-      <ToolRail tools={list} workspace={workspace} panelId={`${id}-panel`} label={label} side="start" />
-      {/* Docked panel: part of the layout (pushes the map), not a floating card. */}
-      <DockedPanel current={current} workspace={workspace} panelId={`${id}-panel`} panelWidth={panelWidth} side="start" />
-
-      {/* Map area */}
-      <Box sx={{ flex: 1, minWidth: 0, position: 'relative' }}>{children}</Box>
-
-      {endList.length > 0 && (
-        <>
-          <DockedPanel current={endCurrent} workspace={endWorkspace} panelId={`${id}-end-panel`} panelWidth={endPanelWidth} side="end" />
-          <ToolRail tools={endList} workspace={endWorkspace} panelId={`${id}-end-panel`} label={endLabel} side="end" />
-        </>
-      )}
     </Box>
   );
 }
+
 
 export function useBasemap(storageKey, initial = 'osm') {
   const [basemap, setBasemap] = useState(() => {

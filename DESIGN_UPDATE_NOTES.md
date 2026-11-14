@@ -453,3 +453,13 @@ Pages:
 - **Map tools on phones** (`MapWorkspace`): the two 48 px side rails (GIS / satellite) took a quarter of the screen. Phones now get one labelled tool strip above the map — GIS group | satellite (RS) group — and a tool's panel opens as a sheet over the lower 62% of the map, so the map stays visible; one sheet at a time. Desktop and tablet keep the two rails with docked panels.
 - Map tool counts no longer sit on top of the icons: phone strip shows the count next to the tool name, desktop rails show it under the icon (0 overlaps measured across 15 tools).
 - Remote sensing map (phone, Arabic): the search box covered Leaflet's zoom buttons and the legend covered the minus button, because the RTL plugin mirrored left/right while Leaflet keeps zoom on the physical left. Both are now placed by direction; home/locate buttons are bordered squares with a background even when disabled. Weather map layer toggles stay on one line; its no-coordinates warning is in Arabic. Map overlays measured: 0 overlaps on remote sensing, GIS and GPS maps at 384/820/1280 px in Arabic and English.
+
+## Round 40 — one map design everywhere
+
+- **Every map page uses the same layout** on phone, tablet and desktop (web and APK): a labelled tool strip above a full-width map. GIS Map and GPS Tracking already used `MapWorkspace`; **Remote Sensing** (layer, field analysis, draw field, refresh) and the **Weather / Field Map** (location, weather, boundaries, NDVI, satellite, refresh) now do too. Their old header buttons, selects and side panel moved into the strip.
+- Panels: phones open a sheet over the lower 62% of the map; tablet and desktop dock the panel beside the map (the map narrows, nothing covers it). One panel at a time. The old side rails were removed.
+- Tool names show in full on tablet/desktop (up to 180 px), ellipsis only on phones; dividers separate tool groups.
+- Remote sensing basemap switcher stays physically right (it covered zoom + search in Arabic on desktop).
+- Weather map without fields shows its message inside the map frame instead of an empty page.
+- Header "Ctrl K" hint: one line, shown from 900 px up.
+- Measured: 0 overlapping map controls and no sideways page scroll on all four map pages at 384 / 820 / 1440 px.

@@ -229,7 +229,10 @@ function SearchBar() {
       <Box
         component="kbd"
         sx={{
-          display: { xs: 'none', sm: 'inline-flex' },
+          // Shortcut hint only where there's room for it on one line.
+          display: { xs: 'none', md: 'inline-flex' },
+          whiteSpace: 'nowrap',
+          flexShrink: 0,
           alignItems: 'center',
           bgcolor: 'background.paper',
           border: '1px solid',

@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { Container, Paper, Typography, Box, Grid, Card, CardContent, Button, Chip, CircularProgress, Alert, Select, MenuItem, FormControl, InputLabel, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Container, Paper, Typography, Box, Grid, Card, CardContent, Button, Chip, CircularProgress, Alert, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { MapContainer, TileLayer, Marker, Popup, Polygon, LayersControl, LayerGroup } from 'react-leaflet';
 import { MapLifecycle, SafeFitBounds } from '../utils/leafletSafe';
 import { Icon } from 'leaflet';
-import { RefreshOutlined as Refresh, LayersOutlined as Layers, SatelliteOutlined as Satellite, TerrainOutlined as Terrain } from '@mui/icons-material';
+import { RefreshOutlined as Refresh, LayersOutlined as Layers, SatelliteOutlined as Satellite, TerrainOutlined as Terrain, PlaceOutlined as PlaceIcon, GrassOutlined as NdviIcon } from '@mui/icons-material';
 import { loadMasterData } from '../utils/masterDataUtils';
 import { fetchCurrentWeather } from '../utils/weatherService';
 import { getNDVIData, getSoilHealthData, isAgroAPIAvailable, createAgroPolygon, getRegisteredPolygons } from '../utils/agroApiService';
@@ -14,6 +14,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import InfoNote from '../components/InfoNote';
 import PageTitle from '../components/PageTitle';
+import { MapWorkspace, useMapWorkspace } from '../components/map/MapPanel';
 import useFillHeight from '../hooks/useFillHeight';
 import { toLatLngRing } from '../utils/polygonRing';
 delete L.Icon.Default.prototype._getIconUrl;
@@ -227,27 +228,30 @@ function WeatherMap() {
 
   // The map fills the rest of the screen on every size (was a fixed 70vh box).
   const [mapBoxRef, mapHeight] = useFillHeight({ min: 360 });
+  const wmWorkspace = useMapWorkspace('weathermap.workspace', 'location');
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
       <Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 3, mb: 2 }}>
-          <PageTitle>Field Map</PageTitle>
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button
-              variant="outlined"
-              startIcon={loading ? <CircularProgress size={16} /> : <Refresh />}
-              onClick={loadFieldData}
-              disabled={loading || availableFields.length === 0}
-            >
-              {loading ? 'Loading...' : 'Refresh Data'}
-            </Button>
-          </Box>
-        </Box>
+        <PageTitle sx={{ mb: 3 }}>Field Map</PageTitle>
 
-        {/* Filters */}
-        <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+      </Box>
+
+      {/* Map workspace: labelled tool strip above the map (same layout as the GIS map). */}
+      <Paper ref={mapBoxRef} variant="outlined" sx={{ overflow: 'hidden' }}>
+        <MapWorkspace
+          id="weathermap"
+          workspace={wmWorkspace}
+          height={mapHeight}
+          label="Field map tools"
+          tools={[
+            {
+              key: 'location',
+              label: 'Location',
+              title: 'Zone and site',
+              icon: <PlaceIcon />,
+              content: (
+                <Box sx={{ p: 3, display: 'grid', gap: 3 }}>
             <FormControl fullWidth>
               <InputLabel id="weathermap-zone-label-1">Zone</InputLabel>
               <Select labelId="weathermap-zone-label-1"
@@ -265,8 +269,6 @@ function WeatherMap() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <FormControl fullWidth>
               <InputLabel id="weathermap-site-label-2">Site</InputLabel>
               <Select labelId="weathermap-site-label-2"
@@ -282,53 +284,15 @@ function WeatherMap() {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 6 }}>
-            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center' }}>
-              <Typography variant="body2">Layers:</Typography>
-              <ToggleButtonGroup
-                value={Object.keys(mapLayers).filter((key) => mapLayers[key])}
-                onChange={(e, newLayers) => {
-                  const updated = { ...mapLayers };
-                  Object.keys(updated).forEach((key) => {
-                    updated[key] = newLayers.includes(key);
-                  });
-                  setMapLayers(updated);
-                }}
-                size="small"
-                // One line on every screen: scroll sideways instead of wrapping labels.
-                sx={{ maxWidth: '100%', overflowX: 'auto', '& .MuiToggleButton-root': { whiteSpace: 'nowrap', flexShrink: 0 } }}
-              >
-                <ToggleButton value="weather">
-                  <Layers fontSize="small" sx={{ mr: 0.5 }} />
-                  Weather
-                </ToggleButton>
-                <ToggleButton value="boundaries">
-                  <Terrain fontSize="small" sx={{ mr: 0.5 }} />
-                  Boundaries
-                </ToggleButton>
-                <ToggleButton value="ndvi">
-                  <Satellite fontSize="small" sx={{ mr: 0.5 }} />
-                  NDVI
-                </ToggleButton>
-                <ToggleButton value="satellite">
-                  <Satellite fontSize="small" sx={{ mr: 0.5 }} />
-                  Satellite
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Box>
-          </Grid>
-        </Grid>
-
         {!agroAvailable && (
-          <InfoNote severity="info" sx={{ mb: 2 }}>
+          <InfoNote severity="info" sx={{ mb: 0 }}>
             Agro API features (NDVI, Satellite, Soil Health) require an OpenWeatherMap API key.
             Add it in <strong>Admin → API Keys → Weather Map API Key</strong>.
           </InfoNote>
         )}
 
         {agroAvailable && availableFields.length > 0 && (
-          <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
+          <InfoNote mode="line" severity="info" sx={{ mb: 0 }}>
             <Typography variant="body2" gutterBottom>
               <strong>NDVI Display Requirements:</strong>
             </Typography>
@@ -343,17 +307,25 @@ function WeatherMap() {
           </InfoNote>
         )}
 
-        {availableFields.length === 0 && selectedSite && (
-          <Alert severity="warning">
-            No fields with coordinates found for this site. Add latitude/longitude to fields in Master Data.
-          </Alert>
-        )}
-      </Box>
-
-      {/* Map Container */}
-      {selectedSite && availableFields.length > 0 && (
-        <Paper variant="outlined" sx={{ overflow: 'hidden' }}>
-          <Box ref={mapBoxRef} sx={{ height: mapHeight, position: 'relative' }}>
+                </Box>
+              ),
+            },
+            { divider: true, key: 'd1' },
+            { key: 'weather', label: 'Weather', icon: <Layers />, pressed: !!mapLayers.weather, onClick: () => setMapLayers((m) => ({ ...m, weather: !m.weather })) },
+            { key: 'boundaries', label: 'Boundaries', icon: <Terrain />, pressed: !!mapLayers.boundaries, onClick: () => setMapLayers((m) => ({ ...m, boundaries: !m.boundaries })) },
+            { key: 'ndvi', label: 'NDVI', icon: <NdviIcon />, pressed: !!mapLayers.ndvi, onClick: () => setMapLayers((m) => ({ ...m, ndvi: !m.ndvi })) },
+            { key: 'satellite', label: 'Satellite', icon: <Satellite />, pressed: !!mapLayers.satellite, onClick: () => setMapLayers((m) => ({ ...m, satellite: !m.satellite })) },
+            {
+              key: 'refresh',
+              label: loading ? 'Loading…' : 'Refresh',
+              icon: loading ? <CircularProgress size={18} /> : <Refresh />,
+              disabled: loading || availableFields.length === 0,
+              onClick: loadFieldData,
+            },
+          ]}
+        >
+          {selectedSite && availableFields.length > 0 ? (
+            <Box sx={{ height: '100%', position: 'relative' }}>
             <MapContainer
               center={availableFields[0]?.latitude && availableFields[0]?.longitude
                 ? [availableFields[0].latitude, availableFields[0].longitude]
@@ -480,9 +452,18 @@ function WeatherMap() {
                 );
               })}
             </MapContainer>
-          </Box>
-        </Paper>
-      )}
+            </Box>
+          ) : (
+            <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', p: 4, bgcolor: 'background.default' }}>
+              <Alert severity={selectedSite ? 'warning' : 'info'} sx={{ maxWidth: 520 }}>
+                {selectedSite
+                  ? 'No fields with coordinates found for this site. Add latitude/longitude to fields in Master Data.'
+                  : 'Choose a zone and site under Location to show their fields.'}
+              </Alert>
+            </Box>
+          )}
+        </MapWorkspace>
+      </Paper>
 
       {/* Field Details Panel */}
       {selectedField && (
