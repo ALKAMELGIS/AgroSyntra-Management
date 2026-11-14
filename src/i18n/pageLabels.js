@@ -12,6 +12,7 @@ import { SHELL_AR } from './shellLabels';
  */
 export const PAGE_AR = {
   // GIS feature card (round 42).
+  'No readings for this period and site': 'لا توجد قراءات لهذه الفترة والموقع',
   'First Valve': 'المحبس الأول',
   'Second Valve': 'المحبس الثاني',
   'Field Total': 'إجمالي الحقل',

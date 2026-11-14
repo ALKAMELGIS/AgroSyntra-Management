@@ -255,6 +255,12 @@ export default function EcphDashboard({ fieldId, siteId, dateFrom, dateTo, allFi
       )}
 
       <DashboardSection title="Recent Readings">
+        {/* No readings: a message instead of an empty header with a scrollbar under it. */}
+        {tableData.length === 0 ? (
+          <Typography variant="body2" color="text.secondary" sx={{ px: 4, py: 6, textAlign: 'center' }}>
+            No readings for this period and site
+          </Typography>
+        ) : (
         <TableContainer sx={{ maxHeight: 400 }}>
           <Table size="small" sx={excelTableSx}>
             <TableHead>
@@ -303,6 +309,7 @@ export default function EcphDashboard({ fieldId, siteId, dateFrom, dateTo, allFi
             </TableBody>
           </Table>
         </TableContainer>
+        )}
         {flatReadings.length > 200 && (
           <Typography variant="caption" color="text.secondary" sx={{ px: 2, py: 1, display: 'block' }}>
             Showing 200 of {flatReadings.length} readings
