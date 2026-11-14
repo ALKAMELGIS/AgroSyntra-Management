@@ -99,6 +99,25 @@ const APP_FIELD_OPTIONS = [
   { value: 'notes', label: 'Notes / Description' },
 ];
 
+// First guess for a new layer's mapping, from common ArcGIS field names
+// (e.g. Agro_Structures: Farm_Name, Area_ha, Structure_Type, Remarks).
+const MAPPING_GUESS = [
+  [/^(farm_?name|field_?name|name)$/i, 'name'],
+  [/^(area_?ha|area|shape__area_ha)$/i, 'area'],
+  [/^(structure_?type|field_?type|type)$/i, 'fieldType'],
+  [/^(remarks|notes?|description)$/i, 'notes'],
+  [/^(valve_?count|valves)$/i, 'valveCount'],
+];
+function guessMapping(names) {
+  const out = {};
+  const used = new Set();
+  for (const n of names) {
+    const hit = MAPPING_GUESS.find(([re, target]) => re.test(n) && !used.has(target));
+    if (hit) { out[n] = hit[1]; used.add(hit[1]); }
+  }
+  return out;
+}
+
 function TabPanel({ children, value, index }) {
   return value === index ? <Box sx={{ pt: 2 }}>{children}</Box> : null;
 }
@@ -456,7 +475,10 @@ export default function GISMap() {
 
   const openMappingDialog = async (layer) => {
     setMappingDialog(layer);
-    setMappingValues(layer.attributeMapping || {});
+    const saved = layer.attributeMapping || {};
+    setMappingValues(Object.keys(saved).length
+      ? saved
+      : guessMapping(Object.keys(featureData[layer.id]?.features?.[0]?.properties || {}).filter((k) => !k.startsWith('_'))));
     if (layer.sourceType === 'arcgis_feature_service' && layer.sourceUrl) {
       setLoadingMeta(true);
       try {

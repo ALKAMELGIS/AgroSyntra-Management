@@ -94,12 +94,12 @@
 
     if(path==='/gis/layers'&&method==='GET') return ok([{id:'demo-struct',name:'Agro_Structures (GCC)',sourceType:'arcgis_feature_service',featureCount:DEMOFC.features.length,isVisible:true,style:{color:'#1f7a4d',fillOpacity:0.25}}]);
     if(path==='/gis/layers/demo-struct/features') return ok(DEMOFC);
-    if(path==='/satellite/status') return ok({configured:true,service:'sentinel-hub',label:'Public Data (featured collections) · demo'});
+    if(path==='/satellite/status'){ var dc=window.__devSat&&window.__devSat.cfg(); return ok(dc?{configured:true,service:dc.service,label:(dc.label||'Sentinel-2')+' · live on this device'}:{configured:true,service:'sentinel-hub',label:'Sample imagery (save your configuration ID in Settings → API keys)'}); }
     if(path==='/satellite/indices') return ok(SATCAT);
     if(path==='/satellite/tile-key') return ok({key:'demo.key',expiresAt:new Date(Date.now()+12*3600e3).toISOString()});
     if(path==='/satellite/scenes'){ var sc=[],d0=new Date(q.to||Date.now()); for(var si=0;si<8;si++){ var dd=new Date(d0.getTime()-si*5*864e5); var cc=[3,12,0,27,8,41,5,16][si]; if(cc<=Number(q.maxcc||100)) sc.push({date:dd.toISOString().slice(0,10),cloud:cc,tiles:2,time:null}); } return ok(sc); }
     if(path==='/satellite/stats'){ var st=[],a=new Date(reqBody.from),b=new Date(reqBody.to); for(var tt=a.getTime(),n=0;tt<=b.getTime();tt+=5*864e5,n++){ var base={NDVI:0.55,SAVI:0.4,NDWI:-0.45,NDMI:0.18,NDII:0.18,MSI:0.8,BSI:-0.1}[reqBody.index]||0.3; var m=base+0.08*Math.sin(n/2)+0.02*((n*7)%3-1); st.push({date:new Date(tt).toISOString().slice(0,10),mean:Math.round(m*1000)/1000,min:Math.round((m-0.25)*1000)/1000,max:Math.round((m+0.2)*1000)/1000}); } return ok(st); }
-    if(path==='/settings/sentinelhub') return ok({configured:true,idMasked:'60de••••-••••-56fa',service:'sentinel-hub',label:'Public Data (featured collections)'});
+    if(path==='/settings/sentinelhub'&&method==='GET'){ var c2=window.__devSat&&window.__devSat.cfg(); return ok(c2?{configured:true,idMasked:c2.id.slice(0,4)+'••••-••••-'+c2.id.slice(-4),service:c2.service,label:c2.label||null}:{configured:false,idMasked:null,service:'sentinel-hub',label:null}); }
     if(path==='/ai/status') return ok({configured:true,provider:'demo',model:'demo'});
     if(path==='/ai/conversations') return ok(AICONV);
     if(/^\/ai\/conversations\/[^/]+\/messages$/.test(path)){ var cid=path.split('/')[3]; return ok(AIMSG[cid]||[]); }
@@ -220,8 +220,75 @@
     return LIVE;
   }
   function jsonRes(x){ return new Response(JSON.stringify(x),{status:200,headers:{'Content-Type':'application/json'}}); }
+
+  /* Satellite imagery on this device (demo / APK have no server). The
+     configuration ID is typed by the user in Settings → API keys → Satellite
+     imagery and kept only in this device's storage — never in the app code.
+     Tiles then come straight from Sentinel Hub (or Copernicus Data Space) with
+     the same index scripts the server uses. */
+  var SAT_KEY='agro_device_sentinel';
+  var SAT_URL={'sentinel-hub':'https://services.sentinel-hub.com/ogc/','copernicus':'https://sh.dataspace.copernicus.eu/ogc/'};
+  var UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  var RAMPS={VEG:[[-0.2,'0xa50026'],[0,'0xd73027'],[0.1,'0xf46d43'],[0.2,'0xfdae61'],[0.3,'0xfee08b'],[0.4,'0xd9ef8b'],[0.5,'0xa6d96a'],[0.6,'0x66bd63'],[0.7,'0x1a9850'],[0.9,'0x006837']],
+    WATER:[[-0.8,'0x8c510a'],[-0.4,'0xd8b365'],[-0.1,'0xf6e8c3'],[0,'0xc7eae5'],[0.2,'0x5ab4ac'],[0.5,'0x01665e'],[0.8,'0x003c30']],
+    MOIST:[[-0.6,'0x8c2d04'],[-0.3,'0xcc4c02'],[-0.1,'0xfe9929'],[0,'0xfee391'],[0.1,'0xc7e9b4'],[0.2,'0x7fcdbb'],[0.4,'0x2c7fb8'],[0.6,'0x253494']],
+    STRESS:[[0.2,'0x253494'],[0.6,'0x41b6c4'],[1,'0xffffcc'],[1.4,'0xfd8d3c'],[2,'0xbd0026']],
+    SOIL:[[-0.6,'0x1a9850'],[-0.2,'0x91cf60'],[0,'0xfee08b'],[0.15,'0xfc8d59'],[0.3,'0xd73027'],[0.6,'0x7f0000']]};
+  var IDX={TRUE_COLOR:{rgb:['B04','B03','B02']},FALSE_COLOR:{rgb:['B08','B04','B03']},SWIR:{rgb:['B12','B8A','B04']},
+    NDVI:{b:['B04','B08'],e:'(s.B08 - s.B04) / (s.B08 + s.B04)',r:'VEG'},SAVI:{b:['B04','B08'],e:'1.5 * (s.B08 - s.B04) / (s.B08 + s.B04 + 0.5)',r:'VEG'},
+    NDWI:{b:['B03','B08'],e:'(s.B03 - s.B08) / (s.B03 + s.B08)',r:'WATER'},NDMI:{b:['B08','B11'],e:'(s.B08 - s.B11) / (s.B08 + s.B11)',r:'MOIST'},
+    NDII:{b:['B08','B11'],e:'(s.B08 - s.B11) / (s.B08 + s.B11)',r:'MOIST'},MSI:{b:['B08','B11'],e:'s.B11 / s.B08',r:'STRESS'},
+    BSI:{b:['B02','B04','B08','B11'],e:'((s.B11 + s.B04) - (s.B08 + s.B02)) / ((s.B11 + s.B04) + (s.B08 + s.B02))',r:'SOIL'}};
+  function vizScript(key){ var d=IDX[key]||IDX.TRUE_COLOR;
+    if(d.rgb){ return '//VERSION=3\nfunction setup(){return{input:'+JSON.stringify(d.rgb.concat('dataMask'))+',output:{bands:4}}}\nfunction evaluatePixel(s){return [2.5*s.'+d.rgb[0]+', 2.5*s.'+d.rgb[1]+', 2.5*s.'+d.rgb[2]+', s.dataMask];}'; }
+    var ramp=RAMPS[d.r].map(function(x){return '['+x[0]+','+x[1]+']';}).join(',');
+    return '//VERSION=3\nconst viz = new ColorRampVisualizer(['+ramp+']);\nfunction setup(){return{input:'+JSON.stringify(d.b.concat('dataMask'))+',output:{bands:4}}}\nfunction evaluatePixel(s){const v='+d.e+'; if(!isFinite(v)) return [0,0,0,0]; const c=viz.process(v); return [c[0],c[1],c[2],s.dataMask];}'; }
+  function b64(t){ return btoa(unescape(encodeURIComponent(t))); }
+  function satCfg(){ try{ var c=JSON.parse(localStorage.getItem(SAT_KEY)||'null'); return c&&UUID.test(c.id)?c:null; }catch(e){ return null; } }
+  function satTileUrl(u){ var c=satCfg(); if(!c) return null;
+    var p={}; (u.split('?')[1]||'').split('&').forEach(function(kv){ var a=kv.split('='); if(a[0]) p[decodeURIComponent(a[0]).toUpperCase()]=decodeURIComponent(a[1]||''); });
+    var o={SERVICE:'WMS',REQUEST:'GetMap',VERSION:'1.3.0',LAYERS:c.layer||'TRUE_COLOR',STYLES:'',FORMAT:'image/png',TRANSPARENT:'true',
+      WIDTH:p.WIDTH||'256',HEIGHT:p.HEIGHT||'256',BBOX:p.BBOX||'',CRS:p.CRS||p.SRS||'EPSG:3857',SHOWLOGO:'false',EVALSCRIPT:b64(vizScript(p.INDEX||'TRUE_COLOR'))};
+    if(p.TIME) o.TIME=p.TIME; if(p.MAXCC) o.MAXCC=p.MAXCC; if(p.GEOMETRY) o.GEOMETRY=p.GEOMETRY; if(p.PRIORITY) o.PRIORITY=p.PRIORITY;
+    return SAT_URL[c.service||'sentinel-hub']+'wms/'+c.id+'?'+Object.keys(o).map(function(k){return k+'='+encodeURIComponent(o[k]);}).join('&'); }
+  function satTest(id,service){
+    id=String(id||'').trim(); if(id==='USE_SAVED'){ var cc=satCfg(); id=cc?cc.id:''; }
+    if(!UUID.test(id)) return Promise.resolve({success:false,message:'The configuration ID must be a UUID (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)',layers:[],service:service});
+    var order=service==='copernicus'?['copernicus','sentinel-hub']:['sentinel-hub','copernicus'];
+    function tryOne(i,last){ if(i>=order.length) return {success:false,message:'Could not read the configuration ('+last+').',layers:[],service:service};
+      var svc=order[i];
+      return of(SAT_URL[svc]+'wms/'+id+'?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0').then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); }).then(function(x){
+        var re=/<Layer[^>]*>\s*<Name>([^<]+)<\/Name>\s*<Title>([^<]*)<\/Title>/g,m,ls=[]; while((m=re.exec(x))) ls.push({id:m[1].trim(),title:(m[2]||m[1]).trim()});
+        if(!ls.length) throw new Error('no layers');
+        return {success:true,message:'Connected ('+(svc==='copernicus'?'Copernicus Data Space':'Sentinel Hub')+') · '+ls.length+' layers',layers:ls,service:svc,id:id};
+      }).catch(function(e){ return tryOne(i+1,e.message||'network'); }); }
+    return Promise.resolve(tryOne(0,''));
+  }
+  function pickLayer(ls){ var ids=ls.map(function(l){return l.id;});
+    return ids.filter(function(x){return /^TRUE[_-]?COLOR$/i.test(x);})[0]||ids.filter(function(x){return /TRUE|NATURAL|L2A|NDVI/i.test(x);})[0]||ids[0]||'TRUE_COLOR'; }
+  window.__devSat={cfg:satCfg,tileUrl:satTileUrl};
   window.fetch=function(input,init){
     var url=typeof input==='string'?input:(input&&input.url)||'';
+    if(isApi(url)&&/\/settings\/sentinelhub(\/test)?(\?|$)/.test(url)&&init&&init.method&&init.method!=='GET'){
+      var sb={}; try{ sb=init.body?JSON.parse(init.body):{}; }catch(e){}
+      if(init.method==='DELETE'){ try{ localStorage.removeItem(SAT_KEY); }catch(e){} return Promise.resolve(jsonRes({success:true})); }
+      return satTest(sb.instanceId,sb.service||'sentinel-hub').then(function(t){
+        if(/\/test(\?|$)/.test(url)) return jsonRes(ok({success:t.success,message:t.message,layers:t.layers,service:t.service}));
+        if(!t.success) return new Response(JSON.stringify({success:false,error:{message:t.message}}),{status:400,headers:{'Content-Type':'application/json'}});
+        try{ localStorage.setItem(SAT_KEY,JSON.stringify({id:t.id,service:t.service,label:sb.label||null,layer:pickLayer(t.layers)})); }catch(e){}
+        var c3=satCfg(); return jsonRes(ok({configured:true,idMasked:c3.id.slice(0,4)+'••••-••••-'+c3.id.slice(-4),service:c3.service,label:c3.label,layers:t.layers}));
+      });
+    }
+    if(isApi(url)&&/\/satellite\/scenes(\?|$)/.test(url)&&satCfg()){
+      /* Real acquisition dates from the catalogue (WFS); the sample list if it does not answer. */
+      var c4=satCfg(), qq={}; (url.split('?')[1]||'').split('&').forEach(function(kv){ var a2=kv.split('='); if(a2[0]) qq[a2[0]]=decodeURIComponent(a2[1]||''); });
+      var bb=(qq.bbox||'').split(',').map(Number);
+      var wfs=SAT_URL[c4.service]+'wfs/'+c4.id+'?SERVICE=WFS&REQUEST=GetFeature&TYPENAMES=DSS2&OUTPUTFORMAT=application/json&SRSNAME=EPSG:4326&MAXFEATURES=100&BBOX='+[bb[1],bb[0],bb[3],bb[2]].join(',')+'&TIME='+qq.from+'/'+qq.to+'&MAXCC='+(qq.maxcc||100);
+      return of(wfs).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(function(g){
+        var by={}; (g.features||[]).forEach(function(f){ var pr=f.properties||{}; var d=String(pr.date||'').slice(0,10); if(!d) return; var cl=Number(pr.cloudCoverPercentage); if(!by[d]) by[d]={date:d,cloud:isFinite(cl)?Math.round(cl):null,tiles:0,time:pr.time||null}; by[d].tiles++; if(isFinite(cl)&&(by[d].cloud===null||cl<by[d].cloud)) by[d].cloud=Math.round(cl); });
+        return jsonRes(ok(Object.keys(by).sort().reverse().map(function(k){return by[k];})));
+      }).catch(function(){ return jsonRes(body(url,'GET',null)); });
+    }
     if(isApi(url)&&/\/gis\/layers\/demo-struct\/features(\?|$)/.test(url)){
       return liveLayer().then(function(fc){ return jsonRes(ok(fc)); });
     }
@@ -295,7 +362,7 @@
   var d=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,'src');
   Object.defineProperty(HTMLImageElement.prototype,'src',{configurable:true,enumerable:true,
     get:function(){ return d.get.call(this); },
-    set:function(v){ if(typeof v==='string'&&v.indexOf('/satellite/wms')>=0){ try{ v=tile(v); }catch(e){} } d.set.call(this,v); }});
+    set:function(v){ if(typeof v==='string'&&v.indexOf('/satellite/wms')>=0){ try{ v=(window.__devSat&&window.__devSat.tileUrl(v))||tile(v); }catch(e){} } d.set.call(this,v); }});
   var of=window.fetch;
-  window.fetch=function(u,o){ if(typeof u==='string'&&u.indexOf('/satellite/wms')>=0){ var data=tile(u); return of(data); } return of.apply(this,arguments); };
+  window.fetch=function(u,o){ if(typeof u==='string'&&u.indexOf('/satellite/wms')>=0){ var live=window.__devSat&&window.__devSat.tileUrl(u); return of(live||tile(u)); } return of.apply(this,arguments); };
 })();

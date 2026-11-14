@@ -511,3 +511,10 @@ Pages:
 - Grey `#666` / `#888` text in sheets and importers uses the theme's secondary text colour; GIS configuration step numbers use the primary contrast colour; letter avatars are a green tint with dark green initials in both modes.
 - Sidebar section names show in sentence case ("Data entry", "IPM control") in English.
 - Audited every main route in dark (English and Arabic) and light: no text under 3:1 contrast, no light surface left in dark mode.
+
+## Round 47 — satellite imagery and ArcGIS layer in the demo / APK
+
+- Demo / APK (no server): the Sentinel-2 configuration ID is typed by the user in **Settings → API keys → Satellite imagery** and kept only in that device's storage (never in the app code, tests or build). **Test** reads the configuration's layers from Sentinel Hub (or Copernicus Data Space), **Save** keeps it; GIS Map then draws real Sentinel-2 tiles straight from the service with the same index scripts the server uses (true colour, false colour, SWIR, NDVI, SAVI, NDWI, NDMI, NDII, MSI, BSI), and *Imagery date & scenes* lists real acquisition dates and cloud cover. Without a saved ID the map shows clearly labelled sample imagery.
+- The masked configuration ID that the demo used to show is removed.
+- GIS layer name in the demo says whether the polygons came live from ArcGIS Online or from the offline sample.
+- Attribute mapping of a new layer is pre-filled from common field names (Farm_Name → field name, Area_ha → area, Structure_Type → field type, Remarks → notes).
