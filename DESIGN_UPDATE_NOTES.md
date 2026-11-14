@@ -497,3 +497,9 @@ Pages:
 - EC/pH entry and Fertigation entry have two tabs under the title: **Data entry** (the step-by-step form, or the spreadsheet) and **Records** (the full records table with its filters, search and export). The long table no longer sits under the form.
 - Saving an entry opens the Records tab with the new record; the form starts again at step 1. The tab is kept in the URL (`?tab=records`), so links, Back and reload keep it. The Form / Spreadsheet switch shows only on the Data entry tab.
 - Pivot and sites without fields show the entry alone (they have no records table).
+
+## Round 45 — records plan (approved): spreadsheet density, visible scrollbar, light header bands
+
+- Every records table (`excelTableSx`, 36 pages, and the theme's table cells): 12 px text, about 30 px rows (40 px on touch screens), 8 px side padding, 12 px / 600 column titles on the light grey band, column groups (e.g. First valve / Second valve / Field total) on a light green band. Row actions and checkboxes fit inside the row.
+- Tables wider than their box show a real 12 px scrollbar (grey thumb, light track), also on macOS / Android where the system normally hides it until you scroll (Chrome and Safari use the `::-webkit-scrollbar` rules; the standard properties are reset to `auto` for them, Firefox gets `scrollbar-color`). Entry grids use the same bar (`.sheet-scroll`).
+- EC/pH records: identifying columns stay frozen at tighter widths (date fits in full), values are plain numbers with fixed decimals; only out-of-range readings are coloured (dark red text, amber for borderline) instead of red chips in every cell; missing readings show "—". Group and metric titles are translated.

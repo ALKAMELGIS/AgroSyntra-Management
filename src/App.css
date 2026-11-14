@@ -388,3 +388,50 @@ main h1.page-title {
   main h1.MuiTypography-root,
   main h1.page-title { font-size: 1.0625rem !important; }
 }
+
+/* Records plan (round 45): tables wider than their box show a real, always
+   visible scrollbar (12 px, grey thumb on a light track), not the hairline
+   overlay bar that macOS / phones hide until you scroll. */
+.MuiTableContainer-root,
+.sheet-scroll {
+  /* "auto" on both standard properties lets Chrome and Safari use the
+     ::-webkit-scrollbar rules below, which keep the bar on screen even where
+     the system hides scrollbars until scrolling (macOS, Android). */
+  scrollbar-width: auto;
+  scrollbar-color: auto;
+}
+@supports (-moz-appearance: none) {
+  .MuiTableContainer-root,
+  .sheet-scroll { scrollbar-color: #9aa39d #eff1ed; }
+}
+.MuiTableContainer-root::-webkit-scrollbar,
+.sheet-scroll::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.MuiTableContainer-root::-webkit-scrollbar-track,
+.sheet-scroll::-webkit-scrollbar-track {
+  background: #eff1ed;
+}
+.MuiTableContainer-root::-webkit-scrollbar-thumb,
+.sheet-scroll::-webkit-scrollbar-thumb {
+  background: #9aa39d;
+  border: 3px solid #eff1ed;
+  background-clip: border-box;
+  min-width: 40px;
+}
+.MuiTableContainer-root::-webkit-scrollbar-thumb:hover,
+.sheet-scroll::-webkit-scrollbar-thumb:hover {
+  background: #6b746e;
+}
+@media (pointer: coarse) {
+  .MuiTableContainer-root::-webkit-scrollbar,
+  .sheet-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+  .MuiTableContainer-root::-webkit-scrollbar-thumb,
+  .sheet-scroll::-webkit-scrollbar-thumb { border-width: 2px; }
+}
+
+html[data-theme='dark'] .MuiTableContainer-root::-webkit-scrollbar-track,
+html[data-theme='dark'] .sheet-scroll::-webkit-scrollbar-track { background: #1a211d; }
+html[data-theme='dark'] .MuiTableContainer-root::-webkit-scrollbar-thumb,
+html[data-theme='dark'] .sheet-scroll::-webkit-scrollbar-thumb { background: #5b665f; border-color: #1a211d; }

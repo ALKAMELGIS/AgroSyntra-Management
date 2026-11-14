@@ -14,7 +14,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Chip,
   TableSortLabel,
   IconButton,
   TablePagination,
@@ -57,10 +56,10 @@ import { useEntryHistory } from '../../hooks/useEntryHistory';
 import useSeasonListDates from '../../hooks/useSeasonListDates';
 import { excelTableSx, freezeColumnsSx } from '../../components/table/ExcelTable';
 
-const CHECKBOX_W = 48;
+const CHECKBOX_W = 36;
 // Date, Site, Farm Area, Field — the run that still identifies a reading once
 // the valve numbers have scrolled away. Checkbox is frozen in front of them.
-const ENTRY_FROZEN_WIDTHS = [CHECKBOX_W, 100, 110, 120, 130];
+const ENTRY_FROZEN_WIDTHS = [CHECKBOX_W, 96, 76, 112, 84];
 
 const headerCheckboxSx = (t) => ({
   color: t.palette.table.headerText,
@@ -72,7 +71,8 @@ const headerCheckboxSx = (t) => ({
 // stack them. Row 2 has to sit under row 1.
 const twoRowHeadSx = {
   '&& thead tr:first-of-type .MuiTableCell-head': { top: 0 },
-  '&& thead tr:nth-of-type(2) .MuiTableCell-head': { top: 40 },
+  '&& thead tr:first-of-type .MuiTableCell-head:not([rowspan])': { height: 30 },
+  '&& thead tr:nth-of-type(2) .MuiTableCell-head': { top: 30 },
   // Short headings stay on one line; the table scrolls sideways instead.
   '&& thead .MuiTableCell-head': { whiteSpace: 'nowrap', minWidth: 'max-content' },
   '& .MuiTableSortLabel-root, & .MuiTableSortLabel-root:hover, & .MuiTableSortLabel-root.Mui-active': {
@@ -479,14 +479,14 @@ export default function EcphEntriesTable({ siteId, masterData, refreshTrigger = 
       .catch((error) => notify.error(error.message));
   };
 
-  const renderEcPhChip = (value, type) => (
-    <Chip
-      label={value || '0.00'}
-      color={type === 'ec' ? getECColor(parseFloat(value) || 0) : getPHColor(parseFloat(value) || 0)}
-      size="small"
-      sx={{ fontWeight: 600, fontSize: '10px', height: 22 }}
-    />
-  );
+  // Plain numbers; only a reading outside its range is coloured (text, no chip).
+  const renderEcPhChip = (value, type) => {
+    const n = parseFloat(value);
+    if (value === null || value === undefined || value === '' || !Number.isFinite(n) || n === 0) return '—';
+    const tone = type === 'ec' ? getECColor(n) : getPHColor(n);
+    const cls = tone === 'error' ? 'val-bad' : tone === 'warning' ? 'val-warn' : undefined;
+    return <span className={cls}>{type === 'ec' ? n.toFixed(2) : n.toFixed(1)}</span>;
+  };
 
   return (
     <Box sx={{ mt: 4 }}>
@@ -586,9 +586,9 @@ export default function EcphEntriesTable({ siteId, masterData, refreshTrigger = 
                         Time
                       </TableSortLabel>
                     </TableCell>
-                    <TableCell align="center" colSpan={10}>First Valve</TableCell>
-                    <TableCell align="center" colSpan={10}>Second Valve</TableCell>
-                    <TableCell align="center" colSpan={6}>Field Total</TableCell>
+                    <TableCell align="center" className="col-group" colSpan={10}>First Valve</TableCell>
+                    <TableCell align="center" className="col-group" colSpan={10}>Second Valve</TableCell>
+                    <TableCell align="center" className="col-group" colSpan={6}>Field Total</TableCell>
                     <TableCell rowSpan={2} sx={{ width: 44 }}><Box component="span" sx={visuallyHidden}>Actions</Box></TableCell>
                   </TableRow>
                   <TableRow>

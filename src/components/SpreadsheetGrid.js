@@ -882,7 +882,7 @@ function SpreadsheetGrid({
       {loading && <LinearProgress sx={{ flexShrink: 0, height: 3 }} />}
 
       {/* ── Spreadsheet Grid ── */}
-      <Box ref={gridRef} sx={{ flex: 1, overflow: 'auto', WebkitOverflowScrolling: 'touch' }}>
+      <Box ref={gridRef} className="sheet-scroll" sx={{ flex: 1, overflow: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table style={{ borderCollapse: 'collapse', fontSize: isCompact ? '0.7rem' : '0.75rem', width: 'max-content', minWidth: '100%' }}>
           <thead style={{ position: 'sticky', top: 0, zIndex: 10 }}>
             <tr>

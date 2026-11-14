@@ -12,6 +12,14 @@ import { SHELL_AR } from './shellLabels';
  */
 export const PAGE_AR = {
   // GIS feature card (round 42).
+  'First Valve': 'المحبس الأول',
+  'Second Valve': 'المحبس الثاني',
+  'Field Total': 'إجمالي الحقل',
+  'Qty Water': 'كمية الماء',
+  'Cycle': 'الدورة',
+  'Water (M³)': 'الماء (م³)',
+  'Avg (M³)': 'المتوسط (م³)',
+  'N Drip Volume (ml)': 'حجم التنقيط ×N (مل)',
   'Data entry': 'إدخال البيانات',
   'Entry and records': 'الإدخال والسجلات',
   'Summary and save': 'الملخص والحفظ',

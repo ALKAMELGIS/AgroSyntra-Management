@@ -109,12 +109,37 @@ export const excelTableSx = (theme) => ({
 
   // Compact, one-line rows (sheet look): values do not wrap into tall rows;
   // the table scrolls sideways instead.
+  // Records plan (round 45): 12 px text, 30 px rows, 8 px side padding, the
+  // density of a spreadsheet. Touch screens get 40 px rows ("comfortable").
   '&& .MuiTableCell-body': {
     whiteSpace: 'nowrap',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-    lineHeight: 1.45,
+    fontSize: '0.75rem !important',
+    paddingTop: '5px !important',
+    paddingBottom: '5px !important',
+    paddingLeft: '8px !important',
+    paddingRight: '8px !important',
+    lineHeight: 1.6,
+    '@media (pointer: coarse)': { paddingTop: '10px !important', paddingBottom: '10px !important' },
   },
+  '&&& .MuiTableCell-head': {
+    fontSize: '0.75rem !important',
+    paddingTop: '6px !important',
+    paddingBottom: '6px !important',
+    paddingLeft: '8px !important',
+    paddingRight: '8px !important',
+  },
+  '&& .MuiTableCell-root .MuiCheckbox-root .MuiSvgIcon-root': { fontSize: 18 },
+  // Column-group band above the column titles (light green, records plan).
+  '&&& .MuiTableCell-head.col-group': {
+    backgroundColor: `${theme.palette.table.groupBg} !important`,
+    color: `${theme.palette.table.groupText} !important`,
+    fontSize: '0.6875rem !important',
+    paddingTop: '4px !important',
+    paddingBottom: '4px !important',
+  },
+  // Row actions stay inside the 30 px row.
+  '&&& .MuiTableCell-body .MuiIconButton-root': { padding: '3px', width: 26, height: 26, minWidth: 26, minHeight: 26, '& .MuiSvgIcon-root': { fontSize: 18 } },
+  '&&& .MuiTableCell-body .MuiCheckbox-root': { padding: '1px' },
   // Checkbox columns: no "…" from the frozen-column ellipsis, tight padding.
   '&& .MuiTableCell-paddingCheckbox': {
     textOverflow: 'clip',
@@ -126,7 +151,11 @@ export const excelTableSx = (theme) => ({
   '& .col-numeric': {
     textAlign: 'right',
     fontVariantNumeric: 'tabular-nums',
+    fontFamily: 'Inter, "IBM Plex Sans Arabic", sans-serif',
   },
+  // Out-of-range readings: dark red text only, no coloured chips filling the grid.
+  '& .val-bad': { color: theme.palette.mode === 'dark' ? '#f6a99e' : '#b42318', fontWeight: 600 },
+  '& .val-warn': { color: theme.palette.mode === 'dark' ? '#f0c88e' : '#8a5a00', fontWeight: 600 },
 
   // Row state is painted on the cells rather than the row, because sticky cells
   // have their own background and would otherwise not pick it up. The gutter is

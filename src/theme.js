@@ -802,7 +802,7 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
               color: palette.text.secondary,
               backgroundColor: palette.background.muted,
               borderBottom: `1px solid ${palette.border.subtle}`,
-              padding: '11px 16px',
+              padding: '8px 10px',
               // One line per title; the table scrolls sideways instead of
               // stacking words. Columns size to the longer of title or content.
               whiteSpace: 'nowrap',
@@ -824,8 +824,9 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
       },
       MuiTableCell: {
         styleOverrides: {
-          root: { padding: '12px 16px', fontSize: '0.8125rem', borderBottom: `1px solid ${palette.border.subtle}` },
-          sizeSmall: { padding: '8px 12px' },
+          // Records plan (round 45): every table reads at spreadsheet density.
+          root: { padding: '8px 10px', fontSize: '0.75rem', borderBottom: `1px solid ${palette.border.subtle}` },
+          sizeSmall: { padding: '6px 8px' },
           stickyHeader: { backgroundColor: palette.background.muted },
         },
       },
