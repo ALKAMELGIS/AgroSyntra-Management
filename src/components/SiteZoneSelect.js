@@ -1,6 +1,6 @@
 import { useCallback, useId, useMemo, useRef, useState } from 'react';
 import {
-  Box, ButtonBase, InputAdornment, InputBase, Popover, ToggleButton, ToggleButtonGroup, Typography,
+  Box, ButtonBase, InputAdornment, InputBase, Popover, Typography,
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import {
@@ -41,7 +41,6 @@ export default function SiteZoneSelect({
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [zoneFilter, setZoneFilter] = useState('all');
   const labelId = useId();
   // When the list opens, bring the chosen site into view.
   const revealSelected = useCallback((el) => {
@@ -73,123 +72,88 @@ export default function SiteZoneSelect({
 
   const close = () => { setOpen(false); setQuery(''); };
   const pick = (id) => { onChange(id); close(); };
-  const openPanel = () => { setZoneFilter(current?.zoneId ?? 'all'); setOpen(true); };
+  const openPanel = () => setOpen(true);
 
-  const shownZones = zoneFilter === 'all' ? filtered : filtered.filter((z) => z.id === zoneFilter);
-
-  const siteButtonSx = (selected) => (t) => ({
-    display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-start', textAlign: 'start',
-    minHeight: 40, px: 1.25, py: 0.5, borderRadius: 0, border: 1,
-    borderColor: selected ? 'primary.main' : 'divider',
-    bgcolor: selected ? alpha(t.palette.primary.main, 0.08) : 'background.paper',
+  // A plain drop list: every zone as a group heading, every site as one row
+  // under it (zone codes such as MH kept as they are), the chosen one ticked.
+  const itemSx = (selected) => (t) => ({
+    display: 'flex', alignItems: 'center', gap: 1.5, width: '100%', justifyContent: 'flex-start', textAlign: 'start',
+    minHeight: 36, px: 2, py: 0.75,
+    fontFamily: 'inherit', fontSize: '0.8125rem', fontWeight: selected ? 600 : 400,
     color: selected ? 'primary.main' : 'text.primary',
-    fontFamily: 'inherit', fontSize: '0.8125rem', fontWeight: selected ? 600 : 500,
-    transition: 'border-color .15s, background-color .15s',
-    '&:hover': { borderColor: alpha(t.palette.primary.main, 0.5) },
-    '&.Mui-focusVisible': { outline: `2px solid ${t.palette.primary.main}`, outlineOffset: 1 },
+    bgcolor: selected ? alpha(t.palette.primary.main, 0.08) : 'transparent',
+    '&:hover': { bgcolor: selected ? alpha(t.palette.primary.main, 0.12) : 'action.hover' },
+    '&.Mui-focusVisible': { bgcolor: 'action.focus' },
+    '@media (pointer: coarse)': { minHeight: 44 },
   });
+  const onListKeyDown = (e) => {
+    if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
+    const items = [...e.currentTarget.querySelectorAll('[role="option"]')];
+    if (!items.length) return;
+    e.preventDefault();
+    const i = items.indexOf(document.activeElement);
+    const next = e.key === 'Home' ? 0 : e.key === 'End' ? items.length - 1
+      : e.key === 'ArrowDown' ? Math.min(items.length - 1, i + 1) : Math.max(0, i - 1);
+    items[next].focus();
+  };
 
-  // Same look as the Farm Monitor header: green bar + segmented filter, cards below.
   const panel = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', maxHeight: 'min(560px, 80dvh)', width: '100%' }}>
-      {/* Dark green in both modes so the white zone names stay readable. */}
-      <Box sx={{ bgcolor: 'var(--sheet-header)', color: 'common.white', px: 1.75, pt: 1.25, pb: 1.25, flexShrink: 0 }}>
-        <Typography id={labelId} sx={{ fontSize: '0.875rem', fontWeight: 700, mb: 1, color: 'common.white' }}>{label}</Typography>
-        <ToggleButtonGroup
-          ref={(el) => { if (el) requestAnimationFrame(() => el.querySelector('.Mui-selected')?.scrollIntoView({ block: 'nearest', inline: 'nearest' })); }}
-          value={zoneFilter}
-          exclusive
-          size="small"
-          aria-label="Zone"
-          onChange={(_, v) => { if (v !== null) setZoneFilter(v); }}
-          sx={{
-            // Every zone visible at once: the chips wrap onto a second line
-            // instead of scrolling sideways out of view.
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: 0.5,
-            maxWidth: '100%',
-            bgcolor: 'transparent',
-            p: 0,
-            border: '0 !important',
-            '& .MuiToggleButton-root': {
-              flexShrink: 0,
-              m: 0,
-              color: 'common.white',
-              bgcolor: 'transparent',
-              border: '1px solid rgba(255,255,255,0.4) !important',
-              borderRadius: '0 !important',
-              textTransform: 'none',
-              px: 1.25,
-              py: 0.25,
-              minHeight: 28,
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              lineHeight: 1.6,
-              '&:hover': { bgcolor: 'rgba(255,255,255,0.12)' },
-              '&.Mui-selected': {
-                bgcolor: 'common.white',
-                color: 'var(--sheet-header)',
-                borderColor: 'common.white !important',
-                '&:hover': { bgcolor: 'rgba(255,255,255,0.9)' },
-              },
-            },
-          }}
-        >
-          <ToggleButton value="all">All</ToggleButton>
-          {zones.map((z) => <ToggleButton key={z.id} value={z.id}><span translate="no">{z.name}</span></ToggleButton>)}
-        </ToggleButtonGroup>
-      </Box>
-
+    <Box sx={{ display: 'flex', flexDirection: 'column', maxHeight: 'min(520px, 75dvh)', width: '100%' }}>
       {siteCount >= SEARCH_FROM && (
-        <Box sx={{ px: 1.5, pt: 1.25, flexShrink: 0 }}>
+        <Box sx={{ p: 1.5, borderBottom: 1, borderColor: 'divider', flexShrink: 0 }}>
           <InputBase
+            autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search sites"
             inputProps={{ 'aria-label': 'Search sites' }}
             startAdornment={<InputAdornment position="start"><SearchIcon sx={{ fontSize: 18, color: 'text.secondary' }} /></InputAdornment>}
-            sx={(t) => ({
-              width: '100%', height: 34, px: 1, borderRadius: 0, fontSize: '0.8125rem',
-              bgcolor: alpha(t.palette.text.primary, 0.04), border: 1, borderColor: 'divider',
-            })}
+            sx={{ width: '100%', height: 34, px: 1, borderRadius: 0, fontSize: '0.8125rem', bgcolor: 'background.muted', border: 1, borderColor: 'divider' }}
           />
         </Box>
       )}
-
-      <Box ref={revealSelected} sx={{ overflowY: 'auto', px: 1.5, pt: 1.25, pb: 1.5 }}>
-        {allowAllSites && zoneFilter === 'all' && !query && (
-          <ButtonBase onClick={() => pick('')} aria-pressed={!value} className={!value ? 'Mui-selected' : undefined}
-            sx={[siteButtonSx(!value), { width: '100%', mb: 1.25 }]}>
+      <Box
+        ref={revealSelected}
+        role="listbox"
+        aria-labelledby={labelId}
+        onKeyDown={onListKeyDown}
+        sx={{ overflowY: 'auto', py: 0.5 }}
+      >
+        <Typography id={labelId} component="span" sx={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>{label}</Typography>
+        {allowAllSites && !query && (
+          <ButtonBase role="option" aria-selected={!value} onClick={() => pick('')} className={!value ? 'Mui-selected' : undefined}
+            sx={[itemSx(!value), { borderBottom: 1, borderColor: 'divider' }]}>
             <Box component="span" sx={{ flex: 1 }}>All Sites</Box>
             {!value && <CheckIcon sx={{ fontSize: 16 }} />}
           </ButtonBase>
         )}
-        {shownZones.map((zone) => (
-          <Box key={zone.id} sx={{ mb: 1.25 }}>
-            {zoneFilter === 'all' && (
-              <Typography sx={{ fontSize: '0.6875rem', fontWeight: 600, color: 'text.secondary', mb: 0.5, px: 0.25 }} translate="no">
-                {zone.name}
-              </Typography>
-            )}
-            {/* One site per row, full names: a plain drop list, not a cramped grid. */}
-            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr', gap: 0.5 }}>
-              {zone.sites.map((s) => {
-                const selected = s.id === value;
-                return (
-                  <ButtonBase key={s.id} onClick={() => pick(s.id)} aria-pressed={selected}
-                    className={selected ? 'Mui-selected' : undefined} sx={siteButtonSx(selected)}>
-                    <SiteIcon sx={{ fontSize: 16, color: selected ? 'primary.main' : 'text.disabled', flexShrink: 0 }} />
-                    <Box component="span" sx={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.name}</Box>
-                    {selected && <CheckIcon sx={{ fontSize: 16, flexShrink: 0 }} />}
-                  </ButtonBase>
-                );
-              })}
-            </Box>
+        {filtered.map((zone) => (
+          <Box key={zone.id} role="group" aria-label={zone.name}>
+            <Typography
+              translate="no"
+              sx={{
+                position: 'sticky', top: 0, zIndex: 1, bgcolor: 'background.paper',
+                px: 2, pt: 1.25, pb: 0.5, fontSize: '0.6875rem', fontWeight: 600, color: 'text.secondary',
+                borderTop: 1, borderColor: 'divider',
+              }}
+            >
+              {zone.name}
+            </Typography>
+            {zone.sites.map((s) => {
+              const selected = s.id === value;
+              return (
+                <ButtonBase key={s.id} role="option" aria-selected={selected} onClick={() => pick(s.id)}
+                  className={selected ? 'Mui-selected' : undefined} sx={itemSx(selected)}>
+                  <SiteIcon sx={{ fontSize: 16, color: selected ? 'primary.main' : 'text.disabled', flexShrink: 0 }} />
+                  <Box component="span" sx={{ flex: 1, minWidth: 0 }}>{s.name}</Box>
+                  {selected && <CheckIcon sx={{ fontSize: 16, flexShrink: 0 }} />}
+                </ButtonBase>
+              );
+            })}
           </Box>
         ))}
-        {shownZones.length === 0 && (
-          <Typography variant="body2" color="text.secondary" sx={{ py: 1 }}>No sites found</Typography>
+        {filtered.length === 0 && (
+          <Typography variant="body2" color="text.secondary" sx={{ px: 2, py: 1.5 }}>No sites found</Typography>
         )}
       </Box>
     </Box>
@@ -206,7 +170,7 @@ export default function SiteZoneSelect({
         <ButtonBase
           ref={anchorRef}
           onClick={openPanel}
-          aria-haspopup="dialog"
+          aria-haspopup="listbox"
           aria-expanded={open}
           aria-label={`${label}: ${current ? `${current.zoneName} · ${current.site.name}` : 'All Sites'}`}
           sx={(t) => ({
@@ -242,8 +206,6 @@ export default function SiteZoneSelect({
         transformOrigin={{ vertical: 'top', horizontal: rtl ? 'right' : 'left' }}
         slotProps={{
           paper: {
-            role: 'dialog',
-            'aria-labelledby': labelId,
             sx: (t) => ({
               mt: 0.5,
               width: Math.max(anchorRef.current?.offsetWidth || 0, 340),
