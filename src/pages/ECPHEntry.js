@@ -36,7 +36,7 @@ import useReadOnlyMode from '../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../utils/roleAccess';
 import PageTitle from '../components/PageTitle';
-import { FormSection, FormStack, FormGrid, FormActions, HintLabel, calcFieldSx, span } from '../components/form/FormLayout';
+import { FormSection, FormGrid, FormActions, FormSteps, FormStep, HintLabel, calcFieldSx, span } from '../components/form/FormLayout';
 
 const SELECT_SX = { '& .MuiSelect-select': { whiteSpace: 'nowrap' } };
 
@@ -422,7 +422,8 @@ function ECPHEntry() {
             return (
               <Form>
                 <FormikSubmitFeedback />
-                <FormStack>
+                <FormSteps>
+                  <FormStep label="Reading" fields={['date', 'time', 'site', 'farmArea', 'field', 'weatherCondition', 'irrigationStatus']}>
                   <FormSection title="Reading">
                     <FormGrid columns={{ xs: 2, md: 4 }}>
                       <TextField
@@ -581,7 +582,9 @@ function ECPHEntry() {
                       </Typography>
                     )}
                   </FormSection>
+                  </FormStep>
 
+                  <FormStep label="Valves" fields={['valve1', 'valve2']}>
                   <FormSection title="Valve 1">
                     <ValveFormSection
                       prefix="valve1"
@@ -645,7 +648,9 @@ function ECPHEntry() {
                       />
                     </Collapse>
                   </FormSection>
+                  </FormStep>
 
+                  <FormStep label="Summary and save">
                   <FormSection title="Field summary">
                     <FormGrid columns={{ xs: 2, md: 4 }}>
                       <TextField
@@ -711,7 +716,8 @@ function ECPHEntry() {
                       </Button>
                     </FormActions>
                   </FormSection>
-                </FormStack>
+                  </FormStep>
+                </FormSteps>
               </Form>
             );
           }}

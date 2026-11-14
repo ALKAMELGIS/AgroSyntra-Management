@@ -212,7 +212,7 @@ export default function SiteZoneSelect({
             width: chip ? 'auto' : '100%', maxWidth: chip ? 280 : 'none', height: 36, px: 1.25, gap: 1, justifyContent: 'flex-start',
             borderRadius: chip ? 999 : 1.25,
             bgcolor: chip ? 'background.paper' : 'background.muted', border: 1, borderColor: open ? 'primary.main' : 'divider',
-            fontFamily: 'inherit', fontSize: '0.8125rem', fontWeight: 600, color: 'text.primary', textAlign: 'start',
+            fontFamily: 'inherit', fontSize: '0.8125rem', fontWeight: 500, color: 'text.primary', textAlign: 'start',
             transition: 'border-color .15s',
             '&:hover': { borderColor: alpha(t.palette.primary.main, 0.5) },
             '&.Mui-focusVisible': { outline: `2px solid ${t.palette.primary.main}`, outlineOffset: 1 },

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useIsArabic } from '../i18n/shellLabels';
 import FeatureInfoPanel from '../components/gis/FeatureInfoPanel';
+import { makeArcgisStyler } from '../utils/arcgisRenderer';
 import {
   Box, Typography, IconButton, Drawer, List, ListItem, ListItemText,
   ListItemIcon, ListItemSecondaryAction, Switch, Button, TextField, Dialog,
@@ -207,6 +208,21 @@ export default function GISMap() {
       console.error('Failed to load features for', layerId, err);
     }
   }, []);
+
+  // ArcGIS layers: their own renderer, transparency and coded values (from the layer's metadata),
+  // so the map draws them as they look in ArcGIS Online.
+  const [arcMeta, setArcMeta] = useState({});
+  useEffect(() => {
+    layers.filter((l) => l.sourceType === 'arcgis_feature_service' && arcMeta[l.id] === undefined).forEach((l) => {
+      setArcMeta((m) => ({ ...m, [l.id]: null }));
+      api(`/gis/layers/${l.id}/metadata`)
+        .then((meta) => setArcMeta((m) => ({ ...m, [l.id]: meta })))
+        .catch(() => setArcMeta((m) => ({ ...m, [l.id]: false })));
+    });
+  }, [layers]); // eslint-disable-line react-hooks/exhaustive-deps
+  const stylers = useMemo(() => Object.fromEntries(
+    Object.entries(arcMeta).filter(([, m]) => m).map(([id, m]) => [id, makeArcgisStyler(m)]),
+  ), [arcMeta]);
 
   const loadPhiStatus = useCallback(async () => {
     try {
@@ -599,6 +615,14 @@ export default function GISMap() {
   });
 
   const getFeatureStyle = (layer, feature) => {
+    const styler = stylers[layer.id];
+    if (styler?.hasRenderer) {
+      // ArcGIS symbology as published; an active PHI only adds a coloured outline.
+      const own = styler.style(feature);
+      const phi = phiStatus[feature?.properties?._linkedFieldId];
+      if (!phi) return own;
+      return { ...own, stroke: true, opacity: 1, weight: 3, color: phi.daysRemaining <= 1 ? '#ff9800' : '#f44336' };
+    }
     const base = getLayerStyle(layer);
     const linkedFieldId = feature?.properties?._linkedFieldId;
     if (!linkedFieldId) return base;
@@ -722,7 +746,9 @@ export default function GISMap() {
   const visibleLayers = layers.filter((l) => l.isVisible);
   // Legend follows what is switched on: one swatch per visible layer, plus the PHI colours fields are painted with.
   const legendSections = [
-    { title: 'Layers', items: visibleLayers.map((l) => ({ color: l.style?.color || '#3388ff', label: l.name, shape: 'fill' })) },
+    { title: 'Layers', items: visibleLayers.filter((l) => !stylers[l.id]?.hasRenderer).map((l) => ({ color: l.style?.color || '#3388ff', label: l.name, shape: 'fill' })) },
+    // ArcGIS layers: one section each, with the classes of their own renderer.
+    ...visibleLayers.filter((l) => stylers[l.id]?.hasRenderer).map((l) => ({ title: l.name, items: stylers[l.id].legend })),
     visibleLayers.length > 0 && {
       title: 'PHI status',
       items: [
@@ -847,12 +873,12 @@ export default function GISMap() {
             if (!fc?.features?.length) return null;
             return (
               <GeoJSON
-                key={`${layer.id}-${JSON.stringify(layer.style)}-${fc.features.length}-${Object.keys(phiStatus).length}`}
+                key={`${layer.id}-${JSON.stringify(layer.style)}-${fc.features.length}-${Object.keys(phiStatus).length}-${stylers[layer.id] ? 'arc' : 'own'}`}
                 data={fc}
                 style={(feature) => getFeatureStyle(layer, feature)}
                 onEachFeature={onEachFeature(layer.id)}
                 pointToLayer={(feature, latlng) =>
-                  L.circleMarker(latlng, {
+                  L.circleMarker(latlng, stylers[layer.id]?.hasRenderer ? stylers[layer.id].style(feature) : {
                     radius: 6,
                     ...getLayerStyle(layer),
                     fillOpacity: 0.7,
@@ -889,6 +915,7 @@ export default function GISMap() {
         {selectedFeature && !fieldInfoOpen && (
           <FeatureInfoPanel
             feature={selectedFeature.feature}
+            styler={stylers[selectedFeature.layerId]}
             rtl={isAr}
             canEdit={canEdit}
             onClose={() => setSelectedFeature(null)}

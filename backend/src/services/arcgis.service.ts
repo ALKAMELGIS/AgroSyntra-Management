@@ -147,6 +147,10 @@ export interface ArcGISLayerMetadata {
   objectIdField: string;
   maxRecordCount: number;
   capabilities: string;
+  /** The layer's own symbology (renderer + transparency), so the map draws it as ArcGIS does. */
+  drawingInfo: { renderer: any; transparency: number } | null;
+  typeIdField: string | null;
+  types: Array<{ id: number | string; name: string }>;
 }
 
 export interface ArcGISFieldDef {
@@ -154,6 +158,8 @@ export interface ArcGISFieldDef {
   alias: string;
   type: string;
   length?: number;
+  /** Coded values (code → label), when the field has a coded-value domain. */
+  domain?: Array<{ code: any; name: string }> | null;
 }
 
 export interface ArcGISFeatureResult {
@@ -209,6 +215,7 @@ export async function fetchLayerMetadata(
       alias: f.alias || f.name,
       type: f.type,
       length: f.length,
+      domain: f.domain?.codedValues ? f.domain.codedValues.map((cv: any) => ({ code: cv.code, name: cv.name })) : null,
     })),
     extent: data.extent
       ? { xmin: data.extent.xmin, ymin: data.extent.ymin, xmax: data.extent.xmax, ymax: data.extent.ymax }
@@ -216,6 +223,11 @@ export async function fetchLayerMetadata(
     objectIdField: data.objectIdFieldName ?? 'OBJECTID',
     maxRecordCount: data.maxRecordCount ?? 1000,
     capabilities: data.capabilities ?? '',
+    drawingInfo: data.drawingInfo?.renderer
+      ? { renderer: data.drawingInfo.renderer, transparency: Number(data.drawingInfo.transparency) || 0 }
+      : null,
+    typeIdField: data.typeIdField || null,
+    types: (data.types ?? []).map((t: any) => ({ id: t.id, name: t.name })),
   };
 }
 

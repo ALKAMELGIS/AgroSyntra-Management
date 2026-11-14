@@ -12,6 +12,13 @@ import { SHELL_AR } from './shellLabels';
  */
 export const PAGE_AR = {
   // GIS feature card (round 42).
+  'Summary and save': 'الملخص والحفظ',
+  'Water and recipe': 'الماء والوصفة',
+  'Amounts and save': 'الكميات والحفظ',
+  'Form steps': 'خطوات النموذج',
+  'Site records': 'سجلات الموقع',
+  'Forms on this site': 'الاستمارات على هذا الموقع',
+  'No AgroCloud site matches this ZONE_ID + SITE yet': 'لا يوجد موقع في AgroCloud يطابق ZONE_ID + SITE بعد',
   'Feature info': 'بيانات العنصر',
   'Forms on this field': 'الاستمارات على هذا الحقل',
   'Not linked to a field yet': 'غير مرتبط بحقل بعد',

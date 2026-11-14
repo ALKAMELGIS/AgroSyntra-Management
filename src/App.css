@@ -375,3 +375,16 @@ main :is(.MuiCard-root, .MuiPaper-root:not(.MuiTableContainer-root)) .MuiTableCo
 .leaflet-control-attribution {
   border-radius: 0 !important;
 }
+
+/* Compact page headers (round 43): every page's <h1> uses the same small title
+   size, whatever variant the page passed, and the line under it stays quiet. */
+main h1.MuiTypography-root,
+main h1.page-title {
+  font-size: 1.1875rem !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.01em !important;
+}
+@media (max-width: 599.95px) {
+  main h1.MuiTypography-root,
+  main h1.page-title { font-size: 1.0625rem !important; }
+}

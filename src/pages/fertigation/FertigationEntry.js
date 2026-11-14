@@ -30,7 +30,7 @@ import * as Yup from 'yup';
 import { useMasterData } from '../../utils/useMasterData';
 import { useActiveSite } from '../../contexts/ActiveSiteContext';
 import LocationSelector from '../../components/LocationSelector';
-import { FormSection, FormStack, FormGrid, FormActions, HintLabel, calcFieldSx, span } from '../../components/form/FormLayout';
+import { FormSection, FormGrid, FormActions, FormSteps, FormStep, HintLabel, calcFieldSx, span } from '../../components/form/FormLayout';
 import {
   createFertigation,
   listFertigationAll,
@@ -497,7 +497,8 @@ function FertigationEntry() {
                   </Alert>
                 )}
 
-                <FormStack>
+                <FormSteps>
+                <FormStep label="Where and when" fields={['date', 'country', 'site', 'farmArea', 'field']}>
                 <FormSection title="Where and when">
                   <FormGrid columns={{ xs: 2, sm: 3, lg: 5 }} stretchLast>
                     <TextField
@@ -538,7 +539,9 @@ function FertigationEntry() {
                     </InfoNote>
                   )}
                 </FormSection>
+                </FormStep>
 
+                <FormStep label="Water and recipe" fields={['flowRate', 'frequency', 'recipeId']}>
                 <FormSection title="Water">
                   <FormGrid columns={{ xs: 2, md: 4 }}>
                     <TextField
@@ -642,7 +645,9 @@ function FertigationEntry() {
                     </Typography>
                   )}
                 </FormSection>
+                </FormStep>
 
+                <FormStep label="Amounts and save">
                 {/* Section 4: Auto-Calculated Fertilizer Display (Read-Only) */}
                 {selectedRecipe && dailyWater > 0 && Object.keys(calculatedFertilizers).length > 0 && (
                   <FormSection title="Calculated fertilizer amounts">
@@ -805,7 +810,8 @@ function FertigationEntry() {
                     </Button>
                   </FormActions>
                 </Box>
-                </FormStack>
+                </FormStep>
+                </FormSteps>
               </Form>
             );
           }}

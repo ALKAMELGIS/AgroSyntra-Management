@@ -96,7 +96,7 @@ export default function PageContextBar() {
         minHeight: 24,
         // Room for the finger-sized hit areas of the links on touch screens.
         '@media (pointer: coarse)': { minHeight: 32, overflow: 'visible' },
-        mb: { xs: 2, md: 4 },
+        mb: { xs: 1, md: 1.5 },
         overflow: 'hidden',
         '@media print': { display: 'none' },
       }}

@@ -245,9 +245,9 @@ export function MapLegend({ sections, empty = 'Turn on a layer to see its legend
                   flexShrink: 0,
                   width: 16,
                   height: item.shape === 'line' ? 3 : 16,
-                  borderRadius: item.shape === 'dot' ? '50%' : 0.5,
+                  borderRadius: item.shape === 'dot' ? '50%' : 0,
                   bgcolor: item.color,
-                  border: item.shape === 'line' ? 'none' : '1px solid rgba(0,0,0,0.15)',
+                  border: item.shape === 'line' ? 'none' : `${item.stroke ? 2 : 1}px solid ${item.stroke || 'rgba(0,0,0,0.15)'}`,
                 }}
               />
               <Typography sx={{ fontSize: '0.8125rem', minWidth: 0 }} noWrap title={item.label}>{item.label}</Typography>

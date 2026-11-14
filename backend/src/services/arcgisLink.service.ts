@@ -343,6 +343,35 @@ export async function featureForms(orgId: string, q: FeatureLookup) {
   };
 }
 
+/**
+ * One-to-many side of the relationship class: a ZONE_ID + SITE (or Site_Code)
+ * pair names one AgroCloud site, which holds many fields and, through them, many
+ * form records. Returns the site's fields and every form's records on them.
+ */
+export async function siteForms(orgId: string, q: { zoneId: string; siteCode: string; recordsPerForm?: number }) {
+  const zone = String(q.zoneId || '').trim();
+  const site = String(q.siteCode || '').trim();
+  if (!zone || !site) throw new AppError('Give zone_id and site_code', 'VALIDATION_ERROR', 400);
+  const { rows: fields } = await dbPool.query(
+    `SELECT * FROM bi.dim_location
+      WHERE organization_id = $1 AND NOT is_deleted
+        AND (UPPER(gis_zone_id) = UPPER($2) OR UPPER(zone_code) = UPPER($2))
+        AND (UPPER(gis_site_code) = UPPER($3) OR UPPER(site_gis_code) = UPPER($3))
+      ORDER BY site_name, farm_area_name, field_name`,
+    [orgId, zone, site],
+  );
+  const fieldIds = fields.map((f: any) => f.field_id);
+  const forms = await formsForFields(fieldIds, orgId, { recordsPerForm: q.recordsPerForm ?? 5 });
+  const s0: any = fields[0] || {};
+  return {
+    key: `${zone.toUpperCase()}|${site.toUpperCase()}`,
+    site: fields.length ? { site_id: s0.site_id, site_name: s0.site_name, zone_code: s0.zone_code, zone_name: s0.zone_name } : null,
+    field_count: fields.length,
+    fields: fields.slice(0, 50),
+    forms,
+  };
+}
+
 /** Per feature of a layer: record counts by form (map pop-ups, Power BI). */
 export async function layerFormSummary(orgId: string, layerId: string) {
   const own = await dbPool.query(`SELECT 1 FROM gis_layers WHERE id = $1 AND organization_id = $2`, [layerId, orgId]);

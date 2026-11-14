@@ -1,5 +1,7 @@
-import { Box, Paper, Tooltip, Typography } from '@mui/material';
-import { InfoOutlined as InfoIcon } from '@mui/icons-material';
+import { Children, isValidElement, useEffect, useRef, useState } from 'react';
+import { Box, Button, Paper, Tooltip, Typography } from '@mui/material';
+import { InfoOutlined as InfoIcon, ArrowForwardRounded as NextIcon, ArrowBackRounded as BackIcon, CheckRounded as DoneIcon } from '@mui/icons-material';
+import { getIn, useFormikContext } from 'formik';
 
 /**
  * Compact building blocks for data-entry forms.
@@ -129,6 +131,186 @@ export function FormActions({ children }) {
       }}
     >
       {children}
+    </Box>
+  );
+}
+
+/**
+ * One step of a FormSteps wizard. `label` names it in the step bar; `fields`
+ * lists the Formik names checked before Next (prefixes work: 'valve1' covers
+ * every valve1.* field).
+ */
+export function FormStep({ children }) {
+  return <>{children}</>;
+}
+
+const hasError = (errors, name) => {
+  const e = getIn(errors, name);
+  return !!e && (typeof e === 'string' || Object.keys(e).length > 0);
+};
+const touchAll = (setFieldTouched, errors, name) => {
+  const e = getIn(errors, name);
+  if (e && typeof e === 'object') Object.keys(e).forEach((k) => touchAll(setFieldTouched, errors, `${name}.${k}`));
+  else setFieldTouched(name, true, false);
+};
+
+/**
+ * Long entry forms as short steps: a step bar, one step on screen, Back / Next,
+ * and the step's own Save on the last one. Must sit inside a Formik form.
+ *
+ *   <FormSteps>
+ *     <FormStep label="Reading" fields={['date', 'site', 'field']}>…</FormStep>
+ *     <FormStep label="Valves" fields={['valve1']}>…</FormStep>
+ *     <FormStep label="Summary">… <FormActions>…Save…</FormActions></FormStep>
+ *   </FormSteps>
+ *
+ * Next checks only the current step's fields. Enter in a field moves to the next
+ * step instead of submitting. A failed save opens the first step with an error.
+ * Steps stay mounted (hidden), so nothing typed is lost when moving between them.
+ */
+export function FormSteps({ children, sx }) {
+  const steps = Children.toArray(children).filter(isValidElement);
+  const formik = useFormikContext();
+  const [active, setActive] = useState(0);
+  const topRef = useRef(null);
+  const last = steps.length - 1;
+
+  // Yup checks every field; the browser's own check would stop on required
+  // inputs that sit in a hidden step and say nothing.
+  useEffect(() => { topRef.current?.closest('form')?.setAttribute('novalidate', ''); }, []);
+
+  const focusTop = () => {
+    const el = topRef.current;
+    if (!el) return;
+    if (el.getBoundingClientRect().top < 0) el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  };
+
+  const go = async (to) => {
+    if (to > active && formik) {
+      const errors = await formik.validateForm();
+      for (let i = active; i < to; i += 1) {
+        const bad = (steps[i].props.fields || []).filter((n) => hasError(errors, n));
+        if (bad.length) {
+          bad.forEach((n) => touchAll(formik.setFieldTouched, errors, n));
+          setActive(i);
+          focusTop();
+          return;
+        }
+      }
+    }
+    setActive(Math.max(0, Math.min(last, to)));
+    focusTop();
+  };
+
+  // A save that failed validation: open the first step that holds an error.
+  const submitCount = formik?.submitCount || 0;
+  useEffect(() => {
+    if (!submitCount || !formik) return;
+    const idx = steps.findIndex((st) => (st.props.fields || []).some((n) => hasError(formik.errors, n)));
+    if (idx >= 0 && idx !== active) setActive(idx);
+  }, [submitCount]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const onKeyDown = (e) => {
+    if (e.key !== 'Enter' || active === last) return;
+    const t = e.target;
+    if (t?.tagName === 'INPUT' && !['button', 'submit', 'checkbox', 'radio'].includes(t.type)) {
+      e.preventDefault();
+      go(active + 1);
+    }
+  };
+
+  return (
+    <Box ref={topRef} sx={{ display: 'grid', gap: GAP, scrollMarginTop: 72, ...sx }} onKeyDown={onKeyDown}>
+      <Box component="nav" aria-label="Form steps">
+        <Box
+          component="ol"
+          sx={{
+            listStyle: 'none', m: 0, p: 0, display: 'grid',
+            gridTemplateColumns: `repeat(${steps.length}, minmax(0, 1fr))`,
+            border: 1, borderColor: 'divider', bgcolor: 'background.paper',
+          }}
+        >
+          {steps.map((st, i) => {
+            const state = i === active ? 'current' : i < active ? 'done' : 'todo';
+            return (
+              <Box component="li" key={st.key || i} sx={{ minWidth: 0, '& + &': { borderInlineStart: 1, borderColor: 'divider' } }}>
+                <Box
+                  component="button"
+                  type="button"
+                  onClick={() => go(i)}
+                  aria-current={state === 'current' ? 'step' : undefined}
+                  sx={{
+                    all: 'unset', boxSizing: 'border-box', cursor: 'pointer', width: '100%',
+                    display: 'flex', alignItems: 'center', gap: 2, px: { xs: 2, sm: 3 }, minHeight: 44,
+                    fontSize: '0.8125rem', fontWeight: state === 'current' ? 600 : 500,
+                    color: state === 'todo' ? 'text.secondary' : 'text.primary',
+                    bgcolor: state === 'current' ? 'action.selected' : 'transparent',
+                    boxShadow: state === 'current' ? (t) => `inset 0 -2px 0 ${t.palette.primary.main}` : 'none',
+                    '&:hover': { bgcolor: state === 'current' ? 'action.selected' : 'action.hover' },
+                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: -2 },
+                  }}
+                >
+                  <Box
+                    component="span"
+                    aria-hidden
+                    sx={{
+                      flexShrink: 0, width: 20, height: 20, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '0.6875rem', fontWeight: 600, fontVariantNumeric: 'tabular-nums',
+                      bgcolor: state === 'todo' ? 'transparent' : 'primary.main',
+                      color: state === 'todo' ? 'text.secondary' : 'primary.contrastText',
+                      border: 1, borderColor: state === 'todo' ? 'divider' : 'primary.main',
+                    }}
+                  >
+                    {state === 'done' ? <DoneIcon sx={{ fontSize: 14 }} /> : i + 1}
+                  </Box>
+                  {/* Phones show the name of the current step only; the others keep their number. */}
+                  <Box
+                    component="span"
+                    sx={{
+                      minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                      display: { xs: state === 'current' ? 'inline' : 'none', sm: 'inline' },
+                    }}
+                  >
+                    {st.props.label}
+                  </Box>
+                  <Box component="span" sx={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>
+                    {`, step ${i + 1} of ${steps.length}`}
+                  </Box>
+                </Box>
+              </Box>
+            );
+          })}
+        </Box>
+      </Box>
+
+      {steps.map((st, i) => (
+        <Box key={st.key || i} role="group" aria-label={typeof st.props.label === 'string' ? st.props.label : undefined} hidden={i !== active} sx={{ display: i === active ? 'grid' : 'none', gap: GAP }}>
+          {st}
+        </Box>
+      ))}
+
+      <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between', flexWrap: 'wrap' }}>
+        <Button
+          variant="outlined"
+          color="inherit"
+          startIcon={<BackIcon sx={{ transform: (t) => (t.direction === 'rtl' ? 'scaleX(-1)' : 'none') }} />}
+          onClick={() => go(active - 1)}
+          disabled={active === 0}
+          sx={{ visibility: active === 0 ? 'hidden' : 'visible', minWidth: 120 }}
+        >
+          Back
+        </Button>
+        {active < last && (
+          <Button
+            variant="contained"
+            endIcon={<NextIcon sx={{ transform: (t) => (t.direction === 'rtl' ? 'scaleX(-1)' : 'none') }} />}
+            onClick={() => go(active + 1)}
+            sx={{ minWidth: 120 }}
+          >
+            Next
+          </Button>
+        )}
+      </Box>
     </Box>
   );
 }

@@ -3,12 +3,12 @@
   var DEMOFC=(function(){ var F=[],lon0=55.74,lat0=24.20;
     function rect(x,y,w,h){ return [[[x,y],[x+w,y],[x+w,y+h],[x,y+h],[x,y]]]; }
     function circle(cx,cy,r){ var c=[]; for(var i=0;i<=32;i++){ var a=i/32*2*Math.PI; c.push([cx+r*Math.cos(a)/Math.cos(cy*Math.PI/180),cy+r*Math.sin(a)]); } return [c]; }
-    for(var i=0;i<6;i++) F.push({type:'Feature',properties:{Farm_Name:'GH-0'+(i+1),Farm_Code:'MH-GH-0'+(i+1),ZONE_ID:'MH',Structure_Type:'Greenhouse'},geometry:{type:'Polygon',coordinates:rect(lon0+i*0.0016,lat0,0.0012,0.0035)}});
-    for(var j=0;j<3;j++) F.push({type:'Feature',properties:{Farm_Name:'NH-0'+(j+1),Farm_Code:'MH-NH-0'+(j+1),ZONE_ID:'MH',Structure_Type:'NetHouse'},geometry:{type:'Polygon',coordinates:rect(lon0+j*0.0024,lat0+0.0045,0.002,0.003)}});
-    F.push({type:'Feature',properties:{Farm_Name:'OF-01',Farm_Code:'MH-OF-01',ZONE_ID:'MH',Structure_Type:'Open Field'},geometry:{type:'Polygon',coordinates:rect(lon0+0.0105,lat0,0.006,0.0075)}});
-    F.push({type:'Feature',properties:{Farm_Name:'OF-02',Farm_Code:'MH-OF-02',ZONE_ID:'MH',Structure_Type:'Open Field'},geometry:{type:'Polygon',coordinates:rect(lon0,lat0-0.0085,0.0095,0.0065)}});
-    F.push({type:'Feature',properties:{Farm_Name:'PV-01',Farm_Code:'MH-PV-01',ZONE_ID:'MH',Structure_Type:'Pivot'},geometry:{type:'Polygon',coordinates:circle(lon0+0.0145,lat0-0.0055,0.0035)}});
-    F.push({type:'Feature',properties:{Farm_Name:'PV-02',Farm_Code:'MH-PV-02',ZONE_ID:'MH',Structure_Type:'Pivot'},geometry:{type:'Polygon',coordinates:circle(lon0+0.0225,lat0-0.0055,0.0035)}});
+    for(var i=0;i<6;i++) F.push({type:'Feature',properties:{Farm_Name:'GH-0'+(i+1),Farm_Code:'MH-GH-0'+(i+1),ZONE_ID:'MH',SITE:1,Structure_Type:'Greenhouse'},geometry:{type:'Polygon',coordinates:rect(lon0+i*0.0016,lat0,0.0012,0.0035)}});
+    for(var j=0;j<3;j++) F.push({type:'Feature',properties:{Farm_Name:'NH-0'+(j+1),Farm_Code:'MH-NH-0'+(j+1),ZONE_ID:'MH',SITE:1,Structure_Type:'NetHouse'},geometry:{type:'Polygon',coordinates:rect(lon0+j*0.0024,lat0+0.0045,0.002,0.003)}});
+    F.push({type:'Feature',properties:{Farm_Name:'OF-01',Farm_Code:'MH-OF-01',ZONE_ID:'MH',SITE:1,Structure_Type:'Open Field'},geometry:{type:'Polygon',coordinates:rect(lon0+0.0105,lat0,0.006,0.0075)}});
+    F.push({type:'Feature',properties:{Farm_Name:'OF-02',Farm_Code:'MH-OF-02',ZONE_ID:'MH',SITE:1,Structure_Type:'Open Field'},geometry:{type:'Polygon',coordinates:rect(lon0,lat0-0.0085,0.0095,0.0065)}});
+    F.push({type:'Feature',properties:{Farm_Name:'PV-01',Farm_Code:'MH-PV-01',ZONE_ID:'MH',SITE:1,Structure_Type:'Pivot'},geometry:{type:'Polygon',coordinates:circle(lon0+0.0145,lat0-0.0055,0.0035)}});
+    F.push({type:'Feature',properties:{Farm_Name:'PV-02',Farm_Code:'MH-PV-02',ZONE_ID:'MH',SITE:1,Structure_Type:'Pivot'},geometry:{type:'Polygon',coordinates:circle(lon0+0.0225,lat0-0.0055,0.0035)}});
     return {type:'FeatureCollection',features:F}; })();
   var SATCAT=[{"key":"TRUE_COLOR","label":"True color","group":"visual","formula":"B04, B03, B02","description":"Natural colours, as the eye sees them.","legend":null,"visual":true},{"key":"FALSE_COLOR","label":"Color infrared (vegetation)","group":"visual","formula":"B08, B04, B03","description":"Healthy vegetation in bright red.","legend":null,"visual":true},{"key":"SWIR","label":"SWIR (soil & moisture)","group":"visual","formula":"B12, B8A, B04","description":"Wet soil dark, dry soil and bare ground bright.","legend":null,"visual":true},{"key":"NDVI","label":"NDVI","group":"vegetation","formula":"(B08 − B04) / (B08 + B04)","description":"Vegetation health and density.","legend":[{"value":-0.2,"color":"#a50026"},{"value":0,"color":"#d73027"},{"value":0.1,"color":"#f46d43"},{"value":0.2,"color":"#fdae61"},{"value":0.3,"color":"#fee08b"},{"value":0.4,"color":"#d9ef8b"},{"value":0.5,"color":"#a6d96a"},{"value":0.6,"color":"#66bd63"},{"value":0.7,"color":"#1a9850"},{"value":0.9,"color":"#006837"}],"visual":false},{"key":"SAVI","label":"SAVI","group":"vegetation","formula":"1.5 × (B08 − B04) / (B08 + B04 + 0.5)","description":"NDVI corrected for bright soil; better for young crops.","legend":[{"value":-0.2,"color":"#a50026"},{"value":0,"color":"#d73027"},{"value":0.1,"color":"#f46d43"},{"value":0.2,"color":"#fdae61"},{"value":0.3,"color":"#fee08b"},{"value":0.4,"color":"#d9ef8b"},{"value":0.5,"color":"#a6d96a"},{"value":0.6,"color":"#66bd63"},{"value":0.7,"color":"#1a9850"},{"value":0.9,"color":"#006837"}],"visual":false},{"key":"NDWI","label":"NDWI","group":"water","formula":"(B03 − B08) / (B03 + B08)","description":"Open water and water bodies.","legend":[{"value":-0.8,"color":"#8c510a"},{"value":-0.4,"color":"#d8b365"},{"value":-0.1,"color":"#f6e8c3"},{"value":0,"color":"#c7eae5"},{"value":0.2,"color":"#5ab4ac"},{"value":0.5,"color":"#01665e"},{"value":0.8,"color":"#003c30"}],"visual":false},{"key":"NDMI","label":"NDMI","group":"water","formula":"(B08 − B11) / (B08 + B11)","description":"Moisture in the crop canopy.","legend":[{"value":-0.6,"color":"#8c2d04"},{"value":-0.3,"color":"#cc4c02"},{"value":-0.1,"color":"#fe9929"},{"value":0,"color":"#fee391"},{"value":0.1,"color":"#c7e9b4"},{"value":0.2,"color":"#7fcdbb"},{"value":0.4,"color":"#2c7fb8"},{"value":0.6,"color":"#253494"}],"visual":false},{"key":"NDII","label":"NDII","group":"water","formula":"(B08 − B11) / (B08 + B11)","description":"Infrared water-content index (same Sentinel-2 bands as NDMI).","legend":[{"value":-0.6,"color":"#8c2d04"},{"value":-0.3,"color":"#cc4c02"},{"value":-0.1,"color":"#fe9929"},{"value":0,"color":"#fee391"},{"value":0.1,"color":"#c7e9b4"},{"value":0.2,"color":"#7fcdbb"},{"value":0.4,"color":"#2c7fb8"},{"value":0.6,"color":"#253494"}],"visual":false},{"key":"MSI","label":"Moisture stress (MSI)","group":"water","formula":"B11 / B08","description":"Higher values mean drier, stressed plants.","legend":[{"value":0.2,"color":"#253494"},{"value":0.6,"color":"#41b6c4"},{"value":1,"color":"#ffffcc"},{"value":1.4,"color":"#fd8d3c"},{"value":2,"color":"#bd0026"}],"visual":false},{"key":"BSI","label":"Bare soil (BSI)","group":"soil","formula":"((B11 + B04) − (B08 + B02)) / ((B11 + B04) + (B08 + B02))","description":"Bare and exposed soil.","legend":[{"value":-0.6,"color":"#1a9850"},{"value":-0.2,"color":"#91cf60"},{"value":0,"color":"#fee08b"},{"value":0.15,"color":"#fc8d59"},{"value":0.3,"color":"#d73027"},{"value":0.6,"color":"#7f0000"}],"visual":false}];
   try {
@@ -156,6 +156,13 @@
     if(/^\/gis\/layers\/[^/]+\/sync$/.test(path)) return ok({added:412,updated:0,removed:0});
     if(/^\/gis\/layers\/[^/]+\/auto-link$/.test(path)){ if(CONN[0]){CONN[0].linked_features=410;CONN[0].synced_features=412;CONN[0].last_synced_at=new Date().toISOString();} return ok({linked:410,created:39,skipped:2}); }
     if(path==='/gis/arcgis/link-issues') return ok([{issue:'duplicate_feature_keys',zone_id:'DB',farm_code:'DB-GH-07',occurrences:2},{issue:'feature_not_linked',zone_id:'KE',farm_code:'KE-PV-02',occurrences:1}]);
+    if(path==='/gis/sites/forms'){
+      var sz=(q.zone_id||'').toUpperCase(), ss=(q.site_code||'').toUpperCase();
+      return ok({key:sz+'|'+ss,site:{site_id:'c7s1',site_name:'Site '+ss,zone_code:sz,zone_name:sz},field_count:9,fields:[],
+        forms:[{form_id:'7c774b7b-8363-5887-b013-736ed63651b8',form_key:'harvest.entry',title_en:'Harvest Entry',title_ar:'إدخال الحصاد',record_count:42},
+               {form_id:'3f2e6c1d-0a9b-5c4d-8e7f-1a2b3c4d5e6f',form_key:'ipm.pesticide_spray',title_en:'Pesticide — Spray',title_ar:'المبيدات — رش',record_count:17},
+               {form_id:'0b7d1c2e-6f3a-5b4c-9d8e-2f1a0b9c8d7e',form_key:'ecph.entry',title_en:'EC/pH Entry',title_ar:'إدخال EC/pH',record_count:63}]});
+    }
     if(path==='/gis/features/forms'){
       var z=(q.zone_id||'MH').toUpperCase(), code=(q.farm_code||'MH-GH-01').toUpperCase();
       return ok({features:[{feature_id:'g1',global_id:'{9F1C-DEMO}',zone_id:z,farm_code:code}],
@@ -173,36 +180,54 @@
      from ArcGIS (read-only queries) and decodes its coded values. Offline, or if
      the service does not answer, the built-in sample polygons are used instead. */
   var LIVE_LAYER='https://services1.arcgis.com/jz3ndhbYV5K9NwI8/arcgis/rest/services/Agro_Structures/FeatureServer/21';
-  var LIVE=null;
+  var LIVE=null, META=null;
+  /* Sample symbology for the offline polygons (one colour per structure type). */
+  var DEMO_META={name:'Agro_Structures',drawingInfo:{transparency:0,renderer:{type:'uniqueValue',field1:'Structure_Type',uniqueValueInfos:[
+    {value:'Greenhouse',label:'Greenhouse',symbol:{type:'esriSFS',style:'esriSFSSolid',color:[255,255,255,90],outline:{type:'esriSLS',color:[38,115,0,255],width:1.5}}},
+    {value:'NetHouse',label:'Nethouse',symbol:{type:'esriSFS',style:'esriSFSSolid',color:[190,232,255,140],outline:{type:'esriSLS',color:[0,92,230,255],width:1.5}}},
+    {value:'Open Field',label:'Farm plots',symbol:{type:'esriSFS',style:'esriSFSSolid',color:[255,235,175,150],outline:{type:'esriSLS',color:[168,112,0,255],width:1.5}}},
+    {value:'Pivot',label:'Pivot',symbol:{type:'esriSFS',style:'esriSFSSolid',color:[163,255,115,140],outline:{type:'esriSLS',color:[56,168,0,255],width:1.5}}}]}},
+    fields:[],types:[]};
+  var j=function(u){ return of(u).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }); };
+  function race(p,ms){ return Promise.race([p,new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },ms); })]); }
+  function liveMeta(){
+    if(META) return META;
+    META=race(j(LIVE_LAYER+'?f=json'),12000).then(function(m){
+      if(!m||m.error) throw new Error('meta');
+      return {name:m.name,geometryType:m.geometryType,objectIdField:m.objectIdField||'OBJECTID',maxRecordCount:m.maxRecordCount,
+        drawingInfo:m.drawingInfo&&m.drawingInfo.renderer?{renderer:m.drawingInfo.renderer,transparency:Number(m.drawingInfo.transparency)||0}:null,
+        typeIdField:m.typeIdField||null,types:(m.types||[]).map(function(t){return {id:t.id,name:t.name};}),
+        fields:(m.fields||[]).map(function(f){return {name:f.name,alias:f.alias||f.name,type:f.type,domain:f.domain&&f.domain.codedValues?f.domain.codedValues.map(function(c){return {code:c.code,name:c.name};}):null};})};
+    }).catch(function(){ META=null; return null; });
+    return META;
+  }
+  /* Raw values are kept (the layer's renderer matches on its codes); labels are decoded on screen. */
   function liveLayer(){
     if(LIVE) return LIVE;
-    var j=function(u){ return of(u).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }); };
-    var work=j(LIVE_LAYER+'?f=json').then(function(meta){
-      var dec={};
-      (meta.fields||[]).forEach(function(f){ if(f.domain&&f.domain.codedValues){ dec[f.name]={}; f.domain.codedValues.forEach(function(c){ dec[f.name][c.code]=c.name; }); } });
-      if(meta.typeIdField&&meta.types){ dec[meta.typeIdField]=dec[meta.typeIdField]||{}; meta.types.forEach(function(t){ dec[meta.typeIdField][t.id]=t.name; }); }
-      var all=[];
-      function page(off){
-        return j(LIVE_LAYER+'/query?where=1%3D1&outFields=*&outSR=4326&f=geojson&resultOffset='+off+'&resultRecordCount=2000').then(function(fc){
-          var fs=(fc&&fc.features)||[]; all=all.concat(fs);
-          var more=fc&&(fc.exceededTransferLimit||(fc.properties&&fc.properties.exceededTransferLimit));
-          return (more&&fs.length&&off<20000)?page(off+fs.length):all;
-        });
-      }
-      return page(0).then(function(fs){
-        fs.forEach(function(f,i){ var pr=f.properties||{}; for(var k in dec){ if(pr[k]!==null&&pr[k]!==undefined&&dec[k][pr[k]]!==undefined) pr[k]=dec[k][pr[k]]; } f.properties=pr; if(f.id===undefined) f.id=pr.OBJECTID||i; });
-        if(!fs.length) throw new Error('empty');
-        return {type:'FeatureCollection',features:fs};
+    var all=[];
+    function page(off){
+      return j(LIVE_LAYER+'/query?where=1%3D1&outFields=*&outSR=4326&f=geojson&resultOffset='+off+'&resultRecordCount=2000').then(function(fc){
+        var fs=(fc&&fc.features)||[]; all=all.concat(fs);
+        var more=fc&&(fc.exceededTransferLimit||(fc.properties&&fc.properties.exceededTransferLimit));
+        return (more&&fs.length&&off<50000)?page(off+fs.length):all;
       });
-    });
-    var timeout=new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },15000); });
-    LIVE=Promise.race([work,timeout]).catch(function(){ LIVE=null; return DEMOFC; });
+    }
+    LIVE=race(page(0),30000).then(function(fs){
+      if(!fs.length) throw new Error('empty');
+      fs.forEach(function(f,i){ if(f.id===undefined) f.id=(f.properties&&f.properties.OBJECTID)||i; });
+      return {type:'FeatureCollection',features:fs,_live:true};
+    }).catch(function(){ LIVE=null; return DEMOFC; });
     return LIVE;
   }
+  function jsonRes(x){ return new Response(JSON.stringify(x),{status:200,headers:{'Content-Type':'application/json'}}); }
   window.fetch=function(input,init){
     var url=typeof input==='string'?input:(input&&input.url)||'';
     if(isApi(url)&&/\/gis\/layers\/demo-struct\/features(\?|$)/.test(url)){
-      return liveLayer().then(function(fc){ return new Response(JSON.stringify(ok(fc)),{status:200,headers:{'Content-Type':'application/json'}}); });
+      return liveLayer().then(function(fc){ return jsonRes(ok(fc)); });
+    }
+    if(isApi(url)&&/\/gis\/layers\/demo-struct\/metadata(\?|$)/.test(url)){
+      /* Live symbology only together with the live polygons; the sample polygons keep the sample legend. */
+      return liveLayer().then(function(fc){ return fc&&fc._live?liveMeta():null; }).then(function(m){ return jsonRes(ok(m||DEMO_META)); });
     }
     if(isApi(url)){ var m=(init&&init.method)||'GET'; var b=null; try{b=init&&init.body?JSON.parse(init.body):null;}catch(e){}
       return Promise.resolve(new Response(JSON.stringify(body(url,m,b)),{status:200,headers:{'Content-Type':'application/json'}})); }

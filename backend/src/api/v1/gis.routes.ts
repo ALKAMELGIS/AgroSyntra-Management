@@ -293,6 +293,18 @@ gisRouter.get('/features/forms', requireFormsReader, validate({ query: featureFo
   res.json({ success: true, data });
 }));
 
+const siteFormsQuery = z.object({
+  zone_id: z.string().min(1).max(100),
+  site_code: z.string().min(1).max(255),
+  records: z.coerce.number().int().min(0).max(200).optional(),
+});
+
+/** One site (ZONE_ID + SITE) → its many fields and form records. */
+gisRouter.get('/sites/forms', requireFormsReader, validate({ query: siteFormsQuery }), asyncHandler(async (req: AuthRequest, res: Response) => {
+  const q = req.query as any;
+  res.json({ success: true, data: await arcgisLink.siteForms(requireOrgId(req), { zoneId: q.zone_id, siteCode: q.site_code, recordsPerForm: q.records }) });
+}));
+
 gisRouter.get('/layers/:id/form-summary', requireFormsReader, validate({ params: idSchema }), asyncHandler(async (req: AuthRequest, res: Response) => {
   res.json({ success: true, data: await arcgisLink.layerFormSummary(requireOrgId(req), req.params.id) });
 }));

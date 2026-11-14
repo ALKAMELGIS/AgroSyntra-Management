@@ -483,3 +483,11 @@ Pages:
 - Production: the layer link is entered once in **Settings → Zones & Sites → GIS configuration** (Check layer → Save and link); nothing is hard-coded in the app.
 - Demo / APK: reads the real public polygons from the layer (read-only `query`, `f=geojson`, paged, coded values decoded); offline it falls back to the sample polygons.
 - Sentinel-2: the configuration ID is entered in **Settings → API Keys → Satellite imagery** on the server (stored encrypted, never sent to the browser); it is not in the code, demo or APK.
+
+## Round 43 — compact page headers, step-by-step entry, ArcGIS symbology, site relationship
+
+- **Page headers:** every page title is 19 px (17 px on phones) instead of 26 px, the breadcrumb sits 4–6 px above it instead of 8–16 px. One CSS rule covers pages that did not use `PageTitle`. Site selector text is regular weight.
+- **Step-by-step entry (`FormSteps` / `FormStep`):** EC/pH entry (Reading → Valves → Summary and save) and Fertigation entry (Where and when → Water and recipe → Amounts and save). Square numbered step bar, Back / Next, Save on the last step. Next checks only the current step's fields; Enter in a field goes to the next step; a failed save opens the first step with an error; steps stay mounted so nothing typed is lost. Phones show the current step's name and the numbers of the others.
+- **ArcGIS layers drawn as published:** the layer metadata now carries `drawingInfo` (renderer + transparency), coded-value domains and subtypes. GIS Map draws simple, unique-value and class-breaks renderers with the layer's own fill, outline and transparency (`utils/arcgisRenderer.js`), lists the renderer classes in the map legend, and shows coded values by their labels in the feature card. An active PHI adds only a coloured outline. All features are loaded (paged reads).
+- **Relationship class, one-to-many:** besides ZONE_ID + Farm_Code → one field, the feature card shows **Site records** for ZONE_ID + SITE (or Site_Code) → one AgroCloud site → its many fields and their form records (`GET /api/v1/gis/sites/forms?zone_id&site_code`).
+- Feature card stays below the map's zoom buttons.
