@@ -463,3 +463,4 @@ Pages:
 - Weather map without fields shows its message inside the map frame instead of an empty page.
 - Header "Ctrl K" hint: one line, shown from 900 px up.
 - Measured: 0 overlapping map controls and no sideways page scroll on all four map pages at 384 / 820 / 1440 px.
+- Gate follow-up: each tool group in the strip is its own navigation landmark ("Map tools" | "Remote sensing tools"); panel tools expose aria-expanded / aria-controls; remote sensing basemap switcher moved to the bottom (it collided with the search box when the analysis panel narrows the map at 1280 px).

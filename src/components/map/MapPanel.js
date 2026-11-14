@@ -57,10 +57,10 @@ export function useMapWorkspace(storageKey, initial = null) {
  * panel opens as a sheet over the lower part of the map, so the map stays in view.
  */
 function PhoneToolStrip({ groups }) {
+  // One strip; each tool group is its own labelled navigation landmark
+  // (e.g. "Map tools" | "Remote sensing tools") so screen readers keep them apart.
   return (
     <Box
-      component="nav"
-      aria-label="Map tools"
       sx={{
         display: 'flex', alignItems: 'stretch', gap: 0.5, px: 1, flexShrink: 0,
         overflowX: 'auto', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' },
@@ -68,7 +68,7 @@ function PhoneToolStrip({ groups }) {
       }}
     >
       {groups.map((g, gi) => (
-        <Box key={g.label} sx={{ display: 'flex', alignItems: 'stretch', gap: 0.5, flexShrink: 0 }}>
+        <Box component="nav" aria-label={g.label} key={g.label} sx={{ display: 'flex', alignItems: 'stretch', gap: 0.5, flexShrink: 0 }}>
           {gi > 0 && <Box aria-hidden sx={{ width: '1px', my: 2, mx: 1, bgcolor: 'divider', flexShrink: 0 }} />}
           {g.tools.map((tool, ti) => {
             if (tool.divider) {
@@ -81,7 +81,9 @@ function PhoneToolStrip({ groups }) {
               <ButtonBase
                 key={tool.key}
                 aria-label={count ? `${tool.label} (${count})` : tool.label}
-                aria-pressed={isPanel || tool.pressed !== undefined ? pressed : undefined}
+                aria-pressed={!isPanel && tool.pressed !== undefined ? pressed : undefined}
+                aria-expanded={isPanel ? pressed : undefined}
+                aria-controls={isPanel && pressed ? g.panelId : undefined}
                 disabled={tool.disabled}
                 onClick={isPanel ? () => g.open(tool.key) : tool.onClick}
                 sx={{
@@ -170,8 +172,8 @@ export function MapWorkspace({
   // tablet and desktop dock it beside the map. Opening a tool of one group closes the
   // other group's panel, so only one panel is ever open.
   const groups = [
-    { label, tools: list, workspace, open: (k) => { endWorkspace.close(); workspace.toggle(k); } },
-    ...(endList.length ? [{ label: endLabel, tools: endList, workspace: endWorkspace, open: (k) => { workspace.close(); endWorkspace.toggle(k); } }] : []),
+    { label, tools: list, workspace, panelId: `${id}-panel`, open: (k) => { endWorkspace.close(); workspace.toggle(k); } },
+    ...(endList.length ? [{ label: endLabel, tools: endList, workspace: endWorkspace, panelId: `${id}-end-panel`, open: (k) => { workspace.close(); endWorkspace.toggle(k); } }] : []),
   ];
   const sheet = endCurrent || current;
   const sheetProps = {
