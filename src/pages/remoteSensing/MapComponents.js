@@ -14,6 +14,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Switch,
+  useTheme,
 } from '@mui/material';
 import {
   CloseOutlined as CloseIcon,
@@ -287,10 +288,22 @@ export function MapWidgets({
     }
   };
 
+  // Leaflet keeps its zoom buttons on the physical left in both directions, while the
+  // RTL style plugin mirrors left/right. Write the sides so that, after mirroring, this
+  // block always starts 50px from the physical left and never covers the zoom buttons.
+  const isRtl = useTheme().direction === 'rtl';
+  const sideSx = isRtl
+    ? { right: 50, left: { xs: 10, sm: 'auto' } }
+    : { left: 50, right: { xs: 10, sm: 'auto' } };
+  const ctrlSx = {
+    bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider', width: 36, height: 36,
+    '&:hover': { bgcolor: 'background.paper' }, '&.Mui-disabled': { bgcolor: 'background.paper', opacity: 0.6 },
+  };
+
   return (
     <>
       {/* Top-left: search, home, GPS */}
-      <Box sx={{ position: 'absolute', top: 10, left: 50, right: { xs: 10, sm: 'auto' }, zIndex: 1000, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+      <Box sx={{ position: 'absolute', top: 10, ...sideSx, zIndex: 1000, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
         <Paper component="form" onSubmit={handleSearch} sx={{ display: 'flex', alignItems: 'center', p: 0.25, minWidth: { xs: 0, sm: 220 } }}>
           <TextField
             size="small"
@@ -312,10 +325,10 @@ export function MapWidgets({
           )}
         </Paper>
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <IconButton size="small" onClick={handleHome} title="Fit to fields" disabled={fields.length === 0} sx={{ bgcolor: 'background.paper' }} aria-label="Fit to fields">
+          <IconButton size="small" onClick={handleHome} title="Fit to fields" disabled={fields.length === 0} sx={ctrlSx} aria-label="Fit to fields">
             <HomeIcon />
           </IconButton>
-          <IconButton size="small" onClick={handleGps} title="My location" sx={{ bgcolor: 'background.paper' }} aria-label="My location">
+          <IconButton size="small" onClick={handleGps} title="My location" sx={ctrlSx} aria-label="My location">
             <MyLocationIcon />
           </IconButton>
         </Box>

@@ -296,6 +296,8 @@ function WeatherMap() {
                   setMapLayers(updated);
                 }}
                 size="small"
+                // One line on every screen: scroll sideways instead of wrapping labels.
+                sx={{ maxWidth: '100%', overflowX: 'auto', '& .MuiToggleButton-root': { whiteSpace: 'nowrap', flexShrink: 0 } }}
               >
                 <ToggleButton value="weather">
                   <Layers fontSize="small" sx={{ mr: 0.5 }} />

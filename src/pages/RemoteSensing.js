@@ -39,6 +39,7 @@ import {
   DialogContent,
   DialogActions,
   Snackbar,
+  useTheme,
 } from '@mui/material';
 import {
   MapContainer,
@@ -98,6 +99,7 @@ L.Icon.Default.mergeOptions({
 });
 
 function RemoteSensing() {
+  const theme = useTheme();
   const notify = useNotification();
   const { t } = useTranslation();
   const { user } = useAuth();
@@ -821,9 +823,12 @@ function RemoteSensing() {
                 aria-label="Map legend"
                 sx={{
                   position: 'absolute',
-                  top: { xs: 60, sm: 'auto' },
+                  // Below the search + home/GPS rows on phones, above the credits elsewhere.
+                  top: { xs: 104, sm: 'auto' },
                   bottom: { xs: 'auto', sm: 30 },
-                  right: 10,
+                  // Physically on the right in both languages (the RTL plugin mirrors
+                  // left/right; Leaflet's zoom buttons stay on the physical left).
+                  ...(theme.direction === 'rtl' ? { left: 10 } : { right: 10 }),
                   zIndex: 1000,
                   p: 1.5,
                   maxWidth: 200,

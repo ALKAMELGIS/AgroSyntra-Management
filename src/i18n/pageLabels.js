@@ -12,6 +12,7 @@ import { SHELL_AR } from './shellLabels';
  */
 export const PAGE_AR = {
   // Compact entry forms (round 35).
+  'No fields with coordinates found for this site. Add latitude/longitude to fields in Master Data.': 'لا توجد حقول لها إحداثيات في هذا الموقع. أضف خط العرض وخط الطول للحقول في البيانات الرئيسية.',
   'Pesticide': 'مبيد',
   'Harvest Qty (Kg)': 'كمية الحصاد (كجم)',
   'fields without a map shape': 'حقول بلا حدود',
