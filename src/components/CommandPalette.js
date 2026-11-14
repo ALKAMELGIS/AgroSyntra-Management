@@ -161,7 +161,7 @@ export default function CommandPalette() {
           inputRef={inputRef}
           autoFocus
           fullWidth
-          placeholder={isAr ? 'ابحث في الصفحات… (Ctrl+K)' : 'Search pages... (Ctrl+K)'}
+          placeholder={isAr ? 'ابحث في الصفحات…' : 'Search pages…'}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}

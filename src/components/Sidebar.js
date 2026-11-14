@@ -492,7 +492,6 @@ function Sidebar({ open, mobileOpen, onMobileClose, activeNavArea }) {
         >
           <TraceIcon sx={{ fontSize: 16 }} />
           <Typography sx={{ fontSize: '0.8125rem', flex: 1 }}>{L('Search')}</Typography>
-          <Box component="kbd" sx={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', px: 1.25, py: 0.25, borderRadius: 1, border: '1px solid', borderColor: 'divider', bgcolor: 'background.default', color: 'text.secondary', direction: 'ltr', whiteSpace: 'nowrap', flexShrink: 0 }}>Ctrl K</Box>
         </ListItemButton>
         {sections.map((section) => {
           const hasActive = sectionHasActive(section.items);

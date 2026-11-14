@@ -1005,7 +1005,7 @@ export const PAGE_AR = {
   'Main navigation': 'التنقل الرئيسي',
   'Collapse navigation': 'طي القائمة',
   'Expand navigation': 'توسيع القائمة',
-  'Search data (Ctrl K)': 'ابحث في البيانات (Ctrl K)',
+  'Search data': 'ابحث في البيانات',
   'Account menu': 'قائمة الحساب',
   'Workspace areas': 'أقسام النظام',
   'Upload organization logo': 'رفع شعار المنظمة',

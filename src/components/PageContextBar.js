@@ -73,6 +73,7 @@ export default function PageContextBar() {
       sx={{ fontSize: 16, color: 'text.disabled', mx: 0.5, transform: (t) => (t.direction === 'rtl' ? 'scaleX(-1)' : 'none') }}
     />
   );
+  const shrinkSx = { minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', flexShrink: 1 };
   const crumbSx = {
     ...touchHitArea,
     fontSize: '0.8125rem',
@@ -106,15 +107,17 @@ export default function PageContextBar() {
       {meta.areaId && (
         <>
           {sep}
-          <Link component={RouterLink} to={getHubPathForArea(meta.areaId)} underline="none" sx={crumbSx}>
+          <Link component={RouterLink} to={getHubPathForArea(meta.areaId)} underline="none" sx={{ ...crumbSx, ...shrinkSx }}>
             {L(meta.areaLabel)}
           </Link>
         </>
       )}
       {meta.section && meta.section !== 'General' && meta.section.toLowerCase() !== (meta.areaLabel || '').toLowerCase() && (
-        <Box component="span" sx={{ display: { xs: 'none', sm: 'inline-flex' }, alignItems: 'center' }}>
+        // The full path on every screen size (Home › area › section › page); on narrow
+        // screens the middle names shorten with an ellipsis instead of disappearing.
+        <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center', minWidth: 0 }}>
           {sep}
-          <Typography component="span" sx={{ ...crumbSx, '&:hover': {} }}>
+          <Typography component="span" sx={{ ...crumbSx, ...shrinkSx, '&:hover': {} }}>
             {L(meta.section)}
           </Typography>
         </Box>
@@ -124,7 +127,7 @@ export default function PageContextBar() {
         component="span"
         aria-current="page"
         noWrap
-        sx={{ fontSize: '0.8125rem', fontWeight: 600, color: 'text.primary', minWidth: 0 }}
+        sx={{ fontSize: '0.8125rem', fontWeight: 600, color: 'text.primary', minWidth: 0, flexShrink: 0, maxWidth: '60%' }}
       >
         {L(meta.title)}
       </Typography>

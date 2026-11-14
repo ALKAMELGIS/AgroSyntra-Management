@@ -199,7 +199,7 @@ function SearchBar() {
       component="button"
       type="button"
       onClick={openCommandPalette}
-      aria-label="Search data (Ctrl K)"
+      aria-label="Search data"
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -226,28 +226,6 @@ function SearchBar() {
       <Typography component="span" sx={{ fontSize: '0.875rem', color: 'text.secondary', flexGrow: 1, userSelect: 'none' }} noWrap>
         {L('Search data…')}
       </Typography>
-      <Box
-        component="kbd"
-        sx={{
-          // Shortcut hint only where there's room for it on one line.
-          display: { xs: 'none', md: 'inline-flex' },
-          whiteSpace: 'nowrap',
-          flexShrink: 0,
-          alignItems: 'center',
-          bgcolor: 'background.paper',
-          border: '1px solid',
-          borderColor: 'divider',
-          borderRadius: 1.5,
-          px: 1.5,
-          py: 0.25,
-          fontSize: '0.6875rem',
-          color: 'text.secondary',
-          fontWeight: 500,
-          lineHeight: 1.6,
-        }}
-      >
-        Ctrl K
-      </Box>
     </Box>
   );
 }

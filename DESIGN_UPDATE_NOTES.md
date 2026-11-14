@@ -464,3 +464,8 @@ Pages:
 - Header "Ctrl K" hint: one line, shown from 900 px up.
 - Measured: 0 overlapping map controls and no sideways page scroll on all four map pages at 384 / 820 / 1440 px.
 - Gate follow-up: each tool group in the strip is its own navigation landmark ("Map tools" | "Remote sensing tools"); panel tools expose aria-expanded / aria-controls; remote sensing basemap switcher moved to the bottom (it collided with the search box when the analysis panel narrows the map at 1280 px).
+
+## Round 41 — one breadcrumb, no shortcut hints
+
+- Breadcrumb shows the full path on every screen size (Home › area › section › page, e.g. Home › Fields & Maps › Field & Weather › GIS Map) in the same compact 13 px line; the section was hidden on phones before. On narrow screens middle names shorten with an ellipsis instead of disappearing.
+- "Ctrl K" hints removed from the header search, the sidebar search and the command palette placeholder (the shortcut itself still works).
