@@ -78,7 +78,7 @@ export default function SiteZoneSelect({
   // under it (zone codes such as MH kept as they are), the chosen one ticked.
   const itemSx = (selected) => (t) => ({
     display: 'flex', alignItems: 'center', gap: 1.5, width: '100%', justifyContent: 'flex-start', textAlign: 'start',
-    minHeight: 36, px: 2, py: 0.75,
+    minHeight: 32, px: 1.5, py: 0.5,
     fontFamily: 'inherit', fontSize: '0.8125rem', fontWeight: selected ? 600 : 400,
     color: selected ? 'primary.main' : 'text.primary',
     bgcolor: selected ? alpha(t.palette.primary.main, 0.08) : 'transparent',
@@ -119,7 +119,7 @@ export default function SiteZoneSelect({
         onKeyDown={onListKeyDown}
         sx={{ overflowY: 'auto', py: 0.5 }}
       >
-        <Typography id={labelId} component="span" sx={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>{label}</Typography>
+        <Typography id={labelId} component="span" sx={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>{label}</Typography>
         {allowAllSites && !query && (
           <ButtonBase role="option" aria-selected={!value} onClick={() => pick('')} className={!value ? 'Mui-selected' : undefined}
             sx={[itemSx(!value), { borderBottom: 1, borderColor: 'divider' }]}>
@@ -133,7 +133,7 @@ export default function SiteZoneSelect({
               translate="no"
               sx={{
                 position: 'sticky', top: 0, zIndex: 1, bgcolor: 'background.paper',
-                px: 2, pt: 1.25, pb: 0.5, fontSize: '0.6875rem', fontWeight: 600, color: 'text.secondary',
+                px: 1.5, pt: 1, pb: 0.25, fontSize: '0.6875rem', fontWeight: 600, color: 'text.secondary',
                 borderTop: 1, borderColor: 'divider',
               }}
             >
@@ -208,7 +208,8 @@ export default function SiteZoneSelect({
           paper: {
             sx: (t) => ({
               mt: 0.5,
-              width: Math.max(anchorRef.current?.offsetWidth || 0, 340),
+              // Same width as the field it drops from (min 200 px), like a native select.
+              width: Math.max(anchorRef.current?.offsetWidth || 0, 200),
               maxWidth: 'calc(100vw - 16px)',
               overflow: 'hidden',
               borderRadius: 0,

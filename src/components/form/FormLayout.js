@@ -279,7 +279,7 @@ export function FormSteps({ children, sx }) {
                   >
                     {st.props.label}
                   </Box>
-                  <Box component="span" sx={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>
+                  <Box component="span" sx={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>
                     {`, step ${i + 1} of ${steps.length}`}
                   </Box>
                 </Box>
