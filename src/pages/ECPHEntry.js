@@ -30,6 +30,7 @@ import { useNotification } from '../contexts/NotificationContext';
 import { queueEntry } from '../utils/offlineQueue';
 import { validationSchema, calculateValveMetrics } from './ecph/ecphUtils';
 import ValveFormSection from './ecph/ValveFormSection';
+import EntryTabs, { useEntryTab } from '../components/form/EntryTabs';
 import SpreadsheetEcphEntry from './ecph/SpreadsheetEcphEntry';
 import EcphEntriesTable from './ecph/EcphEntriesTable';
 import useReadOnlyMode from '../hooks/useReadOnlyMode';
@@ -194,6 +195,9 @@ function ECPHEntry() {
     };
   };
 
+  // Data entry | Records tabs; a saved entry opens the records.
+  const [entryTab, setEntryTab] = useEntryTab();
+
   const handleSubmit = (values, { resetForm }) => {
     if (readOnly) return;
     // Get selected field's crop, dripper_count, and drip_test_count
@@ -308,6 +312,7 @@ function ECPHEntry() {
         refreshEntries();
         resetForm({ values: initialValues });
         setValve2Expanded(false);
+        setEntryTab('records');
       })
       .catch(async (error) => {
         if (!navigator.onLine) {
@@ -332,7 +337,7 @@ function ECPHEntry() {
           <PageTitle>
             EC/PH Entry
           </PageTitle>
-          <ToggleButtonGroup
+          {entryTab === 'entry' && <ToggleButtonGroup
             value={viewMode}
             exclusive
             onChange={(_, v) => { if (v) setViewMode(v); }}
@@ -346,11 +351,16 @@ function ECPHEntry() {
               <Tooltip title="Spreadsheet View"><SpreadsheetIcon sx={{ mr: 0.5, fontSize: 18 }} /></Tooltip>
               Spreadsheet
             </ToggleButton>
-          </ToggleButtonGroup>
+          </ToggleButtonGroup>}
         </Box>
 
         {readOnly && <ReadOnlyBanner />}
 
+        <EntryTabs
+          id="ecph"
+          tab={entryTab}
+          onChange={setEntryTab}
+          entry={<>
         {viewMode === 'spreadsheet' && (
           <SpreadsheetEcphEntry onEntrySaved={refreshEntries} readOnly={readOnly} />
         )}
@@ -722,11 +732,14 @@ function ECPHEntry() {
             );
           }}
         </Formik>}
-
-        <EcphEntriesTable
-          siteId={activeSiteId}
-          masterData={masterData}
-          refreshTrigger={entriesRefreshKey}
+          </>}
+          records={(
+            <EcphEntriesTable
+              siteId={activeSiteId}
+              masterData={masterData}
+              refreshTrigger={entriesRefreshKey}
+            />
+          )}
         />
       </Box>
     </Container>

@@ -12,6 +12,8 @@ import { SHELL_AR } from './shellLabels';
  */
 export const PAGE_AR = {
   // GIS feature card (round 42).
+  'Data entry': 'إدخال البيانات',
+  'Entry and records': 'الإدخال والسجلات',
   'Summary and save': 'الملخص والحفظ',
   'Water and recipe': 'الماء والوصفة',
   'Amounts and save': 'الكميات والحفظ',

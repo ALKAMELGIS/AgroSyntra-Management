@@ -491,3 +491,9 @@ Pages:
 - **ArcGIS layers drawn as published:** the layer metadata now carries `drawingInfo` (renderer + transparency), coded-value domains and subtypes. GIS Map draws simple, unique-value and class-breaks renderers with the layer's own fill, outline and transparency (`utils/arcgisRenderer.js`), lists the renderer classes in the map legend, and shows coded values by their labels in the feature card. An active PHI adds only a coloured outline. All features are loaded (paged reads).
 - **Relationship class, one-to-many:** besides ZONE_ID + Farm_Code → one field, the feature card shows **Site records** for ZONE_ID + SITE (or Site_Code) → one AgroCloud site → its many fields and their form records (`GET /api/v1/gis/sites/forms?zone_id&site_code`).
 - Feature card stays below the map's zoom buttons.
+
+## Round 44 — Data entry | Records tabs
+
+- EC/pH entry and Fertigation entry have two tabs under the title: **Data entry** (the step-by-step form, or the spreadsheet) and **Records** (the full records table with its filters, search and export). The long table no longer sits under the form.
+- Saving an entry opens the Records tab with the new record; the form starts again at step 1. The tab is kept in the URL (`?tab=records`), so links, Back and reload keep it. The Form / Spreadsheet switch shows only on the Data entry tab.
+- Pivot and sites without fields show the entry alone (they have no records table).

@@ -46,6 +46,7 @@ import useReadOnlyMode from '../../hooks/useReadOnlyMode';
 import ReadOnlyBanner from '../../components/ReadOnlyBanner';
 import { PAGE_KEYS } from '../../utils/roleAccess';
 import FertigationEntriesTable from './FertigationEntriesTable';
+import EntryTabs, { useEntryTab } from '../../components/form/EntryTabs';
 import PivotFertigationTab from '../../components/fertigation/PivotFertigationTab';
 import IrrigationStructurePlaceholder from '../../components/irrigation/IrrigationStructurePlaceholder';
 import { IRRIGATION_STRUCTURES } from '../../utils/fieldTypeHelpers';
@@ -101,6 +102,8 @@ function FertigationEntry() {
   } = useActiveSiteStructures();
   const [activeStructure, setActiveStructure] = useState(null);
   const [viewMode, setViewMode] = useState('form');
+  // Data entry | Records tabs; a saved entry opens the records.
+  const [entryTab, setEntryTab] = useEntryTab();
   const [entriesRefreshKey, setEntriesRefreshKey] = useState(0);
   const refreshEntries = useCallback(() => setEntriesRefreshKey((k) => k + 1), []);
   const [recipes, setRecipes] = useState([]);
@@ -345,6 +348,7 @@ function FertigationEntry() {
 
       setCumulativeData(newCumulative);
       refreshEntries();
+      setEntryTab('records');
 
       resetForm({ values: { ...initialValues, date: selectedDate } });
       setSelectedField(null);
@@ -374,7 +378,7 @@ function FertigationEntry() {
           <PageTitle>
             Fertigation Entry
           </PageTitle>
-          {isNethouseOrGh && (
+          {isNethouseOrGh && entryTab === 'entry' && (
           <ToggleButtonGroup
             value={viewMode}
             exclusive
@@ -413,6 +417,8 @@ function FertigationEntry() {
           ))}
         </Tabs>
 
+        {(() => {
+          const entryContent = (<>
         {availableStructureTabs.length === 0 && (
           <InfoNote mode="line" severity="info" sx={{ mb: 2 }}>
             {defaultSiteId ? 'No fields configured for this site. Add fields in Management to enable fertigation entry.' : 'Choose a site in the side menu to start entering fertigation data.'}
@@ -818,16 +824,27 @@ function FertigationEntry() {
         </Formik>
         </>
         )}
-
-        {resolvedStructure && !isPivot && (
-          <FertigationEntriesTable
-            siteId={defaultSiteId}
-            masterData={data}
-            structureType={resolvedStructure}
-            groupedFields={groupedFields}
-            refreshTrigger={entriesRefreshKey}
-          />
-        )}
+          </>);
+          // Pivot and empty sites have no records table: the entry shows on its own.
+          if (!resolvedStructure || isPivot) return entryContent;
+          return (
+            <EntryTabs
+              id="fertigation"
+              tab={entryTab}
+              onChange={setEntryTab}
+              entry={entryContent}
+              records={(
+                <FertigationEntriesTable
+                  siteId={defaultSiteId}
+                  masterData={data}
+                  structureType={resolvedStructure}
+                  groupedFields={groupedFields}
+                  refreshTrigger={entriesRefreshKey}
+                />
+              )}
+            />
+          );
+        })()}
       </Box>
     </Container>
   );

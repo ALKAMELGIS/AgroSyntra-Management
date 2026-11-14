@@ -204,6 +204,12 @@ export function FormSteps({ children, sx }) {
 
   // A save that failed validation: open the first step that holds an error.
   const submitCount = formik?.submitCount || 0;
+  // After a successful save the form is reset (submitCount back to 0): start again at step 1.
+  const prevSubmits = useRef(0);
+  useEffect(() => {
+    if (prevSubmits.current > 0 && submitCount === 0) setActive(0);
+    prevSubmits.current = submitCount;
+  }, [submitCount]);
   useEffect(() => {
     if (!submitCount || !formik) return;
     const idx = steps.findIndex((st) => (st.props.fields || []).some((n) => hasError(formik.errors, n)));
