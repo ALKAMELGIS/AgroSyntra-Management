@@ -92,7 +92,7 @@
         mk('water_33kpa','Water at field capacity (33 kPa)','% vol',function(d){return Math.round(wv(14+d/30,2));}),
         mk('texture','Texture class (USDA)','',function(d){return d<60?'Loamy sand':'Sandy loam';})]}); }
 
-    if(path==='/gis/layers'&&method==='GET') return ok([{id:'demo-struct',name:'Agro_Structures (demo)',sourceType:'arcgis',featureCount:DEMOFC.features.length,isVisible:true,style:{color:'#1f7a4d',fillOpacity:0.25}}]);
+    if(path==='/gis/layers'&&method==='GET') return ok([{id:'demo-struct',name:'Agro_Structures (GCC)',sourceType:'arcgis_feature_service',featureCount:DEMOFC.features.length,isVisible:true,style:{color:'#1f7a4d',fillOpacity:0.25}}]);
     if(path==='/gis/layers/demo-struct/features') return ok(DEMOFC);
     if(path==='/satellite/status') return ok({configured:true,service:'sentinel-hub',label:'Public Data (featured collections) · demo'});
     if(path==='/satellite/indices') return ok(SATCAT);
@@ -159,7 +159,7 @@
     if(path==='/gis/features/forms'){
       var z=(q.zone_id||'MH').toUpperCase(), code=(q.farm_code||'MH-GH-01').toUpperCase();
       return ok({features:[{feature_id:'g1',global_id:'{9F1C-DEMO}',zone_id:z,farm_code:code}],
-        fields:[{field_id:'c7s1a0f1',field_name:'GH-01',zone_code:z,site_name:'Site 1',farm_area_name:'Greenhouse',gis_link_key:z+'|'+code}],
+        fields:[{field_id:'c7s1a0f1',field_name:code,zone_code:z,site_name:'Site 1',farm_area_name:'Greenhouse',gis_link_key:z+'|'+code}],
         forms:[{form_id:'7c774b7b-8363-5887-b013-736ed63651b8',form_key:'harvest.entry',title_en:'Harvest Entry',title_ar:'إدخال الحصاد',record_count:3,
                  records:ROWS.slice(0,3).map(function(r){return {record_id:'6a'+r.id+'0000-0000-4000-8000-000000000000'.slice(0,0)+r.id,record_date:r.date,values:{date:r.date,total_quantity:r.quantity,notes:r.notes}};})},
                {form_id:'3f2e6c1d-0a9b-5c4d-8e7f-1a2b3c4d5e6f',form_key:'ipm.pesticide_spray',title_en:'Pesticide — Spray',title_ar:'المبيدات — رش',record_count:2,
@@ -169,8 +169,41 @@
   }
   var isApi=function(u){return /\/api\/v1\//.test(u);};
   var of=window.fetch;
+  /* The structures layer is public, so the demo reads the real polygons straight
+     from ArcGIS (read-only queries) and decodes its coded values. Offline, or if
+     the service does not answer, the built-in sample polygons are used instead. */
+  var LIVE_LAYER='https://services1.arcgis.com/jz3ndhbYV5K9NwI8/arcgis/rest/services/Agro_Structures/FeatureServer/21';
+  var LIVE=null;
+  function liveLayer(){
+    if(LIVE) return LIVE;
+    var j=function(u){ return of(u).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }); };
+    var work=j(LIVE_LAYER+'?f=json').then(function(meta){
+      var dec={};
+      (meta.fields||[]).forEach(function(f){ if(f.domain&&f.domain.codedValues){ dec[f.name]={}; f.domain.codedValues.forEach(function(c){ dec[f.name][c.code]=c.name; }); } });
+      if(meta.typeIdField&&meta.types){ dec[meta.typeIdField]=dec[meta.typeIdField]||{}; meta.types.forEach(function(t){ dec[meta.typeIdField][t.id]=t.name; }); }
+      var all=[];
+      function page(off){
+        return j(LIVE_LAYER+'/query?where=1%3D1&outFields=*&outSR=4326&f=geojson&resultOffset='+off+'&resultRecordCount=2000').then(function(fc){
+          var fs=(fc&&fc.features)||[]; all=all.concat(fs);
+          var more=fc&&(fc.exceededTransferLimit||(fc.properties&&fc.properties.exceededTransferLimit));
+          return (more&&fs.length&&off<20000)?page(off+fs.length):all;
+        });
+      }
+      return page(0).then(function(fs){
+        fs.forEach(function(f,i){ var pr=f.properties||{}; for(var k in dec){ if(pr[k]!==null&&pr[k]!==undefined&&dec[k][pr[k]]!==undefined) pr[k]=dec[k][pr[k]]; } f.properties=pr; if(f.id===undefined) f.id=pr.OBJECTID||i; });
+        if(!fs.length) throw new Error('empty');
+        return {type:'FeatureCollection',features:fs};
+      });
+    });
+    var timeout=new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },15000); });
+    LIVE=Promise.race([work,timeout]).catch(function(){ LIVE=null; return DEMOFC; });
+    return LIVE;
+  }
   window.fetch=function(input,init){
     var url=typeof input==='string'?input:(input&&input.url)||'';
+    if(isApi(url)&&/\/gis\/layers\/demo-struct\/features(\?|$)/.test(url)){
+      return liveLayer().then(function(fc){ return new Response(JSON.stringify(ok(fc)),{status:200,headers:{'Content-Type':'application/json'}}); });
+    }
     if(isApi(url)){ var m=(init&&init.method)||'GET'; var b=null; try{b=init&&init.body?JSON.parse(init.body):null;}catch(e){}
       return Promise.resolve(new Response(JSON.stringify(body(url,m,b)),{status:200,headers:{'Content-Type':'application/json'}})); }
     if(/socket\.io/.test(url)) return Promise.reject(new TypeError('demo: offline'));

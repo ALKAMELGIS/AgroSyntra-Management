@@ -66,8 +66,8 @@ export const excelTableSx = (theme) => ({
     '&:empty, &.MuiTableCell-paddingCheckbox': { minWidth: 0 },
     borderBottom: 'none !important',
     borderRight: 0,
-    boxShadow: 'inset -1px 0 0 rgba(255,255,255,0.22)',
-    '&:last-of-type': { boxShadow: 'none' },
+    boxShadow: `inset -1px 0 0 ${theme.palette.table.headerRule}, inset 0 -1px 0 ${theme.palette.table.headerRule}`,
+    '&:last-of-type': { boxShadow: `inset 0 -1px 0 ${theme.palette.table.headerRule}` },
   },
 
   '&& .table-gutter': {

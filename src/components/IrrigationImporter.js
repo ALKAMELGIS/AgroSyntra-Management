@@ -20,7 +20,7 @@ import InfoNote from './InfoNote';
 
 const HEADER_FILL = 'var(--sheet-header)';
 const hdrStyle = {
-  background: HEADER_FILL, color: '#fff', fontWeight: 700,
+  background: 'var(--grid-head-bg)', color: 'var(--grid-head-fg)', fontWeight: 700,
   fontSize: '0.6875rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
 };
 const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: '1px solid #c8c8c8' };
@@ -158,7 +158,7 @@ export default function IrrigationImporter({
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
-      <DialogTitle sx={{ background: HEADER_FILL, color: '#fff', fontWeight: 700, py: 1.5 }}>
+      <DialogTitle sx={{ background: 'var(--grid-head-bg)', color: 'var(--grid-head-fg)', fontWeight: 700, py: 1.5 }}>
         Import RC-133 Irrigation Excel
       </DialogTitle>
       <DialogContent sx={{ pt: '16px !important' }}>
@@ -174,7 +174,7 @@ export default function IrrigationImporter({
             </Typography>
             {parseError && <Alert severity="error" sx={{ mb: 2 }}>{parseError}</Alert>}
             <Button variant="contained" component="label" startIcon={<UploadIcon />}
-              sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: 'var(--sheet-accent)' } }}>
+              >
               Select Excel File
               <input type="file" hidden accept=".xlsx,.xls" ref={fileRef} onChange={handleFileUpload} />
             </Button>
@@ -332,7 +332,7 @@ export default function IrrigationImporter({
         <Button onClick={handleClose}>{step === 2 ? 'Close' : 'Cancel'}</Button>
         {step === 1 && (
           <Button variant="contained" onClick={handleImport} disabled={importing || totalCounts.importable === 0}
-            sx={{ backgroundColor: HEADER_FILL, '&:hover': { backgroundColor: 'var(--sheet-accent)' } }}
+            
             startIcon={importing ? <CircularProgress size={16} color="inherit" /> : null}>
             {importing ? 'Importing…' : `Import ${totalCounts.importable} rows`}
           </Button>

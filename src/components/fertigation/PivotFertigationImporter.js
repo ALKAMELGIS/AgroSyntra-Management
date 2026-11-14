@@ -16,7 +16,7 @@ import { bulkImportFertApp, syncFertilizerProducts } from '../../utils/backendAp
 import { parseRc132Workbook } from '../../utils/pivotFertigationImportParser';
 
 const hdrStyle = {
-  background: 'var(--sheet-header)', color: '#fff', fontWeight: 700,
+  background: 'var(--grid-head-bg)', color: 'var(--grid-head-fg)', fontWeight: 700,
   fontSize: '0.6875rem', padding: '6px 8px', border: '1px solid #c8c8c8', whiteSpace: 'nowrap',
 };
 const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: '1px solid #c8c8c8' };

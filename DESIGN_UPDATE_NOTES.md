@@ -469,3 +469,17 @@ Pages:
 
 - Breadcrumb shows the full path on every screen size (Home › area › section › page, e.g. Home › Fields & Maps › Field & Weather › GIS Map) in the same compact 13 px line; the section was hidden on phones before. On narrow screens middle names shorten with an ellipsis instead of disappearing.
 - "Ctrl K" hints removed from the header search, the sidebar search and the command palette placeholder (the shortcut itself still works).
+
+## Round 42 — approved UI model; Agro_Structures on the map and in forms
+
+**UI model (approved by the owner):** white surfaces, one agricultural green for actions and selection, square corners, IBM Plex Sans Arabic + Inter figures.
+- Table headers are a light band (`#f3f5f2`, dark text `#3d4741`) instead of dark green, in every data table (`palette.table.headerBg/headerText`), spreadsheet grid and Excel importer (`--grid-head-bg/fg`). Group header rows and banners are a light green band (`--grid-band-bg/fg`). The header contrast test now checks AA (≥ 4.5:1) instead of a fixed colour.
+- Importer dialog titles use the light band; their buttons use the theme primary instead of a dark-green override.
+- Filled status chips (success / warning / error / info / primary) are quiet tints with dark text; the colour marks the meaning, the surface stays white.
+
+**Agro_Structures (ArcGIS layer 21) ↔ ZONE_ID + Farm_Code:**
+- Clicking a polygon on GIS Map opens one feature card (the duplicate Leaflet popup that overlapped it was removed). The card leads with the business key `ZONE|FARM_CODE`, then zone, farm code, farm name, site, structure type, category, area; then **Forms on this field** (each form with its last record date and record count, from `GET /gis/features/forms?zone_id&farm_code`), then all attributes on demand.
+- Field pickers in forms show the field's GIS farm code next to its name.
+- Production: the layer link is entered once in **Settings → Zones & Sites → GIS configuration** (Check layer → Save and link); nothing is hard-coded in the app.
+- Demo / APK: reads the real public polygons from the layer (read-only `query`, `f=geojson`, paged, coded values decoded); offline it falls back to the sample polygons.
+- Sentinel-2: the configuration ID is entered in **Settings → API Keys → Satellite imagery** on the server (stored encrypted, never sent to the browser); it is not in the code, demo or APK.

@@ -35,15 +35,15 @@ import {
 import InfoNote from './InfoNote';
 
 const headerBg = 'var(--sheet-header)'; // = theme palette.table.headerBg
-const bannerBg = 'var(--sheet-header-strong)';
-const bannerColor = '#fff';
+const bannerBg = 'var(--grid-band-bg)';
+const bannerColor = 'var(--grid-band-fg)';
 const altRowBg = '#e8f5e9';
 const cellBorder = '1px solid #c8c8c8';
 const warnBg = '#fff8e1';
 const errBg = '#ffebee';
 
 const hdrStyle = {
-  background: headerBg, color: '#fff', fontWeight: 700,
+  background: 'var(--grid-head-bg)', color: 'var(--grid-head-fg)', fontWeight: 700,
   fontSize: '0.6875rem', padding: '6px 8px', border: cellBorder, whiteSpace: 'nowrap',
 };
 const cellStyle = { fontSize: '0.6875rem', padding: '5px 8px', border: cellBorder };
@@ -677,7 +677,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
             variant="contained"
             onClick={() => prepareMapping(sheetInfos, selectedSheetNames)}
             disabled={selectedSheetNames.length === 0}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: 'var(--sheet-header-strong)' } }}
+            sx={{ textTransform: 'none' }}
           >
             Continue — {selectedRowCount} rows
           </Button>
@@ -687,7 +687,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
             variant="contained"
             onClick={applyMappingAndValidate}
             disabled={!columnMapping || Object.values(columnMapping).filter(Boolean).length < 3}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: 'var(--sheet-header-strong)' } }}
+            sx={{ textTransform: 'none' }}
           >
             Continue — Validate {rawDataRows.length} rows
           </Button>
@@ -698,7 +698,7 @@ export default function FertigationImporter({ open, onClose, fields = [], onImpo
             onClick={handleImport}
             disabled={importing || importableRows.length === 0}
             startIcon={importing ? <CircularProgress size={16} /> : <ImportIcon />}
-            sx={{ textTransform: 'none', bgcolor: headerBg, '&:hover': { bgcolor: 'var(--sheet-header-strong)' } }}
+            sx={{ textTransform: 'none' }}
           >
             {importing ? 'Importing...' : `Import ${importableRows.length} rows`}
           </Button>

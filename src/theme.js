@@ -46,9 +46,13 @@ const lightPalette = {
   // Spreadsheet-style data tables. Saturated colour stays at the edges (header,
   // gutter, totals) so body cells keep carrying semantic row colour.
   table: {
-    headerBg: '#1d5a3c',
-    headerText: '#ffffff',
-    gutterBg: '#eceee9',
+    // Light header band (UI model, round 42): colour is kept for actions and selection.
+    headerBg: '#f3f5f2',
+    headerText: '#3d4741',
+    groupBg: '#e8f2ec',
+    groupText: '#165c3a',
+    headerRule: '#e3e7e2',
+    gutterBg: '#f7f8f6',
     gutterText: '#58625c',
     gridline: '#dde2dc',
     sectionBg: 'rgba(31,122,77,0.08)',
@@ -82,9 +86,12 @@ const darkPalette = {
   // Header and gutter go darker than background.paper here, not lighter — that
   // inversion is what keeps them reading as chrome rather than as data.
   table: {
-    headerBg: '#1d5a3c',
-    headerText: '#ffffff',
-    gutterBg: '#1a211d',
+    headerBg: '#1a211d',
+    headerText: '#c9d2cb',
+    groupBg: 'rgba(76,178,126,0.14)',
+    groupText: '#a6dcbd',
+    headerRule: '#2a332d',
+    gutterBg: '#161c19',
     gutterText: '#9ba79f',
     gridline: '#2a332d',
     sectionBg: 'rgba(76,178,126,0.14)',
@@ -143,6 +150,12 @@ export function cssTokens(mode = 'light') {
         '--sheet-accent': '#74c99c',
         '--sheet-header': '#1d5a3c',
         '--sheet-header-strong': '#164a31',
+        // Grid headers and bands: quiet, light chrome (UI model, round 42).
+        '--grid-head-bg': '#1a211d',
+        '--grid-head-bg-strong': '#202924',
+        '--grid-head-fg': '#c9d2cb',
+        '--grid-band-bg': 'rgba(76,178,126,0.14)',
+        '--grid-band-fg': '#a6dcbd',
         '--sheet-danger': '#f19a8d',
         '--sheet-select': 'rgba(76,178,126,0.18)',
         '--sheet-select-strong': 'rgba(76,178,126,0.30)',
@@ -164,6 +177,12 @@ export function cssTokens(mode = 'light') {
         '--sheet-accent': '#1f7a4d',
         '--sheet-header': '#1d5a3c',
         '--sheet-header-strong': '#164a31',
+        // Grid headers and bands: quiet, light chrome (UI model, round 42).
+        '--grid-head-bg': '#f3f5f2',
+        '--grid-head-bg-strong': '#e9ece7',
+        '--grid-head-fg': '#3d4741',
+        '--grid-band-bg': '#e8f2ec',
+        '--grid-band-fg': '#165c3a',
         '--sheet-danger': '#c62828',
         '--sheet-select': '#d5e7d9',
         '--sheet-select-strong': '#c6dfcd',
@@ -830,7 +849,13 @@ export function createAppTheme(mode = 'light', direction = 'ltr') {
           colorDefault: { backgroundColor: palette.background.muted, color: palette.text.primary },
           // Amber is the one status hue that fails 4.5:1 at chip size; use its deeper shade.
           outlinedWarning: { color: isDark ? palette.warning.light : palette.warning.dark, borderColor: alpha(palette.warning.main, 0.5) },
-          filledWarning: { backgroundColor: isDark ? palette.warning.main : palette.warning.dark, color: isDark ? palette.warning.contrastText : '#fff' },
+          // Status chips are quiet tints with dark text (UI model): colour marks the
+          // meaning, the surface stays white.
+          filledPrimary: { backgroundColor: isDark ? alpha('#4cb27e', 0.16) : '#e8f2ec', color: isDark ? '#9bdab8' : '#165c3a', '& .MuiChip-icon, & .MuiChip-deleteIcon': { color: 'inherit' } },
+          filledSuccess: { backgroundColor: isDark ? alpha('#4cb27e', 0.16) : '#e8f2ec', color: isDark ? '#9bdab8' : '#14532f', '& .MuiChip-icon, & .MuiChip-deleteIcon': { color: 'inherit' } },
+          filledWarning: { backgroundColor: isDark ? alpha('#e5a24f', 0.16) : '#fbf1df', color: isDark ? '#f0c88e' : '#7a4808', '& .MuiChip-icon, & .MuiChip-deleteIcon': { color: 'inherit' } },
+          filledError: { backgroundColor: isDark ? alpha('#ef7d6d', 0.16) : '#fbe9e6', color: isDark ? '#f6b2a8' : '#8a2418', '& .MuiChip-icon, & .MuiChip-deleteIcon': { color: 'inherit' } },
+          filledInfo: { backgroundColor: isDark ? alpha('#6aa6e6', 0.16) : '#e8f0f9', color: isDark ? '#a9cbf2' : '#1d4670', '& .MuiChip-icon, & .MuiChip-deleteIcon': { color: 'inherit' } },
         },
       },
       MuiBadge: {

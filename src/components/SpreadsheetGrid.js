@@ -28,11 +28,11 @@ import {
 // They are literals here because this grid draws with plain inline styles
 // rather than MUI sx, so it has no theme to read from.
 const cellBorder = '1px solid var(--sheet-grid, #c8c8c8)';
-const headerBg = 'var(--sheet-header)'; // = theme palette.table.headerBg
-const headerColor = '#fff';
+const headerBg = 'var(--grid-head-bg)';
+const headerColor = 'var(--grid-head-fg)';
 // The pinned Actions column sits darker so it reads as a separate band where it
 // meets the rest of the header.
-const headerPinnedBg = 'var(--sheet-header-strong)';
+const headerPinnedBg = 'var(--grid-head-bg-strong)';
 const frozenBg = 'var(--sheet-muted, #f2f2f2)';
 const focusBg = 'var(--sheet-select, #d5e7d9)';
 // Deliberately a warm neutral rather than a green. Calculated cells are tinted
@@ -43,9 +43,9 @@ const calcBg = 'var(--sheet-tint-green, #e8f5e9)';
 const dirtyBg = 'var(--sheet-tint-yellow, #fff8e1)';
 const activeRowBg = 'var(--sheet-select, #dfeee3)';
 const activeCellBg = 'var(--sheet-select-strong, #c6dfcd)';
-const bannerBg = '#143d29';
-const bannerColor = '#ffffff';
-const bannerSubBg = 'var(--sheet-header)';
+const bannerBg = 'var(--grid-band-bg)';
+const bannerColor = 'var(--grid-band-fg)';
+const bannerSubBg = 'var(--grid-head-bg)';
 const mixtureBorderColor = 'var(--sheet-accent)';
 const mixtureChildBg = 'var(--sheet-tint-green, #eef4ef)';
 const filterBarBg = 'var(--sheet-muted, #e9e5e0)';
@@ -860,7 +860,7 @@ function SpreadsheetGrid({
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
           <Button size="small" variant="contained" startIcon={<AddIcon />} onClick={addRow}
-            sx={{ textTransform: 'none', fontSize: isCompact ? '0.7rem' : '0.75rem', py: 0.3, bgcolor: headerBg, '&:hover': { bgcolor: headerPinnedBg } }}>
+            sx={{ textTransform: 'none', fontSize: isCompact ? '0.7rem' : '0.75rem', py: 0.3 }}>
             Add Row
           </Button>
           {selectedRows.size > 0 && typeof onBulkDeleteRows === 'function' && (
@@ -1007,7 +1007,7 @@ function SpreadsheetGrid({
                       </Tooltip>
                       {canAddMixture(editRows, realIdx) && (
                         <Tooltip title={isChild ? `Add another mixture (up to ${MAX_PRODUCTS_PER_MIXTURE} products)` : 'Add mixture'}>
-                          <IconButton size="small" sx={{ p: 0.3, color: headerBg }}
+                          <IconButton size="small" sx={{ p: 0.3, color: 'var(--sheet-header)' }}
                             onClick={(e) => { e.stopPropagation(); addMixture(realIdx); }}>
                             <MixtureIcon sx={{ fontSize: 16 }} />
                           </IconButton>

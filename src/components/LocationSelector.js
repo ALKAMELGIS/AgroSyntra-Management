@@ -278,6 +278,12 @@ export default function LocationSelector({
           {availableFields.map((field) => (
             <MenuItem key={field.id} value={field.id}>
               {field.name} {field.type ? `(${field.type})` : ''}
+              {/* GIS key (ZONE_ID + Farm_Code) that links this field to its map polygon. */}
+              {(field.gis_farm_code || field.gisFarmCode) && (field.gis_farm_code || field.gisFarmCode) !== field.name && (
+                <bdi translate="no" style={{ marginInlineStart: 8, fontSize: '0.75rem', color: 'var(--sheet-ink-3, #767676)' }}>
+                  {field.gis_farm_code || field.gisFarmCode}
+                </bdi>
+              )}
             </MenuItem>
           ))}
         </TextField>

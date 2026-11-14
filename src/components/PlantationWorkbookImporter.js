@@ -36,8 +36,8 @@ const STEPS = ['Upload Excel', 'Map Columns', 'Review matches', 'Imported'];
 const headerBg = 'var(--sheet-header)'; // = theme palette.table.headerBg
 const cellBorder = '1px solid #c8c8c8';
 const hdrStyle = {
-  background: headerBg,
-  color: '#fff',
+  background: 'var(--grid-head-bg)',
+  color: 'var(--grid-head-fg)',
   fontWeight: 700,
   fontSize: '0.6875rem',
   padding: '6px 8px',
@@ -365,7 +365,7 @@ export default function PlantationWorkbookImporter({
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="xl" fullWidth disableEnforceFocus>
-      <DialogTitle sx={{ background: headerBg, color: '#fff', py: 1.5 }}>
+      <DialogTitle sx={{ background: 'var(--grid-band-bg)', color: 'var(--grid-band-fg)', py: 1.5 }}>
         Import plantation workbook
       </DialogTitle>
       <DialogContent sx={{ px: 2, pt: 2 }}>

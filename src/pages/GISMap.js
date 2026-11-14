@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useIsArabic } from '../i18n/shellLabels';
+import FeatureInfoPanel from '../components/gis/FeatureInfoPanel';
 import {
-  Box, Paper, Typography, IconButton, Drawer, List, ListItem, ListItemText,
+  Box, Typography, IconButton, Drawer, List, ListItem, ListItemText,
   ListItemIcon, ListItemSecondaryAction, Switch, Button, TextField, Dialog,
   DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select,
-  MenuItem, Chip, CircularProgress, Alert, Snackbar, Divider, Tooltip,
+  MenuItem, Chip, CircularProgress, Alert, Snackbar, Tooltip,
   Card, CardContent, Slider, Tabs, Tab, LinearProgress, Autocomplete,
   useMediaQuery,
 } from '@mui/material';
@@ -608,25 +609,8 @@ export default function GISMap() {
   };
 
   const onEachFeature = (layerId) => (feature, leafletLayer) => {
-    const mapping = layers.find((l) => l.id === layerId)?.attributeMapping || {};
     const props = feature.properties || {};
-    const reversedMapping = {};
-    for (const [src, dst] of Object.entries(mapping)) {
-      if (dst) reversedMapping[src] = dst;
-    }
-
-    let popupContent = '<div style="max-width:300px;max-height:250px;overflow:auto">';
-    for (const [key, value] of Object.entries(props)) {
-      if (key.startsWith('_')) continue;
-      const mappedName = reversedMapping[key] || key;
-      popupContent += `<b>${mappedName}:</b> ${value ?? 'N/A'}<br/>`;
-    }
-    if (props._linkedFieldId) {
-      popupContent += '<br/><b style="color: #1f7a4d">Linked to field</b>';
-    }
-    popupContent += '</div>';
-    leafletLayer.bindPopup(popupContent);
-
+    // No Leaflet popup: the feature card shows the same data, and two boxes overlapped.
     leafletLayer.on('click', () => {
       if (soilOnRef.current) return; // the soil tool uses the click
       setSelectedFeature({ layerId, feature });
@@ -903,54 +887,21 @@ export default function GISMap() {
 
         {/* Feature Info Panel */}
         {selectedFeature && !fieldInfoOpen && (
-          <Paper
-            elevation={4}
-            role="region"
-            aria-label="Feature Info"
-            sx={{
-              position: 'absolute', bottom: 30, insetInlineEnd: 12, zIndex: 1000,
-              width: { xs: 'calc(100% - 24px)', sm: 320 }, maxHeight: { xs: '45%', sm: 350 }, overflow: 'auto', p: 2,
+          <FeatureInfoPanel
+            feature={selectedFeature.feature}
+            rtl={isAr}
+            canEdit={canEdit}
+            onClose={() => setSelectedFeature(null)}
+            onViewField={(fieldId) => loadFieldSummary(fieldId)}
+            onLink={() => {
+              setLinkDialog({
+                layerId: selectedFeature.layerId,
+                featureId: selectedFeature.feature.id || selectedFeature.feature.properties?._id,
+              });
+              setLinkFieldId(selectedFeature.feature.properties?._linkedFieldId || '');
+              setLinkAreaId(selectedFeature.feature.properties?._linkedFarmAreaId || '');
             }}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-              <Typography variant="subtitle2">Feature Info</Typography>
-              <IconButton size="small" onClick={() => setSelectedFeature(null)} aria-label="Close"><CloseIcon fontSize="small" /></IconButton>
-            </Box>
-            <Divider sx={{ mb: 1 }} />
-            {Object.entries(selectedFeature.feature.properties || {}).filter(([k]) => !k.startsWith('_')).map(([key, value]) => (
-              <Typography key={key} variant="body2" sx={{ mb: 0.5 }}>
-                <strong translate="no">{key}:</strong> <bdi>{value === null || value === undefined || value === '' ? 'N/A' : (typeof value === 'object' ? JSON.stringify(value) : String(value))}</bdi>
-              </Typography>
-            ))}
-            {selectedFeature.feature.properties?._linkedFieldId ? (
-              <Button
-                size="small"
-                variant="contained"
-                startIcon={<InfoIcon />}
-                sx={{ mt: 1 }}
-                onClick={() => loadFieldSummary(selectedFeature.feature.properties._linkedFieldId)}
-              >
-                View Field Data
-              </Button>
-            ) : canEdit && (
-              <Button
-                size="small"
-                variant="outlined"
-                startIcon={<LinkIcon />}
-                sx={{ mt: 1 }}
-                onClick={() => {
-                  setLinkDialog({
-                    layerId: selectedFeature.layerId,
-                    featureId: selectedFeature.feature.id || selectedFeature.feature.properties?._id,
-                  });
-                  setLinkFieldId(selectedFeature.feature.properties?._linkedFieldId || '');
-                  setLinkAreaId(selectedFeature.feature.properties?._linkedFarmAreaId || '');
-                }}
-              >
-                Link to Field / Area
-              </Button>
-            )}
-          </Paper>
+          />
         )}
 
         {/* Field Summary Drawer */}

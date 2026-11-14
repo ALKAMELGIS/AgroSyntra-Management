@@ -11,6 +11,19 @@ import { SHELL_AR } from './shellLabels';
  * Adding a word: one line here. Keep keys exactly as they appear on screen.
  */
 export const PAGE_AR = {
+  // GIS feature card (round 42).
+  'Feature info': 'بيانات العنصر',
+  'Forms on this field': 'الاستمارات على هذا الحقل',
+  'Not linked to a field yet': 'غير مرتبط بحقل بعد',
+  'No records yet': 'لا توجد سجلات بعد',
+  'View field data': 'عرض بيانات الحقل',
+  'Link to field / area': 'ربط بحقل / منطقة',
+  'Farm name': 'اسم المزرعة',
+  'Region': 'المنطقة الجغرافية',
+  'Area (ha)': 'المساحة (هكتار)',
+  'Feature': 'عنصر',
+  'All attributes': 'كل الخصائص',
+  'No ZONE_ID + Farm_Code on this feature': 'لا يوجد ZONE_ID + Farm_Code لهذا العنصر',
   // Compact entry forms (round 35).
   'Field analysis': 'تحليل الحقل',
   'Draw field': 'رسم حقل',

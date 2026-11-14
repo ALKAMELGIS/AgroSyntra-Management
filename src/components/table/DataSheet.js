@@ -132,9 +132,9 @@ function HeaderFilter({ col, rows, selected, onChange }) {
         aria-label={`Filter ${col.label}`}
         onClick={(e) => { e.stopPropagation(); setAnchor(e.currentTarget); }}
         sx={{
-          color: 'inherit', p: '2px', ml: 0.25, opacity: active ? 1 : 0.7,
-          bgcolor: active ? 'rgba(255,255,255,0.22)' : 'transparent',
-          '&:hover': { opacity: 1, bgcolor: 'rgba(255,255,255,0.18)' },
+          color: active ? 'primary.main' : 'inherit', p: '2px', ml: 0.25, opacity: active ? 1 : 0.7,
+          bgcolor: active ? 'action.selected' : 'transparent',
+          '&:hover': { opacity: 1, bgcolor: 'action.hover' },
           '& .MuiSvgIcon-root': { fontSize: 16 },
         }}
       >
@@ -662,8 +662,9 @@ export default function DataSheet({
       '&& .MuiTableHead-root tr:first-of-type .MuiTableCell-head.sheet-group': {
         height: GROUP_ROW_HEIGHT, top: 0, py: 0, textAlign: 'center', verticalAlign: 'middle',
         fontSize: '0.6875rem !important', letterSpacing: '0.02em',
-        backgroundColor: '#154a30 !important',
-        boxShadow: 'inset -1px 0 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(255,255,255,0.22)',
+        backgroundColor: `${t.palette.table.groupBg} !important`,
+        color: `${t.palette.table.groupText} !important`,
+        boxShadow: `inset -1px 0 0 ${t.palette.table.headerRule}, inset 0 -1px 0 ${t.palette.table.headerRule}`,
       },
       '&& .MuiTableHead-root tr:first-of-type .MuiTableCell-head.sheet-group-empty': {
         backgroundColor: `${t.palette.table.headerBg} !important`,

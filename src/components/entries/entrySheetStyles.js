@@ -1,7 +1,7 @@
 export const GRID_BORDER = '1px solid var(--sheet-border, #BDBDBD)';
 export // Unified with the app font (theme FONT_SANS via CSS variable).
 const FONT = 'var(--font-sans, Inter, "IBM Plex Sans Arabic", system-ui, sans-serif)';
-export const HEADER_FILL = 'var(--sheet-tint-lavender, #E6E0EC)';
+export const HEADER_FILL = 'var(--grid-head-bg, #f3f5f2)';
 export const TOTAL_ROW_BG = 'var(--sheet-select, #C8E6C9)';
 
 export const hCell = {
